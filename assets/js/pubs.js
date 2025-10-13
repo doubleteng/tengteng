@@ -1,174 +1,202 @@
-/* Global Publications dataset (edit-only)
-   Fields:
-   - type: 'journal' | 'conference' | 'book' | 'thesis' | 'patent' | 'inreview'
-   - year: number (YYYY)
-   - title: string
-   - authors: string (semicolon- or comma-separated; use “Teng, Teng” or “Teng Teng”, both will be bolded on the page)
-   - venue: string (journal/proceedings/books/degree etc.)
-   - doi: optional 'https://doi.org/...'
-   - link: optional url (internal 'research/...', 'design/...' or external 'https://...')
-   - note: optional (e.g., 'in press', 'in progress')
-   - pdf: optional relative path to a local PDF (e.g., 'assets/papers/xxx.pdf')
-*/
-window.PUBS = [
-  // ===== JOURNAL PAPERS =====
-  {
-    type:'journal', year:2019,
-    title:'Micro-environmental control for efficient local cooling: Results from manikin and human participant tests',
-    authors:'Kong, Meng; Zhang, Jianshun; Dang, Thong Q.; Hedge, Alan; Teng, Teng; Carter, Brian; Chianese, Chetna; Khalifa, H. Ezzat',
-    venue:'Building and Environment 160:106198',
-    doi:'https://doi.org/10.1016/j.buildenv.2019.106198'
-  },
-  {
-    type:'journal', year:2024,
-    title:'Designing 3D-printed concrete structures with scaled fabrication models',
-    authors:'Zhi, Yefan; Teng, Teng; Akbarzadeh, Masoud',
-    venue:'Architectural Intelligence 3(1)',
-    doi:'https://doi.org/10.1007/s44223-024-00070-3'
-  },
-  {
-    type:'journal', year:2025,
-    title:'Prototyping high-fidelity multifunctional objects using single-nozzle multi-filament additive manufacturing system with active mixing',
-    authors:'Teng, Teng; Yefan Zhi; Masoud Akbarzadeh',
-    venue:'Materials & Design 249:113479',
-    doi:'https://doi.org/10.1016/j.matdes.2024.113479'
-  },
-  {
-    type:'journal', year:2024,
-    title:'Automated Toolpath Design of 3D Concrete Printing Structural Components',
-    authors:'Zhi, Yefan; Chai, Hua; Teng, Teng; Akbarzadeh, Masoud',
-    venue:'Additive Manufacturing',
-    doi:'https://doi.org/10.1016/j.addma.2025.104662'
-  },
-  {
-    type:'journal', year:2025,
-    title:'Plasticized agarose films: A physiochemical, mechanical and thermal study',
-    authors:'Creston A. Singer; Hajara Abdul-Karim; Kyle Printon; Nagireddy Poluri; Teng, Teng; Mostafa Akbari; Behzad Modanloo; Laia Mogas-Soldevila; Masoud Akbarzadeh; Xiao Hu; Sean M. O\'Malley; Hong Fang; David Salas-de la Cruz',
-    venue:'International Journal of Biological Macromolecules 141406',
-    doi:'https://doi.org/10.1016/j.ijbiomac.2025.141406'
-  },
-  {
-    type:'journal', year:2025,
-    title:'3D Concrete Printing of Triply Periodic Minimum Surfaces for Enhanced Carbon Capture and Storage',
-    authors:'Yu, Kun-Hao; Teng, Teng; Nah, So Hee; Chai, Hua; Zhi, Yefan; Wang, Kun-Yu; Chi, Yinding; Psarras, Peter; Akbarzadeh, Masoud; Yang, Shu',
-    venue:'Advanced Functional Materials 2509259',
-    doi:'https://doi.org/10.1002/adfm.202509259'
-  },
-  {
-    type:'journal', year:2024,
-    title:'Robosense 3.0: CERA III Adaptive Robotic Clay Printing',
-    authors:'Eda Begum Birol; Teng, Teng; Mahshid Moghadashi; Alexia Asgari; Kevin Guo; Karolina Piorko; Veronika Varga; Jenny E. Sabin',
-    venue:'3D Printing and Additive Manufacturing',
-    note:'in press, 3DP-2024-0150.R1'
-  },
-
-  // ===== CONFERENCE PAPERS =====
-  {
-    type:'conference', year:2024,
-    title:'Integrated and Tailored Thermal Insulation through Gradient Multimaterial Additive Manufacturing for Masonry Architectural Components',
-    authors:'Teng, Teng; Zhi, Yefan; Akbarzadeh, Masoud',
-    venue:'ACADIA 2024 — Designing Change (Banff Centre, Canada, Nov 14–16)'
-  },
-  {
-    type:'conference', year:2024,
-    title:'Diamanti: 3D-Printed, Post-tensioned Concrete Canopy',
-    authors:'Masoud Akbarzadeh; Hua Chai; Yefan Zhi; Maximilian E. Ororbia; Teng, Teng; Mathias Bernhard; Damon (Mohammad) Bolhassani; Fahimeh Yavartanoo; Javier Tapia; Karolina Pajak; Mylène Bernard; Leon Trousset; Paul Kassabian; Blaise Waligun',
-    venue:'FABRICATE 2024: Creating Resourceful Futures',
-    doi:'https://doi.org/10.2307/jj.11374766.40'
-  },
-  {
-    type:'conference', year:2023,
-    title:'Continuous multi-filament 3D printing for tension-compression structure components',
-    authors:'Teng, Teng; Zhi, Yefan; Yu, Kun-Hao; Yang, Shu; Akbarzadeh, Masoud',
-    venue:'IASS 2023 Symposium — Integration of Design and Fabrication, Melbourne'
-  },
-  {
-    type:'conference', year:2023,
-    title:'Local optimization of self-supporting shell structures in 3D printing: a skeleton method',
-    authors:'Zhi, Yefan; Chai, Hua; Teng, Teng; Akbarzadeh, Masoud',
-    venue:'IASS 2023 Symposium — Integration of Design and Fabrication, Melbourne'
-  },
-  {
-    type:'conference', year:2021,
-    title:'The Design and 4D Printing of Epithelial Cell-inspired Programmable Surface Geometry as Tangible User Interface',
-    authors:'Teng, Teng; Sabin, Jenny',
-    venue:'eCAADe 2021',
-    doi:'https://doi.org/10.52842/conf.ecaade.2021.1.105'
-  },
-  {
-    type:'conference', year:2020,
-    title:'Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System',
-    authors:'Teng, Teng; Jia, Mian; Sabin, Jenny',
-    venue:'eCAADe 2020',
-    doi:'https://doi.org/10.52842/conf.ecaade.2020.1.563'
-  },
-  {
-    type:'conference', year:2020,
-    title:'PICA - A Designer Oriented Low-Cost Personal Robotic Fabrication Platform for Sketch Level Prototyping',
-    authors:'Teng, Teng; Sabin, Jenny',
-    venue:'CAADRIA 2020',
-    doi:'https://doi.org/10.52842/conf.caadria.2020.2.473'
-  },
-  {
-    type:'conference', year:2017,
-    title:'Integrated Adaptive and Tangible Architecture Design Tool',
-    authors:'Teng, Teng; Li, Qinying',
-    venue:'eCAADe 2017',
-    doi:'https://doi.org/10.52842/conf.ecaade.2017.1.619'
-  },
-  {
-    type:'conference', year:2015,
-    title:'Transformable Physical Design Media',
-    authors:'Teng, Teng; Johnson, Brian R.',
-    venue:'eCAADe 2015',
-    doi:'https://doi.org/10.52842/conf.ecaade.2015.1.045'
-  },
-  {
-    type:'conference', year:2014,
-    title:'Inspire: Integrated Spatial Gesture-based Direct 3D Modeling and Display',
-    authors:'Teng, Teng; Johnson, Brian R.',
-    venue:'ACADIA 2014',
-    doi:'https://doi.org/10.52842/conf.acadia.2014.445'
-  },
-
-  // ===== BOOK CHAPTER =====
-  {
-    type:'book', year:2025,
-    title:'Funicular Systems with Combined Force',
-    authors:'Teng, Teng; Zhi, Yefan; Shao, Yiliang; Ororbia, Maximilian E.',
-    venue:'in: Architected Structures (DETAIL Special), ed. Masoud Akbarzadeh. ISBN 978-3-95553-650-3',
-    note:'Planned publication date: March 12, 2025'
-  },
-
-  // ===== THESES =====
-  {
-    type:'thesis', year:2025,
-    title:'Advanced Additive Manufacturing Across Material, Scale, and Dimensions toward High-Performance Structure',
-    authors:'Teng, Teng',
-    venue:'PhD Thesis, University of Pennsylvania',
-    note:'in progress'
-  },
-  {
-    type:'thesis', year:2021,
-    title:'Interactive Fabrication and Design of Bioinspired Surface Geometry',
-    authors:'Teng, Teng',
-    venue:'Master’s Thesis, Cornell University',
-    link:'https://hdl.handle.net/1813/110467'
-  },
-  {
-    type:'thesis', year:2015,
-    title:'Transformable Physical Design Media',
-    authors:'Teng, Teng',
-    venue:'Master’s Thesis, University of Washington',
-    link:'http://hdl.handle.net/1773/33440'
-  },
-
-  // ===== PATENT =====
-  {
-    type:'patent', year:2024,
-    title:'Single-Nozzle Multi-Filament System for Fused Deposition Modeling Printer Systems',
-    authors:'Teng, Teng; Zhi, Yefan; Akbarzadeh, Masoud',
-    venue:'Assigned to: The Trustees of the University of Pennsylvania. Application No. 63/551,550; Filed Feb 9, 2024.',
-    note:'Patent pending'
-  }
+<script>
+// Save as: assets/js/pubs.js
+window.PUBS_BIB = [
+`@article{kong2019micro,
+  title={Micro-environmental control for efficient local cooling: Results from manikin and human participant tests},
+  author={Kong, Meng and Zhang, Jianshun and Dang, Thong Q and Hedge, Alan and {\bf Teng Teng} and Carter, Brian and Chianese, Chetna and Khalifa, H Ezzat},
+  journal={Building and Environment},
+  volume={160},
+  pages={106198},
+  year={2019},
+  publisher={Elsevier},
+URL = {https://doi.org/10.1016/j.buildenv.2019.106198}
+}`,
+`@article{Zhi2024,
+title = {Designing 3D-printed concrete structures with scaled fabrication models},
+volume = {3},
+ISSN = {2731-6726},
+number = {1},
+journal = {Architectural Intelligence},
+publisher = {Springer Science and Business Media LLC},
+author = {Zhi, Yefan and {\bf Teng Teng} and Akbarzadeh, Masoud},
+year = {2024},
+month = aug,
+url = {https://10.1007/s44223-024-00070-3},
+}`,
+`@article{TENG2025113479,
+title = {Prototyping high-fidelity multifunctional objects using single-nozzle multi-filament additive manufacturing system with active mixing},
+journal = {Materials & Design},
+volume = {249},
+pages = {113479},
+year = {2025},
+ISSN = {0264-1275},
+url = {https://doi.org/10.1016/j.matdes.2024.113479},
+author = {{\bf Teng Teng} and Yefan Zhi and Masoud Akbarzadeh},
+keywords = {Multimaterial additive manufacturing, Active mixing, Printer development, Functionally graded material, High fidelity printing},
+abstract = {This paper aims to advance the field of additive manufacturing by producing multimaterial objects with intricate topological features and polylithic material distribution through an integrated approach. First, we develop a Single-Nozzle Multi-Filament (SNMF) system equipped with active mixing to blend multiple filaments and deposit a programmable mixture. The system can also deposit gradient transitions between different materials within a single print. Second, we establish a numerical model to represent the material transitional behavior and validated it with experiments. The model enables the precise control of the material transitional interface to ensure high material fidelity. Third, we propose three strategies for designing and modeling multimaterial objects catering to different application scenarios, including image sampling, 2D discrete patches, and 3D surface division. The system’s capabilities were validated through six case studies designed and fabricated through the above approaches for distinct application scenarios, demonstrating the successful materialization of complex designs with multiple functionalities.}
+}`,
+`@article{zhi2024automated,
+  title={Automated Toolpath Design of 3D Concrete Printing Structural Components},
+  author={Zhi, Yefan and Chai, Hua and {\bf Teng Teng} and Akbarzadeh, Masoud},
+  journal={Additive Manufacturing},
+  year={2024},
+  url = {https://doi.org/10.1016/j.addma.2025.104662}
+}`,
+`@article{SINGER2025141406,
+title = {Plasticized agarose films: A physiochemical, mechanical and thermal study},
+journal = {International Journal of Biological Macromolecules},
+pages = {141406},
+year = {2025},
+issn = {0141-8130},
+url = {https://doi.org/10.1016/j.ijbiomac.2025.141406},
+author = {Creston A. Singer and Hajara Abdul-Karim and Kyle Printon and Nagireddy Poluri and {\bf Teng Teng} and Mostafa Akbari and Behzad Modanloo and Laia Mogas-Soldevila and Masoud Akbarzadeh and Xiao Hu and Sean M. O'Malley and Hong Fang and David Salas-de {la Cruz}},
+keywords = {Agarose, Natural materials, Plasticizer, Sustainable materials},
+abstract = {Agarose uniquely forms moldable biodegradable films, making it a promising renewable material with exceptional biocompatibility, thermo-reversibility, and flexibility. However, agarose films lose most of their flexibility at low moisture content. One way to assuage this issue is to incorporate plasticizing agents. In this study, four plasticizers (i.e., sucrose, urea, glucose, and glycerol) were chosen and combined in various concentrations and combinations to produce an agarose-based composite. The study examined how four different plasticizers affect agarose's intermolecular interactions, impacting its mechanical, morphological, thermal, and physicochemical properties. Techniques like Fourier Transform Infrared Spectroscopy (FTIR), Thermogravimetric Analysis (TGA), X-ray Scattering, electric actuation, and tensile testing were used to analyze the effects of plasticizers on agarose-based films. The findings reveal that the mechanical and thermal properties of agarose films are influenced to varying degrees by the four plasticizers studied. Plasticizers with high hydroxyl content and smaller molecular size demonstrated the most significant improvements in film flexibility and stretchability. These variations in performance can be attributed to differences in intermolecular interactions, driven by changes in hydrogen bonding groups, as observed through FTIR and X-ray Scattering analyses. A deeper understanding of how hydrogen bonds affect the agarose-plasticizer matrix could pave the way for precisely tailoring the properties of agarose films.}
+}`,
+`@article{yu20253d,
+  title={3D Concrete Printing of Triply Periodic Minimum Surfaces for Enhanced Carbon Capture and Storage},
+  author={Yu, Kun-Hao and {\bf Teng Teng} and Nah, So Hee and Chai, Hua and Zhi, Yefan and Wang, Kun-Yu and Chi, Yinding and Psarras, Peter and Akbarzadeh, Masoud and Yang, Shu},
+  journal={Advanced Functional Materials},
+  pages={2509259},
+  year={2025},
+  publisher={Wiley Online Library},
+  URL = { https://doi.org/10.1002/adfm.202509259}
+}`,
+`@article{birol2024robosense,
+  title={Robosense 3.0: CERA III Adaptive Robotic Clay Printing},
+  author={Birol, Eda Begum and {\bf Teng Teng} and Moghadashi, Mahshid and Asgari, Alexia and Guo, Kevin  and Piorko, Karolina and Varga, Veronika and Sabin, Jenny E.},
+  journal={3D Printing and Additive Manufacturing},
+  year={2024},
+  note={in press, 3DP-2024-0150.R1},
+  publisher={Mary Ann Liebert, Inc.},
+  keywords={Additive manufacturing, Parametric Design, Human Robot Interaction Design, Ceramics, Digital Clay, Human Robot Collaboration, Robotic Fabrication, 3D Printing, Digital Ceramics},
+  abstract={Robosense 3.0 develops a streamlined network and design pipeline that engages robotic tooling, advanced manufacturing, designer input, fabrication environment feedback, and cutting-edge software to produce high-resolution ceramic architectural components. The project builds upon existing research in extrusion-based robotic fabrication, focusing on developing more robust, precise, and bespoke tooling for ceramic construction.}
+}`,
+`@inproceedings{teng2024gradient,
+  title={Integrated and Tailored Thermal Insulation through Gradient Multimaterial Additive Manufacturing for Masonry Architectural Components},
+  author={{\bf Teng Teng} and Zhi, Yefan and Akbarzadeh, Masoud},
+  booktitle={Designing Change [Proceedings of the 44th Annual Conference of the Association for Computer Aided Design in Architecture (ACADIA)]},
+  year={2024},
+  address={Banff Centre, Canada, 14-16 November},
+  isbn={TBD},
+}`,
+`@inproceedings{akbarzadeh2024fabricate,
+  title={Diamanti: 3D-Printed, Post-tensioned Concrete Canopy},
+  author={Masoud Akbarzadeh and Hua Chai and Yefan Zhi and Maximilian E. Ororbia and {\bf Teng Teng} and Mathias Bernhard and Damon (Mohammad) Bolhassani and Fahimeh Yavartanoo and Javier Tapia and Karolina Pajak and Mylène Bernard and Leon Trousset and Paul Kassabian and Blaise Waligun},
+  booktitle={FABRICATE 2024: Creating Resourceful Futures},
+  year={2024},
+url={https://doi.org/10.2307/jj.11374766.40}
+}`,
+`@inproceedings{Teng-2023-Multi-material_Truss,
+  title={Continuous multi-filament 3D printing for tension-compression structure components},
+  booktitle={Proceedings of IASS 2023 symposium Integration of Design and Fabrication},
+  author={{\bf Teng Teng} and Zhi, Yefan and Yu, Kun-Hao and Yang, Shu and Akbarzadeh, Masoud},
+  year={2023},
+  month={July 10-14},
+  address={Melbourne, Australia}
+}`,
+`@inproceedings{Zhi-2023-Overhang,
+  title={Local optimization of self-supporting shell structures in 3D printing: a skeleton method},
+  booktitle={Proceedings of IASS 2023 symposium Integration of Design and Fabrication},
+  author={Zhi, Yefan and Chai, Hua and {\bf Teng Teng} and Akbarzadeh, Masoud},
+  year={2023},
+  month={July 10-14},
+  address={Melbourne, Australia}
+}`,
+`@inproceedings{teng2021design,
+  title={The Design and 4D Printing of Epithelial Cell-inspired Programmable Surface Geometry as Tangible User Interface},
+  author={{\bf Teng Teng} and Sabin, Jenny},
+  booktitle={Towards a New, Configurable Architecture: Proceedings of the 39th International Conference of Education and Research in Computer Aided Architectural Design in Europe (eCAADe 2021)},
+  year={2021},
+  address={8-10 September 2021},
+url = { https://doi.org/10.52842/conf.ecaade.2021.1.105},
+}`,
+`@inproceedings{teng2020scutoid,
+  title={Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System},
+  author={{\bf Teng Teng} and Jia, Mian and Sabin, Jenny},
+  booktitle={Anthropologic: Architecture and Fabrication in the Cognitive Age - Proceedings of the 38th eCAADe Conference - Volume 1},
+  year={2020},
+  address={TU Berlin, Berlin, Germany, 16-18 September 2020},
+  pages={563--572},
+  url = {	https://doi.org/10.52842/conf.ecaade.2020.1.563},
+}`,
+`@inproceedings{teng2020pica,
+  title={PICA - A Designer Oriented Low-Cost Personal Robotic Fabrication Platform for Sketch Level Prototyping},
+  author={{\bf Teng Teng} and Sabin, Jenny},
+  booktitle={RE: Anthropocene, Design in the Age of Humans - Proceedings of the 25th CAADRIA Conference - Volume 2},
+  year={2020},
+  address={Chulalongkorn University, Bangkok, Thailand, 5-6 August 2020},
+  pages={473--483},
+  url = {	https://doi.org/10.52842/conf.caadria.2020.2.473},
+}`,
+`@inproceedings{teng2017integrated,
+  title={Integrated Adaptive and Tangible Architecture Design Tool},
+  author={{\bf Teng Teng} and Li, Qinying},
+  booktitle={ShoCK! - Sharing Computational Knowledge! - Proceedings of the 35th eCAADe Conference - Volume 1},
+  year={2017},
+  address={Sapienza University of Rome, Rome, Italy, 20-22 September 2017},
+  pages={619--628},
+URL = {	https://doi.org/10.52842/conf.ecaade.2017.1.619},
+}`,
+`@inproceedings{teng2015transformable,
+  title={Transformable Physical Design Media},
+  author={{\bf Teng Teng} and Johnson, Brian R.},
+  booktitle={Real Time - Proceedings of the 33rd eCAADe Conference - Volume 1},
+  year={2015},
+  address={Vienna University of Technology, Vienna, Austria, 16-18 September 2015},
+  pages={45--54},
+  url = {https://doi.org/10.52842/conf.ecaade.2015.1.045},
+}`,
+`@inproceedings{teng2014inspire,
+  title={Inspire: Integrated Spatial Gesture-based Direct 3D Modeling and Display},
+  author={{\bf Teng Teng} and Johnson, Brian R.},
+  booktitle={Design Agency [Proceedings of the 34th Annual Conference of the Association for Computer Aided Design in Architecture (ACADIA)]},
+  year={2014},
+  address={Los Angeles, 23-25 October 2014},
+  pages={445--452},
+  isbn={9781926724478},
+  url = {	https://doi.org/10.52842/conf.acadia.2014.445},
+}`,
+`@phdthesis{teng2024phd,
+  author = {{\bf Teng Teng}},
+  title = {Advanced Additive Manufacturing Across Material, Scale, and Dimensions toward High-Performance Structure},
+  school = {University of Pennsylvania},
+  year = {In progress},
+  address = {Philadelphia, PA, US},
+}`,
+`@mastersthesis{teng2021masters,
+  author = {{\bf Teng Teng}},
+  title = {Interactive Fabrication and Design of Bioinspired Surface Geometry},
+  school = {Cornell University},
+  year = {2021},
+  address = {Ithaca, NY, US},
+  url = {https://hdl.handle.net/1813/110467},
+}`,
+`@mastersthesis{teng2015masters,
+  author = {{\bf Teng Teng}},
+  title = {Transformable Physical Design Media},
+  school = {University of Washington},
+  year = {2015},
+  address = {Seattle, WA, US},
+  url = {http://hdl.handle.net/1773/33440},
+}`,
+`@misc{teng2024single_nozzle,
+  title = {Single-Nozzle Multi-Filament System for Fused Deposition Modeling Printer Systems},
+  author = {{\bf Teng Teng} and Zhi, Yefan and Akbarzadeh, Masoud},
+  note = {Assigned to: The Trustees of the University of Pennsylvania, Application Number: 63/551,550, Application Date: February 9, 2024, Patent Pending},
+  year = {2024}
+}`,
+`@incollection{teng2025funicular,
+  author    = {{\bf Teng Teng} and Zhi, Yefan and Shao, Yiliang and Ororbia, Maximilian E. },
+  title     = {Funicular Systems with Combined Force},
+  booktitle = {Architected Structures},
+  editor    = {Masoud Akbarzadeh},
+  publisher = {DETAIL},
+  year      = {2025},
+  series    = {DETAIL Special},
+  address   = {Munich},
+  isbn      = {978-3-95553-650-3},
+  note      = {Planned publication date: March 12, 2025}
+}`
 ];
+</script>

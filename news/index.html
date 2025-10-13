@@ -1,211 +1,71 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Page Title — Teng Teng</title>
-  <meta name="color-scheme" content="light only"/>
-  <style>
-    :root{--bg:#fff;--fg:#111;--muted:#666;--line:#eaeaea;--max:1100px}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
-    a{color:var(--fg);text-underline-offset:3px}
-    .wrap{max-width:var(--max);margin:0 auto;padding:16px 20px}
-    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:20}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:36px;height:36px;border-radius:50%;border:1px solid var(--fg);display:grid;place-items:center;font-weight:700}
-    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:18px;flex-wrap:wrap}
-    nav a{text-decoration:none;padding:8px 10px;border-radius:10px}
-    nav a:hover{background:#f6f6f6}
-    main{padding:28px 0}
-    h1{margin:0 0 8px;font-size:32px;line-height:1.2}
-    .sub{color:var(--muted);margin:0 0 16px}
-    .card{border:1px solid var(--line);border-radius:16px;padding:16px}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>News | Teng Teng</title>
+<meta name="description" content="News and updates from Teng Teng.">
+<style>
+  :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
+  *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+  .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
+  nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
+
+  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
+  .sub{color:var(--sub)}
+  .news{display:grid;gap:16px;margin-top:10px}
+  .item{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:16px}
+  .date{font-weight:700;color:var(--sub);font-size:14px}
+  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand"><div class="logo" aria-hidden="true">TT</div><span>Teng Teng</span></div>
-      <nav aria-label="Primary" class="menu">
-        <ul>
-          <li><a href="./">Home</a></li>
-          <li><a href="research/">Research</a></li>
-          <li><a href="teaching/">Teaching</a></li>
-          <li><a href="design/">Design</a></li>
-          <li><a href="design/">Publications</a></li>
-          <li><a href="news/">News</a></li>
-          <li><a href="about/">About</a></li>
-          <li><a href="contact/">Contact</a></li>
-        </ul>
-      </nav>
-    </header>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
+    <nav class="menu" aria-label="Primary">
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../research/">Research</a></li>
+        <li><a href="../teaching/">Teaching</a></li>
+        <li><a href="../design/">Design</a></li>
+        <li><a href="../publications/">Publications</a></li>
+        <li><a href="./">News</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a href="../contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <main>
     <h1>News</h1>
-    <div class="sub">Updates on projects, papers, talks, awards, and lab announcements.</div>
+    <div class="sub">Announcements, talks, exhibitions, awards, and lab updates.</div>
 
-    <div class="toolbar">
-      <div class="cats" aria-label="Primary category">
-        <button class="btn" data-cat="all" aria-pressed="true">All</button>
-        <button class="btn" data-cat="research" aria-pressed="false">Research</button>
-        <button class="btn" data-cat="teaching" aria-pressed="false">Teaching</button>
-        <button class="btn" data-cat="design" aria-pressed="false">Design</button>
-        <button class="btn" data-cat="lab" aria-pressed="false">Lab</button>
-      </div>
-      <div class="actions">
-        <div class="search">
-          <input id="q" type="search" placeholder="Search title or summary…"/>
-          <select id="year" class="select">
-            <option value="">All years</option>
-          </select>
-        </div>
-        <button id="clearTag" class="chip" aria-pressed="false" title="Clear tag">Clear tag</button>
-        <span class="count" id="count"></span>
-      </div>
+    <div class="news">
+      <article class="item">
+        <div class="date">2025-06-01</div>
+        <h3>Paper accepted at XYZ 2025</h3>
+        <p>Our work on biomineral-infused concrete 3D printing has been accepted to XYZ 2025. <a href="../publications/">See publication</a>.</p>
+      </article>
+
+      <article class="item">
+        <div class="date">2025-05-10</div>
+        <h3>Invited talk at ABC Seminar</h3>
+        <p>Shared recent research on programmable surface geometry and fabrication-aware design.</p>
+      </article>
+
+      <!-- 复制 .item 添加更多新闻 -->
     </div>
-
-    <div class="filters" id="tagbar" aria-label="Tag filter (single-select)"></div>
-
-    <div class="grid news" id="list"></div>
-
-    <button id="loadMore" class="load" hidden>Load more</button>
   </main>
 
-  <footer>© <span id="yearNow"></span> Teng Teng</footer>
+  <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
-
-<!-- data -->
-<script src="../assets/js/news.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const y=document.getElementById('yearNow'); if(y) y.textContent=new Date().getFullYear();
-
-  const ALL = (window.NEWS || []).slice();
-  // sort: pin first, then date desc
-  ALL.sort((a,b)=>{
-    const p = (+!!b.pin) - (+!!a.pin);
-    if(p!==0) return p;
-    return (b.date||'').localeCompare(a.date||'');
-  });
-
-  const listEl = document.getElementById('list');
-  const countEl = document.getElementById('count');
-  const loadBtn = document.getElementById('loadMore');
-
-  const catBtns = Array.from(document.querySelectorAll('.cats [data-cat]'));
-  const tagbar = document.getElementById('tagbar');
-  const clearTagBtn = document.getElementById('clearTag');
-  const qInput = document.getElementById('q');
-  const yearSel = document.getElementById('year');
-
-  const ALL_TAGS = ["award","publication","talk","workshop","grant","press","hiring","event","media","project","robotics","material","product","architecture"]; // 单选
-  let activeCat = "all";
-  let activeTag = null;
-  let activeYear = "";
-  let q = "";
-  const PAGE = 9;
-  let cursor = 0;
-  let currentList = [];
-
-  // build tag chips
-  ALL_TAGS.forEach(t=>{
-    const b=document.createElement('button');
-    b.className='chip'; b.textContent=cap(t);
-    b.setAttribute('data-tag',t); b.setAttribute('aria-pressed','false');
-    b.addEventListener('click', ()=>{
-      if(activeTag===t){ activeTag=null; setAllTags(false); }
-      else{ activeTag=t; setOnlyTag(t); }
-      apply();
-    });
-    tagbar.appendChild(b);
-  });
-  clearTagBtn.addEventListener('click', ()=>{ activeTag=null; setAllTags(false); apply(); });
-
-  // build year options from data
-  const years = Array.from(new Set(ALL.map(n => (n.date||'').slice(0,4)).filter(Boolean))).sort((a,b)=>b.localeCompare(a));
-  years.forEach(yy=>{
-    const opt=document.createElement('option'); opt.value=yy; opt.textContent=yy; yearSel.appendChild(opt);
-  });
-  yearSel.addEventListener('change', ()=>{ activeYear=yearSel.value; apply(); });
-
-  // cat buttons
-  catBtns.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      setPressed(btn);
-      activeCat = btn.dataset.cat;
-      apply();
-    });
-  });
-
-  // search
-  qInput.addEventListener('input', ()=>{ q = qInput.value.trim().toLowerCase(); apply(); });
-
-  function setPressed(target){ catBtns.forEach(b=>b.setAttribute('aria-pressed', String(b===target))); }
-  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-  function setAllTags(v){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', v?'true':'false')); }
-  function setOnlyTag(t){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false')); }
-  function fmtDate(d){ const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
-
-    function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-  function fmtDate(d){ const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
-
-  // 判断并修正链接：外链原样；内链自动加 ../（因为当前页在 /news/）
-  function isExternal(u){ return /^https?:\/\//i.test(u||''); }
-  function resolveLink(u){ if(!u) return ''; return isExternal(u) ? u : ('../' + u.replace(/^\/+/,'')); }
-
-  function card(n){
-    const cat  = cap(n.category||'');
-    const tags = (n.tags||[]).map(cap).join(' · ');
-    const pin  = n.pin ? `<span class="pins">Pinned</span>` : '';
-    const img  = n.image ? `<div class="cover" style="background-image:url('${n.image}')"></div>` : `<div class="cover"></div>`;
-    const body = `<div class="pad">
-        <div class="meta">${fmtDate(n.date)} · ${cat}${tags ? ' · '+tags : ''} ${pin}</div>
-        <h3 class="title">${n.title}</h3>
-        <p class="excerpt">${n.excerpt||''}</p>
-      </div>`;
-
-    if(n.link){
-      const href   = resolveLink(n.link);
-      const target = isExternal(n.link) ? '_blank' : '_self';
-      // 整张卡片可点
-      return `<a class="card" href="${href}" target="${target}" rel="noopener">
-        ${img}${body}
-      </a>`;
-    }else{
-      // 没有链接则是静态卡片
-      return `<article class="card">
-        ${img}${body}
-      </article>`;
-    }
-  }
-
-  function filterAll(){
-    let list = ALL.slice();
-    if(activeCat!=='all') list = list.filter(n => (n.category||'') === activeCat);
-    if(activeTag) list = list.filter(n => (n.tags||[]).includes(activeTag));
-    if(activeYear) list = list.filter(n => (n.date||'').startsWith(activeYear));
-    if(q) list = list.filter(n => (n.title||'').toLowerCase().includes(q) || (n.excerpt||'').toLowerCase().includes(q));
-    return list;
-  }
-
-  function renderNext(){
-    const slice = currentList.slice(cursor, cursor + PAGE);
-    if(cursor===0) listEl.innerHTML = ''; // first page
-    listEl.insertAdjacentHTML('beforeend', slice.map(card).join(''));
-    cursor += PAGE;
-    loadBtn.hidden = cursor >= currentList.length;
-    countEl.textContent = `${currentList.length} items`;
-  }
-
-  function apply(){
-    cursor = 0;
-    currentList = filterAll();
-    renderNext();
-  }
-
-  loadBtn.addEventListener('click', renderNext);
-
-  // init
-  setPress
-
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body>
+</html>

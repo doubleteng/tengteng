@@ -6,7 +6,10 @@
   <title>Teng Teng | Portfolio</title>
   <meta name="description" content="Minimal academic & design portfolio with category filters." />
   <style>
-    :root{--bg:#ffffff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
+    :root{
+      --bg:#ffffff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px;
+      --hero-h:420px; /* 头像与bio卡片等高（桌面端） */
+    }
     *{box-sizing:border-box} html,body{height:100%}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
     a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
@@ -20,21 +23,32 @@
     nav.menu > ul > li > a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
     nav.menu > ul > li > a:hover{color:var(--text);background:#f3f4f6}
 
-    .hero{margin-top:18px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
+    .hero{margin-top:18px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:stretch} /* 等高关键：stretch */
     @media(max-width:900px){.hero{grid-template-columns:1fr}}
     .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
 
-    /* Bio typography */
-    .bio h1{font-size:clamp(30px,4.2vw,48px);margin:0 0 6px;line-height:1.15}
-    .bio .subtitle{color:var(--sub);margin:0 0 12px;font-weight:600}
-    .bio .pills{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
-    .bio .pill{border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:12px;background:#fff;color:#374151}
-    .bio .lead{margin:0 0 8px;font-size:16px}
-    .bio p{margin:0 0 8px;color:#374151}
+    /* Bio typography - 缩小整体字号；中文名更小更柔和 */
+    .bio{min-height:var(--hero-h);display:flex;flex-direction:column;justify-content:flex-start}
+    .bio h1{font-size:clamp(26px,3.6vw,40px);margin:0 0 6px;line-height:1.15}
+    .bio .cn{font-size:.8em;color:var(--sub);margin-left:.4rem}        /* （滕腾） */
+    .bio .subtitle{color:var(--sub);margin:0 0 10px;font-weight:600;font-size:14px}
+    .bio .pills{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+    .bio .pill{border:1px solid var(--border);border-radius:999px;padding:3px 9px;font-size:11px;background:#fff;color:#374151}
+    .bio .lead{margin:0 0 8px;font-size:15px}
+    .bio p{margin:0 0 8px;color:#374151;font-size:14px}
     .bio .more a{color:#111827;font-weight:700}
 
-    /* UPDATED avatar image path */
-    .avatar{aspect-ratio:1/1;border-radius:var(--radius);background:#eee url('assets/headshot%20(2).jpg') center/cover;border:1px solid var(--border)}
+    /* 头像：使用你的文件，并与bio等高（桌面端） */
+    .avatar{
+      height:var(--hero-h);
+      border-radius:var(--radius);
+      background:#eee url('assets/headshot%20(2).jpg') center/cover;
+      border:1px solid var(--border)
+    }
+    @media(max-width:900px){
+      .bio{min-height:auto}
+      .avatar{height:320px} /* 移动端自然堆叠，无需等高 */
+    }
 
     /* --- Global search (home) --- */
     .search-wrap{margin:12px 0 18px;position:relative}
@@ -95,7 +109,7 @@
     <main>
       <section id="home" class="hero" aria-labelledby="intro-title">
         <div class="card bio">
-          <h1 id="intro-title">Teng Teng</h1>
+          <h1 id="intro-title">Teng Teng <span class="cn">(滕腾)</span></h1>
           <p class="subtitle">Ph.D. Candidate, University of Pennsylvania · Incoming Assistant Professor, Lawrence Technological University (Spring 2026)</p>
           <div class="pills" aria-label="Research focus">
             <span class="pill">Computation</span>

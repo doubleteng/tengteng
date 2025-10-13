@@ -4,12 +4,15 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Contact | Teng Teng</title>
-<meta name="description" content="Contact Teng Teng.">
+<meta name="description" content="Contact Teng Teng for collaboration or media inquiries.">
 <style>
   :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
-  *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  *{box-sizing:border-box} html,body{height:100%} 
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
   a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
+
+  /* top nav */
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
   .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
@@ -19,12 +22,23 @@
 
   h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
   .sub{color:var(--sub)}
+
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px}
   @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
   .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:20px}
-  .label{font-weight:700}
   .row{margin:8px 0}
+  .label{font-weight:700}
   .muted{color:var(--sub)}
+
+  /* icons */
+  .icons{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .icon-btn{width:40px;height:40px;border:1px solid var(--border);border-radius:12px;display:grid;place-items:center;background:#fff}
+  .icon-btn:hover{background:#f3f4f6}
+  .icon{width:20px;height:20px;fill:#111827}
+
+  /* google form embed */
+  .gform {width:100%;height:1200px;border:0; border-radius:12px; background:#fff}
   footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
 </style>
 </head>
@@ -48,27 +62,62 @@
 
   <main>
     <h1>Contact</h1>
-    <div class="sub">The best way to reach me is email.</div>
+    <div class="sub">Best way to reach me: email. You can also use the form below for collaboration or media inquiries.</div>
 
     <div class="grid">
+      <!-- Left card: contacts + social -->
       <div class="card">
-        <div class="row"><span class="label">Email:</span> <a href="mailto:teng@example.edu">teng@example.edu</a></div>
-        <div class="row"><span class="label">GitHub:</span> <a href="https://github.com/yourname" target="_blank" rel="noopener">github.com/yourname</a></div>
-        <div class="row"><span class="label">LinkedIn:</span> <a href="https://www.linkedin.com/in/yourname/" target="_blank" rel="noopener">linkedin.com/in/yourname</a></div>
+        <div class="row"><span class="label">Email:</span> <a href="mailto:tteng@ltu.edu">tteng@ltu.edu</a></div>
         <div class="row"><span class="label">Office:</span> Room XXX, Department / School, University, City, Country</div>
         <div class="row muted">Office hours by appointment.</div>
+
+        <div class="row" style="margin-top:14px"><span class="label">Social:</span></div>
+        <div class="icons" aria-label="Social media">
+          <!-- LinkedIn -->
+          <a class="icon-btn" href="www.linkedin.com/in/tengteng" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.05c.53-1 1.82-2.2 3.74-2.2 4 0 4.74 2.63 4.74 6.05V24h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V24h-4V8z"/></svg>
+          </a>
+        
+          <!-- Instagram -->
+          <a class="icon-btn" href="https://www.instagram.com/ttistengteng/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H7zm5 3.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11zm0 2a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm5.75-.75a1 1 0 110 2 1 1 0 010-2z"/></svg>
+          </a>
+          <!-- Google Scholar -->
+          <a class="icon-btn" href="https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L1 12l3 2.4V21h6v-4h4v4h6v-6.6L23 12 12 3z"/></svg>
+          </a>
+          <!-- ORCID -->
+          <a class="icon-btn" href="https://orcid.org/0000-0001-6460-7109" target="_blank" rel="noopener" aria-label="ORCID">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.75A10.25 10.25 0 112 12 10.25 10.25 0 0112 1.75m0-1.75A12 12 0 1024 12 12 12 0 0012 0z"/><rect x="7.5" y="7.5" width="1.8" height="9" rx=".9"/><path d="M13 7.5h3.2a3.3 3.3 0 110 6.6H13v-1.6h3.1a1.7 1.7 0 100-3.4H13z"/></svg>
+          </a>
+          <!-- ResearchGate -->
+          <a class="icon-btn" href="https://www.researchgate.net/profile/Teng-Teng-8?ev=hdr_xprf" target="_blank" rel="noopener" aria-label="ResearchGate">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3H3.5A1.5 1.5 0 002 4.5v15A1.5 1.5 0 003.5 21h17a1.5 1.5 0 001.5-1.5v-15A1.5 1.5 0 0020.5 3zM9 7h3.2c1.98 0 3.3 1.2 3.3 3 0 1.3-.7 2.2-1.8 2.7l2.3 3.3H14l-2-3H11v3H9V7zm2 1.6v2.7h1.2c.9 0 1.7-.5 1.7-1.4 0-.9-.7-1.3-1.7-1.3H11z"/></svg>
+          </a>
+          
+        </div>
       </div>
 
+      <!-- Right card: embed Google Form -->
       <div class="card">
-        <h3>Notes</h3>
-        <p>For collaboration or media inquiries, please include a short summary, timeline, and any supporting links.</p>
-        <p class="muted">GitHub Pages 不支持服务器端表单。如果需要表单，可使用 Google Form / Netlify Forms / Formspree 等服务并把链接放到这里。</p>
+        <h3>Collaboration / Media Inquiry</h3>
+        <p class="muted">Use the form below. If it doesn’t load, <a id="gform-link" href="#" target="_blank" rel="noopener">open it in a new tab</a>.</p>
+        <!-- Replace the src with your Google Form's embed URL -->
+        <iframe class="gform" id="gform-embed" src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true">Loading…</iframe>
       </div>
     </div>
   </main>
 
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script>
+  document.getElementById('year').textContent=new Date().getFullYear();
+  // When you have the real form link, set both src & href to the same base URL.
+  (function(){
+    var url = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true";
+    document.getElementById('gform-embed').src = url;
+    document.getElementById('gform-link').href = url.replace('&embedded=true','');
+  })();
+</script>
 </body>
 </html>

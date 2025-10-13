@@ -2,240 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>About | Teng Teng</title>
-<meta name="description" content="About Teng Teng — designer, researcher, and educator working across computation, materials, fabrication, and robotics.">
+<meta name="description" content="About Teng Teng.">
 <style>
   :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
-  *{box-sizing:border-box} html,body{height:100%}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
   a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
-
-  /* Header */
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;
-         padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);
-         backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
   .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
   nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
   nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
   nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
 
-  /* Hero */
-  .hero{display:grid;grid-template-columns:320px 1fr;gap:28px;margin-top:18px}
-  @media(max-width:900px){.hero{grid-template-columns:1fr}}
-  .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
-  .headshot{aspect-ratio:1/1;border-radius:var(--radius);border:1px solid var(--border);
-            background:#eee url('https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=900&auto=format&fit=crop') center/cover}
-  h1{font-size:clamp(28px,4vw,42px);margin:0 0 6px}
-  .title{color:var(--sub);margin:0 0 14px}
-  .links{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#fff;font-weight:700}
-
-  /* Sections */
-  h2{font-size:clamp(20px,2.4vw,24px);margin:22px 0 10px}
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  @media(max-width:900px){.cols{grid-template-columns:1fr}}
-  .list{border:1px solid var(--border);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);background:#fff}
-  .item{display:flex;gap:12px}
-  .item + .item{margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
-  .when{min-width:112px;color:var(--sub)}
-  .where{font-weight:700}
-  .desc{color:var(--sub)}
-  ul.inline{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:6px 0 0}
-  ul.inline li{border:1px solid var(--border);border-radius:999px;padding:6px 10px;background:#fff;font-weight:700}
-
-  /* Footer */
-  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:26px}
+  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
+  .sub{color:var(--sub)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:20px}
+  .avatar{aspect-ratio:1/1;border-radius:18px;background:#eee url('https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=800&auto=format&fit=crop') center/cover;border:1px solid var(--border)}
+  ul{margin:8px 0 0 18px}
+  .small{color:var(--sub);font-size:14px}
+  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <!-- Header -->
   <header>
     <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
     <nav class="menu" aria-label="Primary">
       <ul>
-        <li><a href="./">Home</a></li>
-          <li><a href="research/">Research</a></li>
-          <li><a href="teaching/">Teaching</a></li>
-          <li><a href="design/">Design</a></li>
-          <li><a href="design/">Publications</a></li>
-          <li><a href="news/">News</a></li>
-          <li><a href="about/">About</a></li>
-          <li><a href="contact/">Contact</a></li>
+        <li><a href="../">Home</a></li>
+        <li><a href="../research/">Research</a></li>
+        <li><a href="../teaching/">Teaching</a></li>
+        <li><a href="../design/">Design</a></li>
+        <li><a href="../publications/">Publications</a></li>
+        <li><a href="../news/">News</a></li>
+        <li><a href="./">About</a></li>
+        <li><a href="../contact/">Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Hero -->
   <main>
-    <section class="hero" aria-labelledby="about-title">
+    <h1>About</h1>
+    <div class="sub">Short bio, research interests, appointments, and education.</div>
+
+    <div class="grid">
       <div class="card">
-        <!-- 将下面这张占位图替换为你的头像：../assets/img/about/headshot.webp -->
-        <div class="headshot" role="img" aria-label="Portrait of Teng Teng"></div>
+        <div class="avatar" aria-label="Portrait"></div>
       </div>
       <div class="card">
-        <h1 id="about-title">Teng Teng</h1>
-        <p class="title">Designer · Researcher · Educator</p>
-        <p>
-          I work across <strong>computation</strong>, <strong>materials</strong>,
-          <strong>fabrication</strong>, and <strong>robotics</strong> to translate research into built experiments,
-          design prototypes, and teaching. My current interests include multi-material 3D printing,
-          robotic post-tensioned concrete, and programmable matter for architecture and product design.
-        </p>
-        <div class="links" style="margin-top:10px">
-          <!-- 替换为你的真实链接 -->
-          <a class="chip" href="../assets/cv/Teng_Teng_CV.pdf" target="_blank" rel="noopener">Download CV (PDF)</a>
-          <a class="chip" href="https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
-          <a class="chip" href="../contact/">Get in touch →</a>
-        </div>
+        <h2>Bio</h2>
+        <p>Teng Teng is a designer, researcher, and educator working across computation, materials, fabrication, and robotics. His work explores …</p>
+        <p class="small">Download CV: <a href="#" target="_blank" rel="noopener">CV.pdf</a></p>
+
+        <h3>Research Interests</h3>
+        <ul>
+          <li>Computational design & digital fabrication</li>
+          <li>Robotic construction & multi-material AM</li>
+          <li>Material systems & performative structures</li>
+        </ul>
+
+        <h3>Appointments</h3>
+        <ul>
+          <li>Assistant Professor, [University], [Department], 202X–</li>
+          <li>Researcher, [Lab], 202X–202X</li>
+        </ul>
+
+        <h3>Education</h3>
+        <ul>
+          <li>Ph.D., [Program], [University], 20XX</li>
+          <li>M.Arch / M.S., [University], 20XX</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- Research focus & Methods -->
-    <section>
-      <h2>Research Focus</h2>
-      <div class="cols">
-        <div class="list">
-          <div class="item">
-            <div class="when">Computation</div>
-            <div>
-              <div class="where">Geometry & toolpath design</div>
-              <div class="desc">Computational design, structural patterning, and digital simulations informing fabrication constraints.</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="when">Materials</div>
-            <div>
-              <div class="where">Biomineral & multi-material systems</div>
-              <div class="desc">Material programming for carbon capture, graded stiffness, and tension–compression structures.</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="when">Fabrication</div>
-            <div>
-              <div class="where">Additive and hybrid processes</div>
-              <div class="desc">Scaled trials to full-scale prototypes, post-tensioning strategies, and integrated testing rigs.</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="when">Robotics</div>
-            <div>
-              <div class="where">Robotic processes</div>
-              <div class="desc">Custom end-effectors, sensing, and workflow for reliable repetitive printing and assembly.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="list">
-          <div class="item">
-            <div class="when">Methods</div>
-            <div>
-              <div class="where">From lab to field</div>
-              <div class="desc">Iterative loops of <em>compute → fabricate → test → refine</em>, with metrics and documentation suitable for teaching.</div>
-              <ul class="inline" aria-label="Keywords">
-                <li>multi-material 3D printing</li><li>post-tensioning</li><li>biomineralization</li>
-                <li>surface programming</li><li>interfaces</li><li>product prototyping</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Appointments & Education -->
-    <section>
-      <h2>Appointments</h2>
-      <div class="list">
-        <div class="item">
-          <div class="when">2025 – </div>
-          <div>
-            <div class="where">Assistant Professor (Incoming)</div>
-            <div class="desc">Founding <a href="../teaching/">lab & teaching</a> in computational design and robotic fabrication.</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">2021 – 2025</div>
-          <div>
-            <div class="where">Researcher</div>
-            <div class="desc">Research across additive manufacturing and material programming.</div>
-          </div>
-        </div>
-      </div>
-
-      <h2>Education</h2>
-      <div class="list">
-        <div class="item">
-          <div class="when">Ph.D.</div>
-          <div>
-            <div class="where">Architecture / Design Computing</div>
-            <div class="desc">Dissertation on robotic post-tensioned concrete and multi-material printing.</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">M.Arch</div>
-          <div>
-            <div class="where">Architecture</div>
-            <div class="desc">Focus on digital fabrication and experimental structures.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Selected links -->
-    <section>
-      <h2>Selected Links</h2>
-      <div class="cols">
-        <div class="list">
-          <div class="item">
-            <div class="when">Projects</div>
-            <div>
-              <div class="where"><a href="../gallery/?cat=all">All Projects →</a></div>
-              <div class="desc">Browse research, design, and teaching with filters.</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="when">Publications</div>
-            <div>
-              <div class="where"><a href="../publications/">Publications →</a></div>
-              <div class="desc">Preprints, conference papers, and media coverage.</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="when">News</div>
-            <div>
-              <div class="where"><a href="../news/">News →</a></div>
-              <div class="desc">Awards, talks, grants, workshops, and updates.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="list">
-          <div class="item">
-            <div class="when">Collaborations</div>
-            <div>
-              <div class="where">Open to industry & academic partners</div>
-              <div class="desc">Material partners, robotics labs, and design offices. <a href="../contact/">Contact</a> to discuss.</div>
-              <ul class="inline" aria-label="Collaboration types">
-                <li>R&amp;D</li><li>Prototyping</li><li>Studio</li><li>Workshop</li><li>Residency</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   </main>
 
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function(){
-    var y = document.getElementById('year');
-    if(y) y.textContent = new Date().getFullYear();
-  });
-</script>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 </body>
 </html>

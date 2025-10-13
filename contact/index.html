@@ -3,19 +3,34 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Contact — Teng Teng</title>
-<script>
-(function(){
-  var segs=location.pathname.split('/').filter(Boolean);
-  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/' + segs[0] + '/':'/';
-  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
-  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
-})();
-</script>
+<title>Contact | Teng Teng</title>
+<meta name="description" content="Contact Teng Teng.">
+<style>
+  :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
+  *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+  .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
+  nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
+
+  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
+  .sub{color:var(--sub)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:20px}
+  .label{font-weight:700}
+  .row{margin:8px 0}
+  .muted{color:var(--sub)}
+  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
+</style>
 </head>
 <body>
-<header>
-  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+<div class="wrap">
+  <header>
     <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
     <nav class="menu" aria-label="Primary">
       <ul>
@@ -23,46 +38,37 @@
         <li><a href="../research/">Research</a></li>
         <li><a href="../teaching/">Teaching</a></li>
         <li><a href="../design/">Design</a></li>
+        <li><a href="../publications/">Publications</a></li>
         <li><a href="../news/">News</a></li>
         <li><a href="../about/">About</a></li>
-        <li><a href="../publications/">Publications</a></li>
-        <li><a href="./" aria-current="page">Contact</a></li>
+        <li><a href="./">Contact</a></li>
       </ul>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main class="wrap">
-  <h1>Contact</h1>
-  <p class="sub">Let's collaborate on computational design, advanced manufacturing, and robotics.</p>
+  <main>
+    <h1>Contact</h1>
+    <div class="sub">The best way to reach me is email.</div>
 
-  <div class="card" style="margin-bottom:24px;">
-    <p>You can reach me directly via email or connect through the channels below. I welcome conversations about research collaborations, speaking engagements, and opportunities to translate innovative design technologies into practice.</p>
-    <p>
-      <a class="btn" href="mailto:tteng@design.upenn.edu">Email</a>
-      <a class="btn" href="https://www.linkedin.com/in/teng-teng-74614233" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn" href="https://scholar.google.com/citations?user=F9DUjRkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-    </p>
-  </div>
+    <div class="grid">
+      <div class="card">
+        <div class="row"><span class="label">Email:</span> <a href="mailto:teng@example.edu">teng@example.edu</a></div>
+        <div class="row"><span class="label">GitHub:</span> <a href="https://github.com/yourname" target="_blank" rel="noopener">github.com/yourname</a></div>
+        <div class="row"><span class="label">LinkedIn:</span> <a href="https://www.linkedin.com/in/yourname/" target="_blank" rel="noopener">linkedin.com/in/yourname</a></div>
+        <div class="row"><span class="label">Office:</span> Room XXX, Department / School, University, City, Country</div>
+        <div class="row muted">Office hours by appointment.</div>
+      </div>
 
-  <section class="card" style="display:grid;gap:16px;">
-    <div>
-      <h2 style="margin-top:0;">Primary Contact</h2>
-      <p><strong>Email:</strong> <a href="mailto:tteng@design.upenn.edu">tteng@design.upenn.edu</a></p>
-      <p><strong>Office:</strong> University of Pennsylvania, Weitzman School of Design</p>
+      <div class="card">
+        <h3>Notes</h3>
+        <p>For collaboration or media inquiries, please include a short summary, timeline, and any supporting links.</p>
+        <p class="muted">GitHub Pages 不支持服务器端表单。如果需要表单，可使用 Google Form / Netlify Forms / Formspree 等服务并把链接放到这里。</p>
+      </div>
     </div>
-    <div>
-      <h2 style="margin-top:0;">Collaboration Areas</h2>
-      <ul>
-        <li>Responsive architectural systems and adaptive structures</li>
-        <li>Robotic fabrication and additive manufacturing</li>
-        <li>Computational design research partnerships</li>
-        <li>Workshops, teaching, and public lectures</li>
-      </ul>
-    </div>
-  </section>
-</main>
+  </main>
 
-<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+  <footer>© <span id="year"></span> Teng Teng</footer>
+</div>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 </body>
 </html>

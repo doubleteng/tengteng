@@ -165,13 +165,10 @@ window.PUBS = [
 
   // ===== PATENT =====
   {
-  type: 'patent',
-  year: 2024,
-  title: 'SNMF – An On-the-Fly, Multi-Filament Single-Nozzle for 3D Printing',
-  authors: 'Teng, Teng; Zhi, Yefan; Akbarzadeh, Masoud',
-  venue: 'Penn Center for Innovation — Technology Publisher. Case ID: 24-10644-TpNCS. Stage: Bench Prototype.',
-  link: 'https://upenn.technologypublisher.com/technology/54974',
-  note: 'U.S. Provisional Patent Application filed Feb 9, 2024 (App No. 63/551,550). Patent pending.'
-}
-
+    type:'patent', year:2024,
+    title:'Single-Nozzle Multi-Filament System for Fused Deposition Modeling Printer Systems',
+    authors:'Teng, Teng; Zhi, Yefan; Akbarzadeh, Masoud',
+    venue:'Assigned to: The Trustees of the University of Pennsylvania. Application No. 63/551,550; Filed Feb 9, 2024.',
+    note:'Patent pending'
+  }
 ];

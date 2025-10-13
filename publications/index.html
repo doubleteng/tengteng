@@ -2,128 +2,199 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Publications — Teng Teng</title>
-<script>
-(function(){
-  var segs=location.pathname.split('/').filter(Boolean);
-  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/'+segs[0]+'/':'/';
-  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
-  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
-})();
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Publications | Teng Teng</title>
+<meta name="description" content="Peer-reviewed papers, proceedings, book chapters, and theses by Teng Teng.">
+<style>
+  :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  a{color:var(--text);text-decoration:underline} a:hover{text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+  .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px;text-decoration:none}
+  nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
+
+  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
+  .sub{color:var(--sub)}
+  .toolbar{display:grid;grid-template-columns:1fr auto;gap:12px;margin:14px 0 16px}
+  .cats{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{border:1px solid var(--border);border-radius:12px;padding:8px 12px;background:#fff;font-weight:700}
+  .btn[aria-pressed="true"]{background:#f3f4f6}
+  .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+  .search{border:1px solid var(--border);border-radius:10px;padding:10px 12px;min-width:200px}
+  .select{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:#fff}
+  .count{color:var(--sub);font-size:14px}
+
+  .section{margin-top:18px}
+  .section h2{font-size:clamp(18px,2.4vw,22px);margin:10px 0 6px}
+  .pubs{display:grid;gap:12px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:14px 16px}
+  .cite{margin:0}
+  .meta{color:var(--sub);font-size:14px;margin-top:6px}
+  .pill{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:4px 8px;margin-right:6px;background:#fff;font-size:12px}
+  .yearHead{margin:18px 0 8px;border-top:1px dashed var(--border);padding-top:10px;color:var(--sub);font-weight:700}
+  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:24px}
+</style>
 </head>
 <body>
-<header>
-  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+<div class="wrap">
+  <header>
     <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
     <nav class="menu" aria-label="Primary">
       <ul>
         <li><a href="../">Home</a></li>
         <li><a href="../research/">Research</a></li>
         <li><a href="../teaching/">Teaching</a></li>
-        <li><a href="../design/">Design</a></li>
+        <li><a href="../design/">Design Projects</a></li>
+        <li><a href="../gallery/?cat=all">All Projects</a></li>
         <li><a href="../news/">News</a></li>
-        <li><a href="./" aria-current="page">Publications</a></li>
+        <li><a href="./">Publications</a></li>
         <li><a href="../about/">About</a></li>
         <li><a href="../contact/">Contact</a></li>
       </ul>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main class="wrap">
-  <h1>Publications</h1>
-  <div class="sub">Peer-reviewed journals, conferences, book chapters, theses, and patents.</div>
+  <main>
+    <h1>Publications</h1>
+    <div class="sub">Peer-reviewed journals, conferences, book chapters, and theses.</div>
 
-  <div class="toolbar">
-    <div id="tabs">
-      <button class="chip" data-cat="all" aria-pressed="true">All</button>
-      <button class="chip" data-cat="journal">Journal</button>
-      <button class="chip" data-cat="conference">Conference</button>
-      <button class="chip" data-cat="book">Book</button>
-      <button class="chip" data-cat="thesis">Thesis</button>
-      <button class="chip" data-cat="patent">Patent</button>
-      <button class="chip" data-cat="inreview">In review</button>
+    <div class="toolbar">
+      <div class="cats" role="tablist" aria-label="Type">
+        <button class="btn" data-cat="all" aria-pressed="true">All</button>
+        <button class="btn" data-cat="journal" aria-pressed="false">Journal</button>
+        <button class="btn" data-cat="conference" aria-pressed="false">Conference</button>
+        <button class="btn" data-cat="book" aria-pressed="false">Book</button>
+        <button class="btn" data-cat="thesis" aria-pressed="false">Thesis</button>
+        <button class="btn" data-cat="inreview" aria-pressed="false">In review</button>
+      </div>
+      <div class="actions">
+        <input id="q" class="search" type="search" placeholder="Search title / venue / authors…"/>
+        <select id="year" class="select">
+          <option value="">All years</option>
+        </select>
+        <span class="count" id="count"></span>
+      </div>
     </div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-      <input id="q" type="search" placeholder="Search title / venue / authors…">
-      <select id="year"><option value="">All years</option></select>
-      <span class="meta" id="count"></span>
-    </div>
-  </div>
 
-  <div id="container"></div>
-</main>
+    <div id="container"></div>
+  </main>
 
-<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+  <footer>© <span id="yearNow"></span> Teng Teng</footer>
+</div>
 
+<!-- Load dataset -->
 <script src="../assets/js/pubs.js"></script>
 <script>
-(function(){
-  const PUBS=(window.PUBS||[]).slice();
-  const container=document.getElementById('container');
-  const buttons=Array.from(document.querySelectorAll('#tabs .chip'));
-  const q=document.getElementById('q');
-  const year=document.getElementById('year');
-  const count=document.getElementById('count');
+document.addEventListener('DOMContentLoaded', function(){
+  const yearNow=document.getElementById('yearNow'); if(yearNow) yearNow.textContent=new Date().getFullYear();
 
+  // ---- DATA ----
+  const PUBS = (window.PUBS || []).slice();
+
+  // ---- UI refs ----
+  const container = document.getElementById('container');
+  const buttons = Array.from(document.querySelectorAll('.cats [data-cat]'));
+  const qInput = document.getElementById('q');
+  const yearSel = document.getElementById('year');
+  const countEl = document.getElementById('count');
+
+  // years from data
   Array.from(new Set(PUBS.map(p=>String(p.year)))).sort((a,b)=>b.localeCompare(a))
-    .forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;year.appendChild(o);});
+    .forEach(y=>{ const o=document.createElement('option'); o.value=y; o.textContent=y; yearSel.appendChild(o); });
 
-  let cat='all', query='', y='';
+  // state
+  let activeCat = (new URLSearchParams(location.search).get('type')) || 'all'; // supports ?type=journal
+  let q = '';
+  let activeYear = '';
 
-  buttons.forEach(b=>b.addEventListener('click',()=>{
-    buttons.forEach(x=>x.setAttribute('aria-pressed','false'));
-    b.setAttribute('aria-pressed','true'); cat=b.dataset.cat; render();
-  }));
-  q.addEventListener('input',()=>{query=q.value.trim().toLowerCase(); render();});
-  year.addEventListener('change',()=>{y=year.value; render();});
+  // set initial cat pressed
+  buttons.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.cat===activeCat)));
 
-  function label(t){return({journal:'Journal',conference:'Conference',book:'Book',thesis:'Thesis',patent:'Patent',inreview:'In review'})[t]||t;}
-  function boldTeng(s){if(!s)return'';let out=s.replace(/teng,\s*teng/ig,'<strong>Teng, Teng</strong>');out=out.replace(/(^|[\s,;])teng\s+teng(?=($|[\s,;]))/ig,(m,p)=>`${p}<strong>Teng Teng</strong>`);return out;}
-  function bestLink(p){return p.doi||p.pdf||p.link||'';}
-  function isExternal(u){return /^https?:\/\//i.test(u||'');}
-  function resolve(u){if(!u)return'';return isExternal(u)?u:('../'+u.replace(/^\/+/,''));}
+  // interactions
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+      activeCat = btn.dataset.cat;
+      const url = new URL(location.href); url.searchParams.set('type', activeCat); history.replaceState(null,'',url.toString());
+      render();
+    });
+  });
+  qInput.addEventListener('input', ()=>{ q=qInput.value.trim().toLowerCase(); render(); });
+  yearSel.addEventListener('change', ()=>{ activeYear=yearSel.value; render(); });
+
+  // helpers
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+  function label(t){ return ({journal:'Journal', conference:'Conference', book:'Book', thesis:'Thesis', inreview:'In review'})[t] || t; }
+  function boldTeng(s){ return (s||'').replace(/teng,\s*teng/ig,'<strong>Teng, Teng</strong>'); }
+
+  function isExternal(u){ return /^https?:\/\//i.test(u||''); }
+  function resolveLink(u){ if(!u) return ''; return isExternal(u) ? u : ('../' + u.replace(/^\/+/,'')); }
+  function bestLink(p){ return p.doi || p.pdf || p.link || ''; } // prefer DOI, then local PDF, then link
+
   function card(p){
-    const href=bestLink(p); const click=!!href;
-    const title=click?`<a href="${resolve(href)}" target="${isExternal(href)?'_blank':'_self'}" rel="noopener">${p.title}</a>`:p.title;
-    const pills=[p.doi?'<span class="pill">DOI</span>':'',p.pdf?'<span class="pill">PDF</span>':'',p.type?`<span class="pill">${label(p.type)}</span>`:''].join(' ');
+    const href = bestLink(p);
+    const clickable = !!href;
+    const aOpen = clickable ? `<a href="${resolveLink(href)}" target="${isExternal(href)?'_blank':'_self'}" rel="noopener">` : '';
+    const aClose = clickable ? `</a>` : '';
+
+    const titleHTML = clickable ? `${aOpen}${p.title}${aClose}` : p.title;
+    const pills = [
+      p.doi ? `<span class="pill">DOI</span>` : '',
+      p.pdf ? `<span class="pill">PDF</span>` : '',
+      p.type ? `<span class="pill">${label(p.type)}</span>` : ''
+    ].join(' ');
+
     return `<article class="card">
-      <p class="cite">${boldTeng(p.authors)} (${p.year}). <strong>${title}</strong>. ${p.venue||''}${p.note?'. '+p.note:''}</p>
+      <p class="cite">${boldTeng(p.authors)} (${p.year}). <strong>${titleHTML}</strong>. ${p.venue || ''}${p.note?'. '+p.note:''}</p>
       <div class="meta">${pills}</div>
     </article>`;
   }
 
   function render(){
-    let list=PUBS.slice();
-    if(cat!=='all') list=list.filter(p=>p.type===cat);
-    if(y) list=list.filter(p=>String(p.year)===y);
-    if(query){ list=list.filter(p=>(p.title||'').toLowerCase().includes(query)||(p.venue||'').toLowerCase().includes(query)||(p.authors||'').toLowerCase().includes(query));}
-    count.textContent=`${list.length} items`;
+    // filter
+    let list = PUBS.slice();
+    if(activeCat!=='all') list = list.filter(p=>p.type===activeCat);
+    if(activeYear) list = list.filter(p=>String(p.year)===activeYear);
+    if(q){
+      list = list.filter(p =>
+        (p.title||'').toLowerCase().includes(q) ||
+        (p.venue||'').toLowerCase().includes(q) ||
+        (p.authors||'').toLowerCase().includes(q)
+      );
+    }
+    countEl.textContent = `${list.length} items`;
 
-    container.innerHTML='';
-    if(cat==='all'){
-      ['journal','conference','book','thesis','patent','inreview'].forEach(t=>{
-        const g=list.filter(p=>p.type===t).sort((a,b)=>b.year-a.year);
-        if(g.length){
-          const sec=document.createElement('section');
-          sec.innerHTML=`<h2>${label(t)}</h2><div class="list">${g.map(card).join('')}</div>`;
+    // layout mimic: All => grouped by type; otherwise group by year
+    container.innerHTML = '';
+    if(activeCat==='all'){
+      const order = ['journal','conference','book','thesis','inreview'];
+      order.forEach(t=>{
+        const group = list.filter(p=>p.type===t).sort((a,b)=>b.year-a.year);
+        if(group.length){
+          const sec = document.createElement('section'); sec.className='section';
+          sec.innerHTML = `<h2>${label(t)}</h2><div class="pubs">${group.map(card).join('')}</div>`;
           container.appendChild(sec);
         }
       });
     }else{
-      const years=Array.from(new Set(list.map(p=>p.year))).sort((a,b)=>b-a);
-      years.forEach(Y=>{
-        const g=list.filter(p=>p.year===Y).sort((a,b)=>a.title.localeCompare(b.title));
-        const sec=document.createElement('section');
-        sec.innerHTML=`<h2>${Y}</h2><div class="list">${g.map(card).join('')}</div>`;
+      const years = Array.from(new Set(list.map(p=>p.year))).sort((a,b)=>b-a);
+      years.forEach(y=>{
+        const group = list.filter(p=>p.year===y).sort((a,b)=> (a.title).localeCompare(b.title));
+        const sec = document.createElement('section'); sec.className='section';
+        sec.innerHTML = `<div class="yearHead">${y}</div><div class="pubs">${group.map(card).join('')}</div>`;
         container.appendChild(sec);
       });
     }
   }
+
   render();
-})();
+});
 </script>
 </body>
 </html>

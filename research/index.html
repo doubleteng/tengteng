@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Research Gallery | Teng Teng</title>
+<title>Research Projects | Teng Teng</title>
 <meta name="description" content="All research projects with single-select tag filter.">
 <style>
   :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
@@ -11,6 +11,7 @@
   body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
   a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
+
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
   .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
@@ -44,15 +45,15 @@
     <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
     <nav class="menu" aria-label="Primary">
       <ul>
-          <li><a href="./">Home</a></li>
-          <li><a href="research/">Research</a></li>
-          <li><a href="teaching/">Teaching</a></li>
-          <li><a href="design/">Design</a></li>
-          <li><a href="design/">Publications</a></li>
-          <li><a href="news/">News</a></li>
-          <li><a href="about/">About</a></li>
-          <li><a href="contact/">Contact</a></li>
-        </ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="./">Research</a></li>
+        <li><a href="../teaching/">Teaching</a></li>
+        <li><a href="../design/">Design</a></li>
+        <li><a href="../publications/">Publications</a></li>
+        <li><a href="../news/">News</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a href="../contact/">Contact</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -74,7 +75,6 @@
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
 
-<!-- 全站数据源 -->
 <script src="../assets/js/projects.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const omit = new Set(['research','design','teaching']);
     const tags = (p.tags||[]).filter(t => !omit.has(t.toLowerCase()));
     const t = tags.length ? ' · ' + tags.map(cap).join(' · ') : '';
-    const y = p.year ? ' · ' + p.year : '';
+       const y = p.year ? ' · ' + p.year : '';
     return primary + t + y;
   }
   function card(p){

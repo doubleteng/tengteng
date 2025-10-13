@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Home — Teng Teng</title>
+<script>
+(function(){
+  var segs=location.pathname.split('/').filter(Boolean);
+  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/'+segs[0]+'/':'/';
+  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
+  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
+})();
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
+    <nav class="menu" aria-label="Primary">
+      <ul>
+        <li><a href="./" aria-current="page">Home</a></li>
+        <li><a href="research/">Research</a></li>
+        <li><a href="teaching/">Teaching</a></li>
+        <li><a href="design/">Design</a></li>
+        <li><a href="news/">News</a></li>
+        <li><a href="about/">About</a></li>
+        <li><a href="publications/">Publications</a></li>
+        <li><a href="contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Teng Teng</h1>
+  <p class="sub">Computational design, additive manufacturing, robotics, materials.</p>
+
+  <!-- Filters -->
+  <div class="toolbar" id="filters">
+    <button class="chip" data-cat="all" aria-pressed="true">All</button>
+    <button class="chip" data-cat="research">Research</button>
+    <button class="chip" data-cat="teaching">Teaching</button>
+    <button class="chip" data-cat="design">Design</button>
+    <span class="meta" id="count"></span>
+  </div>
+
+  <!-- Gallery (max 9 thumbnails) -->
+  <div class="gallery" id="grid"></div>
+
+  <div style="margin-top:16px">
+    <a class="btn" id="viewAll" href="gallery/?cat=all">View all →</a>
+  </div>
+</main>
+
+<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+
+<!-- Data -->
+<script src="assets/js/projects.js"></script>
+<script>
+(function(){
+  const grid = document.getElementById('grid');
+  const btns = Array.from(document.querySelectorAll('#filters .chip'));
+  const count = document.getElementById('count');
+  const viewAll = document.getElementById('viewAll');
+
+  const data = (window.PROJECTS || []).slice();
+  function byYearDesc(a,b){ return (b.yearValue||0)-(a.yearValue||0); }
+
+  function norm(p){
+    // normalize primary category (research/teaching/design)
+    let prim = (p.category||'').toLowerCase();
+    if(!['research','teaching','design'].includes(prim)){
+      prim = (p.tags||[]).find(t=>['research','teaching','design'].includes(t.toLowerCase()))||'design';
+    }
+    return Object.assign({}, p, { primary: prim, yearValue: parseInt(String(p.year).slice(0,4),10) || 0 });
+  }
+  const items = data.map(norm);
+
+  function render(cat){
+    let list = items.slice();
+    if(cat!=='all') list = list.filter(p=>p.primary===cat);
+    list.sort(byYearDesc);
+    if(cat==='all'){
+      // Shuffle then pick up to 9 mixed
+      list = list.sort(()=>Math.random()-0.5).slice(0,9);
+    }else{
+      list = list.slice(0,9);
+    }
+    count.textContent = `${list.length} shown`;
+    grid.innerHTML = list.map(card).join('');
+    // update View All link
+    const to = cat==='all' ? 'gallery/?cat=all' : `gallery/?cat=${cat}`;
+    viewAll.setAttribute('href', to);
+  }
+
+  function card(p){
+    const tags = (p.tags||[]).filter((t,i,self)=>self.indexOf(t)===i); // de-dup
+    return `
+      <a class="card" href="${p.url}">
+        <div class="thumb">${p.thumb?`<img src="${p.thumb}" alt="${p.title}">`:''}</div>
+        <h3>${p.title}</h3>
+        <div class="meta">${p.year || ''}</div>
+        <div class="tags">${tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
+      </a>
+    `;
+  }
+
+  btns.forEach(b=>{
+    b.addEventListener('click', ()=>{
+      btns.forEach(x=>x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      render(b.dataset.cat);
+    });
+  });
+
+  render('all');
+})();
+</script>
+</body>
+</html>

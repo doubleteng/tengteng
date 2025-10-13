@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Research — Teng Teng</title>
+<script>
+(function(){
+  var segs=location.pathname.split('/').filter(Boolean);
+  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/'+segs[0]+'/':'/';
+  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
+  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
+})();
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
+    <nav class="menu" aria-label="Primary">
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="./" aria-current="page">Research</a></li>
+        <li><a href="../teaching/">Teaching</a></li>
+        <li><a href="../design/">Design</a></li>
+        <li><a href="../gallery/?cat=all">All Projects</a></li>
+        <li><a href="../news/">News</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a href="../publications/">Publications</a></li>
+        <li><a href="../contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Research</h1>
+  <div class="toolbar" id="filters">
+    <button class="chip" data-tag="" aria-pressed="true">All</button>
+    <button class="chip" data-tag="computation">Computation</button>
+    <button class="chip" data-tag="material">Material</button>
+    <button class="chip" data-tag="fabrication">Fabrication</button>
+    <button class="chip" data-tag="robotics">Robotics</button>
+  </div>
+  <div class="gallery" id="grid"></div>
+</main>
+
+<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+
+<script src="../assets/js/projects.js"></script>
+<script>
+(function(){
+  const grid = document.getElementById('grid');
+  const btns = Array.from(document.querySelectorAll('#filters .chip'));
+  const all = (window.PROJECTS || []).map(p=>Object.assign({},p,{primary:(p.category||'').toLowerCase()}))
+               .filter(p=>p.primary==='research' || (p.tags||[]).map(t=>t.toLowerCase()).includes('research'));
+
+  function byYearDesc(a,b){ return (b.yearValue||0)-(a.yearValue||0); }
+  const items = all.map(p=>Object.assign(p,{yearValue:parseInt(String(p.year).slice(0,4),10)||0}));
+
+  function render(tag){
+    let list = items.slice();
+    if(tag) list = list.filter(p => (p.tags||[]).map(t=>t.toLowerCase()).includes(tag));
+    list.sort(byYearDesc);
+    grid.innerHTML = list.map(card).join('');
+  }
+  function card(p){
+    const tags = (p.tags||[]).filter((t,i,self)=>self.indexOf(t)===i);
+    return `<a class="card" href="${p.url}">
+      <div class="thumb">${p.thumb?`<img src="${p.thumb}" alt="${p.title}">`:''}</div>
+      <h3>${p.title}</h3>
+      <div class="meta">${p.year||''}</div>
+      <div class="tags">${tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
+    </a>`;
+  }
+  btns.forEach(b=>{
+    b.addEventListener('click', ()=>{
+      btns.forEach(x=>x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      render(b.dataset.tag);
+    });
+  });
+  render('');
+})();
+</script>
+</body>
+</html>

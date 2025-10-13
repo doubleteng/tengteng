@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Page Title — Teng Teng</title>
+  <meta name="color-scheme" content="light only"/>
+  <style>
+    :root{--bg:#fff;--fg:#111;--muted:#666;--line:#eaeaea;--max:1100px}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+    a{color:var(--fg);text-underline-offset:3px}
+    .wrap{max-width:var(--max);margin:0 auto;padding:16px 20px}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:20}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:36px;height:36px;border-radius:50%;border:1px solid var(--fg);display:grid;place-items:center;font-weight:700}
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:18px;flex-wrap:wrap}
+    nav a{text-decoration:none;padding:8px 10px;border-radius:10px}
+    nav a:hover{background:#f6f6f6}
+    main{padding:28px 0}
+    h1{margin:0 0 8px;font-size:32px;line-height:1.2}
+    .sub{color:var(--muted);margin:0 0 16px}
+    .card{border:1px solid var(--line);border-radius:16px;padding:16px}
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <div class="brand">
+        <div class="logo">TT</div><span>Teng Teng</span>
+      </div>
+      <!-- 你的导航结构（使用 data-nav） -->
+      <nav class="menu" aria-label="Primary">
+        <ul>
+          <li><a data-nav="">Home</a></li>
+          <li><a data-nav="research/">Research</a></li>
+          <li><a data-nav="teaching/">Teaching</a></li>
+          <li><a data-nav="design/">Design</a></li>
+          <li><a data-nav="news/">News</a></li>
+          <li><a data-nav="about/">About</a></li>
+          <li><a data-nav="publications/">Publications</a></li>
+          <li><a data-nav="contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>News</h1>
+    <div class="sub">Updates on projects, papers, talks, awards, and lab announcements.</div>
+
+    <div class="toolbar">
+      <div class="cats" aria-label="Primary category">
+        <button class="btn" data-cat="all" aria-pressed="true">All</button>
+        <button class="btn" data-cat="research" aria-pressed="false">Research</button>
+        <button class="btn" data-cat="teaching" aria-pressed="false">Teaching</button>
+        <button class="btn" data-cat="design" aria-pressed="false">Design</button>
+        <button class="btn" data-cat="lab" aria-pressed="false">Lab</button>
+      </div>
+      <div class="actions">
+        <div class="search">
+          <input id="q" type="search" placeholder="Search title or summary…"/>
+          <select id="year" class="select">
+            <option value="">All years</option>
+          </select>
+        </div>
+        <button id="clearTag" class="chip" aria-pressed="false" title="Clear tag">Clear tag</button>
+        <span class="count" id="count"></span>
+      </div>
+    </div>
+
+    <div class="filters" id="tagbar" aria-label="Tag filter (single-select)"></div>
+
+    <div class="grid news" id="list"></div>
+
+    <button id="loadMore" class="load" hidden>Load more</button>
+  </main>
+
+  <footer>© <span id="yearNow"></span> Teng Teng</footer>
+</div>
+
+<!-- data -->
+<script src="../assets/js/news.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const y=document.getElementById('yearNow'); if(y) y.textContent=new Date().getFullYear();
+
+  const ALL = (window.NEWS || []).slice();
+  // sort: pin first, then date desc
+  ALL.sort((a,b)=>{
+    const p = (+!!b.pin) - (+!!a.pin);
+    if(p!==0) return p;
+    return (b.date||'').localeCompare(a.date||'');
+  });
+
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
+  const loadBtn = document.getElementById('loadMore');
+
+  const catBtns = Array.from(document.querySelectorAll('.cats [data-cat]'));
+  const tagbar = document.getElementById('tagbar');
+  const clearTagBtn = document.getElementById('clearTag');
+  const qInput = document.getElementById('q');
+  const yearSel = document.getElementById('year');
+
+  const ALL_TAGS = ["award","publication","talk","workshop","grant","press","hiring","event","media","project","robotics","material","product","architecture"]; // 单选
+  let activeCat = "all";
+  let activeTag = null;
+  let activeYear = "";
+  let q = "";
+  const PAGE = 9;
+  let cursor = 0;
+  let currentList = [];
+
+  // build tag chips
+  ALL_TAGS.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='chip'; b.textContent=cap(t);
+    b.setAttribute('data-tag',t); b.setAttribute('aria-pressed','false');
+    b.addEventListener('click', ()=>{
+      if(activeTag===t){ activeTag=null; setAllTags(false); }
+      else{ activeTag=t; setOnlyTag(t); }
+      apply();
+    });
+    tagbar.appendChild(b);
+  });
+  clearTagBtn.addEventListener('click', ()=>{ activeTag=null; setAllTags(false); apply(); });
+
+  // build year options from data
+  const years = Array.from(new Set(ALL.map(n => (n.date||'').slice(0,4)).filter(Boolean))).sort((a,b)=>b.localeCompare(a));
+  years.forEach(yy=>{
+    const opt=document.createElement('option'); opt.value=yy; opt.textContent=yy; yearSel.appendChild(opt);
+  });
+  yearSel.addEventListener('change', ()=>{ activeYear=yearSel.value; apply(); });
+
+  // cat buttons
+  catBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      setPressed(btn);
+      activeCat = btn.dataset.cat;
+      apply();
+    });
+  });
+
+  // search
+  qInput.addEventListener('input', ()=>{ q = qInput.value.trim().toLowerCase(); apply(); });
+
+  function setPressed(target){ catBtns.forEach(b=>b.setAttribute('aria-pressed', String(b===target))); }
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+  function setAllTags(v){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', v?'true':'false')); }
+  function setOnlyTag(t){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false')); }
+  function fmtDate(d){ const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
+
+    function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+  function fmtDate(d){ const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
+
+  // 判断并修正链接：外链原样；内链自动加 ../（因为当前页在 /news/）
+  function isExternal(u){ return /^https?:\/\//i.test(u||''); }
+  function resolveLink(u){ if(!u) return ''; return isExternal(u) ? u : ('../' + u.replace(/^\/+/,'')); }
+
+  function card(n){
+    const cat  = cap(n.category||'');
+    const tags = (n.tags||[]).map(cap).join(' · ');
+    const pin  = n.pin ? `<span class="pins">Pinned</span>` : '';
+    const img  = n.image ? `<div class="cover" style="background-image:url('${n.image}')"></div>` : `<div class="cover"></div>`;
+    const body = `<div class="pad">
+        <div class="meta">${fmtDate(n.date)} · ${cat}${tags ? ' · '+tags : ''} ${pin}</div>
+        <h3 class="title">${n.title}</h3>
+        <p class="excerpt">${n.excerpt||''}</p>
+      </div>`;
+
+    if(n.link){
+      const href   = resolveLink(n.link);
+      const target = isExternal(n.link) ? '_blank' : '_self';
+      // 整张卡片可点
+      return `<a class="card" href="${href}" target="${target}" rel="noopener">
+        ${img}${body}
+      </a>`;
+    }else{
+      // 没有链接则是静态卡片
+      return `<article class="card">
+        ${img}${body}
+      </article>`;
+    }
+  }
+
+  function filterAll(){
+    let list = ALL.slice();
+    if(activeCat!=='all') list = list.filter(n => (n.category||'') === activeCat);
+    if(activeTag) list = list.filter(n => (n.tags||[]).includes(activeTag));
+    if(activeYear) list = list.filter(n => (n.date||'').startsWith(activeYear));
+    if(q) list = list.filter(n => (n.title||'').toLowerCase().includes(q) || (n.excerpt||'').toLowerCase().includes(q));
+    return list;
+  }
+
+  function renderNext(){
+    const slice = currentList.slice(cursor, cursor + PAGE);
+    if(cursor===0) listEl.innerHTML = ''; // first page
+    listEl.insertAdjacentHTML('beforeend', slice.map(card).join(''));
+    cursor += PAGE;
+    loadBtn.hidden = cursor >= currentList.length;
+    countEl.textContent = `${currentList.length} items`;
+  }
+
+  function apply(){
+    cursor = 0;
+    currentList = filterAll();
+    renderNext();
+  }
+
+  loadBtn.addEventListener('click', renderNext);
+
+  // init
+  setPress
+

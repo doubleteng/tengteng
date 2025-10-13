@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Publications — Teng Teng</title>
+<script>
+(function(){
+  var segs=location.pathname.split('/').filter(Boolean);
+  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/'+segs[0]+'/':'/';
+  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
+  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
+})();
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
+    <nav class="menu" aria-label="Primary">
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../research/">Research</a></li>
+        <li><a href="../teaching/">Teaching</a></li>
+        <li><a href="../design/">Design</a></li>
+        <li><a href="../news/">News</a></li>
+        <li><a href="./" aria-current="page">Publications</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a href="../contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Publications</h1>
+  <div class="sub">Peer-reviewed journals, conferences, book chapters, theses, and patents.</div>
+
+  <div class="toolbar">
+    <div id="tabs">
+      <button class="chip" data-cat="all" aria-pressed="true">All</button>
+      <button class="chip" data-cat="journal">Journal</button>
+      <button class="chip" data-cat="conference">Conference</button>
+      <button class="chip" data-cat="book">Book</button>
+      <button class="chip" data-cat="thesis">Thesis</button>
+      <button class="chip" data-cat="patent">Patent</button>
+      <button class="chip" data-cat="inreview">In review</button>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+      <input id="q" type="search" placeholder="Search title / venue / authors…">
+      <select id="year"><option value="">All years</option></select>
+      <span class="meta" id="count"></span>
+    </div>
+  </div>
+
+  <div id="container"></div>
+</main>
+
+<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+
+<script src="../assets/js/pubs.js"></script>
+<script>
+(function(){
+  const PUBS=(window.PUBS||[]).slice();
+  const container=document.getElementById('container');
+  const buttons=Array.from(document.querySelectorAll('#tabs .chip'));
+  const q=document.getElementById('q');
+  const year=document.getElementById('year');
+  const count=document.getElementById('count');
+
+  Array.from(new Set(PUBS.map(p=>String(p.year)))).sort((a,b)=>b.localeCompare(a))
+    .forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;year.appendChild(o);});
+
+  let cat='all', query='', y='';
+
+  buttons.forEach(b=>b.addEventListener('click',()=>{
+    buttons.forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true'); cat=b.dataset.cat; render();
+  }));
+  q.addEventListener('input',()=>{query=q.value.trim().toLowerCase(); render();});
+  year.addEventListener('change',()=>{y=year.value; render();});
+
+  function label(t){return({journal:'Journal',conference:'Conference',book:'Book',thesis:'Thesis',patent:'Patent',inreview:'In review'})[t]||t;}
+  function boldTeng(s){if(!s)return'';let out=s.replace(/teng,\s*teng/ig,'<strong>Teng, Teng</strong>');out=out.replace(/(^|[\s,;])teng\s+teng(?=($|[\s,;]))/ig,(m,p)=>`${p}<strong>Teng Teng</strong>`);return out;}
+  function bestLink(p){return p.doi||p.pdf||p.link||'';}
+  function isExternal(u){return /^https?:\/\//i.test(u||'');}
+  function resolve(u){if(!u)return'';return isExternal(u)?u:('../'+u.replace(/^\/+/,''));}
+  function card(p){
+    const href=bestLink(p); const click=!!href;
+    const title=click?`<a href="${resolve(href)}" target="${isExternal(href)?'_blank':'_self'}" rel="noopener">${p.title}</a>`:p.title;
+    const pills=[p.doi?'<span class="pill">DOI</span>':'',p.pdf?'<span class="pill">PDF</span>':'',p.type?`<span class="pill">${label(p.type)}</span>`:''].join(' ');
+    return `<article class="card">
+      <p class="cite">${boldTeng(p.authors)} (${p.year}). <strong>${title}</strong>. ${p.venue||''}${p.note?'. '+p.note:''}</p>
+      <div class="meta">${pills}</div>
+    </article>`;
+  }
+
+  function render(){
+    let list=PUBS.slice();
+    if(cat!=='all') list=list.filter(p=>p.type===cat);
+    if(y) list=list.filter(p=>String(p.year)===y);
+    if(query){ list=list.filter(p=>(p.title||'').toLowerCase().includes(query)||(p.venue||'').toLowerCase().includes(query)||(p.authors||'').toLowerCase().includes(query));}
+    count.textContent=`${list.length} items`;
+
+    container.innerHTML='';
+    if(cat==='all'){
+      ['journal','conference','book','thesis','patent','inreview'].forEach(t=>{
+        const g=list.filter(p=>p.type===t).sort((a,b)=>b.year-a.year);
+        if(g.length){
+          const sec=document.createElement('section');
+          sec.innerHTML=`<h2>${label(t)}</h2><div class="list">${g.map(card).join('')}</div>`;
+          container.appendChild(sec);
+        }
+      });
+    }else{
+      const years=Array.from(new Set(list.map(p=>p.year))).sort((a,b)=>b-a);
+      years.forEach(Y=>{
+        const g=list.filter(p=>p.year===Y).sort((a,b)=>a.title.localeCompare(b.title));
+        const sec=document.createElement('section');
+        sec.innerHTML=`<h2>${Y}</h2><div class="list">${g.map(card).join('')}</div>`;
+        container.appendChild(sec);
+      });
+    }
+  }
+  render();
+})();
+</script>
+</body>
+</html>

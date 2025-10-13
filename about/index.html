@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>About — Teng Teng</title>
+<script>
+(function(){
+  var segs=location.pathname.split('/').filter(Boolean);
+  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/'+segs[0]+'/':'/';
+  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
+  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
+})();
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
+    <nav class="menu" aria-label="Primary">
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../research/">Research</a></li>
+        <li><a href="../teaching/">Teaching</a></li>
+        <li><a href="../design/">Design</a></li>
+        <li><a href="../news/">News</a></li>
+        <li><a href="./" aria-current="page">About</a></li>
+        <li><a href="../publications/">Publications</a></li>
+        <li><a href="../contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Teng Teng</h1>
+  <p class="sub">PhD Candidate & Research Fellow, University of Pennsylvania</p>
+
+  <div class="card">
+    <p>My interdisciplinary work integrates design, advanced manufacturing, structural engineering, mechatronics, robotics, and material sciences to create sustainable products and high-performance structures.</p>
+    <p>
+      <a class="btn" href="mailto:tteng@design.upenn.edu">Email</a>
+      <a class="btn" href="../assets/cv/TengTeng_CV.pdf">CV (PDF)</a>
+      <a class="btn" href="../publications/">Publications →</a>
+    </p>
+  </div>
+
+  <h2>Professional Experience</h2>
+  <div class="list">
+    <div class="item">
+      <strong>A-D-A LLC</strong> — Shanghai, China & Bellevue, USA<br>
+      Chief Designer & Partner · Aug 2017 – Jun 2018
+     
+    </div>
+    <div class="item">
+      <strong>Ju Square LLC</strong> — Bellevue, WA, USA<br>
+      Partner · Aug 2017 – Jun 2021
+      
+    </div>
+    <div class="item">
+      <strong>CallisonRTKL</strong> — Seattle, WA, USA<br>
+      Project Architect & Leading Design Technologist · Jul 2013 – Jun 2017
+      
+    </div>
+    <div class="item">
+      <strong>Schemata Workshop</strong> — Seattle, WA, USA<br>
+      Architectural Designer (Part-time) · Oct 2013 – Mar 2014
+      <ul><li>Concept design and field surveys for two city projects.</li></ul>
+    </div>
+    <div class="item">
+      <strong>Callison</strong> — Shanghai, China<br>
+      Design Technologist (Part-time) · Oct 2010 – Aug 2012
+      
+    </div>
+    <div class="item">
+      <strong>NCF Parametric Design Studio</strong> — Shanghai, China<br>
+      Founding Partner · 2008 – 2014
+     
+    </div>
+  </div>
+</main>
+
+<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+</body>
+</html>

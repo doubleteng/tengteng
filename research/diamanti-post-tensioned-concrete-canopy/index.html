@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy | Teng Teng</title>
+  <meta name="description" content="Diamanti canopy — a 3D-printed, post-tensioned concrete research project.">
+  <link rel="preload" as="image" href="/assets/img/diamanti/hero.webp">
+  <style>
+    :root{
+      --bg:#fff; --text:#111827; --sub:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.06);
+      --radius:18px; --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif; background:var(--bg); color:var(--text); line-height:1.65}
+    a{color:var(--text); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:24px}
+
+    /* --- global header (same as your site) --- */
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 8px; position:sticky; top:0; background:rgba(255,255,255,.88); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid var(--border)}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
+    .brand .logo{width:36px; height:36px; border-radius:12px; background:#111827; color:#fff; display:grid; place-items:center; box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    nav.menu > ul{list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    nav.menu > ul > li{position:relative}
+    nav.menu > ul > li > a{color:var(--sub); font-weight:600; display:inline-block; padding:6px 10px; border-radius:8px}
+    nav.menu > ul > li > a:hover{color:var(--text); background:#f3f4f6}
+    nav.menu .submenu{display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid var(--border); border-radius:12px; padding:8px; box-shadow:var(--shadow); min-width:220px}
+    nav.menu .submenu li{list-style:none}
+    nav.menu .submenu li a{display:block; padding:8px 10px; color:var(--text)}
+    nav.menu .submenu li a:hover{background:#f9fafb}
+    nav.menu > ul > li:hover > .submenu{display:block}
+
+    /* --- hero --- */
+    .hero{margin-top:18px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
+    .hero .img{aspect-ratio: 16/7; background:#eee url('/assets/img/diamanti/hero.webp') center/cover no-repeat}
+    .titlebar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; padding:16px 18px; border-top:1px solid var(--border); background:#fff}
+    h1{margin:0; font-size:clamp(26px,4vw,40px)}
+    .meta-inline{color:var(--sub); font-size:14px}
+
+    /* --- main two columns --- */
+    .grid{display:grid; grid-template-columns: 1.6fr .9fr; gap:28px; margin-top:24px}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+    /* left article */
+    article h2{font-size:22px; margin:18px 0 8px}
+    article p{margin:0 0 12px}
+    .figure{border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#f8fafc; margin:16px 0}
+    .figure .img{aspect-ratio: 3/2; background:#f0f0f0 center/cover no-repeat}
+    .caption{padding:10px 12px; color:var(--sub); font-size:13px; border-top:1px solid var(--border); background:#fff}
+
+    /* right sidebar card */
+    .side{position:sticky; top:72px; align-self:start}
+    .card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .card .section{padding:16px 16px 6px}
+    .card .section + .section{border-top:1px solid var(--border)}
+    .kvs{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:14px}
+    .kvs div:first-child{color:var(--sub)}
+    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
+    .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
+
+    /* gallery grid */
+    .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    @media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.gallery{grid-template-columns:1fr}}
+    .gthumb{aspect-ratio:4/3; border:1px solid var(--border); border-radius:12px; background:#eee center/cover no-repeat; cursor:zoom-in}
+
+    /* lightbox (very lightweight) */
+    .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:50}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:92vw; max-height:88vh; border-radius:12px; background:#000}
+    .lightbox .close{position:absolute; top:18px; right:18px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:8px 12px; cursor:pointer; font-weight:700}
+
+    footer{color:var(--sub); font-size:13px; text-align:center; padding:28px 0 12px; margin-top:40px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- site header (same as index) -->
+    <header>
+      <div class="brand"><div class="logo" aria-hidden="true">TT</div><span>Teng Teng</span></div>
+      <nav aria-label="Primary" class="menu">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li>
+            <a href="/gallery/?cat=research" aria-haspopup="true">Research</a>
+            <ul class="submenu" aria-label="Research submenu">
+              <li><a href="/gallery/?cat=research&tag=computation">Computation</a></li>
+              <li><a href="/gallery/?cat=research&tag=material">Material</a></li>
+              <li><a href="/gallery/?cat=research&tag=fabrication">Fabrication</a></li>
+              <li><a href="/gallery/?cat=research&tag=robotics">Robotics</a></li>
+            </ul>
+          </li>
+          <li><a href="/gallery/?cat=teaching">Teaching</a></li>
+          <li><a href="/gallery/?cat=design">Design Projects</a></li>
+          <li><a href="/news/">News</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- hero -->
+    <div class="hero">
+      <div class="img" role="img" aria-label="Diamanti canopy hero image"></div>
+      <div class="titlebar">
+        <div>
+          <h1>Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy</h1>
+          <div class="meta-inline">Research · Fabrication · Robotics · 2024</div>
+        </div>
+        <div class="meta-inline"><a href="/gallery/?cat=research">← Back to Research Gallery</a></div>
+      </div>
+    </div>
+
+    <!-- main content -->
+    <div class="grid">
+      <!-- left column: narrative -->
+      <article>
+        <h2>Abstract</h2>
+        <p><!-- 用你自己的摘要：项目目标、核心方法（3DCP + 后张）、跨学科合作、成果与规模等。 --></p>
+
+        <div class="figure">
+          <div class="img" style="background-image:url('/assets/img/diamanti/main-1.webp')"></div>
+          <div class="caption">Overall view of the canopy on CLT base. <!-- 图注可替换 --></div>
+        </div>
+
+        <h2>Design & Method</h2>
+        <p><!-- 说明几何设定、受力策略、TPMS/diamond曲面、内置索道/张拉路径等。 --></p>
+
+        <div class="gallery" id="gallery-design">
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/render-1.webp')" data-full="/assets/img/diamanti/render-1.webp" aria-label="render 1"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/render-2.webp')" data-full="/assets/img/diamanti/render-2.webp" aria-label="render 2"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/render-3.webp')" data-full="/assets/img/diamanti/render-3.webp" aria-label="render 3"></div>
+        </div>
+
+        <h2>Fabrication & Assembly</h2>
+        <p><!-- 说明打印参数、分块策略、配筋/锚具、后张施工、现场组装流程。 --></p>
+
+        <div class="gallery" id="gallery-assembly">
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/assembly-1.webp')" data-full="/assets/img/diamanti/assembly-1.webp"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/assembly-2.webp')" data-full="/assets/img/diamanti/assembly-2.webp"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/assembly-3.webp')" data-full="/assets/img/diamanti/assembly-3.webp"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/assembly-4.webp')" data-full="/assets/img/diamanti/assembly-4.webp"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/assembly-5.webp')" data-full="/assets/img/diamanti/assembly-5.webp"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/assembly-6.webp')" data-full="/assets/img/diamanti/assembly-6.webp"></div>
+        </div>
+
+        <h2>Performance & Testing</h2>
+        <p><!-- 简述结构测试、跨中挠度、承载能力、材料/构造优化等。 --></p>
+
+        <!-- 可选视频 -->
+        <!--
+        <div class="figure">
+          <div style="position:relative; padding-top:56.25%; background:#000">
+            <iframe src="https://www.youtube.com/embed/XXXXXXXX" title="Diamanti video" allowfullscreen
+              style="position:absolute; inset:0; width:100%; height:100%; border:0"></iframe>
+          </div>
+          <div class="caption">Time-lapse of printing and assembly.</div>
+        </div>
+        -->
+
+        <h2>Diagrams</h2>
+        <div class="gallery" id="gallery-diagram">
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/diagram-1.webp')" data-full="/assets/img/diamanti/diagram-1.webp"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/diagram-2.webp')" data-full="/assets/img/diamanti/diagram-2.webp"></div>
+          <div class="gthumb" style="background-image:url('/assets/img/diamanti/diagram-3.webp')" data-full="/assets/img/diamanti/diagram-3.webp"></div>
+        </div>
+
+        <div class="figure">
+          <div class="img" style="background-image:url('/assets/img/diamanti/main-2.webp')"></div>
+          <div class="caption">Detail view of post-tensioning anchorage.</div>
+        </div>
+      </article>
+
+      <!-- right column: meta sidebar -->
+      <aside class="side">
+        <div class="card">
+          <div class="section">
+            <div class="kvs">
+              <div>Category</div><div>Research</div>
+              <div>Year</div><div>2024</div>
+              <div>Tags</div>
+              <div class="tags">
+                <span class="tag">Fabrication</span>
+                <span class="tag">Robotics</span>
+                <span class="tag">Concrete</span>
+                <span class="tag">Post-Tensioning</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <strong>Team / Roles</strong>
+            <p style="margin:6px 0 0; color:var(--sub); font-size:14px">
+              <!-- 示例：结构与计算设计、材料与测试、行业合作等；替换为你实际团队与角色 -->
+              Lead: Teng Teng · Structural & Computational Design · Fabrication Strategy
+            </p>
+          </div>
+
+          <div class="section">
+            <strong>Affiliations</strong>
+            <p style="margin:6px 0 0; color:var(--sub); font-size:14px">
+              <!-- 学术/产业合作单位（如需） -->
+              University / Lab · Industry Partner
+            </p>
+          </div>
+
+          <div class="section">
+            <strong>Publications</strong>
+            <ul style="margin:8px 0 0 16px; color:var(--sub); font-size:14px">
+              <li><a href="#" target="_blank" rel="noopener">Paper Title (2024) – PDF</a></li>
+              <li><a href="#" target="_blank" rel="noopener">Conference Proceeding (2023)</a></li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <strong>Acknowledgements</strong>
+            <p style="margin:6px 0 0; color:var(--sub); font-size:14px">
+              <!-- 资助说明 / 致谢 -->
+              Supported by … (Grant No. …).
+            </p>
+          </div>
+
+          <div class="section" style="display:flex; gap:8px; flex-wrap:wrap">
+            <a class="tag" href="/gallery/?cat=research">← Back to Research</a>
+            <a class="tag" href="/gallery/?cat=all">Browse all projects</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>© <span id="year"></span> Teng Teng · Hosted on GitHub Pages</footer>
+  </div>
+
+  <!-- lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close" aria-label="Close" onclick="closeLightbox()">Close ×</button>
+    <img alt="" id="lightbox-img"/>
+  </div>
+
+  <script>
+    // footer year
+    document.addEventListener('DOMContentLoaded', function(){
+      var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+    });
+
+    // simple lightbox
+    var lb=document.getElementById('lightbox');
+    var lbimg=document.getElementById('lightbox-img');
+    function openLightbox(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+    function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
+    document.querySelectorAll('.gthumb').forEach(function(el){
+      el.addEventListener('click', function(){ openLightbox(el.getAttribute('data-full')); });
+    });
+    lb.addEventListener('click', function(e){ if(e.target===lb) closeLightbox(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+  </script>
+</body>
+</html>

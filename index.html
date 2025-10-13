@@ -1,22 +1,68 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Home — Teng Teng</title>
-<script>
-(function(){
-  var segs=location.pathname.split('/').filter(Boolean);
-  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/'+segs[0]+'/':'/';
-  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
-  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
-})();
-</script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Home — Teng Teng</title>
+  <meta name="description" content="Teng Teng — computational design, additive manufacturing, robotics, and materials."/>
+  <meta name="theme-color" content="#0b0b0c"/>
+  <link rel="icon" href="assets/favicon.ico"/>
+  <!-- Fallback stylesheet for no-JS environments -->
+  <noscript><link rel="stylesheet" href="assets/css/site.css"></noscript>
+  <script>
+    // Resolve <base> and main stylesheet automatically for GitHub Pages or root hosting
+    (function(){
+      var segs = location.pathname.split('/').filter(Boolean);
+      var base = (location.hostname.endsWith('github.io') && segs.length) ? ('/' + segs[0] + '/') : '/';
+      var b = document.createElement('base'); b.href = base; document.head.appendChild(b);
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = base + 'assets/css/site.css'; document.head.appendChild(l);
+    })();
+  </script>
+  <style>
+    /* --- Minimal critical styles so the page is usable before site.css loads --- */
+    :root{--wrap:1100px;--gap:16px;--bg:#0b0b0c;--ink:#e7e7ea;--muted:#a7a7ad;--pill:#1c1c21;--accent:#58d3a0}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--wrap);margin:0 auto;padding:18px;}
+    header{position:sticky;top:0;backdrop-filter:saturate(140%) blur(6px);background:linear-gradient(to bottom, rgba(11,11,12,.9), rgba(11,11,12,.6));border-bottom:1px solid #1e1e22;z-index:10}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:600}
+    .logo{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--pill);font-weight:800;letter-spacing:.5px}
+    .menu ul{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+    .menu a{display:block;padding:8px 10px;border-radius:10px}
+    .menu a[aria-current="page"], .menu a:hover{background:var(--pill)}
+    main h1{margin:.7em 0 .2em;font-size:clamp(28px, 4vw, 40px)}
+    .sub{margin:0 0 18px;color:var(--muted)}
+    .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:20px 0}
+    .chip{appearance:none;border:1px solid #2a2a30;background:#151518;color:var(--ink);padding:6px 10px;border-radius:999px;cursor:pointer}
+    .chip[aria-pressed="true"]{background:var(--accent);color:#0b0b0c;border-color:transparent}
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    @media (max-width:1200px){.gallery{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.menu{display:none}.gallery{grid-template-columns:1fr}}
+    .card{display:block;border:1px solid #232329;border-radius:14px;overflow:hidden;background:#111114}
+    .card:hover{border-color:#2f2f36}
+    .thumb{aspect-ratio:16/10;background:#0e0e12;display:grid;place-items:center}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .card h3{font-size:16px;margin:10px 12px 2px}
+    .card .meta{color:var(--muted);font-size:13px;margin:0 12px 8px}
+    .pill{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--pill);font-size:12px;margin:0 6px 8px 0}
+    .tags{padding:0 12px 12px}
+    .btn{display:inline-block;background:var(--accent);color:#0b0b0c;padding:10px 14px;border-radius:12px;font-weight:600}
+    footer{border-top:1px solid #1e1e22;margin-top:32px}
+    footer .wrap{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+      /* Intro (avatar + bio) */
+    .intro{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center;margin:14px 0 6px}
+    .avatar{width:96px;height:96px;border-radius:50%;overflow:hidden;background:#0e0e12}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    @media (max-width:560px){.intro{grid-template-columns:1fr}.avatar{width:80px;height:80px}}
+  </style>
 </head>
 <body>
 <header>
   <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
-    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
+    <div class="brand"><div class="logo" aria-hidden="true">TT</div><span>Teng Teng</span></div>
     <nav class="menu" aria-label="Primary">
       <ul>
         <li><a href="./" aria-current="page">Home</a></li>
@@ -32,20 +78,27 @@
   </div>
 </header>
 
-<main class="wrap">
-  <h1>Teng Teng</h1>
-  <p class="sub">Computational design, additive manufacturing, robotics, materials.</p>
+<main class="wrap" id="main">
+  <section class="intro">
+    <div class="avatar"><img src="assets/img/avatar.jpg" alt="Portrait of Teng Teng"></div>
+    <div class="bio">
+      <h1>Teng Teng</h1>
+      <p class="sub">Computational design, additive manufacturing, robotics, materials.</p>
+      <p class="short">Short bio: Assistant Professor & researcher exploring multi‑material additive manufacturing (MMAM), programmable matter, and robotic fabrication for performance‑driven design.</p>
+    </div>
+  </section>
 
   <!-- Filters -->
-  <div class="toolbar" id="filters">
+  <div class="toolbar" id="filters" role="toolbar" aria-label="Filter gallery">
     <button class="chip" data-cat="all" aria-pressed="true">All</button>
     <button class="chip" data-cat="research">Research</button>
     <button class="chip" data-cat="teaching">Teaching</button>
     <button class="chip" data-cat="design">Design</button>
-    <span class="meta" id="count"></span>
+    <span class="sr-only" id="countLabel">Items shown</span>
+    <span class="meta" id="count" aria-live="polite" aria-atomic="true" aria-labelledby="countLabel"></span>
   </div>
 
-  <!-- Gallery (max 9 thumbnails) -->
+  <!-- Gallery (max 12 thumbnails) -->
   <div class="gallery" id="grid"></div>
 
   <div style="margin-top:16px">
@@ -53,57 +106,67 @@
   </div>
 </main>
 
-<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+<footer>
+  <div class="wrap">© <span id="y"></span> Teng Teng<span aria-hidden="true"> • </span><span>All rights reserved</span></div>
+</footer>
 
 <!-- Data -->
-<script src="assets/js/projects.js"></script>
+<script src="assets/js/projects.js" defer></script>
 <script>
 (function(){
-  const grid = document.getElementById('grid');
-  const btns = Array.from(document.querySelectorAll('#filters .chip'));
-  const count = document.getElementById('count');
-  const viewAll = document.getElementById('viewAll');
+  // Footer year
+  document.getElementById('y').textContent = new Date().getFullYear();
 
-  const data = (window.PROJECTS || []).slice();
-  function byYearDesc(a,b){ return (b.yearValue||0)-(a.yearValue||0); }
+  // If projects.js hasn't loaded or provided data, bail gracefully
+  const data = Array.isArray(window.PROJECTS) ? window.PROJECTS.slice() : [];
+
+  const grid   = document.getElementById('grid');
+  const btns   = Array.from(document.querySelectorAll('#filters .chip'));
+  const count  = document.getElementById('count');
+  const viewAll= document.getElementById('viewAll');
+
+  function byYearDesc(a,b){ return (b.yearValue||0) - (a.yearValue||0); }
 
   function norm(p){
     // normalize primary category (research/teaching/design)
     let prim = (p.category||'').toLowerCase();
     if(!['research','teaching','design'].includes(prim)){
-      prim = (p.tags||[]).find(t=>['research','teaching','design'].includes(t.toLowerCase()))||'design';
+      prim = (p.tags||[]).find(t=>['research','teaching','design'].includes(String(t).toLowerCase())) || 'design';
     }
-    return Object.assign({}, p, { primary: prim, yearValue: parseInt(String(p.year).slice(0,4),10) || 0 });
+    const yearStr = (p.year==null? '' : String(p.year));
+    const yearVal = parseInt(yearStr.slice(0,4), 10) || 0;
+    return Object.assign({}, p, { primary: prim, yearValue: yearVal });
   }
+
   const items = data.map(norm);
 
-  function render(cat){
-    let list = items.slice();
-    if(cat!=='all') list = list.filter(p=>p.primary===cat);
-    list.sort(byYearDesc);
-    if(cat==='all'){
-      // Shuffle then pick up to 9 mixed
-      list = list.sort(()=>Math.random()-0.5).slice(0,9);
-    }else{
-      list = list.slice(0,9);
-    }
-    count.textContent = `${list.length} shown`;
-    grid.innerHTML = list.map(card).join('');
-    // update View All link
-    const to = cat==='all' ? 'gallery/?cat=all' : `gallery/?cat=${cat}`;
-    viewAll.setAttribute('href', to);
-  }
-
   function card(p){
-    const tags = (p.tags||[]).filter((t,i,self)=>self.indexOf(t)===i); // de-dup
+    const tags = (p.tags||[]).filter((t,i,self)=> self.indexOf(t)===i);
+    const img = p.thumb ? `<img loading="lazy" decoding="async" src="${p.thumb}" alt="${p.title}">` : '';
     return `
-      <a class="card" href="${p.url}">
-        <div class="thumb">${p.thumb?`<img src="${p.thumb}" alt="${p.title}">`:''}</div>
+      <a class="card" href="${p.url}" ${p.external? 'target="_blank" rel="noopener"' : ''}>
+        <div class="thumb">${img}</div>
         <h3>${p.title}</h3>
         <div class="meta">${p.year || ''}</div>
         <div class="tags">${tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
       </a>
     `;
+  }
+
+  function render(cat){
+    let list = items.slice();
+    if(cat !== 'all') list = list.filter(p=>p.primary===cat);
+    list.sort(byYearDesc);
+    if(cat === 'all'){
+      // Shuffle then pick up to 12 mixed
+      list = list.sort(()=>Math.random()-.5).slice(0,12);
+    }else{
+      list = list.slice(0,12);
+    }
+    count.textContent = `${list.length} shown`;
+    grid.innerHTML = list.map(card).join('');
+    const to = cat==='all' ? 'gallery/?cat=all' : `gallery/?cat=${cat}`;
+    viewAll.setAttribute('href', to);
   }
 
   btns.forEach(b=>{

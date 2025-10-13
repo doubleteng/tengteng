@@ -1,4 +1,3 @@
-<script>
 // Save as: assets/js/pubs.js
 window.PUBS_BIB = [
 `@article{kong2019micro,
@@ -199,4 +198,3 @@ URL = {	https://doi.org/10.52842/conf.ecaade.2017.1.619},
   note      = {Planned publication date: March 12, 2025}
 }`
 ];
-</script>

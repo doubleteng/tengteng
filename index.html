@@ -27,6 +27,25 @@
     .hero p{color:var(--sub);margin:0}
     .avatar{aspect-ratio:1/1;border-radius:var(--radius);background:#eee url('https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=800&auto=format&fit=crop') center/cover;border:1px solid var(--border)}
 
+    /* --- Global search (home) --- */
+    .search-wrap{margin:12px 0 18px;position:relative}
+    .search-input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;font-size:16px;outline:none;background:#fff}
+    .search-input:focus{box-shadow:0 0 0 4px rgba(0,0,0,.05)}
+    .search-panel{position:absolute;left:0;right:0;top:100%;margin-top:8px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.08);overflow:hidden;z-index:20;display:none;max-height:60vh;overflow-y:auto}
+    .search-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;color:#6b7280;border-bottom:1px solid #f2f2f2;font-size:13px}
+    .results{display:grid;gap:0}
+    .result{display:flex;gap:12px;padding:12px;border-bottom:1px solid #f7f7f7;align-items:flex-start}
+    .result:last-child{border-bottom:0}
+    .rtype{flex:0 0 auto;display:inline-grid;place-items:center;width:28px;height:28px;border:1px solid var(--border);border-radius:8px;font-size:14px}
+    .rmain{min-width:0}
+    .rtitle{font-weight:800;margin:0 0 4px;font-size:15px;line-height:1.35}
+    .rmeta{color:#6b7280;font-size:13px}
+    .rtags{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+    .rtag{border:1px dashed #e5e7eb;border-radius:999px;padding:2px 8px;font-size:12px;color:#4b5563}
+    .rlink{margin-left:auto;align-self:center;border:1px solid #e5e7eb;border-radius:10px;padding:6px 10px;background:#fff;font-weight:700}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;border:1px solid #e5e7eb;border-bottom-width:2px;border-radius:6px;padding:1px 6px;background:#fff;color:#6b7280}
+    @media (max-width:640px){ .rlink{display:none} }
+
     h2{font-size:clamp(22px,3vw,28px);margin:18px 0 10px}
     .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .btn{display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);font-weight:700}
@@ -73,6 +92,18 @@
         <div class="avatar" role="img" aria-label="Profile image"></div>
       </section>
 
+      <!-- Site-wide search -->
+      <div class="search-wrap" role="search" aria-label="Site search">
+        <input id="q" class="search-input" type="search" placeholder="Search projects, publications, news…" autocomplete="off" />
+        <div id="searchPanel" class="search-panel" aria-live="polite">
+          <div class="search-head">
+            <span id="countTxt">Type to search</span>
+            <span><span class="kbd">Enter</span> open · <span class="kbd">Esc</span> close</span>
+          </div>
+          <div class="results" id="results"></div>
+        </div>
+      </div>
+
       <!-- Projects -->
       <section id="projects" aria-labelledby="projects-title" style="margin-top:26px">
         <h2 id="projects-title">Projects</h2>
@@ -95,8 +126,12 @@
     <footer>© <span id="year"></span> Teng Teng · Hosted on GitHub Pages</footer>
   </div>
 
-  <!-- Shared dataset -->
+  <!-- Shared datasets -->
   <script src="assets/js/projects.js"></script>
+  <script src="assets/js/pubs.js"></script>   <!-- window.PUBS_BIB = [ ... ] -->
+  <script src="assets/js/news.js"></script>   <!-- window.NEWS = [ ... ] -->
+
+  <!-- Projects grid logic (unchanged) -->
   <script>
     document.addEventListener('DOMContentLoaded', function(){
       var yearEl = document.getElementById('year'); if(yearEl) yearEl.textContent = new Date().getFullYear();
@@ -115,10 +150,12 @@
       function renderCards(list){
         const omit = new Set(['research','design','teaching']);
         grid.innerHTML = list.slice(0,MAX).map(p => {
-          const tags = (p.tags||[]).filter(t => !omit.has(t.toLowerCase())).map(cap).join(' · ');
+          const tags = (p.tags||[]).filter(t => !omit.has(String(t).toLowerCase())).map(cap).join(' · ');
+          const url = p.url || '#';
+          const img = p.img || '';
           return `
-            <a class="project card" href="${p.url}">
-              <div class="thumb" style="background-image:url('${p.img}')"></div>
+            <a class="project card" href="${url}">
+              <div class="thumb" style="background-image:url('${img}')"></div>
               <div class="meta"><h3>${p.title}</h3><p class="tag">${tags}</p></div>
             </a>
           `;
@@ -133,7 +170,7 @@
       function applyFilter(type){
         let list;
         if(type==='all'){ list = shuffle(projects.slice()); }
-        else{ list = projects.filter(p => p.cats.includes(type)).sort(byYearDesc); }
+        else{ list = projects.filter(p => Array.isArray(p.cats) && p.cats.includes(type)).sort(byYearDesc); }
         renderCards(list);
         updateViewAll(type);
       }
@@ -145,6 +182,196 @@
         btn.addEventListener('click', ()=>{ setPressed(btn); applyFilter(btn.dataset.filter); });
       });
     });
+  </script>
+
+  <!-- Site-wide search logic -->
+  <script>
+  (function(){
+    const el = {
+      q: document.getElementById('q'),
+      panel: document.getElementById('searchPanel'),
+      results: document.getElementById('results'),
+      count: document.getElementById('countTxt')
+    };
+    if(!el.q) return;
+
+    // ---- Parse BibTeX to minimal record (title/authors/venue/year/url/doi/type) ----
+    function parseBib(bib){
+      const head = bib.match(/@\s*([a-zA-Z]+)\s*{\s*([^,]+),/s);
+      const typeRaw = head ? head[1].toLowerCase() : '';
+      const bodyStart = bib.indexOf('{', bib.indexOf('@')) + 1;
+      const body = bib.slice(bodyStart, bib.lastIndexOf('}'));
+      let i=0, depth=0, token='', parts=[], inQuote=false;
+      while(i<body.length){
+        const ch=body[i];
+        if(ch === '"' && body[i-1]!=='\\'){ inQuote=!inQuote; token+=ch; i++; continue; }
+        if(!inQuote){
+          if(ch==='{' ) depth++;
+          if(ch==='}' ) depth=Math.max(0,depth-1);
+          if(ch===',' && depth===0){ parts.push(token.trim()); token=''; i++; continue; }
+        }
+        token+=ch; i++;
+      }
+      if(token.trim()) parts.push(token.trim());
+      const fields={};
+      for(const p of parts){
+        const eq=p.indexOf('=');
+        if(eq===-1) continue;
+        const k=p.slice(0,eq).trim().toLowerCase();
+        let v=p.slice(eq+1).trim();
+        if(v.startsWith('{')&&v.endsWith('}')) v=v.slice(1,-1);
+        else if(v.startsWith('"')&&v.endsWith('"')) v=v.slice(1,-1);
+        fields[k]=v;
+      }
+      const clean=s=>(s||'').replace(/\\(bf|textbf)\s*/gi,'').replace(/[{}]/g,'');
+      const title=clean(fields.title||'').trim();
+      const authors=clean(fields.author||'').trim();
+      const venue=clean(fields.journal||fields.booktitle||fields.school||fields.publisher||'').trim();
+      const note=clean(fields.note||'').trim();
+      const url=(fields.url||fields.URL||'').trim();
+      const doi=/^https?:\/\/(dx\.)?doi\.org\/|^10\./i.test(url)? url : '';
+      let year=0; const ym=(fields.year||'').match(/\d{4}/); if(ym) year=parseInt(ym[0],10);
+      let uiType='inreview';
+      if(typeRaw==='article') uiType='journal';
+      else if(typeRaw==='inproceedings') uiType='conference';
+      else if(typeRaw==='phdthesis' || typeRaw==='mastersthesis') uiType='thesis';
+      else if(typeRaw==='incollection') uiType='book';
+      else if(typeRaw==='misc') uiType='patent';
+      return {type:'pub', uiType, title, authors, venue, year, url: doi||url, tags:[uiType], note};
+    }
+
+    // ---- Build unified index ----
+    const projects = (window.PROJECTS||[]).map(p=>({
+      type:'proj',
+      uiType:(p.category||'').toLowerCase(),    // research/teaching/design (if present)
+      title:p.title||'(Untitled)',
+      url: p.url || null,
+      year: p.year||0,
+      tags: Array.isArray(p.tags)? p.tags.map(t=>String(t).toLowerCase()) : [],
+      meta: (p.location||'')
+    }));
+
+    const pubs = (window.PUBS_BIB||[]).map(parseBib);
+
+    const news = (window.NEWS||[]).map(n=>({
+      type:'news',
+      uiType:(n.category||'').toLowerCase(),    // research/teaching/design/lab
+      title:n.title||'(Untitled)',
+      url: n.link ? n.link : null,
+      year: n.date ? parseInt(String(n.date).slice(0,4),10) : 0,
+      date: n.date || '',
+      pin: !!n.pin,
+      tags: Array.isArray(n.tags)? n.tags.map(t=>String(t).toLowerCase()):[],
+      meta: n.excerpt||''
+    }));
+
+    const INDEX = [...projects, ...pubs, ...news];
+
+    // ---- Search (AND match) with simple scoring ----
+    function tokenize(s){ return (s||'').toLowerCase().match(/[a-z0-9]+/g)||[]; }
+    function score(item, terms){
+      // fields weight: title 3, tags/authors 2, venue/meta 1, recency bonus, pin boost
+      const hay = {
+        title: (item.title||'').toLowerCase(),
+        tags: (item.tags||[]).join(' ').toLowerCase(),
+        authors: (item.authors||'').toLowerCase(),
+        venue: (item.venue||'').toLowerCase(),
+        meta: (item.meta||'').toLowerCase()
+      };
+      for(const t of terms){
+        if(!(hay.title.includes(t)||hay.tags.includes(t)||hay.authors.includes(t)||hay.venue.includes(t)||hay.meta.includes(t))) return -1;
+      }
+      let s=0;
+      for(const t of terms){
+        if(hay.title.includes(t)) s+=3;
+        if(hay.tags.includes(t) || hay.authors.includes(t)) s+=2;
+        if(hay.venue.includes(t) || hay.meta.includes(t)) s+=1;
+      }
+      s += Math.min(3, Math.max(0, (item.year||0) - 2000) / 10);
+      if(item.type==='news' && item.pin) s += 2;
+      return s;
+    }
+
+    function icon(item){
+      if(item.type==='proj') return '📁';
+      if(item.type==='pub')  return '📄';
+      return '📰';
+    }
+    function typeLabel(item){
+      if(item.type==='proj') return (item.uiType||'Project').replace(/^\w/,c=>c.toUpperCase());
+      if(item.type==='pub'){
+        const map={journal:'Journal',conference:'Conference',book:'Book',thesis:'Thesis',patent:'Patent',inreview:'In Review'};
+        return map[item.uiType]||'Publication';
+      }
+      const map={research:'Research',teaching:'Teaching',design:'Design',lab:'Lab'};
+      return map[item.uiType]||'News';
+    }
+
+    function resultHTML(item){
+      const isExternal = item.url ? /^https?:\/\//i.test(item.url) : false;
+      const linkAttr = item.url? `href="${item.url}" ${isExternal?'target="_blank" rel="noopener"':''}` : '';
+      const openBtn = item.url? `<a class="rlink" ${linkAttr}>Open →</a>`:'';
+      const tags = (item.tags||[]).slice(0,4).map(t=>`<span class="rtag">#${t}</span>`).join('');
+      const sub = item.type==='pub'
+        ? [item.venue, item.year||''].filter(Boolean).join(' · ')
+        : item.type==='news'
+          ? [typeLabel(item), item.date||item.year||''].filter(Boolean).join(' · ')
+          : [typeLabel(item), item.year||''].filter(Boolean).join(' · ');
+      const meta = item.type==='pub' ? (item.authors? item.authors.replace(/Teng,\s*Teng/gi,'<strong>Teng, Teng</strong>').replace(/\bTeng\s+Teng\b/gi,'<strong>Teng Teng</strong>'):'')
+                                     : (item.meta||'');
+      const titleAnchor = item.url? `<a ${linkAttr}>${item.title}</a>` : item.title;
+
+      return `
+      <div class="result">
+        <div class="rtype" aria-hidden="true">${icon(item)}</div>
+        <div class="rmain">
+          <div class="rtitle">${titleAnchor}</div>
+          <div class="rmeta">${sub}${meta? ' — '+meta : ''}</div>
+          ${tags? `<div class="rtags">${tags}</div>`:''}
+        </div>
+        ${openBtn}
+      </div>`;
+    }
+
+    function render(list){
+      if(!list.length){
+        el.results.innerHTML = `<div class="result"><div class="rmain"><div class="rmeta">No results</div></div></div>`;
+        el.count.textContent = '0 results';
+        return;
+      }
+      el.results.innerHTML = list.map(resultHTML).join('');
+      el.count.textContent = `${list.length} result${list.length>1?'s':''}`;
+    }
+
+    function run(){
+      const q = (el.q.value||'').trim();
+      if(!q){ el.panel.style.display='none'; el.count.textContent='Type to search'; return; }
+      const terms = tokenize(q);
+      const scored = INDEX.map(x=>({item:x, s:score(x, terms)})).filter(x=>x.s>=0);
+      scored.sort((a,b)=> b.s - a.s);
+      const top = scored.slice(0, 12).map(x=>x.item);
+      render(top);
+      el.panel.style.display='';
+    }
+
+    let timer=null;
+    el.q.addEventListener('input', ()=>{
+      clearTimeout(timer);
+      timer=setTimeout(run, 80);
+    });
+    el.q.addEventListener('keydown', (e)=>{
+      if(e.key==='Escape'){ el.panel.style.display='none'; el.q.blur(); }
+      if(e.key==='Enter'){
+        const firstLink = el.results.querySelector('.result a');
+        if(firstLink){ firstLink.click(); }
+      }
+    });
+    document.addEventListener('click', (e)=>{
+      if(!el.panel.contains(e.target) && e.target!==el.q){
+        el.panel.style.display='none';
+      }
+    });
+  })();
   </script>
 </body>
 </html>

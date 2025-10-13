@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Contact — Teng Teng</title>
+<script>
+(function(){
+  var segs=location.pathname.split('/').filter(Boolean);
+  var base=(location.hostname.endsWith('github.io')&&segs.length)?'/' + segs[0] + '/':'/';
+  var b=document.createElement('base'); b.href=base; document.head.appendChild(b);
+  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'assets/css/site.css'; document.head.appendChild(l);
+})();
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
+    <nav class="menu" aria-label="Primary">
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../research/">Research</a></li>
+        <li><a href="../teaching/">Teaching</a></li>
+        <li><a href="../design/">Design</a></li>
+        <li><a href="../news/">News</a></li>
+        <li><a href="../about/">About</a></li>
+        <li><a href="../publications/">Publications</a></li>
+        <li><a href="./" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Contact</h1>
+  <p class="sub">Let's collaborate on computational design, advanced manufacturing, and robotics.</p>
+
+  <div class="card" style="margin-bottom:24px;">
+    <p>You can reach me directly via email or connect through the channels below. I welcome conversations about research collaborations, speaking engagements, and opportunities to translate innovative design technologies into practice.</p>
+    <p>
+      <a class="btn" href="mailto:tteng@design.upenn.edu">Email</a>
+      <a class="btn" href="https://www.linkedin.com/in/teng-teng-74614233" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=F9DUjRkAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+    </p>
+  </div>
+
+  <section class="card" style="display:grid;gap:16px;">
+    <div>
+      <h2 style="margin-top:0;">Primary Contact</h2>
+      <p><strong>Email:</strong> <a href="mailto:tteng@design.upenn.edu">tteng@design.upenn.edu</a></p>
+      <p><strong>Office:</strong> University of Pennsylvania, Weitzman School of Design</p>
+    </div>
+    <div>
+      <h2 style="margin-top:0;">Collaboration Areas</h2>
+      <ul>
+        <li>Responsive architectural systems and adaptive structures</li>
+        <li>Robotic fabrication and additive manufacturing</li>
+        <li>Computational design research partnerships</li>
+        <li>Workshops, teaching, and public lectures</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>© <script>document.write(new Date().getFullYear())</script> Teng Teng</footer>
+</body>
+</html>

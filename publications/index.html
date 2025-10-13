@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Publications | Teng Teng</title>
-<meta name="description" content="Publications by Teng Teng: journals, conferences, books, theses, and patents.">
+<meta name="description" content="Publications by Teng Teng: journals, conferences, books, theses, patents.">
 <style>
   :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px;--chip:#f3f4f6}
   *{box-sizing:border-box} html,body{height:100%}
@@ -12,7 +12,6 @@
   a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
 
-  /* Nav */
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
   .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
@@ -23,14 +22,12 @@
   h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
   .sub{color:var(--sub)}
 
-  /* Filters */
   .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 14px;flex-wrap:wrap}
   .types{display:flex;gap:8px;flex-wrap:wrap}
   .btn{border:1px solid var(--border);border-radius:12px;padding:8px 12px;background:#fff;font-weight:700}
   .btn[aria-pressed="true"]{background:var(--chip)}
   .count{color:var(--sub);font-size:14px}
 
-  /* Year sections + items */
   .year{margin:18px 0 8px;font-size:20px}
   .list{display:grid;gap:12px;margin-top:6px}
   .item{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:14px}
@@ -53,7 +50,6 @@
 </head>
 <body>
 <div class="wrap">
-  <!-- Header & Nav -->
   <header>
     <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
     <nav class="menu" aria-label="Primary">
@@ -93,234 +89,93 @@
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
 
-<!-- 数据源 -->
+<!-- 只加载 BibTeX 数据源 -->
 <script src="../assets/js/pubs.js"></script>
 <script>
-/** ============ Embedded BibTeX ============ **
- * 匹配规则：按“标题归一化”（小写、去标点空格）建立映射。
- * 只要 pubs.js 里的 title 与下列条目一致，页面就会显示对应 BibTeX。
- */
-const BIBTEX_BY_TITLE = (() => {
-  const list = [
-`@article{kong2019micro,
-  title={Micro-environmental control for efficient local cooling: Results from manikin and human participant tests},
-  author={Kong, Meng and Zhang, Jianshun and Dang, Thong Q and Hedge, Alan and {\\bf Teng Teng} and Carter, Brian and Chianese, Chetna and Khalifa, H Ezzat},
-  journal={Building and Environment},
-  volume={160},
-  pages={106198},
-  year={2019},
-  publisher={Elsevier},
-  URL = {https://doi.org/10.1016/j.buildenv.2019.106198}
-}`,
-`@article{Zhi2024,
-title = {Designing 3D-printed concrete structures with scaled fabrication models},
-volume = {3},
-ISSN = {2731-6726},
-number = {1},
-journal = {Architectural Intelligence},
-publisher = {Springer Science and Business Media LLC},
-author = {Zhi, Yefan and {\\bf Teng Teng} and Akbarzadeh, Masoud},
-year = {2024},
-month = aug,
-url = {https://10.1007/s44223-024-00070-3},
-}`,
-`@article{TENG2025113479,
-title = {Prototyping high-fidelity multifunctional objects using single-nozzle multi-filament additive manufacturing system with active mixing},
-journal = {Materials & Design},
-volume = {249},
-pages = {113479},
-year = {2025},
-ISSN = {0264-1275},
-url = {https://doi.org/10.1016/j.matdes.2024.113479},
-author = {{\\bf Teng Teng} and Yefan Zhi and Masoud Akbarzadeh},
-keywords = {Multimaterial additive manufacturing, Active mixing, Printer development, Functionally graded material, High fidelity printing},
-abstract = {This paper aims to advance the field of additive manufacturing by producing multimaterial objects with intricate topological features and polylithic material distribution through an integrated approach. First, we develop a Single-Nozzle Multi-Filament (SNMF) system equipped with active mixing to blend multiple filaments and deposit a programmable mixture. The system can also deposit gradient transitions between different materials within a single print. Second, we establish a numerical model to represent the material transitional behavior and validated it with experiments. The model enables the precise control of the material transitional interface to ensure high material fidelity. Third, we propose three strategies for designing and modeling multimaterial objects catering to different application scenarios, including image sampling, 2D discrete patches, and 3D surface division. The system’s capabilities were validated through six case studies designed and fabricated through the above approaches for distinct application scenarios, demonstrating the successful materialization of complex designs with multiple functionalities.}
-}`,
-`@article{zhi2024automated,
-  title={Automated Toolpath Design of 3D Concrete Printing Structural Components},
-  author={Zhi, Yefan and Chai, Hua and {\\bf Teng Teng} and Akbarzadeh, Masoud},
-  journal={Additive Manufacturing},
-  year={2024},
-  url = {https://doi.org/10.1016/j.addma.2025.104662}
-}`,
-`@article{SINGER2025141406,
-title = {Plasticized agarose films: A physiochemical, mechanical and thermal study},
-journal = {International Journal of Biological Macromolecules},
-pages = {141406},
-year = {2025},
-issn = {0141-8130},
-url = {https://doi.org/10.1016/j.ijbiomac.2025.141406},
-author = {Creston A. Singer and Hajara Abdul-Karim and Kyle Printon and Nagireddy Poluri and {\\bf Teng Teng} and Mostafa Akbari and Behzad Modanloo and Laia Mogas-Soldevila and Masoud Akbarzadeh and Xiao Hu and Sean M. O'Malley and Hong Fang and David Salas-de {la Cruz}},
-keywords = {Agarose, Natural materials, Plasticizer, Sustainable materials},
-abstract = {Agarose uniquely forms moldable biodegradable films, making it a promising renewable material with exceptional biocompatibility, thermo-reversibility, and flexibility. However, agarose films lose most of their flexibility at low moisture content. One way to assuage this issue is to incorporate plasticizing agents. In this study, four plasticizers (i.e., sucrose, urea, glucose, and glycerol) were chosen and combined in various concentrations and combinations to produce an agarose-based composite. The study examined how four different plasticizers affect agarose's intermolecular interactions, impacting its mechanical, morphological, thermal, and physicochemical properties. Techniques like Fourier Transform Infrared Spectroscopy (FTIR), Thermogravimetric Analysis (TGA), X-ray Scattering, electric actuation, and tensile testing were used to analyze the effects of plasticizers on agarose-based films. The findings reveal that the mechanical and thermal properties of agarose films are influenced to varying degrees by the four plasticizers studied. Plasticizers with high hydroxyl content and smaller molecular size demonstrated the most significant improvements in film flexibility and stretchability. These variations in performance can be attributed to differences in intermolecular interactions, driven by changes in hydrogen bonding groups, as observed through FTIR and X-ray Scattering analyses. A deeper understanding of how hydrogen bonds affect the agarose-plasticizer matrix could pave the way for precisely tailoring the properties of agarose films.}
-}`,
-`@article{yu20253d,
-  title={3D Concrete Printing of Triply Periodic Minimum Surfaces for Enhanced Carbon Capture and Storage},
-  author={Yu, Kun-Hao and {\\bf Teng Teng} and Nah, So Hee and Chai, Hua and Zhi, Yefan and Wang, Kun-Yu and Chi, Yinding and Psarras, Peter and Akbarzadeh, Masoud and Yang, Shu},
-  journal={Advanced Functional Materials},
-  pages={2509259},
-  year={2025},
-  publisher={Wiley Online Library},
-  URL = { https://doi.org/10.1002/adfm.202509259}
-}`,
-`@article{birol2024robosense,
-  title={Robosense 3.0: CERA III Adaptive Robotic Clay Printing},
-  author={Birol, Eda Begum and {\\bf Teng Teng} and Moghadashi, Mahshid and Asgari, Alexia and Guo, Kevin  and Piorko, Karolina and Varga, Veronika and Sabin, Jenny E.},
-  journal={3D Printing and Additive Manufacturing},
-  year={2024},
-  note={in press, 3DP-2024-0150.R1},
-  publisher={Mary Ann Liebert, Inc.},
-  keywords={Additive manufacturing, Parametric Design, Human Robot Interaction Design, Ceramics, Digital Clay, Human Robot Collaboration, Robotic Fabrication, 3D Printing, Digital Ceramics},
-  abstract={Robosense 3.0 develops a streamlined network and design pipeline that engages robotic tooling, advanced manufacturing, designer input, fabrication environment feedback, and cutting-edge software to produce high-resolution ceramic architectural components. The project builds upon existing research in extrusion-based robotic fabrication, focusing on developing more robust, precise, and bespoke tooling for ceramic construction.}
-}`,
-`@inproceedings{teng2024gradient,
-  title={Integrated and Tailored Thermal Insulation through Gradient Multimaterial Additive Manufacturing for Masonry Architectural Components},
-  author={{\\bf Teng Teng} and Zhi, Yefan and Akbarzadeh, Masoud},
-  booktitle={Designing Change [Proceedings of the 44th Annual Conference of the Association for Computer Aided Design in Architecture (ACADIA)]},
-  year={2024},
-  address={Banff Centre, Canada, 14-16 November},
-  url={https://papers.cumincad.org/cgi-bin/works/paper/acadia24_v2_54}
-}`,
-`@inproceedings{akbarzadeh2024fabricate,
-  title={Diamanti: 3D-Printed, Post-tensioned Concrete Canopy},
-  author={Masoud Akbarzadeh and Hua Chai and Yefan Zhi and Maximilian E. Ororbia and {\\bf Teng Teng} and Mathias Bernhard and Damon (Mohammad) Bolhassani and Fahimeh Yavartanoo and Javier Tapia and Karolina Pajak and Mylène Bernard and Leon Trousset and Paul Kassabian and Blaise Waligun},
-  booktitle={FABRICATE 2024: Creating Resourceful Futures},
-  year={2024},
-  url={https://doi.org/10.2307/jj.11374766.40}
-}`,
-`@inproceedings{Teng-2023-Multi-material_Truss,
-  title={Continuous multi-filament 3D printing for tension-compression structure components},
-  booktitle={Proceedings of IASS 2023 symposium Integration of Design and Fabrication},
-  author={{\\bf Teng Teng} and Zhi, Yefan and Yu, Kun-Hao and Yang, Shu and Akbarzadeh, Masoud},
-  year={2023},
-  month={July 10-14},
-  address={Melbourne, Australia}
-}`,
-`@inproceedings{Zhi-2023-Overhang,
-  title={Local optimization of self-supporting shell structures in 3D printing: a skeleton method},
-  booktitle={Proceedings of IASS 2023 symposium Integration of Design and Fabrication},
-  author={Zhi, Yefan and Chai, Hua and {\\bf Teng Teng} and Akbarzadeh, Masoud},
-  year={2023},
-  month={July 10-14},
-  address={Melbourne, Australia}
-}`,
-`@inproceedings{teng2021design,
-  title={The Design and 4D Printing of Epithelial Cell-inspired Programmable Surface Geometry as Tangible User Interface},
-  author={{\\bf Teng Teng} and Sabin, Jenny},
-  booktitle={Towards a New, Configurable Architecture: Proceedings of the 39th International Conference of Education and Research in Computer Aided Architectural Design in Europe (eCAADe 2021)},
-  year={2021},
-  address={8-10 September 2021},
-  url = { https://doi.org/10.52842/conf.ecaade.2021.1.105},
-}`,
-`@inproceedings{teng2020scutoid,
-  title={Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System},
-  author={{\\bf Teng Teng} and Jia, Mian and Sabin, Jenny},
-  booktitle={Anthropologic: Architecture and Fabrication in the Cognitive Age - Proceedings of the 38th eCAADe Conference - Volume 1},
-  year={2020},
-  address={TU Berlin, Berlin, Germany, 16-18 September 2020},
-  pages={563--572},
-  url = {	https://doi.org/10.52842/conf.ecaade.2020.1.563},
-}`,
-`@inproceedings{teng2020pica,
-  title={PICA - A Designer Oriented Low-Cost Personal Robotic Fabrication Platform for Sketch Level Prototyping},
-  author={{\\bf Teng Teng} and Sabin, Jenny},
-  booktitle={RE: Anthropocene, Design in the Age of Humans - Proceedings of the 25th CAADRIA Conference - Volume 2},
-  year={2020},
-  address={Chulalongkorn University, Bangkok, Thailand, 5-6 August 2020},
-  pages={473--483},
-  url = {	https://doi.org/10.52842/conf.caadria.2020.2.473},
-}`,
-`@inproceedings{teng2017integrated,
-  title={Integrated Adaptive and Tangible Architecture Design Tool},
-  author={{\\bf Teng Teng} and Li, Qinying},
-  booktitle={ShoCK! - Sharing Computational Knowledge! - Proceedings of the 35th eCAADe Conference - Volume 1},
-  year={2017},
-  address={Sapienza University of Rome, Rome, Italy, 20-22 September 2017},
-  pages={619--628},
-  URL = {	https://doi.org/10.52842/conf.ecaade.2017.1.619},
-}`,
-`@inproceedings{teng2015transformable,
-  title={Transformable Physical Design Media},
-  author={{\\bf Teng Teng} and Johnson, Brian R.},
-  booktitle={Real Time - Proceedings of the 33rd eCAADe Conference - Volume 1},
-  year={2015},
-  address={Vienna University of Technology, Vienna, Austria, 16-18 September 2015},
-  pages={45--54},
-  url = {https://doi.org/10.52842/conf.ecaade.2015.1.045},
-}`,
-`@inproceedings{teng2014inspire,
-  title={Inspire: Integrated Spatial Gesture-based Direct 3D Modeling and Display},
-  author={{\\bf Teng Teng} and Johnson, Brian R.},
-  booktitle={Design Agency [Proceedings of the 34th Annual Conference of the Association for Computer Aided Design in Architecture (ACADIA)]},
-  year={2014},
-  address={Los Angeles, 23-25 October 2014},
-  pages={445--452},
-  isbn={9781926724478},
-  url = {	https://doi.org/10.52842/conf.acadia.2014.445},
-}`,
-`@phdthesis{teng2024phd,
-  author = {{\\bf Teng Teng}},
-  title = {Advanced Additive Manufacturing Across Material, Scale, and Dimensions toward High-Performance Structure},
-  school = {University of Pennsylvania},
-  year = {In progress},
-  address = {Philadelphia, PA, US},
-}`,
-`@mastersthesis{teng2021masters,
-  author = {{\\bf Teng Teng}},
-  title = {Interactive Fabrication and Design of Bioinspired Surface Geometry},
-  school = {Cornell University},
-  year = {2021},
-  address = {Ithaca, NY, US},
-  url = {https://hdl.handle.net/1813/110467},
-}`,
-`@mastersthesis{teng2015masters,
-  author = {{\\bf Teng Teng}},
-  title = {Transformable Physical Design Media},
-  school = {University of Washington},
-  year = {2015},
-  address = {Seattle, WA, US},
-  url = {http://hdl.handle.net/1773/33440},
-}`,
-`@misc{teng2024single_nozzle,
-  title = {Single-Nozzle Multi-Filament System for Fused Deposition Modeling Printer Systems},
-  author = {{\\bf Teng Teng} and Zhi, Yefan and Akbarzadeh, Masoud},
-  note = {Assigned to: The Trustees of the University of Pennsylvania, Application Number: 63/551,550, Application Date: February 9, 2024, Patent Pending},
-  year = {2024}
-}`,
-`@incollection{teng2025funicular,
-  author    = {{\\bf Teng Teng} and Zhi, Yefan and Shao, Yiliang and Ororbia, Maximilian E. },
-  title     = {Funicular Systems with Combined Force},
-  booktitle = {Architected Structures},
-  editor    = {Masoud Akbarzadeh},
-  publisher = {DETAIL},
-  year      = {2025},
-  series    = {DETAIL Special},
-  address   = {Munich},
-  isbn      = {978-3-95553-650-3},
-  note      = {Planned publication date: March 12, 2025}
-}`
-  ];
+document.getElementById('year').textContent=new Date().getFullYear();
 
-  // 由 bibtex 解析出 title 并建立 { normalizedTitle: bibtex } 映射
-  const norm = s => s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
-  const map = {};
-  for(const bib of list){
-    const m = bib.match(/title\s*=\s*{([^}]+)}/i);
-    if(m){
-      const t = norm(m[1]);
-      map[t] = bib;
+/* ------------------ BibTeX 解析（轻量级） ------------------ */
+function parseBibtexEntry(bib){
+  // 获取类型与 key
+  const head = bib.match(/@\s*([a-zA-Z]+)\s*{\s*([^,]+),/s);
+  const typeRaw = head ? head[1].toLowerCase() : '';
+  const citekey = head ? head[2].trim() : '';
+
+  // 获取字段块（首逗号后到最后右大括号前）
+  const bodyStart = bib.indexOf('{', bib.indexOf('@')) + 1;
+  const body = bib.slice(bodyStart, bib.lastIndexOf('}'));
+
+  // 在顶层深度分割字段（支持 {…} / "…" 包裹的值中出现逗号）
+  let i=0, depth=0, token='', parts=[];
+  let inQuote=false;
+  while(i<body.length){
+    const ch = body[i];
+    if(ch === '"' && body[i-1] !== '\\'){ inQuote = !inQuote; token+=ch; i++; continue; }
+    if(!inQuote){
+      if(ch === '{') depth++;
+      if(ch === '}') depth = Math.max(0, depth-1);
+      if(ch === ',' && depth===0){ parts.push(token.trim()); token=''; i++; continue; }
     }
+    token += ch; i++;
   }
-  return map;
-})();
+  if(token.trim()) parts.push(token.trim());
 
-document.addEventListener('DOMContentLoaded', function(){
-  const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+  const fields = {};
+  for(const p of parts){
+    const eq = p.indexOf('=');
+    if(eq===-1) continue;
+    const k = p.slice(0,eq).trim().toLowerCase();
+    let v = p.slice(eq+1).trim();
+    // 去掉外围 { } 或 " "
+    if(v.startsWith('{') && v.endsWith('}')) v = v.slice(1,-1);
+    else if(v.startsWith('"') && v.endsWith('"')) v = v.slice(1,-1);
+    fields[k]=v;
+  }
 
-  const data = (window.PUBS || []).slice();
-  const container = document.getElementById('container');
-  const count = document.getElementById('count');
-  const buttons = Array.from(document.querySelectorAll('[data-type]'));
+  // 清理 LaTeX（最小化处理），并返回渲染需要的字段
+  const cleanTex = s => (s||'')
+    .replace(/\\bf\s*/gi,'')     // \bf
+    .replace(/\\textbf\s*/gi,'') // \textbf
+    .replace(/[{}]/g,'');        // braces
+
+  const title   = cleanTex(fields.title||'').trim();
+  const authors = cleanTex(fields.author||'').trim();
+  const journal = cleanTex(fields.journal||'').trim();
+  const book    = cleanTex(fields.booktitle||'').trim();
+  const school  = cleanTex(fields.school||'').trim();
+  const publ    = cleanTex(fields.publisher||'').trim();
+  const note    = cleanTex(fields.note||'').trim();
+  const url     = (fields.url||fields.URL||'').trim();
+
+  // 年份：可能是 In progress，或含日期；提取 4 位年份
+  let year = 0; 
+  const ym = (fields.year||'').match(/\d{4}/);
+  if(ym) year = parseInt(ym[0],10);
+
+  // 类型映射（用于 UI 过滤）
+  let uiType = 'inreview';
+  if(typeRaw==='article') uiType='journal';
+  else if(typeRaw==='inproceedings') uiType='conference';
+  else if(typeRaw==='phdthesis' || typeRaw==='mastersthesis') uiType='thesis';
+  else if(typeRaw==='incollection') uiType='book';
+  else if(typeRaw==='misc') uiType='patent';
+
+  // 期刊/会议/机构等，择优作为 venue
+  const venue = journal || book || school || publ;
+
+  // DOI：若 url 看起来是 DOI
+  const doi = /^https?:\/\/(dx\.)?doi\.org\/|^10\./i.test(url) ? url : '';
+
+  return {
+    typeRaw, citekey, title, authors, venue, year, note,
+    url, doi, uiType,
+    bibtex: bib.trim()
+  };
+}
+
+/* ------------------ UI 渲染 ------------------ */
+(function(){
+  const dataRaw = (window.PUBS_BIB || []).map(parseBibtexEntry);
 
   const LABEL = {
     journal: 'Journal',
@@ -331,8 +186,13 @@ document.addEventListener('DOMContentLoaded', function(){
     inreview: 'In Review'
   };
 
-  let activeType = getTypeFromQuery() || 'all';
-  setPressed(buttons.find(b => b.dataset.type === activeType));
+  const container = document.getElementById('container');
+  const count = document.getElementById('count');
+  const buttons = Array.from(document.querySelectorAll('[data-type]'));
+
+  let activeType = (new URLSearchParams(location.search).get('type')) || 'all';
+  if(!['all','journal','conference','book','thesis','patent','inreview'].includes(activeType)) activeType='all';
+  setPressed(buttons.find(b=>b.dataset.type===activeType));
 
   buttons.forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -345,84 +205,54 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
 
-  function getTypeFromQuery(){
-    const p=new URLSearchParams(location.search).get('type');
-    return (['all','journal','conference','book','thesis','patent','inreview'].includes(p||'')) ? p : null;
-  }
   function setPressed(target){ buttons.forEach(b=>b.setAttribute('aria-pressed', String(b===target))); }
   function byYearDesc(a,b){ return (b.year||0)-(a.year||0); }
-  function cap(s){return s? s.charAt(0).toUpperCase()+s.slice(1):'';}
-
-  function boldMe(authors){
-    if(!authors) return '';
-    return authors
+  function boldMe(s){
+    if(!s) return '';
+    return s
       .replace(/Teng,\s*Teng/gi, '<strong>Teng, Teng</strong>')
       .replace(/\bTeng\s+Teng\b/gi, '<strong>Teng Teng</strong>');
   }
-  function resolveUrl(u){
-    if(!u) return null;
-    if(/^https?:\/\//i.test(u)) return u;
-    return '../' + u.replace(/^\/+/, '');
-  }
-  function bestTitleLink(rec){
-    if(rec.doi) return {href: rec.doi, label: rec.title};
-    if(rec.link) return {href: resolveUrl(rec.link), label: rec.title};
-    return {href: null, label: rec.title};
-  }
-  function bibFor(rec){
-    if(!rec || !rec.title) return null;
-    const norm = s => s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
-    return BIBTEX_BY_TITLE[norm(rec.title)] || null;
-  }
+  function itemHTML(r){
+    const t = r.title || '(Untitled)';
+    const venue = r.venue ? ` — <em>${r.venue}</em>` : '';
+    const note  = r.note ? ` · ${r.note}` : '';
+    const badge = `<span class="badge">${LABEL[r.uiType] || r.uiType}</span>`;
 
-  function item(rec, idx){
-    const tlink = bestTitleLink(rec);
-    const venue = rec.venue ? rec.venue : '';
-    const note  = rec.note ? ` · ${rec.note}` : '';
-    const typeBadge = `<span class="badge">${LABEL[rec.type] || cap(rec.type) || 'Item'}</span>`;
     const links = [];
-    if(rec.doi) links.push(`<a href="${rec.doi}" target="_blank" rel="noopener">DOI</a>`);
-    if(rec.pdf) links.push(`<a href="${resolveUrl(rec.pdf)}" target="_blank" rel="noopener">PDF</a>`);
-    if(rec.link){
-      const isExternal = /^https?:\/\//i.test(rec.link);
-      links.push(`<a href="${resolveUrl(rec.link)}" ${isExternal?'target="_blank" rel="noopener"':''}>${isExternal?'Link':'Project'}</a>`);
-    }
+    if(r.doi) links.push(`<a href="${r.doi}" target="_blank" rel="noopener">DOI</a>`);
+    if(r.url && !r.doi) links.push(`<a href="${r.url}" target="_blank" rel="noopener">Link</a>`);
 
-    const bib = bibFor(rec);
-    const bibHTML = bib ? `
-      <details class="bib">
-        <summary>BibTeX</summary>
-        <div class="bib-actions">
-          <button class="copy-btn" data-copy="${encodeURIComponent(bib)}" aria-label="Copy BibTeX">Copy</button>
-        </div>
-        <pre>${bib.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
-      </details>` : '';
+    const titleLink = (r.doi || r.url) ? `<a href="${r.doi || r.url}" target="_blank" rel="noopener">${t}</a>` : t;
 
     return `
       <article class="item">
-        <h3 class="title">${tlink.href ? `<a href="${tlink.href}" target="_blank" rel="noopener">${tlink.label}</a>` : tlink.label}</h3>
-        <p class="meta">${boldMe(rec.authors)} — <em>${venue}</em>${note}</p>
-        <div class="badges">${typeBadge}${links.length? `<div class="links">${links.join('')}</div>` : ''}</div>
-        ${bibHTML}
+        <h3 class="title">${titleLink}</h3>
+        <p class="meta">${boldMe(r.authors)}${venue}${note}${r.year? ' · '+r.year : ''}</p>
+        <div class="badges">${badge}${links.length? `<div class="links">${links.join('')}</div>` : ''}</div>
+        <details class="bib"><summary>BibTeX</summary>
+          <div class="bib-actions">
+            <button class="copy-btn" data-copy="${encodeURIComponent(r.bibtex)}">Copy</button>
+          </div>
+          <pre>${r.bibtex.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+        </details>
       </article>
     `;
   }
 
   function groupByYear(list){
     const map = new Map();
-    list.forEach(r=>{
-      const y = r.year || 0;
+    list.forEach(x=>{
+      const y = x.year || 0;
       if(!map.has(y)) map.set(y, []);
-      map.get(y).push(r);
+      map.get(y).push(x);
     });
-    return Array.from(map.entries()).sort((a,b)=>b[0]-a[0]); // year desc
+    return Array.from(map.entries()).sort((a,b)=>b[0]-a[0]); // 年份降序
   }
 
   function render(){
-    let list = data.slice();
-    if(activeType !== 'all'){
-      list = list.filter(r => (r.type||'').toLowerCase() === activeType);
-    }
+    let list = dataRaw.slice();
+    if(activeType!=='all'){ list = list.filter(x=>x.uiType===activeType); }
     list.sort(byYearDesc);
 
     if(!list.length){
@@ -431,15 +261,15 @@ document.addEventListener('DOMContentLoaded', function(){
       return;
     }
 
-    const sections = groupByYear(list).map(([yr, items])=>{
-      const section = items.map(item).join('');
-      return `<h2 class="year">${yr}</h2><div class="list">${section}</div>`;
+    const html = groupByYear(list).map(([yr, items])=>{
+      const section = items.map(itemHTML).join('');
+      return `<h2 class="year">${yr||'No year'}</h2><div class="list">${section}</div>`;
     }).join('');
 
-    container.innerHTML = sections;
+    container.innerHTML = html;
     count.textContent = `${list.length} item${list.length>1?'s':''}`;
 
-    // Copy buttons
+    // 复制按钮
     container.querySelectorAll('.copy-btn').forEach(btn=>{
       btn.addEventListener('click', async ()=>{
         const txt = decodeURIComponent(btn.getAttribute('data-copy'));
@@ -447,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function(){
           await navigator.clipboard.writeText(txt);
           btn.textContent = 'Copied';
           setTimeout(()=>btn.textContent='Copy',1200);
-        }catch(e){
+        }catch(_){
           btn.textContent = 'Select & Copy';
           setTimeout(()=>btn.textContent='Copy',1500);
         }
@@ -456,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   render();
-});
+})();
 </script>
 </body>
 </html>

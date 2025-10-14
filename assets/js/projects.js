@@ -151,14 +151,14 @@ window.PROJECTS = [
     },
     {
       "title": "Video",
-      "url": "https://youtu.be/xxxxxxxx",
+      "url": "https://dev.psl.design.upenn.edu/wp-content/uploads/2024/04/MCUT0421colorgradedPouriaVakhshouri-Website-YZ-sizereduced.mp4",
       "kind": "video"
     }
   ],
   "pubs": [
     {
       "title": "Related paper (DOI)",
-      "url": "https://doi.org/10.xxxx/xxxxx"
+      "url": "https://www.jstor.org/stable/jj.11374766.40?seq=1"
     }
   ]
 },

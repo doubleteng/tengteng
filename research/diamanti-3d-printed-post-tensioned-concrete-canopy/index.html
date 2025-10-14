@@ -55,7 +55,7 @@
     .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
     .links a{display:inline-block; padding:4px 0}
 
-    /* gallery */
+    /* thumbnails */
     .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
     @media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:600px){.gallery{grid-template-columns:1fr}}
@@ -111,9 +111,9 @@
         </div>
 
         <h2>Process / Methods</h2>
-        <p><!-- Describe design, computation, fabrication, teaching setup, etc. --></p>
+        <p><!-- Add your method notes here. --></p>
 
-        <!-- Thumbnails that drive the featured image -->
+        <!-- Thumbnails controlling the featured image -->
         <div class="gallery process-gallery" id="gallery-process">
           <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg" data-cap="Printing toolpath strategy"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg" data-cap="On-site assembly"></div>
@@ -126,6 +126,7 @@
           <div class="caption" id="process-feature-cap">Scroll the thumbnails to preview · Click to open</div>
         </div>
 
+        <!-- You can keep or remove this extra static figure -->
         <div class="figure">
           <div class="img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg')"></div>
           <div class="caption">Caption for image 2.</div>
@@ -184,61 +185,60 @@
       function openLightbox(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
       function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
       document.querySelectorAll('.gthumb').forEach(function(el){
-        el.addEventListener('click', function(){ openLightbox(el.getAttribute('data-full')); });
+        el.addEventListener('click', function(){ 
+          // also update featured when clicked
+          setFeature(el);
+          openLightbox(el.getAttribute('data-full')); 
+        });
       });
       lb.addEventListener('click', function(e){ if(e.target===lb) closeLightbox(); });
       document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
       window.closeLightbox = closeLightbox;
 
-      // === Scroll-driven featured image for Process/Methods ===
-      (function(){
-        var container = document.getElementById('gallery-process');
-        var feature   = document.getElementById('process-feature-img');
-        var capEl     = document.getElementById('process-feature-cap');
-        if(!container || !feature) return;
+      // === Scroll-driven featured image (scroll progress -> image) ===
+      var container = document.getElementById('gallery-process');
+      var feature   = document.getElementById('process-feature-img');
+      var capEl     = document.getElementById('process-feature-cap');
+      if(!container || !feature) return;
 
-        var thumbs = Array.from(container.querySelectorAll('.gthumb'));
-        function setFeature(el){
-          if(!el) return;
-          var src = el.getAttribute('data-full');
-          var cap = el.getAttribute('data-cap');
-          if(src) feature.style.backgroundImage = "url('"+src+"')";
-          if(capEl) capEl.textContent = cap ? cap : 'Scroll the thumbnails to preview · Click to open';
-        }
+      var thumbs = Array.from(container.querySelectorAll('.gthumb'));
 
-        // init: first thumb
-        setFeature(thumbs[0]);
+      function setFeature(el){
+        if(!el) return;
+        var src = el.getAttribute('data-full');
+        var cap = el.getAttribute('data-cap');
+        if(src) feature.style.backgroundImage = "url('"+src+"')";
+        if(capEl) capEl.textContent = cap ? cap : 'Scroll the thumbnails to preview · Click to open';
+      }
 
-        // click: update featured (in addition to opening lightbox)
-        thumbs.forEach(function(t){
-          t.addEventListener('click', function(e){
-            setFeature(t);
-          });
-        });
+      // init
+      setFeature(thumbs[0]);
 
-        // on scroll/resize: pick the thumb whose center is closest to viewport center, if at least 25% visible
-        function pickOnScroll(){
-          var vp = window.innerHeight || document.documentElement.clientHeight;
-          var best=null, score=1e9;
-          thumbs.forEach(function(el){
-            var r = el.getBoundingClientRect();
-            var visible = Math.max(0, Math.min(r.bottom, vp) - Math.max(r.top, 0));
-            if(visible > r.height*0.25){
-              var center = r.top + r.height/2;
-              var s = Math.abs(center - vp*0.5);
-              if(s < score){ score = s; best = el; }
-            }
-          });
-          if(best) setFeature(best);
-        }
-        document.addEventListener('scroll', pickOnScroll, {passive:true});
-        window.addEventListener('resize', pickOnScroll);
-        pickOnScroll();
-      })();
+      function getBounds(){
+        var r = container.getBoundingClientRect();
+        var top = r.top + window.scrollY;
+        var bottom = top + r.height;
+        return { start: top - window.innerHeight*0.25,
+                 end:   bottom + window.innerHeight*0.25 };
+      }
+      var bounds = getBounds();
+
+      function pickByScroll(){
+        var midline = window.scrollY + window.innerHeight*0.5;
+        var total = Math.max(1, bounds.end - bounds.start);
+        var p = (midline - bounds.start) / total;   // 0..1
+        p = Math.max(0, Math.min(0.999, p));        // clamp
+        var idx = Math.floor(p * thumbs.length);    // 0..N-1
+        setFeature(thumbs[idx]);
+      }
+
+      window.addEventListener('scroll', pickByScroll, {passive:true});
+      window.addEventListener('resize', function(){ bounds = getBounds(); pickByScroll(); });
+      pickByScroll();
     });
   </script>
 
-  <!-- Shared dataset -->
+  <!-- Shared dataset for adaptive links/pubs -->
   <script src="../../assets/js/projects.js"></script>
   <script>
   (function(){

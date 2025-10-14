@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Building Robots for Robotic Fabrication | Teng Teng</title>
   <meta name="description" content="Building Robots for Robotic Fabrication — project page.">
-  <link rel="preload" as="image" href="../../assets/img/building-robots-for-robotic-fabrication/hero.webp">
+  <link rel="preload" as="image" href="../../assets/img/building-robots-for-robotic-fabrication/hero.jpg">
   <style>
 
     :root{
@@ -44,6 +44,7 @@
     .kvs div:first-child{color:var(--sub)}
     .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
     .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
+    .links a{display:inline-block; padding:4px 0}
     .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
     @media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:600px){.gallery{grid-template-columns:1fr}}
@@ -75,7 +76,7 @@
     </header>
 
     <div class="hero">
-      <div class="img" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/hero.webp')" role="img" aria-label="hero image"></div>
+      <div class="img" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/hero.jpg')" role="img" aria-label="hero image"></div>
       <div class="titlebar">
         <div>
           <h1>Building Robots for Robotic Fabrication</h1>
@@ -91,7 +92,7 @@
         <p><!-- Add your abstract / overview here. --></p>
 
         <div class="figure">
-          <div class="img" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-1.webp')"></div>
+          <div class="img" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-1.jpg')"></div>
           <div class="caption">Caption for image 1.</div>
         </div>
 
@@ -99,13 +100,13 @@
         <p><!-- Describe design, computation, fabrication, teaching setup, etc. --></p>
 
         <div class="gallery">
-          <div class="gthumb" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-2.webp')" data-full="../../assets/img/building-robots-for-robotic-fabrication/img-2.webp"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-3.webp')" data-full="../../assets/img/building-robots-for-robotic-fabrication/img-3.webp"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-4.webp')" data-full="../../assets/img/building-robots-for-robotic-fabrication/img-4.webp"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-2.jpg')" data-full="../../assets/img/building-robots-for-robotic-fabrication/img-2.jpg"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-3.jpg')" data-full="../../assets/img/building-robots-for-robotic-fabrication/img-3.jpg"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-4.jpg')" data-full="../../assets/img/building-robots-for-robotic-fabrication/img-4.jpg"></div>
         </div>
 
         <div class="figure">
-          <div class="img" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-3.webp')"></div>
+          <div class="img" style="background-image:url('../../assets/img/building-robots-for-robotic-fabrication/img-3.jpg')"></div>
           <div class="caption">Caption for image 2.</div>
         </div>
       </article>
@@ -123,18 +124,15 @@
             </div>
           </div>
 
-          <div class="section">
-            <strong>Team / Roles</strong>
-            <p style="margin:6px 0 0; color:var(--sub); font-size:14px">
-              <!-- Fill team & roles -->
-            </p>
+          <!-- Adaptive Links/Publications -->
+          <div class="section" id="dyn-links" style="display:none">
+            <strong id="dyn-links-title">Links</strong>
+            <ul class="links" id="dyn-links-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
           </div>
 
-          <div class="section">
-            <strong>Links</strong>
-            <ul style="margin:8px 0 0 16px; color:var(--sub); font-size:14px">
-              <li><a href="../../publications/" target="_blank" rel="noopener">Related publications</a></li>
-            </ul>
+          <div class="section" id="dyn-pubs" style="display:none">
+            <strong>Publications</strong>
+            <ul class="links" id="dyn-pubs-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
           </div>
 
           <div class="section" style="display:flex; gap:8px; flex-wrap:wrap">
@@ -167,6 +165,63 @@
       document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
       window.closeLightbox = closeLightbox;
     });
+  </script>
+
+
+  <!-- Shared dataset -->
+  <script src="../../assets/js/projects.js"></script>
+  <script>
+  (function(){
+    const ICON = { video:'▶︎', pdf:'📄', site:'🔗', code:'💻' };
+
+    function norm(p){
+      return String(p||'')
+        .replace(/\/index\.html?$/,'')
+        .replace(/^\/+|\/+$/g,''); // trim slashes
+    }
+
+    const here = norm(location.pathname.replace(/.*?(research|design|teaching)\//,'$1/'));
+    const list = (window.PROJECTS||[]);
+    const me = list.find(p => norm(p.url) === here);
+    if(!me) return;
+
+    // Render Links
+    const linksBox = document.getElementById('dyn-links');
+    const linksTitle = document.getElementById('dyn-links-title');
+    const linksUl = document.getElementById('dyn-links-list');
+    if(me.links && me.links.length){
+      linksBox.style.display = '';
+      linksTitle.textContent = 'Links';
+      linksUl.innerHTML = me.links.map(l=>{
+        const kind = (l.kind||'').toLowerCase();
+        const icon = ICON[kind] || ICON.site;
+        const title = l.title || l.url;
+        return `<li><a href="${l.url}" target="_blank" rel="noopener">${icon} ${title}</a></li>`;
+      }).join('');
+    }
+
+    // Render Publications (if any)
+    const pubsBox = document.getElementById('dyn-pubs');
+    const pubsUl = document.getElementById('dyn-pubs-list');
+    if(me.pubs && me.pubs.length){
+      pubsBox.style.display = '';
+      pubsUl.innerHTML = me.pubs.map(p=>{
+        const title = p.title || 'Paper';
+        const url = p.url || '#';
+        return `<li><a href="${url}" target="_blank" rel="noopener">📄 ${title}</a></li>`;
+      }).join('');
+    }
+
+    // Optional: auto-fill Year & Tags from dataset (uncomment to enable)
+    // const yearEl = document.querySelector('.kvs div:nth-child(4)');
+    // if(yearEl && me.year) yearEl.textContent = me.year;
+    // const tagsWrap = document.querySelector('.tags');
+    // if(tagsWrap && me.tags){
+    //   const omit = new Set(['research','design','teaching']);
+    //   tagsWrap.innerHTML = me.tags.filter(t=>!omit.has(String(t).toLowerCase()))
+    //     .map(t=>`<span class="tag">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('');
+    // }
+  })();
   </script>
 
 </body>

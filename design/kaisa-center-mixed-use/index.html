@@ -5,55 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Kaisa Center Mixed-Use | Teng Teng</title>
   <meta name="description" content="Kaisa Center Mixed-Use — project page.">
-  <link rel="preload" as="image" href="../../assets/img/kaisa-center-mixed-use/hero.webp">
+  <link rel="preload" as="image" href="../../assets/img/kaisa-center-mixed-use/hero.jpg">
   <style>
-
-    :root{
-      --bg:#fff; --text:#111827; --sub:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.06);
-      --radius:18px; --maxw:1100px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif; background:var(--bg); color:var(--text); line-height:1.65}
-    a{color:var(--text); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:var(--maxw); margin:0 auto; padding:24px}
-    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 8px; position:sticky; top:0; background:rgba(255,255,255,.88); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid var(--border)}
-    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
-    .brand .logo{width:36px; height:36px; border-radius:12px; background:#111827; color:#fff; display:grid; place-items:center; box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    nav.menu > ul{list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center; flex-wrap:wrap}
-    nav.menu > ul > li > a{color:var(--sub); font-weight:600; display:inline-block; padding:6px 10px; border-radius:8px}
-    nav.menu > ul > li > a:hover{color:var(--text); background:#f3f4f6}
-    .hero{margin-top:18px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
-    .hero .img{aspect-ratio: 16/7; background:#eee center/cover no-repeat}
-    .titlebar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; padding:16px 18px; border-top:1px solid var(--border); background:#fff}
-    h1{margin:0; font-size:clamp(26px,4vw,40px)}
-    .meta-inline{color:var(--sub); font-size:14px}
-    .grid{display:grid; grid-template-columns: 1.6fr .9fr; gap:28px; margin-top:24px}
-    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
-    article h2{font-size:22px; margin:18px 0 8px}
+    :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px;--maxw:1100px}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+    a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+    .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
+    nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
+    .hero{margin-top:18px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .hero .img{aspect-ratio:16/7;background:#eee center/cover no-repeat}
+    .titlebar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;padding:16px 18px;border-top:1px solid var(--border);background:#fff}
+    h1{margin:0;font-size:clamp(26px,4vw,40px)}
+    .meta-inline{color:var(--sub);font-size:14px}
+    .grid{display:grid;grid-template-columns:1.6fr .9fr;gap:28px;margin-top:24px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+    article h2{font-size:22px;margin:18px 0 8px}
     article p{margin:0 0 12px}
-    .figure{border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#f8fafc; margin:16px 0}
-    .figure .img{aspect-ratio: 3/2; background:#f0f0f0 center/cover no-repeat}
-    .caption{padding:10px 12px; color:var(--sub); font-size:13px; border-top:1px solid var(--border); background:#fff}
-    .side{position:sticky; top:72px; align-self:start}
-    .card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .figure{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#f8fafc;margin:16px 0}
+    .figure .img{aspect-ratio:3/2;background:#f0f0f0 center/cover no-repeat}
+    .caption{padding:10px 12px;color:var(--sub);font-size:13px;border-top:1px solid var(--border);background:#fff}
+    .side{position:sticky;top:72px;align-self:start}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .card .section{padding:16px 16px 6px}
     .card .section + .section{border-top:1px solid var(--border)}
-    .kvs{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:14px}
+    .kvs{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px}
     .kvs div:first-child{color:var(--sub)}
-    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
-    .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
-    .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
-    @media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:600px){.gallery{grid-template-columns:1fr}}
-    .gthumb{aspect-ratio:4/3; border:1px solid var(--border); border-radius:12px; background:#eee center/cover no-repeat; cursor:zoom-in}
-    .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:50}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .tag{border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:12px;color:#374151;background:#fff}
+    .links a{display:inline-block;padding:4px 0}
+    .list{margin:8px 0 0 16px;color:var(--sub);font-size:14px}
+    .gallery{display:grid;gap:12px}
+    .process-gallery{grid-template-columns:repeat(5,1fr)}
+    @media(max-width:900px){.process-gallery{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:600px){.process-gallery{grid-template-columns:repeat(2,1fr)}}
+    .gthumb{aspect-ratio:4/3;border:1px solid var(--border);border-radius:12px;background:#eee center/cover no-repeat;cursor:pointer}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50}
     .lightbox.open{display:flex}
-    .lightbox img{max-width:92vw; max-height:88vh; border-radius:12px; background:#000}
-    .lightbox .close{position:absolute; top:18px; right:18px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:8px 12px; cursor:pointer; font-weight:700}
-    footer{color:var(--sub); font-size:13px; text-align:center; padding:28px 0 12px; margin-top:40px}
-
+    .lightbox img{max-width:92vw;max-height:88vh;border-radius:12px;background:#000}
+    .lightbox .close{position:absolute;top:18px;right:18px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:700}
+    .video-wrap{position:relative;padding-top:56.25%;background:#000;border-radius:14px;overflow:hidden}
+    .video-wrap iframe,.video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:14px}
+    footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:40px}
   </style>
 </head>
 <body>
@@ -75,11 +73,11 @@
     </header>
 
     <div class="hero">
-      <div class="img" style="background-image:url('../../assets/img/kaisa-center-mixed-use/hero.webp')" role="img" aria-label="hero image"></div>
+      <div class="img" style="background-image:url('../../assets/img/kaisa-center-mixed-use/hero.jpg')" role="img" aria-label="hero image"></div>
       <div class="titlebar">
         <div>
           <h1>Kaisa Center Mixed-Use</h1>
-          <div class="meta-inline">Design · Architecture · 2011</div>
+          <div class="meta-inline">Design · 20XX</div>
         </div>
         <div class="meta-inline"><a href="../../design/">← Back to Design</a></div>
       </div>
@@ -87,54 +85,82 @@
 
     <div class="grid">
       <article>
-        <h2>Abstract</h2>
-        <p><!-- Add your abstract / overview here. --></p>
+        <h2>Description</h2>
+        <p>Short description of the project. Replace this paragraph with the real narrative for <em>Kaisa Center Mixed-Use</em>.</p>
 
-        <div class="figure">
-          <div class="img" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-1.webp')"></div>
-          <div class="caption">Caption for image 1.</div>
+        <div class="gallery process-gallery" id="gallery-overview">
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-1.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-1.jpg" data-cap="Overview #1"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-2.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-2.jpg" data-cap="Overview #2"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-3.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-3.jpg" data-cap="Overview #3"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-4.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-4.jpg" data-cap="Overview #4"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-5.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-5.jpg" data-cap="Overview #5"></div>
         </div>
 
-        <h2>Process / Methods</h2>
-        <p><!-- Describe design, computation, fabrication, teaching setup, etc. --></p>
-
-        <div class="gallery">
-          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-2.webp')" data-full="../../assets/img/kaisa-center-mixed-use/img-2.webp"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-3.webp')" data-full="../../assets/img/kaisa-center-mixed-use/img-3.webp"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-4.webp')" data-full="../../assets/img/kaisa-center-mixed-use/img-4.webp"></div>
+        <div class="figure" id="overview-feature">
+          <div class="img" id="overview-feature-img" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-1.jpg')"></div>
+          <div class="caption" id="overview-feature-cap">Auto-playing preview · Click image to open</div>
         </div>
 
-        <div class="figure">
-          <div class="img" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-3.webp')"></div>
-          <div class="caption">Caption for image 2.</div>
+        <h2>Methods</h2>
+        <p>Summarize computation / materials / fabrication methods used in this project.</p>
+
+        <div class="gallery process-gallery" id="gallery-process">
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-6.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-6.jpg" data-cap="Process #6"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-7.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-7.jpg" data-cap="Process #7"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-8.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-8.jpg" data-cap="Process #8"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-9.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-9.jpg" data-cap="Process #9"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-10.jpg')" data-full="../../assets/img/kaisa-center-mixed-use/img-10.jpg" data-cap="Process #10"></div>
         </div>
+
+        <div class="figure" id="process-feature">
+          <div class="img" id="process-feature-img" style="background-image:url('../../assets/img/kaisa-center-mixed-use/img-6.jpg')"></div>
+          <div class="caption" id="process-feature-cap">Auto-playing preview · Click image to open</div>
+        </div>
+
+        <h2 id="video-h2" style="display:none">Project Video</h2>
+        <div id="video-slot"></div>
       </article>
 
       <aside class="side">
+        <div class="card" id="dyn-credits">
+          <div class="section">
+            <strong>Project Credits</strong>
+            <ul class="list" id="credits-list">
+              <li>Lead: Teng Teng — Design & Research</li>
+            </ul>
+          </div>
+          <div class="section">
+            <strong>Team</strong>
+            <ul class="list" id="team-list">
+              <li>Institution / Lab</li>
+            </ul>
+          </div>
+          <div class="section" id="ack-sec" style="display:none">
+            <strong>Acknowledgements</strong>
+            <p class="list" id="ack-text" style="margin-left:16px"></p>
+          </div>
+        </div>
+
         <div class="card">
           <div class="section">
             <div class="kvs">
               <div>Category</div><div>Design</div>
-              <div>Year</div><div>2011</div>
+              <div>Year</div><div>20XX</div>
               <div>Tags</div>
               <div class="tags">
-                <span class="tag">Architecture</span>
+                <span class="tag">Placeholder</span>
               </div>
             </div>
           </div>
 
-          <div class="section">
-            <strong>Team / Roles</strong>
-            <p style="margin:6px 0 0; color:var(--sub); font-size:14px">
-              <!-- Fill team & roles -->
-            </p>
+          <div class="section" id="dyn-links" style="display:none">
+            <strong id="dyn-links-title">Links</strong>
+            <ul class="links" id="dyn-links-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
           </div>
 
-          <div class="section">
-            <strong>Links</strong>
-            <ul style="margin:8px 0 0 16px; color:var(--sub); font-size:14px">
-              <li><a href="../../publications/" target="_blank" rel="noopener">Related publications</a></li>
-            </ul>
+          <div class="section" id="dyn-pubs" style="display:none">
+            <strong>Publications</strong>
+            <ul class="links" id="dyn-pubs-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
           </div>
 
           <div class="section" style="display:flex; gap:8px; flex-wrap:wrap">
@@ -160,14 +186,123 @@
       var lbimg=document.getElementById('lightbox-img');
       function openLightbox(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
       function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
-      document.querySelectorAll('.gthumb').forEach(function(el){
-        el.addEventListener('click', function(){ openLightbox(el.getAttribute('data-full')); });
-      });
-      lb.addEventListener('click', function(e){ if(e.target===lb) closeLightbox(); });
-      document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
       window.closeLightbox = closeLightbox;
+
+      function setupAutoGallery(thumbsContainerId, featureImgId, featureCapId, featureBoxId){
+        var container = document.getElementById(thumbsContainerId);
+        var feature   = document.getElementById(featureImgId);
+        var capEl     = document.getElementById(featureCapId);
+        var featureBox= document.getElementById(featureBoxId);
+        if(!container || !feature) return;
+        var thumbs = Array.from(container.querySelectorAll('.gthumb'));
+        var idx = 0, timer=null;
+        function setFeatureByIndex(i){
+          idx = (i + thumbs.length) % thumbs.length;
+          var el = thumbs[idx];
+          var src = el.getAttribute('data-full');
+          var cap = el.getAttribute('data-cap') || '';
+          feature.style.backgroundImage = "url('"+src+"')";
+          if(capEl) capEl.textContent = cap || 'Auto-playing preview · Click image to open';
+        }
+        function start(){ stop(); timer=setInterval(function(){ setFeatureByIndex(idx+1); },3000); }
+        function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+        setFeatureByIndex(0); start();
+        thumbs.forEach(function(t,i){
+          t.addEventListener('click', function(){
+            setFeatureByIndex(i); start();
+            openLightbox(t.getAttribute('data-full'));
+          });
+        });
+        if(featureBox){
+          featureBox.addEventListener('click', function(){
+            var el = thumbs[idx]; openLightbox(el.getAttribute('data-full'));
+          });
+          featureBox.addEventListener('mouseenter', stop);
+          featureBox.addEventListener('mouseleave', start);
+        }
+      }
+      setupAutoGallery('gallery-overview','overview-feature-img','overview-feature-cap','overview-feature');
+      setupAutoGallery('gallery-process','process-feature-img','process-feature-cap','process-feature');
     });
   </script>
 
+  <script src="../../assets/js/projects.js"></script>
+  <script>
+  (function(){
+    const ICON = { video:'▶︎', pdf:'📄', site:'🔗', code:'💻' };
+    function norm(p){ return String(p||'').replace(/\/index\.html?$/,'').replace(/^\/+|\/+$/g,''); }
+    const here = norm(location.pathname.replace(/.*?(research|design|teaching)\//,'$1/'));
+    const list = (window.PROJECTS||[]);
+    const me = list.find(p => norm(p.url) === here);
+    if(!me) return;
+    const linksBox = document.getElementById('dyn-links');
+    const linksTitle = document.getElementById('dyn-links-title');
+    const linksUl = document.getElementById('dyn-links-list');
+    if(me.links && me.links.length){
+      linksBox.style.display = '';
+      linksTitle.textContent = 'Links';
+      linksUl.innerHTML = me.links.map(l=>{
+        const kind = (l.kind||'').toLowerCase();
+        const icon = ICON[kind] || ICON.site;
+        const title = l.title || l.url;
+        return `<li><a href="${l.url}" target="_blank" rel="noopener">${icon} ${title}</a></li>`;
+      }).join('');
+    }
+    const pubsBox = document.getElementById('dyn-pubs');
+    const pubsUl = document.getElementById('dyn-pubs-list');
+    if(me.pubs && me.pubs.length){
+      pubsBox.style.display = '';
+      pubsUl.innerHTML = me.pubs.map(p=>{
+        const title = p.title || 'Paper';
+        const url = p.url || '#';
+        return `<li><a href="${url}" target="_blank" rel="noopener">📄 ${title}</a></li>`;
+      }).join('');
+    }
+    if(me.credits){
+      const c = me.credits;
+      const credList = document.getElementById('credits-list');
+      const teamList = document.getElementById('team-list');
+      const ackSec   = document.getElementById('ack-sec');
+      const ackText  = document.getElementById('ack-text');
+      if(Array.isArray(c.credits)){ credList.innerHTML = c.credits.map(s=>`<li>${s}</li>`).join(''); }
+      if(Array.isArray(c.team)){ teamList.innerHTML = c.team.map(s=>`<li>${s}</li>`).join(''); }
+      if(typeof c.ack === 'string' && c.ack.trim()){ ackText.textContent = c.ack.trim(); ackSec.style.display=''; }
+    }
+    if(me.links){
+      const v = me.links.find(l => (l.kind||'').toLowerCase()==='video');
+      if(v && v.url){
+        const slot = document.getElementById('video-slot');
+        const h2 = document.getElementById('video-h2');
+        h2.style.display='';
+        const url = v.url.trim();
+        const ytWatch = url.match(/youtube\.com\/watch\?v=([^&]+)/i);
+        const ytShort = url.match(/youtu\.be\/([^?&]+)/i);
+        if(ytWatch || ytShort){
+          const id = ytWatch ? ytWatch[1] : ytShort[1];
+          slot.innerHTML = `
+            <div class="figure">
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/${id}" title="Project video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              </div>
+              <div class="caption">Project video</div>
+            </div>`;
+        }else if(/\.(mp4|webm|ogg)(\?|#|$)/i.test(url)){
+          slot.innerHTML = `
+            <div class="figure">
+              <div class="video-wrap">
+                <video controls playsinline>
+                  <source src="${url}">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div class="caption">Project video</div>
+            </div>`;
+        }else{
+          slot.innerHTML = `<p class="caption" style="margin:8px 0">Video: <a href="${url}" target="_blank" rel="noopener">${url}</a></p>`;
+        }
+      }
+    }
+  })();
+  </script>
 </body>
 </html>

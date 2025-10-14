@@ -22,9 +22,11 @@
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px}
   @media(max-width:900px){.grid{grid-template-columns:1fr}}
   .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:20px}
-  .avatar{aspect-ratio:1/1;border-radius:18px;background:#eee url('https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=800&auto=format&fit=crop') center/cover;border:1px solid var(--border)}
+  .avatar{aspect-ratio:1/1;border-radius:18px;background:#eee url('../assets/headshot%20(2).jpg') center/cover;border:1px solid var(--border)}
   ul{margin:8px 0 0 18px}
   .small{color:var(--sub);font-size:14px}
+  .section-title{margin:14px 0 6px;font-size:18px}
+  .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; color: var(--sub)}
   footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
 </style>
 </head>
@@ -48,36 +50,81 @@
 
   <main>
     <h1>About</h1>
-    <div class="sub">Short bio, research interests, appointments, and education.</div>
+    <div class="sub">Brief bio, research interests, appointments, and experience.</div>
 
     <div class="grid">
+      <!-- Portrait -->
       <div class="card">
-        <div class="avatar" aria-label="Portrait"></div>
+        <div class="avatar" aria-label="Portrait of Teng Teng"></div>
       </div>
+
+      <!-- Bio + Interests -->
       <div class="card">
-        <h2>Bio</h2>
-        <p>Teng Teng is a designer, researcher, and educator working across computation, materials, fabrication, and robotics. His work explores …</p>
-        <p class="small">Download CV: <a href="#" target="_blank" rel="noopener">CV.pdf</a></p>
+        <h2 class="section-title">Bio</h2>
+        <p>
+          Teng Teng is a Ph.D. candidate in Building Technology at the University of Pennsylvania and an incoming Assistant Professor at Lawrence Technological University (Spring 2026). As an interdisciplinary researcher and architect with global experience, Teng focuses on materializing high-performance building components by integrating novel construction materials with advanced fabrication systems to address critical environmental challenges.
+He holds two master’s degrees—from Cornell University and the University of Washington—and previously served as a research associate in the Jenny Sabin Lab at Cornell and as a faculty member at the Shanghai Institute of Visual Art. He has taught and collaborated widely at Penn, Cornell, UW, and multiple universities in Asia, leading courses and workshops in design computation, robotics, and fabrication.
+His research has been widely published in peer-reviewed journals such as Materials & Design, Advanced Functional Materials, Additive Manufacturing, Building and Environment, and he presents regularly at ACADIA, eCAADe, CAADRIA. Recent recognition includes Best Paper Runner-Up at ACADIA (2024).
+Before academia, Teng worked at CallisonRTKL as a project architect and computational design lead and later co-founded Adaptive Design LLC. He has contributed to more than 30 mixed-use, retail, and residential projects across Asia, the Middle East, and North America, with responsibilities spanning concept design through construction administration and real estate development. He also co-founded NCF, one of China’s earliest and largest computational design platforms, which has influenced generations of young architects and students.
 
-        <h3>Research Interests</h3>
-        <ul>
-          <li>Computational design & digital fabrication</li>
-          <li>Robotic construction & multi-material AM</li>
-          <li>Material systems & performative structures</li>
-        </ul>
+        </p>
+        <p class="small">CV available upon request · <a href="https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a></p>
 
-        <h3>Appointments</h3>
+        <h3 class="section-title">Research Interests</h3>
         <ul>
-          <li>Assistant Professor, [University], [Department], 202X–</li>
-          <li>Researcher, [Lab], 202X–202X</li>
-        </ul>
-
-        <h3>Education</h3>
-        <ul>
-          <li>Ph.D., [Program], [University], 20XX</li>
-          <li>M.Arch / M.S., [University], 20XX</li>
+          <li>Advanced Manufacturing</li>
+          <li>Robotic construction</li>
+           <li>Mechatronics</li>
+          <li>Computational geometry</li>
+           <li>structural form finding</li>
+          <li>Biomaterials,</li>
         </ul>
       </div>
+    </div>
+
+    <!-- Academic Appointments -->
+    <div class="card" style="margin-top:16px">
+      <h2 class="section-title">Academic Appointments</h2>
+      <ul>
+        <li><strong>University of Pennsylvania</strong> — PhD Research/Teaching Fellow, Polyhedral Structures Lab — <span class="mono">2021–present</span> · multiscale & multimaterial AM; concrete 3DP & carbon capture</li>
+        <li><strong>Cornell University</strong> — Senior Research Associate, Jenny Sabin Lab — <span class="mono">2018–2021</span> · robotic clay printing; programmable surfaces; personal fab robot</li>
+        <li><strong>Shanghai Institute of Visual Art</strong> — Lecturer, Comp. Design Group — <span class="mono">2015–2017</span> · parametric design; interior studio; undergraduate thesis</li>
+
+        <!-- Adjunct completions from teaching experience -->
+        <li><strong>Tongji University</strong> — Adjunct Instructor — <span class="mono">2023</span> · <em>Advanced Manufacturing</em> (seminar)</li>
+        <li><strong>Shanghai University</strong> — Adjunct Instructor — <span class="mono">2022</span> · <em>Computational Design & Fabrication</em> (seminar)</li>
+        <li><strong>University of Washington</strong> — Teaching Assistant — <span class="mono">2013–2014</span> · <em>3D Modeling & Rendering; CG Programming</em></li>
+        <li><strong>Cornell University</strong> — Teaching Assistant — <span class="mono">2018–2019</span> · <em>Matter Design Computation</em> (4605/6605)</li>     
+      </ul>
+    </div>
+
+    <!-- Professional Experience -->
+    <div class="card" style="margin-top:16px">
+     <h2 class="section-title">Professional Experience</h2>
+      <ul>
+        <li><strong>A-D-A LLC</strong> — Chief Designer & Partner — <span class="mono">2017–2018</span> · Retail architecture & interiors</li>
+        <li><strong>Ju Square LLC</strong> — Partner — <span class="mono">2017–2021</span> · Townhouse real estate development</li>
+        <li><strong>CallisonRTKL</strong> — Project Architect & Design Technologist — <span class="mono">2013–2017</span> · Computational lead; mixed-use<br>
+          <span class="small">(<a href="https://www.arcadis.com/en/news/global/2018/7/callisonrtkl-continues-to-operate-as-a-separate-division-within-arcadis" target="_blank" rel="noopener">division info</a>)</span>
+        </li>
+        <li><strong>Schemata Workshop</strong> — Architectural Designer (PT) — <span class="mono">2013–2014</span> · Seattle urban projects</li>
+        <li><strong>Callison (Shanghai)</strong> — Design Technologist  — <span class="mono">2010–2012</span> · Large-scale commercial project tech support</li>
+        <li><strong>NCF</strong> — Founding Partner — <span class="mono">2008–2014</span> · Founded computational design platform
+          &nbsp;(<a href="http://bbs.ncf-china.com/forum.php" target="_blank" rel="noopener">link</a>)
+        </li>
+      </ul>
+    </div>
+
+    <!-- Education (no years) -->
+    <div class="card" style="margin-top:16px">
+      <h2 class="section-title">Education</h2>
+      <ul>
+        <li><strong>University of Pennsylvania</strong> — Ph.D. in Architecture(in progress)</li>
+        <li><strong>Cornell University</strong> — Master of Science in Matter Design Computation</li>
+        <li><strong>University of Washington</strong> — Master of Science in Architecture</li>
+        <li><strong>Shanghai University</strong> — B. of Architecture</li>
+       
+      </ul>
     </div>
   </main>
 

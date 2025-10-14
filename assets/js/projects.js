@@ -152,6 +152,11 @@ window.PROJECTS = [
   tags: ["fabrication","robotics","concrete","post-tensioning"],
   links: [
     {
+      kind: "video", 
+     title: "Video", 
+     url: "https://dev.psl.design.upenn.edu/wp-content/uploads/2024/04/MCUT0421colorgradedPouriaVakhshouri-Website-YZ-sizereduced.mp4" 
+    },
+    {
       kind: "site",
       title: "PSL project page",
       url: "https://psl.design.upenn.edu/project/diamanti-3d-printed-post-tensioned-concrete-canopy/"
@@ -167,6 +172,7 @@ window.PROJECTS = [
       url: "https://www.fabricate.org/portfolio_page/diamanti-3d-printed-post-tensioned-concrete-canopy/"
     }
   ],
+  
   pubs: [
     {
       title: "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — FABRICATE 2024",
@@ -185,6 +191,7 @@ window.PROJECTS = [
       "SIKA Corporation — Karolina Pajak, Mylène Bernard, Leon Trousset",
       "Simpson Gumpertz & Heger (SGH) — Paul Kassabian, Blaise Waligun"
     ],
+    
     ack: "This research is funded by the Advanced Research Projects Agency – Energy (ARPA-E) of U.S. Department of Energy (DE-FOA-0002625 2625-1538)."
   }
 },

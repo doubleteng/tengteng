@@ -174,7 +174,7 @@ window.PROJECTS = [
     ],
     ack: "Exhibited at ECC ‘Personal Structures’ 2024, Giardini della Marinaressa, Venice. With support from SIKA and SGH; installation per Venice Port Authority requirements."
   }
-}
+},
 
 {
   "title": "3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture",

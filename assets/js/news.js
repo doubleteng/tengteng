@@ -11,17 +11,17 @@
 */
 window.NEWS = [
   {
-    title: "Programmable Footwear wins Best Prototype Award",
+    title: "Placeholder",
     date: "2025-04-02",
     category: "design",
     tags: ["award","product"],
     excerpt: "Our programmable footwear project received the Best Prototype Award at the Design Futures Forum.",
     link: "design/programmable-footwear/",
     image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop",
-    pin: true
+    pin: false
   },
   {
-    title: "SNMM Additive Manufacturing System preprint released",
+    title: "Placeholder",
     date: "2025-03-15",
     category: "research",
     tags: ["publication","fabrication"],
@@ -30,17 +30,17 @@ window.NEWS = [
     image: "https://images.unsplash.com/photo-1581093588401-16a6b8c24355?q=80&w=1200&auto=format&fit=crop"
   },
   {
-    title: "Call for PhD / RA positions (2025–2026)",
+    title: "Placeholder",
     date: "2025-02-20",
     category: "lab",
     tags: ["hiring","announcement"],
     excerpt: "We are looking for motivated researchers in computation, materials, and robotics. Send your CV and portfolio.",
     link: "contact/",
     image: "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop",
-    pin: true
+    pin: false
   },
   {
-    title: "Biomineral-infused concrete for carbon capture — project update",
+    title: "Placeholder",
     date: "2025-01-10",
     category: "research",
     tags: ["project","material","press"],
@@ -49,7 +49,7 @@ window.NEWS = [
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop"
   },
   {
-    title: "Guest talk: Robotic Post-Tensioned Concrete (UPenn)",
+    title: "Placeholder",
     date: "2024-11-20",
     category: "research",
     tags: ["talk","event","robotics"],
@@ -58,7 +58,7 @@ window.NEWS = [
     image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=1200&auto=format&fit=crop"
   },
   {
-    title: "New Material & Method — teaching notes published",
+    title: "Placeholder",
     date: "2024-09-05",
     category: "teaching",
     tags: ["publication","teaching"],
@@ -67,7 +67,7 @@ window.NEWS = [
     image: "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop"
   },
   {
-    title: "AI-Empowered Creative Robotics workshop recap",
+    title: "Placeholder",
     date: "2023-08-18",
     category: "teaching",
     tags: ["workshop","robotics"],

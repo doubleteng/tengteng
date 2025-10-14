@@ -7,7 +7,6 @@
   <meta name="description" content="Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — project page.">
   <link rel="preload" as="image" href="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg">
   <style>
-
     :root{
       --bg:#fff; --text:#111827; --sub:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.06);
       --radius:18px; --maxw:1100px;
@@ -18,24 +17,34 @@
     a{color:var(--text); text-decoration:none}
     a:hover{text-decoration:underline}
     .wrap{max-width:var(--maxw); margin:0 auto; padding:24px}
+
+    /* header & nav */
     header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 8px; position:sticky; top:0; background:rgba(255,255,255,.88); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid var(--border)}
     .brand{display:flex; align-items:center; gap:12px; font-weight:800}
     .brand .logo{width:36px; height:36px; border-radius:12px; background:#111827; color:#fff; display:grid; place-items:center; box-shadow:0 6px 18px rgba(0,0,0,.08)}
     nav.menu > ul{list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center; flex-wrap:wrap}
     nav.menu > ul > li > a{color:var(--sub); font-weight:600; display:inline-block; padding:6px 10px; border-radius:8px}
     nav.menu > ul > li > a:hover{color:var(--text); background:#f3f4f6}
+
+    /* hero */
     .hero{margin-top:18px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
     .hero .img{aspect-ratio: 16/7; background:#eee center/cover no-repeat}
     .titlebar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; padding:16px 18px; border-top:1px solid var(--border); background:#fff}
     h1{margin:0; font-size:clamp(26px,4vw,40px)}
     .meta-inline{color:var(--sub); font-size:14px}
+
+    /* layout */
     .grid{display:grid; grid-template-columns: 1.6fr .9fr; gap:28px; margin-top:24px}
     @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+    /* article */
     article h2{font-size:22px; margin:18px 0 8px}
     article p{margin:0 0 12px}
     .figure{border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#f8fafc; margin:16px 0}
     .figure .img{aspect-ratio: 3/2; background:#f0f0f0 center/cover no-repeat}
     .caption{padding:10px 12px; color:var(--sub); font-size:13px; border-top:1px solid var(--border); background:#fff}
+
+    /* sidebar */
     .side{position:sticky; top:72px; align-self:start}
     .card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
     .card .section{padding:16px 16px 6px}
@@ -45,16 +54,20 @@
     .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
     .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
     .links a{display:inline-block; padding:4px 0}
+
+    /* gallery */
     .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
     @media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:600px){.gallery{grid-template-columns:1fr}}
     .gthumb{aspect-ratio:4/3; border:1px solid var(--border); border-radius:12px; background:#eee center/cover no-repeat; cursor:zoom-in}
+
+    /* lightbox */
     .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:50}
     .lightbox.open{display:flex}
     .lightbox img{max-width:92vw; max-height:88vh; border-radius:12px; background:#000}
     .lightbox .close{position:absolute; top:18px; right:18px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:8px 12px; cursor:pointer; font-weight:700}
-    footer{color:var(--sub); font-size:13px; text-align:center; padding:28px 0 12px; margin-top:40px}
 
+    footer{color:var(--sub); font-size:13px; text-align:center; padding:28px 0 12px; margin-top:40px}
   </style>
 </head>
 <body>
@@ -89,9 +102,8 @@
     <div class="grid">
       <article>
         <h2>Abstract</h2>
-        <p>This academia–industry collaborative project, Diamanti canopy, demonstrates the design and fabrication of a combined compression and tension funicular canopy with periodic anticlastic, diamond surfaces. The canopy is a part of the European Cultural Centre’s 2024 biennial exhibition, ‘Personal Structures’, in Venice, Italy, at the Giardini della Marinaressa. Utilizing both 3D concrete printing (3DCP) and post-tensioning technologies, the canopy spans 10m and is supported by a cross-laminated timber (CLT) platform. The structural form of this composite canopy directly considers both compressive and tensile forces, inherently developed in concrete structural systems, by distributing loads through its unique, minimal-mass geometry. The CLT platform suggests how the combination of a carbon-negative material and concrete can be used in contrast to common construction methods where concrete is typically used as the load-bearing support and wood as the spanning element. Hence, the lightweight design of the Diamanti canopy, spanning over and supported by the CLT platform, showcases the innovative use of these materials, while also satisfying the Venice Port Authority’s installation requirements.
-
-The exhibited canopy goes beyond compression only by embracing tension as an unavoidable force in systems resilient to different loading scenarios. Hence, a combined form-finding and fabrication approach was developed to achieve the innovative structure with the intention of also minimizing carbon through reduced materials and recyclability. Through the design freedom enabled by the design approach, 3DCP, and the use of post-tensioning, the final design favorably has minimal reinforcement while achieving the desired structural performance. Overall, the Diamanti canopy demonstrates how, through the combination of modern technologies and the development of a non-restrictive, comprehensive design approach, new structural forms can be achieved that lead to enhanced sustainable practices.</p>
+        <p>This academia–industry collaborative project, Diamanti canopy, demonstrates the design and fabrication of a combined compression and tension funicular canopy with periodic anticlastic, diamond surfaces. The canopy is a part of the European Cultural Centre’s 2024 biennial exhibition, ‘Personal Structures’, in Venice, Italy, at the Giardini della Marinaressa. Utilizing both 3D concrete printing (3DCP) and post-tensioning technologies, the canopy spans 10m and is supported by a cross-laminated timber (CLT) platform. The structural form of this composite canopy directly considers both compressive and tensile forces, inherently developed in concrete structural systems, by distributing loads through its unique, minimal-mass geometry. The CLT platform suggests how the combination of a carbon-negative material and concrete can be used in contrast to common construction methods where concrete is typically used as the load-bearing support and wood as the spanning element. Hence, the lightweight design of the Diamanti canopy, spanning over and supported by the CLT platform, showcases the innovative use of these materials, while also satisfying the Venice Port Authority’s installation requirements.</p>
+        <p>The exhibited canopy goes beyond compression only by embracing tension as an unavoidable force in systems resilient to different loading scenarios. Hence, a combined form-finding and fabrication approach was developed to achieve the innovative structure with the intention of also minimizing carbon through reduced materials and recyclability. Through the design freedom enabled by the design approach, 3DCP, and the use of post-tensioning, the final design favorably has minimal reinforcement while achieving the desired structural performance. Overall, the Diamanti canopy demonstrates how, through the combination of modern technologies and the development of a non-restrictive, comprehensive design approach, new structural forms can be achieved that lead to enhanced sustainable practices.</p>
 
         <div class="figure">
           <div class="img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-1.jpg')"></div>
@@ -101,10 +113,17 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
         <h2>Process / Methods</h2>
         <p><!-- Describe design, computation, fabrication, teaching setup, etc. --></p>
 
-        <div class="gallery">
-          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg"></div>
+        <!-- Thumbnails that drive the featured image -->
+        <div class="gallery process-gallery" id="gallery-process">
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg" data-cap="Printing toolpath strategy"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg" data-cap="On-site assembly"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg" data-cap="Post-tensioned anchorage"></div>
+        </div>
+
+        <!-- Featured image (auto-updates on scroll / click) -->
+        <div class="figure" id="process-feature">
+          <div class="img" id="process-feature-img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')"></div>
+          <div class="caption" id="process-feature-cap">Scroll the thumbnails to preview · Click to open</div>
         </div>
 
         <div class="figure">
@@ -149,6 +168,7 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
     <footer>© <span id="year"></span> Teng Teng · Hosted on GitHub Pages</footer>
   </div>
 
+  <!-- lightbox -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="close" aria-label="Close" onclick="closeLightbox()">Close ×</button>
     <img alt="" id="lightbox-img"/>
@@ -157,6 +177,8 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
   <script>
     document.addEventListener('DOMContentLoaded', function(){
       var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+
+      // lightbox
       var lb=document.getElementById('lightbox');
       var lbimg=document.getElementById('lightbox-img');
       function openLightbox(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
@@ -167,9 +189,54 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
       lb.addEventListener('click', function(e){ if(e.target===lb) closeLightbox(); });
       document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
       window.closeLightbox = closeLightbox;
+
+      // === Scroll-driven featured image for Process/Methods ===
+      (function(){
+        var container = document.getElementById('gallery-process');
+        var feature   = document.getElementById('process-feature-img');
+        var capEl     = document.getElementById('process-feature-cap');
+        if(!container || !feature) return;
+
+        var thumbs = Array.from(container.querySelectorAll('.gthumb'));
+        function setFeature(el){
+          if(!el) return;
+          var src = el.getAttribute('data-full');
+          var cap = el.getAttribute('data-cap');
+          if(src) feature.style.backgroundImage = "url('"+src+"')";
+          if(capEl) capEl.textContent = cap ? cap : 'Scroll the thumbnails to preview · Click to open';
+        }
+
+        // init: first thumb
+        setFeature(thumbs[0]);
+
+        // click: update featured (in addition to opening lightbox)
+        thumbs.forEach(function(t){
+          t.addEventListener('click', function(e){
+            setFeature(t);
+          });
+        });
+
+        // on scroll/resize: pick the thumb whose center is closest to viewport center, if at least 25% visible
+        function pickOnScroll(){
+          var vp = window.innerHeight || document.documentElement.clientHeight;
+          var best=null, score=1e9;
+          thumbs.forEach(function(el){
+            var r = el.getBoundingClientRect();
+            var visible = Math.max(0, Math.min(r.bottom, vp) - Math.max(r.top, 0));
+            if(visible > r.height*0.25){
+              var center = r.top + r.height/2;
+              var s = Math.abs(center - vp*0.5);
+              if(s < score){ score = s; best = el; }
+            }
+          });
+          if(best) setFeature(best);
+        }
+        document.addEventListener('scroll', pickOnScroll, {passive:true});
+        window.addEventListener('resize', pickOnScroll);
+        pickOnScroll();
+      })();
     });
   </script>
-
 
   <!-- Shared dataset -->
   <script src="../../assets/js/projects.js"></script>
@@ -180,7 +247,7 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
     function norm(p){
       return String(p||'')
         .replace(/\/index\.html?$/,'')
-        .replace(/^\/+|\/+$/g,''); // trim slashes
+        .replace(/^\/+|\/+$/g,'');
     }
 
     const here = norm(location.pathname.replace(/.*?(research|design|teaching)\//,'$1/'));
@@ -188,7 +255,7 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
     const me = list.find(p => norm(p.url) === here);
     if(!me) return;
 
-    // Render Links
+    // Links
     const linksBox = document.getElementById('dyn-links');
     const linksTitle = document.getElementById('dyn-links-title');
     const linksUl = document.getElementById('dyn-links-list');
@@ -203,7 +270,7 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
       }).join('');
     }
 
-    // Render Publications (if any)
+    // Publications
     const pubsBox = document.getElementById('dyn-pubs');
     const pubsUl = document.getElementById('dyn-pubs-list');
     if(me.pubs && me.pubs.length){
@@ -214,18 +281,7 @@ The exhibited canopy goes beyond compression only by embracing tension as an una
         return `<li><a href="${url}" target="_blank" rel="noopener">📄 ${title}</a></li>`;
       }).join('');
     }
-
-    // Optional: auto-fill Year & Tags from dataset (uncomment to enable)
-    // const yearEl = document.querySelector('.kvs div:nth-child(4)');
-    // if(yearEl && me.year) yearEl.textContent = me.year;
-    // const tagsWrap = document.querySelector('.tags');
-    // if(tagsWrap && me.tags){
-    //   const omit = new Set(['research','design','teaching']);
-    //   tagsWrap.innerHTML = me.tags.filter(t=>!omit.has(String(t).toLowerCase()))
-    //     .map(t=>`<span class="tag">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('');
-    // }
   })();
   </script>
-
 </body>
 </html>

@@ -197,7 +197,58 @@ window.PROJECTS = [
 },
 //------------------------------------------------  
 
+  {
+  title: "Floralis: an ETFE-Clad, Multilaminar Timber Structure",
+  url: "research/floralis-an-etfe-clad-multilaminar-timber-structure/",
+  img: "assets/img/floralis-an-etfe-clad-multilaminar-timber-structure/hero.jpg",
+  year: 2025,
+  cats: ["research"],
+  tags: ["fabrication","robotics","timber","computation"],
+  links: [
+    {
+      kind: "video", 
+     title: "Video", 
+     url: "https://vimeo.com/1054877188?fl=pl&fe=sh" 
+    },
+    {
+      kind: "site",
+      title: "PSL project page",
+      url: "https://psl.design.upenn.edu/project/floralis-an-etfe-clad-multilaminar-timber-structure/"
+    },
+    
+    
+  ],
   
+  pubs: [
+    {
+      title: "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — FABRICATE 2024",
+      url: "https://psl.design.upenn.edu/wp-content/uploads/2024/04/PSL-Fabricate-2024.pdf"
+    }
+  ],
+  credits: {
+    credits: [
+      "Principal Investigators: Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, Frank Matero",
+"Conceptual Design: Dr. Masoud Akbarzadeh, Hua Chai, Teng Teng, Yiliang Shao",
+"Project Management: Michael Ting",
+"Computational Design and Robotic Fabrication: Mariana Righi",
+"Construction Consultant: Clara Shim",
+"Construction Drawings and Detailing: Michael Ting",
+"Assembly and Facade Erection: Michael Ting, Clara Shim, John Hinchman, Pouria Vakhshouri, Austin Chen, Maria Jose, Leechen Zhu, Michael Hirsch",
+"Laser Surveying: John Hinchman",
+"Fabricators: Michael Ting, Clara Shim, Kodak Han, Shea Fang, Yefan Zhi, Reggie Zhao, Yi Yang, Sophia Chen, Yidi Wang, Sepideh Bayat, Pratyaya Bhattacharya, Weitzman School of Design Fabrication Laboratory Staff",
+"Robotic Fabrication Consultants: Ester Lo, Alireza Seyedahmadian, Tristan Fischer-Smith (EventScape Inc.)",
+
+"Structural Engineering Consultants: Florian Meyer, Oswald Stocker (Knippers Helbig Engineering)",
+"ETFE Consultant: Bjoern Beckert, Fabritecture NYC",
+"Facade Profile Production and Detailing: Ishak Hmeyed (Facade Textiles), Michael Ting",
+"National Park Service: Penny Wagner, Jeffery Wilson, Parker Severson, Sydney Moreno",
+    ],
+   
+    
+    ack: "Funding was provided by National Park Services to Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, and Frank Matero. The computational research fund was provided by the National Science Foundation CAREER award given to Dr. Masoud Akbarzadeh.."
+  }
+},
+  //--------------------------------------------------------------------------------------------
 {
   "title": "3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture",
   "url": "research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/",
@@ -952,6 +1003,7 @@ window.PROJECTS = [
     }
   ]
 },
+  //--------------------------------------
 {
   "title": "New Material and Method",
   "url": "teaching/new-material-and-method/",
@@ -983,4 +1035,6 @@ window.PROJECTS = [
     }
   ]
 },
+  //-------------------------------------------------------
+  
 ];

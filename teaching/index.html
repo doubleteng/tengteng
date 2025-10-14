@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Teaching Gallery | Teng Teng</title>
-<meta name="description" content="All teaching projects with single-select tag filter.">
+<meta name="description" content="Studios, workshops, methods and robotics in teaching.">
 <style>
-  :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
-  *{box-sizing:border-box}html,body{height:100%}
+  :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px;--chip:#f3f4f6}
+  *{box-sizing:border-box} html,body{height:100%}
   body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
   a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
 
+  /* top nav */
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
   .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
@@ -19,24 +20,37 @@
   nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
   nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
 
-  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
+  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 12px}
   .sub{color:var(--sub)}
-  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 16px}
-  .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-weight:700;background:#fff;cursor:pointer}
-  .chip[aria-pressed="true"]{background:#f3f4f6}
-  .count{color:var(--sub);font-size:14px}
 
-  .grid{display:grid;gap:16px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:16px}
+
+  /* >>> 教学介绍卡片：加内边距与下边距 <<< */
+  .intro-card{
+    padding:20px 24px;          /* 左右与底部更松 */
+    margin:12px 0 24px;         /* 与下方网格拉开距离 */
+  }
+  .intro-card p{margin:0 0 12px;}
+  .intro-card ol{margin:8px 0 0;padding-left:22px;}
+  @media (max-width:600px){ .intro-card{ padding:16px 18px; } }
+
+  .toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+  .btn{border:1px solid var(--border);border-radius:12px;padding:8px 12px;background:#fff;font-weight:700}
+  .btn[aria-pressed="true"]{background:var(--chip)}
+  .count{color:var(--sub);font-size:14px;margin-left:auto}
+
+  .grid{display:grid;gap:14px}
   .grid.projects{grid-template-columns:repeat(3,1fr)}
   @media(max-width:900px){.grid.projects{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:600px){.grid.projects{grid-template-columns:1fr}}
-  .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:0;display:grid;grid-template-rows:160px auto}
-  .thumb{border-radius:16px;margin:12px 12px 0;height:160px;border:1px solid var(--border);background:#f3f4f6 center/cover}
-  .meta{padding:10px 16px 14px}
-  .meta h3{margin:0 0 6px;font-size:16px}
+
+  .project{display:grid;grid-template-rows:170px auto;overflow:hidden}
+  .thumb{border-radius:14px;border:1px solid var(--border);background:#f3f4f6 center/cover}
+  .meta{padding:10px 4px 0}
+  .meta h3{margin:0 0 4px;font-size:16px}
   .meta p{margin:0;color:var(--sub);font-size:14px}
-  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:20px}
+
+  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:24px}
 </style>
 </head>
 <body>
@@ -59,26 +73,33 @@
 
   <main>
     <h1>Teaching Gallery</h1>
-    <div class="card">
-  <p>
-    Over the past decade, I have taught university-level studios, seminars, public workshops, and training boot camps on topics such as design computation, architecture, product design, 3D modeling, digital fabrication, computational geometry, and robotics. I've taught at institutions including the University of Pennsylvania, Cornell University, University of Washington, Tongji University, Shanghai University, and the Shanghai Institute of Visual Art (SIVA).
-  </p>
-  <p>
-    These experiences have allowed me to refine an <strong>inclusive pedagogy as the foundation</strong>, centered on three core principles:
-  </p>
-  <ol style="margin:8px 0 0 18px">
-    <li><strong>Fostering interdisciplinary learning</strong> to help students identify valuable research questions.</li>
-    <li><strong>Encouraging hands-on, project-based exploration</strong> to sustain engagement while building skills.</li>
-    <li><strong>Creating a collaborative environment</strong> that promotes initiative, active learning, and teamwork.</li>
-  </ol>
-</div>
 
-    <div class="toolbar">
-      <div class="filters" id="tagbar" aria-label="Tag filter (single-select)"></div>
-      <div>
-        <button id="clear" class="chip" aria-pressed="false" title="Clear filter">Clear</button>
-        <span class="count" id="count"></span>
-      </div>
+    <!-- 教学介绍：已应用 intro-card，不再“贴边” -->
+    <div class="card intro-card">
+      <p>
+        Over the past decade, I have taught university-level studios, seminars, public workshops, and training boot camps on topics such as design computation, architecture, product design, 3D modeling, digital fabrication, computational geometry, and robotics. I've taught at institutions including the University of Pennsylvania, Cornell University, University of Washington, Tongji University, Shanghai University, and the Shanghai Institute of Visual Art (SIVA).
+      </p>
+      <p>
+        These experiences have allowed me to refine an <strong>inclusive pedagogy as the foundation</strong>, centered on three core principles:
+      </p>
+      <ol>
+        <li><strong>Fostering interdisciplinary learning</strong> to help students identify valuable research questions.</li>
+        <li><strong>Encouraging hands-on, project-based exploration</strong> to sustain engagement while building skills.</li>
+        <li><strong>Creating a collaborative environment</strong> that promotes initiative, active learning, and teamwork.</li>
+      </ol>
+    </div>
+
+    <!-- 过滤工具条（单选 tag） -->
+    <div class="toolbar" aria-label="Tag filter">
+      <button class="btn" data-tag="all" aria-pressed="true">All</button>
+      <button class="btn" data-tag="architecture" aria-pressed="false">Architecture</button>
+      <button class="btn" data-tag="product" aria-pressed="false">Product</button>
+      <button class="btn" data-tag="fabrication" aria-pressed="false">Fabrication</button>
+      <button class="btn" data-tag="robotics" aria-pressed="false">Robotics</button>
+      <button class="btn" data-tag="material" aria-pressed="false">Material</button>
+      <button class="btn" data-tag="research" aria-pressed="false">Research</button>
+      <button class="btn" id="clear">Clear</button>
+      <div class="count" id="count"></div>
     </div>
 
     <div class="grid projects" id="grid"></div>
@@ -87,62 +108,81 @@
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
 
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <script src="../assets/js/projects.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-  const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+(function(){
+  const BASE = 'teaching'; // 本页主类
+  const grid = document.getElementById('grid');
+  const countEl = document.getElementById('count');
+  const btns = Array.from(document.querySelectorAll('[data-tag]'));
+  const clearBtn = document.getElementById('clear');
 
-  const BASE  = "../";
-  const SCOPE = "teaching";
-  const TAGS  = ["architecture","product","fabrication","robotics","material","research"]; // 单选
-
-  const all = (window.PROJECTS||[]);
-  const projects = all.filter(p => p.cats.includes(SCOPE));
-
-  const tagbar=document.getElementById('tagbar');
-  const grid=document.getElementById('grid');
-  const count=document.getElementById('count');
-  let activeTag=null;
-
-  TAGS.forEach(t=>{
-    const b=document.createElement('button');
-    b.className='chip'; b.textContent=cap(t);
-    b.setAttribute('data-tag',t); b.setAttribute('aria-pressed','false');
-    b.addEventListener('click', ()=>{
-      if(activeTag===t){ activeTag=null; setAll(false); }
-      else{ activeTag=t; setOnly(t); }
-      render();
-    });
-    tagbar.appendChild(b);
+  // 本页数据：属于 teaching 类；或 tags 里含 teaching（跨列）
+  const data = (window.PROJECTS||[]).filter(p=>{
+    return (p.cats||[]).includes(BASE) || (p.tags||[]).map(t=>String(t).toLowerCase()).includes(BASE);
   });
-  document.getElementById('clear').addEventListener('click', ()=>{ activeTag=null; setAll(false); render(); });
 
-  function setAll(v){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', v?'true':'false')); }
-  function setOnly(t){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false')); }
-  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-  function metaLine(primary, p){
-    const omit = new Set(['research','design','teaching']);
-    const tags = (p.tags||[]).filter(t => !omit.has(t.toLowerCase()));
-    const t = tags.length ? ' · ' + tags.map(cap).join(' · ') : '';
-    const y = p.year ? ' · ' + p.year : '';
-    return primary + t + y;
-  }
-  function card(p){
-    return `<a class="card" href="${BASE}${p.url}">
-      <div class="thumb" style="background-image:url('${p.img}')"></div>
-      <div class="meta"><h3>${p.title}</h3><p>${metaLine('Teaching', p)}</p></div>
-    </a>`;
+  // URL 初始 tag
+  const usp = new URLSearchParams(location.search);
+  let active = (usp.get('tag')||'all').toLowerCase();
+
+  function setPressed(target){
+    btns.forEach(b=>b.setAttribute('aria-pressed', String(b===target)));
   }
 
-  function render(){
-    let list = projects.slice().sort((a,b)=>(b.year||0)-(a.year||0));
-    if(activeTag){ list = list.filter(p => p.tags.includes(activeTag)); }
-    grid.innerHTML = list.map(card).join('');
-    count.textContent = `${list.length} projects`;
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+  function render(list){
+    // 不在 meta 里重复显示 Teaching/Research/Design
+    const omit = new Set(['teaching','research','design']);
+    grid.innerHTML = list.map(p=>{
+      const tags = (p.tags||[]).filter(t=>!omit.has(String(t).toLowerCase())).map(cap).join(' · ');
+      return `
+        <a class="project card" href="../${p.url}">
+          <div class="thumb" style="background-image:url('../${p.img}')"></div>
+          <div class="meta">
+            <h3>${p.title}</h3>
+            <p>${tags}${p.year? (tags?' · ':'')+p.year:''}</p>
+          </div>
+        </a>
+      `;
+    }).join('');
+    countEl.textContent = `${list.length} project${list.length>1?'s':''}`;
   }
 
-  render();
-});
+  function apply(){
+    let list = data.slice();
+    if(active!=='all'){
+      list = list.filter(p => (p.tags||[]).map(x=>String(x).toLowerCase()).includes(active));
+    }
+    // teaching 页默认按年份降序（字符串也能靠左值排序）
+    list.sort((a,b)=> String(b.year).localeCompare(String(a.year)));
+    render(list);
+    // 更新 URL
+    const u = new URL(location.href);
+    if(active==='all') u.searchParams.delete('tag'); else u.searchParams.set('tag', active);
+    history.replaceState(null,'',u.toString());
+  }
+
+  // 初始化按钮状态
+  setPressed(btns.find(b=>b.dataset.tag===active) || btns[0]);
+  apply();
+
+  // 单选 tag：点击新 tag 自动取消老的
+  btns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      active = btn.dataset.tag;
+      setPressed(btn);
+      apply();
+    });
+  });
+  clearBtn.addEventListener('click', ()=>{
+    active = 'all';
+    setPressed(btns.find(b=>b.dataset.tag==='all'));
+    apply();
+  });
+})();
 </script>
 </body>
 </html>

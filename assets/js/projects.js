@@ -219,29 +219,24 @@ window.PROJECTS = [
     
   ],
   
-  pubs: [
-    {
-      title: "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — FABRICATE 2024",
-      url: "https://psl.design.upenn.edu/wp-content/uploads/2024/04/PSL-Fabricate-2024.pdf"
-    }
-  ],
+ 
   credits: {
     credits: [
       "Principal Investigators: Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, Frank Matero",
-"Conceptual Design: Dr. Masoud Akbarzadeh, Hua Chai, Teng Teng, Yiliang Shao",
-"Project Management: Michael Ting",
-"Computational Design and Robotic Fabrication: Mariana Righi",
-"Construction Consultant: Clara Shim",
-"Construction Drawings and Detailing: Michael Ting",
-"Assembly and Facade Erection: Michael Ting, Clara Shim, John Hinchman, Pouria Vakhshouri, Austin Chen, Maria Jose, Leechen Zhu, Michael Hirsch",
-"Laser Surveying: John Hinchman",
-"Fabricators: Michael Ting, Clara Shim, Kodak Han, Shea Fang, Yefan Zhi, Reggie Zhao, Yi Yang, Sophia Chen, Yidi Wang, Sepideh Bayat, Pratyaya Bhattacharya, Weitzman School of Design Fabrication Laboratory Staff",
-"Robotic Fabrication Consultants: Ester Lo, Alireza Seyedahmadian, Tristan Fischer-Smith (EventScape Inc.)",
+       "Conceptual Design: Dr. Masoud Akbarzadeh, Hua Chai, Teng Teng, Yiliang Shao",
+      "Project Management: Michael Ting",
+      "Computational Design and Robotic Fabrication: Mariana Righi",
+      "Construction Consultant: Clara Shim",
+      "Construction Drawings and Detailing: Michael Ting",
+      "Assembly and Facade Erection: Michael Ting, Clara Shim, John Hinchman, Pouria Vakhshouri, Austin Chen, Maria Jose, Leechen Zhu, Michael Hirsch",
+      "Laser Surveying: John Hinchman",
+      "Fabricators: Michael Ting, Clara Shim, Kodak Han, Shea Fang, Yefan Zhi, Reggie Zhao, Yi Yang, Sophia Chen, Yidi Wang, Sepideh Bayat, Pratyaya Bhattacharya, Weitzman School of Design Fabrication Laboratory Staff",
+      "Robotic Fabrication Consultants: Ester Lo, Alireza Seyedahmadian, Tristan Fischer-Smith (EventScape Inc.)",
 
-"Structural Engineering Consultants: Florian Meyer, Oswald Stocker (Knippers Helbig Engineering)",
-"ETFE Consultant: Bjoern Beckert, Fabritecture NYC",
-"Facade Profile Production and Detailing: Ishak Hmeyed (Facade Textiles), Michael Ting",
-"National Park Service: Penny Wagner, Jeffery Wilson, Parker Severson, Sydney Moreno",
+      "Structural Engineering Consultants: Florian Meyer, Oswald Stocker (Knippers Helbig Engineering)",
+      "ETFE Consultant: Bjoern Beckert, Fabritecture NYC",
+      "Facade Profile Production and Detailing: Ishak Hmeyed (Facade Textiles), Michael Ting",
+      "National Park Service: Penny Wagner, Jeffery Wilson, Parker Severson, Sydney Moreno",
     ],
    
     

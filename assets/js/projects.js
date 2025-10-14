@@ -10,7 +10,9 @@ window.PROJECTS = [
   "tags": [
     "research",
     "computation",
-    "fabrication"
+    "fabrication",
+    "architecture",
+    "design"
   ],
   "links": [
     {
@@ -42,7 +44,9 @@ window.PROJECTS = [
   "tags": [
     "research",
     "fabrication",
-    "material"
+    "material",
+    "design",
+    "product"
   ],
   "links": [
     {

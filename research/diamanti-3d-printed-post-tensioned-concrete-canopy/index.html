@@ -1,145 +1,285 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>5-thumb autoplay gallery</title>
-<style>
-  :root{
-    --bg:#fff; --text:#111827; --sub:#6b7280; --border:#e5e7eb;
-    --shadow:0 8px 24px rgba(0,0,0,.06); --radius:18px;
-  }
-  *{box-sizing:border-box}
-  body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif; background:var(--bg); color:var(--text)}
-  .wrap{max-width:1100px; margin:0 auto; padding:24px}
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy | Teng Teng</title>
+  <meta name="description" content="Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — project page.">
+  <link rel="preload" as="image" href="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg">
+  <style>
+    :root{
+      --bg:#fff; --text:#111827; --sub:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.06);
+      --radius:18px; --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif; background:var(--bg); color:var(--text); line-height:1.65}
+    a{color:var(--text); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:24px}
 
-  /* --- gallery --- */
-  .roll-gallery .thumbs{
-    display:grid; grid-template-columns:repeat(5,1fr);
-    gap:12px; margin:6px 0 12px;
-  }
-  @media (max-width:900px){
-    .roll-gallery .thumbs{ grid-template-columns:repeat(5,1fr); overflow-x:auto; padding-bottom:4px }
-  }
-  .thumb{
-    display:block; width:100%; aspect-ratio:4/3;
-    background:#f3f4f6 center/cover no-repeat;
-    border:1px solid var(--border); border-radius:12px;
-    cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, outline-color .15s ease;
-    outline:2px solid transparent; outline-offset:2px;
-  }
-  .thumb:hover{ transform:translateY(-1px); box-shadow:var(--shadow) }
-  .thumb.active{ outline-color:#11182722 }
+    /* header & nav */
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 8px; position:sticky; top:0; background:rgba(255,255,255,.88); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid var(--border)}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
+    .brand .logo{width:36px; height:36px; border-radius:12px; background:#111827; color:#fff; display:grid; place-items:center; box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    nav.menu > ul{list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    nav.menu > ul > li > a{color:var(--sub); font-weight:600; display:inline-block; padding:6px 10px; border-radius:8px}
+    nav.menu > ul > li > a:hover{color:var(--text); background:#f3f4f6}
 
-  .feature{
-    border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:#000;
-    box-shadow:var(--shadow);
-  }
-  .feature img{
-    display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover;
-    opacity:0; transition:opacity .5s ease;
-  }
-  .feature img.fade-in{ opacity:1 }
-  .feature figcaption{
-    padding:10px 12px; color:var(--sub); font-size:14px; background:#fff; border-top:1px solid var(--border)
-  }
-</style>
+    /* hero */
+    .hero{margin-top:18px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
+    .hero .img{aspect-ratio: 16/7; background:#eee center/cover no-repeat}
+    .titlebar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; padding:16px 18px; border-top:1px solid var(--border); background:#fff}
+    h1{margin:0; font-size:clamp(26px,4vw,40px)}
+    .meta-inline{color:var(--sub); font-size:14px}
+
+    /* layout */
+    .grid{display:grid; grid-template-columns: 1.6fr .9fr; gap:28px; margin-top:24px}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+    /* article */
+    article h2{font-size:22px; margin:18px 0 8px}
+    article p{margin:0 0 12px}
+    .figure{border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#f8fafc; margin:16px 0}
+    .figure .img{aspect-ratio: 3/2; background:#f0f0f0 center/cover no-repeat}
+    .caption{padding:10px 12px; color:var(--sub); font-size:13px; border-top:1px solid var(--border); background:#fff}
+
+    /* sidebar */
+    .side{position:sticky; top:72px; align-self:start}
+    .card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .card .section{padding:16px 16px 6px}
+    .card .section + .section{border-top:1px solid var(--border)}
+    .kvs{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:14px}
+    .kvs div:first-child{color:var(--sub)}
+    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
+    .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
+    .links a{display:inline-block; padding:4px 0}
+
+    /* galleries */
+    .gallery{display:grid; gap:12px}
+    .process-gallery{grid-template-columns:repeat(5,1fr)}        /* 5 thumbs in a row */
+    @media(max-width:900px){.process-gallery{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:600px){.process-gallery{grid-template-columns:repeat(2,1fr)}}
+    .gthumb{aspect-ratio:4/3; border:1px solid var(--border); border-radius:12px; background:#eee center/cover no-repeat; cursor:pointer}
+
+    /* lightbox */
+    .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:50}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:92vw; max-height:88vh; border-radius:12px; background:#000}
+    .lightbox .close{position:absolute; top:18px; right:18px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:8px 12px; cursor:pointer; font-weight:700}
+
+    footer{color:var(--sub); font-size:13px; text-align:center; padding:28px 0 12px; margin-top:40px}
+  </style>
 </head>
 <body>
-<div class="wrap">
+  <div class="wrap">
+    <header>
+      <div class="brand"><div class="logo" aria-hidden="true">TT</div><span>Teng Teng</span></div>
+      <nav aria-label="Primary" class="menu">
+        <ul>
+          <li><a href="../../">Home</a></li>
+          <li><a href="../../research/">Research</a></li>
+          <li><a href="../../teaching/">Teaching</a></li>
+          <li><a href="../../design/">Design</a></li>
+          <li><a href="../../publications/">Publications</a></li>
+          <li><a href="../../news/">News</a></li>
+          <li><a href="../../about/">About</a></li>
+          <li><a href="../../contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <!-- 组件开始：5 缩略图 + 下方自动播放大图 -->
-  <section class="roll-gallery" aria-label="Process / Methods slideshow">
-    <div class="thumbs" id="thumbs">
-      <!--
-        data-full 传高清图；data-cap 为大图下方的说明文字。
-        下面示例路径按你的项目替换（示例用 diamanti 路径）。
-      -->
-      <button class="thumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-1.jpg')"
-              data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg"
-              data-cap="Printing toolpath strategy" aria-label="thumb 1"></button>
-
-      <button class="thumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')"
-              data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg"
-              data-cap="On-site assembly" aria-label="thumb 2"></button>
-
-      <button class="thumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg')"
-              data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg"
-              data-cap="Post-tensioned anchorage" aria-label="thumb 3"></button>
-
-      <button class="thumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg')"
-              data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-5.jpg"
-              data-cap="Robotic printing setup" aria-label="thumb 4"></button>
-
-      <button class="thumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-5.jpg')"
-              data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-6.jpg"
-              data-cap="Component detail" aria-label="thumb 5"></button>
+    <div class="hero">
+      <div class="img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg')" role="img" aria-label="hero image"></div>
+      <div class="titlebar">
+        <div>
+          <h1>Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy</h1>
+          <div class="meta-inline">Research · Fabrication · Robotics · 2024</div>
+        </div>
+        <div class="meta-inline"><a href="../../research/">← Back to Research</a></div>
+      </div>
     </div>
 
-    <figure class="feature">
-      <img id="feature-img" alt="Featured image"/>
-      <figcaption id="feature-cap"> </figcaption>
-    </figure>
-  </section>
-  <!-- 组件结束 -->
+    <div class="grid">
+      <article>
+        <h2>Abstract</h2>
+        <p>This academia–industry collaborative project, Diamanti canopy, demonstrates the design and fabrication of a combined compression and tension funicular canopy with periodic anticlastic, diamond surfaces. The canopy is a part of the European Cultural Centre’s 2024 biennial exhibition, ‘Personal Structures’, in Venice, Italy, at the Giardini della Marinaressa. Utilizing both 3D concrete printing (3DCP) and post-tensioning technologies, the canopy spans 10m and is supported by a cross-laminated timber (CLT) platform. The structural form of this composite canopy directly considers both compressive and tensile forces, inherently developed in concrete structural systems, by distributing loads through its unique, minimal-mass geometry. The CLT platform suggests how the combination of a carbon-negative material and concrete can be used in contrast to common construction methods where concrete is typically used as the load-bearing support and wood as the spanning element. Hence, the lightweight design of the Diamanti canopy, spanning over and supported by the CLT platform, showcases the innovative use of these materials, while also satisfying the Venice Port Authority’s installation requirements.</p>
+        <p>The exhibited canopy goes beyond compression only by embracing tension as an unavoidable force in systems resilient to different loading scenarios. Hence, a combined form-finding and fabrication approach was developed to achieve the innovative structure with the intention of also minimizing carbon through reduced materials and recyclability. Through the design freedom enabled by the design approach, 3DCP, and the use of post-tensioning, the final design favorably has minimal reinforcement while achieving the desired structural performance. Overall, the Diamanti canopy demonstrates how, through the combination of modern technologies and the development of a non-restrictive, comprehensive design approach, new structural forms can be achieved that lead to enhanced sustainable practices.</p>
 
-</div>
+        <div class="figure">
+          <div class="img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-1.jpg')"></div>
+          <div class="caption">Caption for image 1.</div>
+        </div>
 
-<script>
-(function(){
-  const thumbsWrap = document.getElementById('thumbs');
-  const thumbs = Array.from(thumbsWrap.querySelectorAll('.thumb'));
-  const img = document.getElementById('feature-img');
-  const cap = document.getElementById('feature-cap');
+        <h2>Process / Methods</h2>
+        <p><!-- Add your method notes here. --></p>
 
-  // 预加载高清图，减少切换闪烁
-  thumbs.forEach(t=>{
-    const pic = new Image(); pic.src = t.dataset.full;
-  });
+        <!-- 5 thumbnails in a row -->
+        <div class="gallery process-gallery" id="gallery-process">
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg" data-cap="Printing toolpath strategy"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg" data-cap="On-site assembly"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-4.jpg" data-cap="Post-tensioned anchorage"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-5.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-5.jpg" data-cap="Segment detail"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-6.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-6.jpg" data-cap="Final installation"></div>
+        </div>
 
-  let idx = 0;
-  let timer = null;
-  const INTERVAL = 3000; // 3s
+        <!-- Featured image below (auto-plays every 3s, infinite loop) -->
+        <div class="figure" id="process-feature">
+          <div class="img" id="process-feature-img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')"></div>
+          <div class="caption" id="process-feature-cap">Auto-playing preview · Click image to open</div>
+        </div>
+      </article>
 
-  function setActive(i){
-    idx = (i + thumbs.length) % thumbs.length;
-    const t = thumbs[idx];
+      <aside class="side">
+        <div class="card">
+          <div class="section">
+            <div class="kvs">
+              <div>Category</div><div>Research</div>
+              <div>Year</div><div>2024</div>
+              <div>Tags</div>
+              <div class="tags">
+                <span class="tag">Fabrication</span>
+                <span class="tag">Robotics</span>
+              </div>
+            </div>
+          </div>
 
-    thumbs.forEach(b=>b.classList.remove('active'));
-    t.classList.add('active');
+          <!-- Adaptive Links/Publications -->
+          <div class="section" id="dyn-links" style="display:none">
+            <strong id="dyn-links-title">Links</strong>
+            <ul class="links" id="dyn-links-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
+          </div>
 
-    // 触发淡入
-    img.classList.remove('fade-in');
-    void img.offsetWidth; // 强制回流以重置过渡
-    img.src = t.dataset.full;
-    cap.textContent = t.dataset.cap || '';
-    img.classList.add('fade-in');
-  }
+          <div class="section" id="dyn-pubs" style="display:none">
+            <strong>Publications</strong>
+            <ul class="links" id="dyn-pubs-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
+          </div>
 
-  function next(){ setActive(idx + 1); }
-  function start(){ stop(); timer = setInterval(next, INTERVAL); }
-  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+          <div class="section" style="display:flex; gap:8px; flex-wrap:wrap">
+            <a class="tag" href="../../research/">← Back to Research</a>
+            <a class="tag" href="../../gallery/?cat=all">Browse all projects</a>
+          </div>
+        </div>
+      </aside>
+    </div>
 
-  // 初始状态
-  setActive(0);
-  start();
+    <footer>© <span id="year"></span> Teng Teng · Hosted on GitHub Pages</footer>
+  </div>
 
-  // 点击缩略图：切图 + 重启轮播
-  thumbs.forEach((t,i)=>{
-    t.addEventListener('click', ()=>{ setActive(i); start(); });
-  });
+  <!-- lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close" aria-label="Close" onclick="closeLightbox()">Close ×</button>
+    <img alt="" id="lightbox-img"/>
+  </div>
 
-  // 悬停暂停，移出继续
-  thumbsWrap.addEventListener('mouseenter', stop);
-  thumbsWrap.addEventListener('mouseleave', start);
-  img.addEventListener('mouseenter', stop);
-  img.addEventListener('mouseleave', start);
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
 
-  // 如果图片加载较慢，首次加载完成后再淡入
-  if(!img.complete){
-    img.addEventListener('load', ()=>{ img.classList.add('fade-in'); }, {once:true});
-  }
-})();
-</script>
+      // lightbox
+      var lb=document.getElementById('lightbox');
+      var lbimg=document.getElementById('lightbox-img');
+      function openLightbox(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+      function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
+      window.closeLightbox = closeLightbox;
+
+      // autoplay featured image (every 3s)
+      var container = document.getElementById('gallery-process');
+      var feature   = document.getElementById('process-feature-img');
+      var capEl     = document.getElementById('process-feature-cap');
+      var featureBox= document.getElementById('process-feature');
+
+      if(!container || !feature) return;
+
+      var thumbs = Array.from(container.querySelectorAll('.gthumb'));
+      var idx = 0, timer=null;
+
+      function setFeatureByIndex(i){
+        idx = (i + thumbs.length) % thumbs.length;
+        var el = thumbs[idx];
+        var src = el.getAttribute('data-full');
+        var cap = el.getAttribute('data-cap') || '';
+        feature.style.backgroundImage = "url('"+src+"')";
+        if(capEl) capEl.textContent = cap || 'Auto-playing preview · Click image to open';
+      }
+
+      function start(){
+        stop();
+        timer = setInterval(function(){ setFeatureByIndex(idx+1); }, 3000);
+      }
+      function stop(){
+        if(timer){ clearInterval(timer); timer=null; }
+      }
+
+      // init
+      setFeatureByIndex(0);
+      start();
+
+      // click thumb -> jump & open
+      thumbs.forEach(function(t, i){
+        t.addEventListener('click', function(){
+          setFeatureByIndex(i);
+          start(); // restart cycle
+          openLightbox(t.getAttribute('data-full'));
+        });
+      });
+
+      // click large feature -> open current
+      featureBox.addEventListener('click', function(){
+        var el = thumbs[idx];
+        openLightbox(el.getAttribute('data-full'));
+      });
+
+      // optional: pause on hover (desktop)
+      featureBox.addEventListener('mouseenter', stop);
+      featureBox.addEventListener('mouseleave', start);
+    });
+  </script>
+
+  <!-- Shared dataset for adaptive links/pubs -->
+  <script src="../../assets/js/projects.js"></script>
+  <script>
+  (function(){
+    const ICON = { video:'▶︎', pdf:'📄', site:'🔗', code:'💻' };
+
+    function norm(p){
+      return String(p||'')
+        .replace(/\/index\.html?$/,'')
+        .replace(/^\/+|\/+$/g,'');
+    }
+
+    const here = norm(location.pathname.replace(/.*?(research|design|teaching)\//,'$1/'));
+    const list = (window.PROJECTS||[]);
+    const me = list.find(p => norm(p.url) === here);
+    if(!me) return;
+
+    // Links
+    const linksBox = document.getElementById('dyn-links');
+    const linksTitle = document.getElementById('dyn-links-title');
+    const linksUl = document.getElementById('dyn-links-list');
+    if(me.links && me.links.length){
+      linksBox.style.display = '';
+      linksTitle.textContent = 'Links';
+      linksUl.innerHTML = me.links.map(l=>{
+        const kind = (l.kind||'').toLowerCase();
+        const icon = ICON[kind] || ICON.site;
+        const title = l.title || l.url;
+        return `<li><a href="${l.url}" target="_blank" rel="noopener">${icon} ${title}</a></li>`;
+      }).join('');
+    }
+
+    // Publications
+    const pubsBox = document.getElementById('dyn-pubs');
+    const pubsUl = document.getElementById('dyn-pubs-list');
+    if(me.pubs && me.pubs.length){
+      pubsBox.style.display = '';
+      pubsUl.innerHTML = me.pubs.map(p=>{
+        const title = p.title || 'Paper';
+        const url = p.url || '#';
+        return `<li><a href="${url}" target="_blank" rel="noopener">📄 ${title}</a></li>`;
+      }).join('');
+    }
+  })();
+  </script>
 </body>
 </html>

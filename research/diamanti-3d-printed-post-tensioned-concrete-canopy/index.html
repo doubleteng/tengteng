@@ -7,68 +7,64 @@
   <meta name="description" content="Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — project page.">
   <link rel="preload" as="image" href="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg">
   <style>
-    :root{
-      --bg:#fff; --text:#111827; --sub:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.06);
-      --radius:18px; --maxw:1100px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif; background:var(--bg); color:var(--text); line-height:1.65}
-    a{color:var(--text); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:var(--maxw); margin:0 auto; padding:24px}
+    :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px;--maxw:1100px}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+    a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:24px}
 
     /* header & nav */
-    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 8px; position:sticky; top:0; background:rgba(255,255,255,.88); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid var(--border)}
-    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
-    .brand .logo{width:36px; height:36px; border-radius:12px; background:#111827; color:#fff; display:grid; place-items:center; box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    nav.menu > ul{list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center; flex-wrap:wrap}
-    nav.menu > ul > li > a{color:var(--sub); font-weight:600; display:inline-block; padding:6px 10px; border-radius:8px}
-    nav.menu > ul > li > a:hover{color:var(--text); background:#f3f4f6}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+    .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
+    nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
 
     /* hero */
-    .hero{margin-top:18px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
-    .hero .img{aspect-ratio: 16/7; background:#eee center/cover no-repeat}
-    .titlebar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; padding:16px 18px; border-top:1px solid var(--border); background:#fff}
-    h1{margin:0; font-size:clamp(26px,4vw,40px)}
-    .meta-inline{color:var(--sub); font-size:14px}
+    .hero{margin-top:18px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .hero .img{aspect-ratio:16/7;background:#eee center/cover no-repeat}
+    .titlebar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;padding:16px 18px;border-top:1px solid var(--border);background:#fff}
+    h1{margin:0;font-size:clamp(26px,4vw,40px)}
+    .meta-inline{color:var(--sub);font-size:14px}
 
     /* layout */
-    .grid{display:grid; grid-template-columns: 1.6fr .9fr; gap:28px; margin-top:24px}
-    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+    .grid{display:grid;grid-template-columns:1.6fr .9fr;gap:28px;margin-top:24px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
 
     /* article */
-    article h2{font-size:22px; margin:18px 0 8px}
+    article h2{font-size:22px;margin:18px 0 8px}
     article p{margin:0 0 12px}
-    .figure{border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#f8fafc; margin:16px 0}
-    .figure .img{aspect-ratio: 3/2; background:#f0f0f0 center/cover no-repeat}
-    .caption{padding:10px 12px; color:var(--sub); font-size:13px; border-top:1px solid var(--border); background:#fff}
+    .figure{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#f8fafc;margin:16px 0}
+    .figure .img{aspect-ratio:3/2;background:#f0f0f0 center/cover no-repeat}
+    .caption{padding:10px 12px;color:var(--sub);font-size:13px;border-top:1px solid var(--border);background:#fff}
 
-    /* sidebar */
-    .side{position:sticky; top:72px; align-self:start}
-    .card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+    /* sidebar cards */
+    .side{position:sticky;top:72px;align-self:start}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .card .section{padding:16px 16px 6px}
     .card .section + .section{border-top:1px solid var(--border)}
-    .kvs{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:14px}
+    .kvs{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px}
     .kvs div:first-child{color:var(--sub)}
-    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
-    .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
-    .links a{display:inline-block; padding:4px 0}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .tag{border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:12px;color:#374151;background:#fff}
+    .links a{display:inline-block;padding:4px 0}
+    .list{margin:8px 0 0 16px;color:var(--sub);font-size:14px}
 
-    /* galleries */
-    .gallery{display:grid; gap:12px}
-    .process-gallery{grid-template-columns:repeat(5,1fr)}        /* 5 thumbs in a row */
+    /* process gallery */
+    .gallery{display:grid;gap:12px}
+    .process-gallery{grid-template-columns:repeat(5,1fr)}
     @media(max-width:900px){.process-gallery{grid-template-columns:repeat(3,1fr)}}
     @media(max-width:600px){.process-gallery{grid-template-columns:repeat(2,1fr)}}
-    .gthumb{aspect-ratio:4/3; border:1px solid var(--border); border-radius:12px; background:#eee center/cover no-repeat; cursor:pointer}
+    .gthumb{aspect-ratio:4/3;border:1px solid var(--border);border-radius:12px;background:#eee center/cover no-repeat;cursor:pointer}
 
     /* lightbox */
-    .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:50}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50}
     .lightbox.open{display:flex}
-    .lightbox img{max-width:92vw; max-height:88vh; border-radius:12px; background:#000}
-    .lightbox .close{position:absolute; top:18px; right:18px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:8px 12px; cursor:pointer; font-weight:700}
+    .lightbox img{max-width:92vw;max-height:88vh;border-radius:12px;background:#000}
+    .lightbox .close{position:absolute;top:18px;right:18px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:700}
 
-    footer{color:var(--sub); font-size:13px; text-align:center; padding:28px 0 12px; margin-top:40px}
+    footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:40px}
   </style>
 </head>
 <body>
@@ -94,7 +90,7 @@
       <div class="titlebar">
         <div>
           <h1>Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy</h1>
-          <div class="meta-inline">Research · Fabrication · Robotics · 2024</div>
+        <div class="meta-inline">Research · Fabrication · Robotics · 2024</div>
         </div>
         <div class="meta-inline"><a href="../../research/">← Back to Research</a></div>
       </div>
@@ -103,8 +99,7 @@
     <div class="grid">
       <article>
         <h2>Abstract</h2>
-        <p>This academia–industry collaborative project, Diamanti canopy, demonstrates the design and fabrication of a combined compression and tension funicular canopy with periodic anticlastic, diamond surfaces. The canopy is a part of the European Cultural Centre’s 2024 biennial exhibition, ‘Personal Structures’, in Venice, Italy, at the Giardini della Marinaressa. Utilizing both 3D concrete printing (3DCP) and post-tensioning technologies, the canopy spans 10m and is supported by a cross-laminated timber (CLT) platform. The structural form of this composite canopy directly considers both compressive and tensile forces, inherently developed in concrete structural systems, by distributing loads through its unique, minimal-mass geometry. The CLT platform suggests how the combination of a carbon-negative material and concrete can be used in contrast to common construction methods where concrete is typically used as the load-bearing support and wood as the spanning element. Hence, the lightweight design of the Diamanti canopy, spanning over and supported by the CLT platform, showcases the innovative use of these materials, while also satisfying the Venice Port Authority’s installation requirements.</p>
-        <p>The exhibited canopy goes beyond compression only by embracing tension as an unavoidable force in systems resilient to different loading scenarios. Hence, a combined form-finding and fabrication approach was developed to achieve the innovative structure with the intention of also minimizing carbon through reduced materials and recyclability. Through the design freedom enabled by the design approach, 3DCP, and the use of post-tensioning, the final design favorably has minimal reinforcement while achieving the desired structural performance. Overall, the Diamanti canopy demonstrates how, through the combination of modern technologies and the development of a non-restrictive, comprehensive design approach, new structural forms can be achieved that lead to enhanced sustainable practices.</p>
+        <p><!-- 你的摘要内容 --></p>
 
         <div class="figure">
           <div class="img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-1.jpg')"></div>
@@ -112,9 +107,9 @@
         </div>
 
         <h2>Process / Methods</h2>
-        <p><!-- Add your method notes here. --></p>
+        <p><!-- 方法说明 --></p>
 
-        <!-- 5 thumbnails in a row -->
+        <!-- 5 thumbnails -->
         <div class="gallery process-gallery" id="gallery-process">
           <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg" data-cap="Printing toolpath strategy"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-3.jpg" data-cap="On-site assembly"></div>
@@ -123,7 +118,7 @@
           <div class="gthumb" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-6.jpg')" data-full="../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-6.jpg" data-cap="Final installation"></div>
         </div>
 
-        <!-- Featured image below (auto-plays every 3s, infinite loop) -->
+        <!-- autoplay feature -->
         <div class="figure" id="process-feature">
           <div class="img" id="process-feature-img" style="background-image:url('../../assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/img-2.jpg')"></div>
           <div class="caption" id="process-feature-cap">Auto-playing preview · Click image to open</div>
@@ -131,6 +126,29 @@
       </article>
 
       <aside class="side">
+        <!-- NEW: Credits / Team / Acknowledgements card -->
+        <div class="card" id="dyn-credits">
+          <div class="section">
+            <strong>Project Credits</strong>
+            <ul class="list" id="credits-list">
+              <li>Lead: Teng Teng — Structural & Computational Design; Fabrication Strategy</li>
+              <li>Co-Lead / PI: [Name] — Concept & Form-Finding</li>
+            </ul>
+          </div>
+          <div class="section">
+            <strong>Team</strong>
+            <ul class="list" id="team-list">
+              <li>[University / Lab]</li>
+              <li>[Industry Partner / Fabrication Partner]</li>
+            </ul>
+          </div>
+          <div class="section" id="ack-sec">
+            <strong>Acknowledgements</strong>
+            <p class="list" id="ack-text" style="margin-left:16px">Supported by … (Grant No. …).</p>
+          </div>
+        </div>
+
+        <!-- existing meta / links / pubs card -->
         <div class="card">
           <div class="section">
             <div class="kvs">
@@ -144,7 +162,6 @@
             </div>
           </div>
 
-          <!-- Adaptive Links/Publications -->
           <div class="section" id="dyn-links" style="display:none">
             <strong id="dyn-links-title">Links</strong>
             <ul class="links" id="dyn-links-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
@@ -183,7 +200,7 @@
       function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
       window.closeLightbox = closeLightbox;
 
-      // autoplay featured image (every 3s)
+      // autoplay feature (every 3s)
       var container = document.getElementById('gallery-process');
       var feature   = document.getElementById('process-feature-img');
       var capEl     = document.getElementById('process-feature-cap');
@@ -193,7 +210,6 @@
 
       var thumbs = Array.from(container.querySelectorAll('.gthumb'));
       var idx = 0, timer=null;
-
       function setFeatureByIndex(i){
         idx = (i + thumbs.length) % thumbs.length;
         var el = thumbs[idx];
@@ -202,58 +218,44 @@
         feature.style.backgroundImage = "url('"+src+"')";
         if(capEl) capEl.textContent = cap || 'Auto-playing preview · Click image to open';
       }
-
-      function start(){
-        stop();
-        timer = setInterval(function(){ setFeatureByIndex(idx+1); }, 3000);
-      }
-      function stop(){
-        if(timer){ clearInterval(timer); timer=null; }
-      }
+      function start(){ stop(); timer=setInterval(function(){ setFeatureByIndex(idx+1); },3000); }
+      function stop(){ if(timer){ clearInterval(timer); timer=null; } }
 
       // init
-      setFeatureByIndex(0);
-      start();
+      setFeatureByIndex(0); start();
 
       // click thumb -> jump & open
-      thumbs.forEach(function(t, i){
+      thumbs.forEach(function(t,i){
         t.addEventListener('click', function(){
-          setFeatureByIndex(i);
-          start(); // restart cycle
+          setFeatureByIndex(i); start();
           openLightbox(t.getAttribute('data-full'));
         });
       });
-
-      // click large feature -> open current
+      // click large image -> open current
       featureBox.addEventListener('click', function(){
-        var el = thumbs[idx];
-        openLightbox(el.getAttribute('data-full'));
+        var el = thumbs[idx]; openLightbox(el.getAttribute('data-full'));
       });
-
-      // optional: pause on hover (desktop)
+      // optional pause on hover
       featureBox.addEventListener('mouseenter', stop);
       featureBox.addEventListener('mouseleave', start);
     });
   </script>
 
-  <!-- Shared dataset for adaptive links/pubs -->
+  <!-- dataset for adaptive links/pubs/credits -->
   <script src="../../assets/js/projects.js"></script>
   <script>
   (function(){
     const ICON = { video:'▶︎', pdf:'📄', site:'🔗', code:'💻' };
 
     function norm(p){
-      return String(p||'')
-        .replace(/\/index\.html?$/,'')
-        .replace(/^\/+|\/+$/g,'');
+      return String(p||'').replace(/\/index\.html?$/,'').replace(/^\/+|\/+$/g,'');
     }
-
     const here = norm(location.pathname.replace(/.*?(research|design|teaching)\//,'$1/'));
     const list = (window.PROJECTS||[]);
     const me = list.find(p => norm(p.url) === here);
     if(!me) return;
 
-    // Links
+    // ----- Links -----
     const linksBox = document.getElementById('dyn-links');
     const linksTitle = document.getElementById('dyn-links-title');
     const linksUl = document.getElementById('dyn-links-list');
@@ -268,7 +270,7 @@
       }).join('');
     }
 
-    // Publications
+    // ----- Publications -----
     const pubsBox = document.getElementById('dyn-pubs');
     const pubsUl = document.getElementById('dyn-pubs-list');
     if(me.pubs && me.pubs.length){
@@ -278,6 +280,28 @@
         const url = p.url || '#';
         return `<li><a href="${url}" target="_blank" rel="noopener">📄 ${title}</a></li>`;
       }).join('');
+    }
+
+    // ----- Credits / Team / Acknowledgements (optional) -----
+    if(me.credits){
+      const c = me.credits;
+      const credList = document.getElementById('credits-list');
+      const teamList = document.getElementById('team-list');
+      const ackSec   = document.getElementById('ack-sec');
+      const ackText  = document.getElementById('ack-text');
+
+      if(Array.isArray(c.credits)){
+        credList.innerHTML = c.credits.map(s=>`<li>${s}</li>`).join('');
+      }
+      if(Array.isArray(c.team)){
+        teamList.innerHTML = c.team.map(s=>`<li>${s}</li>`).join('');
+      }
+      if(typeof c.ack === 'string' && c.ack.trim()){
+        ackText.textContent = c.ack.trim();
+        ackSec.style.display = '';
+      }else{
+        ackSec.style.display = 'none';
+      }
     }
   })();
   </script>

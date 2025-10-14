@@ -2,7 +2,7 @@ window.PROJECTS = [
 
   {
   "title": "Integrated and Tailored Thermal Insulation",
-  "url": "design/integrated-and-tailored-thermal-insulation/",
+  "url": "research/integrated-and-tailored-thermal-insulation/",
   "img": "assets/img/integrated-and-tailored-thermal-insulation/hero.jpg",
   "year": "2024",
   "cats": [
@@ -199,7 +199,7 @@ window.PROJECTS = [
 
   {
   title: "Floralis: an ETFE-Clad, Multilaminar Timber Structure",
-  url: "research/floralis-an-etfe-clad-multilaminar-timber-structure/",
+  url: "design/floralis-an-etfe-clad-multilaminar-timber-structure/",
   img: "assets/img/floralis-an-etfe-clad-multilaminar-timber-structure/hero.jpg",
   year: 2025,
   cats: ["research"],

@@ -1,5 +1,6 @@
 window.PROJECTS = [
-{
+
+  {
   "title": "Integrated and Tailored Thermal Insulation",
   "url": "research/integrated-and-tailored-thermal-insulation/",
   "img": "assets/img/integrated-and-tailored-thermal-insulation/hero.jpg",
@@ -33,7 +34,9 @@ window.PROJECTS = [
     }
   ]
 },
-{
+
+//------------------------------------------------  
+  {
   "title": "SNMM Additive Manufacturing System",
   "url": "research/snmm-additive-manufacturing-system/",
   "img": "assets/img/snmm-additive-manufacturing-system/hero.jpg",
@@ -67,7 +70,10 @@ window.PROJECTS = [
     }
   ]
 },
-{
+  //------------------------------------------------  
+  
+
+  {
   "title": "Multi-material 3D Printing for Tension-Compression Structure",
   "url": "research/multi-material-3d-printing-for-tension-compression-structure/",
   "img": "assets/img/multi-material-3d-printing-for-tension-compression-structure/hero.jpg",
@@ -99,6 +105,9 @@ window.PROJECTS = [
     }
   ]
 },
+      //------------------------------------------------  
+
+  
 {
   "title": "Scaled Fabrication Models",
   "url": "research/scaled-fabrication-models/",
@@ -130,6 +139,10 @@ window.PROJECTS = [
     }
   ]
 },
+
+  //------------------------------------------------  
+
+  
 {
   title: "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy",
   url: "research/diamanti-3d-printed-post-tensioned-concrete-canopy/",
@@ -172,10 +185,12 @@ window.PROJECTS = [
       "SIKA Corporation — Karolina Pajak, Mylène Bernard, Leon Trousset",
       "Simpson Gumpertz & Heger (SGH) — Paul Kassabian, Blaise Waligun"
     ],
-    ack: "Exhibited at ECC ‘Personal Structures’ 2024, Giardini della Marinaressa, Venice. With support from SIKA and SGH; installation per Venice Port Authority requirements."
+    ack: "This research is funded by the Advanced Research Projects Agency – Energy (ARPA-E) of U.S. Department of Energy (DE-FOA-0002625 2625-1538)."
   }
 },
+//------------------------------------------------  
 
+  
 {
   "title": "3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture",
   "url": "research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/",
@@ -208,6 +223,9 @@ window.PROJECTS = [
     }
   ]
 },
+  //------------------------------------------------  //------------------------------------------------  
+
+  
 {
   "title": "Epithelial Cell-Inspired Programmable Surface Geometry",
   "url": "research/epithelial-cell-inspired-programmable-surface-geometry/",
@@ -240,6 +258,9 @@ window.PROJECTS = [
     }
   ]
 },
+  //------------------------------------------------  
+
+  
 {
   "title": "Scutoid Brick",
   "url": "research/scutoid-brick/",
@@ -271,6 +292,9 @@ window.PROJECTS = [
     }
   ]
 },
+  //------------------------------------------------  
+
+  
 {
   "title": "Pinbed",
   "url": "research/pinbed/",
@@ -303,6 +327,9 @@ window.PROJECTS = [
     }
   ]
 },
+  //------------------------------------------------  
+
+  
 {
   "title": "Pica",
   "url": "research/pica/",
@@ -335,6 +362,8 @@ window.PROJECTS = [
     }
   ]
 },
+  //------------------------------------------------  
+  
 {
   "title": "Yintai Centre Mixed-Use",
   "url": "design/yintai-centre-mixed-use/",

@@ -12,6 +12,7 @@
   a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
 
+  /* top nav */
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
   .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
@@ -19,23 +20,39 @@
   nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
   nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
 
-  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
+  /* ===== font-size scaled down ~1/3 for MAIN only ===== */
+  main{font-size:0.75em;}                 /* 只缩内容区，不影响导航 */
+  h1{font-size:clamp(17px,2.4vw,27px);margin:14px 0 12px}
   .sub{color:var(--sub)}
+
+  /* intro card (独立于项目卡片的样式) */
+  .intro-card{
+    background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);
+    padding:20px 24px; margin:12px 0 24px;
+  }
+  .intro-card p{margin:0 0 12px;}
+  @media (max-width:600px){ .intro-card{ padding:16px 18px; } }
+
+  /* toolbar */
   .toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 16px}
   .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-weight:700;background:#fff;cursor:pointer}
+  .chip{border:1px solid var(--border);border-radius:999px;padding:6px 9px;font-weight:700;background:#fff;cursor:pointer;font-size:.9em}
   .chip[aria-pressed="true"]{background:#f3f4f6}
-  .count{color:var(--sub);font-size:14px}
+  .count{color:var(--sub);font-size:12px}
 
+  /* project grid */
   .grid{display:grid;gap:16px}
   .grid.projects{grid-template-columns:repeat(3,1fr)}
   @media(max-width:900px){.grid.projects{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:600px){.grid.projects{grid-template-columns:1fr}}
+
+  /* project cards（保持你原来的卡片结构） */
   .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:0;display:grid;grid-template-rows:160px auto}
   .thumb{border-radius:16px;margin:12px 12px 0;height:160px;border:1px solid var(--border);background:#f3f4f6 center/cover}
   .meta{padding:10px 16px 14px}
-  .meta h3{margin:0 0 6px;font-size:16px}
-  .meta p{margin:0;color:var(--sub);font-size:14px}
+  .meta h3{margin:0 0 6px;font-size:12px}     /* 原 16px → 约 12px */
+  .meta p{margin:0;color:var(--sub);font-size:10px} /* 原 14px → 约 10px */
+
   footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:20px}
 </style>
 </head>
@@ -59,7 +76,12 @@
 
   <main>
     <h1>Research Gallery</h1>
-    <div class="sub">My research advances computational design and materiality by developing material-driven digital workflows, advanced fabrication systems, and novel materials that challenge traditional construction logic. Theoretically, I examine how gradient material transitions disrupt conventional notions of architectural tectonics, representation, and fabrication, situating material behavior as an active design parameter rather than a passive outcome. Technically, I focus on refining performance-driven computational methods, developing architectural-scale advanced manufacturing technologies, and designing 3D-printable construction and smart materials that enhance manufacturability, adaptability, and sustainability. By integrating design, fabrication, and material innovation, I aim to produce architectural components that seamlessly respond to climatic, structural, and cultural contexts, advancing a paradigm where form, function, and materiality are computationally and materially inseparable.</div>
+
+    <!-- 顶部介绍：放入带留白的卡片，并分成两段更易读 -->
+    <div class="intro-card">
+      <p>My research advances computational design and materiality by developing material-driven digital workflows, advanced fabrication systems, and novel materials that challenge traditional construction logic. Theoretically, I examine how gradient material transitions disrupt conventional notions of architectural tectonics, representation, and fabrication—positioning material behavior as an active design parameter rather than a passive outcome.</p>
+      <p>Technically, I focus on performance-driven computational methods, architectural-scale advanced manufacturing, and 3D-printable construction and smart materials to enhance manufacturability, adaptability, and sustainability. By integrating design, fabrication, and material innovation, I aim to produce architectural components that respond to climatic, structural, and cultural contexts—advancing a paradigm where form, function, and materiality are computationally and materially inseparable.</p>
+    </div>
 
     <div class="toolbar">
       <div class="filters" id="tagbar" aria-label="Tag filter (single-select)"></div>
@@ -82,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   const BASE  = "../";
   const SCOPE = "research";
-  const TAGS  = ["computation","material","fabrication","robotics"]; // 单选
+  const TAGS  = ["computation","material","fabrication","robotics"]; // single-select
 
   const all = (window.PROJECTS||[]);
   const projects = all.filter(p => p.cats.includes(SCOPE));
@@ -112,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const omit = new Set(['research','design','teaching']);
     const tags = (p.tags||[]).filter(t => !omit.has(t.toLowerCase()));
     const t = tags.length ? ' · ' + tags.map(cap).join(' · ') : '';
-       const y = p.year ? ' · ' + p.year : '';
+    const y = p.year ? ' · ' + p.year : '';
     return primary + t + y;
   }
   function card(p){
@@ -124,9 +146,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function render(){
     let list = projects.slice().sort((a,b)=>(b.year||0)-(a.year||0));
-    if(activeTag){ list = list.filter(p => p.tags.includes(activeTag)); }
+    if(activeTag){ list = list.filter(p => (p.tags||[]).includes(activeTag)); }
     grid.innerHTML = list.map(card).join('');
-    count.textContent = `${list.length} projects`;
+    count.textContent = `${list.length} project${list.length===1?'':'s'}`;
   }
 
   render();

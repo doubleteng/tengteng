@@ -28,6 +28,20 @@
   .section-title{margin:14px 0 6px;font-size:18px}
   .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; color: var(--sub)}
   footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
+
+  /* Added for combined card layout */
+  .combined-card {display: flex; gap: 24px; align-items: flex-start;}
+  .combined-card .avatar {flex: 0 0 40%; max-width: 300px;}
+  .combined-card .bio-content {flex: 1;}
+  @media(max-width: 900px) {
+    .combined-card {flex-direction: column;}
+    .combined-card .avatar {max-width: none; width: 100%;}
+  }
+
+  /* Added for new list item styles */
+  .gray-bold {font-weight: bold; color: var(--sub);}
+  .black-bold {font-weight: bold; color: var(--text);}
+  .small-gray {font-size: 14px; color: var(--sub);}
 </style>
 </head>
 <body>
@@ -52,14 +66,10 @@
     <h1>About</h1>
     <div class="sub">Brief bio, research interests, appointments, and experience.</div>
 
-    <div class="grid">
-      <!-- Portrait -->
-      <div class="card">
-        <div class="avatar" aria-label="Portrait of Teng Teng"></div>
-      </div>
-
-      <!-- Bio + Interests -->
-      <div class="card">
+    <!-- Combined Portrait + Bio + Interests -->
+    <div class="card combined-card" style="margin-top:12px">
+      <div class="avatar" aria-label="Portrait of Teng Teng"></div>
+      <div class="bio-content">
         <h2 class="section-title">Bio</h2>
         <p>
 Teng Teng is a PhD candidate and research fellow in the Department of Architecture at the Weitzman School of Design, University of Pennsylvania, expecting his PhD in Dec 2025. He holds dual MS degrees in Matter Design Computation (Cornell) and Design Computing (University of Washington), as well as a B.Arch (Shanghai University). His interdisciplinary work integrates design, advanced manufacturing, structural engineering, mechatronics, robotics, and material sciences to create sustainable products, minimize waste, reduce carbon footprints, and enhance performance. He advances computational tools and fabrication systems and has served as a research associate at Jenny Sabin’s Lab (Cornell) and a faculty member at the Shanghai Institute of Visual Art (SIVA). With over a decade of teaching experience at institutions including UPenn, Cornell, UW, Shanghai University, Tongji University, and SIVA, he has led courses on design computation, robotics, and fabrication worldwide. Previously, he practiced as an architecture professional, delivering across-scale projects as a project architectural designer and computational design leader across Asia, the Middle East, and North America.
@@ -70,11 +80,11 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
         <h3 class="section-title">Research Interests</h3>
         <ul>
           <li>Advanced Manufacturing</li>
-          <li>Robotic construction</li>
-           <li>Mechatronics</li>
-          <li>Computational geometry</li>
-           <li>structural form finding</li>
-          <li>Biomaterials,</li>
+          <li>Robotic Construction</li>
+          <li>Mechatronics</li>
+          <li>Computational Geometry</li>
+          <li>Structural Form Finding</li>
+          <li>Biomaterials</li>
         </ul>
       </div>
     </div>
@@ -83,15 +93,36 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
     <div class="card" style="margin-top:16px">
       <h2 class="section-title">Academic Appointments</h2>
       <ul>
-        <li><strong>University of Pennsylvania</strong> — PhD Research/Teaching Fellow, Polyhedral Structures Lab — <span class="mono">2021–present</span> · multiscale & multimaterial AM; concrete 3DP & carbon capture</li>
-        <li><strong>Cornell University</strong> — Senior Research Associate, Jenny Sabin Lab — <span class="mono">2018–2021</span> · robotic clay printing; programmable surfaces; personal fab robot</li>
-        <li><strong>Shanghai Institute of Visual Art</strong> — Lecturer, Compputational Design Group — <span class="mono">2015–2017</span> · computational design; interior design studio; undergraduate thesis (architecture, product)</li>
+        <li>
+          <span class="gray-bold">University of Pennsylvania, Polyhedral Structures Lab</span> — <span class="black-bold">PhD Research/Teaching Fellow</span><br>
+          <div class="small-gray"><span class="mono">2021–present</span> · multiscale & multimaterial AM; concrete 3DP & carbon capture</div>
+        </li>
+        <li>
+          <span class="gray-bold">Cornell University, Jenny Sabin Lab</span> — <span class="black-bold">Senior Research Associate</span><br>
+          <div class="small-gray"><span class="mono">2018–2021</span> · robotic clay printing; programmable surfaces; personal fab robot</div>
+        </li>
+        <li>
+          <span class="gray-bold">Shanghai Institute of Visual Art, Computational Design Group</span> — <span class="black-bold">Lecturer</span><br>
+          <div class="small-gray"><span class="mono">2015–2017</span> · computational design; interior design studio; undergraduate thesis (architecture, product)</div>
+        </li>
 
         <!-- Adjunct completions from teaching experience -->
-        <li><strong>Tongji University</strong> — Adjunct Instructor — <span class="mono">2023</span> · <em>Advanced Manufacturing</em> (seminar)</li>
-        <li><strong>Shanghai University</strong> — Adjunct Instructor — <span class="mono">2022</span> · <em>Computational Design & Fabrication</em> (seminar)</li>
-        <li><strong>Cornell University</strong> — Teaching Assistant — <span class="mono">2018–2019</span> · <em>Matter Design Computation</em> (4605/6605)</li> 
-        <li><strong>University of Washington</strong> — Teaching Assistant — <span class="mono">2013–2014</span> · <em>3D Modeling & Rendering; CG Programming</em></li>
+        <li>
+          <span class="gray-bold">Tongji University</span> — <span class="black-bold">Adjunct Instructor</span><br>
+          <div class="small-gray"><span class="mono">2023</span> · <em>Advanced Manufacturing</em> (seminar)</div>
+        </li>
+        <li>
+          <span class="gray-bold">Shanghai University</span> — <span class="black-bold">Adjunct Instructor</span><br>
+          <div class="small-gray"><span class="mono">2022</span> · <em>Computational Design & Fabrication</em> (seminar)</div>
+        </li>
+        <li>
+          <span class="gray-bold">Cornell University</span> — <span class="black-bold">Teaching Assistant</span><br>
+          <div class="small-gray"><span class="mono">2018–2019</span> · <em>Matter Design Computation</em> (4605/6605)</div>
+        </li> 
+        <li>
+          <span class="gray-bold">University of Washington</span> — <span class="black-bold">Teaching Assistant</span><br>
+          <div class="small-gray"><span class="mono">2013–2014</span> · <em>3D Modeling & Rendering; CG Programming</em></div>
+        </li>
             
       </ul>
     </div>
@@ -100,13 +131,31 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
     <div class="card" style="margin-top:16px">
      <h2 class="section-title">Professional Experience</h2>
       <ul>
-        <li><strong>Ju Square LLC</strong> — Partner — <span class="mono">2017–2021</span> · Townhouse real estate development</li>
-        <li><strong>Adaptive Design LLC</strong> — Chief Designer & Partner — <span class="mono">2017–2018</span> · Retail architecture & interiors</li>
-        <li><strong>CallisonRTKL</strong> — Project Architect & Design Technologist — <span class="mono">2013–2017</span> · Computational lead; mixed-use</li>
-        <li><strong>Schemata Workshop</strong> — Architectural Designer (PT) — <span class="mono">2013–2014</span> · Seattle urban projects</li>
-        <li><strong>Callison (Shanghai)</strong> — Design Technologist  — <span class="mono">2010–2012</span> · Large-scale commercial project tech support</li>
-        <li><strong>NCF</strong> — Founding Partner — <span class="mono">2008–2014</span> · Founded computational design platform
-          &nbsp;(<a href="http://bbs.ncf-china.com/forum.php" target="_blank" rel="noopener">link</a>)
+        <li>
+          <span class="gray-bold">Ju Square LLC</span> — <span class="black-bold">Partner</span><br>
+          <div class="small-gray"><span class="mono">2017–2021</span> · Townhouse real estate development</div>
+        </li>
+        <li>
+          <span class="gray-bold">Adaptive Design LLC</span> — <span class="black-bold">Chief Designer & Partner</span><br>
+          <div class="small-gray"><span class="mono">2017–2018</span> · Retail architecture & interiors</div>
+        </li>
+        <li>
+          <span class="gray-bold">CallisonRTKL</span> — <span class="black-bold">Project Architect & Design Technologist</span><br>
+          <div class="small-gray"><span class="mono">2013–2017</span> · Computational lead; mixed-use</div>
+        </li>
+        <li>
+          <span class="gray-bold">Schemata Workshop</span> — <span class="black-bold">Architectural Designer (PT)</span><br>
+          <div class="small-gray"><span class="mono">2013–2014</span> · Seattle urban projects</div>
+        </li>
+        <li>
+          <span class="gray-bold">Callison (Shanghai)</span> — <span class="black-bold">Design Technologist</span><br>
+          <div class="small-gray"><span class="mono">2010–2012</span> · Large-scale commercial project tech support</div>
+        </li>
+        <li>
+          <span class="gray-bold">NCF</span> — <span class="black-bold">Founding Partner</span><br>
+          <div class="small-gray"><span class="mono">2008–2014</span> · Founded computational design platform
+            &nbsp;(<a href="http://bbs.ncf-china.com/forum.php" target="_blank" rel="noopener">link</a>)
+          </div>
         </li>
       </ul>
     </div>
@@ -115,7 +164,7 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
     <div class="card" style="margin-top:16px">
       <h2 class="section-title">Education</h2>
       <ul>
-        <li><strong>University of Pennsylvania</strong> — Ph.D. in Architecture(in progress)</li>
+        <li><strong>University of Pennsylvania</strong> — Ph.D. in Architecture (in progress)</li>
         <li><strong>Cornell University</strong> — Master of Science in Matter Design Computation</li>
         <li><strong>University of Washington</strong> — Master of Science in Architecture</li>
         <li><strong>Shanghai University</strong> — B. of Architecture</li>

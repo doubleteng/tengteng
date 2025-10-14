@@ -131,37 +131,51 @@ window.PROJECTS = [
   ]
 },
 {
-  "title": "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy",
-  "url": "research/diamanti-3d-printed-post-tensioned-concrete-canopy/",
-  "img": "assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg",
-  "year": "2024",
-  "cats": [
-    "research"
-  ],
-  "tags": [
-    "research",
-    "fabrication",
-    "robotics"
-  ],
-  "links": [
+  title: "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy",
+  url: "research/diamanti-3d-printed-post-tensioned-concrete-canopy/",
+  img: "assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg",
+  year: 2024,
+  cats: ["research"],
+  tags: ["fabrication","robotics","concrete","post-tensioning"],
+  links: [
     {
-      "title": "Project page",
-      "url": "https://example.com/diamanti-3d-printed-post-tensioned-concrete-canopy",
-      "kind": "site"
+      kind: "site",
+      title: "PSL project page",
+      url: "https://psl.design.upenn.edu/project/diamanti-3d-printed-post-tensioned-concrete-canopy/"
     },
     {
-      "title": "Video",
-      "url": "https://dev.psl.design.upenn.edu/wp-content/uploads/2024/04/MCUT0421colorgradedPouriaVakhshouri-Website-YZ-sizereduced.mp4",
-      "kind": "video"
+      kind: "pdf",
+      title: "FABRICATE 2024 paper (PDF)",
+      url: "https://psl.design.upenn.edu/wp-content/uploads/2024/04/PSL-Fabricate-2024.pdf"
+    },
+    {
+      kind: "site",
+      title: "FABRICATE 2024 project listing",
+      url: "https://www.fabricate.org/portfolio_page/diamanti-3d-printed-post-tensioned-concrete-canopy/"
     }
   ],
-  "pubs": [
+  pubs: [
     {
-      "title": "Related paper (DOI)",
-      "url": "https://www.jstor.org/stable/jj.11374766.40?seq=1"
+      title: "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — FABRICATE 2024",
+      url: "https://psl.design.upenn.edu/wp-content/uploads/2024/04/PSL-Fabricate-2024.pdf"
     }
-  ]
-},
+  ],
+  credits: {
+    credits: [
+      "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
+      "Project team: Hua Chai, Yefan Zhi, Maximilian E. Ororbia, Teng Teng, Mathias Bernhard"
+    ],
+    team: [
+      "University of Pennsylvania — Polyhedral Structures Lab (PSL)",
+      "École Polytechnique Fédérale de Lausanne (EPFL) — Mathias Bernhard",
+      "The City College of New York (CCNY) — Damon (Mohammad) Bolhassani, Fahimeh Yavartanoo, Javier Tapia",
+      "SIKA Corporation — Karolina Pajak, Mylène Bernard, Leon Trousset",
+      "Simpson Gumpertz & Heger (SGH) — Paul Kassabian, Blaise Waligun"
+    ],
+    ack: "Exhibited at ECC ‘Personal Structures’ 2024, Giardini della Marinaressa, Venice. With support from SIKA and SGH; installation per Venice Port Authority requirements."
+  }
+}
+
 {
   "title": "3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture",
   "url": "research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/",

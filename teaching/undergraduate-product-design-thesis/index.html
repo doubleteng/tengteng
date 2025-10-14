@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Undergraduate Product Design Thesis | Teng Teng</title>
+  <meta name="description" content="Undergraduate Product Design Thesis — project page.">
+  <link rel="preload" as="image" href="../../assets/img/undergraduate-product-design-thesis/hero.webp">
+  <style>
+
+    :root{
+      --bg:#fff; --text:#111827; --sub:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.06);
+      --radius:18px; --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif; background:var(--bg); color:var(--text); line-height:1.65}
+    a{color:var(--text); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:24px}
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 8px; position:sticky; top:0; background:rgba(255,255,255,.88); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid var(--border)}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
+    .brand .logo{width:36px; height:36px; border-radius:12px; background:#111827; color:#fff; display:grid; place-items:center; box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    nav.menu > ul{list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    nav.menu > ul > li > a{color:var(--sub); font-weight:600; display:inline-block; padding:6px 10px; border-radius:8px}
+    nav.menu > ul > li > a:hover{color:var(--text); background:#f3f4f6}
+    .hero{margin-top:18px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
+    .hero .img{aspect-ratio: 16/7; background:#eee center/cover no-repeat}
+    .titlebar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; padding:16px 18px; border-top:1px solid var(--border); background:#fff}
+    h1{margin:0; font-size:clamp(26px,4vw,40px)}
+    .meta-inline{color:var(--sub); font-size:14px}
+    .grid{display:grid; grid-template-columns: 1.6fr .9fr; gap:28px; margin-top:24px}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+    article h2{font-size:22px; margin:18px 0 8px}
+    article p{margin:0 0 12px}
+    .figure{border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#f8fafc; margin:16px 0}
+    .figure .img{aspect-ratio: 3/2; background:#f0f0f0 center/cover no-repeat}
+    .caption{padding:10px 12px; color:var(--sub); font-size:13px; border-top:1px solid var(--border); background:#fff}
+    .side{position:sticky; top:72px; align-self:start}
+    .card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .card .section{padding:16px 16px 6px}
+    .card .section + .section{border-top:1px solid var(--border)}
+    .kvs{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:14px}
+    .kvs div:first-child{color:var(--sub)}
+    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
+    .tag{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; color:#374151; background:#fff}
+    .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    @media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.gallery{grid-template-columns:1fr}}
+    .gthumb{aspect-ratio:4/3; border:1px solid var(--border); border-radius:12px; background:#eee center/cover no-repeat; cursor:zoom-in}
+    .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:50}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:92vw; max-height:88vh; border-radius:12px; background:#000}
+    .lightbox .close{position:absolute; top:18px; right:18px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:8px 12px; cursor:pointer; font-weight:700}
+    footer{color:var(--sub); font-size:13px; text-align:center; padding:28px 0 12px; margin-top:40px}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><div class="logo" aria-hidden="true">TT</div><span>Teng Teng</span></div>
+      <nav aria-label="Primary" class="menu">
+        <ul>
+          <li><a href="../../">Home</a></li>
+          <li><a href="../../research/">Research</a></li>
+          <li><a href="../../teaching/">Teaching</a></li>
+          <li><a href="../../design/">Design</a></li>
+          <li><a href="../../publications/">Publications</a></li>
+          <li><a href="../../news/">News</a></li>
+          <li><a href="../../about/">About</a></li>
+          <li><a href="../../contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div class="img" style="background-image:url('../../assets/img/undergraduate-product-design-thesis/hero.webp')" role="img" aria-label="hero image"></div>
+      <div class="titlebar">
+        <div>
+          <h1>Undergraduate Product Design Thesis</h1>
+          <div class="meta-inline">Teaching · Product · 2015–2021</div>
+        </div>
+        <div class="meta-inline"><a href="../../teaching/">← Back to Teaching</a></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <article>
+        <h2>Abstract</h2>
+        <p><!-- Add your abstract / overview here. --></p>
+
+        <div class="figure">
+          <div class="img" style="background-image:url('../../assets/img/undergraduate-product-design-thesis/img-1.webp')"></div>
+          <div class="caption">Caption for image 1.</div>
+        </div>
+
+        <h2>Process / Methods</h2>
+        <p><!-- Describe design, computation, fabrication, teaching setup, etc. --></p>
+
+        <div class="gallery">
+          <div class="gthumb" style="background-image:url('../../assets/img/undergraduate-product-design-thesis/img-2.webp')" data-full="../../assets/img/undergraduate-product-design-thesis/img-2.webp"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/undergraduate-product-design-thesis/img-3.webp')" data-full="../../assets/img/undergraduate-product-design-thesis/img-3.webp"></div>
+          <div class="gthumb" style="background-image:url('../../assets/img/undergraduate-product-design-thesis/img-4.webp')" data-full="../../assets/img/undergraduate-product-design-thesis/img-4.webp"></div>
+        </div>
+
+        <div class="figure">
+          <div class="img" style="background-image:url('../../assets/img/undergraduate-product-design-thesis/img-3.webp')"></div>
+          <div class="caption">Caption for image 2.</div>
+        </div>
+      </article>
+
+      <aside class="side">
+        <div class="card">
+          <div class="section">
+            <div class="kvs">
+              <div>Category</div><div>Teaching</div>
+              <div>Year</div><div>2015–2021</div>
+              <div>Tags</div>
+              <div class="tags">
+                <span class="tag">Product</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <strong>Team / Roles</strong>
+            <p style="margin:6px 0 0; color:var(--sub); font-size:14px">
+              <!-- Fill team & roles -->
+            </p>
+          </div>
+
+          <div class="section">
+            <strong>Links</strong>
+            <ul style="margin:8px 0 0 16px; color:var(--sub); font-size:14px">
+              <li><a href="../../publications/" target="_blank" rel="noopener">Related publications</a></li>
+            </ul>
+          </div>
+
+          <div class="section" style="display:flex; gap:8px; flex-wrap:wrap">
+            <a class="tag" href="../../teaching/">← Back to Teaching</a>
+            <a class="tag" href="../../gallery/?cat=all">Browse all projects</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>© <span id="year"></span> Teng Teng · Hosted on GitHub Pages</footer>
+  </div>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close" aria-label="Close" onclick="closeLightbox()">Close ×</button>
+    <img alt="" id="lightbox-img"/>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+      var lb=document.getElementById('lightbox');
+      var lbimg=document.getElementById('lightbox-img');
+      function openLightbox(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+      function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
+      document.querySelectorAll('.gthumb').forEach(function(el){
+        el.addEventListener('click', function(){ openLightbox(el.getAttribute('data-full')); });
+      });
+      lb.addEventListener('click', function(e){ if(e.target===lb) closeLightbox(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+      window.closeLightbox = closeLightbox;
+    });
+  </script>
+
+</body>
+</html>

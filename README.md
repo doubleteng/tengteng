@@ -17,6 +17,7 @@
 
 
 加project
+
 1 放置文件与图片
 
 新建目录：research/diamanti-post-tensioned-concrete-canopy/
@@ -36,3 +37,13 @@
 4 测试
 打开 research/diamanti-post-tensioned-concrete-canopy/ 看是否显示正常；
 从首页/Research Gallery 点击缩略图也应能进入。
+
+2) For each project, put images at: `assets/img/<project-slug>/`:
+   - hero.webp
+   - img-1.webp, img-2.webp, img-3.webp, img-4.webp (or rename in the HTML)
+3) Edit the text sections inside each `index.html` (Abstract, Methods, Captions, Team, Links).
+4) Ensure your `assets/js/projects.js` entries point each project's `url` to
+   e.g. `research/<project-slug>/` or `design/<project-slug>/` etc.
+
+<img width="837" height="121" alt="image" src="https://github.com/user-attachments/assets/416675f3-8469-42d9-ba1b-f0677bed092a" />
+

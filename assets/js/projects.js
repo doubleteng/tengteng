@@ -2,7 +2,7 @@ window.PROJECTS = [
 
   {
   "title": "Integrated and Tailored Thermal Insulation",
-  "url": "research/integrated-and-tailored-thermal-insulation/",
+  "url": "design/integrated-and-tailored-thermal-insulation/",
   "img": "assets/img/integrated-and-tailored-thermal-insulation/hero.jpg",
   "year": "2024",
   "cats": [

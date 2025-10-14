@@ -232,7 +232,6 @@ window.PROJECTS = [
       "Laser Surveying: John Hinchman",
       "Fabricators: Michael Ting, Clara Shim, Kodak Han, Shea Fang, Yefan Zhi, Reggie Zhao, Yi Yang, Sophia Chen, Yidi Wang, Sepideh Bayat, Pratyaya Bhattacharya, Weitzman School of Design Fabrication Laboratory Staff",
       "Robotic Fabrication Consultants: Ester Lo, Alireza Seyedahmadian, Tristan Fischer-Smith (EventScape Inc.)",
-
       "Structural Engineering Consultants: Florian Meyer, Oswald Stocker (Knippers Helbig Engineering)",
       "ETFE Consultant: Bjoern Beckert, Fabritecture NYC",
       "Facade Profile Production and Detailing: Ishak Hmeyed (Facade Textiles), Michael Ting",

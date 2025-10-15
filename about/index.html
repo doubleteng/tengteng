@@ -74,20 +74,23 @@
 
   /* Extremely light + small for the right column */
   .soft-interests h3{
-    color:rgba(17,24,39,.35);           /* very light gray for the heading */
-    font-size:14px;                      /* smaller heading */
+    color:rgba(17,24,39,.35);
+    font-size:14px;
     margin:12px 0 6px;
     font-weight:700;
   }
   .soft-interests ul{
-    color:rgba(17,24,39,.32);            /* even lighter gray for items */
-    font-size:12px;                       /* small text */
+    color:rgba(17,24,39,.32);
+    font-size:12px;
     line-height:1.5;
   }
 
   .gray-bold{font-weight:700;color:var(--sub)}
   .black-bold{font-weight:700;color:var(--text)}
   .small-gray{font-size:14px;color:var(--sub)}
+
+  /* Secret trigger looks like normal text (no pointer) */
+  .secret-link{cursor:default;text-decoration:none}
 </style>
 </head>
 <body>
@@ -137,7 +140,8 @@
           <div class="soft-interests">
             <h3>Non-Research Interests</h3>
             <ul>
-              <li>Painting</li>
+              <!-- Secret trigger: wrap “Painting” -->
+              <li><span id="fine-art-trigger" class="secret-link" aria-label="Painting">Fine Art</span></li>
               <li>Theater</li>
               <li>Marathon</li>
               <li>Triathlon</li>
@@ -232,6 +236,48 @@
 
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+
+<script>
+  // footer year
+  document.getElementById('year').textContent=new Date().getFullYear();
+
+  // Secret door: triple-click (desktop) or long-press ~600ms (touch) on “Painting”
+  (function(){
+    var el = document.getElementById('fine-art-trigger');
+    if(!el) return;
+
+    // keep stealthy (no pointer / tooltip)
+    el.title = '';
+
+    function go(){
+      try{ sessionStorage.setItem('fineart_gate','1'); }catch(e){}
+      // /about/ -> /fine-art/
+      location.href = "../fine-art/";
+    }
+
+    // Triple-click (within 400ms window)
+    var clicks = 0, timer = null;
+    el.addEventListener('click', function(){
+      clicks++;
+      clearTimeout(timer);
+      timer = setTimeout(function(){ clicks = 0; }, 400);
+      if(clicks >= 3){ go(); }
+    });
+
+    // Long-press for touch (~600ms)
+    var pressTimer = null;
+    el.addEventListener('touchstart', function(){
+      pressTimer = setTimeout(go, 600);
+    }, {passive:true});
+    ['touchend','touchcancel','touchmove'].forEach(function(ev){
+      el.addEventListener(ev, function(){ clearTimeout(pressTimer); }, {passive:true});
+    });
+
+    // Optional: keyboard access (Alt+Shift+P while focused anywhere)
+    document.addEventListener('keydown', function(e){
+      if((e.altKey && e.shiftKey && (e.key==='P' || e.key==='p'))){ go(); }
+    });
+  })();
+</script>
 </body>
 </html>

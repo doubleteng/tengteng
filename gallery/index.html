@@ -24,7 +24,7 @@
 
   .toolbar{display:grid;grid-template-columns:1fr auto;gap:10px;margin:10px 0 16px}
   .cats{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{border:1px solid var(--border);border-radius:12px;padding:8px 12px;background:#fff;font-weight:700}
+  .btn{border:1px solid var(--border);border-radius:12px;padding:8px 12px;background:#fff;font-weight:700;cursor:pointer}
   .btn[aria-pressed="true"]{background:#f3f4f6}
 
   .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -86,7 +86,7 @@
     <div class="filters" id="tagbar" aria-label="Tag filter (single-select)"></div>
 
     <div class="grid projects" id="grid">
-      <!-- Filled by JS -->
+      <div class="empty" id="boot-msg">Loading projects…</div>
     </div>
   </main>
 
@@ -97,135 +97,176 @@
   <div class="wrap"><div class="empty">This page requires JavaScript to display projects.</div></div>
 </noscript>
 
-<!-- Load dataset -->
-<script src="../assets/js/projects.js"></script>
-<script>
+<!-- dataset MUST come first -->
+<script defer src="../assets/js/projects.js"></script>
+<script defer>
 (function(){
-  // Small helper to render a visible error instead of a blank page
+  function text(s){ return (s==null?'':String(s)); }
+  function cap(s){ s=text(s); return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+  function yearValue(y){
+    if(typeof y==='number') return y;
+    if(typeof y==='string'){ var m=y.match(/\d{4}/); return m?parseInt(m[0],10):0; }
+    return 0;
+  }
+  function byYearDesc(a,b){ return yearValue(b.year)-yearValue(a.year); }
+
   function showError(msg){
-    const grid = document.getElementById('grid');
-    if(grid){ grid.innerHTML = '<div class="empty">'+ msg +'</div>'; }
+    var grid=document.getElementById('grid');
+    if(grid){ grid.innerHTML='<div class="empty">'+msg+'</div>'; }
   }
 
-  window.addEventListener('error', function(e){
-    showError('A script error occurred. Check the console for details.');
-  });
+  function getQueryParam(name){
+    var q=location.search||'';
+    var re=new RegExp('[?&]'+name+'=([^&]+)');
+    var m=q.match(re);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
 
-  document.addEventListener('DOMContentLoaded', function(){
-    const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+  function setCatPressed(btns, target){
+    for(var i=0;i<btns.length;i++){ btns[i].setAttribute('aria-pressed', String(btns[i]===target)); }
+  }
+  function setAllTagChips(tagbar, on){
+    var chips=tagbar.querySelectorAll('.chip');
+    for(var i=0;i<chips.length;i++){ chips[i].setAttribute('aria-pressed', on?'true':'false'); }
+  }
+  function setOnlyTagChip(tagbar, t){
+    var chips=tagbar.querySelectorAll('.chip');
+    for(var i=0;i<chips.length;i++){
+      var c=chips[i];
+      c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false');
+    }
+  }
 
-    const BASE = "../"; // this page lives in /gallery/, so assets/pages are one level up
-    const buttons = Array.from(document.querySelectorAll('.cats [data-cat]'));
-    const tagbar  = document.getElementById('tagbar');
-    const grid    = document.getElementById('grid');
-    const count   = document.getElementById('count');
+  function normalizeImg(url){
+    url=text(url);
+    if(!url) return '';
+    if(/^https?:\/\//i.test(url) || url.charAt(0)==='/') return url;
+    return '../'+url; // page is in /gallery/
+  }
 
-    // Guard: dataset must exist and be an array
-    if(!Array.isArray(window.PROJECTS)){
-      showError('Failed to load <code>projects.js</code> or it contains a syntax error.');
+  function metaLine(primary, p){
+    var omit={'research':1,'design':1,'teaching':1};
+    var tags=(p.tags||[]).filter(function(t){ return !omit[String(t).toLowerCase()]; });
+    var t = tags.length ? ' · '+tags.map(cap).join(' · ') : '';
+    var y = p.year ? ' · '+p.year : '';
+    return (primary?cap(primary):'')+t+y;
+  }
+
+  function cardHTML(p){
+    var primary = (p.cats && p.cats[0]) ? p.cats[0] : '';
+    var href = '../'+(p.url||'#');
+    var bg = normalizeImg(p.img);
+    var title = p.title || '(Untitled)';
+    return '<a class="card" href="'+href+'">'
+         + '  <div class="thumb" style="background-image:url(\''+bg+'\')"></div>'
+         + '  <div class="meta"><h3>'+title+'</h3><p>'+metaLine(primary,p)+'</p></div>'
+         + '</a>';
+  }
+
+  function init(){
+    var y=document.getElementById('year'); if(y) y.textContent=(new Date()).getFullYear();
+
+    if(!window.PROJECTS || !window.PROJECTS.slice){
+      showError('Failed to load <code>projects.js</code> (missing or has a syntax error).');
       return;
     }
 
-    let activeCat = getCatFromQuery() || "all";
-    let activeTag = null;
+    var buttons = document.querySelectorAll('.cats [data-cat]');
+    var tagbar  = document.getElementById('tagbar');
+    var grid    = document.getElementById('grid');
+    var count   = document.getElementById('count');
 
-    setPressed(buttons.find(b => b && b.dataset.cat === activeCat));
+    var activeCat = (function(){
+      var c=getQueryParam('cat');
+      return (c==='research'||c==='teaching'||c==='design'||c==='all') ? c : 'all';
+    })();
+    var activeTag = null;
 
-    // Build tag list dynamically from dataset (unique, case-insensitive)
-    const tagSet = new Set();
-    window.PROJECTS.forEach(p => (p.tags||[]).forEach(t => tagSet.add(String(t).toLowerCase())));
-    const ALL_TAGS = Array.from(tagSet).sort();
-
-    ALL_TAGS.forEach(t=>{
-      const b=document.createElement('button');
-      b.className='chip'; b.textContent=cap(t);
-      b.setAttribute('data-tag',t); b.setAttribute('aria-pressed','false');
-      b.addEventListener('click', ()=>{
-        if(activeTag===t){ activeTag=null; setAllTags(false); }
-        else{ activeTag=t; setOnlyTag(t); }
-        render();
-      });
-      tagbar.appendChild(b);
-    });
-
-    document.getElementById('clear').addEventListener('click', ()=>{
-      activeTag=null; setAllTags(false); render();
-    });
-
-    buttons.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        setPressed(btn);
-        activeCat = btn.dataset.cat;
-        const url = new URL(location.href);
-        url.searchParams.set('cat', activeCat);
-        history.replaceState(null,'',url.toString());
-        render();
-      });
-    });
-
-    function setPressed(target){ buttons.forEach(b=>b.setAttribute('aria-pressed', String(b===target))); }
-    function setAllTags(v){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', v?'true':'false')); }
-    function setOnlyTag(t){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false')); }
-    function cap(s){return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
-    function getCatFromQuery(){
-      const p=new URLSearchParams(location.search).get('cat');
-      return (["all","research","teaching","design"].includes(p||"")) ? p : null;
-    }
-    function yearValue(y){
-      if(typeof y === 'number') return y;
-      if(typeof y === 'string'){ const m = y.match(/\d{4}/); return m ? parseInt(m[0],10) : 0; }
-      return 0;
-    }
-    function byYearDesc(a,b){ return yearValue(b.year) - yearValue(a.year); }
-
-    function normalizeImg(url){
-      if(!url) return '';
-      // Absolute http(s) or root-absolute
-      if(/^https?:\/\//i.test(url) || url.startsWith('/')) return url;
-      // Relative to /gallery/ -> prefix ../
-      return BASE + url;
+    // press initial cat button
+    for(var i=0;i<buttons.length;i++){
+      if(buttons[i].getAttribute('data-cat')===activeCat){ setCatPressed(buttons, buttons[i]); break; }
     }
 
-    function metaLine(primary, p){
-      const omit = new Set(['research','design','teaching']);
-      const tags = (p.tags||[]).filter(t => !omit.has(String(t).toLowerCase()));
-      const t = tags.length ? ' · ' + tags.map(cap).join(' · ') : '';
-      const y = p.year ? ' · ' + p.year : '';
-      return (primary ? cap(primary) : '') + t + y;
+    // build tag list dynamically
+    var tagSet={}, orderedTags=[];
+    for(var i=0;i<window.PROJECTS.length;i++){
+      var tags=window.PROJECTS[i].tags||[];
+      for(var j=0;j<tags.length;j++){
+        var t=String(tags[j]).toLowerCase();
+        if(!tagSet[t]){ tagSet[t]=1; orderedTags.push(t); }
+      }
+    }
+    orderedTags.sort();
+    for(var k=0;k<orderedTags.length;k++){
+      (function(t){
+        var b=document.createElement('button');
+        b.className='chip'; b.textContent=cap(t);
+        b.setAttribute('data-tag',t); b.setAttribute('aria-pressed','false');
+        b.addEventListener('click', function(){
+          if(activeTag===t){ activeTag=null; setAllTagChips(tagbar,false); }
+          else{ activeTag=t; setOnlyTagChip(tagbar,t); }
+          render();
+        });
+        tagbar.appendChild(b);
+      })(orderedTags[k]);
     }
 
-    function card(p){
-      const primary = (p.cats && p.cats[0]) ? p.cats[0] : '';
-      const href = BASE + (p.url || '#');
-      const bg = normalizeImg(p.img);
-      const title = p.title || '(Untitled)';
-      return `<a class="card" href="${href}">
-        <div class="thumb" style="background-image:url('${bg}')"></div>
-        <div class="meta"><h3>${title}</h3><p>${metaLine(primary, p)}</p></div>
-      </a>`;
+    var clear=document.getElementById('clear');
+    if(clear){ clear.addEventListener('click', function(){ activeTag=null; setAllTagChips(tagbar,false); render(); }); }
+
+    for(var b=0;b<buttons.length;b++){
+      (function(btn){
+        btn.addEventListener('click', function(){
+          setCatPressed(buttons, btn);
+          activeCat = btn.getAttribute('data-cat');
+          // update query without URL API
+          var q = location.search.replace(/([?&])cat=[^&]*/,'').replace(/^[?&]$/,'');
+          var sep = q ? (q.indexOf('?')===0 ? '&' : '?') : '?';
+          var newQ = (q ? q : '') + sep + 'cat=' + encodeURIComponent(activeCat);
+          history.replaceState(null,'', location.pathname + newQ);
+          render();
+        });
+      })(buttons[b]);
     }
 
     function render(){
       try{
-        let list = window.PROJECTS.slice();
-        if(activeCat !== "all"){ list = list.filter(p => Array.isArray(p.cats) && p.cats.includes(activeCat)); }
-        if(activeTag){ list = list.filter(p => Array.isArray(p.tags) && p.tags.map(x=>String(x).toLowerCase()).includes(activeTag)); }
+        var list = window.PROJECTS.slice();
+        if(activeCat!=='all'){
+          list = list.filter(function(p){ return p.cats && p.cats.indexOf(activeCat)>-1; });
+        }
+        if(activeTag){
+          list = list.filter(function(p){
+            if(!p.tags) return false;
+            for(var i=0;i<p.tags.length;i++){ if(String(p.tags[i]).toLowerCase()===activeTag) return true; }
+            return false;
+          });
+        }
         list.sort(byYearDesc);
 
         if(!list.length){
           grid.innerHTML = '<div class="empty">No projects matched the current filter.</div>';
         }else{
-          grid.innerHTML = list.map(card).join('');
+          var html='';
+          for(var i=0;i<list.length;i++){ html += cardHTML(list[i]); }
+          grid.innerHTML = html;
         }
-        count.textContent = `${list.length} projects`;
+        count.textContent = list.length + ' projects';
       }catch(err){
-        console.error(err);
-        showError('Render failed. Please check the console for details.');
+        console.log(err);
+        showError('Render failed. Open console for details.');
       }
     }
 
     render();
-  });
+  }
+
+  // DOM ready (safe for old browsers)
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  }else{
+    init();
+  }
 })();
 </script>
 </body>

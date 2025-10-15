@@ -355,7 +355,7 @@ window.PROJECTS = [
   "title": "Pinbed",
   "url": "research/pinbed/",
   "img": "assets/img/pinbed/hero.jpg",
-  "year": "2020",
+  "year": "2019",
   "cats": [
     "research"
   ],
@@ -364,24 +364,11 @@ window.PROJECTS = [
     "fabrication",
     "robotics"
   ],
-  "links": [
-    {
-      "title": "Project page",
-      "url": "https://example.com/pinbed",
-      "kind": "site"
-    },
-    {
-      "title": "Video",
-      "url": "https://youtu.be/xxxxxxxx",
-      "kind": "video"
-    }
-  ],
-  "pubs": [
-    {
-      "title": "Related paper (DOI)",
-      "url": "https://doi.org/10.xxxx/xxxxx"
-    }
-  ]
+  credits: [
+      "PI: Jenny Sabin (Cornell University)",
+      "Project Lead and Main Contributor: Teng Teng"
+    ],
+  
 },
   //------------------------------------------------  
 

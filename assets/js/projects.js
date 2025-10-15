@@ -325,6 +325,10 @@ window.PROJECTS = [
     "research",
     "computation"
   ],
+    credits: [
+      "PI: Jenny Sabin (Cornell University)",
+      "Project Lead and Main Contributor: Teng Teng"
+    ],
   "links": [
     {
       "title": "Project page",
@@ -333,14 +337,14 @@ window.PROJECTS = [
     },
     {
       "title": "Video",
-      "url": "https://youtu.be/xxxxxxxx",
+      "url": "https://youtu.be/AW-wgsr6PRU?si=SfXOsNSBeTzRWj0G",
       "kind": "video"
     }
   ],
   "pubs": [
     {
       "title": "Related paper (DOI)",
-      "url": "https://doi.org/10.xxxx/xxxxx"
+      "url": "	https://doi.org/10.52842/conf.ecaade.2020.1.563"
     }
   ]
 },

@@ -336,10 +336,10 @@ window.PROJECTS = [
       "kind": "site"
     },
     {
-      "title": "Video",
-      "url": "https://youtu.be/AW-wgsr6PRU?si=SfXOsNSBeTzRWj0G",
-      "kind": "video"
-    }
+      kind: "video", 
+     title: "Video", 
+     url: "https://youtu.be/AW-wgsr6PRU?si=a0TsOP5f2iyuzmHY" 
+    },
   ],
   "pubs": [
     {

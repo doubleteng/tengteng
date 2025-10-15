@@ -1,104 +1,78 @@
+---
+title: Fine Art (Private)
+description: Studio snapshots, drawings, and paintings
+# 只要这个 front-matter 存在，Jekyll 就会处理下面的 Liquid 代码
+---
+
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>—</title>
-<meta name="robots" content="noindex,nofollow"/>
-<meta name="description" content="Private fine art gallery.">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Fine Art (Private) | Teng Teng</title>
+<meta name="description" content="Studio snapshots, drawings, and paintings.">
 <style>
   :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
-  *{box-sizing:border-box}
-  html,body{height:100%}
+  *{box-sizing:border-box} html,body{height:100%}
   body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-  a{color:inherit;text-decoration:none}
+  a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px}
 
-  .wrap{max-width:1080px;margin:0 auto;padding:20px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .brand{display:flex;align-items:center;gap:10px}
-  .brand .logo{width:30px;height:30px;border-radius:10px;background:#111827;color:#fff;display:grid;place-items:center;font-weight:800}
-  .muted{color:var(--sub);font-size:14px}
-  .gate{margin:18vh auto;max-width:640px;text-align:center;color:var(--sub)}
-  .gate h1{font-size:20px;margin:0 0 8px}
+  /* top bar */
+  .top{display:flex;align-items:center;gap:10px}
+  .logo{width:28px;height:28px;border-radius:8px;background:#111827;color:#fff;display:grid;place-items:center;font-weight:800}
+  .title{font-weight:800}
+  .sub{color:var(--sub);font-size:14px}
+  .back{margin-left:auto;font-size:14px;color:var(--sub)}
 
-  /* Profile bar (subtle, IG-like) */
-  .profile{display:flex;align-items:center;gap:12px;margin:16px 0 12px}
-  .avatar{width:56px;height:56px;border-radius:999px;background:#ddd center/cover;border:1px solid var(--border)}
-  .profile h1{margin:0;font-size:18px}
-  .profile .meta{color:var(--sub);font-size:13px}
+  /* insta-like grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .post{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#f3f4f6}
+  .post img{width:100%;height:100%;object-fit:cover;display:block}
 
-  /* Grid (square tiles, Instagram-ish) */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr)} }
-  @media (max-width:520px){ .grid{grid-template-columns:repeat(2,1fr)} }
-
-  .tile{position:relative;background:#eee;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
-  .tile img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:1/1}
-  .tile .overlay{
-    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    color:#fff;background:rgba(0,0,0,.25);opacity:0;transition:.2s;
-    font-weight:700;font-size:14px;text-shadow:0 1px 3px rgba(0,0,0,.4)
-  }
-  .tile:hover .overlay{opacity:1}
-
-  /* Lightbox */
-  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:50}
+  /* lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:50}
   .lightbox.open{display:flex}
-  .lightbox img{max-width:92vw;max-height:88vh;background:#000;border-radius:8px}
-  .lightbox .close{position:absolute;top:16px;right:16px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:700}
+  .lightbox img{max-width:92vw;max-height:92vh;border-radius:12px;background:#000}
+  .close{position:absolute;top:16px;right:16px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:700}
 
-  footer{color:var(--sub);font-size:12px;text-align:center;padding:24px 0 8px}
+  .empty{margin:24px 0;padding:16px;border:1px dashed var(--border);border-radius:12px;color:var(--sub);text-align:center}
+  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
 </style>
 </head>
 <body>
-<div class="wrap" id="app" hidden>
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true">TT</div>
-      <div>
-        <div class="muted">Private</div>
-      </div>
-    </div>
-    <a href="../about/" class="muted">← Back to About</a>
-  </header>
-
-  <section class="profile">
-    <div class="avatar" style="background-image:url('../assets/img/fine-art/avatar.jpg')"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="logo" aria-hidden="true">TT</div>
     <div>
-      <h1>Fine Art (Private)</h1>
-      <div class="meta">Studio snapshots, drawings, and paintings</div>
+      <div class="title">Fine Art (Private)</div>
+      <div class="sub">Studio snapshots, drawings, and paintings</div>
     </div>
-  </section>
+    <a class="back" href="../../about/">← Back to About</a>
+  </div>
 
-  <section class="grid" id="grid"></section>
+  <div id="feed" class="grid" aria-live="polite"></div>
 
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
 
-<!-- Soft gate fallback -->
-<div class="gate" id="gate">
-  <h1>Not found</h1>
-  <div>This page isn’t publicly listed.</div>
-  <div class="muted" style="margin-top:6px">Return to <a href="../about/">About</a>.</div>
-</div>
-
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="close" aria-label="Close">Close ×</button>
-  <img alt="" id="lightbox-img"/>
+  <button class="close" onclick="lbClose()">Close ×</button>
+  <img alt="" id="lbimg"/>
 </div>
 
-<!-- Dataset -->
+<!-- ① 用 Jekyll 自动生成 FINEART 清单：把 /assets/img/fine-art/ 下的图片全部列出 -->
 <script>
-/* Auto-generated by Jekyll: list all images under /assets/img/fine-art/ */
 window.FINEART = [
 {% assign files = site.static_files | where_exp: "f","f.path contains '/assets/img/fine-art/'" | sort: "name" %}
 {% assign first = true %}
 {% for f in files %}
   {% assign ext = f.extname | downcase %}
   {% if ext == ".jpg" or ext == ".jpeg" or ext == ".png" or ext == ".gif" or ext == ".webp" %}
-    {% unless first %},{% endunless %}
-    {% assign first = false %}
+    {% unless first %},{% endunless %}{% assign first = false %}
     {
       "src": "{{ f.path | relative_url }}",
       "full": "{{ f.path | relative_url }}",
@@ -110,53 +84,39 @@ window.FINEART = [
 ];
 </script>
 
+<!-- ② 渲染 & 兜底提示 -->
 <script>
-  (function(){
-    var ok=false;
-    try{ ok = sessionStorage.getItem('fineart_gate')==='1'; }catch(e){}
-    var app=document.getElementById('app');
-    var gate=document.getElementById('gate');
-    if(ok){ app.hidden=false; gate.style.display='none'; }
-    // Optional: clear the gate so every session requires the About trigger again
-    // try{ sessionStorage.removeItem('fineart_gate'); }catch(e){}
+(function(){
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+  var feed = document.getElementById('feed');
+  var data = Array.isArray(window.FINEART) ? window.FINEART : [];
 
-    if(!ok) return;
+  if(!data.length){
+    feed.outerHTML = '<div class="empty">No images found in <code>/assets/img/fine-art/</code>.<br>Tips: ensure this page has YAML front-matter and your repo does not contain a <code>.nojekyll</code> file.</div>';
+    return;
+  }
 
-    var grid=document.getElementById('grid');
-    var data = (window.FINEART||[]);
+  feed.innerHTML = data.map(function(d,i){
+    var alt = d.alt || ('Work #' + (i+1));
+    var src = d.src || d.full;
+    return '<button class="post" aria-label="'+ alt +'" data-full="'+ (d.full||src) +'" title="'+ (d.cap||alt) +'">'+
+             '<img loading="lazy" src="'+ src +'" alt="'+ alt +'">'+
+           '</button>';
+  }).join('');
 
-    function tileHTML(it, i){
-      var src = it.src, alt = it.alt || ('Work '+(i+1));
-      var cap = it.cap || '';
-      var full= it.full || src;
-      return (
-        '<a class="tile" href="'+full+'" data-full="'+full+'" aria-label="'+(alt||'')+'">'
-        +  '<img loading="lazy" src="'+src+'" alt="'+(alt||'')+'"/>'
-        +  '<div class="overlay">'+ (cap ? cap : 'View') +'</div>'
-        +'</a>'
-      );
-    }
+  // lightbox
+  var lb  = document.getElementById('lightbox');
+  var img = document.getElementById('lbimg');
+  function lbOpen(src){ img.src = src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+  window.lbClose = function(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); img.src=''; }
 
-    grid.innerHTML = data.map(tileHTML).join('');
-
-    // Lightbox
-    var lb=document.getElementById('lightbox');
-    var lbimg=document.getElementById('lightbox-img');
-    function openLB(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
-    function closeLB(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
-    lb.querySelector('.close').addEventListener('click', closeLB);
-    lb.addEventListener('click', function(e){ if(e.target===lb) closeLB(); });
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLB(); });
-
-    grid.querySelectorAll('.tile').forEach(function(a){
-      a.addEventListener('click', function(ev){
-        ev.preventDefault();
-        openLB(a.getAttribute('data-full'));
-      });
-    });
-  })();
+  feed.querySelectorAll('.post').forEach(function(el){
+    el.addEventListener('click', function(){ lbOpen(el.getAttribute('data-full')); });
+  });
+  lb.addEventListener('click', function(e){ if(e.target===lb) window.lbClose(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') window.lbClose(); });
+})();
 </script>
 </body>
 </html>

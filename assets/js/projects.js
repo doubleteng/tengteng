@@ -203,7 +203,11 @@ window.PROJECTS = [
   img: "assets/img/floralis-an-etfe-clad-multilaminar-timber-structure/hero.jpg",
   year: 2025,
   cats: ["design"],
-  tags: ["architecture","fabrication","robotics","timber","computation"],
+  tags: ["architecture",
+         "fabrication",
+         "robotics",
+         "timber",
+         "computation"],
   links: [
     {
       kind: "video", 

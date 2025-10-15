@@ -1,20 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>About | Teng Teng</title>
 <meta name="description" content="About Teng Teng.">
 <style>
-  :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
-  *{box-sizing:border-box} html,body{height:100%}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-  a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
+  :root{
+    --bg:#fff;
+    --text:#111827;
+    --sub:#6b7280;
+    --border:#e5e7eb;
+    --shadow:0 8px 24px rgba(0,0,0,.06);
+    --radius:18px
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6
+  }
+  a{color:var(--text);text-decoration:none}
+  a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
 
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);
+    backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)
+  }
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
-  .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  .brand .logo{
+    width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;
+    display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)
+  }
   nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
   nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
   nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
@@ -31,7 +53,7 @@
   .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;color:var(--sub)}
   footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
 
-  /* Combined card */
+  /* Portrait + Bio container */
   .combined-card{display:flex;gap:24px;align-items:flex-start}
   .combined-card .avatar{flex:0 0 40%;max-width:300px}
   .combined-card .bio-content{flex:1}
@@ -40,7 +62,7 @@
     .combined-card .avatar{max-width:none;width:100%}
   }
 
-  /* Interests 2-column */
+  /* Two-column interests block */
   .interests{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -49,7 +71,20 @@
     margin-top:8px;
   }
   @media(max-width:900px){ .interests{grid-template-columns:1fr} }
-  .muted{color:var(--sub)}
+
+  /* Extremely light + small for the right column */
+  .soft-interests h3{
+    color:rgba(17,24,39,.35);           /* very light gray for the heading */
+    font-size:14px;                      /* smaller heading */
+    margin:12px 0 6px;
+    font-weight:700;
+  }
+  .soft-interests ul{
+    color:rgba(17,24,39,.32);            /* even lighter gray for items */
+    font-size:12px;                       /* small text */
+    line-height:1.5;
+  }
+
   .gray-bold{font-weight:700;color:var(--sub)}
   .black-bold{font-weight:700;color:var(--text)}
   .small-gray{font-size:14px;color:var(--sub)}
@@ -97,11 +132,13 @@
               <li>Biomaterials</li>
             </ul>
           </div>
-          <div>
-            <h3 class="section-title">Non-Research Interests</h3>
-            <ul class="muted">
+
+          <!-- Right column: extremely light gray + small -->
+          <div class="soft-interests">
+            <h3>Non-Research Interests</h3>
+            <ul>
               <li>Painting</li>
-               <li>Theater</li>
+              <li>Theater</li>
               <li>Marathon</li>
               <li>Triathlon</li>
               <li>Swimming</li>

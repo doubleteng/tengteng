@@ -20,11 +20,10 @@
   nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
   nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
 
-  /* ===== scale content fonts to ~2/3 ===== */
+  /* scale content fonts */
   main{font-size:0.75em;}
   h1{font-size:clamp(17px,2.4vw,27px);margin:14px 0 12px}
 
-  /* intro card with padding so it doesn't touch edges */
   .intro-card{
     background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);
     padding:20px 24px;margin:12px 0 24px;color:var(--sub);
@@ -47,6 +46,8 @@
   .meta{padding:10px 16px 14px}
   .meta h3{margin:0 0 6px;font-size:12px}
   .meta p{margin:0;color:var(--sub);font-size:10px}
+
+  .empty{border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center;color:var(--sub)}
 
   footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:20px}
 </style>
@@ -72,9 +73,8 @@
   <main>
     <h1>Design Gallery</h1>
 
-    <!-- intro with comfortable padding -->
     <div class="intro-card">
-      My academic training has been complemented by a decade of design practice. I now focus on translating research into commercially viable, everyday products and systems across scales (space, consumer goods, hardware, interfaces ). Before academia, I led computational design for mixed-use megaprojects in a global design firm, safeguarding design intent while navigating complex codes and delivery constraints. I developed parametric workflows that couple environmental data with construction processes, improving sustainability and efficiency. In my own design practice, I delivered mid-scale architecture and interior projects, and I co-led a residential development firm, gaining hands-on experience with small-scale housing and local permitting..
+      My academic training has been complemented by a decade of design practice. I now focus on translating research into commercially viable, everyday products and systems across scales (space, consumer goods, hardware, interfaces). Before academia, I led computational design for mixed-use megaprojects in a global design firm, safeguarding design intent while navigating complex codes and delivery constraints. I developed parametric workflows that couple environmental data with construction processes, improving sustainability and efficiency. In my own design practice, I delivered mid-scale architecture and interior projects, and I co-led a residential development firm, gaining hands-on experience with small-scale housing and local permitting.
     </div>
 
     <div class="toolbar">
@@ -85,68 +85,138 @@
       </div>
     </div>
 
-    <div class="grid projects" id="grid"></div>
+    <div class="grid projects" id="grid">
+      <div class="empty" id="boot-msg">Loading projects…</div>
+    </div>
   </main>
 
   <footer>© <span id="year"></span> Teng Teng</footer>
 </div>
 
-<script src="../assets/js/projects.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+<noscript>
+  <div class="wrap"><div class="empty">This page requires JavaScript to display projects.</div></div>
+</noscript>
 
-  const BASE  = "../";
-  const SCOPE = "design";
-  const TAGS  = ["architecture","product","interface","research"]; // single-select
-
-  const all = (window.PROJECTS||[]);
-  const projects = all.filter(p => (p.cats||[]).includes(SCOPE));
-
-  const tagbar=document.getElementById('tagbar');
-  const grid=document.getElementById('grid');
-  const count=document.getElementById('count');
-  let activeTag=null;
-
-  TAGS.forEach(t=>{
-    const b=document.createElement('button');
-    b.className='chip'; b.textContent=cap(t);
-    b.setAttribute('data-tag',t); b.setAttribute('aria-pressed','false');
-    b.addEventListener('click', ()=>{
-      if(activeTag===t){ activeTag=null; setAll(false); }
-      else{ activeTag=t; setOnly(t); }
-      render();
-    });
-    tagbar.appendChild(b);
-  });
-  document.getElementById('clear').addEventListener('click', ()=>{ activeTag=null; setAll(false); render(); });
-
-  function setAll(v){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', v?'true':'false')); }
-  function setOnly(t){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false')); }
-  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-  function metaLine(primary, p){
-    const omit = new Set(['research','design','teaching']);
-    const tags = (p.tags||[]).filter(t => !omit.has(String(t).toLowerCase()));
-    const t = tags.length ? ' · ' + tags.map(cap).join(' · ') : '';
-    const y = p.year ? ' · ' + p.year : '';
-    return primary + t + y;
+<!-- Load dataset first -->
+<script defer src="../assets/js/projects.js"></script>
+<script defer>
+(function(){
+  function cap(s){ s=String(s||''); return s? s.charAt(0).toUpperCase()+s.slice(1):''; }
+  function showError(msg){ var g=document.getElementById('grid'); if(g){ g.innerHTML='<div class="empty">'+msg+'</div>'; } }
+  function yearValue(y){
+    if(typeof y==='number') return y;
+    if(typeof y==='string'){ var m=y.match(/\d{4}/); return m?parseInt(m[0],10):0; }
+    return 0;
   }
-  function card(p){
-    return `<a class="card" href="${BASE}${p.url}">
-      <div class="thumb" style="background-image:url('${p.img}')"></div>
-      <div class="meta"><h3>${p.title}</h3><p>${metaLine('Design', p)}</p></div>
-    </a>`;
+  function byYearDesc(a,b){ return yearValue(b.year)-yearValue(a.year); }
+  function normalizeImg(url){
+    url=String(url||'');
+    if(!url) return '';
+    if(/^https?:\/\//i.test(url) || url.charAt(0)==='/') return url; // absolute
+    return '../'+url; // page is /design/, assets live at ../assets/...
   }
 
-  function render(){
-    let list = projects.slice().sort((a,b)=>(b.year||0)-(a.year||0));
-    if(activeTag){ list = list.filter(p => (p.tags||[]).includes(activeTag)); }
-    grid.innerHTML = list.map(card).join('');
-    count.textContent = `${list.length} project${list.length===1?'':'s'}`;
+  function init(){
+    var y=document.getElementById('year'); if(y) y.textContent=(new Date()).getFullYear();
+
+    if(!window.PROJECTS || !window.PROJECTS.slice){
+      showError('Failed to load <code>projects.js</code> (missing or has a syntax error).');
+      return;
+    }
+
+    var BASE  = '../';
+    var SCOPE = 'design';
+    var all   = window.PROJECTS.slice();
+    var projects = all.filter(function(p){ return p && p.cats && p.cats.indexOf(SCOPE) > -1; });
+
+    var tagbar=document.getElementById('tagbar');
+    var grid=document.getElementById('grid');
+    var count=document.getElementById('count');
+    var activeTag=null;
+
+    var TAGS = ['architecture','product','interface','research'];
+    for(var i=0;i<TAGS.length;i++){
+      (function(t){
+        var b=document.createElement('button');
+        b.className='chip'; b.textContent=cap(t);
+        b.setAttribute('data-tag',t); b.setAttribute('aria-pressed','false');
+        b.addEventListener('click', function(){
+          if(activeTag===t){ activeTag=null; setAll(false); }
+          else{ activeTag=t; setOnly(t); }
+          render();
+        });
+        tagbar.appendChild(b);
+      })(TAGS[i]);
+    }
+    var clear=document.getElementById('clear');
+    if(clear){ clear.addEventListener('click', function(){ activeTag=null; setAll(false); render(); }); }
+
+    function setAll(v){
+      var chips=tagbar.querySelectorAll('.chip');
+      for(var i=0;i<chips.length;i++){ chips[i].setAttribute('aria-pressed', v?'true':'false'); }
+    }
+    function setOnly(t){
+      var chips=tagbar.querySelectorAll('.chip');
+      for(var i=0;i<chips.length;i++){
+        var c=chips[i];
+        c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false');
+      }
+    }
+
+    function metaLine(primary, p){
+      var omit={'research':1,'design':1,'teaching':1};
+      var tags=(p.tags||[]).filter(function(t){ return !omit[String(t).toLowerCase()]; });
+      var t = tags.length ? ' · '+tags.map(cap).join(' · ') : '';
+      var y = p.year ? ' · '+p.year : '';
+      return (primary||'Design') + t + y;
+    }
+
+    function card(p){
+      var href  = BASE + (p.url||'#');
+      var bg    = normalizeImg(p.img);
+      var title = p.title || '(Untitled)';
+      return '<a class="card" href="'+href+'">'
+           +   '<div class="thumb" style="background-image:url(\''+bg+'\')"></div>'
+           +   '<div class="meta"><h3>'+title+'</h3><p>'+metaLine('Design', p)+'</p></div>'
+           + '</a>';
+    }
+
+    function render(){
+      try{
+        var list = projects.slice().sort(byYearDesc);
+        if(activeTag){
+          list = list.filter(function(p){
+            if(!p.tags) return false;
+            for(var i=0;i<p.tags.length;i++){
+              if(String(p.tags[i]).toLowerCase()===activeTag) return true;
+            }
+            return false;
+          });
+        }
+        if(!list.length){
+          grid.innerHTML = '<div class="empty">No projects matched the current filter.</div>';
+        }else{
+          var html=''; for(var i=0;i<list.length;i++){ html += card(list[i]); }
+          grid.innerHTML = html;
+        }
+        count.textContent = list.length + ' project' + (list.length===1?'':'s');
+      }catch(e){
+        console.log(e);
+        showError('Render failed. Open console for details.');
+      }
+    }
+
+    render();
   }
 
-  render();
-});
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  }else{
+    init();
+  }
+
+  window.addEventListener('error', function(){ showError('A script error occurred. Check the console for details.'); });
+})();
 </script>
 </body>
 </html>

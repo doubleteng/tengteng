@@ -7,9 +7,11 @@
 <meta name="description" content="About Teng Teng.">
 <style>
   :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
-  *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
   a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
   .wrap{max-width:1080px;margin:0 auto;padding:24px}
+
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800}
   .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
@@ -26,22 +28,31 @@
   ul{margin:8px 0 0 18px}
   .small{color:var(--sub);font-size:14px}
   .section-title{margin:14px 0 6px;font-size:18px}
-  .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; color: var(--sub)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;color:var(--sub)}
   footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px}
 
-  /* Added for combined card layout */
-  .combined-card {display: flex; gap: 24px; align-items: flex-start;}
-  .combined-card .avatar {flex: 0 0 40%; max-width: 300px;}
-  .combined-card .bio-content {flex: 1;}
-  @media(max-width: 900px) {
-    .combined-card {flex-direction: column;}
-    .combined-card .avatar {max-width: none; width: 100%;}
+  /* Combined card */
+  .combined-card{display:flex;gap:24px;align-items:flex-start}
+  .combined-card .avatar{flex:0 0 40%;max-width:300px}
+  .combined-card .bio-content{flex:1}
+  @media(max-width:900px){
+    .combined-card{flex-direction:column}
+    .combined-card .avatar{max-width:none;width:100%}
   }
 
-  /* Added for new list item styles */
-  .gray-bold {font-weight: bold; color: var(--sub);}
-  .black-bold {font-weight: bold; color: var(--text);}
-  .small-gray {font-size: 14px; color: var(--sub);}
+  /* Interests 2-column */
+  .interests{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    align-items:start;
+    margin-top:8px;
+  }
+  @media(max-width:900px){ .interests{grid-template-columns:1fr} }
+  .muted{color:var(--sub)}
+  .gray-bold{font-weight:700;color:var(--sub)}
+  .black-bold{font-weight:700;color:var(--text)}
+  .small-gray{font-size:14px;color:var(--sub)}
 </style>
 </head>
 <body>
@@ -63,28 +74,42 @@
   </header>
 
   <main>
-    
-
-    <!-- Combined Portrait + Bio + Interests -->
+    <!-- Portrait + Bio + Interests -->
     <div class="card combined-card" style="margin-top:12px">
       <div class="avatar" aria-label="Portrait of Teng Teng"></div>
       <div class="bio-content">
         <h2 class="section-title">Bio</h2>
         <p>
-Teng Teng is a PhD candidate and research fellow in the Department of Architecture at the Weitzman School of Design, University of Pennsylvania, expecting his PhD in Dec 2025. He holds dual MS degrees in Matter Design Computation (Cornell) and Design Computing (University of Washington), as well as a B.Arch (Shanghai University). His interdisciplinary work integrates design, advanced manufacturing, structural engineering, mechatronics, robotics, and material sciences to create sustainable products, minimize waste, reduce carbon footprints, and enhance performance. He advances computational tools and fabrication systems and has served as a research associate at Jenny Sabin’s Lab (Cornell) and a faculty member at the Shanghai Institute of Visual Art (SIVA). With over a decade of teaching experience at institutions including UPenn, Cornell, UW, Shanghai University, Tongji University, and SIVA, he has led courses on design computation, robotics, and fabrication worldwide. Previously, he practiced as an architecture professional, delivering across-scale projects as a project architectural designer and computational design leader across Asia, the Middle East, and North America.
-          
-                 </p>
+          Teng Teng is a PhD candidate and research fellow in the Department of Architecture at the Weitzman School of Design, University of Pennsylvania, expecting his PhD in Dec 2025. He holds dual MS degrees in Matter Design Computation (Cornell) and Design Computing (University of Washington), as well as a B.Arch (Shanghai University). His interdisciplinary work integrates design, advanced manufacturing, structural engineering, mechatronics, robotics, and material sciences to create sustainable products, minimize waste, reduce carbon footprints, and enhance performance. He advances computational tools and fabrication systems and has served as a research associate at Jenny Sabin’s Lab (Cornell) and a faculty member at the Shanghai Institute of Visual Art (SIVA). With over a decade of teaching experience at institutions including UPenn, Cornell, UW, Shanghai University, Tongji University, and SIVA, he has led courses on design computation, robotics, and fabrication worldwide. Previously, he practiced as an architecture professional, delivering across-scale projects as a project architectural designer and computational design leader across Asia, the Middle East, and North America.
+        </p>
         <p class="small">CV available upon request · </p>
 
-        <h3 class="section-title">Research Interests</h3>
-        <ul>
-          <li>Advanced Manufacturing</li>
-          <li>Robotic Construction</li>
-          <li>Mechatronics</li>
-          <li>Computational Geometry</li>
-          <li>Structural Form Finding</li>
-          <li>Biomaterials</li>
-        </ul>
+        <!-- Two-column interests -->
+        <div class="interests">
+          <div>
+            <h3 class="section-title">Research Interests</h3>
+            <ul>
+              <li>Advanced Manufacturing</li>
+              <li>Robotic Construction</li>
+              <li>Mechatronics</li>
+              <li>Computational Geometry</li>
+              <li>Structural Form Finding</li>
+              <li>Biomaterials</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="section-title">Non-Research Interests</h3>
+            <ul class="muted">
+              <li>Painting</li>
+               <li>Theater</li>
+              <li>Marathon</li>
+              <li>Triathlon</li>
+              <li>Swimming</li>
+              <li>Cello</li>
+              <li>Cooking</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -104,8 +129,6 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
           <span class="gray-bold">Shanghai Institute of Visual Art, Computational Design Group</span> — <span class="black-bold">Lecturer</span><br>
           <div class="small-gray"><span class="mono">2015–2017</span> · computational design; interior design studio; undergraduate thesis (architecture, product)</div>
         </li>
-
-        <!-- Adjunct completions from teaching experience -->
         <li>
           <span class="gray-bold">Tongji University</span> — <span class="black-bold">Adjunct Instructor</span><br>
           <div class="small-gray"><span class="mono">2023</span> · <em>Advanced Manufacturing</em> (seminar)</div>
@@ -117,18 +140,17 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
         <li>
           <span class="gray-bold">Cornell University</span> — <span class="black-bold">Teaching Assistant</span><br>
           <div class="small-gray"><span class="mono">2018–2019</span> · <em>Matter Design Computation</em> (4605/6605)</div>
-        </li> 
+        </li>
         <li>
           <span class="gray-bold">University of Washington</span> — <span class="black-bold">Teaching Assistant</span><br>
           <div class="small-gray"><span class="mono">2013–2014</span> · <em>3D Modeling & Rendering; CG Programming</em></div>
         </li>
-            
       </ul>
     </div>
 
     <!-- Professional Experience -->
     <div class="card" style="margin-top:16px">
-     <h2 class="section-title">Professional Experience</h2>
+      <h2 class="section-title">Professional Experience</h2>
       <ul>
         <li>
           <span class="gray-bold">Ju Square LLC</span> — <span class="black-bold">Partner</span><br>
@@ -159,7 +181,7 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
       </ul>
     </div>
 
-    <!-- Education (no years) -->
+    <!-- Education -->
     <div class="card" style="margin-top:16px">
       <h2 class="section-title">Education</h2>
       <ul>
@@ -167,7 +189,6 @@ Teng Teng is a PhD candidate and research fellow in the Department of Architectu
         <li><strong>Cornell University</strong> — Master of Science in Matter Design Computation</li>
         <li><strong>University of Washington</strong> — Master of Science in Architecture</li>
         <li><strong>Shanghai University</strong> — B. of Architecture</li>
-       
       </ul>
     </div>
   </main>

@@ -101,6 +101,7 @@
           <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-3.jpg')" data-full="../../assets/img/pinbed/img-3.jpg" data-cap="Overview #3"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-4.jpg')" data-full="../../assets/img/pinbed/img-4.jpg" data-cap="Overview #4"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-5.jpg')" data-full="../../assets/img/pinbed/img-5.jpg" data-cap="Overview #5"></div>
+           <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-6.jpg')" data-full="../../assets/img/pinbed/img-6.jpg" data-cap="Process #6"></div>
         </div>
 
         <div class="figure" id="overview-feature">
@@ -108,24 +109,11 @@
           <div class="caption" id="overview-feature-cap">Auto-playing preview · Click image to open</div>
         </div>
 
-        <h2>Methods</h2>
-        <p>Summarize computation / materials / fabrication methods used in this project.</p>
+      
+        <p>I have designed and fabricated 3 PCB boards and made 3 control modules out of them. Each control model contains 6 H. bridges, that being said, each control module is capable of controlling 12 linear actuators. If the project demands a higher resolution reconfigurable 2.5-D printbed, the user just needs to attach more linear actuators with another control module.</p>
 
-        <div class="gallery process-gallery" id="gallery-process">
-          <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-6.jpg')" data-full="../../assets/img/pinbed/img-6.jpg" data-cap="Process #6"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-7.jpg')" data-full="../../assets/img/pinbed/img-7.jpg" data-cap="Process #7"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-8.jpg')" data-full="../../assets/img/pinbed/img-8.jpg" data-cap="Process #8"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-9.jpg')" data-full="../../assets/img/pinbed/img-9.jpg" data-cap="Process #9"></div>
-          <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-10.jpg')" data-full="../../assets/img/pinbed/img-10.jpg" data-cap="Process #10"></div>
-        </div>
+        <p>A grasshopper plugin was also developed to connect and control each control module. The Grasshopper plugin converts a surface into a 6*6 points grid and sends the height information to the serial port. The information sends to Arduino wirelessly from the serial port through TTL, which gives the printbed more mobility. Arduino is receiving two types of data: the linear actuator's speed and the number of rotations. While the H-bridge drives the motor, the hall sensor attached to the bottom of the motor reads the number of rotations so that the system knows how far the linear actuator has traveled. Meanwhile, the surface in Grasshopper can be used for generating a toolpath for the robot arm, so the robot and the printed could be synchronizing together to conduct additive manufacturing.</p>
 
-        <div class="figure" id="process-feature">
-          <div class="img" id="process-feature-img" style="background-image:url('../../assets/img/pinbed/img-6.jpg')"></div>
-          <div class="caption" id="process-feature-cap">Auto-playing preview · Click image to open</div>
-        </div>
-
-        <h2 id="video-h2" style="display:none">Project Video</h2>
-        <div id="video-slot"></div>
       </article>
 
       <aside class="side">

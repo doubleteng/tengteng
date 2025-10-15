@@ -1,93 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>All Projects | Teng Teng</title>
-<meta name="description" content="Browse all projects with category and tag filters.">
-<style>
-  :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px}
-  *{box-sizing:border-box}html,body{height:100%}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-  a{color:var(--text);text-decoration:none} a:hover{text-decoration:underline}
-  .wrap{max-width:1080px;margin:0 auto;padding:24px}
-
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 8px;position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid var(--border)}
-  .brand{display:flex;align-items:center;gap:12px;font-weight:800}
-  .brand .logo{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-  nav.menu>ul{list-style:none;margin:0;padding:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  nav.menu>ul>li>a{color:var(--sub);font-weight:600;display:inline-block;padding:6px 10px;border-radius:8px}
-  nav.menu>ul>li>a:hover{color:var(--text);background:#f3f4f6}
-
-  h1{font-size:clamp(26px,3.6vw,40px);margin:14px 0 8px}
-  .sub{color:var(--sub)}
-
-  .toolbar{display:grid;grid-template-columns:1fr auto;gap:10px;margin:10px 0 16px}
-  .cats{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{border:1px solid var(--border);border-radius:12px;padding:8px 12px;background:#fff;font-weight:700}
-  .btn[aria-pressed="true"]{background:#f3f4f6}
-
-  .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-weight:700;background:#fff;cursor:pointer}
-  .chip[aria-pressed="true"]{background:#f3f4f6}
-
-  .count{color:var(--sub);font-size:14px}
-
-  .grid{display:grid;gap:16px}
-  .grid.projects{grid-template-columns:repeat(3,1fr)}
-  @media(max-width:900px){.grid.projects{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:600px){.grid.projects{grid-template-columns:1fr}}
-  .card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:0;display:grid;grid-template-rows:160px auto}
-  .thumb{border-radius:16px;margin:12px 12px 0;height:160px;border:1px solid var(--border);background:#f3f4f6 center/cover}
-  .meta{padding:10px 16px 14px}
-  .meta h3{margin:0 0 6px;font-size:16px}
-  .meta p{margin:0;color:var(--sub);font-size:14px}
-  footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:20px}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="brand"><div class="logo">TT</div><span>Teng Teng</span></div>
-    <nav class="menu" aria-label="Primary">
-      <ul>
-        <li><a href="../">Home</a></li>
-        <li><a href="../research/">Research</a></li>
-        <li><a href="../teaching/">Teaching</a></li>
-        <li><a href="../design/">Design</a></li>
-        <li><a href="../publications/">Publications</a></li>
-        <li><a href="../news/">News</a></li>
-        <li><a href="../about/">About</a></li>
-        <li><a href="../contact/">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <h1>All Projects</h1>
-    <div class="sub">Browse everything in one place. Filter by primary category and a single tag.</div>
-
-    <div class="toolbar">
-      <div class="cats" role="tablist" aria-label="Primary category">
-        <button class="btn" data-cat="all" aria-pressed="true">All</button>
-        <button class="btn" data-cat="research" aria-pressed="false">Research</button>
-        <button class="btn" data-cat="teaching" aria-pressed="false">Teaching</button>
-        <button class="btn" data-cat="design" aria-pressed="false">Design</button>
-      </div>
-      <div style="text-align:right">
-        <button id="clear" class="chip" aria-pressed="false" title="Clear tag">Clear tag</button>
-        <span class="count" id="count"></span>
-      </div>
-    </div>
-
-    <div class="filters" id="tagbar" aria-label="Tag filter (single-select)"></div>
-
-    <div class="grid projects" id="grid"></div>
-  </main>
-
-  <footer>© <span id="year"></span> Teng Teng</footer>
-</div>
-
 <script src="../assets/js/projects.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
@@ -104,6 +14,23 @@ document.addEventListener('DOMContentLoaded', function(){
   let activeTag = null;
 
   setPressed(buttons.find(b => b.dataset.cat === activeCat));
+
+  // 新增：安全拼图片路径（支持根相对 /assets/... 和相对 assets/...）
+  function imgUrl(p){
+    if(!p || !p.img) return '';
+    return p.img.startsWith('/') ? p.img : (BASE + p.img);
+  }
+
+  // 新增：健壮的年份解析（兼容 "2015–2021"）
+  function yearVal(y){
+    if(typeof y === 'number') return y;
+    if(typeof y === 'string'){
+      const m = y.match(/\d{4}/); // 取第一个年份
+      return m ? parseInt(m[0],10) : 0;
+    }
+    return 0;
+  }
+  function byYearDesc(a,b){ return yearVal(b.year) - yearVal(a.year); }
 
   ALL_TAGS.forEach(t=>{
     const b=document.createElement('button');
@@ -133,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function(){
   function setAllTags(v){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', v?'true':'false')); }
   function setOnlyTag(t){ tagbar.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c.getAttribute('data-tag')===t?'true':'false')); }
   function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-  function byYearDesc(a,b){return (b.year||0)-(a.year||0);}
   function getCatFromQuery(){
     const p=new URLSearchParams(location.search).get('cat');
     return (["all","research","teaching","design"].includes(p||"")) ? p : null;
@@ -141,23 +67,24 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function metaLine(primary, p){
     const omit = new Set(['research','design','teaching']);
-    const tags = (p.tags||[]).filter(t => !omit.has(t.toLowerCase()));
+    const tags = (p.tags||[]).filter(t => !omit.has(String(t).toLowerCase()));
     const t = tags.length ? ' · ' + tags.map(cap).join(' · ') : '';
     const y = p.year ? ' · ' + p.year : '';
     return (primary ? cap(primary) : '') + t + y;
   }
+
   function card(p){
     const primary = (p.cats && p.cats[0]) ? p.cats[0] : '';
     return `<a class="card" href="${BASE}${p.url}">
-      <div class="thumb" style="background-image:url('${p.img}')"></div>
+      <div class="thumb" style="background-image:url('${imgUrl(p)}')"></div>
       <div class="meta"><h3>${p.title}</h3><p>${metaLine(primary, p)}</p></div>
     </a>`;
   }
 
   function render(){
-    let list = (window.PROJECTS || []).slice();
-    if(activeCat !== "all"){ list = list.filter(p => p.cats.includes(activeCat)); }
-    if(activeTag){ list = list.filter(p => p.tags.includes(activeTag)); }
+    let list = Array.isArray(window.PROJECTS) ? window.PROJECTS.slice() : [];
+    if(activeCat !== "all"){ list = list.filter(p => (p.cats||[]).includes(activeCat)); }
+    if(activeTag){ list = list.filter(p => (p.tags||[]).includes(activeTag)); }
     list.sort(byYearDesc);
     grid.innerHTML = list.map(card).join('');
     count.textContent = `${list.length} projects`;
@@ -166,5 +93,3 @@ document.addEventListener('DOMContentLoaded', function(){
   render();
 });
 </script>
-</body>
-</html>

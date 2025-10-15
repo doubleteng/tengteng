@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Pinbed | Teng Teng</title>
   <meta name="description" content="Pinbed — project page.">
-  <link rel="preload" as="image" href="../../assets/img/pinbed/hero.jpg">
+  <link rel="preload" as="image" href="https://i.postimg.cc/wM4xggvL/ezgif-com-gif-maker.gif">
   <style>
     :root{--bg:#fff;--text:#111827;--sub:#6b7280;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--radius:18px;--maxw:1100px}
     *{box-sizing:border-box} html,body{height:100%}
@@ -73,11 +73,12 @@
     </header>
 
     <div class="hero">
-      <div class="img" style="background-image:url('../../assets/img/pinbed/hero.jpg')" role="img" aria-label="hero image"></div>
+      <!-- 用 GIF 作为 hero 背景图 -->
+      <div class="img" style="background-image:url('https://i.postimg.cc/wM4xggvL/ezgif-com-gif-maker.gif')" role="img" aria-label="hero image"></div>
       <div class="titlebar">
         <div>
-          <h1>Pinbed</h1>
-          <div class="meta-inline">Research · 20XX</div>
+          <h1>Pinbed: An Interactive and Adaptive Printbed for Robotic Additive Manufacturing</h1>
+          <div class="meta-inline">Research · 2019</div>
         </div>
         <div class="meta-inline"><a href="../../research/">← Back to Research</a></div>
       </div>
@@ -85,8 +86,14 @@
 
     <div class="grid">
       <article>
-        <h2>Description</h2>
-        <p>Short description of the project. Replace this paragraph with the real narrative for <em>Pinbed</em>.</p>
+  
+        <p>This is a work-in-progress fabrication tool development project I am currently working on at Cornell University. As my current thesis focuses on designing and fabricating bio-inspired complex surface geometry, the main constrain is printing curved surface geometry through robotic additive manufacturing.</p>
+
+<p> The project aims to address the problem by developing an easy use and reconfigurable 2.5-D printbed to help the robot print complex architectural components. The limited capability of depositing material on nonplanar surfaces has been recognized as one of the universal challenges for additive manufacturing. Much work in the field has been done to solve this issue, but they are mostly focusing on modifying current FDM 3d printer firmware or taking advantage of the multiple detentions of freedom of a robotic arm to print along statically curved surfaces for small scale experimental prototyping. But there are fewer works that have been done at a large scale for producing architectural components or fail to provide an adaptive solution of generating different printing surfaces.</p>
+
+<p> The idea of this reconfigurable 2.5-D printbed was inspired by multi-point forming technology that has been wildly used in aerospace manufacturing and shipbuilding for precisely forming sheet metal. I found this technology suits well for robotic additive manufacturing to generate nonplanar printing surface.</p>
+
+<p> So far, the hardware design and assemble of the reconfigurable 2.5-D printbed has been done, including wiring and programming work. I have also developed a grasshopper plugin to connect and control the printbed so that the robot arm can associativity synchronizing with it—the orientation of the sixth axis of the robotic arm (end effector) aligns with the normal of the surface on the depositing position. A set of initial printing test has been conducted. The test results look very promising for later work of manufacturing a full-scale prototype. More content will be posted soon..</p>
 
         <div class="gallery process-gallery" id="gallery-overview">
           <div class="gthumb" style="background-image:url('../../assets/img/pinbed/img-1.jpg')" data-full="../../assets/img/pinbed/img-1.jpg" data-cap="Overview #1"></div>

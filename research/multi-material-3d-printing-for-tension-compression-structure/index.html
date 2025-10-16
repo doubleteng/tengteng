@@ -110,18 +110,18 @@
       <!-- 新添加的轮播容器 -->
       <div class="carousel" id="hero-carousel">
         <!-- Slide 1: Hero 图像 -->
-        <div class="slide" style="background-image: url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/hero.jpg');"></div>
+        <div class="slide image-slide" style="background-image: url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/hero.jpg');"></div>
         
         <!-- Slide 2: 视频 (替换为你的视频URL) -->
         <div class="slide video-slide">
           <!-- 对于YouTube视频: 使用iframe (例如, https://www.youtube.com/watch?v=VIDEO_ID，将VIDEO_ID替换为你的视频ID) -->
-          <iframe src="https://dev.psl.design.upenn.edu/wp-content/uploads/2023/05/multi-mat-home-c1.mp4" 
+          <iframe id="youtube-player" src="https://dev.psl.design.upenn.edu/wp-content/uploads/2023/05/multi-mat-home-c1.mp4" 
                   title="Project Video" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowfullscreen></iframe>
           
           <!-- 或者对于直接的MP4/WebM视频: 使用<video> (例如, https://example.com/video.mp4，将URL替换为你的视频链接) -->
-          <!-- <video autoplay muted loop playsinline>
+          <!-- <video id="html5-video" muted playsinline>
             <source src="https://example.com/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video> -->
@@ -137,8 +137,8 @@
     </div>
     <div class="grid">
       <article>
-       
-        <p>In the study, a new Multi-Filament Fused Deposit Modelling (MFFMD) printer is presented, alongside a generator designed to create 3D-printed structural parts with customized functional properties. The MFFMD printer, equipped with a unique single nozzle, allows for seamless material switching, thereby addressing issues like material delamination and production delays typically associated with multi-nozzle systems. A new method is also introduced, which designs a continuous toolpath for different materials based on stress conditions at specific regions. This technique is exemplified through the fabrication of a Pratt truss. Comparative load tests confirm the performance superiority of multi-filament prints over single-filament prints. Although this research utilizes thermal plastic filaments and is conducted on a small scale, the method has potential for larger-scale applications and various materials. Besides improving structural performance, the study aids in visualizing mechanical and geometrical properties of printed components, enhancing interdisciplinary design communications..</p>
+        <h2>Description</h2>
+        <p>Short description of the project. Replace this paragraph with the real narrative for <em>Multi-material 3D Printing for Tension-Compression Structure</em>.</p>
         <div class="gallery process-gallery" id="gallery-overview">
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-1.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-1.jpg" data-cap="Overview #1"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-2.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-2.jpg" data-cap="Overview #2"></div>
@@ -150,7 +150,8 @@
           <div class="img" id="overview-feature-img" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-1.jpg')"></div>
           <div class="caption" id="overview-feature-cap">Auto-playing preview · Click image to open</div>
         </div>
-        
+        <h2>Methods</h2>
+        <p>Summarize computation / materials / fabrication methods used in this project.</p>
         <div class="gallery process-gallery" id="gallery-process">
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-6.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-6.jpg" data-cap="Process #6"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-7.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-7.jpg" data-cap="Process #7"></div>
@@ -168,22 +169,15 @@
       <aside class="side">
         <div class="card" id="dyn-credits">
           <div class="section">
-            <strong>Project Credits</strong>
-            <ul class="list" id="credits-list">
-              <li>Lead: Teng Teng</li>
-            </ul>
-          </div>
-          <div class="section">
             <strong>Authors</strong>
-             
-            <ul class="list" id="team-list">
-              <li> Teng Teng, Yefan Zhi, Kun-Hao Yu, Shu Yang, Masoud Akbarzadeh</li>
+            <ul class="list" id="credits-list">
+              <li>Teng Teng, Yefan Zhi, Kun-Hao Yu, Shu Yang, Masoud Akbarzadeh</li>
               <li>University of Pennsylvania / Polyhedral Structures Laboratory</li>
             </ul>
           </div>
+         
           <div class="section" id="ack-sec" style="display:none">
             <strong>Acknowledgements</strong>
-            <strong>This research was funded by the National Science Foundation CAREER Award (NSF CAREER-1944691 CMMI) and the National Science Foundation Future Eco Manufacturing Research Grant (NSF, FMRG-2037097 CMMI) to Dr. Masoud Akbarzadeh.</strong>
             <p class="list" id="ack-text" style="margin-left:16px"></p>
           </div>
         </div>
@@ -219,7 +213,9 @@
     <button class="close" aria-label="Close" onclick="closeLightbox()">Close ×</button>
     <img alt="" id="lightbox-img"/>
   </div>
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
+    var player; // YouTube player variable
     document.addEventListener('DOMContentLoaded', function(){
       var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
       var lb=document.getElementById('lightbox');
@@ -269,42 +265,99 @@
       
       const slides = carousel.querySelectorAll('.slide');
       let currentIndex = 0;
-      const intervalTime = 5000; // 每张幻灯片5秒
-      let slideInterval;
+      const imageTime = 5000; // 时间为图像slide (5秒)
+      let timer;
 
       function nextSlide() {
         slides[currentIndex].classList.remove('active');
         currentIndex = (currentIndex + 1) % slides.length;
         slides[currentIndex].classList.add('active');
-        
-        // 如果是视频幻灯片，确保自动播放
-        const currentSlide = slides[currentIndex];
-        const video = currentSlide.querySelector('video');
-        if (video) {
-          video.play();
-        }
-        const iframe = currentSlide.querySelector('iframe');
-        if (iframe) {
-          // 重新设置src来触发autoplay
-          iframe.src = iframe.src;
+
+        clearTimeout(timer);
+
+        if (slides[currentIndex].classList.contains('image-slide')) {
+          // 对于图像，定时切换
+          timer = setTimeout(nextSlide, imageTime);
+        } else if (slides[currentIndex].classList.contains('video-slide')) {
+          // 对于视频，播放并等待结束
+          if (player) {
+            player.playVideo();
+          } else {
+            // 如果是HTML5 video
+            const video = document.getElementById('html5-video');
+            if (video) {
+              video.play();
+            }
+          }
         }
       }
 
       function startCarousel() {
-        slides[0].classList.add('active'); // 从第一张开始
-        slideInterval = setInterval(nextSlide, intervalTime);
+        slides[0].classList.add('active');
+        if (slides[0].classList.contains('image-slide')) {
+          timer = setTimeout(nextSlide, imageTime);
+        } else {
+          nextSlide(); // 如果第一张是视频，立即处理
+        }
       }
 
       function stopCarousel() {
-        clearInterval(slideInterval);
+        clearTimeout(timer);
+        if (player) {
+          player.pauseVideo();
+        } else {
+          const video = document.getElementById('html5-video');
+          if (video) {
+            video.pause();
+          }
+        }
       }
 
-      // 可选：鼠标悬停时暂停
+      // 鼠标悬停暂停
       carousel.addEventListener('mouseenter', stopCarousel);
-      carousel.addEventListener('mouseleave', startCarousel);
+      carousel.addEventListener('mouseleave', function() {
+        if (slides[currentIndex].classList.contains('image-slide')) {
+          timer = setTimeout(nextSlide, imageTime);
+        } else {
+          if (player) {
+            player.playVideo();
+          } else {
+            const video = document.getElementById('html5-video');
+            if (video) {
+              video.play();
+            }
+          }
+        }
+      });
+
+      // 对于HTML5 video
+      const html5Video = document.getElementById('html5-video');
+      if (html5Video) {
+        html5Video.addEventListener('ended', nextSlide);
+      }
 
       startCarousel();
     });
+
+    // YouTube API 回调
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // 当切换到视频时会播放，所以这里不需自动播放
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        nextSlide();
+      }
+    }
   </script>
   <script src="../../assets/js/projects.js"></script>
   <script>

@@ -52,6 +52,41 @@
     .video-wrap{position:relative;padding-top:56.25%;background:#000;border-radius:14px;overflow:hidden}
     .video-wrap iframe,.video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:14px}
     footer{color:var(--sub);font-size:13px;text-align:center;padding:28px 0 12px;margin-top:40px}
+
+    /* 新添加的轮播样式 */
+    .carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/7; /* 与原有hero宽高比匹配 */
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out; /* 淡入淡出过渡 */
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .video-slide {
+      background: #000; /* 视频背景为黑色 */
+    }
+
+    .video-slide iframe,
+    .video-slide video {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -71,9 +106,27 @@
         </ul>
       </nav>
     </header>
-
     <div class="hero">
-      <div class="img" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/hero.jpg')" role="img" aria-label="hero image"></div>
+      <!-- 新添加的轮播容器 -->
+      <div class="carousel" id="hero-carousel">
+        <!-- Slide 1: Hero 图像 -->
+        <div class="slide" style="background-image: url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/hero.jpg');"></div>
+        
+        <!-- Slide 2: 视频 (替换为你的视频URL) -->
+        <div class="slide video-slide">
+          <!-- 对于YouTube视频: 使用iframe (例如, https://www.youtube.com/watch?v=VIDEO_ID，将VIDEO_ID替换为你的视频ID) -->
+          <iframe src="https://dev.psl.design.upenn.edu/wp-content/uploads/2023/05/multi-mat-home-c1.mp4" 
+                  title="Project Video" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen></iframe>
+          
+          <!-- 或者对于直接的MP4/WebM视频: 使用<video> (例如, https://example.com/video.mp4，将URL替换为你的视频链接) -->
+          <!-- <video autoplay muted loop playsinline>
+            <source src="https://example.com/video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video> -->
+        </div>
+      </div>
       <div class="titlebar">
         <div>
           <h1>Multi-material 3D Printing for Tension-Compression Structure</h1>
@@ -82,12 +135,10 @@
         <div class="meta-inline"><a href="../../research/">← Back to Research</a></div>
       </div>
     </div>
-
     <div class="grid">
       <article>
         <h2>Description</h2>
         <p>Short description of the project. Replace this paragraph with the real narrative for <em>Multi-material 3D Printing for Tension-Compression Structure</em>.</p>
-
         <div class="gallery process-gallery" id="gallery-overview">
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-1.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-1.jpg" data-cap="Overview #1"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-2.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-2.jpg" data-cap="Overview #2"></div>
@@ -95,15 +146,12 @@
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-4.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-4.jpg" data-cap="Overview #4"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-5.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-5.jpg" data-cap="Overview #5"></div>
         </div>
-
         <div class="figure" id="overview-feature">
           <div class="img" id="overview-feature-img" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-1.jpg')"></div>
           <div class="caption" id="overview-feature-cap">Auto-playing preview · Click image to open</div>
         </div>
-
         <h2>Methods</h2>
         <p>Summarize computation / materials / fabrication methods used in this project.</p>
-
         <div class="gallery process-gallery" id="gallery-process">
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-6.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-6.jpg" data-cap="Process #6"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-7.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-7.jpg" data-cap="Process #7"></div>
@@ -111,16 +159,13 @@
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-9.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-9.jpg" data-cap="Process #9"></div>
           <div class="gthumb" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-10.jpg')" data-full="../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-10.jpg" data-cap="Process #10"></div>
         </div>
-
         <div class="figure" id="process-feature">
           <div class="img" id="process-feature-img" style="background-image:url('../../assets/img/multi-material-3d-printing-for-tension-compression-structure/img-6.jpg')"></div>
           <div class="caption" id="process-feature-cap">Auto-playing preview · Click image to open</div>
         </div>
-
         <h2 id="video-h2" style="display:none">Project Video</h2>
         <div id="video-slot"></div>
       </article>
-
       <aside class="side">
         <div class="card" id="dyn-credits">
           <div class="section">
@@ -140,7 +185,6 @@
             <p class="list" id="ack-text" style="margin-left:16px"></p>
           </div>
         </div>
-
         <div class="card">
           <div class="section">
             <div class="kvs">
@@ -152,17 +196,14 @@
               </div>
             </div>
           </div>
-
           <div class="section" id="dyn-links" style="display:none">
             <strong id="dyn-links-title">Links</strong>
             <ul class="links" id="dyn-links-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
           </div>
-
           <div class="section" id="dyn-pubs" style="display:none">
             <strong>Publications</strong>
             <ul class="links" id="dyn-pubs-list" style="margin:8px 0 0 16px; color:var(--sub); font-size:14px"></ul>
           </div>
-
           <div class="section" style="display:flex; gap:8px; flex-wrap:wrap">
             <a class="tag" href="../../research/">← Back to Research</a>
             <a class="tag" href="../../gallery/?cat=all">Browse all projects</a>
@@ -170,15 +211,12 @@
         </div>
       </aside>
     </div>
-
     <footer>© <span id="year"></span> Teng Teng · Hosted on GitHub Pages</footer>
   </div>
-
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="close" aria-label="Close" onclick="closeLightbox()">Close ×</button>
     <img alt="" id="lightbox-img"/>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function(){
       var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
@@ -187,11 +225,10 @@
       function openLightbox(src){ lbimg.src=src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
       function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbimg.src=''; }
       window.closeLightbox = closeLightbox;
-
       function setupAutoGallery(thumbsContainerId, featureImgId, featureCapId, featureBoxId){
         var container = document.getElementById(thumbsContainerId);
-        var feature   = document.getElementById(featureImgId);
-        var capEl     = document.getElementById(featureCapId);
+        var feature = document.getElementById(featureImgId);
+        var capEl = document.getElementById(featureCapId);
         var featureBox= document.getElementById(featureBoxId);
         if(!container || !feature) return;
         var thumbs = Array.from(container.querySelectorAll('.gthumb'));
@@ -223,9 +260,45 @@
       }
       setupAutoGallery('gallery-overview','overview-feature-img','overview-feature-cap','overview-feature');
       setupAutoGallery('gallery-process','process-feature-img','process-feature-cap','process-feature');
+
+      // 新添加的轮播脚本
+      const carousel = document.getElementById('hero-carousel');
+      if (!carousel) return;
+      
+      const slides = carousel.querySelectorAll('.slide');
+      let currentIndex = 0;
+      const intervalTime = 5000; // 每张幻灯片5秒
+      let slideInterval;
+
+      function nextSlide() {
+        slides[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % slides.length;
+        slides[currentIndex].classList.add('active');
+        
+        // 如果是视频幻灯片，确保播放（对于iframe，autoplay会处理）
+        const currentSlide = slides[currentIndex];
+        const video = currentSlide.querySelector('video');
+        if (video) {
+          video.play();
+        }
+      }
+
+      function startCarousel() {
+        slides[0].classList.add('active'); // 从第一张开始
+        slideInterval = setInterval(nextSlide, intervalTime);
+      }
+
+      function stopCarousel() {
+        clearInterval(slideInterval);
+      }
+
+      // 可选：鼠标悬停时暂停
+      carousel.addEventListener('mouseenter', stopCarousel);
+      carousel.addEventListener('mouseleave', startCarousel);
+
+      startCarousel();
     });
   </script>
-
   <script src="../../assets/js/projects.js"></script>
   <script>
   (function(){
@@ -262,8 +335,8 @@
       const c = me.credits;
       const credList = document.getElementById('credits-list');
       const teamList = document.getElementById('team-list');
-      const ackSec   = document.getElementById('ack-sec');
-      const ackText  = document.getElementById('ack-text');
+      const ackSec = document.getElementById('ack-sec');
+      const ackText = document.getElementById('ack-text');
       if(Array.isArray(c.credits)){ credList.innerHTML = c.credits.map(s=>`<li>${s}</li>`).join(''); }
       if(Array.isArray(c.team)){ teamList.innerHTML = c.team.map(s=>`<li>${s}</li>`).join(''); }
       if(typeof c.ack === 'string' && c.ack.trim()){ ackText.textContent = c.ack.trim(); ackSec.style.display=''; }

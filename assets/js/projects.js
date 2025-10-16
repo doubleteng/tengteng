@@ -391,21 +391,13 @@ window.PROJECTS = [
     "robotics"
   ],
   "links": [
-    {
-      "title": "Project page",
-      "url": "https://example.com/pica",
-      "kind": "site"
-    },
-    {
-      "title": "Video",
-      "url": "https://youtu.be/xxxxxxxx",
-      "kind": "video"
-    }
+    
+   
   ],
   "pubs": [
     {
       "title": "Related paper (DOI)",
-      "url": "https://doi.org/10.xxxx/xxxxx"
+      "url": "https://papers.cumincad.org/cgi-bin/works/paper/caadria2020_436"
     }
   ]
 },

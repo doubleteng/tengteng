@@ -448,18 +448,7 @@ window.PROJECTS = [
     "design",
     "architecture"
   ],
-  "links": [
-    {
-      "title": "Project page",
-      "url": "https://example.com/kaisa-center-mixed-use",
-      "kind": "site"
-    },
-    {
-      "title": "Press coverage (PDF)",
-      "url": "https://example.com/press.pdf",
-      "kind": "pdf"
-    }
-  ]
+  
 },
 {
   "title": "Shanghai Museum – Phase II",

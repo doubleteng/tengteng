@@ -212,7 +212,7 @@ window.PROJECTS = [
     {
       kind: "video", 
      title: "Video", 
-     url: "https://vimeo.com/1054877188?fl=pl&fe=sh" 
+     url: "<iframe title="vimeo-player" src="https://player.vimeo.com/video/1054877188?h=4fc1966ee4" width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"   allowfullscreen></iframe>" 
     },
     {
       kind: "site",

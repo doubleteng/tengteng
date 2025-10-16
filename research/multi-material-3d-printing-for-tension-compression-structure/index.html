@@ -275,11 +275,16 @@
         currentIndex = (currentIndex + 1) % slides.length;
         slides[currentIndex].classList.add('active');
         
-        // 如果是视频幻灯片，确保播放（对于iframe，autoplay会处理）
+        // 如果是视频幻灯片，确保自动播放
         const currentSlide = slides[currentIndex];
         const video = currentSlide.querySelector('video');
         if (video) {
           video.play();
+        }
+        const iframe = currentSlide.querySelector('iframe');
+        if (iframe) {
+          // 重新设置src来触发autoplay
+          iframe.src = iframe.src;
         }
       }
 

@@ -1,5 +1,6 @@
-// projects.js
-export const PROJECTS = [
+// assets/js/projects.js
+// 方案A：使用全局变量。直接把数据挂到 window.PROJECTS，供所有页面使用。
+window.PROJECTS = [
   {
     "title": "Integrated and Tailored Thermal Insulation",
     "url": "research/integrated-and-tailored-thermal-insulation/",
@@ -831,8 +832,3 @@ export const PROJECTS = [
     ]
   }
 ];
-
-// 兼容：既可模块导入，也可直接作为全局变量访问
-if (typeof window !== 'undefined') {
-  window.PROJECTS = PROJECTS;
-}

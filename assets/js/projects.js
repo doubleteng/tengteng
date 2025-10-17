@@ -17,19 +17,24 @@ window.PROJECTS = [
     "links": [
       {
         "title": "Project page",
-        "url": "https://example.com/integrated-and-tailored-thermal-insulation",
+        "url": "https://psl.design.upenn.edu/project/integrated-and-tailored-thermal-insulation-through-gradient-multimaterial-additive-manufacturing-for-masonry-architectural-components/",
         "kind": "site"
       },
       {
         "title": "Video",
-        "url": "https://youtu.be/xxxxxxxx",
+        "url": "https://youtu.be/EDOY58G-uFU",
         "kind": "video"
       }
     ],
+      "award": [
+      {
+        "title": "Award",
+        "url": "http://old.acadia.org/news/D7KHE9"
+      }
     "pubs": [
       {
         "title": "Related paper (DOI)",
-        "url": "https://doi.org/10.xxxx/xxxxx"
+        "url": "https://papers.cumincad.org/cgi-bin/works/paper/acadia24_v2_54"
       }
     ]
   },
@@ -52,19 +57,19 @@ window.PROJECTS = [
     "links": [
       {
         "title": "Project page",
-        "url": "https://example.com/snmm-additive-manufacturing-system",
+        "url": "https://psl.design.upenn.edu/project/prototyping-high-fidelity-multifunctional-objects-using-single-nozzle-multi-filament-additive-manufacturing-system-with-active-mixing/",
         "kind": "site"
       },
       {
         "title": "Video",
-        "url": "https://youtu.be/xxxxxxxx",
+        "url": "https://dev.psl.design.upenn.edu/wp-content/uploads/2025/02/materialanddesign.mp4",
         "kind": "video"
       }
     ],
     "pubs": [
       {
         "title": "Related paper (DOI)",
-        "url": "https://doi.org/10.xxxx/xxxxx"
+        "url": "https://doi.org/10.1016/j.matdes.2024.113479"
       }
     ]
   },
@@ -82,6 +87,12 @@ window.PROJECTS = [
       "computation",
       "fabrication"
     ],
+  "credits": {
+      "credits": [
+        "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
+        "Project team: Teng Teng, Yefan Zhi, Masoud Akbarzadeh"
+      ],
+    
     "links": [
       {
         "title": "Project page",
@@ -97,7 +108,7 @@ window.PROJECTS = [
     "pubs": [
       {
         "title": "Related paper (DOI)",
-        "url": "https://doi.org/10.xxxx/xxxxx"
+        "url": "https://psl.design.upenn.edu/wp-content/uploads/2023/05/TENG______IASS_Continuous_multi_filament__D.pdf"
       }
     ]
   },
@@ -114,22 +125,23 @@ window.PROJECTS = [
       "research",
       "fabrication"
     ],
+
+      "credits": [
+        "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
+        "Project team: Yefan Zhi, Teng Teng, Masoud Akbarzadeh"
+      ],
+      
     "links": [
       {
         "title": "Project page",
-        "url": "https://example.com/scaled-fabrication-models",
+        "url": "https://psl.design.upenn.edu/project/designing-3d-printed-concrete-structures-with-scaled-fabrication-models/",
         "kind": "site"
       },
-      {
-        "title": "Video",
-        "url": "https://youtu.be/xxxxxxxx",
-        "kind": "video"
-      }
-    ],
+      
     "pubs": [
       {
         "title": "Related paper (DOI)",
-        "url": "https://doi.org/10.xxxx/xxxxx"
+        "url": "https://link.springer.com/article/10.1007/s44223-024-00070-3"
       }
     ]
   },

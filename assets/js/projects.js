@@ -26,11 +26,12 @@ window.PROJECTS = [
         "kind": "video"
       }
     ],
-      "award": [
+    "award": [
       {
         "title": "Award",
         "url": "http://old.acadia.org/news/D7KHE9"
       }
+    ],
     "pubs": [
       {
         "title": "Related paper (DOI)",
@@ -87,12 +88,12 @@ window.PROJECTS = [
       "computation",
       "fabrication"
     ],
-  "credits": {
+    "credits": {
       "credits": [
         "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
         "Project team: Teng Teng, Yefan Zhi, Masoud Akbarzadeh"
-      ],
-    
+      ]
+    },
     "links": [
       {
         "title": "Project page",
@@ -125,19 +126,17 @@ window.PROJECTS = [
       "research",
       "fabrication"
     ],
-
-      "credits": [
-        "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
-        "Project team: Yefan Zhi, Teng Teng, Masoud Akbarzadeh"
-      ],
-      
+    "credits": [
+      "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
+      "Project team: Yefan Zhi, Teng Teng, Masoud Akbarzadeh"
+    ],
     "links": [
       {
         "title": "Project page",
         "url": "https://psl.design.upenn.edu/project/designing-3d-printed-concrete-structures-with-scaled-fabrication-models/",
         "kind": "site"
-      },
-      
+      }
+    ],
     "pubs": [
       {
         "title": "Related paper (DOI)",
@@ -150,7 +149,7 @@ window.PROJECTS = [
     "title": "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy",
     "url": "research/diamanti-3d-printed-post-tensioned-concrete-canopy/",
     "img": "assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg",
-    "year": 2024,
+    "year": "2024",
     "cats": ["research"],
     "tags": ["fabrication","robotics","concrete","post-tensioning"],
     "links": [
@@ -201,7 +200,7 @@ window.PROJECTS = [
     "title": "Floralis: an ETFE-Clad, Multilaminar Timber Structure",
     "url": "design/floralis-an-etfe-clad-multilaminar-timber-structure/",
     "img": "assets/img/floralis-an-etfe-clad-multilaminar-timber-structure/hero.jpg",
-    "year": 2025,
+    "year": "2025",
     "cats": ["design"],
     "tags": ["architecture",
            "fabrication",

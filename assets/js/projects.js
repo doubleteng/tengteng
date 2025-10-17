@@ -1,19 +1,12 @@
-window.PROJECTS = [
+// projects.js
+export const PROJECTS = [
   {
     "title": "Integrated and Tailored Thermal Insulation",
     "url": "research/integrated-and-tailored-thermal-insulation/",
     "img": "assets/img/integrated-and-tailored-thermal-insulation/hero.jpg",
     "year": "2024",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "computation",
-      "fabrication",
-      "architecture",
-      "design"
-    ],
+    "cats": ["research"],
+    "tags": ["research", "computation", "fabrication", "architecture", "design"],
     "links": [
       {
         "title": "Project page",
@@ -39,22 +32,14 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------
+
   {
     "title": "SNMM Additive Manufacturing System",
     "url": "research/snmm-additive-manufacturing-system/",
     "img": "assets/img/snmm-additive-manufacturing-system/hero.jpg",
     "year": "2025",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "fabrication",
-      "material",
-      "design",
-      "product"
-    ],
+    "cats": ["research"],
+    "tags": ["research", "fabrication", "material", "design", "product"],
     "links": [
       {
         "title": "Project page",
@@ -74,22 +59,16 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------
+
   {
     "title": "Multi-material 3D Printing for Tension-Compression Structure",
     "url": "research/multi-material-3d-printing-for-tension-compression-structure/",
     "img": "assets/img/multi-material-3d-printing-for-tension-compression-structure/hero.jpg",
     "year": "2023",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "computation",
-      "fabrication"
-    ],
+    "cats": ["research"],
+    "tags": ["research", "computation", "fabrication"],
     "credits": {
-      "credits": [
+      "list": [
         "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
         "Project team: Teng Teng, Yefan Zhi, Masoud Akbarzadeh"
       ]
@@ -113,23 +92,20 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------
+
   {
     "title": "Scaled Fabrication Models",
     "url": "research/scaled-fabrication-models/",
     "img": "assets/img/scaled-fabrication-models/hero.jpg",
     "year": "2024",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "fabrication"
-    ],
-    "credits": [
-      "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
-      "Project team: Yefan Zhi, Teng Teng, Masoud Akbarzadeh"
-    ],
+    "cats": ["research"],
+    "tags": ["research", "fabrication"],
+    "credits": {
+      "list": [
+        "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
+        "Project team: Yefan Zhi, Teng Teng, Masoud Akbarzadeh"
+      ]
+    },
     "links": [
       {
         "title": "Project page",
@@ -144,14 +120,14 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------
+
   {
     "title": "Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy",
     "url": "research/diamanti-3d-printed-post-tensioned-concrete-canopy/",
     "img": "assets/img/diamanti-3d-printed-post-tensioned-concrete-canopy/hero.jpg",
     "year": "2024",
     "cats": ["research"],
-    "tags": ["fabrication","robotics","concrete","post-tensioning"],
+    "tags": ["fabrication", "robotics", "concrete", "post-tensioning"],
     "links": [
       {
         "kind": "video",
@@ -181,7 +157,7 @@ window.PROJECTS = [
       }
     ],
     "credits": {
-      "credits": [
+      "list": [
         "PI: Masoud Akbarzadeh (University of Pennsylvania, Polyhedral Structures Lab)",
         "Project team: Hua Chai, Yefan Zhi, Maximilian E. Ororbia, Teng Teng, Mathias Bernhard"
       ],
@@ -195,18 +171,14 @@ window.PROJECTS = [
       "ack": "This research is funded by the Advanced Research Projects Agency – Energy (ARPA-E) of U.S. Department of Energy (DE-FOA-0002625 2625-1538)."
     }
   },
-  //------------------------------------------------
+
   {
     "title": "Floralis: an ETFE-Clad, Multilaminar Timber Structure",
     "url": "design/floralis-an-etfe-clad-multilaminar-timber-structure/",
     "img": "assets/img/floralis-an-etfe-clad-multilaminar-timber-structure/hero.jpg",
     "year": "2025",
     "cats": ["design"],
-    "tags": ["architecture",
-           "fabrication",
-           "robotics",
-           "timber",
-           "computation"],
+    "tags": ["architecture", "fabrication", "robotics", "timber", "computation"],
     "links": [
       {
         "kind": "video",
@@ -220,9 +192,9 @@ window.PROJECTS = [
       }
     ],
     "credits": {
-      "credits": [
+      "list": [
         "Principal Investigators: Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, Frank Matero",
-         "Conceptual Design: Dr. Masoud Akbarzadeh, Hua Chai, Teng Teng, Yiliang Shao",
+        "Conceptual Design: Dr. Masoud Akbarzadeh, Hua Chai, Teng Teng, Yiliang Shao",
         "Project Management: Michael Ting",
         "Computational Design and Robotic Fabrication: Mariana Righi",
         "Construction Consultant: Clara Shim",
@@ -236,23 +208,17 @@ window.PROJECTS = [
         "Facade Profile Production and Detailing: Ishak Hmeyed (Facade Textiles), Michael Ting",
         "National Park Service: Penny Wagner, Jeffery Wilson, Parker Severson, Sydney Moreno"
       ],
-      "ack": "Funding was provided by National Park Services to Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, and Frank Matero. The computational research fund was provided by the National Science Foundation CAREER award given to Dr. Masoud Akbarzadeh.."
+      "ack": "Funding was provided by National Park Services to Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, and Frank Matero. The computational research fund was provided by the National Science Foundation CAREER award given to Dr. Masoud Akbarzadeh."
     }
   },
-  //--------------------------------------------------------------------------------------------
+
   {
     "title": "3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture",
     "url": "research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/",
     "img": "assets/img/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/hero.jpg",
     "year": "2025",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "fabrication",
-      "material"
-    ],
+    "cats": ["research"],
+    "tags": ["research", "fabrication", "material"],
     "links": [
       {
         "title": "Project page",
@@ -272,20 +238,14 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------ //------------------------------------------------
+
   {
     "title": "Epithelial Cell-Inspired Programmable Surface Geometry",
     "url": "research/epithelial-cell-inspired-programmable-surface-geometry/",
     "img": "assets/img/epithelial-cell-inspired-programmable-surface-geometry/hero.jpg",
     "year": "2021",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "computation",
-      "fabrication"
-    ],
+    "cats": ["research"],
+    "tags": ["research", "computation", "fabrication"],
     "links": [
       {
         "title": "Project page",
@@ -305,23 +265,20 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------
+
   {
     "title": "Scutoid Brick",
     "url": "research/scutoid-brick/",
     "img": "assets/img/scutoid-brick/hero.jpg",
     "year": "2020",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "computation"
-    ],
-    "credits": [
+    "cats": ["research"],
+    "tags": ["research", "computation"],
+    "credits": {
+      "list": [
         "PI: Jenny Sabin (Cornell University)",
         "Project Lead and Main Contributor: Teng Teng"
-      ],
+      ]
+    },
     "links": [
       {
         "title": "Project page",
@@ -341,39 +298,29 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------
+
   {
     "title": "Pinbed",
     "url": "research/pinbed/",
     "img": "assets/img/pinbed/hero.jpg",
     "year": "2019",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "fabrication",
-      "robotics"
-    ],
-    "credits": [
+    "cats": ["research"],
+    "tags": ["research", "fabrication", "robotics"],
+    "credits": {
+      "list": [
         "PI: Jenny Sabin (Cornell University)",
         "Project Lead and Main Contributor: Teng Teng"
       ]
+    }
   },
-  //------------------------------------------------
+
   {
     "title": "Pica",
     "url": "research/pica/",
     "img": "assets/img/pica/hero.jpg",
     "year": "2019",
-    "cats": [
-      "research"
-    ],
-    "tags": [
-      "research",
-      "fabrication",
-      "robotics"
-    ],
+    "cats": ["research"],
+    "tags": ["research", "fabrication", "robotics"],
     "links": [],
     "pubs": [
       {
@@ -382,19 +329,14 @@ window.PROJECTS = [
       }
     ]
   },
-  //------------------------------------------------
+
   {
     "title": "Yintai Centre Mixed-Use",
     "url": "design/yintai-centre-mixed-use/",
     "img": "assets/img/yintai-centre-mixed-use/hero.jpg",
     "year": "2010",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -408,31 +350,23 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Kaisa Center Mixed-Use",
     "url": "design/kaisa-center-mixed-use/",
     "img": "assets/img/kaisa-center-mixed-use/hero.jpg",
     "year": "2011",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ]
+    "cats": ["design"],
+    "tags": ["design", "architecture"]
   },
+
   {
     "title": "Shanghai Museum – Phase II",
     "url": "design/shanghai-museum-phase-ii/",
     "img": "assets/img/shanghai-museum-phase-ii/hero.jpg",
     "year": "2016",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -446,18 +380,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "RIBO Central Club",
     "url": "design/ribo-central-club/",
     "img": "assets/img/ribo-central-club/hero.jpg",
     "year": "2010",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -471,18 +401,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Instant City Plug-in Architecture",
     "url": "design/instant-city-plug-in-architecture/",
     "img": "assets/img/instant-city-plug-in-architecture/hero.jpg",
     "year": "2012",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -496,18 +422,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Tang Courtyard Promenade",
     "url": "design/tang-courtyard-promenade/",
     "img": "assets/img/tang-courtyard-promenade/hero.jpg",
     "year": "2018",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -521,18 +443,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "FANA Mixed-Use Complex Development",
     "url": "design/fana-mixed-use-complex-development/",
     "img": "assets/img/fana-mixed-use-complex-development/hero.jpg",
     "year": "2016",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -546,18 +464,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Dragon Light International Shopping Mall",
     "url": "design/dragon-light-international-shopping-mall/",
     "img": "assets/img/dragon-light-international-shopping-mall/hero.jpg",
     "year": "2014",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -571,18 +485,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Waterfront Seattle",
     "url": "design/waterfront-seattle/",
     "img": "assets/img/waterfront-seattle/hero.jpg",
     "year": "2013",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -596,18 +506,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "WFJ Waterfront Development",
     "url": "design/wfj-waterfront-development/",
     "img": "assets/img/wfj-waterfront-development/hero.jpg",
     "year": "2014",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -621,18 +527,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Jinji Lake Land",
     "url": "design/jinji-lake-land/",
     "img": "assets/img/jinji-lake-land/hero.jpg",
     "year": "2011",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -646,18 +548,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "CRLL Chongqing MIXC",
     "url": "design/crll-chongqing-mixc/",
     "img": "assets/img/crll-chongqing-mixc/hero.jpg",
     "year": "2011",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -671,18 +569,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "W. Newton St Rowhouse",
     "url": "design/w-newton-st-rowhouse/",
     "img": "assets/img/w-newton-st-rowhouse/hero.jpg",
     "year": "2021",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "architecture"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -696,19 +590,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "INSPIRE",
     "url": "design/inspire/",
     "img": "assets/img/inspire/hero.jpg",
     "year": "2014",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "research",
-      "interface"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "research", "interface"],
     "links": [
       {
         "title": "Project page",
@@ -722,19 +611,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Transformable Physical Design Media",
     "url": "design/transformable-physical-design-media/",
     "img": "assets/img/transformable-physical-design-media/hero.jpg",
     "year": "2015",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "research",
-      "interface"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "research", "interface"],
     "links": [
       {
         "title": "Project page",
@@ -748,18 +632,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "OPERATION PPE",
     "url": "design/operation-ppe/",
     "img": "assets/img/operation-ppe/hero.jpg",
     "year": "2020",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "product"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "product"],
     "links": [
       {
         "title": "Project page",
@@ -773,19 +653,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Programmable Footwear",
     "url": "design/programmable-footwear/",
     "img": "assets/img/programmable-footwear/hero.jpg",
     "year": "2025",
-    "cats": [
-      "design"
-    ],
-    "tags": [
-      "design",
-      "research",
-      "product"
-    ],
+    "cats": ["design"],
+    "tags": ["design", "research", "product"],
     "links": [
       {
         "title": "Project page",
@@ -799,18 +674,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Undergraduate Architecture Thesis",
     "url": "teaching/undergraduate-architecture-thesis/",
     "img": "assets/img/undergraduate-architecture-thesis/hero.jpg",
     "year": "2015–2021",
-    "cats": [
-      "teaching"
-    ],
-    "tags": [
-      "teaching",
-      "architecture"
-    ],
+    "cats": ["teaching"],
+    "tags": ["teaching", "architecture"],
     "links": [
       {
         "title": "Project page",
@@ -829,18 +700,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Undergraduate Product Design Thesis",
     "url": "teaching/undergraduate-product-design-thesis/",
     "img": "assets/img/undergraduate-product-design-thesis/hero.jpg",
     "year": "2015–2021",
-    "cats": [
-      "teaching"
-    ],
-    "tags": [
-      "teaching",
-      "product"
-    ],
+    "cats": ["teaching"],
+    "tags": ["teaching", "product"],
     "links": [
       {
         "title": "Project page",
@@ -859,20 +726,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Digital Fabrication",
     "url": "teaching/digital-fabrication/",
     "img": "assets/img/digital-fabrication/hero.jpg",
     "year": "2016",
-    "cats": [
-      "teaching"
-    ],
-    "tags": [
-      "teaching",
-      "fabrication",
-      "architecture",
-      "product"
-    ],
+    "cats": ["teaching"],
+    "tags": ["teaching", "fabrication", "architecture", "product"],
     "links": [
       {
         "title": "Project page",
@@ -891,18 +752,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "AI Empowered Creative Robotics Workshop",
     "url": "teaching/ai-empowered-creative-robotics-workshop/",
     "img": "assets/img/ai-empowered-creative-robotics-workshop/hero.jpg",
     "year": "2023",
-    "cats": [
-      "teaching"
-    ],
-    "tags": [
-      "teaching",
-      "robotics"
-    ],
+    "cats": ["teaching"],
+    "tags": ["teaching", "robotics"],
     "links": [
       {
         "title": "Project page",
@@ -921,19 +778,14 @@ window.PROJECTS = [
       }
     ]
   },
+
   {
     "title": "Building Robots for Robotic Fabrication",
     "url": "teaching/building-robots-for-robotic-fabrication/",
     "img": "assets/img/building-robots-for-robotic-fabrication/hero.jpg",
     "year": "2021–2024",
-    "cats": [
-      "teaching"
-    ],
-    "tags": [
-      "research",
-      "teaching",
-      "robotics"
-    ],
+    "cats": ["teaching"],
+    "tags": ["research", "teaching", "robotics"],
     "links": [
       {
         "title": "Project page",
@@ -952,20 +804,14 @@ window.PROJECTS = [
       }
     ]
   },
-  //--------------------------------------
+
   {
     "title": "New Material and Method",
     "url": "teaching/new-material-and-method/",
     "img": "assets/img/new-material-and-method/hero.jpg",
     "year": "2023",
-    "cats": [
-      "teaching"
-    ],
-    "tags": [
-      "research",
-      "teaching",
-      "material"
-    ],
+    "cats": ["teaching"],
+    "tags": ["research", "teaching", "material"],
     "links": [
       {
         "title": "Project page",
@@ -984,5 +830,9 @@ window.PROJECTS = [
       }
     ]
   }
-  //-------------------------------------------------------
 ];
+
+// 兼容：既可模块导入，也可直接作为全局变量访问
+if (typeof window !== 'undefined') {
+  window.PROJECTS = PROJECTS;
+}

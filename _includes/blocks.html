@@ -1,0 +1,20 @@
+{% for block in include.sections %}
+<section class="content-block block-{{ block.type | escape }}">
+  {% if block.heading and block.heading != '' %}<h2>{{ block.heading | escape }}</h2>{% endif %}
+  {% case block.type %}
+  {% when 'text' %}<div class="prose">{{ block.body | markdownify }}</div>
+  {% when 'image' %}{% if block.image and block.image != '' %}<figure><button class="image-trigger" type="button" data-image="{{ block.image | relative_url }}" data-caption="{{ block.caption | escape }}" aria-label="Enlarge {{ block.alt | default: page.title | escape }}"><img src="{{ block.image | relative_url }}" alt="{{ block.alt | default: page.title | escape }}" loading="lazy" decoding="async"></button>{% if block.caption != '' or block.credit != '' %}<figcaption>{{ block.caption | escape }}{% if block.credit and block.credit != '' %} <span>© {{ block.credit | escape }}</span>{% endif %}</figcaption>{% endif %}</figure>{% endif %}
+  {% when 'gallery' %}<div class="gallery gallery-{{ block.columns | default: 'two' }}">{% for image in block.images %}<figure><button class="image-trigger" type="button" data-image="{{ image | relative_url }}" data-caption="{{ block.caption | escape }}" aria-label="Enlarge {{ page.title | escape }} image {{ forloop.index }}"><img src="{{ image | relative_url }}" alt="{{ page.title | escape }} — {{ block.heading | default: 'project image' | escape }} {{ forloop.index }}" loading="lazy" decoding="async"></button></figure>{% endfor %}</div>{% if block.caption and block.caption != '' %}<p class="caption">{{ block.caption | escape }}</p>{% endif %}
+  {% when 'video' %}
+    {% assign video_url = block.url %}
+    {% if video_url contains 'youtu.be/' %}{% assign video_id = video_url | split: 'youtu.be/' | last | split: '?' | first %}<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ video_id | escape }}" title="{{ block.heading | default: 'Project video' | escape }}" loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+    {% elsif video_url contains 'youtube.com/watch?v=' %}{% assign video_id = video_url | split: 'v=' | last | split: '&' | first %}<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ video_id | escape }}" title="{{ block.heading | default: 'Project video' | escape }}" loading="lazy" allowfullscreen></iframe></div>
+    {% elsif video_url contains 'vimeo.com/' %}{% assign video_id = video_url | split: 'vimeo.com/' | last | split: '?' | first %}<div class="video-frame"><iframe src="https://player.vimeo.com/video/{{ video_id | escape }}" title="{{ block.heading | default: 'Project video' | escape }}" loading="lazy" allowfullscreen></iframe></div>
+    {% elsif video_url contains '.mp4' or video_url contains '.webm' %}<video controls playsinline preload="none"><source src="{{ video_url | escape }}">Your browser does not support this video. <a href="{{ video_url | escape }}">Open video</a>.</video>
+    {% elsif video_url and video_url != '' %}<a class="text-link" href="{{ video_url | escape }}" target="_blank" rel="noopener">Watch video ↗</a>{% endif %}
+    {% if block.caption and block.caption != '' %}<p class="caption">{{ block.caption | escape }}</p>{% endif %}
+  {% when 'quote' %}<blockquote>{{ block.text | escape }}{% if block.attribution %}<cite>{{ block.attribution | escape }}</cite>{% endif %}</blockquote>
+  {% when 'links' %}<ul class="resource-list">{% for item in block.items %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>
+  {% endcase %}
+</section>
+{% endfor %}

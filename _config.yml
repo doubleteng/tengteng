@@ -1,0 +1,60 @@
+title: Teng Teng
+url: https://teng-teng.org
+baseurl: ''
+timezone: America/Detroit
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+  publications:
+    output: false
+  updates:
+    output: true
+    permalink: /news/:name/
+defaults:
+- scope:
+    path: ''
+  values:
+    layout: default
+- scope:
+    path: ''
+    type: projects
+  values:
+    layout: project
+    published: false
+    featured: false
+    featured_order: 99
+- scope:
+    path: ''
+    type: publications
+  values:
+    published: false
+- scope:
+    path: ''
+    type: updates
+  values:
+    layout: update
+    published: false
+exclude:
+- README.md
+- Gemfile
+- Gemfile.lock
+- docs
+- scripts
+- tests
+- node_modules
+- vendor
+- assets/data
+- assets/js/projects.js
+- assets/js/news.js
+- assets/js/pubs.js
+- assets/js/nav.js
+- .pages.yml
+- .pages.yaml
+- .gitignore
+- assets/img/pica/index.html
+- assets/css/site.css

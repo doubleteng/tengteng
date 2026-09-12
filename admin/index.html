@@ -1,0 +1,14 @@
+---
+title: 网站管理
+lang: zh-CN
+noindex: true
+---
+<header class="page-heading"><p class="eyebrow">Teng Teng · Content Studio</p><h1>管理你的作品集。</h1><p class="lead">在表单中更新文字、上传图片和简历。保存后，内容会写入你的 GitHub 仓库，网站自动更新。</p><div class="actions"><a class="button" href="https://app.pagescms.org/doubleteng/tengteng/main" target="_blank" rel="noopener">进入管理后台 ↗</a><a class="text-link" href="/admin/preview/">电脑／手机预览 →</a></div></header>
+<div class="admin-layout"><section class="admin-panel"><p class="eyebrow">01 · 首次使用</p><h2>用 GitHub 登录</h2><ol><li>点击“进入管理后台”，选择 <strong>Sign in with GitHub</strong>，使用 <strong>doubleteng</strong> 账号。</li><li>首次使用时，按 Pages CMS 提示安装 GitHub App。选择 <strong>Only select repositories</strong>，只勾选 <strong>tengteng</strong>。</li><li>回到后台，选择 <strong>doubleteng / tengteng</strong>，分支选 <strong>main</strong>。左侧会出现中文内容菜单。</li></ol><p>首次登录和授权需要你自己完成。无需购买服务器或创建数据库。</p></section><section class="admin-panel"><p class="eyebrow">02 · 日常更新</p><h2>填写 → 上传 → 发布</h2><ol><li>在“作品管理”中新建作品，填写名称、分类、年份和简介。</li><li>上传封面，编辑正文。在“图文内容区块”中添加相册，可一次上传多张图片并调整顺序。</li><li>准备好后打开“发布到网站”，点击保存。首页精选、分类目录与项目详情会自动同步。</li></ol><p>通常需要几分钟完成发布。保存草稿时保持“发布到网站”关闭。</p></section></div>
+<section class="admin-help"><h2>常用操作</h2><table class="admin-table"><thead><tr><th>我要做什么</th><th>去哪里</th><th>怎么操作</th></tr></thead><tbody><tr><td>新增／修改作品</td><td>作品管理</td><td>编辑一条记录，目录和详情页一起更新。</td></tr><tr><td>调整首页作品</td><td>作品管理</td><td>开启“显示在首页精选”，设置首页排序，数字越小越靠前。</td></tr><tr><td>批量上传图片</td><td>作品 → 图文内容区块</td><td>添加“批量图片相册”，选择多张图片；需要分别署名时使用“单张图片”。</td></tr><tr><td>更新简历</td><td>个人资料与简历</td><td>在“上传简历 PDF”中替换文件，About 页面下载入口自动更新。</td></tr><tr><td>添加论文</td><td>论文与出版物</td><td>填写标题、作者、年份和 DOI；可选填摘要、PDF 与 BibTeX。</td></tr><tr><td>发布新闻</td><td>新闻与动态</td><td>填写日期、摘要与正文，开启发布后显示在新闻页，最新三条进入首页。</td></tr><tr><td>更新课程／简介</td><td>教学介绍与课程／个人资料与简历</td><td>直接改对应文字，列表顺序就是网页顺序。</td></tr><tr><td>修改网站各页介绍</td><td>网站文字与设置</td><td>修改首页主标题、分类介绍和联系方式表单开关。</td></tr></tbody></table>
+<details><summary>我想先保存，之后再发布</summary><p>关闭“发布到网站”再保存即可。草稿不会出现在网站目录，也不会生成公开详情页。你可以在后台继续编辑和查看富文本排版；完整网页效果在发布构建完成后查看。仓库本身是公开的，因此草稿文件不是保密空间。</p></details>
+<details><summary>图片和文件怎样上传更方便？</summary><p>在图片字段中直接上传，或从“图片素材”选择已有图片。建议图片最长边约 2000 像素、每张 2 MB 以内，使用 JPG 或 WebP。不同内容使用不同文件名；请勿删除仍被其他作品使用的图片。长视频推荐先上传到 YouTube／Vimeo，再粘贴链接。</p></details>
+<details><summary>保存后网站没有立刻变化</summary><p>先确认分支为 main，且内容已开启发布。等待几分钟后刷新网站。仍未更新时，可查看 <a href="https://github.com/doubleteng/tengteng/actions" target="_blank" rel="noopener">GitHub 的构建记录 ↗</a>。绿色表示成功，黄色表示进行中，红色表示失败。</p></details>
+<details><summary>已有作品还有哪些内容需要补充？</summary><p>在“作品管理”中搜索“待补充”或“原站没有”，查看“编辑备忘”。原站中的真实资料和图片已迁移；不确定的旧新闻保留为草稿，请核实后再发布。简历 PDF 尚未上传时，网站不会显示空的下载按钮。</p></details>
+<details><summary>我改错了，可以恢复吗？</summary><p>每次保存都保存在 GitHub 的版本历史中。可打开对应文件的 History，查看并恢复之前的内容。撤下作品只需要关闭发布，不必删除；修改标题时保留文件名，避免改变新作品的网址。</p></details>
+<p><a class="text-link" href="https://github.com/doubleteng/tengteng/blob/main/docs/EDITOR_GUIDE.md" target="_blank" rel="noopener">完整使用说明 ↗</a></p></section>

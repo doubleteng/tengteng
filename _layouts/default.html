@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="{{ page.lang | default: 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title | escape }} · {% endif %}{{ site.data.site.name | default: site.data.profile.name | escape }}</title>
+  {% assign description = page.summary | default: page.description | default: site.data.site.description %}
+  <meta name="description" content="{{ description | strip_html | escape }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta property="og:title" content="{{ page.title | default: site.data.profile.name | escape }}">
+  <meta property="og:description" content="{{ description | strip_html | escape }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  {% if page.cover and page.cover != '' %}<meta property="og:image" content="{{ page.cover | absolute_url }}">{% endif %}
+  {% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
+  <script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="{{ '/' | relative_url }}"><span class="monogram" aria-hidden="true">TT</span><span>{{ site.data.profile.name | escape }}</span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu <span aria-hidden="true">☰</span></button>
+      <nav id="primary-nav" aria-label="Primary">
+        {% assign navs = 'Research,Teaching,Design,Publications,News,About,Contact' | split: ',' %}
+        {% for label in navs %}{% assign nav_category = label | downcase %}{% assign nav_path = nav_category | prepend: '/' | append: '/' %}
+        <a href="{{ nav_path | relative_url }}"{% if page.url contains nav_path or page.category == nav_category %} aria-current="page"{% endif %}>{{ label }}</a>
+        {% endfor %}
+        {% if site.data.site.show_fine_art_nav %}<a href="/fine-art/"{% if page.url contains '/fine-art/' %} aria-current="page"{% endif %}>Fine Art</a>{% endif %}
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="container{% if page.wide %} wide{% endif %}">{{ content }}</main>
+  <footer class="site-footer container"><div><strong>{{ site.data.profile.name | escape }}</strong><p>{{ site.data.site.footer_text | escape }}</p></div><div class="footer-links"><a href="mailto:{{ site.data.profile.email | escape }}">Email</a><a href="{{ '/gallery/' | relative_url }}">All work</a><a href="{{ '/admin/' | relative_url }}">Manage</a><span>© {{ 'now' | date: '%Y' }}</span></div></footer>
+  <dialog id="image-dialog" aria-label="Image viewer"><button type="button" class="dialog-close" aria-label="Close image viewer">Close ×</button><img alt=""><p></p><div class="dialog-controls"><button type="button" data-direction="-1" aria-label="Previous image">← Previous</button><span id="image-position"></span><button type="button" data-direction="1" aria-label="Next image">Next →</button></div></dialog>
+</body>
+</html>

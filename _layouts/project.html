@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<div class="page-top"><a class="back-link" href="{{ page.category | prepend: '/' | append: '/' | relative_url }}">← {{ page.category | capitalize }}</a><p class="eyebrow">{{ page.year | escape }}</p></div>
+<header class="project-heading"><h1>{{ page.title | escape }}</h1>{% if page.summary and page.summary != '' %}<p class="lead">{{ page.summary | escape }}</p>{% endif %}</header>
+{% if page.cover and page.cover != '' %}<figure class="project-hero"><button class="image-trigger" type="button" data-image="{{ page.cover | relative_url }}" aria-label="Enlarge {{ page.cover_alt | default: page.title | escape }}"><img src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | default: page.title | escape }}" fetchpriority="high" decoding="async"></button></figure>{% endif %}
+<div class="project-layout">
+  <article class="project-body"><div class="prose">{{ content }}</div>{% include blocks.html sections=page.sections %}</article>
+  <aside class="project-details" aria-label="Project details">
+    <dl><dt>Category</dt><dd>{{ page.category | capitalize }}</dd>{% if page.year and page.year != '' %}<dt>Year</dt><dd>{{ page.year | escape }}</dd>{% endif %}{% if page.role and page.role != '' %}<dt>My role</dt><dd>{{ page.role | escape }}</dd>{% endif %}{% if page.institution and page.institution != '' %}<dt>Institution</dt><dd>{{ page.institution | escape }}</dd>{% endif %}{% if page.location and page.location != '' %}<dt>Location</dt><dd>{{ page.location | escape }}</dd>{% endif %}</dl>
+    {% if page.tags.size > 0 %}<div class="tag-list">{% for tag in page.tags %}<span>{{ tag | escape }}</span>{% endfor %}</div>{% endif %}
+    {% if page.credits.size > 0 %}<h2>Credits</h2><ul>{% for item in page.credits %}<li>{{ item | escape }}</li>{% endfor %}</ul>{% endif %}
+    {% if page.team.size > 0 %}<h2>Team</h2><ul>{% for item in page.team %}<li>{{ item | escape }}</li>{% endfor %}</ul>{% endif %}
+    {% if page.acknowledgements and page.acknowledgements != '' %}<h2>Acknowledgements</h2><p>{{ page.acknowledgements | escape }}</p>{% endif %}
+    {% if page.awards.size > 0 %}<h2>Awards</h2><ul>{% for item in page.awards %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
+    {% if page.related_publications.size > 0 %}<h2>Related publications</h2><ul>{% for item in page.related_publications %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
+    {% if page.links.size > 0 %}<h2>Resources</h2><ul>{% for item in page.links %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
+  </aside>
+</div>
+<div class="section-heading"><h2>Explore more work</h2><a class="text-link" href="{{ '/gallery/' | relative_url }}">All projects →</a></div>
+<div class="project-grid">{% assign related = site.projects | where: 'published', true | where: 'category', page.category | sort: 'year' | reverse %}{% assign count = 0 %}{% for project in related %}{% if project.url != page.url and count < 3 %}{% include project-card.html project=project %}{% assign count = count | plus: 1 %}{% endif %}{% endfor %}</div>

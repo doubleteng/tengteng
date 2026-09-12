@@ -1,0 +1,5 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{% for p in site.pages %}{% if p.layout != 'redirect' and p.noindex != true %}{% unless p.url contains '/admin/' or p.url contains '.xml' or p.url contains '.json' or p.url contains '.txt' or p.url contains '404' %}<url><loc>{{ p.url | absolute_url | xml_escape }}</loc></url>{% endunless %}{% endif %}{% endfor %}{% for p in site.projects %}{% if p.published %}<url><loc>{{ p.url | absolute_url | xml_escape }}</loc></url>{% endif %}{% endfor %}{% for p in site.updates %}{% if p.published %}<url><loc>{{ p.url | absolute_url | xml_escape }}</loc></url>{% endif %}{% endfor %}</urlset>

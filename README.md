@@ -1,49 +1,54 @@
-# teng-teng
+# Teng Teng — Portfolio
 
-发一条新 News？
+A GitHub Pages portfolio with a form-based [Pages CMS](https://pagescms.org) editor.
 
-打开 assets/js/news.js，在数组末尾追加一条：
+- Website: https://teng-teng.org
+- Admin entrance: https://teng-teng.org/admin/
+- Editor: https://app.pagescms.org/doubleteng/tengteng/main
+- [中文使用说明](docs/EDITOR_GUIDE.md)
 
-{
-  title: "Your title",
-  date: "2025-05-10",
-  category: "research",
-  tags: ["publication"],
-  excerpt: "One sentence summary…",
-  link: "research/your-project/",
-  image: "assets/img/news/your-cover.webp",
-  pin: false
-}
+## Content
 
+Edit content in Pages CMS; no HTML or JavaScript changes are needed for routine updates. The repository remains the source of truth.
 
-加project
+| Content | Location |
+| --- | --- |
+| Projects | `_projects/*.md` |
+| Publications | `_publications/*.md` |
+| News | `_updates/*.md` |
+| Profile, teaching, art, site text | `_data/*.yml` |
+| Uploads | `assets/media/`, `assets/documents/` |
+| CMS schema | `.pages.yml` |
+| Shared layouts and blocks | `_layouts/`, `_includes/` |
 
-1 放置文件与图片
+Existing project permalinks are preserved in frontmatter. New projects use `/projects/:name/`. Keep filenames stable after publication. The CMS merge setting preserves existing permalinks when forms are saved.
 
-新建目录：research/diamanti-post-tensioned-concrete-canopy/
+`published: false` excludes a record from the public site. This is a public repository: source drafts and editor notes remain accessible on GitHub. New records default to drafts. Future news dates are display dates, not scheduled publication.
 
-把上面的 HTML 存成该目录下的 index.html。
+## Local development
 
-把图片放到：assets/img/diamanti/（与首页同级的 assets 目录）。
+Requires Ruby 3.3 and Bundler. Jekyll 3.10 matches the native GitHub Pages environment.
 
-需要：hero.webp、main-1.webp、main-2.webp、render-1.webp…、assembly-1.webp… 等。
+```sh
+bundle install
+bundle exec jekyll serve
+```
 
-2 在 assets/js/projects.js 里确保有这个项目
+For validation:
 
-3 替换文字与图注
-在模板里把 <!-- ... --> 的提示处换成你的摘要、方法、测试说明、致谢等。
-如果有视频，把 iframe 那段解除注释并填入 YouTube ID。
+```sh
+bundle exec jekyll build --strict_front_matter
+python3 scripts/validate_site.py
+```
 
-4 测试
-打开 research/diamanti-post-tensioned-concrete-canopy/ 看是否显示正常；
-从首页/Research Gallery 点击缩略图也应能进入。
+The validation script uses the Python standard library. It checks generated internal links, local assets, all active project routes, content counts, and sitemap coverage.
 
-2) For each project, put images at: `assets/img/<project-slug>/`:
-   - hero.webp
-   - img-1.webp, img-2.webp, img-3.webp, img-4.webp (or rename in the HTML)
-3) Edit the text sections inside each `index.html` (Abstract, Methods, Captions, Team, Links).
-4) Ensure your `assets/js/projects.js` entries point each project's `url` to
-   e.g. `research/<project-slug>/` or `design/<project-slug>/` etc.
+## Publishing and recovery
 
-<img width="837" height="121" alt="image" src="https://github.com/user-attachments/assets/416675f3-8469-42d9-ba1b-f0677bed092a" />
+The existing GitHub Pages branch deployment builds `main` at the repository root. Pages CMS commits trigger the same build. Keep `CNAME` and `_config.yml` in place. Do not add `.nojekyll`.
 
+The first CMS login requires the owner to install the Pages CMS GitHub App for this repository. Select only `tengteng`; no self-hosted CMS, database, or extra server is required.
+
+The migration retains 34 projects, 22 publications, original project URLs, and original image files. Optimized display copies are in `assets/media/`. Eight unverified/sample announcements are saved as unpublished drafts. Incomplete project descriptions are marked with editor notes; no unsupported outcomes are asserted for those entries.
+
+Every edit is versioned in Git. Restore an individual file from History, or revert the migration commit to recover the previous site.

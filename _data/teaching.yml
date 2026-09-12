@@ -1,0 +1,20 @@
+principles:
+- title: Design through structural reasoning
+  text: Use structural bays, grids, material systems, and construction details to guide architectural decisions.
+- title: Learn through making
+  text: Develop working models and fabrication experiments to test spatial, material, and structural ideas.
+- title: Connect scales and disciplines
+  text: Relate computational tools and material experiments to assemblies, buildings, and collaborative practice.
+current_courses:
+- title: Integrated Design Studios
+  institution: Lawrence Technological University
+  period: '2026'
+  description: Architectural design integrating structure, enclosure, environmental systems, program, and construction.
+- title: Structural Systems
+  institution: Lawrence Technological University
+  period: '2026'
+  description: Structural principles explored through lectures, analysis, physical models, and architectural applications.
+- title: Design-Build Studio · TRI-ARC Pavilion
+  institution: Lawrence Technological University
+  period: Summer 2026
+  description: A collaborative shading-pavilion studio connecting structural design, joinery, fabrication, and assembly.

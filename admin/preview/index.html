@@ -1,0 +1,7 @@
+---
+title: 网站预览
+lang: zh-CN
+noindex: true
+---
+<header class="page-heading"><p class="eyebrow">Content Studio · Preview</p><h1>检查展示效果。</h1><p class="lead">选择已发布页面，查看电脑、平板和手机布局。刚保存的修改需要等待网站发布完成；此处不显示草稿。</p></header>
+<div class="browse-tools preview-tools"><label class="search-field"><span>选择页面</span><select id="preview-page"><option value="/">首页</option><option value="/gallery/">完整作品目录</option><option value="/research/">Research</option><option value="/teaching/">Teaching</option><option value="/design/">Design</option><option value="/publications/">Publications</option><option value="/news/">News</option><option value="/about/">About</option><option value="/contact/">Contact</option>{% assign projects = site.projects | where: 'published', true | sort: 'title' %}{% for project in projects %}<option value="{{ project.url | escape }}">{{ project.title | escape }}</option>{% endfor %}</select></label><div class="filter-group" aria-label="预览尺寸"><button type="button" data-preview-width="100%" aria-pressed="true">电脑</button><button type="button" data-preview-width="768px" aria-pressed="false">平板 768</button><button type="button" data-preview-width="390px" aria-pressed="false">手机 390</button></div><a class="text-link" id="preview-open" href="/" target="_blank" rel="noopener">单独打开 ↗</a></div><div class="preview-stage"><iframe id="site-preview" src="/" title="网站页面预览"></iframe></div><p class="caption"><a href="/admin/">← 返回网站管理</a></p>

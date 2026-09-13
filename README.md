@@ -5,6 +5,7 @@ A GitHub Pages portfolio with a form-based [Pages CMS](https://pagescms.org) edi
 - Website: https://teng-teng.org
 - Admin entrance: https://teng-teng.org/admin/
 - Editor: https://app.pagescms.org/doubleteng/tengteng/main
+- Interface: choose English or 中文 after signing in. Both edit the same records. Pages CMS system controls remain English.
 - [中文使用说明](docs/EDITOR_GUIDE.md)
 
 ## Content
@@ -47,8 +48,12 @@ The validation script uses the Python standard library. It checks generated inte
 
 The existing GitHub Pages branch deployment builds `main` at the repository root. Pages CMS commits trigger the same build. Keep `CNAME` and `_config.yml` in place. Do not add `.nojekyll`.
 
-The first CMS login requires the owner to install the Pages CMS GitHub App for this repository. Select only `tengteng`; no self-hosted CMS, database, or extra server is required.
+If not already installed, the first CMS login requires the owner to install the Pages CMS GitHub App for this repository. Select only `tengteng`; no self-hosted CMS, database, or extra server is required.
 
 The migration retains 34 projects, 22 publications, original project URLs, and original image files. Optimized display copies are in `assets/media/`. Eight unverified/sample announcements are saved as unpublished drafts. Incomplete project descriptions are marked with editor notes; no unsupported outcomes are asserted for those entries.
 
 Every edit is versioned in Git. Restore an individual file from History, or revert the migration commit to recover the previous site.
+
+## Portfolio review, September 2026
+
+The portfolio now contains 36 project records. Source-based revisions expand 26 entries, including two newly added projects. Confirmed placeholder images were removed from public pages. See [source review](docs/SOURCE_REVIEW.md) for unresolved dates, missing images, and file-access limitations. The public admin route contains only an English sign-in entrance; tutorials are accessed through the CMS.

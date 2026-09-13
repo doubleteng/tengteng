@@ -1,5 +1,5 @@
 {% assign p = include.project %}
-<article class="project-card" data-category="{{ p.category | escape }}" data-search="{{ p.title | escape }} {{ p.summary | escape }} {{ p.tags | join: ' ' | escape }} {{ p.year | escape }}">
+<article class="project-card" data-category="{{ p.category | escape }}" data-search="{{ p.title | escape }} {{ p.summary | escape }} {{ p.tags | join: ' ' | escape }} {{ p.year | escape }} {{ p.project_type | escape }} {{ p.project_stage | escape }} {{ p.location | escape }}">
   <a href="{{ p.url | relative_url }}" class="project-link">
     {% if p.cover and p.cover != '' %}<div class="project-image"><img src="{{ p.cover | relative_url }}" alt="{{ p.cover_alt | default: p.title | escape }}" loading="lazy" decoding="async" width="720" height="480"></div>
     {% else %}<div class="project-image text-cover"><span>{{ p.category | capitalize }}</span><strong>{{ p.title | escape }}</strong></div>{% endif %}

@@ -1,5 +1,5 @@
 ---
-title: Digital Fabrication
+title: Computational Geometry and Digital Fabrication
 category: teaching
 year: '2016'
 published: true
@@ -8,14 +8,14 @@ featured_order: 99
 permalink: /teaching/digital-fabrication/
 cover: ''
 cover_alt: Digital Fabrication
-summary: Teaching in digital fabrication across architectural and product-design applications.
-role: ''
+summary: Introductory seminars connect parametric geometry, computational design, and physical fabrication.
+role: Seminar instructor
 institution: ''
 location: ''
 tags:
+- teaching
+- computation
 - fabrication
-- architecture
-- product
 credits: []
 team: []
 acknowledgements: ''
@@ -23,8 +23,12 @@ sections: []
 links: []
 related_publications: []
 awards: []
-editor_notes: 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。
+editor_notes: 资料说明该课程在多个机构开设，未逐次列出年份与机构；保留原站 2016 年份，后续可分次补充。
 source_links: []
+project_type: Seminar
+project_stage: Teaching
 ---
 
-Teaching in digital fabrication across architectural and product-design applications.
+These seminars introduce parametric design and computational geometry through Rhino and Grasshopper, with additional modeling work in SolidWorks and Maya. Exercises address rule-based design, data organization, geometric transformation, generative modeling, and form finding.
+
+Students develop parametric models and fabricate physical prototypes to test the relationship between geometric decisions and production constraints. Iteration between digital models and physical results connects computational reasoning with material behavior.

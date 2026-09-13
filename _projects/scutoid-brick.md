@@ -8,17 +8,21 @@ featured_order: 99
 permalink: /research/scutoid-brick/
 cover: /assets/media/scutoid-brick/hero.webp
 cover_alt: Scutoid Brick
-summary: Cell-inspired geometry informs the design and interconnection of masonry units in shell structures.
-role: ''
-institution: ''
+summary: Interlocking masonry units translate epithelial-cell packing into a double-curved shell assembly.
+role: Project lead and main contributor
+institution: Cornell University · Jenny Sabin Lab
 location: ''
 tags:
 - computation
+- structures
+- masonry
+- bio-inspired design
 credits:
 - 'PI: Jenny Sabin (Cornell University)'
 - 'Project Lead and Main Contributor: Teng Teng'
 team:
-- Cornell University| Jenny Sabin Lab
+- Jenny Sabin
+- Mian Jia
 acknowledgements: ''
 sections:
 - type: gallery
@@ -49,7 +53,12 @@ related_publications:
 awards: []
 editor_notes: ''
 source_links: []
+project_type: Structural system
+project_stage: Research prototype
 ---
 
-This project focuses on the design of individual bricks in a masonry shell system that are inspired and informed by the reorganization of epithelial cells within tissues. Starting from a newly discovered shape called "Scutoid", we first investigated how epithelial cells within living animals are packed three-dimensionally within tissues. We focused on the living mechanisms within these cells that facilitate tissue curvature in the creatures' organs, skin, and blood vessels. By utilizing this generative geometric approach, we created a series of parametric generators and modeling kits to represent this mechanism and process. We then explored the potential for adopting this mechanism into larger-scale settings. Meanwhile, we discovered that the deformation of individual epithelial cells during the bending process generates an intriguing triangular connection along the bending direction. We managed to translate this unique feature to the architectural scale as a joint system for connecting bricks in a masonry shell structure. Based on the above findings, we designed and fabricated a set of models for the masonry shell structure that are generated from scutoid bricks and this unique joint. The geometrical characteristics of scutoid bricks allows the packing of four bricks with just two joints. The work that we have generated thus far contributes to solving issues of shell design and fabrication from the perspective of individual units. The result of the shell structure model demonstrates that applying the epithelial cell inspired-block masonry system is a feasible approach for the construction of shell structures.
-The paper has been published at the 38th annual conference Education and research in Computer Aided Architectural Design in Europe (eCAADe 2020)
+Scutoid Brick investigates how the changing neighbors of cells across a curved tissue can inform masonry-unit geometry. Parametric models translate this packing relationship into units with triangular connecting surfaces.
+
+Two complementary unit types interlock along the principal directions of a double-curved shell. The connections organize assembly and resist relative sliding between adjacent units. Digital studies and 3D-printed models test the relationship between local joints and overall shell form.
+
+I led the project in Jenny Sabin’s laboratory at Cornell University, working with Mian Jia. The research was presented at eCAADe 2020.

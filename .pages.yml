@@ -1,6 +1,6 @@
 media:
 - name: images
-  label: 图片素材
+  label: Images / 图片素材
   input: assets/media
   output: /assets/media
   rename: safe
@@ -12,7 +12,7 @@ media:
   - gif
   - svg
 - name: documents
-  label: PDF 与文件
+  label: Documents / PDF 与文件
   input: assets/documents
   output: /assets/documents
   rename: safe
@@ -21,639 +21,1359 @@ media:
   - zip
   - txt
 content:
-- name: editor-guide
-  label: 使用教程
-  type: file
-  path: docs/EDITOR_GUIDE.md
-  format: yaml-frontmatter
-  fields:
-  - name: body
-    label: false
-    type: rich-text
-    readonly: true
-    options:
-      format: markdown
-  operations:
-    delete: false
-    rename: false
-- name: projects
-  label: 作品管理
-  type: collection
-  path: _projects
-  format: yaml-frontmatter
-  filename:
-    template: '{primary}.md'
-    field: create
-  fields:
-  - name: title
-    label: 作品名称
-    type: string
-    required: true
-  - &id004
-    name: published
-    label: 发布到网站
-    type: boolean
-    description: 关闭时保存为草稿；开启并保存后，网站会自动更新。公开仓库中的草稿仍可在 GitHub 中查看。
-    default: false
-  - name: category
-    label: 作品分类
-    type: select
-    options:
-      values:
-      - name: research
-        label: 研究 Research
-      - name: teaching
-        label: 教学 Teaching
-      - name: design
-        label: 设计 Design
-    required: true
-  - name: year
-    label: 年份或年份范围
-    type: string
-    required: true
-    description: 例如 2026 或 2024–2026。
-  - name: summary
-    label: 一句话简介
-    type: text
-    required: true
-    description: 用于首页、目录卡片和详情页顶部。简要说明项目做了什么、有什么特点。
-  - name: cover
-    label: 封面图
-    type: image
-    options:
-      media: images
-    description: 建议横向图片。没有封面时显示作品标题。
-  - name: cover_alt
-    label: 封面图片描述
-    type: string
-  - name: featured
-    label: 显示在首页精选
-    type: boolean
-    default: false
-  - name: featured_order
-    label: 首页排序
-    type: number
-    description: 数字越小越靠前；建议 1、2、3……
-    default: 99
-  - name: role
-    label: 我的职责
-    type: string
-  - name: institution
-    label: 机构／实验室／公司
-    type: string
-  - name: location
-    label: 地点
-    type: string
-  - name: tags
-    label: 标签
-    type: string
-    list: true
-    description: 每项一个标签，例如 robotic fabrication。用于搜索。
-  - name: body
-    label: 项目正文
-    type: rich-text
-    options:
-      format: markdown
-      media: images
-    description: 可直接排版。建议写：项目背景 → 我的职责 → 方法与过程 → 成果。可插入图文。
-  - name: sections
-    label: 图文内容区块
-    type: block
-    list: true
-    blockKey: type
-    description: 按顺序添加文字、单图、批量相册或视频；列表顺序就是网页顺序。
-    blocks:
-    - name: text
-      label: 文字段落
+- name: english
+  label: English
+  type: group
+  items:
+  - name: editor-guide-en
+    label: User guide
+    type: file
+    path: docs/EDITOR_GUIDE_EN.md
+    format: yaml-frontmatter
+    fields:
+    - name: body
+      label: false
+      type: rich-text
+      readonly: true
+      options:
+        format: markdown
+    operations:
+      delete: false
+      rename: false
+  - name: projects-en
+    label: Projects
+    type: collection
+    path: _projects
+    format: yaml-frontmatter
+    filename:
+      template: '{primary}.md'
+      field: create
+    fields:
+    - name: title
+      label: Project title
+      type: string
+      required: true
+    - name: published
+      label: Publish on website
+      type: boolean
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
+        public GitHub repository.
+      default: false
+    - name: category
+      label: Category
+      type: select
+      options:
+        values:
+        - name: research
+          label: Research
+        - name: teaching
+          label: Teaching
+        - name: design
+          label: Design
+      required: true
+    - name: year
+      label: Year or period
+      type: string
+      required: false
+      description: For example, 2026 or 2024–2026.
+    - name: summary
+      label: Short description
+      type: text
+      required: true
+      description: Shown on the homepage, project cards, and project heading. State what the project does and what
+        distinguishes it.
+    - name: cover
+      label: Cover image
+      type: image
+      options:
+        media: images
+      description: A landscape image works best. Without a cover, the card displays the project title.
+    - name: cover_alt
+      label: Cover image description
+      type: string
+    - name: featured
+      label: Feature on homepage
+      type: boolean
+      default: false
+    - name: featured_order
+      label: Homepage order
+      type: number
+      description: 'Lower numbers appear first: 1, 2, 3, and so on.'
+      default: 99
+    - name: project_type
+      label: Project type
+      type: string
+      description: For example, Architecture, Workshop, or Fabrication system.
+    - name: project_stage
+      label: Project stage
+      type: string
+      description: For example, Built, Schematic design, or Research prototype.
+    - name: role
+      label: My role
+      type: string
+    - name: institution
+      label: Institution, laboratory, or practice
+      type: string
+    - name: location
+      label: Location
+      type: string
+    - name: tags
+      label: Tags
+      type: string
+      list: true
+      description: One tag per item, such as robotic fabrication. Tags are included in search.
+    - name: body
+      label: Project description
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+      description: Describe the project context, your contribution, methods, and results. You can insert text and
+        images.
+    - name: sections
+      label: Content blocks
+      type: block
+      list: true
+      blockKey: type
+      description: Add text, individual images, galleries, or videos. Their list order is the order on the page.
+      blocks:
+      - name: text
+        label: Text
+        fields:
+        - name: heading
+          label: Heading
+          type: string
+        - name: body
+          label: Body
+          type: rich-text
+          options:
+            format: markdown
+            media: images
+      - name: image
+        label: Image with credit
+        fields:
+        - name: heading
+          label: Heading
+          type: string
+        - name: image
+          label: Image
+          type: image
+          options:
+            media: images
+          required: true
+        - name: alt
+          label: Image description
+          type: string
+          description: Briefly describe the image for accessible reading.
+        - name: caption
+          label: Caption
+          type: text
+        - name: credit
+          label: Image credit
+          type: string
+      - name: gallery
+        label: Image gallery
+        fields:
+        - name: heading
+          label: Gallery heading
+          type: string
+        - name: images
+          label: Select or upload images
+          type: image
+          options:
+            media: images
+            multiple: true
+          required: true
+        - name: caption
+          label: Gallery caption
+          type: text
+        - name: columns
+          label: Images per row
+          type: select
+          options:
+            values:
+            - name: one
+              label: One image
+            - name: two
+              label: Two images
+            - name: three
+              label: Three images
+          default: two
+      - name: video
+        label: Video
+        fields:
+        - name: heading
+          label: Video heading
+          type: string
+        - name: url
+          label: YouTube, Vimeo, or MP4/WebM URL
+          type: string
+          required: true
+        - name: caption
+          label: Video caption
+          type: text
+      - name: quote
+        label: Quotation
+        fields:
+        - name: text
+          label: Quote
+          type: text
+          required: true
+        - name: attribution
+          label: Attribution
+          type: string
+      - name: links
+        label: Downloads and external links
+        fields:
+        - name: heading
+          label: Heading
+          type: string
+        - name: items
+          label: Link
+          type: object
+          fields:
+          - name: title
+            label: Display name
+            type: string
+            required: true
+          - name: url
+            label: URL or file path
+            type: string
+            required: true
+          list: true
+    - name: credits
+      label: Contributions and credits
+      type: string
+      list: true
+    - name: team
+      label: Team members
+      type: string
+      list: true
+    - name: acknowledgements
+      label: Acknowledgements
+      type: text
+    - name: related_publications
+      label: Related publications
+      type: object
       fields:
-      - name: heading
-        label: 小标题
+      - name: title
+        label: Display name
         type: string
-      - name: body
-        label: 正文
-        type: rich-text
+        required: true
+      - name: url
+        label: URL or file path
+        type: string
+        required: true
+      list: true
+    - name: awards
+      label: Awards
+      type: object
+      fields:
+      - name: title
+        label: Display name
+        type: string
+        required: true
+      - name: url
+        label: URL or file path
+        type: string
+        required: true
+      list: true
+    - name: links
+      label: Resources and downloads
+      type: object
+      fields:
+      - name: title
+        label: Display name
+        type: string
+        required: true
+      - name: url
+        label: URL or file path
+        type: string
+        required: true
+      - name: kind
+        label: Link type
+        type: select
         options:
-          format: markdown
-          media: images
-    - name: image
-      label: 单张图片（含署名）
+          values:
+          - name: site
+            label: Website
+          - name: paper
+            label: Paper
+          - name: video
+            label: Video
+          - name: download
+            label: Download
+      list: true
+    - name: editor_notes
+      label: Editor notes (not shown on the website)
+      type: text
+      description: Track missing content. These notes are visible in the public repository; do not enter credentials
+        or private information.
+    - name: source_links
+      label: Source references (not shown on the website)
+      type: string
+      list: true
+    view:
+      primary: title
       fields:
-      - name: heading
-        label: 小标题
+      - title
+      - published
+      - year
+      search:
+      - title
+      - summary
+      - tags
+      - editor_notes
+      sort:
+      - year
+      - title
+      - published
+      default:
+        sort: year
+        order: desc
+  - name: publications-en
+    label: Publications
+    type: collection
+    path: _publications
+    format: yaml-frontmatter
+    filename:
+      template: '{primary}.md'
+      field: create
+    fields:
+    - name: title
+      label: Publication title
+      type: string
+      required: true
+    - name: published
+      label: Publish on website
+      type: boolean
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
+        public GitHub repository.
+      default: false
+    - name: kind
+      label: Type
+      type: select
+      options:
+        values:
+        - name: journal
+          label: Journal article
+        - name: conference
+          label: Conference paper
+        - name: book
+          label: Book or chapter
+        - name: patent
+          label: Patent
+        - name: thesis
+          label: Thesis or dissertation
+        - name: other
+          label: Other
+      required: true
+    - name: year
+      label: Year
+      type: number
+      required: true
+    - name: authors
+      label: Authors (separated by semicolons)
+      type: string
+      required: true
+    - name: venue
+      label: Journal, conference, or institution
+      type: string
+    - name: status
+      label: Status
+      type: select
+      options:
+        values:
+        - name: published
+          label: Published
+        - name: in-press
+          label: Forthcoming
+        - name: pending
+          label: Pending or unconfirmed
+      default: published
+    - name: featured
+      label: Featured
+      type: boolean
+      default: false
+    - name: url_link
+      label: DOI or publisher URL
+      type: string
+    - name: pdf
+      label: Upload publication PDF
+      type: file
+      options:
+        media: documents
+    - name: note
+      label: Additional note
+      type: text
+    - name: body
+      label: Abstract
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+    - name: bibtex
+      label: BibTeX citation
+      type: text
+      description: Paste the publisher’s BibTeX. Leave blank to hide the citation button.
+    view:
+      primary: title
+      fields:
+      - title
+      - published
+      - year
+      search:
+      - title
+      - authors
+      - venue
+      sort:
+      - year
+      - title
+      - published
+      default:
+        sort: year
+        order: desc
+  - name: updates-en
+    label: News
+    type: collection
+    path: _updates
+    format: yaml-frontmatter
+    filename:
+      template: '{primary}.md'
+      field: create
+    fields:
+    - name: title
+      label: News title
+      type: string
+      required: true
+    - name: published
+      label: Publish on website
+      type: boolean
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
+        public GitHub repository.
+      default: false
+    - name: date
+      label: Date
+      type: date
+      required: true
+      options:
+        format: yyyy-MM-dd
+    - name: category
+      label: Category
+      type: select
+      options:
+        values:
+        - name: research
+          label: Research
+        - name: teaching
+          label: Teaching
+        - name: design
+          label: Design
+        - name: publication
+          label: Paper
+        - name: exhibition
+          label: Exhibition
+        - name: lab
+          label: Laboratory
+        - name: other
+          label: Other
+    - name: summary
+      label: Short summary
+      type: text
+    - name: image
+      label: Image
+      type: image
+      options:
+        media: images
+    - name: body
+      label: Body
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+    - name: link
+      label: Related links
+      type: string
+    - name: editor_notes
+      label: Editor notes (not shown on the website)
+      type: text
+    view:
+      primary: title
+      fields:
+      - title
+      - published
+      - date
+      search:
+      - title
+      - summary
+      - editor_notes
+      sort:
+      - date
+      - title
+      - published
+      default:
+        sort: date
+        order: desc
+  - name: profile-en
+    label: Profile and CV
+    type: file
+    path: _data/profile.yml
+    format: yaml
+    fields:
+    - name: name
+      label: Name in English
+      type: string
+      required: true
+    - name: chinese_name
+      label: Name in Chinese
+      type: string
+    - name: title
+      label: Position
+      type: string
+    - name: institution
+      label: Institution
+      type: string
+    - name: location
+      label: City and country
+      type: string
+    - name: email
+      label: Contact email
+      type: string
+      required: true
+    - name: portrait
+      label: Portrait
+      type: image
+      options:
+        media: images
+    - name: intro
+      label: Research introduction
+      type: text
+    - name: bio
+      label: Biography
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+    - name: cv
+      label: Upload CV PDF
+      type: file
+      options:
+        media: documents
+      description: Uploading a PDF adds the download button to About. Replace the file to update your CV.
+    - name: research_interests
+      label: Research interests
+      type: string
+      list: true
+    - name: interests
+      label: Personal interests
+      type: string
+      list: true
+    - name: education
+      label: Education
+      type: string
+      list: true
+    - name: appointments
+      label: Academic appointments
+      type: string
+      list: true
+    - name: experience
+      label: Professional experience
+      type: string
+      list: true
+    - name: social
+      label: Academic and social profiles
+      type: object
+      fields:
+      - name: label
+        label: Name
         type: string
+      - name: url
+        label: URL
+        type: string
+      list: true
+  - name: teaching-en
+    label: Teaching and courses
+    type: file
+    path: _data/teaching.yml
+    format: yaml
+    fields:
+    - name: principles
+      label: Teaching principles
+      type: object
+      fields:
+      - name: title
+        label: Title
+        type: string
+      - name: text
+        label: Description
+        type: text
+      list: true
+    - name: current_courses
+      label: Current courses
+      type: object
+      fields:
+      - name: title
+        label: Course title
+        type: string
+      - name: institution
+        label: Institution
+        type: string
+      - name: period
+        label: Semester or year
+        type: string
+      - name: description
+        label: Course description
+        type: text
+      - name: url
+        label: Course page or resources
+        type: string
+      list: true
+  - name: fine_art-en
+    label: Fine art
+    type: file
+    path: _data/fine_art.yml
+    format: yaml
+    fields:
+    - name: title
+      label: Title
+      type: string
+    - name: intro
+      label: Introduction
+      type: text
+    - name: images
+      label: Image
+      type: object
+      fields:
+      - name: image
+        label: Image
+        type: image
+        options:
+          media: images
+      - name: alt
+        label: Image description
+        type: string
+      - name: caption
+        label: Description and credit
+        type: text
+      list: true
+  - name: site-en
+    label: Site settings
+    type: file
+    path: _data/site.yml
+    format: yaml
+    fields:
+    - name: name
+      label: Site name
+      type: string
+    - name: description
+      label: Search description
+      type: text
+    - name: home_title
+      label: Homepage heading
+      type: text
+    - name: home_intro
+      label: Homepage introduction
+      type: text
+    - name: research_intro
+      label: Research introduction
+      type: text
+    - name: teaching_intro
+      label: Teaching introduction
+      type: text
+    - name: design_intro
+      label: Design introduction
+      type: text
+    - name: contact_intro
+      label: Contact introduction
+      type: text
+    - name: show_form
+      label: Show contact form
+      type: boolean
+    - name: form_url
+      label: Google Form URL
+      type: string
+      description: Enter the public form URL ending in /viewform.
+    - name: show_fine_art_nav
+      label: Show Fine Art in navigation
+      type: boolean
+    - name: footer_text
+      label: Footer description
+      type: string
+  - name: source-review-en
+    label: Source review
+    type: file
+    path: docs/SOURCE_REVIEW.md
+    format: yaml-frontmatter
+    fields:
+    - name: body
+      label: false
+      type: rich-text
+      readonly: true
+      options:
+        format: markdown
+    operations:
+      delete: false
+      rename: false
+- name: chinese
+  label: 中文
+  type: group
+  items:
+  - name: editor-guide
+    label: 使用教程
+    type: file
+    path: docs/EDITOR_GUIDE.md
+    format: yaml-frontmatter
+    fields:
+    - name: body
+      label: false
+      type: rich-text
+      readonly: true
+      options:
+        format: markdown
+    operations:
+      delete: false
+      rename: false
+  - name: projects
+    label: 作品管理
+    type: collection
+    path: _projects
+    format: yaml-frontmatter
+    filename:
+      template: '{primary}.md'
+      field: create
+    fields:
+    - name: title
+      label: 作品名称
+      type: string
+      required: true
+    - &id004
+      name: published
+      label: 发布到网站
+      type: boolean
+      description: 关闭时保存为草稿；开启并保存后，网站会自动更新。公开仓库中的草稿仍可在 GitHub 中查看。
+      default: false
+    - name: category
+      label: 作品分类
+      type: select
+      options:
+        values:
+        - name: research
+          label: 研究 Research
+        - name: teaching
+          label: 教学 Teaching
+        - name: design
+          label: 设计 Design
+      required: true
+    - name: year
+      label: 年份或年份范围
+      type: string
+      required: false
+      description: 例如 2026 或 2024–2026。
+    - name: summary
+      label: 一句话简介
+      type: text
+      required: true
+      description: 用于首页、目录卡片和详情页顶部。简要说明项目做了什么、有什么特点。
+    - name: cover
+      label: 封面图
+      type: image
+      options:
+        media: images
+      description: 建议横向图片。没有封面时显示作品标题。
+    - name: cover_alt
+      label: 封面图片描述
+      type: string
+    - name: featured
+      label: 显示在首页精选
+      type: boolean
+      default: false
+    - name: featured_order
+      label: 首页排序
+      type: number
+      description: 数字越小越靠前；建议 1、2、3……
+      default: 99
+    - name: project_type
+      label: 项目类型
+      type: string
+      description: 例如 Architecture、Workshop、Fabrication system。
+    - name: project_stage
+      label: 项目阶段
+      type: string
+      description: 例如 Built、Schematic design、Research prototype。
+    - name: role
+      label: 我的职责
+      type: string
+    - name: institution
+      label: 机构／实验室／公司
+      type: string
+    - name: location
+      label: 地点
+      type: string
+    - name: tags
+      label: 标签
+      type: string
+      list: true
+      description: 每项一个标签，例如 robotic fabrication。用于搜索。
+    - name: body
+      label: 项目正文
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+      description: 可直接排版。建议写：项目背景 → 我的职责 → 方法与过程 → 成果。可插入图文。
+    - name: sections
+      label: 图文内容区块
+      type: block
+      list: true
+      blockKey: type
+      description: 按顺序添加文字、单图、批量相册或视频；列表顺序就是网页顺序。
+      blocks:
+      - name: text
+        label: 文字段落
+        fields:
+        - name: heading
+          label: 小标题
+          type: string
+        - name: body
+          label: 正文
+          type: rich-text
+          options:
+            format: markdown
+            media: images
+      - name: image
+        label: 单张图片（含署名）
+        fields:
+        - name: heading
+          label: 小标题
+          type: string
+        - name: image
+          label: 图片
+          type: image
+          options:
+            media: images
+          required: true
+        - name: alt
+          label: 图片描述
+          type: string
+          description: 简要描述图片内容，便于无障碍阅读。
+        - name: caption
+          label: 图片说明
+          type: text
+        - name: credit
+          label: 摄影／图片署名
+          type: string
+      - name: gallery
+        label: 批量图片相册
+        fields:
+        - name: heading
+          label: 相册标题
+          type: string
+        - name: images
+          label: 选择或上传多张图片
+          type: image
+          options:
+            media: images
+            multiple: true
+          required: true
+        - name: caption
+          label: 相册说明
+          type: text
+        - name: columns
+          label: 每行图片数量
+          type: select
+          options:
+            values:
+            - name: one
+              label: 1 张
+            - name: two
+              label: 2 张
+            - name: three
+              label: 3 张
+          default: two
+      - name: video
+        label: 视频
+        fields:
+        - name: heading
+          label: 视频标题
+          type: string
+        - name: url
+          label: YouTube、Vimeo 或 MP4/WebM 地址
+          type: string
+          required: true
+        - name: caption
+          label: 视频说明
+          type: text
+      - name: quote
+        label: 引文
+        fields:
+        - name: text
+          label: 引文内容
+          type: text
+          required: true
+        - name: attribution
+          label: 出处
+          type: string
+      - name: links
+        label: 下载与外部链接
+        fields:
+        - name: heading
+          label: 小标题
+          type: string
+        - name: items
+          label: 链接
+          type: object
+          fields: &id001
+          - &id002
+            name: title
+            label: 显示名称
+            type: string
+            required: true
+          - &id003
+            name: url
+            label: 网址或文件路径
+            type: string
+            required: true
+          list: true
+    - name: credits
+      label: 贡献与署名
+      type: string
+      list: true
+    - name: team
+      label: 团队成员
+      type: string
+      list: true
+    - name: acknowledgements
+      label: 致谢
+      type: text
+    - name: related_publications
+      label: 相关论文
+      type: object
+      fields: *id001
+      list: true
+    - name: awards
+      label: 奖项
+      type: object
+      fields: *id001
+      list: true
+    - name: links
+      label: 相关链接与下载
+      type: object
+      fields:
+      - *id002
+      - *id003
+      - name: kind
+        label: 链接类型
+        type: select
+        options:
+          values:
+          - name: site
+            label: 网站
+          - name: paper
+            label: 论文
+          - name: video
+            label: 视频
+          - name: download
+            label: 下载
+      list: true
+    - name: editor_notes
+      label: 编辑备忘（不显示在网页）
+      type: text
+      description: 记录待补充内容。公开仓库可见，请勿写密码或私人信息。
+    - name: source_links
+      label: 资料来源（不显示在网页）
+      type: string
+      list: true
+    view:
+      primary: title
+      fields:
+      - title
+      - published
+      - year
+      search:
+      - title
+      - summary
+      - tags
+      - editor_notes
+      sort:
+      - year
+      - title
+      - published
+      default:
+        sort: year
+        order: desc
+  - name: publications
+    label: 论文与出版物
+    type: collection
+    path: _publications
+    format: yaml-frontmatter
+    filename:
+      template: '{primary}.md'
+      field: create
+    fields:
+    - name: title
+      label: 论文／出版物标题
+      type: string
+      required: true
+    - *id004
+    - name: kind
+      label: 类型
+      type: select
+      options:
+        values:
+        - name: journal
+          label: 期刊
+        - name: conference
+          label: 会议
+        - name: book
+          label: 书籍／章节
+        - name: patent
+          label: 专利
+        - name: thesis
+          label: 学位论文
+        - name: other
+          label: 其他
+      required: true
+    - name: year
+      label: 年份
+      type: number
+      required: true
+    - name: authors
+      label: 作者（分号分隔）
+      type: string
+      required: true
+    - name: venue
+      label: 期刊／会议／学校
+      type: string
+    - name: status
+      label: 状态
+      type: select
+      options:
+        values:
+        - name: published
+          label: 已发表
+        - name: in-press
+          label: 待刊
+        - name: pending
+          label: 申请中／待确认
+      default: published
+    - name: featured
+      label: 精选
+      type: boolean
+      default: false
+    - name: url_link
+      label: DOI／出版社链接
+      type: string
+    - name: pdf
+      label: 上传论文 PDF
+      type: file
+      options:
+        media: documents
+    - name: note
+      label: 补充说明
+      type: text
+    - name: body
+      label: 摘要
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+    - name: bibtex
+      label: BibTeX 引用
+      type: text
+      description: 可直接粘贴出版社提供的 BibTeX；留空则不显示引用按钮。
+    view:
+      primary: title
+      fields:
+      - title
+      - published
+      - year
+      search:
+      - title
+      - authors
+      - venue
+      sort:
+      - year
+      - title
+      - published
+      default:
+        sort: year
+        order: desc
+  - name: updates
+    label: 新闻与动态
+    type: collection
+    path: _updates
+    format: yaml-frontmatter
+    filename:
+      template: '{primary}.md'
+      field: create
+    fields:
+    - name: title
+      label: 动态标题
+      type: string
+      required: true
+    - *id004
+    - name: date
+      label: 日期
+      type: date
+      required: true
+      options:
+        format: yyyy-MM-dd
+    - name: category
+      label: 分类
+      type: select
+      options:
+        values:
+        - name: research
+          label: 研究
+        - name: teaching
+          label: 教学
+        - name: design
+          label: 设计
+        - name: publication
+          label: 论文
+        - name: exhibition
+          label: 展览
+        - name: lab
+          label: 实验室
+        - name: other
+          label: 其他
+    - name: summary
+      label: 简短摘要
+      type: text
+    - name: image
+      label: 配图
+      type: image
+      options:
+        media: images
+    - name: body
+      label: 正文
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+    - name: link
+      label: 相关链接
+      type: string
+    - name: editor_notes
+      label: 编辑备忘（网页不显示）
+      type: text
+    view:
+      primary: title
+      fields:
+      - title
+      - published
+      - date
+      search:
+      - title
+      - summary
+      - editor_notes
+      sort:
+      - date
+      - title
+      - published
+      default:
+        sort: date
+        order: desc
+  - name: profile
+    label: 个人资料与简历
+    type: file
+    path: _data/profile.yml
+    format: yaml
+    fields:
+    - name: name
+      label: 姓名（英文）
+      type: string
+      required: true
+    - name: chinese_name
+      label: 姓名（中文）
+      type: string
+    - name: title
+      label: 职位
+      type: string
+    - name: institution
+      label: 机构
+      type: string
+    - name: location
+      label: 城市与国家
+      type: string
+    - name: email
+      label: 联系邮箱
+      type: string
+      required: true
+    - name: portrait
+      label: 个人照片
+      type: image
+      options:
+        media: images
+    - name: intro
+      label: 一句话研究介绍
+      type: text
+    - name: bio
+      label: 完整个人简介
+      type: rich-text
+      options:
+        format: markdown
+        media: images
+    - name: cv
+      label: 上传简历 PDF
+      type: file
+      options:
+        media: documents
+      description: 上传后 About 页面自动显示下载按钮；替换文件即可更新简历。
+    - name: research_interests
+      label: 研究方向
+      type: string
+      list: true
+    - name: interests
+      label: 个人兴趣
+      type: string
+      list: true
+    - name: education
+      label: 教育经历
+      type: string
+      list: true
+    - name: appointments
+      label: 学术任职
+      type: string
+      list: true
+    - name: experience
+      label: 职业经历
+      type: string
+      list: true
+    - name: social
+      label: 学术与社交主页
+      type: object
+      fields:
+      - name: label
+        label: 名称
+        type: string
+      - name: url
+        label: 网址
+        type: string
+      list: true
+  - name: teaching
+    label: 教学介绍与课程
+    type: file
+    path: _data/teaching.yml
+    format: yaml
+    fields:
+    - name: principles
+      label: 教学理念
+      type: object
+      fields:
+      - name: title
+        label: 标题
+        type: string
+      - name: text
+        label: 说明
+        type: text
+      list: true
+    - name: current_courses
+      label: 当前课程
+      type: object
+      fields:
+      - name: title
+        label: 课程名
+        type: string
+      - name: institution
+        label: 学校
+        type: string
+      - name: period
+        label: 学期／年份
+        type: string
+      - name: description
+        label: 课程介绍
+        type: text
+      - name: url
+        label: 课程页面或资料链接
+        type: string
+      list: true
+  - name: fine_art
+    label: 艺术作品
+    type: file
+    path: _data/fine_art.yml
+    format: yaml
+    fields:
+    - name: title
+      label: 标题
+      type: string
+    - name: intro
+      label: 简介
+      type: text
+    - name: images
+      label: 图片
+      type: object
+      fields:
       - name: image
         label: 图片
         type: image
         options:
           media: images
-        required: true
       - name: alt
         label: 图片描述
         type: string
-        description: 简要描述图片内容，便于无障碍阅读。
       - name: caption
-        label: 图片说明
+        label: 说明与署名
         type: text
-      - name: credit
-        label: 摄影／图片署名
-        type: string
-    - name: gallery
-      label: 批量图片相册
-      fields:
-      - name: heading
-        label: 相册标题
-        type: string
-      - name: images
-        label: 选择或上传多张图片
-        type: image
-        options:
-          media: images
-          multiple: true
-        required: true
-      - name: caption
-        label: 相册说明
-        type: text
-      - name: columns
-        label: 每行图片数量
-        type: select
-        options:
-          values:
-          - name: one
-            label: 1 张
-          - name: two
-            label: 2 张
-          - name: three
-            label: 3 张
-        default: two
-    - name: video
-      label: 视频
-      fields:
-      - name: heading
-        label: 视频标题
-        type: string
-      - name: url
-        label: YouTube、Vimeo 或 MP4/WebM 地址
-        type: string
-        required: true
-      - name: caption
-        label: 视频说明
-        type: text
-    - name: quote
-      label: 引文
-      fields:
-      - name: text
-        label: 引文内容
-        type: text
-        required: true
-      - name: attribution
-        label: 出处
-        type: string
-    - name: links
-      label: 下载与外部链接
-      fields:
-      - name: heading
-        label: 小标题
-        type: string
-      - name: items
-        label: 链接
-        type: object
-        fields: &id001
-        - &id002
-          name: title
-          label: 显示名称
-          type: string
-          required: true
-        - &id003
-          name: url
-          label: 网址或文件路径
-          type: string
-          required: true
-        list: true
-  - name: credits
-    label: 贡献与署名
-    type: string
-    list: true
-  - name: team
-    label: 团队成员
-    type: string
-    list: true
-  - name: acknowledgements
-    label: 致谢
-    type: text
-  - name: related_publications
-    label: 相关论文
-    type: object
-    fields: *id001
-    list: true
-  - name: awards
-    label: 奖项
-    type: object
-    fields: *id001
-    list: true
-  - name: links
-    label: 相关链接与下载
-    type: object
-    fields:
-    - *id002
-    - *id003
-    - name: kind
-      label: 链接类型
-      type: select
-      options:
-        values:
-        - name: site
-          label: 网站
-        - name: paper
-          label: 论文
-        - name: video
-          label: 视频
-        - name: download
-          label: 下载
-    list: true
-  - name: editor_notes
-    label: 编辑备忘（不显示在网页）
-    type: text
-    description: 记录待补充内容。公开仓库可见，请勿写密码或私人信息。
-  - name: source_links
-    label: 资料来源（不显示在网页）
-    type: string
-    list: true
-  view:
-    primary: title
-    fields:
-    - title
-    - published
-    - year
-    search:
-    - title
-    - summary
-    - tags
-    - editor_notes
-    sort:
-    - year
-    - title
-    - published
-    default:
-      sort: year
-      order: desc
-- name: publications
-  label: 论文与出版物
-  type: collection
-  path: _publications
-  format: yaml-frontmatter
-  filename:
-    template: '{primary}.md'
-    field: create
-  fields:
-  - name: title
-    label: 论文／出版物标题
-    type: string
-    required: true
-  - *id004
-  - name: kind
-    label: 类型
-    type: select
-    options:
-      values:
-      - name: journal
-        label: 期刊
-      - name: conference
-        label: 会议
-      - name: book
-        label: 书籍／章节
-      - name: patent
-        label: 专利
-      - name: thesis
-        label: 学位论文
-      - name: other
-        label: 其他
-    required: true
-  - name: year
-    label: 年份
-    type: number
-    required: true
-  - name: authors
-    label: 作者（分号分隔）
-    type: string
-    required: true
-  - name: venue
-    label: 期刊／会议／学校
-    type: string
-  - name: status
-    label: 状态
-    type: select
-    options:
-      values:
-      - name: published
-        label: 已发表
-      - name: in-press
-        label: 待刊
-      - name: pending
-        label: 申请中／待确认
-    default: published
-  - name: featured
-    label: 精选
-    type: boolean
-    default: false
-  - name: url_link
-    label: DOI／出版社链接
-    type: string
-  - name: pdf
-    label: 上传论文 PDF
+      list: true
+  - name: site
+    label: 网站文字与设置
     type: file
-    options:
-      media: documents
-  - name: note
-    label: 补充说明
-    type: text
-  - name: body
-    label: 摘要
-    type: rich-text
-    options:
-      format: markdown
-      media: images
-  - name: bibtex
-    label: BibTeX 引用
-    type: text
-    description: 可直接粘贴出版社提供的 BibTeX；留空则不显示引用按钮。
-  view:
-    primary: title
+    path: _data/site.yml
+    format: yaml
     fields:
-    - title
-    - published
-    - year
-    search:
-    - title
-    - authors
-    - venue
-    sort:
-    - year
-    - title
-    - published
-    default:
-      sort: year
-      order: desc
-- name: updates
-  label: 新闻与动态
-  type: collection
-  path: _updates
-  format: yaml-frontmatter
-  filename:
-    template: '{primary}.md'
-    field: create
-  fields:
-  - name: title
-    label: 动态标题
-    type: string
-    required: true
-  - *id004
-  - name: date
-    label: 日期
-    type: date
-    required: true
-    options:
-      format: yyyy-MM-dd
-  - name: category
-    label: 分类
-    type: select
-    options:
-      values:
-      - name: research
-        label: 研究
-      - name: teaching
-        label: 教学
-      - name: design
-        label: 设计
-      - name: publication
-        label: 论文
-      - name: exhibition
-        label: 展览
-      - name: lab
-        label: 实验室
-      - name: other
-        label: 其他
-  - name: summary
-    label: 简短摘要
-    type: text
-  - name: image
-    label: 配图
-    type: image
-    options:
-      media: images
-  - name: body
-    label: 正文
-    type: rich-text
-    options:
-      format: markdown
-      media: images
-  - name: link
-    label: 相关链接
-    type: string
-  - name: editor_notes
-    label: 编辑备忘（网页不显示）
-    type: text
-  view:
-    primary: title
-    fields:
-    - title
-    - published
-    - date
-    search:
-    - title
-    - summary
-    - editor_notes
-    sort:
-    - date
-    - title
-    - published
-    default:
-      sort: date
-      order: desc
-- name: profile
-  label: 个人资料与简历
-  type: file
-  path: _data/profile.yml
-  format: yaml
-  fields:
-  - name: name
-    label: 姓名（英文）
-    type: string
-    required: true
-  - name: chinese_name
-    label: 姓名（中文）
-    type: string
-  - name: title
-    label: 职位
-    type: string
-  - name: institution
-    label: 机构
-    type: string
-  - name: location
-    label: 城市与国家
-    type: string
-  - name: email
-    label: 联系邮箱
-    type: string
-    required: true
-  - name: portrait
-    label: 个人照片
-    type: image
-    options:
-      media: images
-  - name: intro
-    label: 一句话研究介绍
-    type: text
-  - name: bio
-    label: 完整个人简介
-    type: rich-text
-    options:
-      format: markdown
-      media: images
-  - name: cv
-    label: 上传简历 PDF
-    type: file
-    options:
-      media: documents
-    description: 上传后 About 页面自动显示下载按钮；替换文件即可更新简历。
-  - name: research_interests
-    label: 研究方向
-    type: string
-    list: true
-  - name: interests
-    label: 个人兴趣
-    type: string
-    list: true
-  - name: education
-    label: 教育经历
-    type: string
-    list: true
-  - name: appointments
-    label: 学术任职
-    type: string
-    list: true
-  - name: experience
-    label: 职业经历
-    type: string
-    list: true
-  - name: social
-    label: 学术与社交主页
-    type: object
-    fields:
-    - name: label
-      label: 名称
-      type: string
-    - name: url
-      label: 网址
-      type: string
-    list: true
-- name: teaching
-  label: 教学介绍与课程
-  type: file
-  path: _data/teaching.yml
-  format: yaml
-  fields:
-  - name: principles
-    label: 教学理念
-    type: object
-    fields:
-    - name: title
-      label: 标题
-      type: string
-    - name: text
-      label: 说明
-      type: text
-    list: true
-  - name: current_courses
-    label: 当前课程
-    type: object
-    fields:
-    - name: title
-      label: 课程名
-      type: string
-    - name: institution
-      label: 学校
-      type: string
-    - name: period
-      label: 学期／年份
+    - name: name
+      label: 网站名称
       type: string
     - name: description
-      label: 课程介绍
+      label: 搜索引擎描述
       type: text
-    - name: url
-      label: 课程页面或资料链接
+    - name: home_title
+      label: 首页主标题
+      type: text
+    - name: home_intro
+      label: 首页介绍
+      type: text
+    - name: research_intro
+      label: 研究页介绍
+      type: text
+    - name: teaching_intro
+      label: 教学页介绍
+      type: text
+    - name: design_intro
+      label: 设计页介绍
+      type: text
+    - name: contact_intro
+      label: 联系页介绍
+      type: text
+    - name: show_form
+      label: 显示联系表单
+      type: boolean
+    - name: form_url
+      label: Google Form 网址
       type: string
-    list: true
-- name: fine_art
-  label: 艺术作品
-  type: file
-  path: _data/fine_art.yml
-  format: yaml
-  fields:
-  - name: title
-    label: 标题
-    type: string
-  - name: intro
-    label: 简介
-    type: text
-  - name: images
-    label: 图片
-    type: object
+      description: 填写以 /viewform 结尾的公开表单网址。
+    - name: show_fine_art_nav
+      label: 导航显示 Fine Art
+      type: boolean
+    - name: footer_text
+      label: 页脚简介
+      type: string
+  - name: source-review
+    label: 素材审阅记录
+    type: file
+    path: docs/SOURCE_REVIEW.md
+    format: yaml-frontmatter
     fields:
-    - name: image
-      label: 图片
-      type: image
+    - name: body
+      label: false
+      type: rich-text
+      readonly: true
       options:
-        media: images
-    - name: alt
-      label: 图片描述
-      type: string
-    - name: caption
-      label: 说明与署名
-      type: text
-    list: true
-- name: site
-  label: 网站文字与设置
-  type: file
-  path: _data/site.yml
-  format: yaml
-  fields:
-  - name: name
-    label: 网站名称
-    type: string
-  - name: description
-    label: 搜索引擎描述
-    type: text
-  - name: home_title
-    label: 首页主标题
-    type: text
-  - name: home_intro
-    label: 首页介绍
-    type: text
-  - name: research_intro
-    label: 研究页介绍
-    type: text
-  - name: teaching_intro
-    label: 教学页介绍
-    type: text
-  - name: design_intro
-    label: 设计页介绍
-    type: text
-  - name: contact_intro
-    label: 联系页介绍
-    type: text
-  - name: show_form
-    label: 显示联系表单
-    type: boolean
-  - name: form_url
-    label: Google Form 网址
-    type: string
-    description: 填写以 /viewform 结尾的公开表单网址。
-  - name: show_fine_art_nav
-    label: 导航显示 Fine Art
-    type: boolean
-  - name: footer_text
-    label: 页脚简介
-    type: string
+        format: markdown
+    operations:
+      delete: false
+      rename: false
 settings:
   content:
     merge: true

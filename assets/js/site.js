@@ -1,16 +1,4 @@
 'use strict';
-const previewPage = document.getElementById('preview-page');
-if (previewPage) {
-  const frame = document.getElementById('site-preview');
-  previewPage.addEventListener('change', () => {
-    frame.src = previewPage.value;
-    document.getElementById('preview-open').href = previewPage.value;
-  });
-  document.querySelectorAll('[data-preview-width]').forEach(button => button.addEventListener('click', () => {
-    frame.style.width = button.dataset.previewWidth;
-    document.querySelectorAll('[data-preview-width]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-  }));
-}
 document.querySelector('.menu-toggle')?.addEventListener('click', event => {
   const button = event.currentTarget;
   const open = button.getAttribute('aria-expanded') !== 'true';

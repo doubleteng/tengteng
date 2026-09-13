@@ -1,21 +1,26 @@
 ---
 title: Tang Courtyard Promenade
 category: design
-year: '2018'
+year: 2017–2018
 published: true
 featured: false
 featured_order: 99
 permalink: /design/tang-courtyard-promenade/
 cover: /assets/media/tang-courtyard-promenade/hero.webp
 cover_alt: Tang Courtyard Promenade
-summary: Tang Courtyard Promenade.
-role: ''
-institution: ''
-location: ''
+summary: A pedestrian retail district in Zhangpu connects Minnan architectural references with courtyards, terraces,
+  and public gathering spaces.
+role: Architectural design lead; Chief Design Partner
+institution: Adaptive Design LLC (A-D-A)
+location: Zhangpu, Fujian, China
 tags:
 - architecture
+- retail
+- public space
+- Minnan architecture
 credits: []
-team: []
+team:
+- Shuai Song
 acknowledgements: ''
 sections:
 - type: gallery
@@ -36,8 +41,16 @@ sections:
 links: []
 related_publications: []
 awards: []
-editor_notes: 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。
+editor_notes: ''
 source_links: []
+project_type: Architecture
+project_stage: Schematic design
 ---
 
-Tang Courtyard Promenade.
+Tang Courtyard Promenade organizes a cultural and commercial district around pedestrian streets in Zhangpu County, Fujian. Chenghuang Temple Square and the Courtyard of Ancient Trees anchor a sequence of marketplaces, small shops, and shared outdoor spaces.
+
+The plan places larger retail destinations at key junctions and distributes smaller shops along internal streets. Courtyards and terraces provide space for markets and events while breaking the development into places with distinct scales and uses.
+
+Pitched roofs, red-brick façades, lattice patterns, and eaves reinterpret Minnan building traditions. Changes in frontage, roof form, and circulation create a varied streetscape.
+
+I led the architectural design as Chief Design Partner at Adaptive Design LLC, working with Shuai Song during 2017–2018.

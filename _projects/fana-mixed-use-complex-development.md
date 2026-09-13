@@ -1,19 +1,23 @@
 ---
 title: FANA Mixed-Use Complex Development
 category: design
-year: '2016'
+year: 2015–2016
 published: true
 featured: false
 featured_order: 99
 permalink: /design/fana-mixed-use-complex-development/
 cover: /assets/media/fana-mixed-use-complex-development/hero.webp
 cover_alt: FANA Mixed-Use Complex Development
-summary: FANA Mixed-Use Complex Development.
-role: ''
-institution: ''
-location: ''
+summary: Two residential towers share a retail podium and pedestrian connections at NE 4th Street and 106th Avenue
+  in Bellevue.
+role: Project designer
+institution: Callison, Seattle
+location: Bellevue, Washington, USA
 tags:
 - architecture
+- mixed use
+- residential
+- retail
 credits: []
 team: []
 acknowledgements: ''
@@ -36,8 +40,14 @@ sections:
 links: []
 related_publications: []
 awards: []
-editor_notes: 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。
+editor_notes: ''
 source_links: []
+project_type: Architecture
+project_stage: Schematic design and design development
 ---
 
-FANA Mixed-Use Complex Development.
+The FANA proposal combines North and South Towers above a shared podium in downtown Bellevue. Retail and dining occupy the lower levels, with residential accommodation and shared amenities above.
+
+The ground-level plan coordinates storefronts, drop-off areas, garage access, and a mid-block pedestrian connection. Terraces and rooftop spaces extend the shared program above street level.
+
+I worked as a project designer in Callison’s Seattle office during 2015–2016, contributing through schematic design and design development.

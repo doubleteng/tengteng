@@ -8,18 +8,19 @@ featured_order: 99
 permalink: /design/kaisa-center-mixed-use/
 cover: /assets/media/kaisa-center-mixed-use/hero.webp
 cover_alt: Kaisa Center Mixed-Use
-summary: Computational façade rationalization translates a gradient panel design into a coordinated set of buildable
-  modules.
-role: ''
-institution: ''
-location: ''
+summary: A gradient of perforated aluminum panels is rationalized into repeatable modules for a mixed-use complex
+  in Shenyang.
+role: Design technologist; façade design and panel rationalization
+institution: Callison, Shanghai
+location: Shenyang, Liaoning, China
 tags:
 - architecture
-credits:
-- Participated as Project Architect and Computational Designer in 2011-2012
+credits: []
 team:
-- Callison China,
-- 'Deasign Team: Quanhong Li, Shark Liang, Henry Liu, Danielle Gong'
+- Quanhong Li
+- Shark Liang
+- Henry Liu
+- Danielle Gong
 acknowledgements: ''
 sections:
 - type: gallery
@@ -40,12 +41,15 @@ sections:
 links: []
 related_publications: []
 awards: []
-editor_notes: ''
+editor_notes: 早期 portfolio.pptx 使用 Caesars Palace 名称；2024 建筑作品集详细页使用 KAISA Centre，面积与团队相同，合并在现有网址，未重复建项目。参与年份在资料间存在
+  2010–2011 / 2011–2012 差异，待确认。
 source_links: []
+project_type: Architecture
+project_stage: Schematic design and design development
 ---
 
-## Shenyang· China 佳兆业中心 ·
+Kaisa Center combines a retail podium, two serviced-apartment towers, and an office tower in Shenyang. Its façade studies use changes in perforated aluminum-panel size to create a continuous gradient across the office tower and shopping podium.
 
-An upscale composite development comprising a 72,865 m² retail podium
-(66,860 m² over eight above-grade levels plus a 6,005 m² basement),
-two 55-story serviced-apartment towers totaling 101,001 m², and a 35-story office tower of 45,924 m².
+The initial pattern required thousands of distinct panel sizes. I developed a computational process to consolidate them into a manageable set of modules while retaining the overall visual pattern, then coordinated the resulting information with the curtain-wall consultants.
+
+My contribution covered podium and tower elevations, lighting studies, environmental analysis, and 3D model management through schematic design and design development.

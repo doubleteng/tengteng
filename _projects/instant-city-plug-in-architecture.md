@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /design/instant-city-plug-in-architecture/
-cover: ''
-cover_alt: Instant City Plug-in Architecture
+cover: /assets/media/instant-city-plug-in-architecture/portfolio-page-139-x1646.webp
+cover_alt: Physical site model of the industrial-reuse proposal
 summary: An industrial-reuse proposal uses existing railways to deliver prefabricated program modules into former
   steelworks.
 role: Undergraduate thesis co-designer
@@ -18,15 +18,26 @@ tags:
 - adaptive reuse
 - prefabrication
 - urban design
-credits: []
+credits:
+- 'Undergraduate thesis co-designer: Teng Teng'
 team:
 - Kangyi Zhen
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Industrial reuse and modular urban systems
+  images:
+  - /assets/media/instant-city-plug-in-architecture/portfolio-page-139-x1645.webp
+  - /assets/media/instant-city-plug-in-architecture/portfolio-page-139-x1647.webp
+  - /assets/media/instant-city-plug-in-architecture/portfolio-page-140-x1650.webp
+  - /assets/media/instant-city-plug-in-architecture/portfolio-page-140-x1651.webp
+  caption: Academic design boards show the railway framework, inserted program modules, and adaptations of industrial
+    and residential structures.
+  columns: one
 links: []
 related_publications: []
 awards: []
-editor_notes: 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
+editor_notes: ''
 source_links: []
 project_type: Urban design
 project_stage: Academic proposal

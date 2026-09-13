@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /teaching/ai-empowered-creative-robotics-workshop/
-cover: ''
-cover_alt: AI Empowered Creative Robotics Workshop
+cover: /assets/media/ai-empowered-creative-robotics-workshop/portfolio-slide-33-i03.webp
+cover_alt: Inverse Portrait student project board
 summary: An iterative exchange between image generation, robotic drawing, and manual intervention examines bias
   in AI imagery.
 role: Workshop organizer and instructor
@@ -18,10 +18,20 @@ tags:
 - robotics
 - AI
 - critical making
-credits: []
+credits:
+- 'Workshop organizer and instructor: Teng Teng'
 team: []
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Inverse Portrait
+  images:
+  - /assets/media/ai-empowered-creative-robotics-workshop/portfolio-slide-33-i01.webp
+  - /assets/media/ai-empowered-creative-robotics-workshop/portfolio-slide-33-i02.webp
+  - /assets/media/ai-empowered-creative-robotics-workshop/portfolio-slide-33-i04.webp
+  caption: Student project boards document AI image generation, robotic mark making, manual intervention, and image
+    feedback.
+  columns: one
 links: []
 related_publications: []
 awards: []

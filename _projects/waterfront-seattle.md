@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /design/waterfront-seattle/
-cover: ''
-cover_alt: Waterfront Seattle
+cover: /assets/media/waterfront-seattle/portfolio-page-127-x1540.webp
+cover_alt: Schematic rendering of Pier 62/63 and the proposed pool barge
 summary: Schematic design studies for Pier 62/63 and a floating pool barge explore public access to Elliott Bay.
 role: Schematic design, physical models, drawings, and visualization
 institution: Schemata Workshop
@@ -16,17 +16,40 @@ tags:
 - architecture
 - waterfront
 - public space
-credits: []
+credits:
+- 'Schematic design, physical models, drawings, and visualization: Teng Teng'
 team:
 - Michael Mariano
 - John Feit
 - Emily Woods
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Pier 62/63
+  images:
+  - /assets/media/waterfront-seattle/portfolio-page-127-x1541.webp
+  - /assets/media/waterfront-seattle/portfolio-page-127-x1544.webp
+  - /assets/media/waterfront-seattle/portfolio-page-127-x1547.webp
+  - /assets/media/waterfront-seattle/portfolio-page-127-x1548.webp
+  - /assets/media/waterfront-seattle/portfolio-page-127-x1549.webp
+  - /assets/media/waterfront-seattle/portfolio-page-127-x1552.webp
+  caption: Schematic pier studies include circulation, furnishings, the raised walkway, and program components.
+    Renderings show the proposal.
+  columns: two
+- type: gallery
+  heading: Pool barge
+  images:
+  - /assets/media/waterfront-seattle/portfolio-page-128-x1558.webp
+  - /assets/media/waterfront-seattle/portfolio-page-128-x1559.webp
+  - /assets/media/waterfront-seattle/portfolio-page-128-x1560.webp
+  - /assets/media/waterfront-seattle/portfolio-page-128-x1563.webp
+  - /assets/media/waterfront-seattle/portfolio-page-128-x1565.webp
+  caption: Schematic pool-barge plans, assembly diagrams, and proposed public spaces.
+  columns: two
 links: []
 related_publications: []
 awards: []
-editor_notes: 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
+editor_notes: ''
 source_links: []
 project_type: Public space
 project_stage: Schematic proposal

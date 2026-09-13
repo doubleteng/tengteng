@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /teaching/undergraduate-architecture-thesis/
-cover: ''
-cover_alt: Undergraduate Architecture Thesis
+cover: /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i01.webp
+cover_alt: Lifestyle retail street proposal by Yanyu Chen
 summary: Thesis supervision at SIVA connects spatial design with existing buildings, user needs, and responsive
   environments.
 role: Thesis supervisor
@@ -24,11 +24,36 @@ credits:
 - 'Thesis supervision: Teng Teng'
 team: []
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Lifestyle retail street — Yanyu Chen
+  images:
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i02.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i03.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i04.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i05.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i06.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i07.webp
+  caption: Student design by Yanyu Chen. Renderings, a sectional study, and physical models developed under thesis
+    supervision.
+  columns: two
+- type: gallery
+  heading: Workplace renovation — Chuou Zhang
+  images:
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i09.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i10.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i11.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i12.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i13.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i14.webp
+  - /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i15.webp
+  caption: Student design by Chuou Zhang. The proposal combines workplace planning with moving partitions and an
+    Arduino-based control study.
+  columns: two
 links: []
 related_publications: []
 awards: []
-editor_notes: 作品集明确记载 SIVA 教学为 2015–2017；原站合并条目为 2015–2021。保留合并年份，具体学生项目年份待核对。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
+editor_notes: 作品集明确记载 SIVA 教学为 2015–2017；原站合并条目为 2015–2021。保留合并年份，具体学生项目年份待核对。
 source_links: []
 project_type: Thesis supervision
 project_stage: Teaching

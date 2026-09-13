@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /teaching/digital-fabrication/
-cover: ''
-cover_alt: Digital Fabrication
+cover: /assets/media/digital-fabrication/portfolio-slide-32-i01.webp
+cover_alt: Fabricated student model of a woven surface
 summary: Introductory seminars connect parametric geometry, computational design, and physical fabrication.
 role: Seminar instructor
 institution: ''
@@ -16,10 +16,17 @@ tags:
 - teaching
 - computation
 - fabrication
-credits: []
+credits:
+- 'Seminar instructor: Teng Teng'
 team: []
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Geometry and fabrication study
+  images:
+  - /assets/media/digital-fabrication/portfolio-slide-32-i02.webp
+  caption: Student study connecting a woven surface geometry with physical model making.
+  columns: one
 links: []
 related_publications: []
 awards: []

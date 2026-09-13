@@ -17,17 +17,34 @@ tags:
 - interface
 - computation
 - interaction design
-credits: []
+credits:
+- 'Leading Contributor: Teng Teng'
 team:
 - Brian R. Johnson
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Display and tracking system
+  images:
+  - /assets/media/inspire/portfolio-slide-14-i10.webp
+  - /assets/media/inspire/portfolio-slide-14-i12.webp
+  caption: The optical display combines projected geometry with hand tracking.
+  columns: two
+- type: gallery
+  heading: Gesture-based modeling
+  images:
+  - /assets/media/inspire/portfolio-slide-15-i05.webp
+  - /assets/media/inspire/portfolio-slide-15-i06.webp
+  - /assets/media/inspire/portfolio-slide-15-i07.webp
+  - /assets/media/inspire/portfolio-slide-15-i08.webp
+  caption: Physical interaction with the display and diagrams of direct geometry manipulation.
+  columns: two
 links: []
 related_publications:
 - title: 'InSpire: Integrated Spatial Gesture-based Direct 3D Modeling and Display'
   url: https://doi.org/10.52842/conf.acadia.2014.445
 awards: []
-editor_notes: 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
+editor_notes: ''
 source_links: []
 project_type: Interface
 project_stage: Research prototype

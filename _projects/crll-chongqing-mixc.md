@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /design/crll-chongqing-mixc/
-cover: ''
-cover_alt: CRLL Chongqing MIXC
+cover: /assets/media/crll-chongqing-mixc/portfolio-page-135-x1612.webp
+cover_alt: Chongqing MIXC massing and site model
 summary: Pixelated façade components translate references to Chinese landscape painting into a tower elevation.
 role: Façade design
 institution: Callison, Shanghai
@@ -16,12 +16,23 @@ tags:
 - architecture
 - facade
 - computation
-credits: []
+credits:
+- 'Façade design: Teng Teng'
 team:
 - Nu Guo
 - Shark Liang
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Landscape references and façade system
+  images:
+  - /assets/media/crll-chongqing-mixc/portfolio-page-135-x1614.webp
+  - /assets/media/crll-chongqing-mixc/portfolio-page-135-x1615.webp
+  - /assets/media/crll-chongqing-mixc/portfolio-page-135-x1616.webp
+  - /assets/media/crll-chongqing-mixc/portfolio-page-135-x1613.webp
+  caption: Design studies translate a landscape composition into horizontal façade elements and a sectional enclosure
+    system.
+  columns: two
 links: []
 related_publications: []
 awards: []

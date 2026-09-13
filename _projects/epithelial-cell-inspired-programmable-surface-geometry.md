@@ -6,9 +6,10 @@ published: true
 featured: false
 featured_order: 99
 permalink: /research/epithelial-cell-inspired-programmable-surface-geometry/
-cover: ''
-cover_alt: Epithelial Cell-Inspired Programmable Surface Geometry
-summary: Bio-inspired surface geometry is explored through design, 4D printing, and tangible interaction.
+cover: /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-076-x936.webp
+cover_alt: Cell-inspired surface assembly with a flex sensor
+summary: Shape-memory polymer and silicone cell assemblies connect programmed deformation with a tangible interface
+  for surface modeling.
 role: Leading Contributor
 institution: Cornell University · Jenny Sabin Lab
 location: ''
@@ -19,7 +20,29 @@ credits:
 - 'Authors: Teng Teng, Jenny Sabin'
 team: []
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Cell geometry and material assembly
+  images:
+  - /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-074-x924.webp
+  - /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-074-x925.webp
+  - /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-075-x929.webp
+  - /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-075-x930.webp
+  caption: Cell geometry studies and cast units assembled in a shape-memory polymer frame.
+  columns: two
+- type: gallery
+  heading: Programmed deformation
+  images:
+  - /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-076-x935.webp
+  caption: Deformation sequences show the relationship between individual units and overall surface curvature.
+  columns: one
+- type: gallery
+  heading: Physical-to-digital interaction
+  images:
+  - /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-077-x939.webp
+  - /assets/media/epithelial-cell-inspired-programmable-surface-geometry/portfolio-page-077-x940.webp
+  caption: A flex sensor connects manual surface deformation to a digital model.
+  columns: two
 links: []
 related_publications:
 - title: eCAADe 2021 paper
@@ -29,6 +52,8 @@ editor_notes: ''
 source_links: []
 ---
 
-This project investigates epithelial-cell-inspired surface geometry as a basis for programmable physical interfaces. The research connects the design of surface organization with 4D printing and tangible interaction.
+This project translates the packing and deformation of epithelial cells into a programmable physical surface. Local changes in cell geometry alter the curvature of the assembly, while bending the overall surface changes the shape of adjacent units.
 
-The associated paper, by Teng Teng and Jenny Sabin, was presented at eCAADe 2021.
+The prototypes combine cast silicone with 3D-printed shape-memory polymer. One configuration places passive silicone units inside an active frame. A second uses active polymer units to deform a passive frame. These experiments test how local and global deformation affect each other.
+
+An attached flex sensor measures bending as a change in electrical resistance. An Arduino sends the corresponding curvature data to Rhino and Grasshopper, allowing manual manipulation of the physical surface to update a digital model.

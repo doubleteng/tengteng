@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /teaching/building-robots-for-robotic-fabrication/
-cover: ''
-cover_alt: Building Robots for Robotic Fabrication
+cover: /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-35-i01.webp
+cover_alt: Student robotic drawing setup
 summary: A six-week boot camp guides students through building and programming a desktop six-axis robotic arm.
 role: Course developer and instructor
 institution: ''
@@ -17,14 +17,50 @@ tags:
 - robotics
 - fabrication
 - mechatronics
-credits: []
+credits:
+- 'Course developer and instructor: Teng Teng'
 team: []
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Robot construction and control
+  images:
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-34-i01.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-34-i02.webp
+  caption: Student work documents robot geometry, electronic control, and tool development.
+  columns: one
+- type: gallery
+  heading: Robotic drawing
+  images:
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-35-i02.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-35-i03.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-35-i04.webp
+  caption: Student application studies connect mechanical assemblies and control diagrams with repeated drawing
+    experiments.
+  columns: one
+- type: gallery
+  heading: Human–machine interaction
+  images:
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-36-i01.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-36-i02.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-36-i03.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-36-i04.webp
+  caption: Student project boards show an interactive robotic fabrication setup, its control system, and prototypes.
+  columns: one
+- type: gallery
+  heading: Robotic writing and fabrication
+  images:
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-37-i01.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-37-i02.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-37-i03.webp
+  - /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-37-i04.webp
+  caption: Student project boards connect a custom robotic arm with writing tests, control studies, and fabrication
+    trials.
+  columns: one
 links: []
 related_publications: []
 awards: []
-editor_notes: 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
+editor_notes: ''
 source_links: []
 project_type: Workshop
 project_stage: Teaching

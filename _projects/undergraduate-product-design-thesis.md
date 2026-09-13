@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /teaching/undergraduate-product-design-thesis/
-cover: ''
-cover_alt: Undergraduate Product Design Thesis
+cover: /assets/media/undergraduate-product-design-thesis/portfolio-slide-30-i01.webp
+cover_alt: Power Walker concept by Mingyuan Li
 summary: Product-design supervision connects user research with mechanical prototypes and furniture design.
 role: Thesis and studio supervisor
 institution: Shanghai Institute of Visual Art
@@ -23,11 +23,24 @@ credits:
 - 'Supervision: Teng Teng'
 team: []
 acknowledgements: ''
-sections: []
+sections:
+- type: gallery
+  heading: Power Walker — Mingyuan Li
+  images:
+  - /assets/media/undergraduate-product-design-thesis/portfolio-slide-30-i02.webp
+  caption: Student design by Mingyuan Li. Concept visualization of the walking-assistance device.
+  columns: one
+- type: gallery
+  heading: Leaf Chair — Chuou Zhang
+  images:
+  - /assets/media/undergraduate-product-design-thesis/portfolio-slide-30-i03.webp
+  - /assets/media/undergraduate-product-design-thesis/portfolio-slide-30-i04.webp
+  caption: Student furniture design by Chuou Zhang, including the chair, ergonomic studies, and fabrication details.
+  columns: one
 links: []
 related_publications: []
 awards: []
-editor_notes: 作品集中的奖项英文存在拼写错误，未将未核实奖项名称发布。原站条目范围为 2015–2021，具体项目年份待核对。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
+editor_notes: 作品集中的奖项英文存在拼写错误，未将未核实奖项名称发布。原站条目范围为 2015–2021，具体项目年份待核对。
 source_links: []
 project_type: Thesis supervision
 project_stage: Teaching

@@ -3,74 +3,90 @@ title: Portfolio source review
 ---
 # Portfolio source review
 
-Review date: 13 September 2026.
+Review updated: 13 September 2026.
 
-## Material reviewed
+Publication status: the user explicitly authorized publication of this selected image and text supplement to the public doubleteng/tengteng repository serving teng-teng.org.
 
-The supplied folder contains 16 files: 11 PDFs and five PowerPoint files. Text was retrieved from all 11 PDFs and from portfolio.pptx. The four larger PowerPoint versions were inventoried alongside their PDF counterparts. The separately supplied UU JOB TALK 0403.pptx is approximately 1 GB; its metadata was accessible, but the text request failed with a file-size error. Raw-file requests for two smaller sources returned file references that could not be materialized with the available tools. No new source images have been extracted from those files.
+## Review scope
 
-The December 3 architecture portfolio contains detailed professional-project accounts omitted from the shorter December 15 edition. The teaching portfolio supplies student authorship, course methods, and workshop descriptions. The smaller portfolio.pptx supplies SERIES, early professional work, InSpire-related references, and the undergraduate thesis.
+The supplied Drive folder contains 16 substantive files: 11 PDFs and five PowerPoint files. Readable text was retrieved from all 16. Visual review used the 159-page December 3 architecture portfolio, the 14-page teaching portfolio, and native embedded images from the 42-slide February 3, 2025 PowerPoint. All versions were checked for project coverage; visual review was concentrated on these detailed sources.
 
-## Content decisions
+The December 3 architecture edition preserves professional work that is absent from the shorter December 15 edition. The February PowerPoint provides reusable teaching images and project boards. The small portfolio.pptx also provides early professional work, unpublished research descriptions, and drawing captions. The original files and Drive organization were preserved.
 
-- Preserve existing project URLs and publication records.
-- Use the detailed project descriptions for methods and individual responsibilities; retain notes where their dates conflict with summary pages.
-- Treat Caesars Palace and Kaisa Center as the same Shenyang entry: the detailed sources report identical programs, dimensions, and team members.
-- Attribute student projects to their authors, with Teng Teng identified as supervisor.
-- Remove unsupported promotional claims about sustainability, delivery, or measured performance.
-- Remove 21 confirmed placeholder-image references from public pages; retain their underlying source files.
-- Add SERIES and Digital Practice as separate records.
-- Leave Apple Store IAPM and the unidentified undergraduate theater study out of the public project index until their contribution and project information can be established.
+## Website supplement
 
-## Project coverage
+16 existing projects received 115 selected images. Fourteen empty project covers were filled. Original embedded images were extracted, converted to WebP, and limited to 2400 pixels on the longest edge without enlargement. The assets total 19.3 MB. The website retains its existing URLs, CMS fields, category structure, and publication records.
 
-| Project | Source / verification status | Remaining work |
+Project galleries separate built photographs, design visualizations, technical studies, and student work through headings and captions. Student authors are retained for the thesis and furniture projects. Original student project boards retain their printed credits. Teng Teng remains identified as supervisor or instructor for teaching work and is emphasized in the rendered credits.
+
+The epithelial-cell project now describes its silicone and shape-memory polymer assemblies, the relationship between local and global deformation, and its flex-sensor connection to Rhino and Grasshopper. Its claims follow the paper reproduced on architecture portfolio pages 73–77.
+
+The February PowerPoint contains no embedded video files. A student-project YouTube hyperlink is present, but playback could not be verified in this review, so no new video was published from it. Existing project videos remain in place.
+
+[PORTFOLIO_ASSET_MANIFEST.json](PORTFOLIO_ASSET_MANIFEST.json) maps every new asset to its source filename, page or slide, native image record, dimensions, and SHA-256 hash. The earlier raw-file materialization limitation has been resolved for the sources used in this supplement.
+
+## Added images by project
+
+| Project | Images added | Source |
+| --- | ---: | --- |
+| INSPIRE | 6 | PowerPoint slides 14, 15 |
+| SERIES: Free-Form Façade Optimization | 10 | PowerPoint slides 20, 21 |
+| Undergraduate Architecture Thesis | 14 | PowerPoint slides 29 |
+| Undergraduate Product Design Thesis | 4 | PowerPoint slides 30 |
+| Digital Practice International Workshop | 5 | PowerPoint slides 31 |
+| Computational Geometry and Digital Fabrication | 2 | PowerPoint slides 32 |
+| AI Empowered Creative Robotics Workshop | 4 | PowerPoint slides 33 |
+| Building Robots for Robotic Fabrication | 14 | PowerPoint slides 34, 35, 36, 37 |
+| New Material and Method | 3 | PowerPoint slides 39, 40, 41 |
+| Epithelial Cell-Inspired Programmable Surface Geometry | 8 | Architecture PDF pages 74, 75, 76, 77 |
+| Yintai Centre Mixed-Use | 7 | Architecture PDF pages 114, 115, 116 |
+| RIBO Central Club | 12 | Architecture PDF pages 117, 118, 119 |
+| Waterfront Seattle | 12 | Architecture PDF pages 127, 128 |
+| Jinji Lake Land 512 | 4 | Architecture PDF pages 133, 134 |
+| CRLL Chongqing MIXC | 5 | Architecture PDF pages 135 |
+| Instant City Plug-in Architecture | 5 | Architecture PDF pages 139, 140 |
+
+## Source versions
+
+| File | Text review | Visual use |
 | --- | --- | --- |
-| 3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture | Existing website record retained | No new source issue recorded. |
-| AI Empowered Creative Robotics Workshop | Portfolio text rewritten and attributed | No new source issue recorded. Real project images still needed. |
-| Building Robots for Robotic Fabrication | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| CRLL Chongqing MIXC | Portfolio text rewritten and attributed | No new source issue recorded. Real project images still needed. |
-| Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy | Updated project text and complete image galleries verified against the current project website | Image gap resolved on 13 September 2026. |
-| Computational Geometry and Digital Fabrication | Portfolio text rewritten and attributed | 资料说明该课程在多个机构开设，未逐次列出年份与机构；保留原站 2016 年份，后续可分次补充。 Real project images still needed. |
-| Digital Practice International Workshop | Portfolio text rewritten and attributed | 资料未列出举办年份及完整教师／学生名单，年份字段暂不虚构。待补原始现场照片。 Real project images still needed. |
-| Dragon Light International Shopping Mall | Portfolio text rewritten and attributed | No new source issue recorded. |
-| Epithelial Cell-Inspired Programmable Surface Geometry | Existing website record retained | No new source issue recorded. Real project images still needed. |
-| FANA Mixed-Use Complex Development | Portfolio text rewritten and attributed | No new source issue recorded. |
-| Floralis: an ETFE-Clad, Multilaminar Timber Structure | Existing website record retained | No new source issue recorded. |
-| INSPIRE | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 |
-| Instant City Plug-in Architecture | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| Integrated and Tailored Thermal Insulation | Existing website record retained | No new source issue recorded. |
-| Jinji Lake Land 512 | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| Kaisa Center Mixed-Use | Portfolio text rewritten and attributed | 早期 portfolio.pptx 使用 Caesars Palace 名称；2024 建筑作品集详细页使用 KAISA Centre，面积与团队相同，合并在现有网址，未重复建项目。参与年份在资料间存在 2010–2011 / 2011–2012 差异，待确认。 |
-| Multi-material 3D Printing for Tension-Compression Structure | Existing website record retained | No new source issue recorded. |
-| New Material and Method | Portfolio text rewritten and attributed | No new source issue recorded. Real project images still needed. |
-| OPERATION PPE | Existing website record retained | 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 |
-| Pica | Portfolio text rewritten and attributed | No new source issue recorded. |
-| Pinbed | Portfolio text rewritten and attributed | No new source issue recorded. |
-| Programmable Footwear | Existing website record retained | 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| RIBO Central Club | Portfolio text rewritten and attributed | 详细说明记载设计为 2009–2010、竣工为 2012；原站单列 2010。本页使用完整时间范围。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| Scaled Fabrication Models | Updated project text and complete image galleries verified against the current project website | Image gap resolved on 13 September 2026. |
-| Scutoid Brick | Portfolio text rewritten and attributed | No new source issue recorded. |
-| SERIES: Free-Form Façade Optimization | Portfolio text rewritten and attributed | 文字依据 portfolio.pptx 与 2024 作品集。原始流程图尚未提取到可发布图像，待补充。 Real project images still needed. |
-| Shanghai Museum – Phase II | Existing website record retained | 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 |
-| Single-Nozzle Multi-Filament Additive Manufacturing | Existing website record retained | No new source issue recorded. |
-| Tang Courtyard Promenade | Portfolio text rewritten and attributed | No new source issue recorded. |
-| Transformable Physical Design Media | Publication record linked; detailed description not retrieved | 作品集列有论文，尚未取得可核对的详细项目说明和真实图片。 Real project images still needed. |
-| Undergraduate Architecture Thesis | Portfolio text rewritten and attributed | 作品集明确记载 SIVA 教学为 2015–2017；原站合并条目为 2015–2021。保留合并年份，具体学生项目年份待核对。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| Undergraduate Product Design Thesis | Portfolio text rewritten and attributed | 作品集中的奖项英文存在拼写错误，未将未核实奖项名称发布。原站条目范围为 2015–2021，具体项目年份待核对。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| W. Newton St Rowhouse | Portfolio text rewritten and attributed | 资料正文记载参与时间为 2017–2020；项目目录与原站年份为 2021。暂保留原站年份，竣工年份待确认。 |
-| Waterfront Seattle | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| WFJ Waterfront Development | Portfolio text rewritten and attributed | 详细项目页记载参与时间为 2013；目录和原站标为 2014。保留原站年份，待核实。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 |
-| Yintai Centre Mixed-Use | Portfolio text rewritten and attributed | No new source issue recorded. |
+| portfolio.pptx | Retrieved | Text and project-coverage comparison |
+| portfolio20250203.pptx | Retrieved | Native images and project-board review |
+| portfolio20241215.pdf | Retrieved | Text and project-coverage comparison |
+| portfolio20241202B.pptx | Retrieved | Text and project-coverage comparison |
+| Reseaerch Design Teaching_portfolio_Teng Teng_20241203_Arch.pdf | Retrieved | Full page inventory, detailed project review, and embedded-image extraction |
+| portfolio20241202.pdf | Retrieved | Text and project-coverage comparison |
+| portfolio20241202B.pdf | Retrieved | Text and project-coverage comparison |
+| portfolio20241202.pptx | Retrieved | Text and project-coverage comparison |
+| arch portfolio.pptx | Retrieved | Text and project-coverage comparison |
+| Teng_Reserach_Design_Teaching_portfolio_compressed_2024Dec.pdf | Retrieved | Text and project-coverage comparison |
+| 1122arch portfolio.pdf | Retrieved | Text and project-coverage comparison |
+| arch portfolio_compressed.pdf | Retrieved | Text and project-coverage comparison |
+| arch portfolio sm.pdf | Retrieved | Text and project-coverage comparison |
+| arch portfolio.pdf | Retrieved | Text and project-coverage comparison |
+| Reseaerch Design portfolio.pdf | Retrieved | Text and project-coverage comparison |
+| Teaching Portfoilo.pdf | Retrieved | Teaching structure and source-page review |
 
-## Project website supplement — 13 September 2026
+## Remaining source questions
 
-Seven existing projects were expanded with verified project images and descriptions: Single-Nozzle Multi-Filament Additive Manufacturing, Integrated and Tailored Thermal Insulation, Continuous Multi-Filament Printing, Diamanti, Floralis, Scaled Fabrication Models, and Biomineral-Infused Concrete. Automated Toolpath Design for 3D Concrete Printing was added as a separate coauthored project. Its publication year was corrected to 2025.
+| Project | Remaining question |
+| --- | --- | --- |
+| Programmable Footwear | No matching project narrative or image was found in this 2024 source set. |
+| Transformable Physical Design Media | Publication citation found; no distinct project image or detailed account was established. |
+| OPERATION PPE | Listed in the portfolio; the source set does not establish a detailed contribution statement. |
+| Shanghai Museum – Phase II | Listed in the portfolio; detailed project responsibilities remain unverified. |
+| Kaisa Center Mixed-Use | Participation dates conflict: 2010–2011 / 2011–2012. Caesars Palace and Kaisa remain one project. |
+| W. Newton St Rowhouse | Participation dates 2017–2020 differ from the existing 2021 project listing. |
+| WFJ Waterfront Development | Detailed participation date is 2013; the existing project listing is 2014. |
+| Computational Geometry and Digital Fabrication | The source combines teaching at multiple institutions without dates for each offering. |
+| Digital Practice International Workshop | Year and complete faculty/student roster are not established. |
+| Undergraduate Architecture Thesis | SIVA supervision is documented for 2015–2017; the existing combined listing spans 2015–2021. |
+| Undergraduate Product Design Thesis | Individual project dates and award names require confirmation. |
 
-The imported media includes 109 still images and two technical animations. Two MP4 demonstrations were copied into the repository; the technical animations were converted to playable MP4s with cover images. The Floralis Vimeo film and thermal-insulation YouTube video use embedded players. Existing project-specific images that add distinct information were retained.
+Apple Store IAPM and the concert-hall study remain outside the public project index because the supplied material does not establish sufficient project metadata and individual contribution. The existing fine-art collection lists 17 images; this supplement prioritizes project and teaching entries with missing imagery.
 
-Floralis identifies Teng Teng's contribution as conceptual design. Diamanti identifies structural and computational design. The strut-and-tie specimen is credited as a printing contribution and does not attribute the underlying graphic-statics research to its fabricators. Renderings are labeled as design visualizations. Carbon-absorbing mixture results are kept separate from images of the wider structural program.
+Several embedded figures, especially in the epithelial-cell paper and early professional projects, have limited native resolution. They were not enlarged or replaced with reconstructed images. Older in-press and in-review labels in the portfolio were not used to overwrite current publication records.
 
-Project pages do not display a reposting attribution or a source-project link. Team, authorship, funding acknowledgements, and research-publication links are retained.
+## Earlier project-website supplement
 
-The original Drive file-size and image-extraction limitations remain for projects outside this supplement.
+The earlier PSL supplement expanded Single-Nozzle Multi-Filament Additive Manufacturing, Integrated and Tailored Thermal Insulation, Continuous Multi-Filament Printing, Diamanti, Floralis, Scaled Fabrication Models, and Biomineral-Infused Concrete. Automated Toolpath Design for 3D Concrete Printing was added as a separate project. Team credits, publication links, and contributions remain distinct from this portfolio-image supplement.

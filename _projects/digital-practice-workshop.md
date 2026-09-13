@@ -5,17 +5,28 @@ year: ''
 published: true
 featured: false
 featured_order: 99
-cover: ''
-cover_alt: ''
-sections: []
-credits: []
+cover: /assets/media/digital-practice-workshop/portfolio-slide-31-i01.webp
+cover_alt: Student pavilions exhibited at SIVA
+sections:
+- type: gallery
+  heading: Pavilion construction and exhibition
+  images:
+  - /assets/media/digital-practice-workshop/portfolio-slide-31-i02.webp
+  - /assets/media/digital-practice-workshop/portfolio-slide-31-i03.webp
+  - /assets/media/digital-practice-workshop/portfolio-slide-31-i04.webp
+  - /assets/media/digital-practice-workshop/portfolio-slide-31-i05.webp
+  caption: Student pavilions, fabrication sessions, assembly, and group reviews from the SIVA–University of Washington
+    workshop.
+  columns: two
+credits:
+- 'Workshop initiator and co-instructor: Teng Teng'
 team: []
 links: []
 related_publications: []
 awards: []
 summary: A ten-day SIVA–University of Washington workshop connects digital design, team coordination, and full-scale
   pavilion fabrication.
-editor_notes: 资料未列出举办年份及完整教师／学生名单，年份字段暂不虚构。待补原始现场照片。
+editor_notes: 资料未列出举办年份及完整教师／学生名单，年份字段暂不虚构。
 role: Workshop initiator and co-instructor
 institution: Shanghai Institute of Visual Art · University of Washington
 location: Shanghai, China

@@ -5,10 +5,31 @@ year: 2010–2012
 published: true
 featured: false
 featured_order: 99
-cover: ''
-cover_alt: ''
-sections: []
-credits: []
+cover: /assets/media/series-facade-optimization/portfolio-slide-20-i01.webp
+cover_alt: 'SERIES: Free-Form Façade Optimization design visualization'
+sections:
+- type: gallery
+  heading: Geometric constraints
+  images:
+  - /assets/media/series-facade-optimization/portfolio-slide-20-i02.webp
+  - /assets/media/series-facade-optimization/portfolio-slide-20-i04.webp
+  - /assets/media/series-facade-optimization/portfolio-slide-20-i05.webp
+  - /assets/media/series-facade-optimization/portfolio-slide-20-i06.webp
+  caption: Tower overhang, floor outlines, corner alignment, and column inclination define the optimization problem.
+  columns: two
+- type: gallery
+  heading: Parametric solvers
+  images:
+  - /assets/media/series-facade-optimization/portfolio-slide-21-i01.webp
+  - /assets/media/series-facade-optimization/portfolio-slide-21-i02.webp
+  - /assets/media/series-facade-optimization/portfolio-slide-21-i03.webp
+  - /assets/media/series-facade-optimization/portfolio-slide-21-i04.webp
+  - /assets/media/series-facade-optimization/portfolio-slide-21-i05.webp
+  caption: Grasshopper interfaces coordinate floor data, outline geometry, tower form, and column alignment. Design
+    studies.
+  columns: two
+credits:
+- 'Computational designer and toolkit developer: Teng Teng'
 team:
 - Hui Chen
 - Quanhong Li
@@ -20,7 +41,7 @@ related_publications: []
 awards: []
 summary: A Grasshopper and C# toolkit uses simulated annealing to coordinate free-form tower geometry and curtain-wall
   constraints.
-editor_notes: 文字依据 portfolio.pptx 与 2024 作品集。原始流程图尚未提取到可发布图像，待补充。
+editor_notes: ''
 role: Computational designer and toolkit developer
 institution: Callison, Shanghai
 location: Shanghai, China

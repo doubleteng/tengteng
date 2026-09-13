@@ -60,3 +60,7 @@ To withdraw a project, turn publishing off. To recover an earlier version, open 
 | Site settings | Page introductions, navigation options, contact form, footer |
 
 Editor notes identify unresolved dates, credits, descriptions, and missing images. They do not appear in public project pages. Routine updates require no changes to HTML, JavaScript, Jekyll, or the CMS configuration.
+
+## Uploading a video
+
+In a project, add a **Video** content block. Use **Upload or select a video** to choose an MP4 or WebM file from **Videos / 视频**, or enter a YouTube or Vimeo link. An uploaded file takes priority over the link. Add a **Video cover image** if you want a separate poster; otherwise the project cover is used. Save the project to publish. Keep video files compressed for faster uploads and playback.

@@ -20,6 +20,14 @@ media:
   - pdf
   - zip
   - txt
+- name: videos
+  label: Videos / 视频
+  input: assets/videos
+  output: /assets/videos
+  rename: safe
+  extensions:
+  - mp4
+  - webm
 content:
 - name: english
   label: English
@@ -56,8 +64,8 @@ content:
     - name: published
       label: Publish on website
       type: boolean
-      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
-        public GitHub repository.
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in
+        this public GitHub repository.
       default: false
     - name: category
       label: Category
@@ -80,8 +88,8 @@ content:
       label: Short description
       type: text
       required: true
-      description: Shown on the homepage, project cards, and project heading. State what the project does and what
-        distinguishes it.
+      description: Shown on the homepage, project cards, and project heading. State what the project does and
+        what distinguishes it.
     - name: cover
       label: Cover image
       type: image
@@ -128,8 +136,8 @@ content:
       options:
         format: markdown
         media: images
-      description: Describe the project context, your contribution, methods, and results. You can insert text and
-        images.
+      description: Describe the project context, your contribution, methods, and results. You can insert text
+        and images.
     - name: sections
       label: Content blocks
       type: block
@@ -208,7 +216,19 @@ content:
         - name: url
           label: YouTube, Vimeo, or MP4/WebM URL
           type: string
-          required: true
+          description: Use a hosted video link, or select a video file below.
+        - name: file
+          label: Upload or select a video
+          type: file
+          options:
+            media: videos
+          description: An uploaded file takes priority over the URL above. Use a compressed MP4 for reliable playback.
+        - name: poster
+          label: Video cover image
+          type: image
+          options:
+            media: images
+          description: Uses the project cover when empty.
         - name: caption
           label: Video caption
           type: text
@@ -347,8 +367,8 @@ content:
     - name: published
       label: Publish on website
       type: boolean
-      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
-        public GitHub repository.
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in
+        this public GitHub repository.
       default: false
     - name: kind
       label: Type
@@ -449,8 +469,8 @@ content:
     - name: published
       label: Publish on website
       type: boolean
-      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
-        public GitHub repository.
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in
+        this public GitHub repository.
       default: false
     - name: date
       label: Date
@@ -899,7 +919,19 @@ content:
         - name: url
           label: YouTube、Vimeo 或 MP4/WebM 地址
           type: string
-          required: true
+          description: 填写在线视频链接，或在下方选择、上传视频文件。
+        - name: file
+          label: 上传或选择视频
+          type: file
+          options:
+            media: videos
+          description: 选择文件后优先播放该文件。建议使用压缩后的 MP4。
+        - name: poster
+          label: 视频封面图
+          type: image
+          options:
+            media: images
+          description: 留空时使用作品封面。
         - name: caption
           label: 视频说明
           type: text

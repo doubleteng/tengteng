@@ -56,4 +56,6 @@ Every edit is versioned in Git. Restore an individual file from History, or reve
 
 ## Portfolio review, September 2026
 
-The portfolio now contains 36 project records. Source-based revisions expand 26 entries, including two newly added projects. Confirmed placeholder images were removed from public pages. See [source review](docs/SOURCE_REVIEW.md) for unresolved dates, missing images, and file-access limitations. The public admin route contains only an English sign-in entrance; tutorials are accessed through the CMS.
+The portfolio now contains 37 project records. Source-based revisions expand 26 entries, including two newly added projects. Confirmed placeholder images were removed from public pages. See [source review](docs/SOURCE_REVIEW.md) for unresolved dates, missing images, and file-access limitations. The public admin route contains only an English sign-in entrance; tutorials are accessed through the CMS.
+
+Video files can be managed under **Videos / 视频** in Pages CMS and selected directly in a project Video block.

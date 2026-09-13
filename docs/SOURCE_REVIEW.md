@@ -30,7 +30,7 @@ The December 3 architecture portfolio contains detailed professional-project acc
 | AI Empowered Creative Robotics Workshop | Portfolio text rewritten and attributed | No new source issue recorded. Real project images still needed. |
 | Building Robots for Robotic Fabrication | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
 | CRLL Chongqing MIXC | Portfolio text rewritten and attributed | No new source issue recorded. Real project images still needed. |
-| Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 |
+| Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy | Updated project text and complete image galleries verified against the current project website | Image gap resolved on 13 September 2026. |
 | Computational Geometry and Digital Fabrication | Portfolio text rewritten and attributed | 资料说明该课程在多个机构开设，未逐次列出年份与机构；保留原站 2016 年份，后续可分次补充。 Real project images still needed. |
 | Digital Practice International Workshop | Portfolio text rewritten and attributed | 资料未列出举办年份及完整教师／学生名单，年份字段暂不虚构。待补原始现场照片。 Real project images still needed. |
 | Dragon Light International Shopping Mall | Portfolio text rewritten and attributed | No new source issue recorded. |
@@ -49,7 +49,7 @@ The December 3 architecture portfolio contains detailed professional-project acc
 | Pinbed | Portfolio text rewritten and attributed | No new source issue recorded. |
 | Programmable Footwear | Existing website record retained | 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
 | RIBO Central Club | Portfolio text rewritten and attributed | 详细说明记载设计为 2009–2010、竣工为 2012；原站单列 2010。本页使用完整时间范围。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
-| Scaled Fabrication Models | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
+| Scaled Fabrication Models | Updated project text and complete image galleries verified against the current project website | Image gap resolved on 13 September 2026. |
 | Scutoid Brick | Portfolio text rewritten and attributed | No new source issue recorded. |
 | SERIES: Free-Form Façade Optimization | Portfolio text rewritten and attributed | 文字依据 portfolio.pptx 与 2024 作品集。原始流程图尚未提取到可发布图像，待补充。 Real project images still needed. |
 | Shanghai Museum – Phase II | Existing website record retained | 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 |
@@ -62,3 +62,15 @@ The December 3 architecture portfolio contains detailed professional-project acc
 | Waterfront Seattle | Portfolio text rewritten and attributed | 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 Real project images still needed. |
 | WFJ Waterfront Development | Portfolio text rewritten and attributed | 详细项目页记载参与时间为 2013；目录和原站标为 2014。保留原站年份，待核实。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。 |
 | Yintai Centre Mixed-Use | Portfolio text rewritten and attributed | No new source issue recorded. |
+
+## Project website supplement — 13 September 2026
+
+Seven existing projects were expanded with verified project images and descriptions: Single-Nozzle Multi-Filament Additive Manufacturing, Integrated and Tailored Thermal Insulation, Continuous Multi-Filament Printing, Diamanti, Floralis, Scaled Fabrication Models, and Biomineral-Infused Concrete. Automated Toolpath Design for 3D Concrete Printing was added as a separate coauthored project. Its publication year was corrected to 2025.
+
+The imported media includes 109 still images and two technical animations. Two MP4 demonstrations were copied into the repository; the technical animations were converted to playable MP4s with cover images. The Floralis Vimeo film and thermal-insulation YouTube video use embedded players. Existing project-specific images that add distinct information were retained.
+
+Floralis identifies Teng Teng's contribution as conceptual design. Diamanti identifies structural and computational design. The strut-and-tie specimen is credited as a printing contribution and does not attribute the underlying graphic-statics research to its fabricators. Renderings are labeled as design visualizations. Carbon-absorbing mixture results are kept separate from images of the wider structural program.
+
+Project pages do not display a reposting attribution or a source-project link. Team, authorship, funding acknowledgements, and research-publication links are retained.
+
+The original Drive file-size and image-extraction limitations remain for projects outside this supplement.

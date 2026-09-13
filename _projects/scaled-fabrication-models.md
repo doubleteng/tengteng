@@ -6,11 +6,11 @@ published: true
 featured: false
 featured_order: 99
 permalink: /research/scaled-fabrication-models/
-cover: ''
-cover_alt: Scaled Fabrication Models
-summary: Small printed models reproduce fabrication sequences to compare toolpaths and component assembly for concrete
-  structures.
-role: ''
+cover: /assets/media/scaled-fabrication-models/detail-0-hero2.webp
+cover_alt: Scaled fabrication model of a funicular floor structure
+summary: Small printed models reproduce fabrication sequences to compare toolpaths and component assembly for
+  concrete structures.
+role: Research coauthor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
 tags:
@@ -19,23 +19,37 @@ credits:
 - 'Authors: Yefan Zhi, Teng Teng, Masoud Akbarzadeh'
 team: []
 acknowledgements: ''
-sections: []
-links:
-- title: Project page
-  url: https://psl.design.upenn.edu/project/designing-3d-printed-concrete-structures-with-scaled-fabrication-models/
-  kind: site
+sections:
+- type: gallery
+  heading: Form finding and print direction
+  images:
+  - /assets/media/scaled-fabrication-models/detail-1-ff-01.webp
+  - /assets/media/scaled-fabrication-models/detail-2-align-01.webp
+  - /assets/media/scaled-fabrication-models/detail-3-slice-compare.webp
+  caption: Graphic-statics geometry, force-informed printing directions, and alternative slicing strategies.
+  columns: one
+- type: gallery
+  heading: Model assembly
+  images:
+  - /assets/media/scaled-fabrication-models/detail-4-assembly2small.webp
+  - /assets/media/scaled-fabrication-models/detail-5-main-visual2.webp
+  caption: Partial assemblies and the completed scaled fabrication model.
+  columns: two
+links: []
 related_publications:
 - title: Related paper (DOI)
   url: https://link.springer.com/article/10.1007/s44223-024-00070-3
 awards: []
-editor_notes: 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
+editor_notes: ''
 source_links: []
-project_type: Fabrication method
-project_stage: Research
+project_type: Fabrication research
+project_stage: Research prototype
 ---
 
-Scaled fabrication models allow the design of discrete concrete structures to be tested before full-scale production. The models preserve the printing approach and layer organization so that component geometry, print direction, and assembly can be evaluated physically.
+Scaled fabrication models test how discrete concrete structures can be printed and assembled before committing to full-scale production. Each model reproduces the intended fabrication approach and layer organization, making toolpath choices visible in a physical object.
 
-A case study uses a compression-dominant funicular floor derived from graphic statics. Component, partial-assembly, and complete models compare parallel, nonparallel, and creased slicing strategies while aligning printing directions with structural demands.
+At a scale of 1:10, the components can be produced on desktop 3D printers with limited modification. Component tests, partial assemblies, and complete models reveal how printing direction, surface texture, and joint geometry affect the fabrication scheme.
 
-The collaborative study by Yefan Zhi, Teng Teng, and Masoud Akbarzadeh was published in Architectural Intelligence in 2024.
+A compression-dominant funicular floor provides the case study. Parallel, nonparallel, and creased slicing strategies are compared across its components, with print directions aligned to the principal stress paths.
+
+The collaborative study by Yefan Zhi, Teng Teng, and Masoud Akbarzadeh was published in *Architectural Intelligence* in 2024.

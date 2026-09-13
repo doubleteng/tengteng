@@ -10,7 +10,7 @@ cover: /assets/media/scaled-fabrication-models/detail-0-hero2.webp
 cover_alt: Scaled fabrication model of a funicular floor structure
 summary: Small printed models reproduce fabrication sequences to compare toolpaths and component assembly for
   concrete structures.
-role: Research coauthor
+role: Major Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
 tags:

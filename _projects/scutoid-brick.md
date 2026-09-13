@@ -9,7 +9,7 @@ permalink: /research/scutoid-brick/
 cover: /assets/media/scutoid-brick/hero.webp
 cover_alt: Scutoid Brick
 summary: Interlocking masonry units translate epithelial-cell packing into a double-curved shell assembly.
-role: Project lead and main contributor
+role: Leading Contributor
 institution: Cornell University · Jenny Sabin Lab
 location: ''
 tags:

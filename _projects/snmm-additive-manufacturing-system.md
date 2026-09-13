@@ -10,7 +10,7 @@ cover: /assets/media/snmm-additive-manufacturing-system/detail-cover.webp
 cover_alt: Single-nozzle printed object with a continuous material gradient
 summary: An active-mixing extrusion system for controlling material composition and gradient transitions within
   a single print.
-role: Research coauthor
+role: Leading Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
 tags:

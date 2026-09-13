@@ -10,7 +10,7 @@ cover: /assets/media/inspire/hero.webp
 cover_alt: Gesture modeling with the InSpire optical see-through display
 summary: A gesture-based modeling interface places virtual geometry and the designer’s hands within the same viewing
   space.
-role: Research and prototype development
+role: Leading Contributor
 institution: University of Washington
 location: Seattle, Washington, USA
 tags:

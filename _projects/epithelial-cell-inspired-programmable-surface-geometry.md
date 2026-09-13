@@ -9,7 +9,7 @@ permalink: /research/epithelial-cell-inspired-programmable-surface-geometry/
 cover: ''
 cover_alt: Epithelial Cell-Inspired Programmable Surface Geometry
 summary: Bio-inspired surface geometry is explored through design, 4D printing, and tangible interaction.
-role: ''
+role: Leading Contributor
 institution: Cornell University · Jenny Sabin Lab
 location: ''
 tags:

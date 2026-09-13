@@ -10,7 +10,7 @@ cover: /assets/media/3d-printing-biomineral-infused-concrete-for-enhanced-carbon
 cover_alt: Cylindrical and triply periodic surface concrete specimens
 summary: Biomineral-infused concrete and printed surface geometry are investigated for enhanced carbon capture
   and storage.
-role: Research coauthor
+role: Major Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory and Shu Yang Group
 location: ''
 tags:

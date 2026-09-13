@@ -119,6 +119,7 @@ content:
     - name: role
       label: My role
       type: string
+      description: Use Leading Contributor for multimaterial printing or first authorship on a related publication; otherwise use Major Contributor for second authorship. Keep the specific role for other projects.
     - name: institution
       label: Institution, laboratory, or practice
       type: string
@@ -264,6 +265,7 @@ content:
     - name: credits
       label: Contributions and credits
       type: string
+      description: Enter names as plain text. Teng Teng is automatically displayed in bold on the website.
       list: true
     - name: team
       label: Team members
@@ -823,6 +825,7 @@ content:
     - name: role
       label: 我的职责
       type: string
+      description: 多材料打印相关项目，或关联论文中为第一作者，填写 Leading Contributor（主导贡献者）；其他项目中为第二作者，填写 Major Contributor（主要贡献者）；其余项目保留具体职责。
     - name: institution
       label: 机构／实验室／公司
       type: string
@@ -969,6 +972,7 @@ content:
     - name: credits
       label: 贡献与署名
       type: string
+      description: 姓名直接填写普通文本即可。网站会自动将 Teng Teng 加粗，无需手动添加格式。
       list: true
     - name: team
       label: 团队成员

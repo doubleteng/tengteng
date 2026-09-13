@@ -9,7 +9,7 @@ permalink: /design/transformable-physical-design-media/
 cover: ''
 cover_alt: Transformable Physical Design Media
 summary: Research on transformable physical media for architectural design and interaction.
-role: ''
+role: Leading Contributor
 institution: University of Washington
 location: ''
 tags:

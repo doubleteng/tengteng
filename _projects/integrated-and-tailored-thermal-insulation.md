@@ -10,7 +10,7 @@ cover: /assets/media/integrated-and-tailored-thermal-insulation/detail-1.webp
 cover_alt: Gradient-material wall prototype installed outdoors
 summary: Gradient material distribution combines load-bearing regions and thermal insulation within printed masonry
   components.
-role: Research coauthor
+role: Leading Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
 tags:

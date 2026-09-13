@@ -10,7 +10,7 @@ cover: /assets/media/multi-material-3d-printing-for-tension-compression-structur
 cover_alt: Printed truss with distinct materials along tension and compression regions
 summary: Continuous multimaterial printing distributes material according to tensile and compressive demand in
   a truss.
-role: Research coauthor
+role: Leading Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
 tags:

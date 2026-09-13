@@ -9,7 +9,7 @@ permalink: /research/pica/
 cover: /assets/media/pica/hero.webp
 cover_alt: Pica
 summary: A modular six-axis robot connects Rhino and Grasshopper directly to desktop fabrication and physical prototyping.
-role: Project lead; hardware and software development
+role: Leading Contributor
 institution: Cornell University · Jenny Sabin Lab
 location: ''
 tags:

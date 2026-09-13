@@ -21,6 +21,21 @@ media:
   - zip
   - txt
 content:
+- name: editor-guide
+  label: 使用教程
+  type: file
+  path: docs/EDITOR_GUIDE.md
+  format: yaml-frontmatter
+  fields:
+  - name: body
+    label: false
+    type: rich-text
+    readonly: true
+    options:
+      format: markdown
+  operations:
+    delete: false
+    rename: false
 - name: projects
   label: 作品管理
   type: collection

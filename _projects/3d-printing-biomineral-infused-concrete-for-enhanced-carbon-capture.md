@@ -3,8 +3,8 @@ title: 3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture
 category: research
 year: '2025'
 published: true
-featured: false
-featured_order: 99
+featured: true
+featured_order: 7
 permalink: /research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/
 cover: /assets/media/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/detail-mat-0-1.webp
 cover_alt: Cylindrical and triply periodic surface concrete specimens

@@ -3,8 +3,8 @@ title: Building Robots for Robotic Fabrication
 category: teaching
 year: 2021–2024
 published: true
-featured: false
-featured_order: 99
+featured: true
+featured_order: 8
 permalink: /teaching/building-robots-for-robotic-fabrication/
 cover: /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-35-i01.webp
 cover_alt: Student robotic drawing setup

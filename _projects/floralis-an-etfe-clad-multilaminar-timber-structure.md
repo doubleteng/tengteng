@@ -96,7 +96,9 @@ sections:
   columns: two
 links: []
 related_publications: []
-awards: []
+awards:
+- title: International Architecture & Design Awards 2025 — Gold Winner, Sustainable & Green Architecture
+  url: https://ad-c.org/winner/floralis-gold-winner-sustainable-green-architecture-category-iada-2025/
 editor_notes: ''
 source_links: []
 project_type: Architecture

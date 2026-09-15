@@ -4,80 +4,82 @@ title: Assistant Professor of Architecture
 institution: Lawrence Technological University
 location: Southfield, Michigan, USA
 email: tteng@ltu.edu
-intro: I work across materials, computation, and fabrication to develop
-  high-performance architectural components and structural systems.
-bio: >-
-  Teng Teng is a tenure-track Assistant Professor of Architecture at Lawrence
-  Technological University. He holds a Ph.D. in Architecture from the University
-  of Pennsylvania, an M.S. in Matter Design Computation from Cornell University,
-  an M.S. in Architecture from the University of Washington, and a B.Arch from
-  Shanghai University.
+intro: I develop computational methods and tools that connect material behavior, physical interaction, and architectural
+  design. My research combines programmable fabrication and design interfaces, with an emerging investigation into
+  spatial archives and urban memory.
+bio: 'Teng Teng is a tenure-track Assistant Professor of Architecture at Lawrence Technological University. He develops
+  computational methods and tools that connect material behavior, physical interaction, and architectural design.
 
 
-  His research links material development, computational design, and advanced
-  manufacturing. His work includes single-nozzle multimaterial printing, robotic
-  fabrication platforms, and structural and environmental applications of
-  programmable material distribution.
+  His research makes material composition and distribution available as design variables through programmable fabrication.
+  Active-mixing extrusion, computational toolpaths, and physical testing connect intended material arrangements
+  to the structural and thermal behavior of architectural components. His work on gesture-based modeling and personal
+  robotic fabrication examines how designers operate between digital geometry and physical prototypes.
 
 
-  He has taught studios, seminars, and workshops at institutions including Penn,
-  Cornell, the University of Washington, Tongji University, Shanghai University,
-  and the Shanghai Institute of Visual Art. His professional experience spans
-  architectural design, computational design, and project delivery across Asia,
-  the Middle East, and North America.
+  At LTU, he teaches integrated design studios, structural systems, and design-build. His teaching connects computational
+  reasoning with material experiments, construction decisions, and critical examination of design tools. He co-led
+  the 2026 TRI-ARC studio with Lee-Su Huang and Ryan Kahen, bringing remote design coordination into an on-site
+  build.
+
+
+  With Zhen Cheng, he is developing After Chinatown, a study of Chinese American urban memory in Detroit through
+  archival research, interactive mapping, and historical reconstruction. Teng leads computational and spatial methods
+  and platform development; Cheng leads archival research and humanistic interpretation. The project is an ongoing
+  investigation into how spatial models represent historical evidence, change, and uncertainty.
+
+
+  He received his Ph.D. in Architecture from the University of Pennsylvania in 2026, following graduate study at
+  Cornell University and the University of Washington. His research and teaching appointments have included Penn’s
+  Polyhedral Structures Laboratory, Cornell’s Jenny Sabin Lab, and the Shanghai Institute of Visual Art. His professional
+  work includes computational design and project delivery at Callison and CallisonRTKL.'
 research_interests:
-  - Advanced Manufacturing
-  - Robotic Construction
-  - Mechatronics
-  - Computational Geometry
-  - Structural Form Finding
-  - Biomaterials
+- Computational design methods
+- Material computation
+- Design interfaces
+- Robotic fabrication
+- Spatial archives and urban memory
 interests:
-  - Fine Art
-  - Theater
-  - Marathon
-  - Triathlon
-  - Swimming
-  - Cello
-  - Cooking
+- Fine Art
+- Theater
+- Marathon
+- Triathlon
+- Swimming
+- Cello
+- Cooking
 appointments:
-  - Lawrence Technological University — Tenure-Track Assistant Professor of
-    Architecture · December 2025–present
-  - University of Pennsylvania, Polyhedral Structures Lab — PhD
-    Research/Teaching Fellow 2021–2026 · multiscale & multimaterial AM; concrete
-    3DP & carbon capture
-  - Cornell University, Jenny Sabin Lab — Senior Research Associate 2018–2021 ·
-    robotic clay printing; programmable surfaces; personal fab robot
-  - Shanghai Institute of Visual Art, Computational Design Group — Lecturer
-    2015–2017 · computational design; interior design studio; undergraduate
-    thesis (architecture, product)
-  - Tongji University — Adjunct Instructor 2023 · Advanced Manufacturing
-    (seminar)
-  - Shanghai University — Adjunct Instructor 2022 · Computational Design &
-    Fabrication (seminar)
-  - Cornell University — Teaching Assistant 2018–2019 · Matter Design
-    Computation (4605/6605)
-  - University of Washington — Teaching Assistant 2013–2014 · 3D Modeling &
-    Rendering; CG Programming
+- Lawrence Technological University — Tenure-Track Assistant Professor of Architecture · December 2025–present
+- University of Pennsylvania, Polyhedral Structures Lab — PhD Research/Teaching Fellow 2021–2026 · multiscale &
+  multimaterial AM; concrete 3DP & carbon capture
+- Cornell University, Jenny Sabin Lab — Senior Research Associate 2018–2021 · robotic clay printing; programmable
+  surfaces; personal fab robot
+- Shanghai Institute of Visual Art, Computational Design Group — Lecturer 2015–2017 · computational design; interior
+  design studio; undergraduate thesis (architecture, product)
+- Tongji University — Adjunct Instructor 2023 · Advanced Manufacturing (seminar)
+- Shanghai University — Adjunct Instructor 2022 · Computational Design & Fabrication (seminar)
+- Cornell University — Teaching Assistant 2018–2019 · Matter Design Computation (4605/6605)
+- University of Washington — Teaching Assistant 2013–2014 · 3D Modeling & Rendering; CG Programming
 experience:
-  - Ju Square LLC — Partner 2017–2021 · Townhouse real estate development
-  - Adaptive Design LLC — Chief Designer & Partner 2017–2018 · Retail
-    architecture & interiors
-  - CallisonRTKL — Project Architect & Design Technologist 2013–2017 ·
-    Computational lead; mixed-use
-  - Callison (Shanghai) — Design Technologist 2010–2012 · Large-scale commercial
-    project tech support
+- Ju Square LLC — Partner 2017–2021 · Townhouse real estate development
+- Adaptive Design LLC — Chief Designer & Partner 2017–2018 · Retail architecture & interiors
+- CallisonRTKL — Project Architect & Design Technologist 2013–2017 · Computational lead; mixed-use
+- Callison (Shanghai) — Design Technologist 2010–2012 · Large-scale commercial project tech support
 education:
-  - University of Pennsylvania — Ph.D. in Architecture
-  - Cornell University — M.S. in Matter Design Computation
-  - University of Washington — M.S. in Architecture
-  - Shanghai University — B.Arch
+- University of Pennsylvania — Ph.D. in Architecture
+- Cornell University — M.S. in Matter Design Computation
+- University of Washington — M.S. in Architecture
+- Shanghai University — B.Arch
 social:
-  - label: Google Scholar
-    url: https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en
-  - label: ORCID
-    url: https://orcid.org/0000-0001-6460-7109
-  - label: LinkedIn
-    url: https://www.linkedin.com/in/tengteng
-  - label: ResearchGate
-    url: https://www.researchgate.net/profile/Teng-Teng-8
+- label: Google Scholar
+  url: https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en
+- label: ORCID
+  url: https://orcid.org/0000-0001-6460-7109
+- label: LinkedIn
+  url: https://www.linkedin.com/in/tengteng
+- label: ResearchGate
+  url: https://www.researchgate.net/profile/Teng-Teng-8
+cv: ''
+service:
+- ACADIA — Board of Directors, 2026–2028
+- ACADIA 2026 — Technical Co-Chair
+- Peer review — ACADIA, CAADRIA, CAAD Futures, and CHI

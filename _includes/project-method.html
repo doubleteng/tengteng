@@ -1,0 +1,6 @@
+{% if page.research_question or page.method_steps.size > 0 %}
+<section class="project-method" aria-label="Project methods">
+  {% if page.research_question %}<div class="method-intro"><div><p class="eyebrow">{{ page.question_label | default: 'Research question' | escape }}</p><h2>{{ page.research_question | escape }}</h2></div>{% if page.contribution %}<p>{{ page.contribution | escape }}</p>{% endif %}</div>{% endif %}
+  {% if page.method_steps.size > 0 %}<ol class="method-steps">{% for step in page.method_steps %}<li><span class="eyebrow">0{{ forloop.index }}</span><h3>{{ step.title | escape }}</h3><p>{{ step.text | escape }}</p></li>{% endfor %}</ol>{% endif %}
+</section>
+{% endif %}

@@ -41,6 +41,9 @@ editor_notes: ''
 source_links: []
 project_type: Fabrication system
 project_stage: Research prototype
+research_areas:
+- interfaces-and-tools
+research_order: 5
 ---
 
 Pinbed investigates an adjustable printing surface for depositing material along curved geometries. A 6 × 6 array of linear actuators supports flexible metal strips and a cast silicone surface. The prototype provides an approximately 30 × 30-inch working area with six inches of vertical travel.

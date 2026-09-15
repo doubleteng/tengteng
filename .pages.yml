@@ -64,8 +64,8 @@ content:
     - name: published
       label: Publish on website
       type: boolean
-      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in
-        this public GitHub repository.
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
+        public GitHub repository.
       default: false
     - name: category
       label: Category
@@ -88,14 +88,17 @@ content:
       label: Short description
       type: text
       required: true
-      description: Shown on the homepage, project cards, and project heading. State what the project does and
-        what distinguishes it.
+      description: Shown on the homepage, project cards, and project heading. State what the project does and what
+        distinguishes it.
     - name: cover
       label: Cover image
       type: image
       options:
         media: images
       description: A landscape image works best. Without a cover, the card displays the project title.
+    - name: cover_caption
+      label: Cover caption / 封面图注
+      type: text
     - name: cover_alt
       label: Cover image description
       type: string
@@ -119,7 +122,8 @@ content:
     - name: role
       label: My role
       type: string
-      description: Use Leading Contributor for multimaterial printing or first authorship on a related publication; otherwise use Major Contributor for second authorship. Keep the specific role for other projects.
+      description: Use Leading Contributor for multimaterial printing or first authorship on a related publication;
+        otherwise use Major Contributor for second authorship. Keep the specific role for other projects.
     - name: institution
       label: Institution, laboratory, or practice
       type: string
@@ -131,14 +135,70 @@ content:
       type: string
       list: true
       description: One tag per item, such as robotic fabrication. Tags are included in search.
+    - name: card_title
+      label: Short card title
+      type: string
+    - name: research_areas
+      label: Research areas
+      type: string
+      list: true
+      description: Use material-computation, interfaces-and-tools, or spatial-history. A project can appear in multiple
+        areas.
+    - name: research_order
+      label: Order within research areas
+      type: number
+    - name: question_label
+      label: Question label
+      type: string
+    - name: research_question
+      label: Research or teaching question
+      type: text
+    - name: contribution
+      label: Method contribution
+      type: text
+    - name: method_steps
+      label: Method or construction sequence
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: Step title
+        type: string
+      - name: text
+        label: Description
+        type: text
+    - name: contributions
+      label: My specific contributions
+      type: text
+      list: true
+    - name: evidence_label
+      label: Evidence heading
+      type: string
+    - name: evidence
+      label: Evidence and scope
+      type: text
+    - name: related_projects
+      label: Connected project URLs
+      type: string
+      list: true
+    - name: primary_link
+      label: Primary project link
+      type: object
+      fields:
+      - name: title
+        label: Link label
+        type: string
+      - name: url
+        label: URL
+        type: string
     - name: body
       label: Project description
       type: rich-text
       options:
         format: markdown
         media: images
-      description: Describe the project context, your contribution, methods, and results. You can insert text
-        and images.
+      description: Describe the project context, your contribution, methods, and results. You can insert text and
+        images.
     - name: sections
       label: Content blocks
       type: block
@@ -369,8 +429,8 @@ content:
     - name: published
       label: Publish on website
       type: boolean
-      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in
-        this public GitHub repository.
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
+        public GitHub repository.
       default: false
     - name: kind
       label: Type
@@ -471,8 +531,8 @@ content:
     - name: published
       label: Publish on website
       type: boolean
-      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in
-        this public GitHub repository.
+      description: Turn off to keep a draft. Turn on and save to publish. Draft source files remain visible in this
+        public GitHub repository.
       default: false
     - name: date
       label: Date
@@ -613,6 +673,10 @@ content:
         label: URL
         type: string
       list: true
+    - name: service
+      label: Academic service
+      type: string
+      list: true
   - name: teaching-en
     label: Teaching and courses
     type: file
@@ -649,7 +713,78 @@ content:
       - name: url
         label: Course page or resources
         type: string
+      - name: level
+        label: Student level
+        type: string
+      - name: role
+        label: Teaching role
+        type: string
       list: true
+    - name: selected_projects
+      label: Selected teaching project URLs
+      type: string
+      list: true
+    - name: learning_process
+      label: Learning and feedback
+      type: text
+    - name: proposed_intro
+      label: Proposed teaching introduction
+      type: text
+    - name: proposed_courses
+      label: Proposed courses
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: Course title
+        type: string
+      - name: level
+        label: Level and format
+        type: string
+      - name: description
+        label: Description
+        type: text
+      - name: assignment
+        label: Assignment
+        type: text
+      - name: assessment
+        label: Assessment
+        type: text
+  - name: research-en
+    label: Research directions
+    type: file
+    path: _data/research.yml
+    format: yaml
+    fields:
+    - name: areas
+      label: Research areas
+      type: object
+      list: true
+      fields:
+      - name: id
+        label: Area ID
+        type: string
+      - name: short_title
+        label: Short title
+        type: string
+      - name: title
+        label: Title
+        type: string
+      - name: status
+        label: Status
+        type: string
+      - name: question
+        label: Question
+        type: text
+      - name: description
+        label: Description
+        type: text
+    - name: next_title
+      label: Ongoing agenda title
+      type: string
+    - name: next_text
+      label: Ongoing agenda
+      type: text
   - name: fine_art-en
     label: Fine art
     type: file
@@ -721,6 +856,15 @@ content:
     - name: footer_text
       label: Footer description
       type: string
+    - name: home_research_title
+      label: Homepage research heading
+      type: string
+    - name: home_research_text
+      label: Homepage research text
+      type: text
+    - name: collaboration_intro
+      label: Students and collaborators
+      type: text
   - name: source-review-en
     label: Source review
     type: file
@@ -802,6 +946,9 @@ content:
       options:
         media: images
       description: 建议横向图片。没有封面时显示作品标题。
+    - name: cover_caption
+      label: Cover caption / 封面图注
+      type: text
     - name: cover_alt
       label: 封面图片描述
       type: string
@@ -837,6 +984,61 @@ content:
       type: string
       list: true
       description: 每项一个标签，例如 robotic fabrication。用于搜索。
+    - name: card_title
+      label: 卡片短标题
+      type: string
+    - name: research_areas
+      label: 研究方向
+      type: string
+      list: true
+      description: 填写 material-computation、interfaces-and-tools 或 spatial-history；一个项目可属于多个方向。
+    - name: research_order
+      label: 研究方向内排序
+      type: number
+    - name: question_label
+      label: 问题栏目标签
+      type: string
+    - name: research_question
+      label: 研究或教学问题
+      type: text
+    - name: contribution
+      label: 方法贡献概述
+      type: text
+    - name: method_steps
+      label: 方法或建造步骤
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: 步骤标题
+        type: string
+      - name: text
+        label: 步骤说明
+        type: text
+    - name: contributions
+      label: 我的具体贡献
+      type: text
+      list: true
+    - name: evidence_label
+      label: 验证依据标题
+      type: string
+    - name: evidence
+      label: 验证依据及适用范围
+      type: text
+    - name: related_projects
+      label: 关联项目网址
+      type: string
+      list: true
+    - name: primary_link
+      label: 项目主要链接
+      type: object
+      fields:
+      - name: title
+        label: 链接文字
+        type: string
+      - name: url
+        label: 网址
+        type: string
     - name: body
       label: 项目正文
       type: rich-text
@@ -1287,6 +1489,10 @@ content:
         label: 网址
         type: string
       list: true
+    - name: service
+      label: 学术服务
+      type: string
+      list: true
   - name: teaching
     label: 教学介绍与课程
     type: file
@@ -1323,7 +1529,78 @@ content:
       - name: url
         label: 课程页面或资料链接
         type: string
+      - name: level
+        label: 学生阶段
+        type: string
+      - name: role
+        label: 教学职责
+        type: string
       list: true
+    - name: selected_projects
+      label: 精选教学项目网址
+      type: string
+      list: true
+    - name: learning_process
+      label: 学习过程与反馈
+      type: text
+    - name: proposed_intro
+      label: 未来课程介绍
+      type: text
+    - name: proposed_courses
+      label: 拟开设课程
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: 课程名称
+        type: string
+      - name: level
+        label: 阶段与形式
+        type: string
+      - name: description
+        label: 课程介绍
+        type: text
+      - name: assignment
+        label: 作业
+        type: text
+      - name: assessment
+        label: 评价方式
+        type: text
+  - name: research
+    label: 研究方向
+    type: file
+    path: _data/research.yml
+    format: yaml
+    fields:
+    - name: areas
+      label: 研究方向
+      type: object
+      list: true
+      fields:
+      - name: id
+        label: 方向 ID
+        type: string
+      - name: short_title
+        label: 短标题
+        type: string
+      - name: title
+        label: 标题
+        type: string
+      - name: status
+        label: 状态
+        type: string
+      - name: question
+        label: 研究问题
+        type: text
+      - name: description
+        label: 方向说明
+        type: text
+    - name: next_title
+      label: 后续研究标题
+      type: string
+    - name: next_text
+      label: 后续研究
+      type: text
   - name: fine_art
     label: 艺术作品
     type: file
@@ -1395,6 +1672,15 @@ content:
     - name: footer_text
       label: 页脚简介
       type: string
+    - name: home_research_title
+      label: 首页研究标题
+      type: string
+    - name: home_research_text
+      label: 首页研究文字
+      type: text
+    - name: collaboration_intro
+      label: 学生与合作者邀请
+      type: text
   - name: source-review
     label: 素材审阅记录
     type: file

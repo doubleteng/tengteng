@@ -3,8 +3,8 @@ title: 'Floralis: an ETFE-Clad, Multilaminar Timber Structure'
 category: design
 year: 2022–2025
 published: true
-featured: true
-featured_order: 6
+featured: false
+featured_order: 99
 permalink: /design/floralis-an-etfe-clad-multilaminar-timber-structure/
 cover: /assets/media/floralis-an-etfe-clad-multilaminar-timber-structure/detail-06-16-9-exterior-snow.webp
 cover_alt: Floralis timber and ETFE shelter in the snow at Florissant
@@ -28,8 +28,8 @@ credits:
 - 'Assembly and Facade Erection: Michael Ting, Clara Shim, John Hinchman, Pouria Vakhshouri, Austin Chen, Maria
   Jose, Leechen Zhu, Michael Hirsch'
 - 'Laser Surveying: John Hinchman'
-- 'Fabricators: Michael Ting, Clara Shim, Kodak Han, Shea Fang, Yefan Zhi, Reggie Zhao, Yi Yang, Sophia Chen,
-  Yidi Wang, Sepideh Bayat, Pratyaya Bhattacharya, Weitzman School of Design Fabrication Laboratory Staff'
+- 'Fabricators: Michael Ting, Clara Shim, Kodak Han, Shea Fang, Yefan Zhi, Reggie Zhao, Yi Yang, Sophia Chen, Yidi
+  Wang, Sepideh Bayat, Pratyaya Bhattacharya, Weitzman School of Design Fabrication Laboratory Staff'
 - 'Robotic Fabrication Consultants: Ester Lo, Alireza Seyedahmadian, Tristan Fischer-Smith (EventScape Inc.)'
 - 'Structural Engineering Consultants: Florian Meyer, Oswald Stocker (Knippers Helbig Engineering)'
 - 'ETFE Consultant: Bjoern Beckert, Fabritecture NYC'
@@ -39,9 +39,9 @@ credits:
 - 'ETFE Fabrication: Fabritecture NYC'
 - 'ETFE Channels Fabrication: Facade Textiles International'
 team: []
-acknowledgements: Funding was provided by National Park Services to Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, and
-  Frank Matero. The computational research fund was provided by the National Science Foundation CAREER award given
-  to Dr. Masoud Akbarzadeh.
+acknowledgements: Funding was provided by National Park Services to Dr. Masoud Akbarzadeh, Dr. Dorit Aviv, and Frank
+  Matero. The computational research fund was provided by the National Science Foundation CAREER award given to
+  Dr. Masoud Akbarzadeh.
 sections:
 - type: video
   heading: Floralis project film

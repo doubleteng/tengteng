@@ -64,3 +64,11 @@ Editor notes identify unresolved dates, credits, descriptions, and missing image
 ## Uploading a video
 
 In a project, add a **Video** content block. Use **Upload or select a video** to choose an MP4 or WebM file from **Videos / 视频**, or enter a YouTube or Vimeo link. An uploaded file takes priority over the link. Add a **Video cover image** if you want a separate poster; otherwise the project cover is used. Save the project to publish. Keep video files compressed for faster uploads and playback.
+
+## Research methods and course pages
+
+**Research directions** edits the three research introductions and their questions. Within **Projects**, assign one or more Research areas: `material-computation`, `interfaces-and-tools`, or `spatial-history`. A project can appear in Research and remain accessible from Teaching or Design without creating duplicate records.
+
+The project form also provides a short card title, research/teaching question, method steps, evidence and scope, specific contributions, a primary link, and connected project URLs. Four method steps display as a sequence above the main description. Existing image, gallery, and video blocks remain below the text.
+
+**Teaching and courses** manages the selected teaching projects, current course links, and Proposed teaching. Keep proposed courses distinct from previously taught offerings. The CV field in **Profile and CV** controls the download links on Home and About.

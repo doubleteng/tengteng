@@ -67,6 +67,9 @@ project_type: Fabrication research
 project_stage: Research prototype
 cover: /assets/media/automated-concrete-toolpaths/detail-0-1-2y1a9949.webp
 cover_alt: Layered surface and openings of a 3D-printed concrete component
+research_areas:
+- material-computation
+research_order: 7
 ---
 
 This research automates toolpath design for 3D-printed concrete structural components. Hierarchical geometric data structures and graph algorithms connect the topology of a component to its printing sequence.

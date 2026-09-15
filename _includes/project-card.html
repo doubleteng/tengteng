@@ -4,7 +4,7 @@
     {% if p.cover and p.cover != '' %}<div class="project-image"><img src="{{ p.cover | relative_url }}" alt="{{ p.cover_alt | default: p.title | escape }}" loading="lazy" decoding="async" width="720" height="480"></div>
     {% else %}<div class="project-image text-cover"><span>{{ p.category | capitalize }}</span><strong>{{ p.title | escape }}</strong></div>{% endif %}
     <p class="eyebrow">{{ p.category | capitalize }}{% if p.year %}<span>{{ p.year | escape }}</span>{% endif %}</p>
-    <h3>{{ p.title | escape }}</h3>
+    <h3>{{ p.card_title | default: p.title | escape }}</h3>
     {% if p.summary and p.summary != p.title %}<p class="card-summary">{{ p.summary | escape }}</p>{% endif %}
   </a>
 </article>

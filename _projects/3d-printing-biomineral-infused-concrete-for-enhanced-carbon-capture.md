@@ -3,13 +3,13 @@ title: 3D Printing Biomineral-Infused Concrete for Enhanced Carbon Capture
 category: research
 year: '2025'
 published: true
-featured: true
-featured_order: 7
+featured: false
+featured_order: 99
 permalink: /research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/
 cover: /assets/media/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/detail-mat-0-1.webp
 cover_alt: Cylindrical and triply periodic surface concrete specimens
-summary: Biomineral-infused concrete and printed surface geometry are investigated for enhanced carbon capture
-  and storage.
+summary: Biomineral-infused concrete and printed surface geometry are investigated for enhanced carbon capture and
+  storage.
 role: Major Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory and Shu Yang Group
 location: ''
@@ -48,6 +48,9 @@ editor_notes: ''
 source_links: []
 project_type: Material and fabrication research
 project_stage: Research prototype
+research_areas:
+- material-computation
+research_order: 6
 ---
 
 This research combines a biomineral-infused concrete mixture with 3D-printed surface geometry to increase carbon capture and storage. Porous silica biominerals replace part of the cement, reducing the mixture’s cement demand while supporting carbonation.

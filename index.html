@@ -1,8 +1,23 @@
 ---
-title: Architecture, Materials & Making
+title: Architectural Computation & Design Methods
 ---
-<section class="home-hero"><div><p class="eyebrow">{{ site.data.profile.title | escape }} <span>{{ site.data.profile.institution | escape }}</span></p><h1>{{ site.data.site.home_title | escape }}</h1><p class="lead">{{ site.data.site.home_intro | escape }}</p><div class="actions"><a class="button" href="/gallery/">Explore the work <span>↗</span></a><a class="text-link" href="/about/">About Teng →</a></div></div><div class="hero-index" aria-label="Areas of work"><a href="/research/"><span>01</span> Research <span>↗</span></a><a href="/teaching/"><span>02</span> Teaching <span>↗</span></a><a href="/design/"><span>03</span> Design <span>↗</span></a></div></section>
-<div class="section-heading"><div><p class="eyebrow">Material systems / Physical experiments / Built work</p><h2>Selected work</h2></div><a class="text-link" href="/gallery/">View all projects →</a></div>
+<section class="home-hero">
+  <div>
+    <p class="eyebrow">{{ site.data.profile.title | escape }} <span>{{ site.data.profile.institution | escape }}</span></p>
+    <h1>{{ site.data.site.home_title | escape }}</h1>
+    <p class="lead">{{ site.data.site.home_intro | escape }}</p>
+    <div class="actions">
+      <a class="button" href="/research/">Research <span>↗</span></a>
+      <a class="text-link" href="/teaching/">Teaching →</a>
+      {% if site.data.profile.cv and site.data.profile.cv != '' %}<a class="text-link" href="{{ site.data.profile.cv | relative_url }}" target="_blank" rel="noopener">Download CV ↗</a>{% endif %}
+    </div>
+  </div>
+  <nav class="hero-index" aria-label="Research directions">
+    {% for area in site.data.research.areas %}<a href="/research/#{{ area.id | escape }}"><span>0{{ forloop.index }}</span>{{ area.short_title | escape }}<span>↗</span></a>{% endfor %}
+  </nav>
+</section>
+<div class="section-heading"><div><p class="eyebrow">Methods / Prototypes / Teaching / Practice</p><h2>Selected work</h2></div><a class="text-link" href="/gallery/">All projects →</a></div>
 <div class="project-grid selected-grid">{% assign selected = site.projects | where: 'published', true | where: 'featured', true | sort: 'featured_order' %}{% for project in selected limit:8 %}{% include project-card.html project=project %}{% endfor %}</div>
-<section class="home-about"><p class="eyebrow">Across scales and disciplines</p><div><h2>From material behavior to architectural performance.</h2><p>{{ site.data.profile.intro | escape }}</p><a class="text-link" href="/publications/">Publications & writing →</a></div></section>
+<section class="home-about"><p class="eyebrow">Research through design</p><div><h2>{{ site.data.site.home_research_title | escape }}</h2><p>{{ site.data.site.home_research_text | escape }}</p><div class="inline-links"><a class="text-link" href="/about/">About Teng →</a><a class="text-link" href="/publications/">Publications →</a></div></div></section>
+<section class="collaboration-note"><h2>Students & collaborators</h2><p>{{ site.data.site.collaboration_intro | escape }}</p><a class="text-link" href="mailto:{{ site.data.profile.email | escape }}">Get in touch →</a></section>
 {% assign updates = site.updates | where: 'published', true | sort: 'date' | reverse %}{% if updates.size > 0 %}<div class="section-heading"><h2>Latest updates</h2><a href="/news/">All news →</a></div><div class="news-list">{% for update in updates limit:3 %}{% include update-row.html update=update %}{% endfor %}</div>{% endif %}

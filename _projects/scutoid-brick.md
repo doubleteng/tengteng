@@ -55,6 +55,9 @@ editor_notes: ''
 source_links: []
 project_type: Structural system
 project_stage: Research prototype
+research_areas:
+- material-computation
+research_order: 9
 ---
 
 Scutoid Brick investigates how the changing neighbors of cells across a curved tissue can inform masonry-unit geometry. Parametric models translate this packing relationship into units with triangular connecting surfaces.

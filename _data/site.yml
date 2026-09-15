@@ -1,20 +1,27 @@
 name: Teng Teng
-description: Architecture, materials, computation, and fabrication. Research, teaching, design, and publications
-  by Teng Teng.
-home_title: Architecture through materials, computation, and making.
-home_intro: I work across materials, computation, and fabrication to develop high-performance architectural components
-  and structural systems.
-research_intro: My research connects material distribution, manufacturing control, and architectural performance.
-  Projects range from programmable printing systems and robotic tools to material studies, structural components,
-  and built prototypes.
-teaching_intro: My teaching connects computational design, material behavior, structural reasoning, and physical
-  making. Studios, seminars, and workshops bring design decisions into contact with fabrication processes and construction
-  constraints.
-design_intro: My design practice spans buildings, public spaces, products, and physical interfaces. Computational
-  methods support the translation of design intent into material systems and coordinated construction.
+description: Architectural computation and design methods. Material systems, design interfaces, robotic tools, teaching,
+  and spatial history by Teng Teng.
+home_title: Architectural Computation & Design Methods
+home_intro: I develop computational methods and tools that connect material behavior, physical interaction, and
+  architectural design. My research combines programmable fabrication and design interfaces, with an emerging investigation
+  into spatial archives and urban memory.
+research_intro: 'I study how computational representations become design decisions: how a material map becomes a
+  printed component, a gesture becomes geometry, and an archival record becomes a place in a digital model. Prototypes
+  and experiments test what these translations make possible and where their limits remain.'
+teaching_intro: I teach students to construct, test, and question the methods they use to design. Computational
+  exercises, physical models, and collaborative building connect decisions about geometry and materials to their
+  architectural and human consequences.
+design_intro: My design practice connects computational tools to architectural coordination, fabrication, and construction.
+  Built work and design studies span buildings, public spaces, products, and physical interfaces.
 contact_intro: For research collaborations, teaching invitations, lectures, and design inquiries, please get in
   touch by email.
 form_url: https://docs.google.com/forms/d/e/1FAIpQLSfKeXggQxQjECm-JgJeL2ko7svUi_bPNObtz4uc9qNKNGJfzw/viewform
 show_form: false
 show_fine_art_nav: false
-footer_text: Architecture · Research · Teaching · Design
+footer_text: Architectural computation · Design methods · Research & teaching
+home_research_title: Making design decisions available for testing.
+home_research_text: My work connects the development of computational tools with their use in design. Material experiments
+  test the consequences of programmed composition; interactive prototypes examine how designers manipulate geometry;
+  architectural assemblies expose the constraints of fabrication and construction.
+collaboration_intro: I welcome conversations with students and collaborators working on material computation, design
+  interfaces, robotic fabrication, and spatial history.

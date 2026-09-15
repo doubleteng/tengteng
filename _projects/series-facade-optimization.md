@@ -3,8 +3,8 @@ title: 'SERIES: Free-Form Façade Optimization'
 category: design
 year: 2010–2012
 published: true
-featured: false
-featured_order: 99
+featured: true
+featured_order: 6
 cover: /assets/media/series-facade-optimization/portfolio-slide-20-i01.webp
 cover_alt: 'SERIES: Free-Form Façade Optimization design visualization'
 sections:
@@ -39,8 +39,8 @@ team:
 links: []
 related_publications: []
 awards: []
-summary: A Grasshopper and C# toolkit uses simulated annealing to coordinate free-form tower geometry and curtain-wall
-  constraints.
+summary: A computational toolkit coordinates tower geometry, curtain-wall constraints, and consultant requirements
+  within the design model.
 editor_notes: ''
 role: Computational designer and toolkit developer
 institution: Callison, Shanghai
@@ -53,6 +53,28 @@ tags:
 - facade
 - optimization
 - architecture
+research_areas:
+- interfaces-and-tools
+research_order: 3
+research_question: How can fabrication and consultant constraints participate in early design decisions?
+contribution: SERIES brings floor-area limits, column alignment, facade curvature, and panel requirements into a
+  coordinated computational workflow. Separate solvers expose the effects of these constraints on architectural
+  geometry.
+method_steps:
+- title: Define
+  text: Record floor-area, structure, curvature, and panel requirements.
+- title: Solve
+  text: Use simulated annealing to adjust floor outlines within the stated constraints.
+- title: Coordinate
+  text: Connect form, floor profiles, inclined columns, and model information.
+- title: Review
+  text: Compare design alternatives with supplier and facade-consultant requirements.
+contributions:
+- Developed the Grasshopper and C# toolkit as a computational designer at Callison, Shanghai.
+- Integrated geometric and manufacturing constraints into the design team’s modeling workflow.
+evidence: The documented work includes constraint diagrams, parametric solver interfaces, and design studies from
+  2010–2012. These show the coordination method; no measured project-wide time or cost reduction is claimed.
+card_title: 'SERIES: Facade Design Toolkit'
 ---
 
 SERIES is a computational design toolkit developed at Callison’s Shanghai office during 2010–2012. It links free-form tower design with the geometric and manufacturing constraints of curtain-wall systems.

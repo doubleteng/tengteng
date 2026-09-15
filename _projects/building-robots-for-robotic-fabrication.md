@@ -3,8 +3,8 @@ title: Building Robots for Robotic Fabrication
 category: teaching
 year: 2021–2024
 published: true
-featured: true
-featured_order: 8
+featured: false
+featured_order: 99
 permalink: /teaching/building-robots-for-robotic-fabrication/
 cover: /assets/media/building-robots-for-robotic-fabrication/portfolio-slide-35-i01.webp
 cover_alt: Student robotic drawing setup
@@ -64,6 +64,29 @@ editor_notes: ''
 source_links: []
 project_type: Workshop
 project_stage: Teaching
+question_label: Teaching question
+research_question: What does a designer need to understand to build and control a fabrication tool?
+contribution: A six-week boot camp connects geometric reasoning with robot construction and application. I developed
+  the course and taught it six times between 2021 and 2024.
+method_steps:
+- title: Model
+  text: Define robot geometry and examine forward and inverse kinematics.
+- title: Assemble
+  text: Build mechanical components and electronic controls.
+- title: Program
+  text: Develop a Grasshopper-based controller and motor commands.
+- title: Apply
+  text: Test an end effector through a small drawing or fabrication task.
+contributions:
+- Developed the course and taught six offerings between 2021 and 2024.
+- Taught robot geometry, kinematics, assemblies, circuits, motor control, and application development.
+- Students designed and produced the application studies shown in the project boards.
+evidence: Student boards document robot geometry, electronics, controller development, and applications in drawing
+  and fabrication. The course assumes prior Rhino and Grasshopper knowledge and introduces the programming needed
+  for control.
+related_projects:
+- /research/pica/
+- /teaching/ai-empowered-creative-robotics-workshop/
 ---
 
 I developed this boot camp and taught it six times between 2021 and 2024. Students construct a desktop six-axis robot and develop a Grasshopper-based controller before applying the system to small fabrication tasks.

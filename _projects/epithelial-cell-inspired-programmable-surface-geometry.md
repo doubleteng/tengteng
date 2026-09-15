@@ -50,6 +50,10 @@ related_publications:
 awards: []
 editor_notes: ''
 source_links: []
+research_areas:
+- material-computation
+- interfaces-and-tools
+research_order: 4
 ---
 
 This project translates the packing and deformation of epithelial cells into a programmable physical surface. Local changes in cell geometry alter the curvature of the assembly, while bending the overall surface changes the shape of adjacent units.

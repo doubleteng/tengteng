@@ -1,20 +1,72 @@
 principles:
-- title: Design through structural reasoning
-  text: Use structural bays, grids, material systems, and construction details to guide architectural decisions.
-- title: Learn through making
-  text: Develop working models and fabrication experiments to test spatial, material, and structural ideas.
-- title: Connect scales and disciplines
-  text: Relate computational tools and material experiments to assemblies, buildings, and collaborative practice.
+- title: Make rules explicit
+  text: Translate a design intention into geometric rules, material variables, or a sequence of operations. Compare
+    alternatives by changing a stated assumption.
+- title: Learn through feedback
+  text: Use physical models, fabrication trials, and technical drawings to test a proposal. Connect each revision
+    to an observed behavior or a construction constraint.
+- title: Question the tool
+  text: Examine which decisions a tool automates and which remain open to its users. Trace how an interface, generated
+    image, or shared model shapes the work students produce.
 current_courses:
-- title: Integrated Design Studios
+- title: Integrated Design Studio III
+  institution: Lawrence Technological University
+  period: Fall 2026
+  level: Undergraduate studio
+  role: Co-coordinator and studio instructor
+  description: Structural bay, grid, program, and massing establish a framework for enclosure and environmental
+    integration. Working models and digital iterations test how assemblies organize architecture.
+  url: /teaching/integrated-design-studio-iii/
+- title: Structural Systems I & II
   institution: Lawrence Technological University
   period: '2026'
-  description: Architectural design integrating structure, enclosure, environmental systems, program, and construction.
-- title: Structural Systems
-  institution: Lawrence Technological University
-  period: '2026'
-  description: Structural principles explored through lectures, analysis, physical models, and architectural applications.
-- title: Design-Build Studio · TRI-ARC Pavilion
+  level: Undergraduate courses
+  role: Instructor / co-instructor with Ralph Nelson
+  description: Lectures, analysis, and physical models connect structural principles to architectural decisions.
+    Students identify load paths, compare systems, and develop assemblies across scales.
+  url: /teaching/structural-systems/
+- title: 'Design-Build Studio: TRI-ARC'
   institution: Lawrence Technological University
   period: Summer 2026
-  description: A collaborative shading-pavilion studio connecting structural design, joinery, fabrication, and assembly.
+  level: M.Arch studio
+  role: Co-instructor with Lee-Su Huang and Ryan Kahen
+  description: Fifty-one students developed a shading pavilion through nine weeks of remote collaboration and one
+    on-site Build Week, coordinating structure, connections, fabrication, and assembly.
+  url: /research/tri-arc-pavilion/
+selected_projects:
+- /teaching/digital-fabrication/
+- /teaching/ai-empowered-creative-robotics-workshop/
+- /teaching/building-robots-for-robotic-fabrication/
+- /research/tri-arc-pavilion/
+learning_process: A useful design review connects a claim to a drawing, model, or test that can be examined. In
+  studio, students bring working models and digital iterations to discuss structural and construction decisions.
+  In computational workshops, they compare input rules with generated and fabricated results. My teaching approach
+  uses staged tasks and visible feedback to help students explain both how an outcome was produced and why they
+  chose it.
+proposed_intro: These course proposals extend my teaching in computation, physical prototyping, and architectural
+  integration. They describe future offerings, not previously taught courses.
+proposed_courses:
+- title: Introduction to Architectural Computation
+  level: Undergraduate lecture + lab
+  description: A foundation in representation, rules, data, and geometric transformation, pairing short lectures
+    with guided exercises. Students compare manual and computational descriptions of the same design problem.
+  assignment: Develop a rule-based system for a structural bay or facade, then document how changing its assumptions
+    changes the alternatives it produces.
+  assessment: Clarity of representation, explanation of rules, controlled comparisons, and the ability to revise
+    a model after feedback.
+- title: Interfaces, Agency, and Design
+  level: Graduate seminar + workshop
+  description: A study of how interfaces, automation, and generated media distribute decisions between designers
+    and computational systems. Readings and small prototypes connect technical operations to authorship and interpretation.
+  assignment: Construct or modify a design interface and trace one task through its inputs, transformations, user
+    interventions, and outputs.
+  assessment: A documented interaction study and a critical account of the decisions the interface exposes, constrains,
+    or conceals.
+- title: Material Computation Studio
+  level: Advanced design studio
+  description: Design an architectural component through coordinated geometry, material distribution, and fabrication.
+    Students use physical evidence to relate local material decisions to assembly behavior.
+  assignment: Develop a component, test a material or connection hypothesis, and revise the assembly using the observed
+    results.
+  assessment: The relationship between design intent, manufacturing constraints, test evidence, and architectural
+    resolution.

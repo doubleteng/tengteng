@@ -3,8 +3,8 @@ title: 'Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy'
 category: research
 year: '2024'
 published: true
-featured: true
-featured_order: 4
+featured: false
+featured_order: 99
 permalink: /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
 cover: /assets/media/diamanti-3d-printed-post-tensioned-concrete-canopy/detail-0cover.webp
 cover_alt: Layered concrete surfaces of the Diamanti canopy
@@ -21,8 +21,8 @@ tags:
 credits:
 - 'Structural and Computational Design: Masoud Akbarzadeh, Hua Chai, Yefan Zhi, Maximilian E. Ororbia, Teng Teng,
   Pouria Vakhshouri, Mathias Bernhard'
-- 'Structural Analysis and Material Calibration: Damon (Mohammad) Bolhassani, Fahimeh Yavartanoo, Javier Tapia
-  (City College of New York)'
+- 'Structural Analysis and Material Calibration: Damon (Mohammad) Bolhassani, Fahimeh Yavartanoo, Javier Tapia (City
+  College of New York)'
 - 'Industry Partner: Karolina Pajak, Mylene Bernard, Leon Trousset (Sika)'
 - 'Structural Engineering: Paul Kassabian, Blaise Waligun (Simpson Gumpertz & Heger)'
 - 'Full-Scale Structural Testing: Cerib France, Eiffage'
@@ -111,6 +111,27 @@ editor_notes: ''
 source_links: []
 project_type: Structural system
 project_stage: Built prototype
+research_areas:
+- material-computation
+research_order: 4
+research_question: How can computational geometry coordinate printed parts and structural assembly?
+contribution: Diamanti connects printed diamond surfaces, post-tensioning, and a cross-laminated assembly in a built
+  canopy. The project makes fabrication and joining constraints part of the structural design problem.
+method_steps:
+- title: Design
+  text: Develop the structural geometry and component system.
+- title: Fabricate
+  text: Translate component geometry into printed concrete parts.
+- title: Assemble
+  text: Coordinate the parts and their structural connections.
+- title: Post-tension
+  text: Integrate the cable system with the assembled structure.
+contributions:
+- Contributed structural and computational design within the Polyhedral Structures Laboratory team.
+- Coauthored the FABRICATE 2024 publication; full project responsibilities are identified in the team credits.
+evidence: The built prototype, fabrication documentation, assembly photographs, and FABRICATE 2024 publication show
+  the connection between component design and construction.
+card_title: 'Diamanti: Printed Concrete Assembly'
 ---
 
 Diamanti is a 3D-printed, post-tensioned concrete canopy exhibited at the Giardini della Marinaressa in Venice during the European Cultural Centre’s 2024 *Personal Structures* exhibition. The canopy spans 10 meters above a cross-laminated timber platform.

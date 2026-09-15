@@ -28,6 +28,9 @@ editor_notes: 作品集列有论文，尚未取得可核对的详细项目说明
 source_links: []
 project_type: Interface
 project_stage: Research prototype
+research_areas:
+- interfaces-and-tools
+research_order: 6
 ---
 
 Transformable Physical Design Media investigates the use of reconfigurable physical media in architectural design. The work formed part of my graduate research at the University of Washington with Brian R. Johnson and was presented at eCAADe 2015.

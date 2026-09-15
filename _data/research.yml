@@ -1,0 +1,28 @@
+areas:
+- id: material-computation
+  short_title: Material computation
+  title: Material Computation
+  question: How can material composition and distribution become architectural design variables?
+  description: Computational material maps, extrusion models, and fabrication sequences connect local material decisions
+    to structural and thermal behavior. Printed specimens and architectural prototypes test these relationships
+    across scales.
+- id: interfaces-and-tools
+  short_title: Interfaces & tools
+  title: Design Interfaces and Robotic Tools
+  question: How do interfaces and control systems change the way designers generate and test alternatives?
+  description: Gesture-based modeling, tangible surfaces, personal robots, and professional design toolkits connect
+    human actions to geometric and physical operations. These projects examine the decisions a tool exposes, the
+    constraints it incorporates, and the feedback available to its users.
+- id: spatial-history
+  short_title: Spatial history
+  title: Spatial Archives and Public History
+  status: Developing research
+  question: How can spatial models connect fragmented historical records while keeping their sources and uncertainties
+    visible?
+  description: After Chinatown studies Chinese American urban memory amid continuing redevelopment in Detroit. An
+    interactive map connects archival records to places and periods; historical reconstruction tests how evidence
+    and interpretation can be distinguished in the same spatial account.
+next_title: From working prototypes to transferable methods.
+next_text: My ongoing agenda develops material computation toward architectural assemblies, extends design interfaces
+  through use and testing, and establishes a source-based method for spatial history. Across these efforts, the
+  next task is to specify what another designer or researcher would need to reproduce, evaluate, and revise a result.

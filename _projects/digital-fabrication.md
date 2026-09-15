@@ -34,6 +34,26 @@ editor_notes: 资料说明该课程在多个机构开设，未逐次列出年份
 source_links: []
 project_type: Seminar
 project_stage: Teaching
+question_label: Teaching question
+research_question: How can students explain a design through rules that they can change and test?
+contribution: Introductory computational exercises connect geometric transformations and data organization with
+  physical fabrication. Students compare the model’s rules with the behavior of the produced object.
+method_steps:
+- title: Describe
+  text: Identify a geometric rule, transformation, or organizing relationship.
+- title: Construct
+  text: Develop a parametric model in Rhino and Grasshopper.
+- title: Make
+  text: Fabricate a physical prototype from the model.
+- title: Revise
+  text: Use the physical result to reconsider geometric decisions and production constraints.
+contributions:
+- Taught introductory seminars in computational geometry and digital fabrication.
+- Guided parametric modeling and physical prototype development.
+- Students authored the illustrated geometry and fabrication studies.
+evidence: The student example pairs a woven-surface geometry with a fabricated model. The source combines several
+  seminar offerings; the archive year is retained without assigning undocumented dates or institutions to individual
+  exercises.
 ---
 
 These seminars introduce parametric design and computational geometry through Rhino and Grasshopper, with additional modeling work in SolidWorks and Maya. Exercises address rule-based design, data organization, geometric transformation, generative modeling, and form finding.

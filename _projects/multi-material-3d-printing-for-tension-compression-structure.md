@@ -49,7 +49,11 @@ sections:
   - /assets/media/multi-material-3d-printing-for-tension-compression-structure/img-7.webp
   caption: ''
   columns: two
-links: []
+links:
+- title: StressPath — interactive research tool
+  url: /research/stresspath/
+- title: Open StressPath workspace
+  url: /research/stresspath/app/
 related_publications:
 - title: Related paper (DOI)
   url: https://psl.design.upenn.edu/wp-content/uploads/2023/05/TENG______IASS_Continuous_multi_filament__D.pdf
@@ -92,3 +96,11 @@ A toolpath generator assigns materials to specific regions according to their st
 Comparative load tests examine the behavior of single-material and multimaterial specimens. The experiments demonstrate improved performance for the tested multimaterial trusses and make the relationship between force flow and material placement visible in the printed components.
 
 A related strut-and-tie specimen was printed by Yefan Zhi and me in 2023. Its underlying graphic-statics research was developed by Salma Mozaffari, Masoud Akbarzadeh, and Thomas Vogel.
+
+
+
+### StressPath
+
+StressPath provides a browser-based workspace for exploring structural design, analysis, and toolpath generation alongside this research. Users can share a published design and its saved results through a viewing link.
+
+[Explore StressPath](/research/stresspath/) · [Open the workspace](/research/stresspath/app/)

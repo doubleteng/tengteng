@@ -4,7 +4,19 @@
   const poster = root.querySelector('.chinatown-map__poster');
   const status = root.querySelector('[role="status"]');
   const fullScreen = root.querySelector('.chinatown-map__fullscreen');
-  let frame, timeout;
+  let frame, timeout, previousOverflow = '';
+  const expanded = () => document.fullscreenElement === root || root.classList.contains('is-expanded');
+  function updateFullscreenLabel() {
+    fullScreen.textContent = expanded() ? 'Exit full screen ⤡' : 'Full screen ⤢';
+  }
+  function expandInPage(value) {
+    if (value) {
+      previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+    } else document.body.style.overflow = previousOverflow;
+    root.classList.toggle('is-expanded', value);
+    updateFullscreenLabel();
+  }
 
   // Apps Script's sandbox is nested inside its outer frame. Accept messages
   // only from that frame's descendants and the expected Google origin.
@@ -20,7 +32,12 @@
   }
   window.addEventListener('message', event => {
     if (!frame || !/^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/.test(event.origin)) return;
-    if (!belongsToMap(event.source) || event.data?.type !== 'afterchinatown:embed-ready') return;
+    if (!belongsToMap(event.source)) return;
+    if (event.data?.type === 'afterchinatown:embed-escape') {
+      if (root.classList.contains('is-expanded')) { expandInPage(false); fullScreen.focus(); }
+      return;
+    }
+    if (event.data?.type !== 'afterchinatown:embed-ready') return;
     if (typeof event.data.nonce !== 'string' || event.data.nonce.length > 160) return;
     event.source.postMessage({type:'afterchinatown:embed-accepted', nonce:event.data.nonce}, event.origin);
     clearTimeout(timeout);
@@ -41,7 +58,7 @@
     status.hidden = false;
     poster.hidden = true;
     root.querySelector('.chinatown-map__mount').append(frame);
-    fullScreen.hidden = !document.fullscreenEnabled;
+    fullScreen.hidden = false;
     frame.focus();
     timeout = setTimeout(() => {
       status.textContent = 'Still loading? Open the project website below to explore the map.';
@@ -50,15 +67,20 @@
   });
 
   fullScreen.addEventListener('click', async () => {
+    if (root.classList.contains('is-expanded')) { expandInPage(false); return; }
     try {
       if (document.fullscreenElement === root) await document.exitFullscreen();
       else await root.requestFullscreen();
     } catch (_) {
-      status.textContent = 'Full screen is unavailable here. Open the project website below for a larger view.';
-      status.hidden = false;
+      expandInPage(true);
     }
+    updateFullscreenLabel();
   });
-  document.addEventListener('fullscreenchange', () => {
-    fullScreen.textContent = document.fullscreenElement === root ? 'Exit full screen ⤡' : 'Full screen ⤢';
+  document.addEventListener('fullscreenchange', updateFullscreenLabel);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && root.classList.contains('is-expanded')) {
+      expandInPage(false);
+      fullScreen.focus();
+    }
   });
 })();

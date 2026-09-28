@@ -18,5 +18,8 @@
 .chinatown-map:fullscreen{display:flex;flex-direction:column;width:100%;height:100%;margin:0;border:0;border-radius:0}
 .chinatown-map:fullscreen .chinatown-map__stage{flex:1;min-height:0;height:auto}
 .chinatown-map:fullscreen .chinatown-map__bar{flex:none}
+.chinatown-map.is-expanded{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;width:100%;height:100dvh;margin:0;border:0;border-radius:0}
+.chinatown-map.is-expanded .chinatown-map__stage{flex:1;min-height:0;max-height:none;height:auto}
+.chinatown-map.is-expanded .chinatown-map__bar{flex:none}
 @media(max-width:760px){.chinatown-map{margin:1.5rem 0 2rem}.chinatown-map__stage{height:72svh;min-height:420px;max-height:680px}.chinatown-map__bar{padding:11px 12px;gap:9px}.chinatown-map__label{display:none}.chinatown-map__bar nav{gap:8px 13px}.chinatown-map__play{font-size:15px}.chinatown-map:fullscreen .chinatown-map__stage{max-height:none;min-height:0}}
 @media(prefers-reduced-motion:reduce){.chinatown-map__poster img{transition:none}}

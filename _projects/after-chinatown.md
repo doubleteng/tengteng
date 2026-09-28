@@ -4,6 +4,7 @@ category: research
 year: 2026–ongoing
 published: true
 featured: true
+interactive_map: true
 featured_order: 4
 summary: An interactive spatial archive investigates Chinese American urban memory amid continuing redevelopment
   in Detroit.
@@ -83,3 +84,4 @@ primary_link:
 After Chinatown investigates Chinese American urban memory in the context of continuing urban renewal in Detroit. Developed with Zhen Cheng, the project brings historical photographs, maps, newspapers, and archival records into a spatial account of businesses, community institutions, and everyday places.
 
 The interactive map is the starting point of the research. Selecting a place and period brings records into relation with their urban setting, allowing surviving and disappeared places to be studied across time. Historical reconstruction extends this inquiry while requiring each spatial inference to remain distinguishable from documented evidence.
+

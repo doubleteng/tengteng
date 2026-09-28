@@ -1,0 +1,19 @@
+<section class="chinatown-map" aria-label="After Chinatown interactive map" data-chinatown-map>
+  <div class="chinatown-map__stage">
+    <div class="chinatown-map__mount"></div>
+    <button class="chinatown-map__poster" type="button" aria-label="Load the interactive After Chinatown map">
+      <img src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | escape }}" fetchpriority="high" decoding="async">
+      <span class="chinatown-map__play"><span aria-hidden="true">▶</span> Explore the map</span>
+    </button>
+    <p class="chinatown-map__status" role="status" hidden>Loading map…</p>
+  </div>
+  <div class="chinatown-map__bar">
+    <span class="chinatown-map__label">AFTER CHINATOWN <span>Interactive map</span></span>
+    <nav aria-label="Map and archive">
+      <button class="chinatown-map__fullscreen" type="button" hidden>Full screen ⤢</button>
+      <a href="https://afterchinatown.org/?page=archive" target="_blank" rel="noopener noreferrer">Browse archive ↗</a>
+      <a href="https://afterchinatown.org/" target="_blank" rel="noopener noreferrer">Project website ↗</a>
+    </nav>
+  </div>
+  <noscript><p>Explore the interactive map on <a href="https://afterchinatown.org/" target="_blank" rel="noopener noreferrer">After Chinatown ↗</a>.</p></noscript>
+</section>

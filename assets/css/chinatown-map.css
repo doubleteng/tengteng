@@ -1,5 +1,5 @@
 .chinatown-map{margin:2rem 0 3rem;border:1px solid #b8c4bb;border-radius:10px;overflow:hidden;background:#f3f1e9;color:#24413b}
-.chinatown-map__stage{position:relative;height:clamp(490px,72svh,780px);background:#e5e9de}
+.chinatown-map__stage{position:relative;height:clamp(740px,84svh,980px);background:#e5e9de}
 .chinatown-map__mount,.chinatown-map__mount iframe{display:block;width:100%;height:100%;border:0}
 .chinatown-map__poster{position:absolute;inset:0;display:grid;place-items:center;width:100%;height:100%;padding:0;border:0;border-radius:0;cursor:pointer;overflow:hidden;background:#24413b}
 .chinatown-map__poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .2s}
@@ -7,12 +7,12 @@
 .chinatown-map__play{position:relative;display:flex;align-items:center;gap:14px;padding:17px 25px;border:1px solid #ffffff60;border-radius:50px;background:#173f36;color:#fff;box-shadow:0 6px 30px #0004;font-size:17px;font-weight:600}
 .chinatown-map__play>span{font-size:21px}
 .chinatown-map__status{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;padding:15px 22px;border-radius:9px;background:#173f36;color:white;text-align:center;max-width:85%;z-index:2}
-.chinatown-map__bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding:13px 17px;border-top:1px solid #b8c4bb;background:#f7f7f0}
+.chinatown-map__bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:6px 12px;border-top:1px solid #b8c4bb;background:#f7f7f0}
 .chinatown-map__label{font-size:11px;letter-spacing:.08em;font-weight:700}
-.chinatown-map__label>span{display:block;margin-top:3px;font-size:12px;font-weight:400;letter-spacing:0}
+.chinatown-map__label>span{display:inline;margin-left:8px;margin-top:0;font-size:12px;font-weight:400;letter-spacing:0}
 .chinatown-map__bar nav{display:flex;align-items:center;flex-wrap:wrap;gap:8px 18px}
 .chinatown-map__bar a,.chinatown-map__fullscreen{color:#24413b;font:inherit;font-size:12px;line-height:1.5;white-space:nowrap}
-.chinatown-map__fullscreen{padding:5px 9px;border:1px solid #a6b5aa;border-radius:5px;background:transparent;cursor:pointer}
+.chinatown-map__fullscreen{padding:3px 8px;border:1px solid #a6b5aa;border-radius:5px;background:transparent;cursor:pointer}
 .chinatown-map [hidden]{display:none!important}
 .chinatown-map button:focus-visible,.chinatown-map a:focus-visible{outline:3px solid #a2522b;outline-offset:-3px}
 .chinatown-map:fullscreen{display:flex;flex-direction:column;width:100%;height:100%;margin:0;border:0;border-radius:0}
@@ -21,5 +21,6 @@
 .chinatown-map.is-expanded{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;width:100%;height:100dvh;margin:0;border:0;border-radius:0}
 .chinatown-map.is-expanded .chinatown-map__stage{flex:1;min-height:0;max-height:none;height:auto}
 .chinatown-map.is-expanded .chinatown-map__bar{flex:none}
-@media(max-width:760px){.chinatown-map{margin:1.5rem 0 2rem}.chinatown-map__stage{height:72svh;min-height:420px;max-height:680px}.chinatown-map__bar{padding:11px 12px;gap:9px}.chinatown-map__label{display:none}.chinatown-map__bar nav{gap:8px 13px}.chinatown-map__play{font-size:15px}.chinatown-map:fullscreen .chinatown-map__stage{max-height:none;min-height:0}}
+@media(max-width:760px){.chinatown-map{margin:1.5rem 0 2rem}.chinatown-map__stage{height:86svh;min-height:520px;max-height:900px}.chinatown-map__bar{padding:6px 10px;gap:7px}.chinatown-map__label{display:none}.chinatown-map__bar nav{gap:8px 13px}.chinatown-map__play{font-size:15px}.chinatown-map:fullscreen .chinatown-map__stage{max-height:none;min-height:0}}
 @media(prefers-reduced-motion:reduce){.chinatown-map__poster img{transition:none}}
+

@@ -14,3 +14,7 @@
 @media(max-width:560px){.research-nav{grid-template-columns:1fr;gap:18px}.area-intro,.method-intro{grid-template-columns:1fr;gap:12px}.area-intro h2{font-size:1.45rem}.method-intro h2{font-size:1.3rem}.method-steps{grid-template-columns:1fr;gap:20px}.project-method{padding:24px 0;margin-bottom:30px}.home-hero .hero-index{grid-template-columns:1fr;gap:0}.home-hero .hero-index a{font-size:14px;padding:12px 0}.home-hero .hero-index a span:first-child{font-size:11px}.research-area{margin-bottom:45px}.prose table{display:block;overflow-x:auto;max-width:100%}.evidence-note{padding-left:16px}.collaboration-note{padding-top:30px}}
 
 .project-hero figcaption{background:var(--paper);padding-top:8px;margin:0}
+
+/* Optional project opening sequence; content remains editable in Pages CMS. */
+.project-opening{margin-bottom:52px}.project-opening>.content-block:first-child{margin-top:0}.project-opening .block-text{max-width:780px}.project-opening .block-video{margin-top:24px}.project-opening video{aspect-ratio:16/9;background:var(--wash)}
+@media(max-width:560px){.project-opening{margin-bottom:36px}.project-opening .gallery-two{grid-template-columns:1fr}}

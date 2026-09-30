@@ -20,15 +20,6 @@ layout: default
     {% if page.links.size > 0 %}<h2>Resources</h2><ul>{% for item in page.links %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
   </aside>
 </div>
-{% if page.embed_url %}
-<section class="project-embed" aria-label="{{ page.embed_title | default: page.title | escape }}">
-  <div class="project-embed-head">
-    <div><p class="eyebrow">{{ page.embed_eyebrow | default: "Interactive platform" | escape }}</p><h2>{{ page.embed_title | default: "Interactive project" | escape }}</h2></div>
-    <a class="text-link" href="{{ page.embed_url | relative_url }}" target="_blank" rel="noopener">Open full screen ↗</a>
-  </div>
-  <div class="project-embed-frame"><iframe src="{{ page.embed_url | relative_url }}" title="{{ page.embed_title | default: page.title | escape }}" loading="eager" allowfullscreen></iframe></div>
-</section>
-{% endif %}
 {% if page.related_projects.size > 0 %}<section class="section"><div class="section-heading"><h2>Connected work</h2></div><div class="project-grid">{% for route in page.related_projects %}{% assign project = site.projects | where: "url", route | first %}{% if project.published %}{% include project-card.html project=project %}{% endif %}{% endfor %}</div></section>{% endif %}
 <div class="section-heading"><h2>Explore more work</h2><a class="text-link" href="{{ '/gallery/' | relative_url }}">All projects →</a></div>
 <div class="project-grid">{% assign related = site.projects | where: 'published', true | where: 'category', page.category | sort: 'year' | reverse %}{% assign count = 0 %}{% for project in related %}{% if project.url != page.url and count < 4 %}{% include project-card.html project=project %}{% assign count = count | plus: 1 %}{% endif %}{% endfor %}</div>

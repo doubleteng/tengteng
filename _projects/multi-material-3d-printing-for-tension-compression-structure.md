@@ -101,6 +101,6 @@ A related strut-and-tie specimen was printed by Yefan Zhi and me in 2023. Its un
 
 ### StressPath
 
-StressPath provides a browser-based workspace for exploring structural design, analysis, and toolpath generation alongside this research. Users can share a published design and its saved results through a viewing link.
+StressPath provides a browser-based workspace for exploring structural design, analysis, toolpath generation, and material distribution alongside this research. Save a study as a JSON project file and open it later to continue working.
 
 [Explore StressPath](/research/stresspath/) · [Open the workspace](/research/stresspath/app/)

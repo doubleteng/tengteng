@@ -1,19 +1,18 @@
 ---
-title: Structural Systems I & II
+title: Structural Systems I
 category: teaching
 year: '2026'
 published: true
 featured: false
 featured_order: 99
-summary: Lectures, structural analysis, and physical models connect load paths and system behavior to architectural
-  design.
+summary: An undergraduate structural systems course centered on making load paths, deformation, force behavior, equilibrium, and stability visible through architectural examples, models, and interactive study.
 permalink: /teaching/structural-systems/
 cover: ''
-cover_alt: Structural Systems I & II
-role: Instructor / co-instructor
+cover_alt: Structural Systems I
+role: Co-instructor
 institution: Lawrence Technological University
 location: Southfield, Michigan, USA
-project_type: Undergraduate lecture and project courses
+project_type: Undergraduate lecture and project course
 project_stage: Teaching
 tags: []
 credits:
@@ -21,36 +20,42 @@ credits:
 team: []
 sections: []
 related_publications: []
-links: []
+links:
+- title: Launch Structure Lab
+  url: /teaching/structural-systems/lab/
 question_label: Teaching question
-research_question: How can students make structural behavior visible in a design decision?
-contribution: The courses connect structural principles to assemblies that can be drawn, modeled, and discussed.
-  Students move between the behavior of individual elements and the organization of a larger structural system.
+research_question: How can architecture students reason structurally without making calculation the center of the course?
+contribution: Structural Systems I shifts emphasis from formula-driven calculation toward visible structural reasoning. Students learn to trace load paths, identify tension and compression, interpret deformation, distinguish equilibrium from stability, and connect these behaviors to architectural decisions.
 method_steps:
-- title: Identify
-  text: Locate supports, loads, and primary and secondary structural elements.
+- title: See
+  text: Make loads, supports, deformation, force direction, and load paths visible before introducing abstraction.
 - title: Explain
-  text: Trace load paths and distinguish the behavior of different structural systems.
-- title: Model
-  text: Develop a physical or digital representation that exposes the governing mechanism.
+  text: Ask students to describe why a system carries load, where forces travel, and how geometry or support conditions change behavior.
+- title: Compare
+  text: Move between structural families, element hierarchies, and alternative configurations to expose different mechanisms.
 - title: Apply
-  text: Use that understanding to organize an architectural assembly.
+  text: Use structural reasoning to organize bays, primary and secondary elements, and architectural assemblies.
 contributions:
-- Teach Structural Systems I and II at Lawrence Technological University.
-- Co-teach Structural Systems I with Ralph Nelson and connect its opening content with Integrated Design Studio
-  III.
-evidence: The course sequence uses lectures, analysis, model-based assignments, and examinations. The projects described
-  below establish the teaching scope; no aggregate student-performance improvement is asserted.
+- Co-teach Structural Systems I at Lawrence Technological University with Ralph Nelson.
+- Developed Structure Lab during the course as an interactive teaching platform for structural reasoning and architectural application.
+- Connect the opening structural content with Integrated Design Studio III so students can carry structural decisions into design work.
+evidence: The course uses lectures, interactive studies, physical and digital models, project work, and examinations. Structure Lab was developed alongside the course to make structural behavior easier to observe and discuss; no aggregate student-performance improvement is asserted.
 ---
 
 ## Structural Systems I
 
-The course introduces structural principles through architectural examples, bay patterns, material systems, and the relationship between primary and secondary elements. Opening work connects with Integrated Design Studio III so students can use structural reasoning while developing their first program and massing alternatives.
+Structural Systems I introduces structure as a design problem before it becomes a calculation problem. For architecture students, the central requirement is not to reproduce engineering calculations by hand, but to recognize when a structural idea is coherent, explain how loads reach the ground, and understand how geometry, support conditions, member hierarchy, and material behavior affect that path.
 
-## Structural Systems II
+The course moves between structural principles and architectural applications. Students study load paths, tension and compression, deformation, equilibrium and stability, structural families, bays, primary and secondary elements, and material systems. These ideas are then carried into the Wood Building project and coordinated with architectural design decisions.
 
-Projects examine form-active, vector-active, height-active, and surface-active systems. Assignments include a truss, a six-foot height-active structure, and a final high-rise core and bridge investigation. Physical models and technical representations connect an architectural proposal to its load path and structural organization.
+## Structure Lab
 
-## Connecting explanation and design
+Structure Lab was developed while teaching Structural Systems I as an interactive environment for making structural behavior visible. Many of the course's most important ideas are difficult to understand from a static diagram alone: members lengthen or shorten under load, systems deform before failure, support conditions change force paths, and apparently small movements can determine equilibrium and stability.
 
-Students are asked to identify how forces travel through a system, how supports and connections affect its behavior, and how those relationships constrain architectural decisions. A model must make the structural mechanism understandable, while drawings locate the elements responsible for carrying and transferring loads.
+The platform lets students manipulate structural examples, apply loads, compare structural families, observe exaggerated deformation, and connect element behavior to larger building organization. The deformation shown in the platform is intentionally amplified for learning; in real buildings, many structurally significant deformations are too small to see directly.
+
+[Launch Structure Lab →](/teaching/structural-systems/lab/)
+
+## From element behavior to building organization
+
+The same reasoning continues at building scale. Students identify structural bays, distinguish primary and secondary systems, trace tributary load paths, and test how span, depth, spacing, and material choice affect an architectural proposal. The goal is to make structural consequences legible early enough to shape design, not only to check a finished scheme.

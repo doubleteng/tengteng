@@ -6,8 +6,8 @@ year: "2026"
 published: true
 featured: false
 permalink: /research/stresspath/
-cover: /assets/img/stresspath/stresspath-thumbnail.webp
-cover_alt: StressPath concept illustration of continuous printing paths and blended materials in a truss.
+cover: /assets/img/stresspath/stresspath-thumbnail-photo.webp
+cover_alt: 3D-printed truss with green, yellow, and blue material transitions.
 cover_preview_only: true
 wide: true
 research_areas:

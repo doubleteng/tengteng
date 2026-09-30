@@ -23,9 +23,6 @@ related_publications: []
 links:
 - title: Launch Structure Lab
   url: /teaching/structural-systems/lab/
-embed_url: /teaching/structural-systems/lab/
-embed_title: Structure Lab
-embed_eyebrow: Structural Systems I · Interactive learning platform
 question_label: Teaching question
 research_question: How can architecture students reason structurally without making calculation the center of the course?
 contribution: Structural Systems I shifts emphasis from formula-driven calculation toward visible structural reasoning. Students learn to trace load paths, identify tension and compression, interpret deformation, distinguish equilibrium from stability, and connect these behaviors to architectural decisions.
@@ -57,6 +54,14 @@ Structure Lab was developed while teaching Structural Systems I as an interactiv
 
 The platform lets students manipulate structural examples, apply loads, compare structural families, observe exaggerated deformation, and connect element behavior to larger building organization. The deformation shown in the platform is intentionally amplified for learning; in real buildings, many structurally significant deformations are too small to see directly.
 
+
+<div style="margin:28px 0 42px;">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:12px;">
+    <strong style="font-size:14px;">Structure Lab</strong>
+    <a href="/teaching/structural-systems/lab/" target="_blank" rel="noopener" style="font-size:13px;">Open full screen ↗</a>
+  </div>
+  <iframe src="/teaching/structural-systems/lab/" title="Structure Lab" loading="eager" allowfullscreen style="display:block;width:100%;height:820px;border:1px solid #d8d8d2;background:#fff;"></iframe>
+</div>
 
 ## From element behavior to building organization
 

@@ -17,13 +17,13 @@ current_courses:
   description: Structural bay, grid, program, and massing establish a framework for enclosure and environmental
     integration. Working models and digital iterations test how assemblies organize architecture.
   url: /teaching/integrated-design-studio-iii/
-- title: Structural Systems I & II
+- title: Structural Systems I
   institution: Lawrence Technological University
-  period: '2026'
-  level: Undergraduate courses
-  role: Instructor / co-instructor with Ralph Nelson
-  description: Lectures, analysis, and physical models connect structural principles to architectural decisions.
-    Students identify load paths, compare systems, and develop assemblies across scales.
+  period: Fall 2026
+  level: Undergraduate course
+  role: Co-instructor with Ralph Nelson
+  description: Structural reasoning is taught through visible behavior, load paths, deformation, system comparison,
+    architectural applications, and an interactive Structure Lab developed alongside the course.
   url: /teaching/structural-systems/
 - title: 'Design-Build Studio: TRI-ARC'
   institution: Lawrence Technological University

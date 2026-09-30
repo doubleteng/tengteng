@@ -96,6 +96,11 @@ content:
       options:
         media: images
       description: A landscape image works best. Without a cover, the card displays the project title.
+    - name: cover_preview_only
+      label: Use cover only as preview
+      type: boolean
+      default: false
+      description: Keep the cover in project cards and link previews; hide it on the project page.
     - name: cover_caption
       label: Cover caption / 封面图注
       type: text
@@ -946,6 +951,11 @@ content:
       options:
         media: images
       description: 建议横向图片。没有封面时显示作品标题。
+    - name: cover_preview_only
+      label: 封面图仅用于预览
+      type: boolean
+      default: false
+      description: 保留项目卡片和分享链接预览图，不在项目详情页显示封面大图。
     - name: cover_caption
       label: Cover caption / 封面图注
       type: text

@@ -1,35 +1,41 @@
 ---
 title: Structural Systems I
 category: teaching
-year: '2026'
+year: "2026"
 published: true
 featured: false
 featured_order: 99
-summary: An ongoing undergraduate course connecting structural theory, multiple modes of structural communication, and the configuration of wood, steel, and concrete building systems.
+summary: An ongoing undergraduate course connecting structural theory, multiple
+  modes of structural communication, and the configuration of wood, steel, and
+  concrete building systems.
 permalink: /teaching/structural-systems/
 cover: /assets/media/structural-systems-1-preview.webp
-cover_alt: Structure Lab showing the Wood Building Project as a coordinated 3D structural system
+cover_alt: Structure Lab showing the Wood Building Project as a coordinated 3D
+  structural system
 role: Co-instructor
 institution: Lawrence Technological University
 location: Southfield, Michigan, USA
 project_type: Undergraduate lecture and project course
 project_stage: Ongoing teaching
-tags: []
 credits:
-- 'Instructors: Ralph Nelson and Teng Teng'
-team: []
-sections: []
-related_publications: []
+  - "Instructors: Ralph Nelson and Teng Teng"
 links:
-- title: Open Structure Lab full screen
-  url: /teaching/structural-systems/lab/
+  - title: Open Structure Lab full screen
+    url: /teaching/structural-systems/lab/
 contributions:
-- Co-teach Structural Systems I at Lawrence Technological University with Ralph Nelson.
-- Developed Structure Lab during the course as an interactive interface between structural terminology, diagrams, models, analysis, and building-system decisions.
-- Connect structural theory to a repeated sequence of Wood, Steel, and Concrete building projects.
-evidence: The course is ongoing. The first three weeks establish structural theory; the current Wood Building project is followed by Steel Building and Concrete Building projects, then A.R.E. structure content. Structure Lab is being developed alongside this sequence and currently supports the fundamental concepts and Wood Building project.
+  - Co-teach Structural Systems I at Lawrence Technological University with
+    Ralph Nelson.
+  - Developed Structure Lab during the course as an interactive interface
+    between structural terminology, diagrams, models, analysis, and
+    building-system decisions.
+  - Connect structural theory to a repeated sequence of Wood, Steel, and
+    Concrete building projects.
+evidence: The course is ongoing. The first three weeks establish structural
+  theory; the current Wood Building project is followed by Steel Building and
+  Concrete Building projects, then A.R.E. structure content. Structure Lab is
+  being developed alongside this sequence and currently supports the fundamental
+  concepts and Wood Building project.
 ---
-
 ## Structural Systems I
 
 Structural Systems I introduces the behavior, analysis, and design of structural members and systems through the way architects encounter structure in buildings. Students begin with structural bays and element hierarchy, then study equilibrium and stability, loads and tributary areas, load paths, force types, material behavior, elasticity, and deformation. These concepts become the basis for configuring complete building systems rather than remaining isolated topics.
@@ -40,12 +46,7 @@ A central teaching premise is that structural competence in architecture cannot 
 
 Structure Lab is being developed alongside the ongoing course as an interactive environment connecting structural language to visible behavior and building organization. Students can change loads, spans, supports, geometry, and member configuration; observe deformation and force response; and compare those observations with their own structural descriptions and predictions.
 
-<div style="margin:18px 0 44px;">
-  <div style="display:flex;justify-content:flex-end;align-items:baseline;margin-bottom:10px;">
-    <a href="/teaching/structural-systems/lab/" target="_blank" rel="noopener" style="font-size:13px;">Open full screen ↗</a>
-  </div>
-  <iframe src="/teaching/structural-systems/lab/" title="Structure Lab" loading="eager" allowfullscreen style="display:block;width:100%;height:820px;border:1px solid #d8d8d2;background:#fff;"></iframe>
-</div>
+[Open full screen ↗](/teaching/structural-systems/lab/)
 
 ## Course structure
 

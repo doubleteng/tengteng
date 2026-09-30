@@ -101,6 +101,11 @@ content:
       type: boolean
       default: false
       description: Keep the cover in project cards and link previews; hide it on the project page.
+    - name: structure_lab
+      label: Embed Structure Lab below the title
+      type: boolean
+      default: false
+      description: Show the interactive structural laboratory above the project description.
     - name: cover_caption
       label: Cover caption / 封面图注
       type: text
@@ -956,6 +961,11 @@ content:
       type: boolean
       default: false
       description: 保留项目卡片和分享链接预览图，不在项目详情页显示封面大图。
+    - name: structure_lab
+      label: 在标题下方内嵌 Structure Lab
+      type: boolean
+      default: false
+      description: 在项目介绍之前显示可直接操作的结构教学平台。
     - name: cover_caption
       label: Cover caption / 封面图注
       type: text

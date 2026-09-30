@@ -11,6 +11,7 @@ summary: An ongoing undergraduate course connecting structural theory, multiple
 permalink: /teaching/structural-systems/
 cover: /assets/media/structural-systems-1-preview.webp
 cover_preview_only: true
+structure_lab: true
 cover_alt: Structure Lab showing the Wood Building Project as a coordinated 3D
   structural system
 role: Co-instructor

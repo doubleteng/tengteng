@@ -3,6 +3,7 @@ layout: default
 ---
 <div class="page-top"><a class="back-link" href="{{ page.category | prepend: '/' | append: '/' | relative_url }}">← {{ page.category | capitalize }}</a><p class="eyebrow">{{ page.year | escape }}</p></div>
 <header class="project-heading"><h1>{{ page.title | escape }}</h1>{% if page.summary and page.summary != '' %}<p class="lead">{{ page.summary | escape }}</p>{% endif %}{% if page.primary_link and page.interactive_map != true %}<div class="actions"><a class="button" href="{{ page.primary_link.url | escape }}" target="_blank" rel="noopener">{{ page.primary_link.title | escape }} ↗</a></div>{% endif %}</header>
+{% if page.structure_lab %}{% include structure-lab.html %}{% endif %}
 {% if page.interactive_map %}{% include chinatown-map.html %}{% elsif page.cover and page.cover != '' and page.cover_preview_only != true %}<figure class="project-hero"><button class="image-trigger" type="button" data-image="{{ page.cover | relative_url }}" aria-label="Enlarge {{ page.cover_alt | default: page.title | escape }}"><img src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | default: page.title | escape }}" fetchpriority="high" decoding="async"></button>{% if page.cover_caption %}<figcaption>{{ page.cover_caption | escape }}</figcaption>{% endif %}</figure>{% endif %}
 {% if page.opening_sections.size > 0 %}<div class="project-opening" aria-label="Completed project and film">{% include blocks.html sections=page.opening_sections %}</div>{% endif %}
 {% include project-method.html %}

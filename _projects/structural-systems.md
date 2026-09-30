@@ -5,7 +5,7 @@ year: '2026'
 published: true
 featured: false
 featured_order: 99
-summary: An undergraduate structural systems course centered on making load paths, deformation, force behavior, equilibrium, and stability visible through architectural examples, models, and interactive study.
+summary: An ongoing undergraduate course that develops structural understanding from fundamental behavior to complete wood, steel, and concrete building systems.
 permalink: /teaching/structural-systems/
 cover: ''
 cover_alt: Structural Systems I
@@ -13,7 +13,7 @@ role: Co-instructor
 institution: Lawrence Technological University
 location: Southfield, Michigan, USA
 project_type: Undergraduate lecture and project course
-project_stage: Teaching
+project_stage: Ongoing teaching
 tags: []
 credits:
 - 'Instructors: Teng Teng and Ralph Nelson'
@@ -21,48 +21,48 @@ team: []
 sections: []
 related_publications: []
 links:
-- title: Launch Structure Lab
+- title: Open Structure Lab full screen
   url: /teaching/structural-systems/lab/
-question_label: Teaching question
-research_question: How can architecture students reason structurally without making calculation the center of the course?
-contribution: Structural Systems I shifts emphasis from formula-driven calculation toward visible structural reasoning. Students learn to trace load paths, identify tension and compression, interpret deformation, distinguish equilibrium from stability, and connect these behaviors to architectural decisions.
-method_steps:
-- title: See
-  text: Make loads, supports, deformation, force direction, and load paths visible before introducing abstraction.
-- title: Explain
-  text: Ask students to describe why a system carries load, where forces travel, and how geometry or support conditions change behavior.
-- title: Compare
-  text: Move between structural families, element hierarchies, and alternative configurations to expose different mechanisms.
-- title: Apply
-  text: Use structural reasoning to organize bays, primary and secondary elements, and architectural assemblies.
 contributions:
 - Co-teach Structural Systems I at Lawrence Technological University with Ralph Nelson.
-- Developed Structure Lab during the course as an interactive teaching platform for structural reasoning and architectural application.
-- Connect the opening structural content with Integrated Design Studio III so students can carry structural decisions into design work.
-evidence: The course uses lectures, interactive studies, physical and digital models, project work, and examinations. Structure Lab was developed alongside the course to make structural behavior easier to observe and discuss; no aggregate student-performance improvement is asserted.
+- Developed Structure Lab during the course as an interactive teaching platform that grows with the semester.
+- Connect structural concepts, analysis tools, physical models, and building-scale project work.
+evidence: The course is ongoing. The Wood Building is the current first project; Steel Building and Concrete Building projects will follow later in the semester. Structure Lab is being developed alongside the course and currently supports fundamental concepts and the Wood Building project.
 ---
 
 ## Structural Systems I
 
-Structural Systems I introduces structure as a design problem before it becomes a calculation problem. For architecture students, the central requirement is not to reproduce engineering calculations by hand, but to recognize when a structural idea is coherent, explain how loads reach the ground, and understand how geometry, support conditions, member hierarchy, and material behavior affect that path.
-
-The course moves between structural principles and architectural applications. Students study load paths, tension and compression, deformation, equilibrium and stability, structural families, bays, primary and secondary elements, and material systems. These ideas are then carried into the Wood Building project and coordinated with architectural design decisions.
+Structural Systems I examines how a building is organized as a structural system. The course moves from fundamental concepts of loads, forces, equilibrium, stability, deformation, and load paths to the coordination of complete building structures across different material systems.
 
 ## Structure Lab
 
-Structure Lab was developed while teaching Structural Systems I as an interactive environment for making structural behavior visible. Many of the course's most important ideas are difficult to understand from a static diagram alone: members lengthen or shorten under load, systems deform before failure, support conditions change force paths, and apparently small movements can determine equilibrium and stability.
+Structure Lab is being developed alongside the ongoing course to make structural behavior and building-system decisions directly observable and testable.
 
-The platform lets students manipulate structural examples, apply loads, compare structural families, observe exaggerated deformation, and connect element behavior to larger building organization. The deformation shown in the platform is intentionally amplified for learning; in real buildings, many structurally significant deformations are too small to see directly.
-
-
-<div style="margin:28px 0 42px;">
-  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:12px;">
-    <strong style="font-size:14px;">Structure Lab</strong>
+<div style="margin:18px 0 44px;">
+  <div style="display:flex;justify-content:flex-end;align-items:baseline;margin-bottom:10px;">
     <a href="/teaching/structural-systems/lab/" target="_blank" rel="noopener" style="font-size:13px;">Open full screen ↗</a>
   </div>
   <iframe src="/teaching/structural-systems/lab/" title="Structure Lab" loading="eager" allowfullscreen style="display:block;width:100%;height:820px;border:1px solid #d8d8d2;background:#fff;"></iframe>
 </div>
 
-## From element behavior to building organization
+## Course sequence
 
-The same reasoning continues at building scale. Students identify structural bays, distinguish primary and secondary systems, trace tributary load paths, and test how span, depth, spacing, and material choice affect an architectural proposal. The goal is to make structural consequences legible early enough to shape design, not only to check a finished scheme.
+The semester is organized through a sequence of material-based building projects. Each project revisits the same building-scale questions through a different structural material: how loads are collected and transferred, how primary and secondary elements are organized, how span and spacing affect member depth, and how roof, floor, lateral, and foundation systems form a coherent whole.
+
+### Project 1 · Wood Building — ongoing
+
+The current Wood Building project applies the course fundamentals to a timber building system. Students establish project parameters and loads, configure structural bays and member hierarchy, and develop coordinated **roof, floor, lateral, and foundation** systems.
+
+The project moves repeatedly between component and building scales. Panels transfer load to secondary members; secondary members transfer to primary beams, girders, or trusses; columns collect vertical loads; lateral systems stabilize the building; and foundations complete the load path to the ground. Span tables, preliminary sizing, digital analysis, physical models, and architectural drawings are used to test whether the system is structurally coherent and spatially workable.
+
+### Project 2 · Steel Building — upcoming
+
+The Steel Building project will revisit the same building-scale framework through steel systems. Students will compare how material properties, member types, spans, connections, structural depth, and construction logic alter the organization of the building.
+
+### Project 3 · Concrete Building — upcoming
+
+The Concrete Building project will extend the sequence into concrete systems, allowing students to compare how wood, steel, and concrete produce different relationships among load path, member hierarchy, span, depth, lateral organization, and architectural space.
+
+## From structural behavior to architectural organization
+
+Calculations, span tables, digital analysis, and physical models are used as tools for testing structural decisions. The course asks students to understand what information is required, how structural elements work together, and how changes in material, geometry, spacing, and member configuration affect the larger building system.

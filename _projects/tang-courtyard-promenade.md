@@ -36,9 +36,9 @@ sections:
     The district is organized as a sequence rather than a single commercial interior. Pedestrian lanes branch, bend, and reconnect through courtyards, gates, terraces, and small plazas. Larger retail destinations occupy perimeter blocks and key junctions; smaller shops line the internal streets. The changing width of the routes creates moments of compression and release, giving each part of the promenade a distinct spatial identity.
 
 - type: image
-  image: /assets/media/tang-courtyard-promenade/inner-street.webp
-  alt: Pedestrian retail street framed by red-brick buildings, deep eaves, screens, storefronts, trees, and outdoor seating
-  caption: Internal streets use closely spaced storefronts, shaded edges, and planting to establish a pedestrian scale.
+  image: /assets/media/tang-courtyard-promenade/hero.webp
+  alt: Pedestrian retail lane framed by contemporary and Minnan-inspired façades
+  caption: The internal promenade shifts between narrow lanes, small courts, and wider gathering spaces.
 
 - type: text
   heading: Thresholds make the district legible
@@ -46,9 +46,9 @@ sections:
     Entry is treated as an architectural event. Large roofed portals mark the transition from the surrounding city into the finer-grained network of lanes and courts. Once inside, smaller passages, bridges, eaves, and framed openings repeat that threshold condition at a more intimate scale. The hierarchy allows visitors to read the district through a sequence of recognizable transitions instead of relying on one dominant corridor.
 
 - type: image
-  image: /assets/media/tang-courtyard-promenade/gateway.webp
-  alt: Large roofed gateway framed by brick retail buildings and vertical screens
-  caption: The main portal compresses the street into a clear urban threshold before opening into the internal promenade.
+  image: /assets/media/tang-courtyard-promenade/img-5.webp
+  alt: Large roofed gateway between brick retail buildings
+  caption: A large roofed portal marks the transition from the city street to the internal pedestrian network.
 
 - type: text
   heading: Minnan references as a design grammar
@@ -56,9 +56,9 @@ sections:
     The architecture draws from Minnan traditions through proportion, roof profile, material, and depth rather than literal historical reconstruction. Pitched and upturned roofs, red brick, deep eaves, timber-like screens, latticework, and narrow gabled frontages are combined with larger glazing and contemporary retail bays. These elements are varied across the district so cultural references remain legible while the buildings accommodate different commercial scales.
 
 - type: image
-  image: /assets/media/tang-courtyard-promenade/courtyard-night.webp
-  alt: Evening courtyard with pitched roofs, screened façades, verandas, illuminated storefronts, and outdoor seating
-  caption: Courtyard façades combine pitched roof profiles, layered screens, verandas, and contemporary glazing.
+  image: /assets/media/tang-courtyard-promenade/facade-promenade.webp
+  alt: Concept model showing gabled brick façades, screens, glazing, and an upper-level pedestrian terrace
+  caption: Traditional roof profiles and masonry proportions are combined with larger glazing, screens, and upper-level retail circulation.
 
 - type: text
   heading: From intimate lane to urban edge
@@ -66,9 +66,9 @@ sections:
     The internal promenade and the street-facing perimeter operate at different scales. Inside, smaller bays, balconies, planting, and shaded storefronts keep the pedestrian realm close and varied. Along the city edge, larger glazed volumes and taller commercial fronts accommodate anchor tenants and establish a stronger urban presence. Brick, roof geometry, and vertical screening maintain continuity between the two conditions.
 
 - type: image
-  image: /assets/media/tang-courtyard-promenade/urban-edge.webp
-  alt: Street-facing commercial edge with larger glazed retail volumes, brick façades, vertical screens, and pitched roof elements
-  caption: Larger commercial volumes face the city while retaining the district's material and roofscape language.
+  image: /assets/media/tang-courtyard-promenade/img-6.webp
+  alt: Street-facing commercial edge with larger retail volumes and a hotel block
+  caption: Larger commercial volumes face the city edge while the roofscape and material palette maintain continuity with the interior promenade.
 
 - type: text
   heading: The promenade continues above ground

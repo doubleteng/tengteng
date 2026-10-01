@@ -2,6 +2,7 @@
 title: Dragon Light International Shopping Mall
 category: design
 year: '2014–2015'
+date: 2014-04-01 00:00:00 -0400
 published: true
 featured: false
 featured_order: 99

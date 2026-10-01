@@ -7,16 +7,16 @@ published: true
 featured: false
 featured_order: 99
 permalink: /design/tang-courtyard-promenade/
-cover: /assets/media/tang-courtyard-promenade/aerial.webp
-cover_caption: Aerial visualization showing the promenade as a network of streets, courtyards, gates, and public rooms.
-cover_alt: Aerial view of Tang Courtyard Promenade showing a low-rise retail district organized around pedestrian streets and courtyards
+cover: /assets/media/tang-courtyard-promenade/urban-edge.webp
+cover_caption: Main courtyard entrance of the completed Tang Courtyard Promenade.
+cover_alt: Completed main courtyard entrance of Tang Courtyard Promenade with brick façades, vertical timber screens, glass storefronts, trees, cafés, and active retail frontage
 summary: >-
   A courtyard-based pedestrian retail district in Zhangpu that translates Minnan spatial types into a contemporary commercial promenade of gates, lanes, terraces, upper walks, and public rooms.
 role: Design Partner — Project-wide design leadership from concept and master planning through design development and construction documentation
 institution: Adaptive Design LLC (A-D-A)
 location: Zhangpu, Fujian, China
 project_type: Architecture / retail / public realm
-project_stage: Concept design through design development and construction documentation
+project_stage: Built; design leadership from concept through design development and construction documentation
 tags:
 - architecture
 - retail
@@ -31,9 +31,9 @@ team:
 acknowledgements: ''
 sections:
 - type: text
-  heading: One project, many public rooms
+  heading: A built district of connected public rooms
   body: >-
-    The district is organized as a sequence rather than a single commercial interior. Pedestrian lanes branch, bend, and reconnect through courtyards, gates, terraces, and small plazas. Larger retail destinations occupy perimeter blocks and key junctions; smaller shops line the internal streets. The changing width of the routes creates moments of compression and release, giving each part of the promenade a distinct spatial identity.
+    The completed district is organized as a sequence rather than a single commercial interior. Pedestrian lanes branch, bend, and reconnect through courtyards, gates, terraces, and small plazas. Larger retail destinations occupy perimeter blocks and key junctions; smaller shops line the internal streets. The changing width of the routes creates moments of compression and release, giving each part of the promenade a distinct spatial identity.
 
 - type: image
   image: /assets/media/tang-courtyard-promenade/hero.webp
@@ -102,7 +102,7 @@ editor_notes: ''
 source_links: []
 ---
 
-Tang Courtyard Promenade is conceived as a walkable retail district in Zhangpu, Fujian, organized around a network of lanes, courtyards, gateways, terraces, and upper-level walks. The project replaces the single enclosed shopping-center interior with a sequence of outdoor and semi-outdoor public spaces, allowing commercial circulation to operate more like a piece of city fabric.
+Tang Courtyard Promenade is a built walkable retail district in Zhangpu, Fujian, organized around a network of lanes, courtyards, gateways, terraces, and upper-level walks. The project replaces the single enclosed shopping-center interior with a sequence of outdoor and semi-outdoor public spaces, allowing commercial circulation to operate more like a piece of city fabric.
 
 The architectural language reinterprets Minnan spatial and material traditions through contemporary retail construction. Rooflines, brick walls, shaded eaves, screens, and narrow frontages establish continuity at the pedestrian scale, while larger glazed volumes mark anchor programs and the perimeter of the district.
 

@@ -7,9 +7,25 @@ published: true
 featured: false
 featured_order: 99
 permalink: /design/tang-courtyard-promenade/
-cover: /assets/media/tang-courtyard-promenade/urban-edge.webp
+cover: /assets/media/tang-courtyard-promenade/built-main-courtyard.webp
 cover_caption: Main courtyard entrance of the completed Tang Courtyard Promenade.
 cover_alt: Completed main courtyard entrance of Tang Courtyard Promenade with brick façades, vertical timber screens, glass storefronts, trees, cafés, and active retail frontage
+hero_gallery:
+- image: /assets/media/tang-courtyard-promenade/built-main-courtyard.webp
+  alt: Main courtyard entrance of the completed Tang Courtyard Promenade with cafés, shops, timber screens, brick façades, and active public space
+  caption: Main courtyard entrance.
+- image: /assets/media/tang-courtyard-promenade/built-retail-street.webp
+  alt: Completed pedestrian retail street with red-brick façades, outdoor seating, timber screens, and mature trees
+  caption: Pedestrian retail street and active ground-floor frontage.
+- image: /assets/media/tang-courtyard-promenade/built-gateway.webp
+  alt: Completed primary gateway framed by brick retail buildings and large pitched roofs
+  caption: Primary gateway into the pedestrian district.
+- image: /assets/media/tang-courtyard-promenade/built-evening-courtyard.webp
+  alt: Completed courtyard at dusk with illuminated storefronts, pitched roofs, outdoor seating, and layered façades
+  caption: Courtyard and retail frontage at dusk.
+- image: /assets/media/tang-courtyard-promenade/built-aerial.webp
+  alt: Aerial photograph of the completed Tang Courtyard Promenade and surrounding urban context
+  caption: Completed district within its surrounding urban context.
 summary: >-
   A courtyard-based pedestrian retail district in Zhangpu that translates Minnan spatial types into a contemporary commercial promenade of gates, lanes, terraces, upper walks, and public rooms.
 role: Design Partner — Project-wide design leadership from concept and master planning through design development and construction documentation

@@ -75,3 +75,72 @@ document.querySelectorAll('[data-copy-citation]').forEach(button => button.addEv
   try { await navigator.clipboard.writeText(container.querySelector('pre').textContent); container.querySelector('[data-copy-status]').textContent = 'Copied'; }
   catch { const selection = window.getSelection(); const range = document.createRange(); range.selectNodeContents(container.querySelector('pre')); selection.removeAllRanges(); selection.addRange(range); container.querySelector('[data-copy-status]').textContent = 'Text selected — copy with your keyboard.'; }
 }));
+
+document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
+  const track = carousel.querySelector('[data-carousel-track]');
+  const slides = [...carousel.querySelectorAll('[data-carousel-slide]')];
+  const dots = [...carousel.querySelectorAll('[data-carousel-dot]')];
+  const prev = carousel.querySelector('[data-carousel-prev]');
+  const next = carousel.querySelector('[data-carousel-next]');
+  const status = carousel.querySelector('[data-carousel-status]');
+  if (!track || slides.length < 2) return;
+
+  let index = 0;
+  let timer = null;
+  let touchStartX = 0;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    slides.forEach((slide, i) => slide.setAttribute('aria-hidden', String(i !== index)));
+    dots.forEach((dot, i) => i === index ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current'));
+    if (status) status.textContent = `${index + 1} / ${slides.length}`;
+  }
+
+  function go(nextIndex, restart = true) {
+    index = (nextIndex + slides.length) % slides.length;
+    render();
+    if (restart) start();
+  }
+
+  function stop() {
+    if (timer) window.clearInterval(timer);
+    timer = null;
+  }
+
+  function start() {
+    stop();
+    if (reduceMotion || document.hidden) return;
+    timer = window.setInterval(() => go(index + 1, false), 5000);
+  }
+
+  prev?.addEventListener('click', event => { event.stopPropagation(); go(index - 1); });
+  next?.addEventListener('click', event => { event.stopPropagation(); go(index + 1); });
+  dots.forEach((dot, i) => dot.addEventListener('click', () => go(i)));
+
+  carousel.addEventListener('mouseenter', stop);
+  carousel.addEventListener('mouseleave', start);
+  carousel.addEventListener('focusin', stop);
+  carousel.addEventListener('focusout', event => { if (!carousel.contains(event.relatedTarget)) start(); });
+  carousel.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      go(index + (event.key === 'ArrowRight' ? 1 : -1));
+    }
+  });
+
+  carousel.addEventListener('touchstart', event => {
+    touchStartX = event.changedTouches[0]?.clientX || 0;
+    stop();
+  }, {passive:true});
+  carousel.addEventListener('touchend', event => {
+    const x = event.changedTouches[0]?.clientX || 0;
+    const delta = x - touchStartX;
+    if (Math.abs(delta) > 45) go(index + (delta < 0 ? 1 : -1));
+    else start();
+  }, {passive:true});
+
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  render();
+  start();
+});

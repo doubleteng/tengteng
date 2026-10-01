@@ -12,11 +12,11 @@ cover_caption: Aerial visualization showing the promenade as a network of street
 cover_alt: Aerial view of Tang Courtyard Promenade showing a low-rise retail district organized around pedestrian streets and courtyards
 summary: >-
   A courtyard-based pedestrian retail district in Zhangpu that translates Minnan spatial types into a contemporary commercial promenade of gates, lanes, terraces, upper walks, and public rooms.
-role: Design Partner — Project-wide design direction, master planning, architectural concept, public-realm framework, massing, and architectural language
+role: Design Partner — Project-wide design leadership from concept and master planning through design development and construction documentation
 institution: Adaptive Design LLC (A-D-A)
 location: Zhangpu, Fujian, China
 project_type: Architecture / retail / public realm
-project_stage: Concept and schematic design
+project_stage: Concept design through design development and construction documentation
 tags:
 - architecture
 - retail
@@ -24,7 +24,7 @@ tags:
 - Minnan architecture
 - urban design
 credits:
-- 'Design Partner and project-wide design lead: Teng Teng'
+- 'Design Partner and project-wide design lead from concept through design development and construction documentation: Teng Teng'
 - 'Design team: Teng Teng, Shuai Song'
 team:
 - Shuai Song
@@ -106,4 +106,4 @@ Tang Courtyard Promenade is conceived as a walkable retail district in Zhangpu, 
 
 The architectural language reinterprets Minnan spatial and material traditions through contemporary retail construction. Rooflines, brick walls, shaded eaves, screens, and narrow frontages establish continuity at the pedestrian scale, while larger glazed volumes mark anchor programs and the perimeter of the district.
 
-As Design Partner at Adaptive Design LLC, I led the project-wide design direction from the initial urban and commercial strategy through master planning, spatial organization, massing, architectural language, and public-realm design. I established the core design framework that organized the district as a sequence of streets, courtyards, gateways, terraces, and upper-level walks, and guided the development of the scheme across scales—from the overall pedestrian structure to individual building types, façades, roofscape, and key civic spaces.
+As Design Partner at Adaptive Design LLC, I led the project-wide design direction from the initial urban and commercial strategy through master planning, spatial organization, massing, architectural language, and public-realm design. I established the core framework that organized the district as a sequence of streets, courtyards, gateways, terraces, and upper-level walks, then continued to direct the project through design development and construction documentation. This included maintaining design intent across building types, façades, roofscape, public-space interfaces, material transitions, and key civic spaces as the scheme moved into detailed technical resolution.

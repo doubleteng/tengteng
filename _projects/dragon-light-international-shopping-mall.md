@@ -64,7 +64,7 @@ sections:
 - type: image
   image: /assets/media/dragon-light-international-shopping-mall/concept-dragon-valley.webp
   alt: Dragon Valley concept study connecting landscape imagery, curved massing, and the project’s architectural language
-  caption: Dragon Valley concept study: landscape references informed both the overall massing and the flowing geometry of the retail podium.
+  caption: 'Dragon Valley concept study: landscape references informed both the overall massing and the flowing geometry of the retail podium.'
 
 - type: text
   heading: Testing the skin as a building system

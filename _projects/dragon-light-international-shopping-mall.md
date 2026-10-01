@@ -82,14 +82,14 @@ sections:
   images:
   - /assets/media/dragon-light-international-shopping-mall/dd-detail-a401.webp
   - /assets/media/dragon-light-international-shopping-mall/dd-detail-a402.webp
-  caption: A-401.1 and A-402.1: enlarged elevations, Level 1 plans, wall sections, and reference views resolving two major podium façade conditions.
+  caption: 'A-401.1 and A-402.1: enlarged elevations, Level 1 plans, wall sections, and reference views resolving two major podium façade conditions.'
   columns: two
 
 - type: gallery
   images:
   - /assets/media/dragon-light-international-shopping-mall/dd-detail-a403.webp
   - /assets/media/dragon-light-international-shopping-mall/dd-detail-a404.webp
-  caption: A-403.1 and A-404.1: stone-clad retail frontage, metal Dragon Skin, glazing, louvers, and the Dragon Street interface developed as coordinated envelope assemblies.
+  caption: 'A-403.1 and A-404.1: stone-clad retail frontage, metal Dragon Skin, glazing, louvers, and the Dragon Street interface developed as coordinated envelope assemblies.'
   columns: two
 
 - type: text

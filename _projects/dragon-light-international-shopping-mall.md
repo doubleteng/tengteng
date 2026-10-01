@@ -1,15 +1,15 @@
 ---
 title: Dragon Light International Shopping Mall
 category: design
-year: '2014'
+year: '2014–2015'
 published: true
 featured: false
 featured_order: 99
 permalink: /design/dragon-light-international-shopping-mall/
 cover: /assets/media/dragon-light-international-shopping-mall/built-main.webp
-cover_caption: Built retail podium and triangulated Dragon Skin façade in Puyang, Henan.
+cover_caption: Dragon Light International Shopping Mall, Puyang, Henan.
 cover_alt: Street view of the Dragon Light International Shopping Mall showing the curved triangulated podium façade
-summary: A façade-design role focused on rationalizing the curved “Dragon Skin” podium envelope from concept studies through manufacturer coordination.
+summary: Podium façade design and development for a large mixed-use retail complex, translating the “Dancing Dragon” concept into a coordinated envelope through design studies, 3D development, technical resolution, and manufacturer coordination.
 role: Project Designer — Podium façade design and optimization; façade system development; manufacturer coordination
 institution: Callison
 location: Puyang, Henan, China
@@ -30,60 +30,85 @@ team:
 acknowledgements: ''
 sections:
 - type: gallery
-  heading: Built retail frontage
+  heading: Completed retail frontage
   images:
   - /assets/media/dragon-light-international-shopping-mall/built-entry.webp
   - /assets/media/dragon-light-international-shopping-mall/built-street.webp
   caption: The podium combines enclosed mall frontage with an open-air retail street and layered pedestrian circulation.
   columns: two
+
 - type: text
-  heading: Façade system studies
-  body: 'The initial façade studies tested several ways of translating the project’s dragon-scale geometry into an architectural envelope. Alternatives included a triangulated diagrid with projecting fins, illuminated diamond glazing, and layered double-skin assemblies combining metal panels, fins, and backlighting.
+  heading: Façade concept and system studies
+  body: 'The retail podium developed the project’s “Dancing Dragon” concept through a continuous triangulated skin. Early studies tested multiple ways to turn that geometric language into an architectural envelope: a triangulated diagrid with projecting fins, illuminated diamond glazing, and double-skin assemblies combining metal panels, fins, and backlighting.
 
 
-    The studies treated the pattern as a building system. Geometry, transparency, shading depth, lighting, structural support, and panel repetition were evaluated together so the curved form could be divided into manufacturable components while retaining controlled variation across the podium.'
+    The studies treated the pattern as a building system. Geometry, transparency, shading depth, lighting, structural support, and panel repetition were evaluated together so the curved form could retain its visual continuity while moving toward repeatable construction logic.'
+
 - type: gallery
   images:
   - /assets/media/dragon-light-international-shopping-mall/facade-option-1.webp
   - /assets/media/dragon-light-international-shopping-mall/facade-options-2-4.webp
-  caption: Façade skin options from the 2014 Final Concept Design package. The original project material includes English descriptions for each system.
+  caption: Early façade system studies comparing triangulated metal fins, diamond glazing, and layered double-skin configurations.
   columns: two
+
 - type: text
   heading: From skin to envelope
-  body: 'The triangulated outer layer had to negotiate a conventional retail enclosure behind it. Curtain wall, storefronts, opaque metal panels, tenant display zones, canopies, floor edges, and roof conditions therefore had to be coordinated with a secondary three-dimensional support system.
+  body: 'The outer skin had to negotiate a conventional retail enclosure behind it. Curtain wall, storefronts, opaque cladding, tenant display zones, canopies, floor edges, and roof conditions therefore had to be coordinated with a secondary three-dimensional support system.
 
 
-    The envelope model became an interface between architectural geometry and technical development. Curvature and triangular modules were rationalized against floor levels and enclosure zones, while recurring support conditions and transitions were identified for fabrication and installation.'
+    My work focused on the podium façade: developing elevation studies, refining the triangulated geometry, coordinating the three-dimensional envelope model, and resolving transitions between the outer skin and the primary enclosure.'
+
 - type: gallery
   images:
   - /assets/media/dragon-light-international-shopping-mall/facade-section-sketch.webp
   - /assets/media/dragon-light-international-shopping-mall/facade-model.webp
-  caption: Typical mall façade section concept and three-dimensional envelope model used to study the outer skin, secondary support, curtain wall, storefront, canopy, floor edges, and roof transition.
+  caption: Typical façade section concept and three-dimensional envelope model used to coordinate the outer skin, secondary support, curtain wall, storefront, canopy, floor edges, and roof transition.
   columns: two
+
 - type: text
-  heading: Architectural coordination
-  body: 'The façade wraps a large, curved retail volume while meeting different program conditions around the building perimeter. Elevation development coordinated the continuous triangulated language with glazed entrances, opaque service zones, tenant frontage, signage, and the adjacent lifestyle-retail fabric.'
+  heading: Design development resolution
+  body: 'The newly recovered 30% Design Development set records how the façade moved beyond the concept image. Overall elevations establish the continuity of the upper skin, while enlarged elevations, wall sections, and Level 1 plan fragments resolve individual conditions around the mall.
+
+
+    Across these studies, the façade differentiates metal “Dragon Skin,” metal louvers, vision and spandrel glass, stone cladding, metal framing, and retail storefront zones. The drawing set makes the central design problem explicit: a continuous visual language had to be broken into discrete material systems, floor-by-floor interfaces, and buildable edge conditions.'
+
 - type: image
-  image: /assets/media/dragon-light-international-shopping-mall/elevations.webp
-  alt: South, east, and north elevations from the 2014 Final Concept Design package
-  caption: South, east, and north elevations. Labels are retained in both Chinese and English from the original design package.
+  image: /assets/media/dragon-light-international-shopping-mall/dd-overall-elevations.webp
+  alt: East and northeast elevations from the 30 percent Design Development drawing set
+  caption: East and northeast elevations from the 30% Design Development package.
+
+- type: gallery
+  images:
+  - /assets/media/dragon-light-international-shopping-mall/dd-detail-a401.webp
+  - /assets/media/dragon-light-international-shopping-mall/dd-detail-a402.webp
+  caption: A-401.1 and A-402.1: enlarged elevations, Level 1 plans, wall sections, and reference views resolving two major podium façade conditions.
+  columns: two
+
+- type: gallery
+  images:
+  - /assets/media/dragon-light-international-shopping-mall/dd-detail-a403.webp
+  - /assets/media/dragon-light-international-shopping-mall/dd-detail-a404.webp
+  caption: A-403.1 and A-404.1: stone-clad retail frontage, metal Dragon Skin, glazing, louvers, and the Dragon Street interface developed as coordinated envelope assemblies.
+  columns: two
+
 - type: text
   heading: Manufacturer coordination
-  body: 'Manufacturer coordination focused on preserving the visual continuity of the triangulated skin while reducing unnecessary fabrication complexity. Design discussions addressed panel segmentation, secondary framing, attachment zones, dimensional tolerances, material transitions, and the relationship between customized façade components and repeatable construction logic.
+  body: 'Manufacturer coordination tested whether the intended façade geometry could be fabricated and installed without losing the continuity of the pattern. The work concentrated on panelization, secondary support, material transitions, attachment zones, dimensional tolerance, and the relationship between customized components and repeated construction logic.
 
 
-    This process required the architectural geometry to be tested against fabrication and installation constraints. The façade development therefore connected design intent, digital modeling, component rationalization, and production.'
+    Curved corners and transitions were especially important because the outer skin crossed changes in enclosure type, retail frontage, stone cladding, glazing, and roof geometry. Coordination therefore linked architectural intent, digital modeling, technical drawings, fabrication constraints, and installation sequence.'
+
 links: []
 related_publications: []
 awards: []
 editor_notes: ''
 source_links: []
-project_type: Architecture / façade design
-project_stage: Design development; built project
+project_type: Architecture / façade design and development
+project_stage: Schematic design through design development; built project
 ---
 
-Dragon Light International Shopping Mall was conceived as the commercial core of a large mixed-use development in Puyang, Henan, combining an enclosed shopping mall, outdoor lifestyle retail, entertainment uses, service apartments, and residential components.
+Dragon Light International Shopping Mall formed the commercial core of Golden Group’s first large mixed-use development in Puyang, Henan. The 2015 portfolio material describes an approximately 531,000 m² development combining a shopping mall, outdoor lifestyle retail, and four service-apartment towers, with the mall occupying roughly 120,000 m².
 
-The podium façade developed the project’s “Dragon Skin” concept into a continuous envelope around the curved retail volume. A triangulated outer layer shifts across transparent glazing, metal cladding, fins, and layered secondary systems to respond to retail visibility, solar exposure, building curvature, signage, and nighttime identity.
+The project linked the enclosed mall and outdoor retail street through public spaces and pedestrian routes. Its principal architectural identity came from the podium: a sculptural “Dancing Dragon” form whose triangulated outer skin referenced the scales of a Chinese dragon, while transparent areas exposed the internal atrium and ice-rink volume.
 
-As a project designer at Callison, my primary responsibility was the **design and optimization of the podium façade**. I developed and evaluated façade configurations, refined the triangulated geometry and its transitions to curtain wall and storefront systems, coordinated the three-dimensional envelope model, and worked with manufacturers to translate the architectural intent into feasible panelization, secondary framing, attachment, fabrication, and installation strategies.
+As a project designer at Callison, I worked across schematic design and design development. My main responsibility was the **design and optimization of the podium façade**, including elevation studies, three-dimensional envelope coordination, rationalization of the triangulated skin, and coordination with façade manufacturers as the design moved from concept studies into detailed wall sections and buildable envelope conditions.

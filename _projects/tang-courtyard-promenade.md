@@ -12,7 +12,7 @@ cover_caption: Aerial visualization showing the promenade as a network of street
 cover_alt: Aerial view of Tang Courtyard Promenade showing a low-rise retail district organized around pedestrian streets and courtyards
 summary: >-
   A courtyard-based pedestrian retail district in Zhangpu that translates Minnan spatial types into a contemporary commercial promenade of gates, lanes, terraces, upper walks, and public rooms.
-role: Chief Design Partner and architectural design lead
+role: Design Partner — Project-wide design direction, master planning, architectural concept, public-realm framework, massing, and architectural language
 institution: Adaptive Design LLC (A-D-A)
 location: Zhangpu, Fujian, China
 project_type: Architecture / retail / public realm
@@ -24,7 +24,7 @@ tags:
 - Minnan architecture
 - urban design
 credits:
-- 'Architectural design lead and Chief Design Partner: Teng Teng'
+- 'Design Partner and project-wide design lead: Teng Teng'
 - 'Design team: Teng Teng, Shuai Song'
 team:
 - Shuai Song
@@ -93,7 +93,7 @@ sections:
 - type: text
   heading: Retail as public realm
   body: >-
-    The project treats commercial planning as an urban-design problem. Retail frontage is distributed around shared streets and courts, while architecture, landscape, circulation, and roofscape work together to make those spaces identifiable. The continuity of the project comes from the public-space sequence, allowing individual buildings to vary in scale and expression without dissolving the district into unrelated objects.
+    The project treats commercial planning as an urban-design problem. The design direction was set at the scale of the district: retail frontage, public space, circulation, landscape, massing, and roofscape were developed as one coordinated system. This allowed individual buildings to vary in scale and expression while the sequence of streets, courts, thresholds, and upper-level walks maintained a coherent identity across the project.
 
 links: []
 related_publications: []
@@ -106,4 +106,4 @@ Tang Courtyard Promenade is conceived as a walkable retail district in Zhangpu, 
 
 The architectural language reinterprets Minnan spatial and material traditions through contemporary retail construction. Rooflines, brick walls, shaded eaves, screens, and narrow frontages establish continuity at the pedestrian scale, while larger glazed volumes mark anchor programs and the perimeter of the district.
 
-As Chief Design Partner at Adaptive Design LLC, I led the architectural design with Shuai Song. My work focused on the overall pedestrian framework, courtyard hierarchy, building massing, architectural language, and the integration of commercial frontage with the public-space network.
+As Design Partner at Adaptive Design LLC, I led the project-wide design direction from the initial urban and commercial strategy through master planning, spatial organization, massing, architectural language, and public-realm design. I established the core design framework that organized the district as a sequence of streets, courtyards, gateways, terraces, and upper-level walks, and guided the development of the scheme across scales—from the overall pedestrian structure to individual building types, façades, roofscape, and key civic spaces.

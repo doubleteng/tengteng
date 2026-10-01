@@ -47,69 +47,34 @@ team:
 acknowledgements: ''
 sections:
 - type: text
-  heading: A built district of connected public rooms
+  heading: Public space as the organizing structure
   body: >-
-    The completed district is organized as a sequence rather than a single commercial interior. Pedestrian lanes branch, bend, and reconnect through courtyards, gates, terraces, and small plazas. Larger retail destinations occupy perimeter blocks and key junctions; smaller shops line the internal streets. The changing width of the routes creates moments of compression and release, giving each part of the promenade a distinct spatial identity.
+    The project is organized from the ground plan outward. Retail blocks define a network of pedestrian lanes, entrance plazas, sunken spaces, and larger courts instead of enclosing circulation within a single mall interior. The plan establishes a hierarchy between the perimeter commercial edge and a finer-grained internal fabric, allowing the public realm to become the framework that organizes individual buildings.
 
 - type: image
-  image: /assets/media/tang-courtyard-promenade/hero.webp
-  alt: Pedestrian retail lane framed by contemporary and Minnan-inspired façades
-  caption: The internal promenade shifts between narrow lanes, small courts, and wider gathering spaces.
+  image: /assets/media/tang-courtyard-promenade/ground-level-plan.webp
+  alt: Ground level technical plan showing the retail blocks, internal pedestrian network, entrance plazas, courtyards, and site boundary
+  caption: Ground level plan. Major public-space labels have been translated into English.
 
 - type: text
-  heading: Thresholds make the district legible
+  heading: A three-dimensional promenade
   body: >-
-    Entry is treated as an architectural event. Large roofed portals mark the transition from the surrounding city into the finer-grained network of lanes and courts. Once inside, smaller passages, bridges, eaves, and framed openings repeat that threshold condition at a more intimate scale. The hierarchy allows visitors to read the district through a sequence of recognizable transitions instead of relying on one dominant corridor.
+    The upper-level plan extends circulation beyond the ground plane. Terraces, bridges, and upper-floor retail edges reconnect separate building blocks and overlook the spaces below. This creates a layered promenade in which movement shifts between street, courtyard, balcony, and elevated walk while maintaining visual connections across the district.
 
 - type: image
-  image: /assets/media/tang-courtyard-promenade/img-5.webp
-  alt: Large roofed gateway between brick retail buildings
-  caption: A large roofed portal marks the transition from the city street to the internal pedestrian network.
+  image: /assets/media/tang-courtyard-promenade/upper-level-plan.webp
+  alt: Upper level technical plan showing the continuation of retail circulation around the internal courtyards and pedestrian network
+  caption: Upper level plan showing the continuation of the pedestrian and retail network above grade.
 
 - type: text
-  heading: Minnan references as a design grammar
+  heading: Architectural language within the urban framework
   body: >-
-    The architecture draws from Minnan traditions through proportion, roof profile, material, and depth rather than literal historical reconstruction. Pitched and upturned roofs, red brick, deep eaves, timber-like screens, latticework, and narrow gabled frontages are combined with larger glazing and contemporary retail bays. These elements are varied across the district so cultural references remain legible while the buildings accommodate different commercial scales.
-
-- type: image
-  image: /assets/media/tang-courtyard-promenade/facade-promenade.webp
-  alt: Concept model showing gabled brick façades, screens, glazing, and an upper-level pedestrian terrace
-  caption: Traditional roof profiles and masonry proportions are combined with larger glazing, screens, and upper-level retail circulation.
+    The Minnan character of the project is carried by the relationship between massing, roofscape, façade depth, material, and threshold. Pitched and upturned roofs, brick walls, deep eaves, screens, and narrower frontages establish continuity across the district, while larger glazed volumes and commercial bays accommodate contemporary retail requirements. The architectural language therefore reinforces the spatial hierarchy established by the master plan.
 
 - type: text
-  heading: From intimate lane to urban edge
+  heading: Design leadership through technical development
   body: >-
-    The internal promenade and the street-facing perimeter operate at different scales. Inside, smaller bays, balconies, planting, and shaded storefronts keep the pedestrian realm close and varied. Along the city edge, larger glazed volumes and taller commercial fronts accommodate anchor tenants and establish a stronger urban presence. Brick, roof geometry, and vertical screening maintain continuity between the two conditions.
-
-- type: image
-  image: /assets/media/tang-courtyard-promenade/img-6.webp
-  alt: Street-facing commercial edge with larger retail volumes and a hotel block
-  caption: Larger commercial volumes face the city edge while the roofscape and material palette maintain continuity with the interior promenade.
-
-- type: text
-  heading: The promenade continues above ground
-  body: >-
-    Public circulation is extended to the upper levels through terraces, bridges, and elevated walks. These routes overlook the lower streets and reconnect separate building blocks, allowing circulation to become part of the spatial experience instead of serving only as access to upper-floor shops. The result is a three-dimensional promenade in which movement repeatedly crosses between street, balcony, court, and bridge.
-
-- type: image
-  image: /assets/media/tang-courtyard-promenade/upper-promenade.webp
-  alt: Concept model showing an elevated pedestrian walk linking retail buildings with different roof forms
-  caption: Upper-level walks and bridges extend the pedestrian network across the courtyard fabric.
-
-- type: text
-  heading: Cultural anchors within the retail fabric
-  body: >-
-    Larger public rooms interrupt the commercial network and provide orientation. Chenghuang Temple Square and the Courtyard of Ancient Trees act as anchors around which smaller streets and terraces converge. Commercial buildings step and turn around these spaces, preserving longer views and creating places that can support gathering as well as circulation.
-
-- type: image
-  image: /assets/media/tang-courtyard-promenade/civic-court.webp
-  alt: Concept view of a large public court framed by retail buildings, a mature tree, steps, and a temple-like pavilion
-  caption: A larger civic court interrupts the retail streets with a mature tree, stepped ground, and a temple-like pavilion.
-
-- type: text
-  heading: Retail as public realm
-  body: >-
-    The project treats commercial planning as an urban-design problem. The design direction was set at the scale of the district: retail frontage, public space, circulation, landscape, massing, and roofscape were developed as one coordinated system. This allowed individual buildings to vary in scale and expression while the sequence of streets, courts, thresholds, and upper-level walks maintained a coherent identity across the project.
+    As Design Partner, I led the project-wide design direction from concept and master planning through design development and construction documentation. The role extended beyond establishing the initial scheme: I continued to guide the spatial hierarchy, massing, roofscape, façade systems, public-space interfaces, material transitions, and key architectural conditions as the project moved into technical resolution. The objective throughout was to preserve the coherence of the public-realm framework while individual buildings and assemblies became increasingly specific.
 
 links: []
 related_publications: []
@@ -118,8 +83,8 @@ editor_notes: ''
 source_links: []
 ---
 
-Tang Courtyard Promenade is a built walkable retail district in Zhangpu, Fujian, organized around a network of lanes, courtyards, gateways, terraces, and upper-level walks. The project replaces the single enclosed shopping-center interior with a sequence of outdoor and semi-outdoor public spaces, allowing commercial circulation to operate more like a piece of city fabric.
+Tang Courtyard Promenade is a built walkable retail district in Zhangpu, Fujian, organized around a network of lanes, courtyards, gateways, terraces, and upper-level walks. The project treats commercial circulation as public realm, replacing the single enclosed shopping-center interior with a sequence of outdoor and semi-outdoor spaces that operate more like a piece of city fabric.
 
-The architectural language reinterprets Minnan spatial and material traditions through contemporary retail construction. Rooflines, brick walls, shaded eaves, screens, and narrow frontages establish continuity at the pedestrian scale, while larger glazed volumes mark anchor programs and the perimeter of the district.
+The overall design is structured through a hierarchy of public spaces. Entrance plazas establish clear thresholds from the surrounding streets; internal lanes branch toward smaller courts and larger gathering spaces; upper-level terraces and bridges extend the pedestrian network vertically. Architecture, landscape, circulation, and retail frontage were developed together so the district could support both commercial activity and everyday occupation.
 
-As Design Partner at Adaptive Design LLC, I led the project-wide design direction from the initial urban and commercial strategy through master planning, spatial organization, massing, architectural language, and public-realm design. I established the core framework that organized the district as a sequence of streets, courtyards, gateways, terraces, and upper-level walks, then continued to direct the project through design development and construction documentation. This included maintaining design intent across building types, façades, roofscape, public-space interfaces, material transitions, and key civic spaces as the scheme moved into detailed technical resolution.
+As Design Partner at Adaptive Design LLC, I led the project-wide design direction from the initial urban and commercial strategy through master planning, architectural concept, design development, and construction documentation. I established the spatial framework, massing logic, architectural language, and public-realm hierarchy, and continued to guide the project through later technical stages to maintain design intent across façades, roofscape, material transitions, circulation, and key public-space interfaces.

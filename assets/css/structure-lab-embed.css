@@ -12,7 +12,7 @@
 .structure-lab-page > .project-heading .lead {
   max-width: none;
   margin-bottom: 0;
-  font-size: .95rem;
+  font-size:calc(.95rem * var(--heading-scale));
 }
 .structure-lab-embed { margin-bottom: 48px; }
 .structure-lab-toolbar {
@@ -23,7 +23,7 @@
   gap: 8px 20px;
   margin-bottom: 10px;
 }
-.structure-lab-toolbar h2 { margin: 0; font-size: 1.1rem; }
+.structure-lab-toolbar h2 { margin: 0; font-size:calc(1.1rem * var(--heading-scale)); }
 .structure-lab-toolbar .text-link { font-size: 12px; }
 .structure-lab-frame {
   display: block;

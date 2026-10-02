@@ -12,3 +12,4 @@
 @media(max-width:800px){.project-hero-carousel{margin-bottom:35px}.hero-carousel-nav{width:38px;height:38px}.hero-carousel-prev{left:12px}.hero-carousel-next{right:12px}}
 @media(max-width:560px){.hero-carousel-slide .image-trigger{aspect-ratio:4/3}.hero-carousel-nav{width:34px;height:34px;font-size:16px}.hero-carousel-prev{left:8px}.hero-carousel-next{right:8px}.hero-carousel-dots button{width:17px}}
 @media(prefers-reduced-motion:reduce){.hero-carousel-track{transition:none}}
+.project-hero-carousel[data-carousel-fit="contain"] .hero-carousel-slide img{object-fit:contain}

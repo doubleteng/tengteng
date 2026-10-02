@@ -111,7 +111,7 @@ document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
   function start() {
     stop();
     if (reduceMotion || document.hidden) return;
-    timer = window.setInterval(() => go(index + 1, false), 2400);
+    timer = window.setInterval(() => go(index + 1, false), 2000);
   }
 
   prev?.addEventListener('click', event => { event.stopPropagation(); go(index - 1); });

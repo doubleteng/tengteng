@@ -76,6 +76,6 @@ project_stage: Material research and design proposals
 cover_preview_only: true
 structure_lab: false
 ---
-**ARCH 7330: New Materials and Methods Research** is a graduate seminar in Penn’s MSD-AAD program taught in Spring 2024. I served as Teaching Fellow, delivering lectures, leading discussion panels, and mentoring graduate students through project ideation and production.
+**ARCH 7330: New Materials and Methods Research** is a graduate seminar in Penn’s Master of Science in Design-Advanced Architectural Design program taught in Spring 2024. I served as Teaching Fellow, delivering lectures, leading discussion panels, and mentoring graduate students through project ideation and production.
 
 Student teams first researched a material’s properties, fabrication methods, and architectural precedents, then proposed a material system with a manufacturing process, site, and use. Two summary panels and a short academic paper documented each study and prepared students for the MSD-AAD Summer Studio.

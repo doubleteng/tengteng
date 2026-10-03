@@ -6,84 +6,236 @@ published: true
 featured: true
 featured_order: 2
 permalink: /research/pica/
-cover: /assets/media/pica/hero.webp
-cover_alt: Pica
-summary: A modular robot and Grasshopper controller connect design geometry directly to physical prototyping.
-role: Leading Contributor
+cover: /assets/media/pica/assembled-prototype.jpg
+cover_alt: PICA six-axis robotic arm with its controller
+summary: A low-cost, six-axis robot connects Rhino/Grasshopper, real-time control, and hands-on fabrication for
+  sketch-level architectural prototyping.
+role: Project lead; robotic hardware, control software, and fabrication experiments
 institution: Cornell University · Jenny Sabin Lab
-location: ''
+location: Ithaca, New York, USA
 tags:
 - robotics
 - fabrication
 - mechatronics
 - interaction design
 credits:
-- 'PI: Jenny Sabin'
 - 'Project Lead: Teng Teng'
+- 'PI: Jenny Sabin'
+- 'Paper authors: Teng Teng and Jenny Sabin'
 team:
-- Cornell Univeristy / Jenny Sabin Lab
+- Cornell University · Jenny Sabin Lab
 acknowledgements: ''
 sections:
 - type: gallery
-  heading: Project gallery
+  heading: Prototypes and fabrication
   images:
-  - /assets/media/pica/img-1.webp
-  - /assets/media/pica/img-2.webp
-  - /assets/media/pica/img-3.webp
-  - /assets/media/pica/img-4.webp
-  - /assets/media/pica/img-5.webp
-  - /assets/media/pica/img-6.webp
-  - /assets/media/pica/img-7.webp
-  - /assets/media/pica/img-8.webp
-  - /assets/media/pica/img-9.webp
-  - /assets/media/pica/img-10.webp
-  caption: ''
+  - /assets/media/pica/assembled-prototype.jpg
+  - /assets/media/pica/hot-glue-deposition.jpg
   columns: two
-links: []
+  image_ratios:
+  - 1.002342
+  - 1.0
+  caption: The assembled six-axis arm and controller (left), and hot-glue deposition with a replaceable end effector
+    (right).
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/printed-components.jpg
+  - /assets/media/pica/hot-wire-setup.jpg
+  columns: two
+  image_ratios:
+  - 2.066773
+  - 2.056555
+  caption: 3D-printed parts, motors, and transmission components before assembly (left); PICA configured for hot-wire
+    foam cutting (right).
+- type: text
+  heading: A robot designers can build and adapt
+  body: 'PICA begins with a parametric joint–link model in Grasshopper. Link lengths define the robot’s configuration
+    and working range; changing a segment allows a new part to be printed while updating the corresponding kinematic
+    model. The platform combines a printed base, shoulder, arm, wrist, and interchangeable end effectors.
+
+
+    The project progressed from early servo-driven interaction prototypes to stepper-driven fabrication arms.
+    The portfolio documents four hardware iterations. The fabrication configuration uses **seven bipolar stepper
+    motors across six axes**, with NEMA 23, NEMA 17, and NEMA 14 motors selected according to joint loads. Timing-belt
+    transmissions and geared reducers provide the required torque within a compact printed structure. The portfolio’s
+    bill of materials totals **US$748 at the time of the research**, consistent with the paper’s reported cost
+    of under US$800.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/exploded-assembly.png
+  - /assets/media/pica/joint-transmissions.png
+  columns: two
+  image_ratios:
+  - 0.727982
+  - 0.783898
+  caption: Exploded assembly with motor and transmission labels (left), and joint mechanisms showing the belt
+    drives and axis arrangement (right).
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/parametric-links.jpg
+  - /assets/media/pica/control-circuit.jpg
+  columns: two
+  image_ratios:
+  - 1.773533
+  - 1.685144
+  caption: The joint–link model and alternative arm lengths (left); the Arduino control circuit and motor-driver
+    connections (right).
+- type: text
+  heading: From geometry to joint motion
+  body: 'I developed custom Grasshopper components for both forward and inverse kinematics. Direct joint-angle
+    inputs support positioning and motion tests. For fabrication, the inverse-kinematics component starts from
+    an end effector’s position and orientation, checks reachability, and calculates joint angles using geometric
+    analysis and Denavit–Hartenberg parameters. Candidate poses are filtered against the task constraints and
+    a shortest-path criterion.
+
+
+    The resulting joint angles are converted into motor steps, accounting for transmission ratios. In the system
+    documented in the paper, Grasshopper streams commands over **UDP/Ethernet to an Arduino Mega**, which drives
+    the motors through stepper drivers. This keeps geometry, toolpaths, and robot control within the designer’s
+    modeling environment and allows commands to change during fabrication without a separate robot-language programming
+    stage.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/forward-kinematics.jpg
+  - /assets/media/pica/inverse-kinematics.jpg
+  columns: two
+  image_ratios:
+  - 3.223235
+  - 4.018919
+  caption: Forward-kinematics control through individual joint angles (left) and inverse-kinematics control from
+    a fabrication toolpath (right).
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/grasshopper-simulation.gif
+  - /assets/media/pica/gesture-control.gif
+  columns: two
+  image_ratios:
+  - 1.941748
+  - 1.764706
+  caption: Grasshopper motion simulation (left) and a gesture-control demonstration from the project archive (right).
+    Both are looping GIFs.
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/arm-motion.gif
+  - /assets/media/pica/hot-wire-end-effector.png
+  columns: two
+  image_ratios:
+  - 0.756501
+  - 0.77453
+  caption: Physical motion test of the assembled arm (left, looping GIF) and the hot-wire end-effector design
+    (right).
+- type: text
+  heading: Testing two fabrication approaches
+  body: '**Hot-wire cutting** translates surfaces modeled in Rhino/Grasshopper into the arm’s motion. A wire mounted
+    on a custom end effector cuts foam blocks into a family of curved forms, testing the connection between surface
+    geometry, tool orientation, and physical output.
+
+
+    **Interactive hot-glue deposition**, the application examined in the paper, starts with a clay vase shaped
+    by hand on a turntable. Two infrared depth scanners capture the changing form. Rhino/Grasshopper reconstructs
+    the geometry and generates a surrounding toolpath, while PICA deposits a corresponding form using a modified
+    glue gun and a motor-driven feed. The heated tool can also push or drag the deposited wall as the source shape
+    changes. Material cooling and the relatively coarse glue feed limited precision; the aim was an adaptable
+    working model during concept development.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/foam-cutting-results.jpg
+  - /assets/media/pica/surface-toolpath.jpg
+  columns: two
+  image_ratios:
+  - 1.689266
+  - 1.473684
+  caption: Foam models produced by hot-wire cutting (left) and the corresponding surface geometry used to develop
+    the fabrication paths (right).
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/pica/clay-scan-workflow.jpg
+  - /assets/media/pica/printed-vases.jpg
+  columns: two
+  image_ratios:
+  - 1.644416
+  - 2.037618
+  caption: Hand-shaped clay captured as a point cloud and reconstructed geometry (left), and examples of the resulting
+    hot-glue vase prototypes (right).
+- type: text
+  heading: What the study found
+  body: 'The CAADRIA paper reports a study with **eight Cornell architecture students**, divided by prior digital-fabrication
+    experience. Each participant completed two 15-minute tasks: making a vase from an assigned reference using
+    clay manipulation and PICA, and modeling another vase in Rhino for fabrication with an ABB IRB 4600. Completion
+    was measured by the printed proportion of the vase: a fully printed vase scored 5, 80% completion scored 4,
+    and so on.
+
+
+    | Fabrication workflow | Junior fabricators | Senior fabricators | Overall mean |
+
+    | --- | ---: | ---: | ---: |
+
+    | PICA with direct manipulation | 4.75 | 4.00 | 4.375 |
+
+    | IRB 4600 with the conventional workflow | 2.00 | 3.00 | 2.50 |
+
+
+    The higher completion scores support PICA’s potential for rapid, sketch-level prototyping in this experiment.
+    The comparison changed both the robot and the modeling workflow, so it does not isolate a hardware effect
+    or establish a general productivity advantage. The project’s contribution is an integrated, affordable platform
+    through which designers can build a robot, work directly with geometry, and test ideas through fabrication.'
+- type: text
+  heading: Publication
+  body: 'Teng, T. and Sabin, J. (2020). **“PICA: A Designer Oriented Low-Cost Personal Robotic Fabrication Platform
+    for Sketch Level Prototyping.”** *RE: Anthropocene — Proceedings of the 25th CAADRIA Conference*, Volume 2,
+    pp. 473–483.
+
+
+    [Read the full paper](https://drive.google.com/file/d/1oLjuYMiO45a3WtiozpaBjIVz4ZCrXU8L/view) · [Publication
+    record](https://papers.cumincad.org/cgi-bin/works/paper/caadria2020_436) · [Related robotics teaching project](/teaching/building-robots-for-robotic-fabrication/)'
+links:
+- title: Project portfolio · PDF
+  url: https://drive.google.com/file/d/1K0i4MmYXKoGElWxyS8bcM6UyxbRjXZTw/view
+- title: Original project archive
+  url: http://ttistengteng.com/html/pic/d/468.html
 related_publications:
-- title: Related paper (DOI)
+- title: Teng, T. & Sabin, J. (2020). PICA — CAADRIA, Vol. 2, pp. 473–483.
   url: https://papers.cumincad.org/cgi-bin/works/paper/caadria2020_436
 awards: []
-editor_notes: ''
-source_links: []
-project_type: Fabrication system
-project_stage: Research prototype
+editor_notes: '用户要求：不设 money shot 或顶部单张大图；每行两张，所有项目图片和 GIF 双栏排列，同方向配对，image_ratios 使用实际宽高比以按显示高度对齐，不裁切、不拉伸。cover
+  仅用于索引与分享预览。
+
+  综合表述已阅读完整 CAADRIA 2020 论文（11页）和4页作品集，以论文为主要依据。论文记录 Ethernet/UDP，优先于旧站简化的USB描述；作品集记载四次硬件迭代与当时748美元材料成本。明确八人研究的任务、评分、数值及机器人与流程同时改变的限制。
+
+  静态图优先从PDF提取原始图像，标注图从PDF高分辨率渲染。旧站2268×2268打印实拍优于作品集版本。Drive Picture1.gif仅一帧、低分辨率，未作为动画重复加入；旧站新年演示与已有运动展示重复，未加入。两个独有MP4转为完整循环GIF；手势GIF保留完整9.6秒演示，降低尺寸和帧率适配网页。无video或iframe。
+
+  '
+source_links:
+- http://ttistengteng.com/html/pic/d/468.html
+- https://drive.google.com/drive/folders/1w9fBA4OPfMUiZiBT0RTHWxt36ofUjpzV
+project_type: Personal robotic fabrication platform
+project_stage: Research prototypes, fabrication trials, and exploratory user study
 research_areas:
 - interfaces-and-tools
 research_order: 1
-research_question: What control over robotic fabrication can remain inside a designer’s modeling environment?
-contribution: PICA combines an adaptable six-axis arm with geometric control tools. Designers work with geometry
-  and toolpaths while the controller translates these into joint motion.
-method_steps:
-- title: Configure
-  text: Adjust a parametric arm model to define link lengths and working range.
-- title: Calculate
-  text: Use forward and inverse kinematics to connect tool positions with joint angles.
-- title: Fabricate
-  text: Send motor commands from Grasshopper to the Arduino-based controller.
-- title: Compare
-  text: Use fabrication trials and an exploratory student study to examine the prototype-making workflow.
 contributions:
-- Led the development of PICA in Jenny Sabin Lab.
-- Developed the robotic hardware and software connection between parametric models and fabrication.
-- Coauthored the CAADRIA 2020 research with Jenny Sabin.
-evidence: Four hardware iterations examined cost, reach, assembly, and control. Demonstrations included hot-wire
-  cutting and hot-glue deposition informed by a scanned clay model. An exploratory study with eight architecture
-  students compared workflows using PICA and an industrial robot. The small study supports a bounded account of
-  prototype use, not a general claim about learning gains or productivity.
+- Parametric robotic-arm design, prototyping, and assembly
+- Motor selection, transmission design, and Arduino control integration
+- Grasshopper components for forward and inverse kinematics
+- Hot-wire cutting and interactive hot-glue fabrication experiments
+- Usability study and first authorship of the CAADRIA 2020 paper
 related_projects:
 - /teaching/building-robots-for-robotic-fabrication/
 - /design/inspire/
+cover_preview_only: true
+primary_link:
+  title: Read the paper · CAADRIA 2020
+  url: https://drive.google.com/file/d/1oLjuYMiO45a3WtiozpaBjIVz4ZCrXU8L/view
 ---
 
-## A robot configured through design geometry
+PICA is a personal robotic fabrication platform for making **sketch-level architectural prototypes**. It brings together a configurable six-axis arm, custom Grasshopper controls, and replaceable fabrication tools so that designers can move from a digital or hand-shaped idea to a physical working model.
 
-PICA is a personal fabrication platform developed at Cornell University. Its six-axis arm combines 3D-printed components, stepper motors, and an Arduino-based control system. A parametric model allows link lengths and working range to be adapted to a fabrication task.
-
-Custom Grasshopper components calculate forward and inverse kinematics and translate joint angles into motor commands. This connection keeps geometry, toolpaths, and robotic control within the modeling workflow.
-
-## Physical trials and use
-
-Four hardware iterations explored trade-offs between cost, reach, assembly, and control. Hot-wire cutting and interactive hot-glue deposition tested different end effectors and relationships between source geometry and physical output.
-
-The CAADRIA 2020 paper documents the platform and an exploratory study with eight architecture students. The study is a starting point for examining how a designer-oriented robot changes the steps of prototyping. The subsequent robotics boot camp extends robot construction and control into a teaching sequence.
+I led the project’s hardware and software development at Cornell University’s Jenny Sabin Lab and coauthored the CAADRIA 2020 paper with Jenny Sabin. The research asks how robotic fabrication can become affordable and accessible during early design, when forms are still changing and direct engagement with a model can help generate the next idea.

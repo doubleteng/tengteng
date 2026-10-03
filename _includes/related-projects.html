@@ -1,0 +1,70 @@
+{% comment %}
+  Rank published projects by explicit connections, shared research areas,
+  specific tags, project type, and category. Never recommend the current page.
+{% endcomment %}
+{% assign rp_projects = site.projects | where: 'published', true %}
+{%- capture rp_index -%}
+  {%- for candidate in rp_projects -%}
+    {%- if candidate.url != page.url -%}
+      {%- assign rp_score = 0 -%}
+      {%- if page.related_projects contains candidate.url -%}
+        {%- assign rp_score = rp_score | plus: 1000 -%}
+      {%- elsif candidate.related_projects contains page.url -%}
+        {%- assign rp_score = rp_score | plus: 100 -%}
+      {%- endif -%}
+      {%- for area in page.research_areas -%}
+        {%- if candidate.research_areas contains area -%}
+          {%- assign rp_score = rp_score | plus: 8 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for page_tag in page.tags -%}
+        {%- assign rp_tag = page_tag | downcase | strip -%}
+        {%- for candidate_tag in candidate.tags -%}
+          {%- assign rp_candidate_tag = candidate_tag | downcase | strip -%}
+          {%- if rp_tag != '' and rp_tag == rp_candidate_tag -%}
+            {%- if rp_tag == 'architecture' or rp_tag == 'teaching' or rp_tag == 'computation' or rp_tag == 'fabrication' -%}
+              {%- assign rp_score = rp_score | plus: 1 -%}
+            {%- else -%}
+              {%- assign rp_score = rp_score | plus: 5 -%}
+            {%- endif -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+      {%- assign rp_page_type = page.project_type | downcase | strip -%}
+      {%- assign rp_candidate_type = candidate.project_type | downcase | strip -%}
+      {%- if rp_page_type != '' and rp_page_type == rp_candidate_type -%}
+        {%- assign rp_score = rp_score | plus: 6 -%}
+      {%- endif -%}
+      {%- if candidate.category == page.category -%}
+        {%- assign rp_score = rp_score | plus: 2 -%}
+      {%- endif -%}
+      {%- if rp_score > 0 -%}
+        {%- assign rp_latest_year = 0 -%}
+        {%- assign rp_year_parts = candidate.year | append: '' | replace: '–', ' ' | replace: '—', ' ' | replace: '-', ' ' | replace: '/', ' ' | split: ' ' -%}
+        {%- for part in rp_year_parts -%}
+          {%- assign rp_year = part | plus: 0 -%}
+          {%- if rp_year >= 1000 and rp_year <= 9999 and rp_year > rp_latest_year -%}
+            {%- assign rp_latest_year = rp_year -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- assign rp_inverse_score = 99999 | minus: rp_score -%}
+        {%- assign rp_inverse_year = 9999 | minus: rp_latest_year -%}
+        {{- rp_inverse_score | prepend: '00000' | slice: -5, 5 -}}:{{- rp_inverse_year | prepend: '0000' | slice: -4, 4 -}}:{{- forloop.index0 | prepend: '0000' | slice: -4, 4 -}}|
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{% assign rp_keys = rp_index | split: '|' | sort %}
+{% if rp_keys.size > 0 %}
+<section class="section related-projects" aria-labelledby="related-projects-heading">
+  <div class="section-heading"><h2 id="related-projects-heading">Related projects</h2><a class="text-link" href="{{ '/gallery/' | relative_url }}">All projects →</a></div>
+  <div class="project-grid">
+    {% for rp_key in rp_keys limit:4 %}
+      {% assign rp_project_index = rp_key | split: ':' | last | plus: 0 %}
+      {% assign project = rp_projects[rp_project_index] %}
+      {% include project-card.html project=project compact=true %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

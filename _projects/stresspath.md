@@ -21,7 +21,7 @@ summary: A browser-based workspace for structural design, analysis, toolpaths, a
 <style>
 .stresspath-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:18px 0 20px}
 .stresspath-heading h1{margin:0 0 8px}.stresspath-heading p{max-width:780px;margin:0}
-.stresspath-frame{display:block;width:100%;height:90vh;height:90dvh;min-height:720px;border:1px solid #ddd;border-radius:6px;background:#fff}
+.stresspath-frame{display:block;width:100%;height:90vh;height:90dvh;min-height:720px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
 @media(max-width:760px){.stresspath-heading{display:block}.stresspath-heading .button{display:inline-block;margin-top:14px}.stresspath-frame{min-height:720px}}
 </style>
 <div class="page-top"><a class="back-link" href="/research/">← Research</a><p class="eyebrow">2026</p></div>

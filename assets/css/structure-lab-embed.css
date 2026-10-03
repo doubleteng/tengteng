@@ -32,7 +32,7 @@
   height: max(600px, calc(100dvh - 248px));
   border: 1px solid var(--line);
   border-radius: 4px;
-  background: #fff;
+  background: var(--paper);
 }
 .structure-lab-page > .project-layout {
   max-width: 1296px;

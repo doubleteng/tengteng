@@ -36,6 +36,10 @@ sections:
   - 1.777778
   caption: A wireframe model appears above the hand (left), and a hand interacts with displayed geometry through
     the transparent screen (right).
+- type: video
+  heading: Prototype demonstration
+  url: https://www.youtube.com/watch?v=LHzXghdVDZA
+  caption: Original demonstration of InSpire’s integrated spatial gesture-based modeling and display.
 - type: text
   heading: Bringing the model into reach
   body: 'InSpire is a single-user workstation combining a mini projector, rear-projection surface, adjustable
@@ -178,6 +182,8 @@ sections:
 links:
 - title: Full paper · PDF
   url: /assets/papers/inspire-acadia-2014.pdf
+- title: Prototype demonstration · YouTube
+  url: https://www.youtube.com/watch?v=LHzXghdVDZA
 - title: Original project archive
   url: http://ttistengteng.com/html/pic/d/450.html
 related_publications:
@@ -193,8 +199,7 @@ editor_notes: '延续用户对 Pinbed/PICA 的排版要求：无 money shot、�
 
   媒体去重：不使用旧站电影参考图、现站蓝色占位图；重复图优先保留当前作品集较高清版本，六张建模截图用旧站原始BMP无损转换PNG，其余补充论文原图。18张静态图分9组双栏。
 
-  动态资料限制：旧站 YouTube 1n2uM-zQDpQ 已设为 private；LHzXghdVDZA 可读元数据但两个已列出的媒体格式返回 Site Unavailable HTML而非视频，不能生成真实GIF。未添加视频播放器，也未用静态图伪造运动演示。未来提供源视频后可补
-  GIF。
+  视频要求已按用户最新说明修正：保留旧站公开视频 LHzXghdVDZA 的 YouTube 嵌入，放在首组实拍之后；下载限制不等于嵌入限制。旧站另一段 1n2uM-zQDpQ 已设为私密，未添加无效播放器。图片仍为9组双栏等高，且无顶部大图。
 
   '
 source_links:

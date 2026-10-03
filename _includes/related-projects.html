@@ -3,6 +3,9 @@
   specific tags, project type, and category. Never recommend the current page.
 {% endcomment %}
 {% assign rp_projects = site.projects | where: 'published', true %}
+{% assign rp_page_tags = page.tags | join: ' ' %}
+{% assign rp_page_topics = page.title | append: ' ' | append: page.project_type | append: ' ' | append: rp_page_tags | downcase | replace: 'mixed-use', 'mixed use' | replace: 'façade', 'facade' | replace: 'curtain-wall', 'facade' | replace: 'curtain wall', 'facade' | replace: 'envelope design', 'facade' | replace: '3d-printed', '3d printing' %}
+{% assign rp_topic_signals = 'mixed use|facade|retail|timber|concrete|robotics|3d printing|urban design|product design' | split: '|' %}
 {%- capture rp_index -%}
   {%- for candidate in rp_projects -%}
     {%- if candidate.url != page.url -%}
@@ -18,9 +21,9 @@
         {%- endif -%}
       {%- endfor -%}
       {%- for page_tag in page.tags -%}
-        {%- assign rp_tag = page_tag | downcase | strip -%}
+        {%- assign rp_tag = page_tag | downcase | strip | replace: 'façade', 'facade' | replace: 'curtain-wall design', 'facade' | replace: 'curtain wall design', 'facade' | replace: 'envelope design', 'facade' | replace: 'computational design', 'computation' -%}
         {%- for candidate_tag in candidate.tags -%}
-          {%- assign rp_candidate_tag = candidate_tag | downcase | strip -%}
+          {%- assign rp_candidate_tag = candidate_tag | downcase | strip | replace: 'façade', 'facade' | replace: 'curtain-wall design', 'facade' | replace: 'curtain wall design', 'facade' | replace: 'envelope design', 'facade' | replace: 'computational design', 'computation' -%}
           {%- if rp_tag != '' and rp_tag == rp_candidate_tag -%}
             {%- if rp_tag == 'architecture' or rp_tag == 'teaching' or rp_tag == 'computation' or rp_tag == 'fabrication' -%}
               {%- assign rp_score = rp_score | plus: 1 -%}
@@ -30,6 +33,13 @@
             {%- break -%}
           {%- endif -%}
         {%- endfor -%}
+      {%- endfor -%}
+      {%- assign rp_candidate_tags = candidate.tags | join: ' ' -%}
+      {%- assign rp_candidate_topics = candidate.title | append: ' ' | append: candidate.project_type | append: ' ' | append: rp_candidate_tags | downcase | replace: 'mixed-use', 'mixed use' | replace: 'façade', 'facade' | replace: 'curtain-wall', 'facade' | replace: 'curtain wall', 'facade' | replace: 'envelope design', 'facade' | replace: '3d-printed', '3d printing' -%}
+      {%- for topic in rp_topic_signals -%}
+        {%- if rp_page_topics contains topic and rp_candidate_topics contains topic -%}
+          {%- assign rp_score = rp_score | plus: 6 -%}
+        {%- endif -%}
       {%- endfor -%}
       {%- assign rp_page_type = page.project_type | downcase | strip -%}
       {%- assign rp_candidate_type = candidate.project_type | downcase | strip -%}

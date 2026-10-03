@@ -55,22 +55,19 @@ hero_gallery:
 - image: /assets/media/yintai-centre-mixed-use/built-horizontal-bands.webp
   alt: Oblique close-up of horizontal bands along the curved curtain wall
   caption: Built project — the depth and continuity of the horizontal curtain-wall bands.
+- image: /assets/media/yintai-centre-mixed-use/construction-structure.webp
+  alt: Exposed concrete tower structure during construction
+  caption: Construction — the exposed tower structure before curtain-wall installation.
+- image: /assets/media/yintai-centre-mixed-use/construction-podium.webp
+  alt: Podium curtain wall under construction
+  caption: Construction — installation of the curved podium enclosure.
+- image: /assets/media/yintai-centre-mixed-use/construction-tower-cladding-restored.jpg
+  alt: Tower curtain wall being installed above the podium
+  caption: Construction — the tower curtain wall and podium as cladding installation progressed.
+- image: /assets/media/yintai-centre-mixed-use/construction-overall.webp
+  alt: Overall view of the towers and podium during construction
+  caption: Construction — the wider complex as the tower and podium envelopes approached completion.
 sections:
-- type: text
-  heading: Construction photographs
-  body: The site photographs record the transition from exposed tower structure to installed curtain walls
-    and the enclosing of the retail podium. They connect the façade studies below to the scale and sequencing
-    of construction.
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/yintai-centre-mixed-use/construction-structure.webp
-  - /assets/media/yintai-centre-mixed-use/construction-podium.webp
-  - /assets/media/yintai-centre-mixed-use/construction-tower-cladding.webp
-  - /assets/media/yintai-centre-mixed-use/construction-overall.webp
-  columns: two
-  caption: Construction archive — tower structure, podium enclosure, tower cladding, and the wider complex
-    as installation progressed.
 - type: text
   heading: Technical drawings
   body: |-
@@ -214,18 +211,18 @@ links:
   url: http://ttistengteng.com/html/pic/d/479.html
 related_publications: []
 awards: []
-editor_notes: |-
-  展示顺序：实拍图（顶部自动轮播，每2秒，保留完整构图）、建造照片、技术图纸、视频（本批无视频，省略）、效果图、diagram。相似角度优先实拍；重复图纸采用Drive高清源。
+editor_notes: |
+  展示顺序：实拍图及建造照片（均放入顶部自动轮播，每2秒，先7张实拍，再4张建造照片，保留完整构图）、技术图纸、视频（本批无视频，省略）、效果图、diagram。相似角度优先实拍；重复图纸采用Drive高清源。
   用户确认职责：前期总体设计及全阶段幕墙设计与优化，从概念设计持续至后期施工图，并与建造商、幕墙供应商对接。不得缩写为仅技术支持或只做幕墙；未额外添加lead职称。
   照片文件夹的Picture3.png属于Kaisa，排除。coutyard.png及dc3edbb8-db96-4999-a1e2-22a422ab6145.png为来源不明的处理版本，未采用。Picture2.jpg使用imagegen轻度修整版本built-curved-tower-retouched.webp；图注标明Retouched photograph，其余实拍保留原摄影内容。
   旧站与2015作品集对竣工年份描述不一致，故不写竣工年；2010–2011为作品集记录的设计参与期。720,000平方米及220米为档案设计指标。
   作品集文字记载研究6种层间玻璃方案，但本批仅有5张独立高清方案图，故保留全部5张并说明档案数量，不虚构第6张或具体最终选择。
   使用Drive技术图替换低分辨率旧站及PDF重复图。正面整体效果图与实拍相近，省略；从PDF原图提取独特的影院露台效果图及系统分析图。
+  第三张施工照片从原始IMG_8088.JPG重新导出为construction-tower-cladding-restored.jpg，替代损坏的空WebP；顶部图库明确提供暂停/播放按钮，悬停和普通焦点不再停止自动播放。
 source_links:
 - http://ttistengteng.com/html/pic/d/479.html
 - https://drive.google.com/drive/folders/17iupPjYWF9CrSYN-WczSZ7NDlIO5NJUv
 ---
-
 Yintai Centre is a mixed-use development in Chengdu combining a retail podium with office, residential, hotel, and serviced-apartment towers. The archived design brief describes approximately **720,000 m²** of total construction floor area and a tallest tower of **220 m**.
 
 **I participated in the early overall design and carried out curtain-wall design and optimization across all stages**, from concept design through later construction documentation and coordination with contractors and curtain-wall suppliers. My work included podium planning, hotel and office tower façades, environmental analysis, and the development of façade systems and construction details.

@@ -5,13 +5,13 @@ layout: default
 <header class="project-heading"><h1>{{ page.title | escape }}</h1>{% if page.summary and page.summary != '' %}<p class="lead">{{ page.summary | escape }}</p>{% endif %}{% if page.primary_link and page.interactive_map != true %}<div class="actions"><a class="button" href="{{ page.primary_link.url | escape }}" target="_blank" rel="noopener">{{ page.primary_link.title | escape }} ↗</a></div>{% endif %}</header>
 {% if page.structure_lab %}{% include structure-lab.html %}{% endif %}
 {% if page.interactive_map %}{% include chinatown-map.html %}{% elsif page.hero_gallery and page.hero_gallery.size > 0 %}
-<section class="project-hero-carousel" data-hero-carousel data-carousel-fit="{{ page.hero_gallery_fit | default: 'cover' | escape }}" tabindex="0" aria-label="{{ page.title | escape }} built project photography">
+<section class="project-hero-carousel" data-hero-carousel data-carousel-fit="{{ page.hero_gallery_fit | default: 'cover' | escape }}" tabindex="0" aria-label="{{ page.title | escape }} project photography">
   <div class="hero-carousel-viewport">
     <div class="hero-carousel-track" data-carousel-track>
       {% for item in page.hero_gallery %}
       <figure class="hero-carousel-slide" data-carousel-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
         <button class="image-trigger" type="button" data-image="{{ item.image | relative_url }}" data-caption="{{ item.caption | escape }}" aria-label="Enlarge {{ item.alt | default: page.title | escape }}">
-          <img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: page.title | escape }}" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+          <img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: page.title | escape }}" loading="eager" {% if forloop.first %}fetchpriority="high"{% endif %} decoding="async">
         </button>
         {% if item.caption and item.caption != '' %}<figcaption>{{ item.caption | escape }}</figcaption>{% endif %}
       </figure>
@@ -24,7 +24,7 @@ layout: default
     <div class="hero-carousel-dots" aria-label="Select photograph">
       {% for item in page.hero_gallery %}<button type="button" data-carousel-dot="{{ forloop.index0 }}" aria-label="Show photograph {{ forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}></button>{% endfor %}
     </div>
-    <span class="hero-carousel-status" data-carousel-status>1 / {{ page.hero_gallery.size }}</span>
+    <div class="hero-carousel-controls"><button class="hero-carousel-toggle" type="button" data-carousel-toggle aria-label="Pause slideshow" aria-pressed="false">Pause</button><span class="hero-carousel-status" data-carousel-status>1 / {{ page.hero_gallery.size }}</span></div>
   </div>
 </section>
 {% elsif page.cover and page.cover != '' and page.cover_preview_only != true %}<figure class="project-hero"><button class="image-trigger" type="button" data-image="{{ page.cover | relative_url }}" aria-label="Enlarge {{ page.cover_alt | default: page.title | escape }}"><img src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | default: page.title | escape }}" fetchpriority="high" decoding="async"></button>{% if page.cover_caption %}<figcaption>{{ page.cover_caption | escape }}</figcaption>{% endif %}</figure>{% endif %}

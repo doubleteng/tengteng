@@ -83,12 +83,14 @@ document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
   const prev = carousel.querySelector('[data-carousel-prev]');
   const next = carousel.querySelector('[data-carousel-next]');
   const status = carousel.querySelector('[data-carousel-status]');
+  const toggle = carousel.querySelector('[data-carousel-toggle]');
   if (!track || slides.length < 2) return;
 
   let index = 0;
   let timer = null;
   let touchStartX = 0;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let paused = false;
+  let touching = false;
 
   function render() {
     track.style.transform = `translateX(-${index * 100}%)`;
@@ -110,7 +112,7 @@ document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
 
   function start() {
     stop();
-    if (reduceMotion || document.hidden) return;
+    if (paused || touching || document.hidden || dialog?.open) return;
     timer = window.setInterval(() => go(index + 1, false), 2000);
   }
 
@@ -118,10 +120,15 @@ document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
   next?.addEventListener('click', event => { event.stopPropagation(); go(index + 1); });
   dots.forEach((dot, i) => dot.addEventListener('click', () => go(i)));
 
-  carousel.addEventListener('mouseenter', stop);
-  carousel.addEventListener('mouseleave', start);
-  carousel.addEventListener('focusin', stop);
-  carousel.addEventListener('focusout', event => { if (!carousel.contains(event.relatedTarget)) start(); });
+  toggle?.addEventListener('click', () => {
+    paused = !paused;
+    toggle.textContent = paused ? 'Play' : 'Pause';
+    toggle.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
+    toggle.setAttribute('aria-pressed', String(paused));
+    start();
+  });
+  carousel.querySelectorAll('[data-image]').forEach(trigger => trigger.addEventListener('click', stop));
+  dialog?.addEventListener('close', start);
   carousel.addEventListener('keydown', event => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
@@ -130,15 +137,18 @@ document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
   });
 
   carousel.addEventListener('touchstart', event => {
+    touching = true;
     touchStartX = event.changedTouches[0]?.clientX || 0;
     stop();
   }, {passive:true});
   carousel.addEventListener('touchend', event => {
+    touching = false;
     const x = event.changedTouches[0]?.clientX || 0;
     const delta = x - touchStartX;
     if (Math.abs(delta) > 45) go(index + (delta < 0 ? 1 : -1));
     else start();
   }, {passive:true});
+  carousel.addEventListener('touchcancel', () => { touching = false; start(); }, {passive:true});
 
   document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
   render();

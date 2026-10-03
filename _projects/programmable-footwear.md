@@ -1,11 +1,11 @@
 ---
 title: Programmable Footwear
-category: design
+category: research
 year: '2025'
 published: true
 featured: false
 featured_order: 99
-permalink: /design/programmable-footwear/
+permalink: /research/programmable-footwear/
 cover: ''
 cover_alt: Programmable Footwear
 summary: A footwear design study exploring programmable material properties.
@@ -23,6 +23,9 @@ related_publications: []
 awards: []
 editor_notes: 原站没有完整项目说明；请补充项目背景、个人职责、方法、成果及图片署名。 已撤下原站的纯色占位图，原文件保留；需要上传真实项目图片。
 source_links: []
+research_areas:
+- material-computation
+research_order: 10
 ---
 
 A footwear design study exploring programmable material properties.

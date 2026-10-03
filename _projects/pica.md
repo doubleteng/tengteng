@@ -229,7 +229,7 @@ contributions:
 - Usability study and first authorship of the CAADRIA 2020 paper
 related_projects:
 - /teaching/building-robots-for-robotic-fabrication/
-- /design/inspire/
+- /research/inspire/
 cover_preview_only: true
 primary_link:
   title: Read the paper · CAADRIA 2020

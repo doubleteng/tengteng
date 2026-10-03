@@ -1,11 +1,11 @@
 ---
 title: 'INSPIRE: Gesture-Based 3D Modeling'
-category: design
+category: research
 year: '2014'
 published: true
 featured: true
 featured_order: 3
-permalink: /design/inspire/
+permalink: /research/inspire/
 cover: /assets/media/inspire/prototype-in-use.jpg
 cover_alt: A digital wireframe appears above the user’s hand in the InSpire display
 summary: An optical see-through interface brings hand gestures, digital geometry, and a responsive viewpoint into

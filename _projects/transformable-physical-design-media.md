@@ -1,11 +1,11 @@
 ---
 title: Transformable Physical Design Media
-category: design
+category: research
 year: '2015'
 published: true
 featured: false
 featured_order: 99
-permalink: /design/transformable-physical-design-media/
+permalink: /research/transformable-physical-design-media/
 cover: /assets/media/transformable-physical-design-media/cube-tabletop-information.webp
 cover_alt: CuBe physical building models with projected height, floor count, and floor-area information
 summary: CuBe connects tangible massing models to digital geometry and projected building information, shadow studies,
@@ -79,7 +79,7 @@ sections:
 - type: text
   heading: Shared physical and digital design
   body: The deformable frame also supports discussion around a physical model while retaining a digital record of
-    its geometry. The 2015 paper presents CuBe alongside [InSpire](/design/inspire/), connecting tangible manipulation
+    its geometry. The 2015 paper presents CuBe alongside [InSpire](/research/inspire/), connecting tangible manipulation
     and gesture-based modeling within the same investigation of physical design media.
 links:
 - title: Read the paper · eCAADe 2015, pp. 45–54
@@ -104,7 +104,7 @@ contributions:
 - Developed CuBe with Brian R. Johnson at the University of Washington.
 - First author of Transformable Physical Design Media, eCAADe 2015.
 related_projects:
-- /design/inspire/
+- /research/inspire/
 - /research/epithelial-cell-inspired-programmable-surface-geometry/
 ---
 

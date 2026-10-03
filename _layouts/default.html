@@ -15,6 +15,8 @@
   {% if page.cover and page.cover != '' %}<meta property="og:image" content="{{ page.cover | absolute_url }}">{% endif %}
   {% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="preload" href="{{ '/assets/fonts/chivo/Chivo-Regular.woff' | relative_url }}" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="{{ '/assets/css/chivo.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   <link rel="stylesheet" href="{{ '/assets/css/research.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   {% if page.interactive_map %}

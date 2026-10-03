@@ -1,0 +1,37 @@
+/* Chivo supplied by Teng Teng; font copyright and license: ../fonts/chivo/OFL.txt */
+@font-face {
+  font-family: 'Chivo';
+  src: url('../fonts/chivo/Chivo-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Chivo';
+  src: url('../fonts/chivo/Chivo-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Chivo';
+  src: url('../fonts/chivo/Chivo-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Chivo';
+  src: url('../fonts/chivo/Chivo-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root { --font-chivo: 'Chivo', 'Noto Sans', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif; }
+html, body, button, input, select, textarea { font-family: var(--font-chivo); }
+/* Embedded tool interfaces and SVG labels share the portfolio typeface. */
+.spatial-app, .sketch-shortcuts kbd, .section-sketch text,
+.member-result-plot text, .studio-field textarea, svg text {
+  font-family: var(--font-chivo);
+}

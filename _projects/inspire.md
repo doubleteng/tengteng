@@ -184,8 +184,6 @@ links:
   url: /assets/papers/inspire-acadia-2014.pdf
 - title: Prototype demonstration · YouTube
   url: https://www.youtube.com/watch?v=LHzXghdVDZA
-- title: Original project archive
-  url: http://ttistengteng.com/html/pic/d/450.html
 related_publications:
 - title: 'Inspire: Integrated Spatial Gesture-based Direct 3D Modeling and Display'
   url: https://doi.org/10.52842/conf.acadia.2014.445

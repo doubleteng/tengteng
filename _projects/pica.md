@@ -196,11 +196,7 @@ sections:
 
     [Read the full paper](https://drive.google.com/file/d/1oLjuYMiO45a3WtiozpaBjIVz4ZCrXU8L/view) · [Publication
     record](https://papers.cumincad.org/cgi-bin/works/paper/caadria2020_436) · [Related robotics teaching project](/teaching/building-robots-for-robotic-fabrication/)'
-links:
-- title: Project portfolio · PDF
-  url: https://drive.google.com/file/d/1K0i4MmYXKoGElWxyS8bcM6UyxbRjXZTw/view
-- title: Original project archive
-  url: http://ttistengteng.com/html/pic/d/468.html
+links: []
 related_publications:
 - title: PICA - A Designer Oriented Low-Cost Personal Robotic Fabrication Platform for Sketch Level Prototyping
   url: https://doi.org/10.52842/conf.caadria.2020.2.473

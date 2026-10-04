@@ -100,11 +100,7 @@ sections:
     and initial printing tests. It explored a reusable support surface for curved deposition as part of my
     master’s research into bio-inspired architectural geometry. Fabricating larger architectural components
     remained a direction for further development at this prototype stage.
-links:
-- title: Project portfolio · PDF
-  url: https://drive.google.com/file/d/1sYGNSuPTAWPgDo5VjWVW_5Fpl1CGlnDt/view
-- title: Original project archive
-  url: http://ttistengteng.com/html/pic/d/511.html
+links: []
 related_publications:
 - title: Interactive Fabrication and Design of Bioinspired Surface Geometry
   url: https://hdl.handle.net/1813/110467

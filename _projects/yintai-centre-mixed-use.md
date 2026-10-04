@@ -204,11 +204,7 @@ sections:
   alt: Clear- and overcast-sky daylight simulations for two office floor plates at three times and seasons
   caption: Daylighting study — December 21, March 21, and June 21 at 9 AM, 1 PM, and 5 PM, under clear and
     overcast skies. Design-stage simulations.
-links:
-- title: Project portfolio · four-page PDF
-  url: https://drive.google.com/file/d/1YtBl7LZWoQipKssfjAqiGNUkW1o3MCCu/view
-- title: Original project archive
-  url: http://ttistengteng.com/html/pic/d/479.html
+links: []
 related_publications: []
 awards: []
 editor_notes: |

@@ -16,4 +16,6 @@ bibtex: "@article{kong2019micro,\n author = {Kong, Meng and Zhang, Jianshun and 
   \ pages = {106198},\n publisher = {Elsevier},\n title = {Micro-environmental control for efficient local cooling:\
   \ Results from manikin and human participant tests},\n url = {https://doi.org/10.1016/j.buildenv.2019.106198},\n\
   \ volume = {160},\n year = {2019}\n}"
+scholar_url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=oaYwxwYAAAAJ&citation_for_view=oaYwxwYAAAAJ:WF5omc3nYNoC
+researchgate_url: https://www.researchgate.net/publication/333778544_Micro-environmental_control_for_efficient_local_cooling_Results_from_manikin_and_human_participant_tests
 ---

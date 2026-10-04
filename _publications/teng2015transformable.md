@@ -14,4 +14,6 @@ bibtex: "@inproceedings{teng2015transformable,\n address = {Vienna University of
   \ September 2015},\n author = {Teng Teng and Johnson, Brian R.},\n booktitle = {Real Time - Proceedings of the\
   \ 33rd eCAADe Conference - Volume 1},\n pages = {45--54},\n title = {Transformable Physical Design Media},\n url\
   \ = {https://doi.org/10.52842/conf.ecaade.2015.1.045},\n year = {2015}\n}"
+scholar_url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=oaYwxwYAAAAJ&citation_for_view=oaYwxwYAAAAJ:hC7cP41nSMkC
+researchgate_url: https://www.researchgate.net/publication/344224071_Transformable_Physical_Design_Media
 ---

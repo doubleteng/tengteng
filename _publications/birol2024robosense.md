@@ -1,26 +1,22 @@
 ---
 title: 'Robosense 3.0: CERA III Adaptive Robotic Clay Printing'
 kind: journal
-year: 2024
-authors: Birol, Eda Begum; Teng Teng; Moghadashi, Mahshid; Asgari, Alexia; Guo, Kevin; Piorko, Karolina; Varga,
-  Veronika; Sabin, Jenny E.
+year: 2025
+authors: Eda Begum Birol; Teng Teng; Mahshid Moghadasi; Alexia Asgari; Kevin Guo; Karolina Piorko; Veronika Varga;
+  Jenny E. Sabin
 venue: 3D Printing and Additive Manufacturing
-status: in-press
+status: published
 published: true
 featured: false
-url_link: ''
+url_link: https://doi.org/10.1177/23297662251388855
 pdf: ''
-note: in press, 3DP-2024-0150.R1
-bibtex: "@article{birol2024robosense,\n abstract = {Robosense 3.0 develops a streamlined network and design pipeline\
-  \ that engages robotic tooling, advanced manufacturing, designer input, fabrication environment feedback, and\
-  \ cutting-edge software to produce high-resolution ceramic architectural components. The project builds upon existing\
-  \ research in extrusion-based robotic fabrication, focusing on developing more robust, precise, and bespoke tooling\
-  \ for ceramic construction.},\n author = {Birol, Eda Begum and Teng Teng and Moghadashi, Mahshid and Asgari, Alexia\
-  \ and Guo, Kevin  and Piorko, Karolina and Varga, Veronika and Sabin, Jenny E.},\n journal = {3D Printing and\
-  \ Additive Manufacturing},\n keywords = {Additive manufacturing, Parametric Design, Human Robot Interaction Design,\
-  \ Ceramics, Digital Clay, Human Robot Collaboration, Robotic Fabrication, 3D Printing, Digital Ceramics},\n note\
-  \ = {in press, 3DP-2024-0150.R1},\n publisher = {Mary Ann Liebert, Inc.},\n title = {Robosense 3.0: CERA III Adaptive\
-  \ Robotic Clay Printing},\n year = {2024}\n}"
+note: ''
+bibtex: "@article{birol2025robosense,\n  author = {Eda Begum Birol and Teng Teng and Mahshid Moghadasi and Alexia\
+  \ Asgari and Kevin Guo and Karolina Piorko and Veronika Varga and Jenny E. Sabin},\n  title = {Robosense 3.0:\
+  \ CERA III Adaptive Robotic Clay Printing},\n  journal = {3D Printing and Additive Manufacturing},\n  doi =\
+  \ {10.1177/23297662251388855},\n  year = {2025}\n}"
+scholar_url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=oaYwxwYAAAAJ&citation_for_view=oaYwxwYAAAAJ:-f6ydRqryjwC
+researchgate_url: https://www.researchgate.net/publication/399201247_Robosense_30_CERA_III_Adaptive_Robotic_Clay_Printing
 ---
 
 Robosense 3.0 develops a streamlined network and design pipeline that engages robotic tooling, advanced manufacturing, designer input, fabrication environment feedback, and cutting-edge software to produce high-resolution ceramic architectural components. The project builds upon existing research in extrusion-based robotic fabrication, focusing on developing more robust, precise, and bespoke tooling for ceramic construction.

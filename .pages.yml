@@ -490,6 +490,14 @@ content:
     - name: url_link
       label: DOI or publisher URL
       type: string
+    - name: scholar_url
+      label: Google Scholar article URL
+      type: string
+      description: Link to this publication’s individual Google Scholar record.
+    - name: researchgate_url
+      label: ResearchGate publication URL
+      type: string
+      description: Link to this publication’s individual ResearchGate record.
     - name: pdf
       label: Upload publication PDF
       type: file
@@ -1321,6 +1329,14 @@ content:
     - name: url_link
       label: DOI／出版社链接
       type: string
+    - name: scholar_url
+      label: Google Scholar 单篇论文链接
+      type: string
+      description: 填写这篇论文在 Google Scholar 上的独立条目链接。
+    - name: researchgate_url
+      label: ResearchGate 单篇论文链接
+      type: string
+      description: 填写这篇论文在 ResearchGate 上的独立条目链接。
     - name: pdf
       label: 上传论文 PDF
       type: file

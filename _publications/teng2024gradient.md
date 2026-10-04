@@ -17,4 +17,5 @@ bibtex: "@inproceedings{teng2024gradient,\n address = {Banff Centre, Canada, 14-
   \ of the Association for Computer Aided Design in Architecture (ACADIA)]},\n isbn = {TBD},\n title = {Integrated\
   \ and Tailored Thermal Insulation through Gradient Multimaterial Additive Manufacturing for Masonry Architectural\
   \ Components},\n year = {2024}\n}"
+researchgate_url: https://www.researchgate.net/publication/385899947_Integrated_and_Tailored_Thermal_Insulation_through_Gradient_Multimaterial_Additive_Manufacturing_for_Masonry_Architectural_Components
 ---

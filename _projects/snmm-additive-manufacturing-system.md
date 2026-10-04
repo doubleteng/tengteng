@@ -51,8 +51,10 @@ sections:
   columns: two
 links: []
 related_publications:
-- title: Related paper (DOI)
+- title: Prototyping high-fidelity multifunctional objects using single-nozzle multi-filament additive manufacturing
+    system with active mixing
   url: https://doi.org/10.1016/j.matdes.2024.113479
+  publication_id: teng2025113479
 awards: []
 editor_notes: ''
 source_links:

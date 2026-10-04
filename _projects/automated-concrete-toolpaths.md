@@ -18,8 +18,9 @@ credits:
 team: []
 awards: []
 related_publications:
-- title: Additive Manufacturing · 2025
+- title: Automated Toolpath Design of 3D Concrete Printing Structural Components
   url: https://doi.org/10.1016/j.addma.2025.104662
+  publication_id: zhi2024automated
 links: []
 sections:
 - type: gallery

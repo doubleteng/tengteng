@@ -37,8 +37,9 @@ sections:
   columns: two
 links: []
 related_publications:
-- title: Related paper (DOI)
-  url: https://link.springer.com/article/10.1007/s44223-024-00070-3
+- title: Designing 3D-printed concrete structures with scaled fabrication models
+  url: https://doi.org/10.1007/s44223-024-00070-3
+  publication_id: zhi2024
 awards: []
 editor_notes: ''
 source_links: []

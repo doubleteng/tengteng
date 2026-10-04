@@ -55,8 +55,9 @@ links:
 - title: Open StressPath workspace
   url: /research/stresspath/app/
 related_publications:
-- title: Related paper (DOI)
+- title: Continuous multi-filament 3D printing for tension-compression structure components
   url: https://psl.design.upenn.edu/wp-content/uploads/2023/05/TENG______IASS_Continuous_multi_filament__D.pdf
+  publication_id: teng-2023-multi-material-truss
 awards: []
 editor_notes: ''
 source_links: []

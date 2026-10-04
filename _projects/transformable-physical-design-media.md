@@ -10,7 +10,7 @@ cover: /assets/media/transformable-physical-design-media/cube-tabletop-informati
 cover_alt: CuBe physical building models with projected height, floor count, and floor-area information
 summary: CuBe connects tangible massing models to digital geometry and projected building information, shadow studies,
   and wind-field visualizations.
-role: Leading Contributor — interface and research prototype development
+role: Project lead; interface and research prototype development
 institution: University of Washington · Design Machine Group
 location: Seattle, Washington, USA
 tags:
@@ -85,8 +85,12 @@ links:
 - title: Read the paper · eCAADe 2015, pp. 45–54
   url: https://papers.cumincad.org/data/works/att/ecaade2015_319.content.pdf
 related_publications:
-- title: Transformable Physical Design Media · eCAADe 2015
+- title: Transformable Physical Design Media
   url: https://doi.org/10.52842/conf.ecaade.2015.1.045
+  publication_id: teng2015transformable
+- title: Transformable Physical Design Media
+  url: http://hdl.handle.net/1773/33440
+  publication_id: teng2015masters
 awards: []
 editor_notes: Updated from the original CuBe project page and the full eCAADe 2015 paper, pp. 45–54. Prototype descriptions
   draw on pp. 50–53. The paper documents implementations and application scenarios; it does not provide a comparative
@@ -101,11 +105,11 @@ research_areas:
 research_order: 6
 cover_caption: CuBe brings building information into the same tabletop space as the physical massing models.
 contributions:
-- Developed CuBe with Brian R. Johnson at the University of Washington.
+- Led CuBe’s design and prototype development at the University of Washington’s Design Machine Group.
 - First author of Transformable Physical Design Media, eCAADe 2015.
 related_projects:
 - /research/inspire/
 - /research/epithelial-cell-inspired-programmable-surface-geometry/
 ---
 
-CuBe is a tangible toolkit for architectural massing studies developed with Brian R. Johnson at the University of Washington. Designers move, rotate, twist, and stretch physical models while the system tracks their position or deformation and updates digital geometry. The prototypes give the hands a physical reference and bring building information and environmental visualizations into the working space. The work was published in *Transformable Physical Design Media* at eCAADe 2015.
+CuBe is a tangible toolkit for architectural massing studies. I led its development at the University of Washington’s Design Machine Group. Designers move, rotate, twist, and stretch physical models while the system tracks their position or deformation and updates digital geometry. The prototypes give the hands a physical reference and bring building information and environmental visualizations into the working space. The work was published in *Transformable Physical Design Media* at eCAADe 2015.

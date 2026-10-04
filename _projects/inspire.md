@@ -10,7 +10,7 @@ cover: /assets/media/inspire/prototype-in-use.jpg
 cover_alt: A digital wireframe appears above the user’s hand in the InSpire display
 summary: An optical see-through interface brings hand gestures, digital geometry, and a responsive viewpoint into
   the same space for architectural sketch modeling.
-role: Lead contributor; interface prototyping and gesture-based modeling
+role: Project lead; interface prototyping and gesture-based modeling
 institution: University of Washington
 location: Seattle, Washington, USA
 tags:
@@ -162,7 +162,7 @@ sections:
 - type: text
   heading: Research contribution and scope
   body: 'InSpire demonstrates an integrated system for creating, editing, and viewing freeform geometry through
-    spatial gestures. Developed with Brian R. Johnson at the University of Washington and presented at **ACADIA
+    spatial gestures. I led the research at the University of Washington. Presented at **ACADIA
     2014**, the work connects interface design, computational geometry, optical display, and human–computer interaction
     in an architectural modeling tool.
 
@@ -187,8 +187,9 @@ links:
 - title: Original project archive
   url: http://ttistengteng.com/html/pic/d/450.html
 related_publications:
-- title: Teng, T. & Johnson, B. R. (2014). InSpire — ACADIA, pp. 445–452.
+- title: 'Inspire: Integrated Spatial Gesture-based Direct 3D Modeling and Display'
   url: https://doi.org/10.52842/conf.acadia.2014.445
+  publication_id: teng2014inspire
 awards: []
 editor_notes: '延续用户对 Pinbed/PICA 的排版要求：无 money shot、无顶部大图、无轮播；每行两张，同方向、按竖向显示高度对齐；image_ratios 取图片原始宽高比，不裁切、不拉伸。封面仅用于索引卡片与分享预览。
 
@@ -226,4 +227,4 @@ primary_link:
 
 InSpire is an interactive 3D modeling system that places **hand gestures and digital geometry in the same visual space**. An optical see-through display, hand sensing, and head tracking let a designer create, reshape, and inspect a model through spatial movement.
 
-I developed the prototype with Brian R. Johnson at the University of Washington. The project explores how the coordination of hand, eye, and model can support architectural schematic design, bringing the immediacy of making and handling a physical model into a digital workflow.
+I led the project and developed the prototype at the University of Washington. The project explores how the coordination of hand, eye, and model can support architectural schematic design, bringing the immediacy of making and handling a physical model into a digital workflow.

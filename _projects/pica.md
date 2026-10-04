@@ -202,8 +202,9 @@ links:
 - title: Original project archive
   url: http://ttistengteng.com/html/pic/d/468.html
 related_publications:
-- title: Teng, T. & Sabin, J. (2020). PICA — CAADRIA, Vol. 2, pp. 473–483.
-  url: https://papers.cumincad.org/cgi-bin/works/paper/caadria2020_436
+- title: PICA - A Designer Oriented Low-Cost Personal Robotic Fabrication Platform for Sketch Level Prototyping
+  url: https://doi.org/10.52842/conf.caadria.2020.2.473
+  publication_id: teng2020pica
 awards: []
 editor_notes: '用户要求：不设 money shot 或顶部单张大图；每行两张，所有项目图片和 GIF 双栏排列，同方向配对，image_ratios 使用实际宽高比以按显示高度对齐，不裁切、不拉伸。cover
   仅用于索引与分享预览。
@@ -238,4 +239,4 @@ primary_link:
 
 PICA is a personal robotic fabrication platform for making **sketch-level architectural prototypes**. It brings together a configurable six-axis arm, custom Grasshopper controls, and replaceable fabrication tools so that designers can move from a digital or hand-shaped idea to a physical working model.
 
-I led the project’s hardware and software development at Cornell University’s Jenny Sabin Lab and coauthored the CAADRIA 2020 paper with Jenny Sabin. The research asks how robotic fabrication can become affordable and accessible during early design, when forms are still changing and direct engagement with a model can help generate the next idea.
+I led the project at Cornell University’s Jenny Sabin Lab, developing its hardware and software. Published at CAADRIA 2020, the research asks how robotic fabrication can become affordable and accessible during early design, when forms are still changing and direct engagement with a model can help generate the next idea.

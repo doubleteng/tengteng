@@ -20,6 +20,16 @@ summary: An interactive research tool connecting structural behavior, continuous
   printing paths, and material distribution.
 structure_lab: false
 featured_order: 99
+related_publications:
+- title: Continuous multi-filament 3D printing for tension-compression structure components
+  url: https://psl.design.upenn.edu/wp-content/uploads/2023/05/TENG______IASS_Continuous_multi_filament__D.pdf
+  publication_id: teng-2023-multi-material-truss
+  context: Research foundation
+- title: Prototyping high-fidelity multifunctional objects using single-nozzle multi-filament additive manufacturing
+    system with active mixing
+  url: https://doi.org/10.1016/j.matdes.2024.113479
+  publication_id: teng2025113479
+  context: Research foundation
 ---
 
 StressPath is an interactive research tool that explores how structural behavior can inform continuous printing paths and material distribution. Developed as an extension of my work on [multi-material printing for tension-compression structures](/research/multi-material-3d-printing-for-tension-compression-structure/), the project brings structural modeling, analysis, toolpath generation, and material planning into a shared browser-based environment. It makes the relationship between force, geometry, and fabrication visible and available for direct experimentation.

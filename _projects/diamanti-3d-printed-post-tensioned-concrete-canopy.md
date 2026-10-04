@@ -104,8 +104,9 @@ links:
   url: https://www.fabricate.org/portfolio_page/diamanti-3d-printed-post-tensioned-concrete-canopy/
   kind: site
 related_publications:
-- title: 'Diamanti: 3D-Printed, Post-Tensioned Concrete Canopy — FABRICATE 2024'
-  url: https://psl.design.upenn.edu/wp-content/uploads/2024/04/PSL-Fabricate-2024.pdf
+- title: 'Diamanti: 3D-Printed, Post-tensioned Concrete Canopy'
+  url: https://doi.org/10.2307/jj.11374766.40
+  publication_id: akbarzadeh2024fabricate
 awards: []
 editor_notes: ''
 source_links: []

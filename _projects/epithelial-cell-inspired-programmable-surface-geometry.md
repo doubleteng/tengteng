@@ -45,8 +45,12 @@ sections:
   columns: two
 links: []
 related_publications:
-- title: eCAADe 2021 paper
+- title: The Design and 4D Printing of Epithelial Cell-Inspired Programmable Surface Geometry
   url: https://doi.org/10.52842/conf.ecaade.2021.1.105
+  publication_id: teng2021design
+- title: Interactive Fabrication and Design of Bioinspired Surface Geometry
+  url: https://hdl.handle.net/1813/110467
+  publication_id: teng2021masters
 awards: []
 editor_notes: ''
 source_links: []

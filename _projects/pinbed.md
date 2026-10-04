@@ -105,7 +105,10 @@ links:
   url: https://drive.google.com/file/d/1sYGNSuPTAWPgDo5VjWVW_5Fpl1CGlnDt/view
 - title: Original project archive
   url: http://ttistengteng.com/html/pic/d/511.html
-related_publications: []
+related_publications:
+- title: Interactive Fabrication and Design of Bioinspired Surface Geometry
+  url: https://hdl.handle.net/1813/110467
+  publication_id: teng2021masters
 awards: []
 editor_notes: |-
   用户要求：无 money shot，无顶部大图、无轮播；所有项目图片和 GIF 采用双栏。按竖向显示高度排版，横图只与横图并排，竖图只与竖图并排。每对图的 image_ratios 按原始宽高比设置，使两张图等高，保留完整比例、不裁切、不拉伸；装配横图单独保留半栏，避免为了凑对而重复图片。封面仅用于索引卡片和分享预览。
@@ -132,4 +135,4 @@ contributions:
 
 Pinbed is a reconfigurable printing bed for robotic additive manufacturing. Inspired by multi-point forming, it uses an array of independently driven pins to generate different nonplanar support surfaces from a digital model.
 
-Developed in 2020 as part of my master’s research at Cornell University, the project connects **mechanical design, custom electronics, and Grasshopper control** in one fabrication system. I led the prototype development, including its construction, wiring, programming, and initial printing tests.
+Developed in 2020 as part of my master’s research at Cornell University’s Jenny Sabin Lab, the project connects **mechanical design, custom electronics, and Grasshopper control** in one fabrication system. I led the prototype development, including its construction, wiring, programming, and initial printing tests.

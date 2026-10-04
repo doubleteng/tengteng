@@ -61,8 +61,10 @@ sections:
   columns: two
 links: []
 related_publications:
-- title: Related paper (DOI)
+- title: 'Functionally Graded Architectural Materials: Integrated and Tailored Thermal Insulation through Gradient
+    Multimaterial Additive Manufacturing for Masonry Architectural Components'
   url: https://papers.cumincad.org/cgi-bin/works/paper/acadia24_v2_54
+  publication_id: teng2024gradient
 awards:
 - title: ACADIA 2024 · Best Paper Runner-Up
   url: http://old.acadia.org/news/D7KHE9

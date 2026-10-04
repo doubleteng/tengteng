@@ -9,7 +9,7 @@ permalink: /research/scutoid-brick/
 cover: /assets/media/scutoid-brick/hero.webp
 cover_alt: Scutoid Brick
 summary: Interlocking masonry units translate epithelial-cell packing into a double-curved shell assembly.
-role: Leading Contributor
+role: Project lead
 institution: Cornell University · Jenny Sabin Lab
 location: ''
 tags:
@@ -48,8 +48,9 @@ links:
   url: https://youtu.be/AW-wgsr6PRU?si=a0TsOP5f2iyuzmHY
   kind: video
 related_publications:
-- title: Related paper (DOI)
+- title: Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System
   url: https://doi.org/10.52842/conf.ecaade.2020.1.563
+  publication_id: teng2020scutoid
 awards: []
 editor_notes: ''
 source_links: []
@@ -64,4 +65,4 @@ Scutoid Brick investigates how the changing neighbors of cells across a curved t
 
 Two complementary unit types interlock along the principal directions of a double-curved shell. The connections organize assembly and resist relative sliding between adjacent units. Digital studies and 3D-printed models test the relationship between local joints and overall shell form.
 
-I led the project in Jenny Sabin’s laboratory at Cornell University, working with Mian Jia. The research was presented at eCAADe 2020.
+I led the project at Cornell University’s Jenny Sabin Lab. The research was presented at eCAADe 2020.

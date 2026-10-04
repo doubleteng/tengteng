@@ -10,7 +10,7 @@ status: published
 published: true
 featured: false
 url_link: https://doi.org/10.2307/jj.11374766.40
-pdf: ''
+pdf: https://psl.design.upenn.edu/wp-content/uploads/2024/04/PSL-Fabricate-2024.pdf
 note: ''
 bibtex: "@incollection{akbarzadeh2024fabricate,\n author = {Masoud Akbarzadeh and Hua Chai and Yefan Zhi and Maximilian\
   \ E. Ororbia and Teng Teng and Mathias Bernhard and Damon (Mohammad) Bolhassani and Fahimeh Yavartanoo and Javier\

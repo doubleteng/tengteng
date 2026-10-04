@@ -41,8 +41,9 @@ sections:
   columns: two
 links: []
 related_publications:
-- title: Advanced Functional Materials · 2025
+- title: 3D Concrete Printing of Triply Periodic Minimum Surfaces for Enhanced Carbon Capture and Storage
   url: https://doi.org/10.1002/adfm.202509259
+  publication_id: yu20253d
 awards: []
 editor_notes: ''
 source_links: []

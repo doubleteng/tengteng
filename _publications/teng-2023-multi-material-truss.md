@@ -8,7 +8,7 @@ status: published
 published: true
 featured: false
 url_link: ''
-pdf: ''
+pdf: https://psl.design.upenn.edu/wp-content/uploads/2023/05/TENG______IASS_Continuous_multi_filament__D.pdf
 note: ''
 bibtex: "@inproceedings{Teng-2023-Multi-material_Truss,\n address = {Melbourne, Australia},\n author = {Teng Teng\
   \ and Zhi, Yefan and Yu, Kun-Hao and Yang, Shu and Akbarzadeh, Masoud},\n booktitle = {Proceedings of IASS 2023\

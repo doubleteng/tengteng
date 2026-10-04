@@ -31,7 +31,7 @@ layout: default
 {% if page.opening_sections.size > 0 %}<div class="project-opening" aria-label="Completed project and film">{% include blocks.html sections=page.opening_sections %}</div>{% endif %}
 {% include project-method.html %}
 <div class="project-layout">
-  <article class="project-body"><div class="prose">{{ content }}</div>{% if page.evidence %}<section class="evidence-note"><h2>{{ page.evidence_label | default: "Evidence & scope" | escape }}</h2><p>{{ page.evidence | escape }}</p></section>{% endif %}{% include blocks.html sections=page.sections %}</article>
+  <article class="project-body"><div class="prose">{{ content }}</div>{% if page.category == 'research' %}{% include research-publications.html %}{% endif %}{% if page.evidence %}<section class="evidence-note"><h2>{{ page.evidence_label | default: "Evidence & scope" | escape }}</h2><p>{{ page.evidence | escape }}</p></section>{% endif %}{% include blocks.html sections=page.sections %}</article>
   <aside class="project-details" aria-label="Project details">
     <dl><dt>Category</dt><dd>{{ page.category | capitalize }}</dd>{% if page.year and page.year != '' %}<dt>Year</dt><dd>{{ page.year | escape }}</dd>{% endif %}{% if page.project_type and page.project_type != '' %}<dt>Project type</dt><dd>{{ page.project_type | escape }}</dd>{% endif %}{% if page.project_stage and page.project_stage != '' %}<dt>Stage</dt><dd>{{ page.project_stage | escape }}</dd>{% endif %}{% if page.role and page.role != '' %}<dt>My role</dt><dd>{{ page.role | escape }}</dd>{% endif %}{% if page.institution and page.institution != '' %}<dt>Institution</dt><dd>{{ page.institution | escape }}</dd>{% endif %}{% if page.location and page.location != '' %}<dt>Location</dt><dd>{{ page.location | escape }}</dd>{% endif %}</dl>
     {% if page.contributions.size > 0 %}<h2>My contribution</h2><ul>{% for item in page.contributions %}<li>{{ item | escape }}</li>{% endfor %}</ul>{% endif %}
@@ -40,7 +40,7 @@ layout: default
     {% if page.team.size > 0 %}<h2>Team</h2><ul>{% for item in page.team %}<li>{{ item | escape | replace: 'Teng Teng', '<strong>Teng Teng</strong>' }}</li>{% endfor %}</ul>{% endif %}
     {% if page.acknowledgements and page.acknowledgements != '' %}<h2>Acknowledgements</h2><p>{{ page.acknowledgements | escape | replace: 'Teng Teng', '<strong>Teng Teng</strong>' }}</p>{% endif %}
     {% if page.awards.size > 0 %}<h2>Awards</h2><ul>{% for item in page.awards %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
-    {% if page.related_publications.size > 0 %}<h2>Related publications</h2><ul>{% for item in page.related_publications %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
+    {% if page.category != 'research' and page.related_publications.size > 0 %}<h2>Related publications</h2><ul>{% for item in page.related_publications %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
     {% if page.links.size > 0 %}<h2>Resources</h2><ul>{% for item in page.links %}<li><a href="{{ item.url | escape }}" target="_blank" rel="noopener">{{ item.title | escape }} ↗</a></li>{% endfor %}</ul>{% endif %}
   </aside>
 </div>

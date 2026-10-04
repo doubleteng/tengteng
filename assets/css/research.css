@@ -17,4 +17,16 @@
 
 /* Optional project opening sequence; content remains editable in Pages CMS. */
 .project-opening{margin-bottom:52px}.project-opening>.content-block:first-child{margin-top:0}.project-opening .block-text{max-width:780px}.project-opening .block-video{margin-top:24px}.project-opening video{aspect-ratio:16/9;background:var(--wash)}
+
+.research-publications{border-block:1px solid var(--line);padding:24px 0;margin:32px 0}
+.research-publications-heading{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px 24px}
+.research-publications-heading h2{font:600 calc(14px * var(--heading-scale))/1.4 var(--sans);margin:0}
+.research-publications-heading>.text-link{font-size:12px}
+.research-publications-list{list-style:none;margin:20px 0 0;padding:0}
+.research-publications-list li{margin:0;padding:0}
+.research-publications-list li+li{margin-top:22px}
+.research-publications-list h3{font:calc(1.08rem * var(--heading-scale))/1.4 var(--serif);margin:0 0 7px}
+.research-publications-list .caption{margin:0 0 10px}
+.research-publications-list .eyebrow{margin:0 0 7px}
+.publication:target{border-top-color:var(--accent)}
 @media(max-width:560px){.project-opening{margin-bottom:36px}.project-opening .gallery-two{grid-template-columns:1fr}}

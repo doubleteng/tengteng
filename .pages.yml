@@ -356,6 +356,12 @@ content:
         label: URL or file path
         type: string
         required: true
+      - name: publication_id
+        label: Publication ID (filename without .md)
+        type: string
+      - name: context
+        label: Relationship label (optional)
+        type: string
       list: true
     - name: awards
       label: Awards
@@ -1214,7 +1220,21 @@ content:
     - name: related_publications
       label: 相关论文
       type: object
-      fields: *id001
+      fields:
+      - name: title
+        label: 论文标题
+        type: string
+        required: true
+      - name: url
+        label: 原文链接
+        type: string
+        required: true
+      - name: publication_id
+        label: Publication ID（文件名，不含 .md）
+        type: string
+      - name: context
+        label: 关联说明（可选）
+        type: string
       list: true
     - name: awards
       label: 奖项

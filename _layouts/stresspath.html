@@ -16,5 +16,5 @@ layout: default
   <h1>{{ page.title | escape }}</h1>
   <a class="button" href="{{ '/research/stresspath/app/' | relative_url }}?v=1.35" target="_blank" rel="noopener">Open full screen ↗</a>
 </header>
-<div class="stresspath-description">{{ content }}</div>
+<div class="stresspath-description">{{ content }}{% include research-publications.html %}</div>
 <iframe class="stresspath-frame" src="{{ '/research/stresspath/app/' | relative_url }}?v=1.35" title="StressPath interactive workspace" loading="eager" allow="fullscreen; clipboard-write" allowfullscreen></iframe>

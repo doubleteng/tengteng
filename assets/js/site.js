@@ -1,4 +1,12 @@
 'use strict';
+document.querySelectorAll('video[autoplay]').forEach(video => {
+  // Start muted once on entry; the native controls remain free to unmute or pause.
+  video.defaultMuted = true;
+  video.muted = true;
+  const playback = video.play();
+  playback?.catch(() => { /* Keep the native play control available if autoplay is blocked. */ });
+});
+
 document.querySelector('.menu-toggle')?.addEventListener('click', event => {
   const button = event.currentTarget;
   const open = button.getAttribute('aria-expanded') !== 'true';

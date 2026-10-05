@@ -10,6 +10,7 @@ permalink: /research/multi-material-deployable-structures/
 cover: /assets/media/multi-material-deployable-structures/completed-canopy.webp
 cover_alt: Completed self-morphing lattice canopy on four branching supports
 cover_preview_only: true
+autoplay_videos: true
 summary: 'Programmable shape transformation through additive manufacturing: flat-printed bio-based lattices develop
   canopy curvature through drying-driven hinges and suspended forming.'
 role: Leading contributor; first and corresponding author

@@ -87,21 +87,21 @@ sections:
     water, its contraction produces bending at the bonded hinge. Locating active material on different faces controls
     fold direction, while the surrounding passive lattice carries the module geometry. The early PLA/agarose studies
     below establish the bending mechanism; the later bio-based lattice studies extend it to connected folding patterns.
-- type: video
-  heading: Early PLA/agarose bending studies
-  file: /assets/media/multi-material-deployable-structures/pla-agarose-bending.mp4
-  poster: /assets/media/multi-material-deployable-structures/pla-agarose-bending-poster.webp
-  caption: Drying-driven deformation across a series of passive lattice patterns.
-- type: video
-  heading: Active/passive lattice transformation
-  file: /assets/media/multi-material-deployable-structures/lattice-transformation.mp4
-  poster: /assets/media/multi-material-deployable-structures/lattice-transformation-poster.webp
-  caption: Localized active hinges transform a flat lattice into a folded surface.
-- type: video
-  heading: Fold formation and physical handling
-  file: /assets/media/multi-material-deployable-structures/fold-formation.mp4
-  poster: /assets/media/multi-material-deployable-structures/fold-formation-poster.webp
-  caption: A folding sequence followed by manual flexing of the formed lattice.
+- type: video-gallery
+  heading: Bending and fold formation
+  width_percent: 25
+  videos:
+  - type: video
+    heading: Early PLA/agarose bending studies
+    file: /assets/media/multi-material-deployable-structures/pla-agarose-bending.mp4
+    poster: /assets/media/multi-material-deployable-structures/pla-agarose-bending-poster.webp
+    caption: Drying-driven deformation across a series of passive lattice patterns.
+  - type: video
+    heading: Fold formation and physical handling
+    file: /assets/media/multi-material-deployable-structures/fold-formation.mp4
+    poster: /assets/media/multi-material-deployable-structures/fold-formation-poster.webp
+    caption: A folding sequence followed by manual flexing of the formed lattice.
+  caption: Early PLA/agarose bending studies (left); fold formation and physical handling of a lattice (right).
 - type: text
   heading: Calibrating hinge rotation
   body: Hinge length converts local bilayer curvature into fold rotation. With **2 mm passive and 2 mm active layers**,
@@ -119,12 +119,22 @@ sections:
   - 1.437815
   caption: The 18 mm hinge reaches partial rotation (left); the 50 mm hinge produces deeper closure under the same
     layer thicknesses (right).
-- type: video
-  heading: Active/passive thickness tests
-  width_percent: 12.5
-  file: /assets/media/multi-material-deployable-structures/hinge-thickness-tests.mp4
-  poster: /assets/media/multi-material-deployable-structures/hinge-thickness-tests-poster.webp
-  caption: Time-lapse comparison of samples with different active-layer thicknesses.
+- type: video-gallery
+  heading: Lattice transformation and hinge thickness
+  width_percent: 25
+  videos:
+  - type: video
+    heading: Active/passive lattice transformation
+    file: /assets/media/multi-material-deployable-structures/lattice-transformation.mp4
+    poster: /assets/media/multi-material-deployable-structures/lattice-transformation-poster.webp
+    caption: Localized active hinges transform a flat lattice into a folded surface.
+  - type: video
+    heading: Active/passive thickness tests
+    file: /assets/media/multi-material-deployable-structures/hinge-thickness-tests.mp4
+    poster: /assets/media/multi-material-deployable-structures/hinge-thickness-tests-poster.webp
+    caption: Time-lapse comparison of samples with different active-layer thicknesses.
+  caption: Active/passive lattice transformation (left). Time-lapse comparison of samples with different active-layer
+    thicknesses (right).
 - type: text
   heading: Robotic printing and material placement
   body: 'An ABB IRB 6640 prints the passive lattice on a flat heated bed. Toolpaths maintain continuity through
@@ -150,6 +160,7 @@ sections:
   file: /assets/media/multi-material-deployable-structures/thermal-extrusion.mp4
   poster: /assets/media/multi-material-deployable-structures/thermal-extrusion-poster.webp
   caption: Infrared footage documents the heated extrusion process used in the active-material experiments.
+  width_percent: 12.5
 - type: text
   heading: Suspended forming at meter scale
   body: 'Wet agarose adds weight and rehydrates the passive lattice at the hinges. At meter scale, early bending
@@ -195,7 +206,10 @@ editor_notes: 'Source: supplied IASS 2026 presentation (37 slides) and the 10-pa
   research. Use existing two-column galleries; cover is only for cards/social preview. Credits preserve material
   and early-study collaborators documented in the slides. The prototype demonstrates geometry and assembly, without
   implying certified structural performance. Layout updated per user: no money shot or opening hero; photographs
-  in two columns within the project body, wide diagrams occupy a full row with uncropped proportions.'
+  in two columns within the project body, wide diagrams occupy a full row with uncropped proportions. Video layout:
+  preserve full size only for suspended forming and canopy assembly. Other five videos use one-eighth of the former
+  full-row display width; group the two landscape clips together, and the near-square/portrait transformation and
+  thickness clips together. All autoplay, loop and mute.'
 ---
 
 This project embeds the shaping of a curved canopy within **flat, robotically printed modules**. Localized agarose hinges contract during drying and rotate a passive lattice, connecting material placement to architectural geometry. Scaling that mechanism to a pavilion requires the printing sequence, drying supports, and module connections to work together.

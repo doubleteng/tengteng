@@ -31,13 +31,14 @@ credits:
 - Teng Teng — Lawrence Technological University
 - 'Images and diagrams: the authors'
 primary_link:
-  title: Read the manuscript (PDF)
+  title: Read the paper · ACADIA 2026 (PDF)
   url: /assets/documents/tuck-folding-2026.pdf
 related_publications:
 - title: 'Tuck-Folding: A Computational Method for the Flattening and Fabrication of Compression-Dominant Shell
     Structures'
   url: /assets/documents/tuck-folding-2026.pdf
   publication_id: yang2026tuckfolding
+  context: Accepted for ACADIA 2026 · Conference in October 2026
 related_projects:
 - /research/multi-material-deployable-structures/
 - /research/multi-material-3d-printing-for-tension-compression-structure/
@@ -130,9 +131,10 @@ sections:
   caption: Proposed fabrication, transport, assembly, and casting sequence (left); pavilion renderings, plan,
     and section (right). The pavilion is a design proposal.
 editor_notes: 'Sources: user-supplied 195_Yang.pdf and original figures in Google Drive folder 1pSq1wLPkjPtEMNIUCpXWzy_30JtvpEdJ.
-  Author order and affiliations follow the manuscript. No contribution beyond co-authorship is inferred. Manuscript
-  year follows the supplied 2026 source files; publication venue and acceptance status are not established by
-  the supplied PDF. Original PDF is hosted unchanged. Figures use the supplied Drive originals; only blank lower
+  Author order and affiliations follow the manuscript. No contribution beyond co-authorship is inferred. The user
+  confirmed acceptance for ACADIA 2026, with the conference in October 2026. Proceedings metadata and the formal
+  citation are not final; leave the Publications entry unchanged until confirmed. Original PDF is hosted unchanged.
+  Figures use the supplied Drive originals; only blank lower
   artboard areas are removed from the two model montages. No generated imagery. No money shot, hero, or opening
   image; diagrams and proposal plates use two-column galleries, wide montages use single rows. The cover appears
   only in cards/social previews. Paper and PLA/fabric models are physical prototypes; concrete casting and the

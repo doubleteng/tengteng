@@ -121,6 +121,7 @@ sections:
     layer thicknesses (right).
 - type: video
   heading: Active/passive thickness tests
+  width_percent: 12.5
   file: /assets/media/multi-material-deployable-structures/hinge-thickness-tests.mp4
   poster: /assets/media/multi-material-deployable-structures/hinge-thickness-tests-poster.webp
   caption: Time-lapse comparison of samples with different active-layer thicknesses.

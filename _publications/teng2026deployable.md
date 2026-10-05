@@ -3,7 +3,7 @@ published: true
 featured: false
 status: published
 url_link: ''
-pdf: ''
+pdf: https://psl.design.upenn.edu/wp-content/uploads/2026/09/23-3D-Printed-Multi-Material-Deployable-Structures-Programmable-Shape-Transformation-through-Additive-Manufacturing.pdf
 note: ''
 title: '3D-Printed Multi-Material Deployable Structures: Programmable Shape Transformation through Additive Manufacturing'
 kind: conference

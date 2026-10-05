@@ -12,6 +12,7 @@ cover_alt: Three-quarter view of the printed sneaker, with material gradients fr
 cover_preview_only: false
 cover_width_percent: 64
 gallery_width_percent: 80
+image_alignment: left
 summary: Recycled TPU and PET-G are blended during extrusion to place flexibility and support within a continuous printed shoe, linking simulated loading to material composition.
 role: Leading contributor; first author
 project_type: Gradient multi-material additive manufacturing
@@ -131,7 +132,7 @@ editor_notes: >-
   Teng Teng as first author and Yefan Zhi as second author. Preserve this existing project URL.
   Do not upload or link the manuscript, create a paper download, or publish a final proceedings citation.
   All project images were reduced to 80 percent of their previous display size. The user-supplied Picture1.jpg
-  is centered at 64 percent of the page content width; body galleries are centered at 80 percent width.
+  is left-aligned at 64 percent of the page content width; body galleries are left-aligned at 80 percent width.
   Use paired figures where proportions permit and full rows for wide composite diagrams.
   Images are supplied research assets; video is embedded locally, muted, autoplaying, and looping.
   The supplied manuscript is anonymized and does not confirm additional authors or affiliations.

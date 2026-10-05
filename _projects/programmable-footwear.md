@@ -10,7 +10,8 @@ permalink: /research/programmable-footwear/
 cover: /assets/media/programmable-footwear/gradient-footwear-main.jpg
 cover_alt: Three-quarter view of the printed sneaker, with material gradients from the pale upper to the blue sole and toe
 cover_preview_only: false
-cover_width_percent: 80
+cover_width_percent: 64
+gallery_width_percent: 80
 summary: Recycled TPU and PET-G are blended during extrusion to place flexibility and support within a continuous printed shoe, linking simulated loading to material composition.
 role: Leading contributor; first author
 project_type: Gradient multi-material additive manufacturing
@@ -129,7 +130,8 @@ editor_notes: >-
   The user confirms the year 2026, acceptance for ACADIA 2026, a conference in October 2026,
   Teng Teng as first author and Yefan Zhi as second author. Preserve this existing project URL.
   Do not upload or link the manuscript, create a paper download, or publish a final proceedings citation.
-  The user-supplied Picture1.jpg is the main project photograph, centered at 80 percent of the page content width.
+  All project images were reduced to 80 percent of their previous display size. The user-supplied Picture1.jpg
+  is centered at 64 percent of the page content width; body galleries are centered at 80 percent width.
   Use paired figures where proportions permit and full rows for wide composite diagrams.
   Images are supplied research assets; video is embedded locally, muted, autoplaying, and looping.
   The supplied manuscript is anonymized and does not confirm additional authors or affiliations.

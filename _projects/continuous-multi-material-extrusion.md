@@ -36,6 +36,9 @@ acknowledgements: Supported by NSF FMRG-2037097 CMMI and U.S. Department of Ener
 primary_link:
   title: Read the paper · ACADIA 2026 (PDF)
   url: /assets/documents/continuous-multi-material-extrusion-acadia-2026.pdf
+links:
+- title: Ovenbird · Rhino and Grasshopper plugin on food4Rhino
+  url: https://www.food4rhino.com/en/app/ovenbird
 related_publications:
 - title: As-Continuous-As-Possible Multi-Material Extrusion with Gradient Composition and Transition
   url: /assets/documents/continuous-multi-material-extrusion-acadia-2026.pdf
@@ -54,7 +57,7 @@ sections:
     and the order of extrusion paths so these effects can be planned together.
 
 
-    Implemented in **Ovenbird for Rhino and Grasshopper**, it converts three-dimensional models or posterized
+    Implemented in [**Ovenbird for Rhino and Grasshopper**](https://www.food4rhino.com/en/app/ovenbird), it converts three-dimensional models or posterized
     images into material-coded toolpaths, predicts the resulting gradients, and exports machine instructions.'
 - type: gallery
   heading: ''

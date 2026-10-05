@@ -1,6 +1,6 @@
 ---
-title: Tuck-Folding
-card_title: Tuck-Folding
+title: 'Tuck-Folding: A Computational Method for the Flattening and Fabrication of Compression-Dominant Shell Structures'
+card_title: 'Tuck-Folding: A Computational Method for the Flattening and Fabrication of Compression-Dominant Shell Structures'
 category: research
 year: '2026'
 published: true

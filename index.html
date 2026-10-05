@@ -77,7 +77,18 @@ description: Architecture, research, and teaching projects by Teng Teng.
 {% assign published_projects = site.projects | where: 'published', true %}
 <div class="project-grid home-catalog" id="home-projects">
   {% for project in published_projects %}
-    <article class="project-card" data-year="{{ project.year | escape }}" data-category="{{ project.category | escape }}" data-title="{{ project.card_title | default: project.title | escape }}">
+    {% assign home_weight = 1 %}
+    {% assign home_tags = project.tags | join: ' ' | downcase %}
+    {% assign home_type = project.project_type | downcase %}
+    {% assign home_topics = project.title | append: ' ' | append: project.summary | append: ' ' | append: home_type | append: ' ' | append: home_tags | downcase %}
+    {% if project.category == 'research' %}
+      {% if project.research_areas contains 'material-computation' or home_topics contains 'fabrication' or home_topics contains 'material' or home_topics contains 'printing' %}{% assign home_weight = site.data.home.priority_weight %}{% endif %}
+    {% elsif project.category == 'design' %}
+      {% if project.built == true or site.data.home.built_design_projects contains project.url %}{% assign home_weight = site.data.home.priority_weight %}{% endif %}
+    {% elsif project.category == 'teaching' %}
+      {% if home_type contains 'design studio' or home_type contains 'thesis supervision' or home_tags contains 'design-build' %}{% assign home_weight = site.data.home.priority_weight %}{% endif %}
+    {% endif %}
+    <article class="project-card" data-year="{{ project.year | escape }}" data-category="{{ project.category | escape }}" data-title="{{ project.card_title | default: project.title | escape }}" data-weight="{{ home_weight }}">
       <a href="{{ project.url | relative_url }}" class="project-link">
         {% if project.cover and project.cover != '' %}
           <div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: project.title | escape }}"{% if project.cover_fit == 'contain' %} style="object-fit:contain"{% endif %} loading="lazy" decoding="async" width="720" height="480"></div>
@@ -107,12 +118,29 @@ description: Architecture, research, and teaching projects by Teng Teng.
   let selection = [];
 
   function randomSelection() {
-    const cards = pool.slice();
+    // Preserve the category mix while sampling preferred work more often within each category.
+    const count = Math.min(limit, pool.length);
+    const groups = Array.from(new Set(pool.map(card => card.dataset.category))).map(category => {
+      const cards = pool.filter(card => card.dataset.category === category);
+      const share = count * cards.length / pool.length;
+      return { cards, slots: Math.floor(share), remainder: share % 1 };
+    });
+    let remaining = count - groups.reduce((total, group) => total + group.slots, 0);
+    groups.sort((a, b) => b.remainder - a.remainder);
+    for (const group of groups) {
+      if (remaining > 0) { group.slots++; remaining--; }
+    }
+    const cards = groups.flatMap(group => group.cards
+      .map(card => ({ card, key: -Math.log(1 - Math.random()) / (Number(card.dataset.weight) || 1) }))
+      .sort((a, b) => a.key - b.key)
+      .slice(0, group.slots)
+      .map(entry => entry.card));
+    // Keep the visible grid mixed and random, including the first row.
     for (let i = cards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [cards[i], cards[j]] = [cards[j], cards[i]];
     }
-    selection = cards.slice(0, limit);
+    selection = cards;
   }
 
   function render(announce = false) {

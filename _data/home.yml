@@ -1,0 +1,11 @@
+# Sampling preference, used internally without labels on project cards.
+priority_weight: 4
+# Completed work verified by the project pages and built photographs.
+built_design_projects:
+  - /design/dragon-light-international-shopping-mall/
+  - /design/floralis-an-etfe-clad-multilaminar-timber-structure/
+  - /design/kaisa-center-mixed-use/
+  - /design/ribo-central-club/
+  - /design/tang-courtyard-promenade/
+  - /design/w-newton-st-rowhouse/
+  - /design/yintai-centre-mixed-use/

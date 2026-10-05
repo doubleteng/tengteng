@@ -4,8 +4,8 @@
 {% endcomment %}
 {% assign rp_projects = site.projects | where: 'published', true %}
 {% assign rp_page_tags = page.tags | join: ' ' %}
-{% assign rp_page_topics = page.title | append: ' ' | append: page.project_type | append: ' ' | append: rp_page_tags | downcase | replace: 'mixed-use', 'mixed use' | replace: 'façade', 'facade' | replace: 'curtain-wall', 'facade' | replace: 'curtain wall', 'facade' | replace: 'envelope design', 'facade' | replace: '3d-printed', '3d printing' %}
-{% assign rp_topic_signals = 'mixed use|facade|retail|timber|concrete|robotics|3d printing|urban design|product design' | split: '|' %}
+{% assign rp_page_topics = page.title | append: ' ' | append: page.project_type | append: ' ' | append: page.summary | append: ' ' | append: rp_page_tags | downcase | replace: 'mixed-use', 'mixed use' | replace: 'façade', 'facade' | replace: 'curtain-wall', 'facade' | replace: 'curtain wall', 'facade' | replace: 'envelope design', 'facade' | replace: '3d-printed', '3d printing' %}
+{% assign rp_topic_signals = 'mixed use|facade|retail|timber|concrete|robotics|3d printing|urban design|product design|fabrication|material|folding|toolpath|design studio|thesis|design-build' | split: '|' %}
 {%- capture rp_index -%}
   {%- for candidate in rp_projects -%}
     {%- if candidate.url != page.url -%}
@@ -15,6 +15,16 @@
       {%- elsif candidate.related_projects contains page.url -%}
         {%- assign rp_score = rp_score | plus: 100 -%}
       {%- endif -%}
+      {%- for publication in page.related_publications -%}
+        {%- if publication.publication_id and publication.publication_id != '' -%}
+          {%- for candidate_publication in candidate.related_publications -%}
+            {%- if publication.publication_id == candidate_publication.publication_id -%}
+              {%- assign rp_score = rp_score | plus: 20 -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
       {%- for area in page.research_areas -%}
         {%- if candidate.research_areas contains area -%}
           {%- assign rp_score = rp_score | plus: 8 -%}
@@ -35,7 +45,7 @@
         {%- endfor -%}
       {%- endfor -%}
       {%- assign rp_candidate_tags = candidate.tags | join: ' ' -%}
-      {%- assign rp_candidate_topics = candidate.title | append: ' ' | append: candidate.project_type | append: ' ' | append: rp_candidate_tags | downcase | replace: 'mixed-use', 'mixed use' | replace: 'façade', 'facade' | replace: 'curtain-wall', 'facade' | replace: 'curtain wall', 'facade' | replace: 'envelope design', 'facade' | replace: '3d-printed', '3d printing' -%}
+      {%- assign rp_candidate_topics = candidate.title | append: ' ' | append: candidate.project_type | append: ' ' | append: candidate.summary | append: ' ' | append: rp_candidate_tags | downcase | replace: 'mixed-use', 'mixed use' | replace: 'façade', 'facade' | replace: 'curtain-wall', 'facade' | replace: 'curtain wall', 'facade' | replace: 'envelope design', 'facade' | replace: '3d-printed', '3d printing' -%}
       {%- for topic in rp_topic_signals -%}
         {%- if rp_page_topics contains topic and rp_candidate_topics contains topic -%}
           {%- assign rp_score = rp_score | plus: 6 -%}

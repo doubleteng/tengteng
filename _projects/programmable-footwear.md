@@ -96,7 +96,6 @@ sections:
   heading: Continuous multi-material deposition
   file: /assets/media/programmable-footwear/gradient-shoe-printing.mp4
   poster: /assets/media/programmable-footwear/printing-video-poster.webp
-  width_percent: 25
   caption: Printing the footwear prototype with continuous variation in material composition.
 - type: gallery
   images:

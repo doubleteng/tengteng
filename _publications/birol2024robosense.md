@@ -8,9 +8,9 @@ venue: 3D Printing and Additive Manufacturing
 status: published
 published: true
 featured: false
-url_link: https://doi.org/10.1177/23297662251388855
+url_link: https://journals.sagepub.com/doi/abs/10.1177/23297662251388855
 pdf: ''
-note: ''
+note: 'First published online December 18, 2025.'
 bibtex: "@article{birol2025robosense,\n  author = {Eda Begum Birol and Teng Teng and Mahshid Moghadasi and Alexia\
   \ Asgari and Kevin Guo and Karolina Piorko and Veronika Varga and Jenny E. Sabin},\n  title = {Robosense 3.0:\
   \ CERA III Adaptive Robotic Clay Printing},\n  journal = {3D Printing and Additive Manufacturing},\n  doi =\

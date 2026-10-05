@@ -11,13 +11,14 @@ cover: /assets/media/multi-material-deployable-structures/completed-canopy.webp
 cover_alt: Completed self-morphing lattice canopy on four branching supports
 cover_preview_only: true
 autoplay_videos: true
-summary: 'Programmable shape transformation through additive manufacturing: flat-printed bio-based lattices develop
-  canopy curvature through drying-driven hinges and suspended forming.'
+summary: Multi-material 4D printing programs flat bio-based lattices to transform into curved canopy modules through
+  drying-driven hinges and suspended forming.
 role: Leading contributor; first and corresponding author
 institution: University of Pennsylvania · Polyhedral Structures Laboratory; Lawrence Technological University
-project_type: Multi-material fabrication and self-morphing structures
+project_type: Multi-material 4D printing and self-morphing structures
 project_stage: Pavilion-scale research prototype
 tags:
+- 4D printing
 - multi-material 3D printing
 - self-morphing
 - bio-based materials
@@ -82,11 +83,17 @@ sections:
   - /assets/media/multi-material-deployable-structures/hinge-map-front.webp
   caption: Mapped active hinge regions across the flat module set.
 - type: text
-  heading: Drying-driven material hinges
-  body: A dried **cellulose–chitosan–fibroin lattice** constrains an active **agarose layer**. As agarose loses
-    water, its contraction produces bending at the bonded hinge. Locating active material on different faces controls
-    fold direction, while the surrounding passive lattice carries the module geometry. The early PLA/agarose studies
-    below establish the bending mechanism; the later bio-based lattice studies extend it to connected folding patterns.
+  heading: Multi-material printing as a 4D-printing mechanism
+  body: 'Multi-material printing places a drying-responsive **agarose layer** at selected hinge regions within a
+    passive **cellulose–chitosan–fibroin lattice**. The bonded materials develop different shrinkage strains: agarose
+    contracts as it loses water, while the dried lattice restrains that contraction and converts it into bending.
+    Printing active material on different faces controls fold direction. This spatial material arrangement encodes
+    the module’s transformation over time, making post-printing shape change the fourth dimension of the fabrication
+    process.
+
+
+    The early PLA/agarose studies establish the bending mechanism. The later bio-based lattice studies coordinate
+    multiple hinges into connected folding patterns.'
 - type: video-gallery
   heading: Bending and fold formation
   width_percent: 25
@@ -212,4 +219,6 @@ editor_notes: 'Source: supplied IASS 2026 presentation (37 slides) and the 10-pa
   thickness clips together. All autoplay, loop and mute.'
 ---
 
-This project embeds the shaping of a curved canopy within **flat, robotically printed modules**. Localized agarose hinges contract during drying and rotate a passive lattice, connecting material placement to architectural geometry. Scaling that mechanism to a pavilion requires the printing sequence, drying supports, and module connections to work together.
+This project uses **multi-material additive manufacturing to achieve 4D printing at pavilion scale**. Spatially patterned active and passive materials program how a flat-printed lattice changes shape over time during drying. Localized agarose hinges generate the contraction that transforms the planar modules into a curved canopy.
+
+Scaling this programmed transformation to architectural components requires control of self-weight and temporary material softening. The fabrication sequence coordinates passive-first drying, active-hinge deposition, and suspended forming so the modules develop and retain their target curvature.

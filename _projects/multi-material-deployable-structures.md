@@ -96,7 +96,7 @@ sections:
     multiple hinges into connected folding patterns.'
 - type: video-gallery
   heading: Bending and fold formation
-  width_percent: 25
+  width_percent: 50
   videos:
   - type: video
     heading: Early PLA/agarose bending studies
@@ -128,7 +128,7 @@ sections:
     layer thicknesses (right).
 - type: video-gallery
   heading: Lattice transformation and hinge thickness
-  width_percent: 25
+  width_percent: 50
   videos:
   - type: video
     heading: Active/passive lattice transformation
@@ -167,7 +167,7 @@ sections:
   file: /assets/media/multi-material-deployable-structures/thermal-extrusion.mp4
   poster: /assets/media/multi-material-deployable-structures/thermal-extrusion-poster.webp
   caption: Infrared footage documents the heated extrusion process used in the active-material experiments.
-  width_percent: 12.5
+  width_percent: 25
 - type: text
   heading: Suspended forming at meter scale
   body: 'Wet agarose adds weight and rehydrates the passive lattice at the hinges. At meter scale, early bending
@@ -214,7 +214,7 @@ editor_notes: 'Source: supplied IASS 2026 presentation (37 slides) and the 10-pa
   and early-study collaborators documented in the slides. The prototype demonstrates geometry and assembly, without
   implying certified structural performance. Layout updated per user: no money shot or opening hero; photographs
   in two columns within the project body, wide diagrams occupy a full row with uncropped proportions. Video layout:
-  preserve full size only for suspended forming and canopy assembly. Other five videos use one-eighth of the former
+  preserve full size only for suspended forming and canopy assembly. Other five videos use one-quarter of the former
   full-row display width; group the two landscape clips together, and the near-square/portrait transformation and
   thickness clips together. All autoplay, loop and mute.'
 ---

@@ -9,7 +9,7 @@ layout: default
   <div class="hero-carousel-viewport">
     <div class="hero-carousel-track" data-carousel-track>
       {% for item in page.hero_gallery %}
-      <figure class="hero-carousel-slide" data-carousel-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+      <figure class="hero-carousel-slide" data-carousel-slide data-carousel-duration-ms="{{ item.duration_ms | default: 2000 | escape }}" aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
         <button class="image-trigger" type="button" data-image="{{ item.image | relative_url }}" data-caption="{{ item.caption | escape }}" aria-label="Enlarge {{ item.alt | default: page.title | escape }}">
           <img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: page.title | escape }}" loading="eager" {% if forloop.first %}fetchpriority="high"{% endif %} decoding="async">
         </button>

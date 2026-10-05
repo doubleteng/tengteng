@@ -107,21 +107,23 @@ document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
     if (status) status.textContent = `${index + 1} / ${slides.length}`;
   }
 
-  function go(nextIndex, restart = true) {
+  function go(nextIndex) {
     index = (nextIndex + slides.length) % slides.length;
     render();
-    if (restart) start();
+    start();
   }
 
   function stop() {
-    if (timer) window.clearInterval(timer);
+    if (timer) window.clearTimeout(timer);
     timer = null;
   }
 
   function start() {
     stop();
     if (paused || touching || document.hidden || dialog?.open) return;
-    timer = window.setInterval(() => go(index + 1, false), 2000);
+    const duration = Number(slides[index].dataset.carouselDurationMs);
+    const delay = Number.isFinite(duration) && duration > 0 ? duration : 2000;
+    timer = window.setTimeout(() => go(index + 1), delay);
   }
 
   prev?.addEventListener('click', event => { event.stopPropagation(); go(index - 1); });

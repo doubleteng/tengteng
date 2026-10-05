@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /design/ribo-central-club/
-cover: /assets/media/ribo-central-club/curved-glass-exterior.webp
-cover_alt: Curved glazed exterior of RIBO Central Club raised on V-shaped supports
+cover: /assets/media/ribo-central-club/front-entrance.jpg
+cover_alt: RIBO Central Club entrance with a projecting white upper room beside the tree-lined campus path
 summary: A clubhouse for the RIBO Group headquarters in Qingpu, Shanghai, organized as a continuous landscape of
   terraces, stepped interiors, and curved glazing.
 role: Architectural design
@@ -114,8 +114,7 @@ editor_notes: Updated from the user-supplied text reference, photo for portfolio
   in Drive 1a8p22NR-F7ZVRY91k2UqmJ1OvJgIHgya. The project is the user’s first built work, at the RIBO Group headquarters
   in Qingpu, Shanghai. The reference PDF records a 300 m² area, design in 2009–2010, and completion in 2012. Describe
   the design without collaborator names or a list of work stages, as requested. Photography is sequenced from the
-  completed building to three construction views, all in one gallery using the existing 2-second autoplay. The near-duplicate
-  entrance photograph and the low-resolution interior snapshot are omitted; ten diagrams are selected, excluding
+  completed building to three construction views, all in one gallery using the existing 2-second autoplay. The owner-selected entrance photograph opens the gallery and serves as the project cover, with a six-second hold; subsequent photographs use two seconds. The low-resolution interior snapshot is omitted; ten diagrams are selected, excluding
   the duplicate composite and the small redundant elevation rendering. All images are faithful optimized copies
   of the supplied originals. Drawings show the design proposal and retain their original annotations; captions do
   not imply they document every as-built detail.
@@ -123,6 +122,10 @@ source_links: []
 project_type: Headquarters clubhouse · 300 m²
 project_stage: Completed in 2012
 hero_gallery:
+- image: /assets/media/ribo-central-club/front-entrance.jpg
+  alt: RIBO Central Club entrance beside the tree-lined campus path.
+  caption: The projecting white upper room frames the entrance beside the tree-lined campus path.
+  duration_ms: 6000
 - image: /assets/media/ribo-central-club/curved-glass-exterior.webp
   alt: The raised reading area follows the curved glazed edge above the campus path.
   caption: The raised reading area follows the curved glazed edge above the campus path.

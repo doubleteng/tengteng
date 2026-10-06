@@ -312,8 +312,13 @@ sections:
     poster: /assets/media/scutoid/cell-driven-deformation-poster.webp
     ratio: 1.7777777777777777
     heading: 'Experiment 2: active SMP cells and passive frame'
-  caption: 'Thermal experiments compared at equal height: frame-driven deformation (left) and cell-driven deformation
-    (right).'
+  - type: video
+    file: /assets/videos/scutoid/additional-cell-deformation.mp4
+    poster: /assets/media/scutoid/additional-cell-deformation-poster.webp
+    ratio: 1
+    heading: Additional programmable cell-array deformation experiment
+  caption: 'Thermal deformation experiments: frame-driven silicone cells (left), cell-driven surface bending (center),
+    and an additional cell-array deformation sequence (right).'
 - type: text
   heading: Tangible interface · From physical shaping to digital geometry
   body: 'A flex sensor attached to the assembly converts bending into a change in electrical resistance. An Arduino

@@ -69,6 +69,9 @@ sections:
   - /assets/media/scutoid/epithelial-cell-packing.gif
   - /assets/media/scutoid-brick/img-1.webp
   caption: 'Biological reference: cell packing and the scutoid geometry. Source: Gómez-Gálvez et al., 2018.'
+  image_ratios:
+  - 1.136054422
+  - 1.15407855
 - type: gallery
   columns: two
   images:
@@ -76,6 +79,9 @@ sections:
   - /assets/media/scutoid-brick/img-5.webp
   caption: Three-layer construction of a four-cell cluster (left); variations in cell geometry and shared boundaries
     (right).
+  image_ratios:
+  - 2.06405694
+  - 3.098106713
 - type: media-row
   equal_height: true
   items:
@@ -117,6 +123,9 @@ sections:
   - /assets/media/scutoid/voronoi-grasshopper-generator.webp
   caption: Voronoi cluster selection (left) and the Grasshopper generation workflow (right), eCAADe 2020, Figures
     10–11.
+  image_ratios:
+  - 1.830282862
+  - 2.949061662
 - type: gallery
   columns: two
   images:
@@ -124,6 +133,9 @@ sections:
   - /assets/media/scutoid-brick/img-4.webp
   caption: Rational three-layer subdivision (left); complementary units assembled into crossing arch-like sequences
     (right).
+  image_ratios:
+  - 3.045023697
+  - 2.222222222
 - type: text
   heading: Interlocking, fabrication and model testing
   body: 'Each brick family has triangular connections aligned with one of the shell’s two surface directions. Successive
@@ -143,7 +155,7 @@ sections:
   - /assets/media/scutoid/shell-load-test-photo.webp
   caption: The assembled PLA shell (left) and the model-scale loading demonstration (right).
   image_ratios:
-  - 1.777778
+  - 2.057142857
   - 0.5625
 - type: text
   heading: Architectural application
@@ -156,12 +168,18 @@ sections:
   - /assets/media/scutoid-brick/img-6.webp
   - /assets/media/scutoid/printed-layer-detail.webp
   caption: Shell assembly visualization (left) and an architectural material-detail rendering (right).
+  image_ratios:
+  - 1.125175809
+  - 1.777777778
 - type: gallery
   columns: two
   images:
   - /assets/media/scutoid/shell-autumn-rendering.webp
   - /assets/media/scutoid/shell-snow-rendering.webp
   caption: Architectural-scale canopy studies in autumn (left) and snow (right).
+  image_ratios:
+  - 2.0
+  - 1.776833156
 - type: media-row
   equal_height: true
   items:
@@ -220,6 +238,9 @@ sections:
   - /assets/media/scutoid/silicone-cells-active-frame.webp
   caption: Cast silicone cell types (left) and the cells packed inside an active SMP constraint frame (right), eCAADe
     2021, Figures 4–5.
+  image_ratios:
+  - 0.939156035
+  - 2.060085837
 - type: gallery
   columns: two
   images:
@@ -227,6 +248,9 @@ sections:
   - /assets/media/scutoid/frame-driven-array-sequence.webp
   caption: Frame-driven deformation of two silicone cells (left) and a larger array (right), eCAADe 2021, Figures
     6–7.
+  image_ratios:
+  - 7.857142857
+  - 4.592901879
 - type: text
   heading: Experiment 2 · Local cells generate global curvature
   body: 'Reversing the material assignment makes the cells active. Individually programmed SMP units sit inside
@@ -243,12 +267,18 @@ sections:
   - /assets/media/scutoid/cell-array-construction.webp
   - /assets/media/scutoid/active-smp-cell-array.webp
   caption: The relationship between local cell units and the array (left); the active SMP cell geometry (right).
+  image_ratios:
+  - 1.872340426
+  - 1.489505755
 - type: gallery
   columns: two
   images:
   - /assets/media/scutoid/passive-silicone-frame.webp
   - /assets/media/scutoid/framed-smp-cell-array.webp
   caption: Passive silicone constraint frame (left) and the cell array with its frame (right).
+  image_ratios:
+  - 1.522491349
+  - 1.507882111
 - type: gallery
   columns: two
   images:
@@ -256,6 +286,9 @@ sections:
   - /assets/media/scutoid/cell-morphology-before-after.webp
   caption: 'Before-and-after close-ups of the deformable prototype: changes in shared boundaries (left) and cell
     morphology across the array (right).'
+  image_ratios:
+  - 2.211055276
+  - 2.494331066
 - type: gallery
   columns: two
   images:
@@ -263,6 +296,9 @@ sections:
   - /assets/media/scutoid/printed-cell-detail.webp
   caption: Active-cell experiments at two scales and in opposite bending directions (left, eCAADe 2021, Figure 8);
     close-up of the printed cellular prototype (right).
+  image_ratios:
+  - 2.689486553
+  - 1.777777778
 - type: media-row
   equal_height: true
   items:

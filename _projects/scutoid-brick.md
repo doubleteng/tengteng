@@ -2,7 +2,7 @@
 title: 'Scutoid: Cell-Inspired Surface Design'
 card_title: Scutoid
 category: research
-year: '2019–2021'
+year: 2019–2021
 published: true
 featured: false
 featured_order: 99
@@ -10,7 +10,7 @@ permalink: /research/scutoid-brick/
 cover: /assets/media/scutoid-brick/img-3.webp
 cover_alt: Assembled 3D-printed Scutoid shell prototype
 cover_preview_only: true
-summary: Interlocking shells and programmable surfaces derived from epithelial-cell geometry.
+summary: Local cell geometry, interlocking shells and thermally programmable surfaces.
 role: Project Lead
 institution: Cornell University
 project_type: Master's thesis research
@@ -40,92 +40,158 @@ related_publications:
 - title: Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System
   url: https://doi.org/10.52842/conf.ecaade.2020.1.563
   publication_id: teng2020scutoid
-  context: 'eCAADe 2020 · Interlocking shells'
+  context: eCAADe 2020 · Interlocking shells
 - title: The Design and 4D Printing of Epithelial Cell-Inspired Programmable Surface Geometry
   url: https://doi.org/10.52842/conf.ecaade.2021.1.105
   publication_id: teng2021design
-  context: 'eCAADe 2021 · Programmable surfaces'
+  context: eCAADe 2021 · Programmable surfaces
 - title: Interactive Fabrication and Design of Bioinspired Surface Geometry
   url: https://hdl.handle.net/1813/110467
   publication_id: teng2021masters
-  context: 'Cornell University · Master of Science thesis'
+  context: Cornell University · Master of Science thesis
 sections:
-- type: gallery
-  columns: two
-  images:
-  - /assets/media/scutoid-brick/img-3.webp
-  - /assets/media/scutoid/printed-cell-detail.webp
-  caption: Assembled shell prototype (left) and a close-up of printed cell geometry (right).
 - type: text
-  heading: Cell geometry and surface curvature
-  body: |
-    Epithelial cells pack into tissues that bend around complex cavities. Across the thickness of a curved tissue, neighboring cells can change their contact relationships. A scutoid accommodates this change through an additional vertex and a triangular face connecting different polygonal profiles.
+  heading: 'Cell geometry: the local–global relationship'
+  body: 'A curved epithelial tissue must accommodate different packing arrangements across its thickness. Cells
+    can have different neighbors on their apical and basal faces; an edge on one face terminates at an intermediate
+    vertex, creating the triangular contact associated with a scutoid. The research translates this relationship
+    between cellular contact and tissue curvature into rules for surface design.
 
-    A three-layer parametric model connects the apical surface, an intermediate layer and the basal surface. Varying the shared boundaries between four neighboring units changes their contact geometry and the curvature of the cluster. This geometric model provides rules for both assembling a fixed shell and designing a surface that can deform.
+
+    A four-cell parametric model connects three layers: apical, intermediate and basal. Moving paired vertices changes
+    the length of shared boundaries and the size of triangular contacts. Rotation and compression of neighboring
+    cells relate these local changes to the bending of the cluster. The model makes both directions of the relationship
+    accessible to design: an imposed surface curvature changes its constituent cells, while changes to the cells
+    can generate surface curvature.'
 - type: gallery
   columns: two
   images:
   - /assets/media/scutoid/epithelial-cell-packing.gif
   - /assets/media/scutoid-brick/img-1.webp
-  caption: 'Biological reference: changing cell neighbors and Scutoid packing. Gómez-Gálvez et al., 2018.'
+  caption: 'Biological reference: cell packing and the scutoid geometry. Source: Gómez-Gálvez et al., 2018.'
 - type: gallery
   columns: two
   images:
   - /assets/media/scutoid-brick/img-2.webp
   - /assets/media/scutoid-brick/img-5.webp
-  caption: Three-layer construction of a scutoid cluster (left) and variations in local geometry as the cluster bends (right).
-- type: video-gallery
-  videos:
-  - file: /assets/videos/scutoid/cell-rearrangement.mp4
+  caption: Three-layer construction of a four-cell cluster (left); variations in cell geometry and shared boundaries
+    (right).
+- type: media-row
+  equal_height: true
+  items:
+  - type: video
+    file: /assets/videos/scutoid/cell-rearrangement.mp4
     poster: /assets/media/scutoid/cell-rearrangement-poster.webp
-    heading: Cell rearrangement and triangular connections
-  - file: /assets/videos/scutoid/surface-generation.mp4
-    poster: /assets/media/scutoid/surface-generation-poster.webp
-    heading: From layered subdivisions to a Scutoid shell
-  caption: Geometric studies connect local cell rearrangement (left) with the subdivision of an overall shell (right).
+    ratio: 1.7777777777777777
+    heading: Rotation and changing contacts within a cell cluster
+  - type: video
+    file: /assets/videos/scutoid/surface-simulation.mp4
+    poster: /assets/media/scutoid/surface-simulation-poster.webp
+    ratio: 1.7777777777777777
+    heading: Computational studies of responsive cellular surfaces
+  caption: 'Computational studies: local cell rearrangement (left) and the deformation of cellular surface networks
+    (right).'
 - type: text
-  heading: Interlocking shells
-  body: |
-    Scutoid Brick translates triangular cell contacts into interlocking masonry joints. The research developed a Voronoi-based generator and a regular subdivision method for fabrication. The latter divides a double-curved shell into three related layers, then connects their vertices to produce two complementary brick types.
+  heading: Scutoid Brick · 2020
+  body: The masonry study uses triangular cell contacts as geometric joints between discrete shell units. Its design
+    problem is to subdivide a curved surface into blocks that connect across the shell thickness and constrain relative
+    sliding. Two computational methods explore different relationships between irregular cellular packing and repeatable
+    fabrication rules.
+- type: text
+  heading: Two methods for generating shell units
+  body: '**Voronoi-based generation.** A selection algorithm groups eligible neighboring polygons into four-cell
+    clusters. A C# component in Grasshopper represents the surface as a network of nodes and spring-like edges,
+    with boundary cells fixed. As the network bends, a geometric trigger introduces intermediate vertices and scutoid
+    connections where edges become overextended. This method explores how changes in overall form reorganize local
+    topology.
 
-    The connection faces align along the shell's two principal directions. Neighboring units form intersecting arch-like sequences, using their geometry to limit relative sliding. The joint, the unit and the overall shell are generated together.
+
+    **Rational subdivision.** A second generator starts from a prescribed doubly curved shell and constructs related
+    subdivisions on three layers. Hexagons on the outer layer connect through intermediate diamond-shaped profiles
+    to diamonds or octagons on the inner layer. Merging and reconnecting selected vertices produces two complementary
+    brick families, making the subdivision more directly usable for fabrication and assembly.'
+- type: gallery
+  columns: two
+  images:
+  - /assets/media/scutoid/voronoi-cluster-selection.webp
+  - /assets/media/scutoid/voronoi-grasshopper-generator.webp
+  caption: Voronoi cluster selection (left) and the Grasshopper generation workflow (right), eCAADe 2020, Figures
+    10–11.
 - type: gallery
   columns: two
   images:
   - /assets/media/scutoid/shell-subdivision.webp
   - /assets/media/scutoid-brick/img-4.webp
-  caption: Layered shell subdivision (left) and interlocking units organized along intersecting arch-like sequences (right).
+  caption: Rational three-layer subdivision (left); complementary units assembled into crossing arch-like sequences
+    (right).
 - type: text
-  body: |
-    Printed PLA units were assembled into a shell and evaluated through a loading demonstration. The 2020 paper reports that a model weighing 1.8 lb (0.82 kg), printed with 20% infill, supported two 40 lb dumbbells, totaling about 36 kg. This model-scale test and the preliminary finite-element study examined the assembled geometry; full-scale masonry construction remained a subsequent research step.
+  heading: Interlocking, fabrication and model testing
+  body: 'Each brick family has triangular connections aligned with one of the shell’s two surface directions. Successive
+    units form arch-like sequences that intersect and interlock, linking local joint geometry to the organization
+    of the whole shell.
+
+
+    The PLA prototype was printed as discrete units at 20% infill and assembled for a loading demonstration. The
+    2020 paper reports a model weight of 1.8 lb (0.82 kg) and a supported load of two 40 lb dumbbells, approximately
+    36 kg in total. An ANSYS study also compared deformation and equivalent stress in the selected shell models.
+    These are prototype-scale investigations; full-scale material, joint and structural testing remained future
+    work.'
 - type: gallery
   columns: two
-  image_ratios: [1.777778, 0.5625]
   images:
-  - /assets/media/scutoid/printed-layer-detail.webp
+  - /assets/media/scutoid-brick/img-3.webp
   - /assets/media/scutoid/shell-load-test-photo.webp
-  caption: Printed layer detail (left) and the PLA shell model under load (right).
+  caption: The assembled PLA shell (left) and the model-scale loading demonstration (right).
+  image_ratios:
+  - 1.777778
+  - 0.5625
+- type: text
+  heading: Architectural application
+  body: The pavilion studies apply the cellular subdivision to a canopy, using the thickness and continuity of the
+    interlocking units to shape its enclosure. The views below are architectural design visualizations; the built
+    research artifact is the printed shell model shown above.
 - type: gallery
   columns: two
-  image_ratios: [2, 1.776833]
+  images:
+  - /assets/media/scutoid-brick/img-6.webp
+  - /assets/media/scutoid/printed-layer-detail.webp
+  caption: Shell assembly visualization (left) and an architectural material-detail rendering (right).
+- type: gallery
+  columns: two
   images:
   - /assets/media/scutoid/shell-autumn-rendering.webp
   - /assets/media/scutoid/shell-snow-rendering.webp
-  caption: Architectural-scale design renderings in autumn (left) and snow (right).
+  caption: Architectural-scale canopy studies in autumn (left) and snow (right).
 - type: media-row
+  equal_height: true
   items:
   - type: video
     file: /assets/videos/scutoid/shell-walkthrough-portrait.mp4
     poster: /assets/media/scutoid/shell-walkthrough-portrait-poster.webp
+    ratio: 0.5625
     heading: Scutoid shell architectural walkthrough
   - type: video
     url: https://www.youtube.com/watch?v=AW-wgsr6PRU
+    ratio: 1.7777777777777777
     heading: Scutoid Brick project film
-  caption: Architectural walkthrough of the Scutoid shell (left) and the Scutoid Brick project film (right).
+  caption: The uploaded architectural walkthrough (left) and the original Scutoid Brick project film (right).
 - type: text
-  heading: Programmable surfaces
-  body: |
-    The next experiments made the local–global relationship deformable through two complementary material configurations. Cast silicone provides compliant, passive components; 3D-printed shape-memory polymer provides thermally activated components. A surrounding frame keeps the units in contact as their geometry changes.
+  heading: Programmable Surface Geometry · 2021
+  body: 'The second study makes the cell–surface relationship physically changeable. It develops a material design
+    medium whose shape is driven by thermal response, with no electric actuator required for deformation. Geometry,
+    material assignment and thermal programming determine whether shape change begins in the surrounding frame or
+    in the individual cells.
+
+
+    Two materials divide the active and passive roles: 3D-printed shape-memory polymer (SMP) provides the programmed
+    response, while cast silicone provides compliance. Heating allows the polymer to be reshaped and programmed;
+    cooling fixes the temporary configuration, and subsequent heating activates its shape response. Silicone components
+    are cast in PLA molds.
+
+
+    The constraint frame is essential to both experiments. It keeps cells densely packed so that a change in one
+    component is transmitted to its neighbors. The cell units and frame provide physical analogues of cell expansion
+    and adhesion, translating the biological packing constraints into an assembly that can be fabricated and manipulated.'
 - type: media-row
   items:
   - image: /assets/media/scutoid/cell-frame-flat.webp
@@ -140,33 +206,89 @@ sections:
   - image: /assets/media/scutoid/four-cell-prototype.webp
     ratio: 2.057613
     alt: Four-cell material prototype within a constraint frame
-  caption: Flat and curved cell geometry with constraint frames, followed by two-cell and four-cell material prototypes.
+  caption: Constraint geometry in flat and curved states, followed by two-cell and four-cell physical prototypes.
+  equal_height: true
 - type: text
-  body: |
-    **Active frame, passive cells.** A programmed shape-memory polymer frame bends when heated, pushing the silicone units into changing contact relationships. The experiment demonstrates how overall curvature reshapes the individual cells.
-
-    **Active cells, passive frame.** Individually programmed polymer units deform within a silicone frame. Changes in their shared boundaries drive the assembly from a flat configuration into a curved surface. Here, local material transformations generate the overall shape.
+  heading: Experiment 1 · Global curvature changes local cells
+  body: A programmed SMP frame surrounds passive silicone cells. When the frame bends under heating, it rotates
+    and compresses adjacent cells, changing their shared boundary lengths and generating scutoid-like profiles.
+    The experiment tests whether an imposed change in the assembly’s curvature produces the predicted local morphology.
 - type: gallery
   columns: two
   images:
-  - /assets/media/scutoid/active-cell-assembly.webp
-  - /assets/media/scutoid/constraint-frame.webp
-  caption: The geometry of the cell assembly (left) and its surrounding constraint frame (right) can be assigned different active and passive material roles.
-- type: video-gallery
-  videos:
-  - file: /assets/videos/scutoid/frame-driven-deformation.mp4
-    poster: /assets/media/scutoid/frame-driven-deformation-poster.webp
-    heading: Active frame deforms passive silicone cells
-  - file: /assets/videos/scutoid/cell-driven-deformation.mp4
-    poster: /assets/media/scutoid/cell-driven-deformation-poster.webp
-    heading: Active cells deform the surrounding surface
-  caption: 'Two directions of shape change: frame-driven deformation of silicone cells (left) and thermally activated cell units bending the assembly (right).'
+  - /assets/media/scutoid/cast-silicone-unit-types.webp
+  - /assets/media/scutoid/silicone-cells-active-frame.webp
+  caption: Cast silicone cell types (left) and the cells packed inside an active SMP constraint frame (right), eCAADe
+    2021, Figures 4–5.
+- type: gallery
+  columns: two
+  images:
+  - /assets/media/scutoid/frame-driven-cell-sequence.webp
+  - /assets/media/scutoid/frame-driven-array-sequence.webp
+  caption: Frame-driven deformation of two silicone cells (left) and a larger array (right), eCAADe 2021, Figures
+    6–7.
 - type: text
-  heading: Tangible design interface
-  body: |
-    A flex sensor attached to the material assembly translates bending into a change in electrical resistance. An Arduino converts the reading into curvature data and sends it to Rhino and Grasshopper. Manually shaping the prototype updates the digital model, connecting physical exploration with computational surface design.
+  heading: Experiment 2 · Local cells generate global curvature
+  body: 'Reversing the material assignment makes the cells active. Individually programmed SMP units sit inside
+    a passive silicone frame. Heating changes the units’ shared boundaries and triangular contacts, forcing the
+    assembly to bend as the frame accommodates their motion. Experiments demonstrate bending toward both the apical
+    and basal sides.
 
-    Thermal programming establishes a target material response, while sensing captures subsequent physical manipulation. Together, these experiments position the cell assembly as both a programmable surface and a tangible design medium.
+
+    The unit construction, frame and assembled array below belong to this deformable surface study. The before-and-after
+    photographs record changes in cell openings and contacts as the material assembly changes curvature.'
+- type: gallery
+  columns: two
+  images:
+  - /assets/media/scutoid/cell-array-construction.webp
+  - /assets/media/scutoid/active-smp-cell-array.webp
+  caption: The relationship between local cell units and the array (left); the active SMP cell geometry (right).
+- type: gallery
+  columns: two
+  images:
+  - /assets/media/scutoid/passive-silicone-frame.webp
+  - /assets/media/scutoid/framed-smp-cell-array.webp
+  caption: Passive silicone constraint frame (left) and the cell array with its frame (right).
+- type: gallery
+  columns: two
+  images:
+  - /assets/media/scutoid/cell-boundary-before-after.webp
+  - /assets/media/scutoid/cell-morphology-before-after.webp
+  caption: 'Before-and-after close-ups of the deformable prototype: changes in shared boundaries (left) and cell
+    morphology across the array (right).'
+- type: gallery
+  columns: two
+  images:
+  - /assets/media/scutoid/cell-driven-array-sequences.webp
+  - /assets/media/scutoid/printed-cell-detail.webp
+  caption: Active-cell experiments at two scales and in opposite bending directions (left, eCAADe 2021, Figure 8);
+    close-up of the printed cellular prototype (right).
+- type: media-row
+  equal_height: true
+  items:
+  - type: video
+    file: /assets/videos/scutoid/frame-driven-deformation.mp4
+    poster: /assets/media/scutoid/frame-driven-deformation-poster.webp
+    ratio: 1.7777777777777777
+    heading: 'Experiment 1: active frame and passive silicone cells'
+  - type: video
+    file: /assets/videos/scutoid/cell-driven-deformation.mp4
+    poster: /assets/media/scutoid/cell-driven-deformation-poster.webp
+    ratio: 1.7777777777777777
+    heading: 'Experiment 2: active SMP cells and passive frame'
+  caption: 'Thermal experiments compared at equal height: frame-driven deformation (left) and cell-driven deformation
+    (right).'
+- type: text
+  heading: Tangible interface · From physical shaping to digital geometry
+  body: 'A flex sensor attached to the assembly converts bending into a change in electrical resistance. An Arduino
+    reads that change and transmits curvature data to Rhino and Grasshopper, where the corresponding digital geometry
+    updates during physical manipulation.
+
+
+    The designer can therefore work through two connected operations: programming a material configuration and manually
+    shaping a sensed prototype. Thermal actuation changes the physical geometry; sensing carries the designer’s
+    manipulation back into the digital model. This interface extends the thesis’s interactive design–fabrication
+    approach by using a material assembly as an input to surface design.'
 - type: media-row
   items:
   - image: /assets/media/scutoid/programmable-surface.webp
@@ -180,8 +302,9 @@ sections:
     poster: /assets/media/scutoid/physical-digital-interface-poster.webp
     ratio: 1.333333
     heading: Physical surface manipulation updates the digital model
-  caption: The cell assembly and flex sensor at rest (left), manual bending (center), and the resulting digital model update (right).
-
+  caption: The cell assembly and flex sensor at rest (left), manual bending (center), and the resulting digital
+    model update (right).
+  equal_height: true
 ---
 
-Developed as part of my Master of Science thesis at Cornell University, this research investigates how local cell geometry organizes the construction and deformation of an overall surface. Geometric rules drawn from epithelial-cell packing connect two applications: interlocking shell units and thermally programmable material assemblies. Physical prototypes then extend the surface into a tangible interface for digital modeling. The work was published in two papers at eCAADe in 2020 and 2021; both papers and the master's thesis are [linked below](#research-publications-heading).
+Developed as part of my Master of Science thesis at Cornell University, this research asks how the geometry and behavior of individual cells can organize an architectural surface. It connects three modes of design: computational generation, physical construction and material transformation. Scutoid Brick investigates how cellular contacts become interlocking shell joints; Programmable Surface Geometry tests how local deformation and overall curvature influence each other, then connects physical shaping to digital modeling. The two studies were published at eCAADe in 2020 and 2021. Both papers and the master’s thesis are [linked below](#research-publications-heading).

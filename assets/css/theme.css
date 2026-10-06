@@ -61,3 +61,7 @@ dialog :focus-visible { outline-color: var(--cloud); }
 h1, h2 { font-weight: 300; }
 strong, b { font-weight: 700; }
 .publication-venue, blockquote cite { font-weight: 300; }
+
+/* Preserve source proportions and equal media heights within the text column. */
+.media-row-equal-height>figure{overflow:hidden}
+.media-row-equal-height img,.media-row-equal-height video,.media-row-equal-height .video-frame{width:100%;aspect-ratio:var(--media-ratio,1);height:auto;object-fit:contain}

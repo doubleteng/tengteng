@@ -6,6 +6,16 @@
   {% when 'image' %}{% if block.image and block.image != '' %}<figure><button class="image-trigger" type="button" data-image="{{ block.image | relative_url }}" data-caption="{{ block.caption | escape }}" aria-label="Enlarge {{ block.alt | default: page.title | escape }}"><img src="{{ block.image | relative_url }}" alt="{{ block.alt | default: page.title | escape }}" loading="lazy" decoding="async"></button>{% if block.caption != '' or block.credit != '' %}<figcaption>{{ block.caption | escape }}{% if block.credit and block.credit != '' %} <span>© {{ block.credit | escape | replace: 'Teng Teng', '<strong>Teng Teng</strong>' }}</span>{% endif %}</figcaption>{% endif %}</figure>{% endif %}
   {% when 'gallery' %}<div class="gallery gallery-{{ block.columns | default: 'two' }}"{% if block.image_ratios.size == 2 or page.gallery_width_percent %} style="{% if page.gallery_width_percent %}width:{{ page.gallery_width_percent | escape }}%;margin-inline:{% if page.image_alignment == 'left' %}0{% else %}auto{% endif %};{% endif %}{% if block.image_ratios.size == 2 %}grid-template-columns:minmax(0,{{ block.image_ratios[0] }}fr) minmax(0,{{ block.image_ratios[1] }}fr){% endif %}"{% endif %}>{% for image in block.images %}<figure><button class="image-trigger" type="button" data-image="{{ image | relative_url }}" data-caption="{{ block.caption | escape }}" aria-label="Enlarge {{ page.title | escape }} image {{ forloop.index }}"><img src="{{ image | relative_url }}" alt="{{ page.title | escape }} — {{ block.heading | default: 'project image' | escape }} {{ forloop.index }}" loading="lazy" decoding="async"></button></figure>{% endfor %}</div>{% if block.caption and block.caption != '' %}<p class="caption">{{ block.caption | escape }}</p>{% endif %}
   {% when 'video' %}{% include project-video.html block=block %}
+  {% when 'media-row' %}
+    <div class="media-row" data-items="{{ block.items.size }}">
+      {% for item in block.items %}
+      <figure style="--media-ratio:{{ item.ratio | default: 1 | escape }}">
+        {% if item.type == 'video' %}{% include project-video.html block=item hide_caption=true %}
+        {% else %}<button class="image-trigger" type="button" data-image="{{ item.image | relative_url }}" data-caption="{{ item.alt | escape }}" aria-label="Enlarge {{ item.alt | default: page.title | escape }}"><img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: page.title | escape }}" loading="lazy" decoding="async"></button>{% endif %}
+      </figure>
+      {% endfor %}
+    </div>
+    {% if block.caption and block.caption != '' %}<p class="caption">{{ block.caption | escape }}</p>{% endif %}
   {% when 'video-gallery' %}
     <div class="gallery gallery-two"{% if block.width_percent %} style="width:calc({{ block.width_percent | escape }}% + 15px);max-width:100%"{% endif %}>
       {% for clip in block.videos %}<div>{% include project-video.html block=clip hide_caption=true %}</div>{% endfor %}

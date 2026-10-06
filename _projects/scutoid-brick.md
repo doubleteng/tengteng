@@ -54,8 +54,8 @@ sections:
   columns: two
   images:
   - /assets/media/scutoid-brick/img-3.webp
-  - /assets/media/scutoid/programmable-surface.webp
-  caption: 'Two material applications of cell geometry: an interlocking shell prototype (left) and a deformable surface with an embedded flex sensor (right).'
+  - /assets/media/scutoid/printed-cell-detail.webp
+  caption: Assembled shell prototype (left) and a close-up of printed cell geometry (right).
 - type: text
   heading: Cell geometry and surface curvature
   body: |
@@ -98,31 +98,39 @@ sections:
 - type: text
   body: |
     Printed PLA units were assembled into a shell and evaluated through a loading demonstration. The 2020 paper reports that a model weighing 1.8 lb (0.82 kg), printed with 20% infill, supported two 40 lb dumbbells, totaling about 36 kg. This model-scale test and the preliminary finite-element study examined the assembled geometry; full-scale masonry construction remained a subsequent research step.
-- type: video-gallery
-  videos:
-  - file: /assets/videos/scutoid/shell-assembly.mp4
-    poster: /assets/media/scutoid/shell-assembly-poster.webp
-    heading: Scutoid connections and shell assembly
-  - file: /assets/videos/scutoid/shell-load-test.mp4
-    poster: /assets/media/scutoid/shell-load-test-poster.webp
-    heading: Loading the assembled PLA shell model
-  caption: Connection and assembly study (left), followed by the physical loading demonstration on the printed shell model (right).
+- type: gallery
+  columns: two
+  image_ratios: [1.777778, 0.5625]
+  images:
+  - /assets/media/scutoid/printed-layer-detail.webp
+  - /assets/media/scutoid/shell-load-test-photo.webp
+  caption: Printed layer detail (left) and the PLA shell model under load (right).
+- type: gallery
+  columns: two
+  image_ratios: [2, 1.776833]
+  images:
+  - /assets/media/scutoid/shell-autumn-rendering.webp
+  - /assets/media/scutoid/shell-snow-rendering.webp
+  caption: Architectural-scale design renderings in autumn (left) and snow (right).
 - type: text
   heading: Programmable surfaces
   body: |
     The next experiments made the local–global relationship deformable through two complementary material configurations. Cast silicone provides compliant, passive components; 3D-printed shape-memory polymer provides thermally activated components. A surrounding frame keeps the units in contact as their geometry changes.
-- type: gallery
-  columns: two
-  images:
-  - /assets/media/scutoid/cell-frame-flat.webp
-  - /assets/media/scutoid/cell-frame-curved.webp
-  caption: Cell units within a constraint frame. Changes to the unit boundaries and frame geometry couple local deformation with overall curvature.
-- type: gallery
-  columns: two
-  images:
-  - /assets/media/scutoid/two-cell-prototype.webp
-  - /assets/media/scutoid/four-cell-prototype.webp
-  caption: Two-cell and four-cell material prototypes test contact, packing and deformation within a surrounding frame.
+- type: media-row
+  items:
+  - image: /assets/media/scutoid/cell-frame-flat.webp
+    ratio: 1.02957
+    alt: Flat cell geometry and its surrounding constraint frame
+  - image: /assets/media/scutoid/cell-frame-curved.webp
+    ratio: 0.851711
+    alt: Curved cell geometry and its surrounding constraint frame
+  - image: /assets/media/scutoid/two-cell-prototype.webp
+    ratio: 2.057613
+    alt: Two-cell material prototype within a constraint frame
+  - image: /assets/media/scutoid/four-cell-prototype.webp
+    ratio: 2.057613
+    alt: Four-cell material prototype within a constraint frame
+  caption: Flat and curved cell geometry with constraint frames, followed by two-cell and four-cell material prototypes.
 - type: text
   body: |
     **Active frame, passive cells.** A programmed shape-memory polymer frame bends when heated, pushing the silicone units into changing contact relationships. The experiment demonstrates how overall curvature reshapes the individual cells.
@@ -149,21 +157,21 @@ sections:
     A flex sensor attached to the material assembly translates bending into a change in electrical resistance. An Arduino converts the reading into curvature data and sends it to Rhino and Grasshopper. Manually shaping the prototype updates the digital model, connecting physical exploration with computational surface design.
 
     Thermal programming establishes a target material response, while sensing captures subsequent physical manipulation. Together, these experiments position the cell assembly as both a programmable surface and a tangible design medium.
-- type: gallery
-  columns: two
-  images:
-  - /assets/media/scutoid/flex-sensor-prototype.webp
-  - /assets/media/scutoid/physical-digital-interface-poster.webp
-  caption: Flex sensor integrated with the physical assembly (left) and manual deformation linked to a digital surface model (right).
-- type: video-gallery
-  videos:
-  - file: /assets/videos/scutoid/surface-simulation.mp4
-    poster: /assets/media/scutoid/surface-simulation-poster.webp
-    heading: Computational study of local and global surface deformation
-  - file: /assets/videos/scutoid/physical-digital-interface.mp4
+- type: media-row
+  items:
+  - image: /assets/media/scutoid/programmable-surface.webp
+    ratio: 1.509434
+    alt: Printed cell assembly with an embedded flex sensor
+  - image: /assets/media/scutoid/flex-sensor-prototype.webp
+    ratio: 1.509434
+    alt: Manual bending of the cell assembly and flex sensor
+  - type: video
+    file: /assets/videos/scutoid/physical-digital-interface.mp4
     poster: /assets/media/scutoid/physical-digital-interface-poster.webp
+    ratio: 1.333333
     heading: Physical surface manipulation updates the digital model
-  caption: Computational surface deformation study (left) and the sensor-based physical-to-digital interface (right).
+  caption: The cell assembly and flex sensor at rest (left), manual bending (center), and the resulting digital model update (right).
+
 ---
 
 Developed as part of my Master of Science thesis at Cornell University, this research investigates how local cell geometry organizes the construction and deformation of an overall surface. Geometric rules drawn from epithelial-cell packing connect two applications: interlocking shell units and thermally programmable material assemblies. Physical prototypes then extend the surface into a tangible interface for digital modeling. The work was published in two papers at eCAADe in 2020 and 2021; both papers and the master's thesis are [linked below](#research-publications-heading).

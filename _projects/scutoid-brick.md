@@ -65,6 +65,12 @@ sections:
 - type: gallery
   columns: two
   images:
+  - /assets/media/scutoid/epithelial-cell-packing.gif
+  - /assets/media/scutoid-brick/img-1.webp
+  caption: 'Biological reference: changing cell neighbors and Scutoid packing. Gómez-Gálvez et al., 2018.'
+- type: gallery
+  columns: two
+  images:
   - /assets/media/scutoid-brick/img-2.webp
   - /assets/media/scutoid-brick/img-5.webp
   caption: Three-layer construction of a scutoid cluster (left) and variations in local geometry as the cluster bends (right).
@@ -87,14 +93,8 @@ sections:
   columns: two
   images:
   - /assets/media/scutoid/shell-subdivision.webp
-  - /assets/media/scutoid/interlocking-brick-types.webp
-  caption: Layered shell subdivision (left) produces two brick types with triangular connection faces (right).
-- type: gallery
-  columns: two
-  images:
   - /assets/media/scutoid-brick/img-4.webp
-  - /assets/media/scutoid/shell-analysis.webp
-  caption: Interlocking units organize intersecting arch-like sequences (left). Preliminary finite-element studies compare deformation in continuous and segmented shell models (right).
+  caption: Layered shell subdivision (left) and interlocking units organized along intersecting arch-like sequences (right).
 - type: text
   body: |
     Printed PLA units were assembled into a shell and evaluated through a loading demonstration. The 2020 paper reports that a model weighing 1.8 lb (0.82 kg), printed with 20% infill, supported two 40 lb dumbbells, totaling about 36 kg. This model-scale test and the preliminary finite-element study examined the assembled geometry; full-scale masonry construction remained a subsequent research step.
@@ -112,6 +112,15 @@ sections:
   - /assets/media/scutoid/shell-autumn-rendering.webp
   - /assets/media/scutoid/shell-snow-rendering.webp
   caption: Architectural-scale design renderings in autumn (left) and snow (right).
+- type: media-row
+  items:
+  - image: /assets/media/scutoid/shell-walkthrough.gif
+    width_percent: 56.25
+    alt: Animated architectural visualization of the Scutoid shell
+  - type: video
+    url: https://www.youtube.com/watch?v=AW-wgsr6PRU
+    heading: Scutoid Brick project film
+  caption: Animated shell visualization (left) and the Scutoid Brick project film (right).
 - type: text
   heading: Programmable surfaces
   body: |

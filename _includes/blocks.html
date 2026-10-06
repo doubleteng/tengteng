@@ -11,7 +11,7 @@
       {% for item in block.items %}
       <figure style="--media-ratio:{{ item.ratio | default: 1 | escape }}">
         {% if item.type == 'video' %}{% include project-video.html block=item hide_caption=true %}
-        {% else %}<button class="image-trigger" type="button" data-image="{{ item.image | relative_url }}" data-caption="{{ item.alt | escape }}" aria-label="Enlarge {{ item.alt | default: page.title | escape }}"><img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: page.title | escape }}" loading="lazy" decoding="async"></button>{% endif %}
+        {% else %}<button class="image-trigger" type="button" data-image="{{ item.image | relative_url }}" data-caption="{{ item.alt | escape }}" aria-label="Enlarge {{ item.alt | default: page.title | escape }}"><img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: page.title | escape }}"{% if item.width_percent %} style="width:{{ item.width_percent | escape }}%;margin-inline:auto"{% endif %} loading="lazy" decoding="async"></button>{% endif %}
       </figure>
       {% endfor %}
     </div>

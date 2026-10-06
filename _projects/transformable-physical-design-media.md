@@ -109,7 +109,7 @@ contributions:
 - First author of Transformable Physical Design Media, eCAADe 2015.
 related_projects:
 - /research/inspire/
-- /research/epithelial-cell-inspired-programmable-surface-geometry/
+- /research/scutoid-brick/
 ---
 
 CuBe is a tangible toolkit for architectural massing studies. I led its development at the University of Washington’s Design Machine Group. Designers move, rotate, twist, and stretch physical models while the system tracks their position or deformation and updates digital geometry. The prototypes give the hands a physical reference and bring building information and environmental visualizations into the working space. The work was published in *Transformable Physical Design Media* at eCAADe 2015.

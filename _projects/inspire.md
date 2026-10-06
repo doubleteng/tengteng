@@ -216,7 +216,7 @@ contributions:
 - Modeling and navigation demonstrations; first authorship of the ACADIA 2014 paper
 related_projects:
 - /research/pica/
-- /research/epithelial-cell-inspired-programmable-surface-geometry/
+- /research/scutoid-brick/
 cover_preview_only: true
 primary_link:
   title: Read the paper · ACADIA 2014

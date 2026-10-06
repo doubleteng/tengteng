@@ -115,8 +115,8 @@ sections:
 - type: media-row
   items:
   - type: video
-    file: /assets/videos/scutoid/shell-architectural-walkthrough.mp4
-    poster: /assets/media/scutoid/shell-architectural-walkthrough-poster.webp
+    file: /assets/videos/scutoid/shell-walkthrough-portrait.mp4
+    poster: /assets/media/scutoid/shell-walkthrough-portrait-poster.webp
     heading: Scutoid shell architectural walkthrough
   - type: video
     url: https://www.youtube.com/watch?v=AW-wgsr6PRU

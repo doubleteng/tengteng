@@ -7,8 +7,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /research/scutoid-brick/
-cover: /assets/media/scutoid-brick/img-3.webp
-cover_alt: Assembled 3D-printed Scutoid shell prototype
+cover: /assets/media/scutoid/shell-project-thumbnail.webp
+cover_alt: Scutoid shell architectural visualization on the Cornell campus in autumn
 cover_preview_only: true
 summary: Local cell geometry, interlocking shells and thermally programmable surfaces.
 role: Project Lead

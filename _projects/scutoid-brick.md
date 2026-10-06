@@ -114,13 +114,14 @@ sections:
   caption: Architectural-scale design renderings in autumn (left) and snow (right).
 - type: media-row
   items:
-  - image: /assets/media/scutoid/shell-walkthrough.gif
-    width_percent: 56.25
-    alt: Animated architectural visualization of the Scutoid shell
+  - type: video
+    file: /assets/videos/scutoid/shell-architectural-walkthrough.mp4
+    poster: /assets/media/scutoid/shell-architectural-walkthrough-poster.webp
+    heading: Scutoid shell architectural walkthrough
   - type: video
     url: https://www.youtube.com/watch?v=AW-wgsr6PRU
     heading: Scutoid Brick project film
-  caption: Animated shell visualization (left) and the Scutoid Brick project film (right).
+  caption: Architectural walkthrough of the Scutoid shell (left) and the Scutoid Brick project film (right).
 - type: text
   heading: Programmable surfaces
   body: |

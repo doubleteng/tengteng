@@ -10,7 +10,7 @@ cover: /assets/media/w-newton-st-rowhouse/corner-exterior.webp
 cover_alt: W. Newton St Rowhouse at the corner of W Newton Street and 14th Avenue W.
 summary: Four homes on a sloping Seattle corner lot, with stepped volumes, individual entrances, and private roof
   terraces.
-role: Design Project Manager (developer side)
+role: Founder and Managing Director
 institution: Ju Square Development LLC
 location: West Queen Anne, Seattle, Washington, USA
 tags:
@@ -109,7 +109,7 @@ related_publications: []
 awards: []
 editor_notes: 'Sources: the supplied W. Newton St Rowhouse Drive folder, including the 2018 construction and permit
   drawings, six exterior images, and the six-page plan extract. Architectural drawings are credited to David Vandervort
-  Architects. Role updated to developer-side design project management, as clarified by the owner on 2026-10-07.
+  Architects. The owner confirmed the title Founder and Managing Director on 2026-10-07, with responsibility for design management.
   The established project year remains 2021; participation dates in the existing record are 2017-2020. The owner
   requested removal of the original sunset and night views; the carousel uses only the six supplied exterior views.'
 source_links: []
@@ -148,4 +148,4 @@ hero_gallery:
 
 W. Newton St Rowhouse replaces a single-family property with four homes in Seattle’s West Queen Anne neighborhood. The development uses a steep corner site to combine separate street entrances, vertically organized interiors, and outdoor space at roof level.
 
-I served as Design Project Manager at Ju Square Development LLC during 2017–2020, managing the design process on the developer’s side and coordinating with the architect and engineering consultants. David Vandervort Architects provided the architectural design.
+As Founder and Managing Director of Ju Square Development LLC, I led design management for this project during 2017–2020, coordinating with the architect and engineering consultants. David Vandervort Architects provided the architectural design.

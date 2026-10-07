@@ -48,6 +48,24 @@ sections:
     alt: Interior illumination reveals the deposited polyurethane pattern through the exterior PVC membrane
     ratio: 1
   caption: Inside-out robotic spraying (left) and the illuminated enclosure (right). Variations in internal coating thickness change light transmission through the smooth outer membrane.
+- type: media-row
+  equal_height: true
+  items:
+  - type: video
+    file: /assets/media/minimum-device-maximum-space/spray-process-01.mp4
+    poster: /assets/media/minimum-device-maximum-space/spray-process-01-poster.webp
+    heading: Robotic polyurethane spraying — view 1
+    ratio: 1.813031
+  - type: video
+    file: /assets/media/minimum-device-maximum-space/spray-process-02.mp4
+    poster: /assets/media/minimum-device-maximum-space/spray-process-02-poster.webp
+    heading: Robotic polyurethane spraying — view 2
+    ratio: 1.777778
+  - type: video
+    file: /assets/media/minimum-device-maximum-space/spray-process-03.mp4
+    poster: /assets/media/minimum-device-maximum-space/spray-process-03-poster.webp
+    heading: Robotic polyurethane spraying — view 3
+    ratio: 1.764706
 - type: text
   heading: Inflation defines the fabrication volume
   body: >-

@@ -1,6 +1,7 @@
 ---
 title: Minimum Device, Maximum Space
 category: research
+year: 2026
 published: true
 featured: false
 permalink: /research/minimum-device-maximum-space/

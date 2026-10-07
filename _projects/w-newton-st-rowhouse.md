@@ -110,7 +110,8 @@ awards: []
 editor_notes: 'Sources: the supplied W. Newton St Rowhouse Drive folder, including the 2018 construction and permit
   drawings, six exterior images, and the six-page plan extract. Architectural drawings are credited to David Vandervort
   Architects. Role updated to developer-side design project management, as clarified by the owner on 2026-10-07.
-  The established project year remains 2021; participation dates in the existing record are 2017-2020.'
+  The established project year remains 2021; participation dates in the existing record are 2017-2020. The owner
+  requested removal of the original sunset and night views; the carousel uses only the six supplied exterior views.'
 source_links: []
 project_type: Four-unit rowhouse development
 project_stage: Built
@@ -142,14 +143,6 @@ hero_gallery:
 - image: /assets/media/w-newton-st-rowhouse/west-street-view.webp
   alt: The west frontage viewed across the intersection.
   caption: The west frontage viewed across the intersection.
-  duration_ms: 3000
-- image: /assets/media/w-newton-st-rowhouse/img-2.webp
-  alt: The corner and landscaped sidewalk edge in late-afternoon light.
-  caption: The corner and landscaped sidewalk edge in late-afternoon light.
-  duration_ms: 3000
-- image: /assets/media/w-newton-st-rowhouse/img-1.webp
-  alt: The completed street frontage at night.
-  caption: The completed street frontage at night.
   duration_ms: 3000
 ---
 

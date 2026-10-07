@@ -132,7 +132,3 @@ sections:
 ---
 
 **Minimum Device, Maximum Space** investigates how a compact fabrication device can materialize an architectural enclosure larger than its reach. Inflation establishes the volume, projected polyurethane bridges the distance between nozzle and membrane, and staged curing converts the deposited material into a stiffened coating.
-
-<style>
-.project-body .media-row[data-items="3"] { max-width: 780px; }
-</style>

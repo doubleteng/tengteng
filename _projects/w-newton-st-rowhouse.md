@@ -109,15 +109,17 @@ related_publications: []
 awards: []
 editor_notes: 'Sources: the supplied W. Newton St Rowhouse Drive folder, including the 2018 construction and permit
   drawings, six exterior images, and the six-page plan extract. Architectural drawings are credited to David Vandervort
-  Architects. The owner confirmed the title Founder and Managing Director on 2026-10-07, with responsibility for design management.
+  Architects. The owner confirmed the title Founder and Managing Director on 2026-10-07, with overall responsibility for development, design, engineering, and construction management.
   The established project year remains 2021; participation dates in the existing record are 2017-2020. The owner
   requested removal of the original sunset and night views; the carousel uses only the six supplied exterior views.'
 source_links: []
 project_type: Four-unit rowhouse development
 project_stage: Built
 contributions:
-- Design management for Ju Square Development LLC
-- Coordination with the architect and engineering consultants
+- Overall project leadership and development management
+- Design and engineering management
+- Construction management
+- Coordination with the architect, consultants, city officials, contractors, vendors, and brokers
 hero_gallery_fit: contain
 hero_gallery:
 - image: /assets/media/w-newton-st-rowhouse/corner-exterior.webp
@@ -148,4 +150,4 @@ hero_gallery:
 
 W. Newton St Rowhouse replaces a single-family property with four homes in Seattle’s West Queen Anne neighborhood. The development uses a steep corner site to combine separate street entrances, vertically organized interiors, and outdoor space at roof level.
 
-As Founder and Managing Director of Ju Square Development LLC, I led design management for this project during 2017–2020, coordinating with the architect and engineering consultants. David Vandervort Architects provided the architectural design.
+As Founder and Managing Director of Ju Square Development LLC, I oversaw all aspects of the project during 2017–2020, including development, design, engineering, and construction management. I coordinated the architect, engineering consultants, city officials, contractors, vendors, and brokers throughout the project. David Vandervort Architects provided the architectural design.

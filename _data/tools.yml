@@ -1,0 +1,43 @@
+browser_tools:
+- title: StressPath
+  project: /research/stresspath/
+  url: /research/stresspath/app/
+  action: Open tool
+  description: Design a structure, inspect force patterns, and develop continuous printing paths with spatial material
+    assignments.
+- title: Ovenbird
+  project: /research/continuous-multi-material-extrusion/
+  url: https://www.food4rhino.com/en/app/ovenbird
+  action: Get plug-in
+  description: A Rhino/Grasshopper slicer and toolpath plug-in adapted for multi-material printing, including gradient
+    composition and material transitions.
+  role: Collaborator
+  documentation: https://yefan-zhi.github.io/ovenbird/
+- title: Structure Lab
+  project: /teaching/structural-systems/
+  url: /teaching/structural-systems/lab/
+  action: Open tool
+  description: Explore structural concepts and building systems through interactive models. Includes Structure Coach
+    for developing structural questions and descriptions.
+- title: After Chinatown
+  project: /research/after-chinatown/
+  url: https://afterchinatown.org/
+  action: Open platform
+  description: Explore historical urban models, maps, photographs, and archival records across locations and periods.
+research_tools:
+- project: /projects/series-facade-optimization/
+  description: A computational toolkit coordinating architectural geometry, facade constraints, and manufacturing
+    requirements.
+- project: /research/robosense/
+  description: Clay extrusion hardware and control software for calibration, live toolpath adjustment, and robotic
+    fabrication.
+- project: /research/pica/
+  description: A compact robotic platform with custom kinematics, control software, and adaptable fabrication tools.
+- project: /research/pinbed/
+  description: A programmable support bed connecting actuator control to nonplanar robotic deposition.
+- project: /research/inspire/
+  description: A gesture-based interface for manipulating architectural geometry in a shared physical and digital
+    workspace.
+- project: /research/transformable-physical-design-media/
+  description: A tangible modeling interface linking physical massing changes with digital geometry and environmental
+    feedback.

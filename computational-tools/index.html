@@ -1,0 +1,46 @@
+---
+title: Computational Tools
+description: Interactive tools and research prototypes for computational design, structural learning, fabrication, and spatial exploration.
+---
+<header class="page-heading tools-heading">
+  <h1>Computational Tools</h1>
+  <p class="lead">Tools for exploring geometry, material behavior, structural response, and fabrication. Open a working platform or follow its project page for methods and research.</p>
+</header>
+<section aria-labelledby="browser-tools-heading">
+  <div class="catalog-group-heading"><h2 id="browser-tools-heading">Platforms &amp; plug-ins</h2></div>
+  <div class="project-grid">
+    {% for tool in site.data.tools.browser_tools %}
+      {% if tool.url contains '://' %}{% assign tool_url = tool.url %}{% else %}{% assign tool_url = tool.url | relative_url %}{% endif %}
+      {% assign project = site.projects | where: 'url', tool.project | first %}
+      {% if project and project.published %}
+      <article class="project-card tool-card">
+        <a class="project-link" href="{{ tool_url | escape }}">
+          {% if project.cover %}<div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: tool.title | escape }}" loading="lazy" decoding="async" width="720" height="480"></div>{% endif %}
+          <h3>{{ tool.title | escape }}</h3>
+        </a>
+        <p class="card-summary">{{ tool.description | escape }}</p>
+        {% if tool.role %}<p class="tool-role">My role: {{ tool.role | escape }}</p>{% endif %}
+        <div class="tool-actions"><a class="text-link" href="{{ tool_url | escape }}">{{ tool.action | escape }} →</a><a class="text-link" href="{{ project.url | relative_url }}">Project &amp; context →</a>{% if tool.documentation %}<a class="text-link" href="{{ tool.documentation | escape }}">Documentation →</a>{% endif %}</div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+<section class="tool-archive" aria-labelledby="research-tools-heading">
+  <div class="catalog-group-heading"><h2 id="research-tools-heading">Research tools &amp; prototypes</h2><p>Documented computational toolkits, interfaces, and fabrication systems. Project pages describe their development and applications.</p></div>
+  <div class="project-grid">
+    {% for tool in site.data.tools.research_tools %}
+      {% assign project = site.projects | where: 'url', tool.project | first %}
+      {% if project and project.published %}
+      <article class="project-card tool-card">
+        <a class="project-link" href="{{ project.url | relative_url }}">
+          {% if project.cover %}<div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: project.title | escape }}" loading="lazy" decoding="async" width="720" height="480"></div>{% endif %}
+          <h3>{{ project.card_title | default: project.title | escape }}</h3>
+        </a>
+        <p class="card-summary">{{ tool.description | escape }}</p>
+        <div class="tool-actions"><a class="text-link" href="{{ project.url | relative_url }}">View project →</a></div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>

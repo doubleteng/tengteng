@@ -35,8 +35,8 @@
       <a class="brand" href="{{ '/' | relative_url }}"><span class="monogram" aria-hidden="true">TT</span><span>{{ site.data.profile.name | escape }}</span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu <span aria-hidden="true">☰</span></button>
       <nav id="primary-nav" aria-label="Primary">
-        {% assign navs = 'Research,Teaching,Design,Publications,News,About,Contact' | split: ',' %}
-        {% for label in navs %}{% assign nav_category = label | downcase %}{% assign nav_path = nav_category | prepend: '/' | append: '/' %}
+        {% assign navs = 'Research,Computational Tools,Teaching,Design,Publications,News,About,Contact' | split: ',' %}
+        {% for label in navs %}{% assign nav_category = label | downcase | replace: ' ', '-' %}{% assign nav_path = nav_category | prepend: '/' | append: '/' %}
         <a href="{{ nav_path | relative_url }}"{% if page.url contains nav_path or page.category == nav_category %} aria-current="page"{% endif %}>{{ label }}</a>
         {% endfor %}
         {% if site.data.site.show_fine_art_nav %}<a href="/fine-art/"{% if page.url contains '/fine-art/' %} aria-current="page"{% endif %}>Fine Art</a>{% endif %}
@@ -48,3 +48,4 @@
   <dialog id="image-dialog" aria-label="Image viewer"><button type="button" class="dialog-close" aria-label="Close image viewer">Close ×</button><img alt=""><p></p><div class="dialog-controls"><button type="button" data-direction="-1" aria-label="Previous image">← Previous</button><span id="image-position"></span><button type="button" data-direction="1" aria-label="Next image">Next →</button></div></dialog>
 </body>
 </html>
+

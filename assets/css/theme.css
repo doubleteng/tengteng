@@ -98,3 +98,16 @@ strong, b { font-weight: inherit; }
   .catalog-group { margin-bottom: 30px; }
   .catalog-group .project-grid { gap: 24px 16px; }
 }
+
+/* Keep the expanded navigation clear before switching to the compact menu. */
+@media (min-width:801px) and (max-width:1180px) {
+  .header-inner { flex-wrap: wrap; gap: 14px; }
+  .site-header nav { flex-basis: 100%; justify-content: space-between; gap: 12px; }
+}
+.tools-heading { padding: 32px 0 26px; }
+.tools-heading h1 { margin: 0 0 14px; }
+.tool-card .tool-actions { display:flex; flex-wrap:wrap; gap:12px 20px; margin-top:16px; }
+.tool-card .tool-actions a { font-size:13px; }
+.tool-archive { margin-top:38px; }
+.tool-archive .catalog-group-heading { margin-bottom:20px; }
+.tool-role { margin: 10px 0 0; font-size: 13px; color: var(--muted); }

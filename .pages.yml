@@ -29,6 +29,49 @@ media:
   - mp4
   - webm
 content:
+- name: computational-tools
+  label: Computational Tools / 计算工具
+  type: file
+  path: _data/tools.yml
+  format: yaml
+  fields:
+  - name: browser_tools
+    label: Platforms and plug-ins
+    type: object
+    list: true
+    fields:
+    - name: title
+      label: Title
+      type: string
+    - name: project
+      label: Project
+      type: string
+    - name: url
+      label: Url
+      type: string
+    - name: action
+      label: Action
+      type: string
+    - name: description
+      label: Description
+      type: text
+    - name: role
+      label: My role (optional)
+      type: string
+    - name: documentation
+      label: Documentation URL (optional)
+      type: string
+  - name: research_tools
+    label: Research tools and prototypes
+    type: object
+    list: true
+    fields:
+    - name: project
+      label: Project
+      type: string
+    - name: description
+      label: Description
+      type: text
 - name: portfolio-groups
   label: Portfolio groups / 项目分类
   type: file

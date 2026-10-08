@@ -35,7 +35,7 @@
       <a class="brand" href="{{ '/' | relative_url }}"><span class="monogram" aria-hidden="true">TT</span><span>{{ site.data.profile.name | escape }}</span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu <span aria-hidden="true">☰</span></button>
       <nav id="primary-nav" aria-label="Primary">
-        {% assign navs = 'Research,Teaching,Design,Publications,Computational Tools,News,About,Contact' | split: ',' %}
+        {% assign navs = 'Research,Teaching,Design,Publications,Computational Tools,About,Contact' | split: ',' %}
         {% for label in navs %}{% assign nav_category = label | downcase | replace: ' ', '-' %}{% assign nav_path = nav_category | prepend: '/' | append: '/' %}
         <a href="{{ nav_path | relative_url }}"{% if page.url contains nav_path or page.category == nav_category %} aria-current="page"{% endif %}>{{ label }}</a>
         {% endfor %}

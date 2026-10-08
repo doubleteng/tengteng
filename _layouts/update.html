@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<a class="back-link" href="{{ '/news/' | relative_url }}">← News</a>
+<a class="back-link" href="{{ '/gallery/' | relative_url }}">← All work</a>
 <header class="page-heading"><p class="eyebrow">{{ page.date | date: '%B %-d, %Y' }} · {{ page.category | capitalize }}</p><h1>{{ page.title | escape }}</h1><p class="lead">{{ page.summary | escape }}</p></header>
 {% if page.image and page.image != '' %}<img class="update-image" src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}">{% endif %}
 <article class="prose reading-width">{{ content }}</article>

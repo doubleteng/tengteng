@@ -16,7 +16,7 @@ Edit content in Pages CMS; no HTML or JavaScript changes are needed for routine 
 | --- | --- |
 | Projects | `_projects/*.md` |
 | Publications | `_publications/*.md` |
-| News | `_updates/*.md` |
+| News records (no index page) | `_updates/*.md` |
 | Profile, teaching, art, site text | `_data/*.yml` |
 | Uploads | `assets/media/`, `assets/documents/` |
 | CMS schema | `.pages.yml` |

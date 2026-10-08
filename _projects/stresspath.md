@@ -16,8 +16,8 @@ research_areas:
 research_order: 5
 project_type: Interactive research tool
 project_stage: Research prototype
-summary: An interactive research tool connecting structural behavior, continuous
-  printing paths, and material distribution.
+summary: A computational design tool translates structural force patterns into continuous printing paths and spatial
+  material assignments.
 structure_lab: false
 featured_order: 99
 related_publications:
@@ -30,7 +30,7 @@ related_publications:
   url: https://doi.org/10.1016/j.matdes.2024.113479
   publication_id: teng2025113479
   context: Research foundation
-research_question: How can a structure’s force flow guide continuous printing paths and material placement?
+research_question: How can force flow guide the joint design of printing paths and material distribution?
 role_summary: Developed the browser-based research tool as an extension of my multi-material structural-printing
   work.
 evidence_summary: The working model lets visitors change loads, inspect structural response, and compare paths.
@@ -41,10 +41,13 @@ related_projects:
 - /teaching/structural-systems/
 related_connections:
 - url: /research/multi-material-3d-printing-for-tension-compression-structure/
-  reason: Force-informed toolpaths and material placement
+  reason: Provides the structural-printing research behind force-informed material placement.
+- url: /research/continuous-multi-material-extrusion/
+  reason: Addresses continuity and transition control in material-aware printing.
 - url: /teaching/structural-systems/
-  reason: Interactive experiments with loads, supports, and force flow
+  reason: Uses visible force behavior to support architectural design reasoning.
 evidence_target: stresspath-workspace
+question_label: Research question
 ---
 StressPath is an interactive research tool that explores how structural behavior can inform continuous printing paths and material distribution. Developed as an extension of my work on [multi-material printing for tension-compression structures](/research/multi-material-3d-printing-for-tension-compression-structure/), the project brings structural modeling, analysis, toolpath generation, and material planning into a shared browser-based environment. It makes the relationship between force, geometry, and fabrication visible and available for direct experimentation.
 

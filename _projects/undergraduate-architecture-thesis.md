@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /teaching/undergraduate-architecture-thesis/
 cover: /assets/media/undergraduate-architecture-thesis/portfolio-slide-29-i01.webp
 cover_alt: Lifestyle retail street proposal by Yanyu Chen
-summary: Thesis supervision at SIVA connects spatial design with existing buildings, user needs, and responsive
-  environments.
+summary: Independent theses connect spatial design to existing buildings, user needs, and responsive environments.
 role: Thesis supervisor
 institution: Shanghai Institute of Visual Art
 location: Shanghai, China
@@ -57,7 +56,7 @@ editor_notes: 作品集明确记载 SIVA 教学为 2015–2017；原站合并条
 source_links: []
 project_type: Thesis supervision
 project_stage: Teaching
-research_question: How can evidence about buildings and users guide spatial renovation?
+research_question: How can evidence about buildings and users guide an independently developed architectural proposal?
 role_summary: Supervised undergraduate theses at SIVA; the individual designs remain the students’ work.
 evidence_summary: Yanyu Chen’s retail-street study and Chuou Zhang’s workplace-renovation proposal show distinct
   student applications of research to spatial design.
@@ -67,6 +66,7 @@ related_connections:
 - url: /teaching/undergraduate-product-design-thesis/
   reason: User research translated into spatial and physical prototypes
 evidence_target: project-evidence
+question_label: Learning question
 ---
 At the Shanghai Institute of Visual Art, I supervised undergraduate theses spanning retail environments, workplace renovation, and spatial interaction. Across architecture and product design, this teaching included more than twenty theses during 2015–2017.
 

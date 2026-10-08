@@ -13,7 +13,7 @@ cover_preview_only: false
 cover_width_percent: 64
 gallery_width_percent: 80
 image_alignment: left
-summary: Recycled TPU and PET-G are blended during extrusion to place flexibility and support within a continuous printed shoe, linking simulated loading to material composition.
+summary: Spatially varied TPU and PET-G mixtures place flexibility and support within a continuous printed shoe.
 role: Leading contributor; first author
 project_type: Gradient multi-material additive manufacturing
 project_stage: Printed research prototypes; accepted for ACADIA 2026
@@ -139,15 +139,17 @@ editor_notes: >-
   Images are supplied research assets; video is embedded locally, muted, autoplaying, and looping.
   The supplied manuscript is anonymized and does not confirm additional authors or affiliations.
   Do not infer those details. Distinguish prototype fabrication results from long-term use and lifecycle validation.
-research_question: How can one printed shoe place different softness and stiffness where they are needed?
+research_question: How can local material composition distribute flexibility and support in response to loading?
 role_summary: Led the research and served as first author, working with Yefan Zhi.
 evidence_summary: Printed graded footwear, material-transition studies, and deposition video demonstrate the workflow.
   Simulated loading informs placement; wearer performance is not established here.
 related_connections:
 - url: /research/continuous-multi-material-extrusion/
-  reason: Material boundaries and gradients along a continuous path
+  reason: Controls material changes along a continuous deposition path.
+- url: /research/multi-material-3d-printing-for-tension-compression-structure/
+  reason: Relates local loading to material allocation.
 - url: /research/integrated-and-tailored-thermal-insulation/
-  reason: Allocating different material behavior within one component
+  reason: Explores functional differentiation through material distribution.
 reading_path:
 - title: Printed footwear
   target: printed-footwear
@@ -159,4 +161,5 @@ reading_path:
   target: scope
 evidence_target: printed-footwear
 evidence_first: 2
+question_label: Research question
 ---

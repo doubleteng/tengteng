@@ -26,8 +26,8 @@ hero_gallery:
 - image: /assets/media/tang-courtyard-promenade/built-aerial.webp
   alt: Aerial photograph of the completed Tang Courtyard Promenade and surrounding urban context
   caption: Completed district within its surrounding urban context.
-summary: >-
-  A courtyard-based pedestrian retail district in Zhangpu that translates Minnan spatial types into a contemporary commercial promenade of gates, lanes, terraces, upper walks, and public rooms.
+summary: A courtyard retail district develops gates, lanes, terraces, and elevated walks from urban strategy through
+  construction documentation.
 role: Design Partner — Project-wide design leadership from concept and master planning through design development and construction documentation
 institution: Adaptive Design LLC (A-D-A)
 location: Zhangpu, Fujian, China
@@ -81,7 +81,8 @@ related_publications: []
 awards: []
 editor_notes: ''
 source_links: []
-research_question: How can a retail district use lanes, courtyards, and elevated walks as its public-space framework?
+research_question: How can a network of courtyards and promenades be developed into coordinated buildings and public
+  spaces?
 role_summary: Design Partner; led the project from urban strategy and master planning through design development
   and construction documentation.
 evidence_summary: Built photographs, spatial diagrams, and technical development show how the pedestrian network
@@ -98,6 +99,7 @@ related_connections:
 - url: /design/ribo-central-club/
   reason: Stepped landscapes linking movement, terraces, and shared space
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 Tang Courtyard Promenade is a built walkable retail district in Zhangpu, Fujian, organized around a network of lanes, courtyards, gateways, terraces, and upper-level walks. The project treats commercial circulation as public realm, replacing the single enclosed shopping-center interior with a sequence of outdoor and semi-outdoor spaces that operate more like a piece of city fabric.
 

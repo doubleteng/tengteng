@@ -8,8 +8,8 @@ featured_order: 99
 permalink: /design/fana-mixed-use-complex-development/
 cover: /assets/media/fana-mixed-use-complex-development/hero.webp
 cover_alt: FANA Mixed-Use Complex Development
-summary: Two residential towers share a retail podium and pedestrian connections at NE 4th Street and 106th Avenue
-  in Bellevue.
+summary: Schematic design and design development coordinate two residential towers, a shared retail podium, and pedestrian
+  access in downtown Bellevue.
 role: Project designer
 institution: Callison, Seattle
 location: Bellevue, Washington, USA
@@ -44,8 +44,7 @@ editor_notes: ''
 source_links: []
 project_type: Architecture
 project_stage: Schematic design and design development
-research_question: How can two residential towers share a retail podium and pedestrian connections on a downtown
-  block?
+research_question: How can tower, podium, and access requirements be coordinated within a shared urban block?
 role_summary: Project designer at Callison Seattle through schematic design and design development.
 evidence_summary: Plans, massing studies, and project visualizations document the proposal and its ground-level
   connections; they are not built-outcome evidence.
@@ -55,6 +54,7 @@ related_connections:
 - url: /design/w-newton-st-rowhouse/
   reason: Coordinating residential access and shared outdoor space
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 The FANA proposal combines North and South Towers above a shared podium in downtown Bellevue. Retail and dining occupy the lower levels, with residential accommodation and shared amenities above.
 

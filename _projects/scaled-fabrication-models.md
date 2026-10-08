@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /research/scaled-fabrication-models/
 cover: /assets/media/scaled-fabrication-models/detail-0-hero2.webp
 cover_alt: Scaled fabrication model of a funicular floor structure
-summary: Small printed models reproduce fabrication sequences to compare toolpaths and component assembly for concrete
-  structures.
+summary: Scaled printed models make toolpath, print-orientation, and assembly decisions available for physical comparison.
 role: Major Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
@@ -48,7 +47,7 @@ project_stage: Research prototype
 research_areas:
 - material-computation
 research_order: 8
-research_question: How can small models test a concrete component’s printing and assembly sequence?
+research_question: How can small models test the fabrication and assembly of computationally designed concrete components?
 role_summary: Major contributor and second author of the collaborative fabrication-model study.
 evidence_summary: Printed models and assembly sequences compare force-informed print directions and component organization
   at model scale.
@@ -61,6 +60,7 @@ related_connections:
 - url: /research/automated-concrete-toolpaths/
   reason: Testing concrete fabrication sequences through printed models
 evidence_target: project-evidence
+question_label: Research question
 ---
 Scaled fabrication models test how discrete concrete structures can be printed and assembled before committing to full-scale production. Each model reproduces the intended fabrication approach and layer organization, making toolpath choices visible in a physical object.
 

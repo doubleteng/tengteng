@@ -8,7 +8,7 @@ featured_order: 99
 permalink: /teaching/digital-fabrication/
 cover: /assets/media/digital-fabrication/portfolio-slide-32-i01.webp
 cover_alt: Fabricated student model of a woven surface
-summary: Introductory seminars connect parametric geometry, computational design, and physical fabrication.
+summary: Computational modeling and physical fabrication teach students to connect geometric rules with making constraints.
 role: Seminar instructor
 institution: ''
 location: ''
@@ -34,8 +34,8 @@ editor_notes: 资料说明该课程在多个机构开设，未逐次列出年份
 source_links: []
 project_type: Seminar
 project_stage: Teaching
-question_label: Teaching question
-research_question: How can students explain a design through rules that they can change and test?
+question_label: Learning question
+research_question: How can students test the consequences of computational design rules through fabrication?
 contribution: Introductory computational exercises connect geometric transformations and data organization with
   physical fabrication. Students compare the model’s rules with the behavior of the produced object.
 method_steps:

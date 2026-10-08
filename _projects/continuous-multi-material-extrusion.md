@@ -10,8 +10,8 @@ permalink: /research/continuous-multi-material-extrusion/
 cover: /assets/media/continuous-multi-material-extrusion/printed-porous-cells.webp
 cover_alt: Printed porous cells with purple, orange, and yellow material gradients and separate wiping units
 cover_preview_only: true
-summary: Material-aware toolpath planning combines gradient mixtures, transition-delay compensation, and selective
-  wiping to print complex two- and three-dimensional objects through a single actively mixing nozzle.
+summary: Material-aware toolpaths coordinate graded mixtures, transition delay, and continuous deposition through an
+  actively mixing nozzle.
 role: Major contributor; second author
 institution: Lawrence Technological University · University of Pennsylvania, Polyhedral Structures Laboratory
 project_type: Multi-material additive manufacturing and toolpath computation
@@ -180,17 +180,17 @@ editor_notes: 'Sources: the user-provided Google Drive folder 1a_i1een68PyVhkA3-
   saving concerns travel time, not total print time. Experimental demonstrations use thermoplastics; paste and
   construction-scale extensions are not represented as validated outcomes. No separate formal Publications entry
   until final metadata is confirmed.'
-research_question: How can a mixing nozzle preserve both material boundaries and continuous deposition?
+research_question: How can toolpath planning control material transitions while maintaining deposition continuity?
 role_summary: Major contributor and second author of the collaborative extrusion and toolpath-planning study.
 evidence_summary: A 90-layer planning example reports 91% less wiping material; a separate 45-layer print tests
   graded composition. These are different demonstrations.
 related_connections:
 - url: /research/snmm-additive-manufacturing-system/
-  reason: Compensating for mixing delay along continuous toolpaths
-- url: /research/automated-concrete-toolpaths/
-  reason: Graph-based continuity and deposition planning
+  reason: Models the relation between mixture commands and deposited transitions.
+- url: /research/stresspath/
+  reason: Connects structural analysis to continuous paths and material assignment.
 - url: /research/programmable-footwear/
-  reason: Material boundaries and gradients along a continuous path
+  reason: Applies spatial mixtures to local flexibility and support.
 reading_path:
 - title: Printing results
   target: printing-results
@@ -202,4 +202,5 @@ reading_path:
   target: scope
 evidence_target: printing-results
 evidence_first: 4
+question_label: Research question
 ---

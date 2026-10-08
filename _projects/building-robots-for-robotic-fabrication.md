@@ -9,8 +9,8 @@ permalink: /teaching/building-robots-for-robotic-fabrication/
 cover: /assets/media/building-robots-for-robotic-fabrication/robot-assembly-poster.webp
 cover_preview_only: true
 cover_alt: A desktop robotic arm assembled from individual mechanical parts and servos
-summary: Assemble a six-axis robotic arm, understand its kinematics and motor control, and develop a fabrication
-  or interaction application.
+summary: Students assemble and program robotic arms, then use their understanding of motion and control to develop fabrication
+  or interaction applications.
 role: Course designer and instructor
 institution: ''
 location: Online lectures and remote studio sessions
@@ -205,16 +205,18 @@ source_links: []
 related_projects:
 - /research/pica/
 - /teaching/ai-empowered-creative-robotics-workshop/
-research_question: How can building a robot teach the mechanics, computation, and control behind fabrication?
+research_question: How does building a fabrication tool change what students can design and make?
 role_summary: Independently designed and taught six course offerings, from mechanical assembly and kinematics to
   student application development.
 evidence_summary: Assembly and control videos, plus student winding, printing, cutting, and vision-guided assembly
   projects.
 related_connections:
 - url: /research/pica/
-  reason: Building and programming adaptable six-axis robots
+  reason: Develops an adaptable robot as a tool for design exploration.
+- url: /research/robosense/
+  reason: Connects robotic control with material delivery and geometric intent.
 - url: /teaching/ai-empowered-creative-robotics-workshop/
-  reason: Learning robotic control through physical experimentation
+  reason: Uses physical intervention to question computational output.
 reading_path:
 - title: Build a robot
   target: robot-assembly
@@ -223,6 +225,7 @@ reading_path:
 - title: Student work
   target: student-work
 evidence_target: robot-assembly
+question_label: Learning question
 ---
 **I designed this course around learning robotics by building a robot from individual components.** Students assemble a desktop six-axis robotic arm by hand and use that process to understand its mechanics, calculate inverse kinematics, and develop motor-control algorithms. They then use the arm they built to create a fabrication or interaction application.
 

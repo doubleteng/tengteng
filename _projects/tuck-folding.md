@@ -10,8 +10,7 @@ permalink: /research/tuck-folding/
 cover: /assets/media/tuck-folding/fabric-hinge-model.webp
 cover_alt: PLA panels printed on fabric, shown flat and folded into a shell formwork model
 cover_preview_only: true
-summary: A computational folding method translates compression-dominant shells into flat sheet patterns. Local
-  tucks encode the geometry needed to reconstruct curvature in paper and fabric-hinged panels.
+summary: Computationally designed tucks encode shell curvature in flat sheet patterns and fabric-hinged panels.
 role: Co-author
 institution: Lawrence Technological University · Cornell University · Thomas Jefferson University
 project_type: Computational geometry and foldable shell formwork
@@ -143,7 +142,7 @@ editor_notes: 'Sources: user-supplied 195_Yang.pdf and original figures in Googl
   image; diagrams and proposal plates use two-column galleries, wide montages use single rows. The cover appears
   only in cards/social previews. Paper and PLA/fabric models are physical prototypes; concrete casting and the
   pavilion remain proposals.'
-research_question: How can flat sheet patterns reconstruct the curvature of compression-dominant shells?
+research_question: How can local folds and hinge arrangements reconstruct a compression-dominant shell from flat sheets?
 role_summary: Coauthor of the computational folding study with Yi Yang and Chun Zhou.
 evidence_summary: A 1:10 paper shell and 1:25 PLA-on-fabric prototype demonstrate reconstruction. Full-scale plywood
   formwork and concrete casting remain proposed.
@@ -163,4 +162,5 @@ reading_path:
   target: scope
 evidence_target: paper-prototype
 evidence_first: 4
+question_label: Research question
 ---

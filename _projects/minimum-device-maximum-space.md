@@ -8,7 +8,8 @@ permalink: /research/minimum-device-maximum-space/
 cover: /assets/media/minimum-device-maximum-space/interior-spray.webp
 cover_alt: A compact robot spraying polyurethane inside an inflated architectural enclosure
 cover_preview_only: true
-summary: A compact robot sprays polyurethane inside an inflated membrane, combining pneumatic formwork and projected deposition to fabricate an enclosure beyond the arm's physical reach.
+summary: A compact robot combines pneumatic formwork, projected polyurethane deposition, and curing to materialize an
+  enclosure beyond its reach.
 project_type: Robotic spray fabrication of inflatable architectural enclosures
 project_stage: 2 m calibration tests and 5 m-span research prototype
 tags:
@@ -131,7 +132,7 @@ sections:
   image: /assets/media/minimum-device-maximum-space/spray-sequence.webp
   alt: Spherical spray toolpaths and sequential photographs of bottom-up robotic polyurethane deposition
   caption: Toolpath geometry and staged spraying in the small spherical membrane. Previously deposited lower bands had time to stiffen as fabrication progressed upward.
-research_question: How can a compact robot fabricate an enclosure beyond its physical reach?
+research_question: How can deposition and material curing extend the architectural scale of a compact fabrication device?
 role_summary: Research coauthor with Kangyi Zheng.
 evidence_summary: Calibration in 2 m membranes informed a 5 m-span sprayed prototype. Process videos and substrate
   comparisons also document sagging, overspray, and access limits.
@@ -140,9 +141,9 @@ editor_notes: Coauthorship with Kangyi Zheng is documented. Confirm the specific
   replacing the short role summary.
 related_connections:
 - url: /research/pica/
-  reason: Extending a compact robot through custom fabrication end effectors
+  reason: Explores the fabrication capacity of a compact robotic system.
 - url: /research/pinbed/
-  reason: Using a receiving surface to extend robotic deposition
+  reason: Makes the receiving surface part of the fabrication method.
 reading_path:
 - title: Built prototype
   target: built-prototype
@@ -154,6 +155,7 @@ reading_path:
   target: sequence
 evidence_target: built-prototype
 evidence_first: 4
+question_label: Research question
 ---
 **Minimum Device, Maximum Space** investigates how a compact fabrication device can materialize an architectural enclosure larger than its reach. Inflation establishes the volume, projected polyurethane bridges the distance between nozzle and membrane, and staged curing converts the deposited material into a stiffened coating.
 

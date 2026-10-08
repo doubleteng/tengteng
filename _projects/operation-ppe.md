@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /design/operation-ppe/
 cover: /assets/media/operation-ppe/hero.webp
 cover_alt: Flat 3D-printed fabric-fitter frame with flexible patterned arms before forming around the face
-summary: A 2D-to-3D fabric-fitter prototype uses printed living hinges and snap-together parts to form a curved
-  support for fabric face coverings.
+summary: Printed living hinges and snap-together parts turn a flat pattern into a curved support for fabric face coverings.
 role: Design team member
 institution: Cornell University · Sabin Lab
 location: Ithaca, New York, USA
@@ -88,7 +87,8 @@ project_type: Product design / additive manufacturing
 project_stage: Design prototype · 2020
 contributions:
 - Contributed as a member of the Sabin Lab design team for the 2D-to-3D fabric-fitter prototype.
-research_question: How can a flat printed pattern form a curved, assembled support for a fabric face covering?
+research_question: How can local flexibility and connection geometry transform a flat print into a fitted three-dimensional
+  support?
 role_summary: Design team member in Cornell’s Sabin Lab Operation PPE initiative.
 evidence_summary: Fabric-fitter and hybrid-frame prototypes demonstrate folding, fit, and assembly; the page makes
   no claim of certified protective performance.
@@ -101,6 +101,7 @@ related_connections:
 - url: /research/tuck-folding/
   reason: Transforming flat printed patterns through flexible hinges
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 OPERATION PPE’s 2D-to-3D face-mask project is a printed fabric fitter developed by the Sabin Lab at Cornell University. Its flat, patterned components bend into a three-dimensional support for fabric face coverings. I contributed as a member of the project’s design team.
 

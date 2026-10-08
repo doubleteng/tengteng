@@ -1,65 +1,19 @@
 ---
 title: Teaching
-description: Courses, studios, and workshops in architectural design, structures, computation, and fabrication.
-courses:
-  - url: /teaching/integrated-design-studio-iii/
-    period: Fall 2026
-    placeholder: ID3
-    summary: Building design through structure, enclosure, and environmental systems.
-  - url: /teaching/structural-systems/
-    period: Fall 2026
-    summary: Wood, steel, and concrete building systems, with an interactive Structure Lab.
-  - url: /research/tri-arc-pavilion/
-    title: 'Design-Build Studio: TRI-ARC'
-    summary: A full-scale timber canopy designed and built by students.
-  - url: /teaching/building-robots-for-robotic-fabrication/
-    summary: Assemble a robotic arm from individual parts, then develop a fabrication or interaction application.
-  - url: /teaching/new-material-and-method/
-    summary: Material experiments and prototype development.
-  - url: /teaching/ai-empowered-creative-robotics-workshop/
-    summary: AI image generation and robotic drawing.
-  - url: /teaching/undergraduate-architecture-thesis/
-    summary: Undergraduate thesis supervision in architecture and spatial design.
-  - url: /teaching/undergraduate-product-design-thesis/
-    summary: Undergraduate thesis supervision in product and furniture design.
-  - url: /teaching/digital-fabrication/
-    summary: Parametric geometry, computational design, and physical fabrication.
-  - url: /projects/digital-practice-workshop/
-    summary: A ten-day workshop in digital design and full-scale pavilion fabrication.
+description: Research-led studios and workshops, and structural and architectural education.
 ---
-<style>
-.teaching-heading { padding: 32px 0 24px; }
-.teaching-heading h1 { margin: 0 0 12px; }
-.teaching-heading .eyebrow { margin: 0; }
-.teaching-catalog .project-card h2 {
-  font: var(--text-card)/1.25 var(--serif);
-  letter-spacing: -.015em;
-  margin-bottom: 11px;
-}
-</style>
-<header class="page-heading teaching-heading">
-  <h1>Teaching</h1>
-  <p class="eyebrow">Courses / Studios / Workshops</p>
-</header>
-<div class="project-grid teaching-catalog">
-  {% for course in page.courses %}
-    {% assign project = site.projects | where: 'url', course.url | first %}
-    {% if project.published %}
-      {% assign course_title = course.title | default: project.title %}
-      {% assign course_period = course.period | default: project.year %}
-      <article class="project-card">
-        <a href="{{ project.url | relative_url }}" class="project-link">
-          {% if project.cover and project.cover != '' %}
-            <div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: course_title | escape }}" loading="lazy" decoding="async" width="720" height="480"></div>
-          {% else %}
-            <div class="project-image text-cover" aria-hidden="true"><span>Studio</span><strong>{{ course.placeholder | default: course_title | escape }}</strong></div>
-          {% endif %}
-          {% if course_period and course_period != '' %}<p class="eyebrow">{{ course_period | escape }}</p>{% endif %}
-          <h2>{{ course_title | escape }}</h2>
-          <p class="card-summary">{{ course.summary | escape }}</p>
-        </a>
-      </article>
-    {% endif %}
+<header class="page-heading catalog-heading"><h1>Teaching</h1><p class="catalog-statement">{{ site.data.site.teaching_intro | escape }}</p></header>
+{% assign catalog_groups = site.data.portfolio.teaching_groups %}
+{% assign published_projects = site.projects | where: 'published', true %}
+<nav class="catalog-nav" aria-label="{{ page.title | escape }} groups">{% for group in catalog_groups %}<a href="#{{ group.id | escape }}">{{ group.title | escape }}</a>{% endfor %}</nav>
+{% for group in catalog_groups %}
+<section class="catalog-group" id="{{ group.id | escape }}" aria-labelledby="{{ group.id | escape }}-heading">
+  <div class="catalog-group-heading"><h2 id="{{ group.id | escape }}-heading">{{ group.title | escape }}</h2><p>{{ group.description | escape }}</p></div>
+  <div class="project-grid">
+  {% for project_url in group.projects %}
+    {% assign project = published_projects | where: 'url', project_url | first %}
+    {% if project %}{% include project-card.html project=project compact=true %}{% endif %}
   {% endfor %}
-</div>
-
+  </div>
+</section>
+{% endfor %}

@@ -10,7 +10,8 @@ permalink: /research/robosense/
 cover: /assets/media/robosense/thumbnail.webp
 cover_alt: CERA III depositing a clay prototype with a robot-mounted auger extruder
 cover_preview_only: true
-summary: A modular clay extrusion system combines calibrated material delivery with live toolpath control, allowing designers to adjust geometry and recover interrupted prints during fabrication.
+summary: Calibrated clay delivery and live toolpath control connect material flow, robot motion, and designer intervention
+  during printing.
 role: Major Contributor; hardware, motor calibration, and PulseControl development
 institution: Cornell University · Jenny Sabin Lab
 location: Ithaca, New York, USA
@@ -112,7 +113,7 @@ sections:
 source_links:
 - https://journals.sagepub.com/doi/abs/10.1177/23297662251388855
 - https://drive.google.com/drive/folders/1IVaBSc3cc7V8EKGziswdyvNw39iM9zA1
-research_question: How can designers adjust clay deposition and toolpaths while a robot is printing?
+research_question: How can fabrication control respond to changing material flow while preserving geometric intent?
 role_summary: Developed extrusion hardware, motor calibration, PulseControl software and firmware, and nonplanar
   printing experiments.
 evidence_summary: Calibration studies, printing videos, interrupted-print recovery, and scutoid prototypes document
@@ -137,6 +138,7 @@ reading_path:
   target: nonplanar-tests
 evidence_target: live-control
 evidence_first: 3
+question_label: Research question
 ---
 Robosense 3.0 develops **CERA III**, a two-stage robotic clay extruder, together with software for motor calibration and real-time path adjustment. Developed at Cornell University's Jenny Sabin Lab, the system connects material delivery to robotic motion while keeping the designer able to intervene during a print.
 

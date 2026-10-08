@@ -8,7 +8,8 @@ featured_order: 99
 permalink: /teaching/undergraduate-product-design-thesis/
 cover: /assets/media/undergraduate-product-design-thesis/portfolio-slide-30-i01.webp
 cover_alt: Power Walker concept by Mingyuan Li
-summary: Product-design supervision connects user research with mechanical prototypes and furniture design.
+summary: Independent product and furniture projects translate user observations into mechanical studies and physical
+  prototypes.
 role: Thesis and studio supervisor
 institution: Shanghai Institute of Visual Art
 location: Shanghai, China
@@ -44,7 +45,7 @@ editor_notes: 作品集中的奖项英文存在拼写错误，未将未核实奖
 source_links: []
 project_type: Thesis supervision
 project_stage: Teaching
-research_question: How can observations of everyday use become testable mechanisms and product prototypes?
+research_question: How can user needs become testable decisions about form, mechanisms, and material construction?
 role_summary: Supervised student design development at SIVA; students retain authorship of their designs.
 evidence_summary: Mingyuan Li’s Power Walker and Chuou Zhang’s Leaf Chair document student investigations into movement,
   material, and use.
@@ -57,6 +58,7 @@ related_connections:
 - url: /design/operation-ppe/
   reason: Body-related product geometry, fit, and physical prototyping
 evidence_target: project-evidence
+question_label: Learning question
 ---
 Undergraduate product-design projects at the Shanghai Institute of Visual Art translate observations about everyday use into physical mechanisms and prototypes.
 

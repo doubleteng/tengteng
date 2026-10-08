@@ -8,8 +8,7 @@ featured_order: 3
 permalink: /research/inspire/
 cover: /assets/media/inspire/prototype-in-use.jpg
 cover_alt: A digital wireframe appears above the user’s hand in the InSpire display
-summary: An optical see-through interface brings hand gestures, digital geometry, and a responsive viewpoint into
-  the same space for architectural sketch modeling.
+summary: Gesture-based modeling places hand movement, digital geometry, and viewpoint control in a shared visual space.
 role: Project lead; interface prototyping and gesture-based modeling
 institution: University of Washington
 location: Seattle, Washington, USA
@@ -225,7 +224,7 @@ cover_preview_only: true
 primary_link:
   title: Read the paper · ACADIA 2014
   url: /assets/papers/inspire-acadia-2014.pdf
-research_question: How can hand gestures and digital geometry share one visual space for architectural sketch modeling?
+research_question: How can direct bodily interaction support the exploration of architectural geometry?
 role_summary: Led the project and developed the interface, gesture-modeling tools, tracking integration, and working
   prototype.
 evidence_summary: Prototype video and modeling demonstrations show gesture control, viewpoint updates, and display
@@ -245,6 +244,7 @@ reading_path:
 - title: Scope
   target: scope
 evidence_target: demonstration
+question_label: Research question
 ---
 InSpire is an interactive 3D modeling system that places **hand gestures and digital geometry in the same visual space**. An optical see-through display, hand sensing, and head tracking let a designer create, reshape, and inspect a model through spatial movement.
 

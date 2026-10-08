@@ -8,7 +8,8 @@ featured_order: 99
 permalink: /design/floralis-an-etfe-clad-multilaminar-timber-structure/
 cover: /assets/media/floralis-an-etfe-clad-multilaminar-timber-structure/detail-06-16-9-exterior-snow.webp
 cover_alt: Floralis timber and ETFE shelter in the snow at Florissant
-summary: An ETFE-clad timber lattice developed as a shelter prototype for petrified tree stumps.
+summary: A force-derived timber lattice becomes an ETFE-clad shelter through layered members, milled joints, and coordinated
+  assembly.
 role: Conceptual design
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: Florissant, Colorado, USA
@@ -103,7 +104,8 @@ editor_notes: ''
 source_links: []
 project_type: Architecture
 project_stage: Built prototype
-research_question: How can a lightweight timber and ETFE shelter protect fossils while preserving visitors’ views?
+research_question: How can a force-derived shell become a timber and ETFE assembly that shelters fossils while preserving
+  views?
 role_summary: Contributed to conceptual design with Masoud Akbarzadeh, Hua Chai, and Yiliang Shao.
 evidence_summary: The built prototype, fabrication and assembly images, physical model, and connection studies document
   the shelter system.
@@ -111,8 +113,11 @@ related_projects:
 - /research/tri-arc-pavilion/
 related_connections:
 - url: /research/tri-arc-pavilion/
-  reason: Equilibrium-based timber geometry translated into fabricated joints
+  reason: Examines the assembly and activation of a force-derived timber structure.
+- url: /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
+  reason: Coordinates computational geometry, manufactured components, and structural assembly.
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 Floralis is an ETFE-clad timber shelter developed to protect petrified tree stumps at Colorado’s Florissant Fossil Beds National Monument. The prototype explores how a lightweight enclosure can shield fossils from environmental exposure while preserving views for visitors.
 

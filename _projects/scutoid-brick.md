@@ -10,7 +10,8 @@ permalink: /research/scutoid-brick/
 cover: /assets/media/scutoid/shell-project-thumbnail.webp
 cover_alt: Scutoid shell architectural visualization on the Cornell campus in autumn
 cover_preview_only: true
-summary: Local cell geometry, interlocking shells and thermally programmable surfaces.
+summary: Cellular geometry, interlocking units, and responsive surfaces explore how local connections and deformation
+  organize architectural form.
 role: Project Lead
 institution: Cornell University
 project_type: Master's thesis research
@@ -350,7 +351,7 @@ sections:
   caption: The cell assembly and flex sensor at rest (left), manual bending (center), and the resulting digital
     model update (right).
   equal_height: true
-research_question: How can local cell connections generate interlocking shells and programmable surface curvature?
+research_question: How can local cell geometry, connections, and deformation organize a larger architectural surface?
 role_summary: Led the computational and physical prototyping research into cell geometry, interlocking units, and
   responsive surfaces.
 evidence_summary: A PLA shell loading demonstration and two thermal-deformation experiments support distinct model-scale
@@ -372,6 +373,7 @@ reading_path:
 - title: Tangible interface
   target: tangible-interface
 evidence_target: shell-test
+question_label: Research question
 ---
 Developed as part of my Master of Science thesis at Cornell University, this research asks how the geometry and behavior of individual cells can organize an architectural surface. It connects three modes of design: computational generation, physical construction and material transformation. Scutoid Brick investigates how cellular contacts become interlocking shell joints; Programmable Surface Geometry tests how local deformation and overall curvature influence each other, then connects physical shaping to digital modeling. The two studies were published at eCAADe in 2020 and 2021. Both papers and the master’s thesis are [linked below](#research-publications-heading).
 

@@ -8,8 +8,8 @@ featured_order: 99
 permalink: /design/w-newton-st-rowhouse/
 cover: /assets/media/w-newton-st-rowhouse/corner-exterior.webp
 cover_alt: W. Newton St Rowhouse at the corner of W Newton Street and 14th Avenue W.
-summary: Four homes on a sloping Seattle corner lot, with stepped volumes, individual entrances, and private roof
-  terraces.
+summary: Four homes on a sloping Seattle site connect design oversight, construction management, and development through
+  completed project delivery.
 role: Founder and Managing Director
 institution: Ju Square Development LLC
 location: West Queen Anne, Seattle, Washington, USA
@@ -146,10 +146,10 @@ hero_gallery:
   alt: The west frontage viewed across the intersection.
   caption: The west frontage viewed across the intersection.
   duration_ms: 3000
-research_question: How can a steep Seattle corner lot accommodate four homes with individual access and outdoor
-  space?
-role_summary: As founder and managing director, oversaw development and project delivery; David Vandervort Architects
-  provided architectural design.
+research_question: How can site, dwelling layouts, and construction decisions be coordinated to deliver four homes on
+  a steep corner lot?
+role_summary: Founder and Managing Director; led development, design oversight, construction management, and project
+  delivery, working with David Vandervort Architects.
 evidence_summary: Completed homes and project documentation show the built development, including stepped volumes,
   separate entrances, and roof terraces.
 related_projects:
@@ -158,6 +158,7 @@ related_connections:
 - url: /design/fana-mixed-use-complex-development/
   reason: Coordinating residential access and shared outdoor space
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 W. Newton St Rowhouse replaces a single-family property with four homes in Seattle’s West Queen Anne neighborhood. The development uses a steep corner site to combine separate street entrances, vertically organized interiors, and outdoor space at roof level.
 

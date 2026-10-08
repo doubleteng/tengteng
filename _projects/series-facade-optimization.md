@@ -39,8 +39,8 @@ team:
 links: []
 related_publications: []
 awards: []
-summary: A computational toolkit coordinates tower geometry, curtain-wall constraints, and consultant requirements
-  within the design model.
+summary: A computational toolkit brings curtain-wall fabrication limits and consultant requirements into tower geometry
+  development.
 editor_notes: ''
 role: Computational designer and toolkit developer
 institution: Callison, Shanghai
@@ -56,7 +56,7 @@ tags:
 research_areas:
 - interfaces-and-tools
 research_order: 3
-research_question: How can fabrication and consultant constraints participate in early design decisions?
+research_question: How can materialization constraints participate in early geometric design decisions?
 contribution: SERIES brings floor-area limits, column alignment, facade curvature, and panel requirements into a
   coordinated computational workflow. Separate solvers expose the effects of these constraints on architectural
   geometry.
@@ -90,6 +90,7 @@ related_connections:
 - url: /design/dragon-light-international-shopping-mall/
   reason: Coordinating free-form envelope geometry with fabrication
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 SERIES is a computational design toolkit developed at Callison’s Shanghai office during 2010–2012. It links free-form tower design with the geometric and manufacturing constraints of curtain-wall systems.
 

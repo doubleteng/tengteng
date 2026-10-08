@@ -11,8 +11,8 @@ cover: /assets/media/multi-material-deployable-structures/completed-canopy.webp
 cover_alt: Completed self-morphing lattice canopy on four branching supports
 cover_preview_only: true
 autoplay_videos: true
-summary: Multi-material 4D printing programs flat bio-based lattices to transform into curved canopy modules through
-  drying-driven hinges and suspended forming.
+summary: Differential material contraction transforms flat printed lattices into curved canopy modules through drying-driven
+  hinges and suspended forming.
 role: Leading contributor; first and corresponding author
 institution: University of Pennsylvania · Polyhedral Structures Laboratory; Lawrence Technological University
 project_type: Multi-material 4D printing and self-morphing structures
@@ -221,17 +221,17 @@ editor_notes: 'Source: supplied IASS 2026 presentation (37 slides) and the 10-pa
   preserve full size only for suspended forming and canopy assembly. Other five videos use one-quarter of the former
   full-row display width; group the two landscape clips together, and the near-square/portrait transformation and
   thickness clips together. All autoplay, loop and mute.'
-research_question: How can flat printed lattices form curved canopy modules through controlled material contraction?
+research_question: How can designed material arrangements turn local contraction into spatial form?
 role_summary: Led the research as first and corresponding author.
 evidence_summary: Hinge calibration, transformation videos, and a meter-scale canopy show the forming and assembly
   process; environmental load capacity remains unquantified.
 related_connections:
-- url: /research/tuck-folding/
-  reason: Encoding curved geometry in flat patterns and local folds
 - url: /research/scutoid-brick/
-  reason: Material actuation connecting local deformation to global curvature
-- url: /teaching/new-material-and-method/
-  reason: Bio-based material behavior driving fabrication and form
+  reason: Connects local deformation and cellular organization to surface curvature.
+- url: /research/tuck-folding/
+  reason: Encodes spatial curvature in an initially flat fabrication pattern.
+- url: /research/snmm-additive-manufacturing-system/
+  reason: Develops control over the material regions that produce different responses.
 reading_path:
 - title: Canopy result
   target: canopy-result
@@ -243,6 +243,7 @@ reading_path:
   target: scope
 evidence_target: canopy-result
 evidence_first: 3
+question_label: Research question
 ---
 This project uses **multi-material additive manufacturing to achieve 4D printing at pavilion scale**. Spatially patterned active and passive materials program how a flat-printed lattice changes shape over time during drying. Localized agarose hinges generate the contraction that transforms the planar modules into a curved canopy.
 

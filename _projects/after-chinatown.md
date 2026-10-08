@@ -6,8 +6,8 @@ published: true
 featured: true
 interactive_map: true
 featured_order: 4
-summary: A computational spatial archive investigating how Chinese American community life persists and reorganizes
-  as Detroit’s buildings, streets, and neighborhoods change.
+summary: A computational spatial archive traces Chinese American urban memory across changing buildings, neighborhoods,
+  and metropolitan networks.
 permalink: /research/after-chinatown/
 cover: /assets/media/after-chinatown/map-public.webp
 cover_caption: 'After Chinatown: archival evidence, historical urban modeling, and temporal navigation. Teng
@@ -60,8 +60,7 @@ links:
 research_areas:
 - spatial-history
 research_order: 1
-research_question: How does an ethnic enclave become a dispersed metropolitan network, and what becomes invisible
-  when its history is mapped only through surviving buildings?
+research_question: How can spatial records reveal community histories that surviving buildings alone cannot represent?
 contribution: The project links fragmented archival evidence to a changing urban model. Its research distinguishes
   the loss of a physical enclave from the relocation, persistence, and reorganization of the relationships
   that sustained it.
@@ -96,6 +95,7 @@ evidence_summary: The working map links historical records to places and dates. 
   dimensions remain explicitly qualified.
 related_projects: []
 related_connections: []
+question_label: Research question
 ---
 After Chinatown investigates what happens when a community outlasts the spatial enclave through which its history is usually told. Detroit provides a case for examining how displacement, relocation, and metropolitan dispersal alter the proximity of businesses, institutions, and everyday places. A building’s demolition establishes the loss of a site; it does not, by itself, establish the disappearance of the community relationships connected to it.
 

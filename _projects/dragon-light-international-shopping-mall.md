@@ -10,7 +10,8 @@ permalink: /design/dragon-light-international-shopping-mall/
 cover: /assets/media/dragon-light-international-shopping-mall/built-main.webp
 cover_caption: Dragon Light International Shopping Mall, Puyang, Henan.
 cover_alt: Completed Dragon Light International Shopping Mall with the curved triangulated retail podium facing the city
-summary: Design development of a large retail podium in Puyang, focused on turning a triangulated “Dragon Skin” into a coordinated façade system across glazing, stone cladding, louvers, canopies, and open-air retail.
+summary: A triangulated retail podium facade is developed across glazing, stone, louvers, and canopies through geometric
+  optimization and manufacturer coordination.
 role: Project Designer — Podium façade design and optimization; façade system development; manufacturer coordination
 institution: Callison
 location: Puyang, Henan, China
@@ -111,7 +112,7 @@ related_publications: []
 awards: []
 editor_notes: ''
 source_links: []
-research_question: How can a continuous triangulated facade be resolved across different enclosure systems?
+research_question: How can a continuous facade geometry be resolved into coordinated material and enclosure systems?
 role_summary: Designed and optimized the retail podium facade, developed its systems, and coordinated manufacturers
   at Callison.
 evidence_summary: Built photographs, facade studies, and detail drawings trace the design from the Dragon Skin geometry
@@ -128,6 +129,7 @@ related_connections:
 - url: /design/yintai-centre-mixed-use/
   reason: Facade-system development across materially different enclosures
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 Dragon Light International Shopping Mall is the commercial anchor of a large mixed-use development in Puyang, Henan. The project combines an approximately 120,000 m² shopping mall, open-air lifestyle retail, public plazas, bridges, terraces, and service-apartment towers.
 

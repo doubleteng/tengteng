@@ -61,3 +61,7 @@ The portfolio now contains 37 project records. Source-based revisions expand 26 
 
 Video files can be managed under **Videos / 视频** in Pages CMS and selected directly in a project Video block.
 
+
+## Portfolio framework
+
+The homepage and research statement use `_data/site.yml`. Research and teaching groups, their descriptions, and ordered project URLs are edited in `_data/portfolio.yml` (Portfolio groups in Pages CMS). Each project appears once per catalogue; cross-disciplinary entries can appear in both Research and Teaching. Keep all published research and teaching entries represented when adding a project. Project front matter contains the concise `summary`, `research_question`, contextual `question_label`, factual `role_summary`, and up to three `related_connections` with specific reasons. Evidence summaries appear within the project body; original media, publications, and detailed records are retained.

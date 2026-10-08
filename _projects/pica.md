@@ -8,8 +8,8 @@ featured_order: 2
 permalink: /research/pica/
 cover: /assets/media/pica/assembled-prototype.jpg
 cover_alt: PICA six-axis robotic arm with its controller
-summary: A low-cost, six-axis robot connects Rhino/Grasshopper, real-time control, and hands-on fabrication for
-  sketch-level architectural prototyping.
+summary: A compact six-axis robot connects digital modeling, direct control, and adaptable fabrication for architectural
+  prototyping.
 role: Project lead; robotic hardware, control software, and fabrication experiments
 institution: Cornell University · Jenny Sabin Lab
 location: Ithaca, New York, USA
@@ -236,7 +236,7 @@ cover_preview_only: true
 primary_link:
   title: Read the paper · CAADRIA 2020
   url: https://drive.google.com/file/d/1oLjuYMiO45a3WtiozpaBjIVz4ZCrXU8L/view
-research_question: How can a low-cost, adaptable robot support sketch-level fabrication by designers?
+research_question: How can an adaptable robot let designers test geometric ideas through physical fabrication?
 role_summary: Led the project; developed robotic hardware, electronics, kinematics, control software, and fabrication
   applications.
 evidence_summary: Working prototypes and an eight-participant study compare task completion. Results support sketch-level
@@ -259,6 +259,7 @@ reading_path:
   target: control
 evidence_target: working-prototypes
 evidence_first: 3
+question_label: Research question
 ---
 PICA is a personal robotic fabrication platform for making **sketch-level architectural prototypes**. It brings together a configurable six-axis arm, custom Grasshopper controls, and replaceable fabrication tools so that designers can move from a digital or hand-shaped idea to a physical working model.
 

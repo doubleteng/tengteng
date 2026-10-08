@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /design/ribo-central-club/
 cover: /assets/media/ribo-central-club/front-entrance.jpg
 cover_alt: RIBO Central Club entrance with a projecting white upper room beside the tree-lined campus path
-summary: A clubhouse for the RIBO Group headquarters in Qingpu, Shanghai, organized as a continuous landscape of
-  terraces, stepped interiors, and curved glazing.
+summary: A built clubhouse brings stepped interiors, terraces, and curved glazing together as a continuous social landscape.
 role: Architectural design
 institution: ''
 location: Qingpu District, Shanghai, China
@@ -172,7 +171,8 @@ hero_gallery:
   alt: 'Construction: the change in floor level establishes the stepped interior landscape.'
   caption: 'Construction: the change in floor level establishes the stepped interior landscape.'
 hero_gallery_fit: contain
-research_question: How can terraces and stepped interiors create a shared social ground within a corporate campus?
+research_question: How can sectional and envelope design turn a compact clubhouse into a connected sequence of gathering
+  spaces?
 role_summary: Architectural designer for the clubhouse, my first independently designed built project.
 evidence_summary: Completed 2012 photographs and spatial studies show the continuous interior, terraces, and curved
   glazed edge.
@@ -182,6 +182,7 @@ related_connections:
 - url: /design/tang-courtyard-promenade/
   reason: Stepped landscapes linking movement, terraces, and shared space
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 RIBO Central Club is a **300 m² clubhouse at the RIBO Group headquarters in Qingpu District, Shanghai**. Completed in 2012, it was my first built project. Designed for employees and visiting clients, it brings dining, reading, meetings, and informal gathering into a small addition to the existing campus.
 

@@ -5,7 +5,7 @@
 {% if page.related_connections.size > 0 %}
   {% for connection in page.related_connections %}
     {% assign project = rp_projects | where: 'url', connection.url | first %}
-    {% if project and project.url != page.url and rp_count < 4 %}
+    {% if project and project.url != page.url and rp_count < 3 %}
       {% include project-card.html project=project compact=true relation=connection.reason %}
       {% assign rp_count = rp_count | plus: 1 %}
     {% endif %}
@@ -13,7 +13,7 @@
 {% else %}
   {% for project_url in page.related_projects %}
     {% assign project = rp_projects | where: 'url', project_url | first %}
-    {% if project and project.url != page.url and rp_count < 4 %}
+    {% if project and project.url != page.url and rp_count < 3 %}
       {% include project-card.html project=project compact=true %}
       {% assign rp_count = rp_count | plus: 1 %}
     {% endif %}

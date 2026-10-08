@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /research/pinbed/
 cover: /assets/media/pinbed/prototype-printing-setup.jpg
 cover_alt: Pinbed prototype beside the robotic arm, supporting an initial printed component
-summary: A reconfigurable 6 × 6 actuator bed, with custom electronics and Grasshopper control, supports nonplanar
-  robotic additive manufacturing.
+summary: A reconfigurable actuator bed makes the receiving surface an adjustable part of nonplanar robotic fabrication.
 role: Project lead; mechanical design, electronics, and control software
 institution: Cornell University · Jenny Sabin Lab
 location: Ithaca, New York, USA
@@ -131,7 +130,7 @@ contributions:
 - Wiring, actuator programming, and Hall-effect rotation feedback
 - Grasshopper interface linking target surface geometry to actuator heights and robot toolpaths
 - Prototype integration and initial robotic printing tests
-research_question: How can a reconfigurable printbed support robotic deposition on nonplanar surfaces?
+research_question: How can a changing support surface expand the geometry that robotic deposition can realize?
 role_summary: Led mechanical design, electronics, actuator control, Grasshopper integration, assembly, and initial
   printing tests.
 evidence_summary: A working 36-actuator bed, custom control boards, and initial robot-printing tests demonstrate
@@ -154,6 +153,7 @@ reading_path:
 - title: Scope
   target: scope
 evidence_target: printing-tests
+question_label: Research question
 ---
 Pinbed is a reconfigurable printing bed for robotic additive manufacturing. Inspired by multi-point forming, it uses an array of independently driven pins to generate different nonplanar support surfaces from a digital model.
 

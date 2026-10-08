@@ -8,8 +8,8 @@ featured_order: 99
 permalink: /design/wfj-waterfront-development/
 cover: /assets/media/wfj-waterfront-development/hero.webp
 cover_alt: WFJ Waterfront Development
-summary: A mixed-use master plan along the Grand Canal combines a hotel tower, offices, housing, retail, and waterfront
-  landscape.
+summary: Master planning and model coordination organize mixed-use buildings, retail routes, and a public landscape along
+  the Grand Canal.
 role: Master planning, waterfront landscape, retail design, and model coordination
 institution: Callison
 location: Tongzhou, Beijing, China
@@ -42,7 +42,7 @@ editor_notes: 详细项目页记载参与时间为 2013；目录和原站标为 
 source_links: []
 project_type: Urban design
 project_stage: Master planning and schematic design
-research_question: How can a mixed-use master plan organize a public landscape along the Grand Canal?
+research_question: How can building massing and circulation coordinate a mixed-use development with its waterfront landscape?
 role_summary: Worked on master planning, waterfront landscape, retail design, 3D model management, and visualization
   coordination.
 evidence_summary: Master-plan drawings, spatial studies, and renderings document the conceptual and schematic proposal.
@@ -55,6 +55,7 @@ related_connections:
 - url: /design/waterfront-seattle/
   reason: Waterfront access and circulation as organizing design problems
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 The Tongzhou WFJ Waterfront proposal combines a hotel tower, three office buildings, four residential towers, and a shopping center in Beijing. The master plan uses the site’s position along the Grand Canal to organize a contemporary waterfront district with reference to Tongzhou’s history as an entry point to the capital.
 

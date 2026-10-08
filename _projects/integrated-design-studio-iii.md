@@ -5,8 +5,8 @@ year: Fall 2026
 published: true
 featured: false
 featured_order: 99
-summary: Students develop architecture from structural bays and grids through program, enclosure, and environmental
-  integration.
+summary: Students develop architecture through structural grids, enclosure assemblies, environmental systems, and iterative
+  physical models.
 permalink: /teaching/integrated-design-studio-iii/
 cover: ''
 cover_alt: Integrated Design Studio III
@@ -24,8 +24,8 @@ team: []
 sections: []
 related_publications: []
 links: []
-question_label: Teaching question
-research_question: How can building technology generate architectural organization?
+question_label: Learning question
+research_question: How can structural and material systems guide spatial organization and building detail?
 contribution: The studio begins with structural systems and develops their consequences for space, enclosure, environmental
   performance, and construction. Students test design decisions through working models and digital iterations.
 method_steps:

@@ -8,7 +8,8 @@ featured_order: 99
 permalink: /design/kaisa-center-mixed-use/
 cover: /assets/media/kaisa-center-mixed-use/built-daylight.webp
 cover_alt: Built Kaisa Center, with its curved retail podium and office tower
-summary: A mixed-use complex in Shenyang, from early master planning to curtain-wall design, optimization, and construction coordination.
+summary: Curtain-wall design translates a mixed-use complex from early planning into facade geometry, technical details,
+  and construction coordination.
 role: Curtain-wall Design Lead; early master planning and overall architectural design
 institution: Callison, Shanghai
 location: Shenyang, Liaoning, China
@@ -194,10 +195,9 @@ editor_notes: |
   built-street-retouched.webp由20260802_141101.jpg经AI辅助美化；其余实拍保留原摄影内容。排除重复照片、重复效果图和来源不清的既有AI版本。
 source_links:
 - https://drive.google.com/drive/folders/1dfGEDDHeqEOUy_1xVf9wlW1LMYmQkrI1
-research_question: How can a flowing retail envelope be coordinated with the planning and construction of a mixed-use
-  complex?
-role_summary: Contributed to early master planning and overall design; led curtain-wall design, optimization, and
-  later technical coordination.
+research_question: How can curved podium and tower envelopes be developed into coordinated curtain-wall systems?
+role_summary: Led curtain-wall design, geometric development, documentation, and contractor and supplier coordination;
+  also contributed to early planning.
 evidence_summary: Built photographs, design-development studies, and facade documentation connect the podium geometry
   to its construction.
 related_projects:
@@ -205,10 +205,13 @@ related_projects:
 - /design/dragon-light-international-shopping-mall/
 related_connections:
 - url: /projects/series-facade-optimization/
-  reason: Bringing facade geometry and supplier constraints into design
+  reason: Brings curtain-wall and supplier constraints into geometric development.
 - url: /design/dragon-light-international-shopping-mall/
-  reason: Continuous retail podium skins and curtain-wall detailing
+  reason: Resolves a retail podium through coordinated facade materials and systems.
+- url: /design/yintai-centre-mixed-use/
+  reason: Carries envelope design through documentation and construction coordination.
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 Kaisa Center brings together a shopping podium, an office tower, and two residential towers in Shenyang. The flowing podium envelope creates a continuous retail frontage beneath the more regular tower façades.
 

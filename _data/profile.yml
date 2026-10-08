@@ -4,92 +4,80 @@ title: Assistant Professor of Architecture
 institution: Lawrence Technological University
 location: Southfield, Michigan, USA
 email: tteng@ltu.edu
-intro: I develop computational methods and tools that connect material behavior,
-  physical interaction, and architectural design. My research combines
-  programmable fabrication and design interfaces, with an emerging investigation
-  into spatial archives and urban memory.
-bio: >-
-  Teng Teng, PhD, is an Assistant Professor of Architecture at Lawrence
-  Technological University. An interdisciplinary researcher and architect with
-  international experience, his work focuses on materializing high-performance
-  building systems by integrating novel construction materials with advanced
-  fabrication technologies, robotics, and computational design to address
-  environmental challenges. His research spans additive manufacturing,
-  mechatronics, material systems, computational design, and intelligent
-  approaches to design materialization.
+intro: I investigate materiality as an active dimension of computational design alongside morphology and topology. Through
+  material composition, spatial distribution, and transitions, I explore how material behavior can shape form, tune performance,
+  and realize connections.
+bio: 'Teng Teng, PhD, is an Assistant Professor of Architecture at Lawrence Technological University. His research develops
+  materiality as an active dimension of computational design alongside morphology and topology. He investigates how material
+  composition, spatial distribution, and transitions can tune structural and physical responses, generate form, and realize
+  connections. Computational methods, fabrication systems, and physical experiments establish how these material decisions
+  can be designed, manufactured, and verified.
 
 
-  He has contributed to multiple NSF- and DOE-sponsored research projects, with
-  publications in peer-reviewed journals including *Materials & Design*,
-  *Advanced Functional Materials*, *Additive Manufacturing*, and *Building and
-  Environment*. His work has also been presented at major conferences including
-  ACADIA, eCAADe, and CAADRIA.
+  His architectural practice follows design decisions through facade development, construction documentation, and coordination
+  with manufacturers and contractors. His teaching connects structural reasoning and building systems to computation
+  and physical making. Related investigations in design interfaces and spatial history extend his work into physical
+  interaction and urban memory.
 
 
-  Teng holds a PhD in Architecture and Building Technology from the University
-  of Pennsylvania and master’s degrees from Cornell University and the
-  University of Washington. He has taught and collaborated across these
-  institutions and universities in Asia, leading courses and workshops in design
-  computation, engineering, robotics, materials, and advanced digital
-  fabrication methods. He serves on the Board of Directors of ACADIA and as an
-  Early Career Editorial Board Member of *Architectural Intelligence*, published
-  by Springer Nature.
+  He has contributed to multiple NSF- and DOE-sponsored research projects, with publications in peer-reviewed journals
+  including *Materials & Design*, *Advanced Functional Materials*, *Additive Manufacturing*, and *Building and Environment*.
+  His work has also been presented at major conferences including ACADIA, eCAADe, and CAADRIA.
+
+
+  Teng holds a PhD in Architecture and Building Technology from the University of Pennsylvania and master’s degrees from
+  Cornell University and the University of Washington. He has taught and collaborated across these institutions and universities
+  in Asia, leading courses and workshops in design computation, engineering, robotics, materials, and advanced digital
+  fabrication methods. He serves on the Board of Directors of ACADIA and as an Early Career Editorial Board Member of
+  *Architectural Intelligence*, published by Springer Nature.'
 research_interests:
-  - Computational design methods
-  - Material computation
-  - Design interfaces
-  - Robotic fabrication
-  - Spatial archives and urban memory
+- Computational design
+- Material distribution and transitions
+- Material behavior and structural performance
+- Fabrication and architectural materialization
+- Design interfaces
+- Spatial archives and urban memory
 interests:
-  - Fine Art
-  - Theater
-  - Marathon
-  - Triathlon
-  - Swimming
-  - Cello
-  - Cooking
+- Fine Art
+- Theater
+- Marathon
+- Triathlon
+- Swimming
+- Cello
+- Cooking
 appointments:
-  - Lawrence Technological University — Tenure-Track Assistant Professor of
-    Architecture · December 2025–present
-  - University of Pennsylvania, Polyhedral Structures Lab — PhD
-    Research/Teaching Fellow 2021–2026 · multiscale & multimaterial AM; concrete
-    3DP & carbon capture
-  - Cornell University, Jenny Sabin Lab — Senior Research Associate 2018–2021 ·
-    robotic clay printing; programmable surfaces; personal fab robot
-  - Shanghai Institute of Visual Art, Computational Design Group — Lecturer
-    2015–2017 · computational design; interior design studio; undergraduate
-    thesis (architecture, product)
-  - Tongji University — Adjunct Instructor 2023 · Advanced Manufacturing
-    (seminar)
-  - Shanghai University — Adjunct Instructor 2022 · Computational Design &
-    Fabrication (seminar)
-  - Cornell University — Teaching Assistant 2018–2019 · Matter Design
-    Computation (4605/6605)
-  - University of Washington — Teaching Assistant 2013–2014 · 3D Modeling &
-    Rendering; CG Programming
+- Lawrence Technological University — Tenure-Track Assistant Professor of Architecture · December 2025–present
+- University of Pennsylvania, Polyhedral Structures Lab — PhD Research/Teaching Fellow 2021–2026 · multiscale & multimaterial
+  AM; concrete 3DP & carbon capture
+- Cornell University, Jenny Sabin Lab — Senior Research Associate 2018–2021 · robotic clay printing; programmable surfaces;
+  personal fab robot
+- Shanghai Institute of Visual Art, Computational Design Group — Lecturer 2015–2017 · computational design; interior
+  design studio; undergraduate thesis (architecture, product)
+- Tongji University — Adjunct Instructor 2023 · Advanced Manufacturing (seminar)
+- Shanghai University — Adjunct Instructor 2022 · Computational Design & Fabrication (seminar)
+- Cornell University — Teaching Assistant 2018–2019 · Matter Design Computation (4605/6605)
+- University of Washington — Teaching Assistant 2013–2014 · 3D Modeling & Rendering; CG Programming
 experience:
-  - Ju Square LLC — Partner 2017–2021 · Townhouse real estate development
-  - Adaptive Design LLC — Chief Designer & Partner 2017–2018 · Retail
-    architecture & interiors
-  - CallisonRTKL — Project Architect & Design Technologist 2013–2017 ·
-    Computational lead; mixed-use
-  - Callison (Shanghai) — Design Technologist 2010–2012 · Large-scale commercial
-    project tech support
+- Ju Square Development LLC — Founder and Managing Director 2017–2021 · Townhouse development, design oversight, and
+  construction management
+- Adaptive Design LLC — Chief Designer & Partner 2017–2018 · Retail architecture & interiors
+- CallisonRTKL — Project Architect & Design Technologist 2013–2017 · Computational lead; mixed-use
+- Callison (Shanghai) — Design Technologist 2010–2012 · Large-scale commercial project tech support
 education:
-  - University of Pennsylvania — Ph.D. in Architecture
-  - Cornell University — M.S. in Matter Design Computation
-  - University of Washington — M.S. in Architecture
-  - Shanghai University — B.Arch
+- University of Pennsylvania — Ph.D. in Architecture
+- Cornell University — M.S. in Matter Design Computation
+- University of Washington — M.S. in Architecture
+- Shanghai University — B.Arch
 social:
-  - label: Google Scholar
-    url: https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en
-  - label: ORCID
-    url: https://orcid.org/0000-0001-6460-7109
-  - label: LinkedIn
-    url: https://www.linkedin.com/in/tengteng
-  - label: ResearchGate
-    url: https://www.researchgate.net/profile/Teng-Teng-8
+- label: Google Scholar
+  url: https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en
+- label: ORCID
+  url: https://orcid.org/0000-0001-6460-7109
+- label: LinkedIn
+  url: https://www.linkedin.com/in/tengteng
+- label: ResearchGate
+  url: https://www.researchgate.net/profile/Teng-Teng-8
 service:
-  - ACADIA — Board of Directors, 2026–2028
-  - ACADIA 2026 — Technical Co-Chair
-  - Peer review — ACADIA, CAADRIA, CAAD Futures, and CHI
+- ACADIA — Board of Directors, 2026–2028
+- ACADIA 2026 — Technical Co-Chair
+- Peer review — ACADIA, CAADRIA, CAAD Futures, and CHI

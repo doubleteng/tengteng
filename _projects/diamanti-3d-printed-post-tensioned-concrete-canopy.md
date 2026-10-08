@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
 cover: /assets/media/diamanti-3d-printed-post-tensioned-concrete-canopy/detail-0cover.webp
 cover_alt: Layered concrete surfaces of the Diamanti canopy
-summary: A 10-meter concrete canopy integrates printed diamond surfaces, post-tensioning, and a cross-laminated
-  timber platform.
+summary: Printed concrete geometry, post-tensioning, and a timber platform form a coordinated canopy assembly.
 role: Structural and computational design
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: Venice, Italy
@@ -119,7 +118,7 @@ project_stage: Built prototype
 research_areas:
 - material-computation
 research_order: 4
-research_question: How can computational geometry coordinate printed parts and structural assembly?
+research_question: How can printed component geometry and post-tensioned connections realize a structural canopy?
 contribution: Diamanti connects printed diamond surfaces, post-tensioning, and a cross-laminated assembly in a built
   canopy. The project makes fabrication and joining constraints part of the structural design problem.
 method_steps:
@@ -159,6 +158,7 @@ reading_path:
   target: assembly
 evidence_target: built-canopy
 evidence_first: 2
+question_label: Research question
 ---
 Diamanti is a 3D-printed, post-tensioned concrete canopy exhibited at the Giardini della Marinaressa in Venice during the European Cultural Centre’s 2024 *Personal Structures* exhibition. The canopy spans 10 meters above a cross-laminated timber platform.
 

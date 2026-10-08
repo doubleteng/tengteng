@@ -8,8 +8,7 @@ featured_order: 5
 permalink: /research/integrated-and-tailored-thermal-insulation/
 cover: /assets/media/integrated-and-tailored-thermal-insulation/detail-1.webp
 cover_alt: Gradient-material wall prototype installed outdoors
-summary: Gradient material distribution combines load-bearing regions and thermal insulation within printed masonry
-  components.
+summary: Graded material distribution coordinates load-bearing and insulating regions within printed masonry components.
 role: Leading Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
@@ -79,7 +78,7 @@ project_stage: Research prototype
 research_areas:
 - material-computation
 research_order: 3
-research_question: How can one component allocate material to both structural and thermal demands?
+research_question: How can material distribution reconcile structural and thermal demands within one component?
 contribution: The method coordinates geometry, a spatial material map, and the printing sequence so that load-bearing
   and insulating regions can be organized within a masonry component.
 method_steps:
@@ -107,12 +106,12 @@ role_summary: Led the study and developed material-placement and fabrication met
 evidence_summary: Thermal images, transition tests, printed components, and a wall prototype show specimen-scale
   response, without establishing whole-building energy performance.
 related_connections:
+- url: /research/multi-material-3d-printing-for-tension-compression-structure/
+  reason: Compares how structural demand guides material placement.
 - url: /research/snmm-additive-manufacturing-system/
-  reason: Translating spatial material maps into graded prints
+  reason: Provides control over material composition and transition location.
 - url: /research/programmable-footwear/
-  reason: Allocating different material behavior within one component
-- url: /teaching/new-material-and-method/
-  reason: Material composition as a basis for component performance
+  reason: Coordinates different local material responses within one printed component.
 reading_path:
 - title: Thermal images
   target: thermal-images
@@ -122,6 +121,7 @@ reading_path:
   target: material-placement
 evidence_target: thermal-images
 evidence_first: 2
+question_label: Research question
 ---
 This research integrates load-bearing capacity and thermal insulation within the material distribution of printed architectural components. A single-nozzle process changes the mixture during fabrication, creating continuous transitions between regions with different structural and thermal demands.
 

@@ -29,6 +29,48 @@ media:
   - mp4
   - webm
 content:
+- name: portfolio-groups
+  label: Portfolio groups / 项目分类
+  type: file
+  path: _data/portfolio.yml
+  format: yaml
+  fields:
+  - name: research_groups
+    label: Research groups / 研究分类
+    type: object
+    list: true
+    fields:
+    - name: id
+      label: Anchor ID
+      type: string
+    - name: title
+      label: Title
+      type: string
+    - name: description
+      label: Short description
+      type: text
+    - name: projects
+      label: Project URLs in display order
+      type: string
+      list: true
+  - name: teaching_groups
+    label: Teaching groups / 教学分类
+    type: object
+    list: true
+    fields:
+    - name: id
+      label: Anchor ID
+      type: string
+    - name: title
+      label: Title
+      type: string
+    - name: description
+      label: Short description
+      type: text
+    - name: projects
+      label: Project URLs in display order
+      type: string
+      list: true
 - name: english
   label: English
   type: group
@@ -134,14 +176,14 @@ content:
       type: text
       description: Use a short, factual statement of your own work. Keep full credits below.
     - name: evidence_summary
-      label: Opening evidence summary
+      label: Evidence summary in project body
       type: text
       description: Name the actual prototype, test, built result, or student work. Preserve limits and ongoing
         status.
     - name: evidence_target
       label: Evidence anchor
       type: string
-      description: 'Optional block anchor, without #, for View evidence.'
+      description: 'Optional block anchor, without #, for the evidence link.'
     - name: evidence_first
       label: Opening evidence blocks
       type: number
@@ -162,7 +204,7 @@ content:
       label: Related projects with reasons
       type: object
       list: true
-      description: Use only specific shared problems or methods. Up to four are shown in this order; fewer
+      description: Use only specific shared problems or methods. Up to three are shown in this order; fewer
         is fine. This list takes precedence over Connected project URLs.
       fields:
       - name: url
@@ -917,7 +959,7 @@ content:
     - name: home_focus
       label: Homepage focus / 首页工作重心
       type: text
-      description: One short sentence above the project grid.
+      description: A concise research introduction above the project grid.
     - name: home_intro
       label: Homepage introduction
       type: text
@@ -1074,14 +1116,14 @@ content:
       type: text
       description: Use a short, factual statement of your own work. Keep full credits below.
     - name: evidence_summary
-      label: Opening evidence summary / 开头证据摘要
+      label: Evidence summary in project body / 开头证据摘要
       type: text
       description: Name the actual prototype, test, built result, or student work. Preserve limits and ongoing
         status.
     - name: evidence_target
       label: Evidence anchor / 证据锚点
       type: string
-      description: 'Optional block anchor, without #, for View evidence.'
+      description: 'Optional block anchor, without #, for the evidence link.'
     - name: evidence_first
       label: Opening evidence blocks / 提前显示的证据块数量
       type: number
@@ -1102,7 +1144,7 @@ content:
       label: Related projects with reasons / 相关项目与理由
       type: object
       list: true
-      description: Use only specific shared problems or methods. Up to four are shown in this order; fewer
+      description: Use only specific shared problems or methods. Up to three are shown in this order; fewer
         is fine. This list takes precedence over Connected project URLs.
       fields:
       - name: url
@@ -1831,7 +1873,7 @@ content:
     - name: home_focus
       label: Homepage focus / 首页工作重心
       type: text
-      description: One short sentence above the project grid.
+      description: A concise research introduction above the project grid.
     - name: home_intro
       label: 首页介绍
       type: text

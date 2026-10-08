@@ -8,8 +8,8 @@ featured_order: 99
 permalink: /design/yintai-centre-mixed-use/
 cover: /assets/media/yintai-centre-mixed-use/built-street-day.webp
 cover_alt: Built Yintai Centre in Chengdu, with curved glass towers above the retail podium
-summary: Overall architectural design and all-stage curtain-wall design and optimization for a mixed-use development
-  in Chengdu.
+summary: Curtain-wall design and optimization connect the architectural concept to facade systems, construction documentation,
+  and supplier coordination.
 role: Overall architectural design; curtain-wall design and optimization across all stages
 institution: Callison, Shanghai
 location: Chengdu, Sichuan, China
@@ -218,9 +218,10 @@ editor_notes: |
 source_links:
 - http://ttistengteng.com/html/pic/d/479.html
 - https://drive.google.com/drive/folders/17iupPjYWF9CrSYN-WczSZ7NDlIO5NJUv
-research_question: How can tower and podium facade systems be coordinated across a large mixed-use development?
-role_summary: Contributed overall architectural design and carried out curtain-wall design and optimization through
-  all project stages.
+research_question: How can tower and podium envelope designs be carried through detailing, fabrication coordination,
+  and construction?
+role_summary: Led curtain-wall design and optimization from concept through construction documentation and contractor
+  and supplier coordination; contributed to early overall design.
 evidence_summary: Built photographs, facade studies, environmental analysis, and construction details connect design
   intent to enclosure development.
 related_projects:
@@ -228,10 +229,13 @@ related_projects:
 - /design/dragon-light-international-shopping-mall/
 related_connections:
 - url: /projects/series-facade-optimization/
-  reason: Parametric rationalization of tower and podium envelopes
+  reason: Relates geometric design to curtain-wall manufacturing constraints.
+- url: /design/kaisa-center-mixed-use/
+  reason: Connects facade design leadership with technical documentation and supplier coordination.
 - url: /design/dragon-light-international-shopping-mall/
-  reason: Facade-system development across materially different enclosures
+  reason: Coordinates distinct facade materials within a continuous architectural envelope.
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 Yintai Centre is a mixed-use development in Chengdu combining a retail podium with office, residential, hotel, and serviced-apartment towers. The archived design brief describes approximately **720,000 m²** of total construction floor area and a tallest tower of **220 m**.
 

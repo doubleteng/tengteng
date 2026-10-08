@@ -67,9 +67,34 @@ dialog :focus-visible { outline-color: var(--cloud); }
 
 /* Light display type, regular reading text, and the supplied true bold/italic faces. */
 h1, h2 { font-weight: 300; }
-strong, b { font-weight: 700; }
+strong, b { font-weight: inherit; }
 .publication-venue, blockquote cite { font-weight: 300; }
 
 /* Preserve source proportions and equal media heights within the text column. */
 .media-row-equal-height>figure{overflow:hidden}
 .media-row-equal-height img,.media-row-equal-height video,.media-row-equal-height .video-frame{width:100%;aspect-ratio:var(--media-ratio,1);height:auto;object-fit:contain}
+
+/* Materiality framework: compact introductions and question-led catalogues. */
+.home-index-heading h1 { max-width: 760px; }
+.home-focus { max-width: 1000px; }
+.catalog-heading { padding: 32px 0 20px; }
+.catalog-heading h1 { margin: 0 0 16px; }
+.catalog-statement { max-width: 1080px; font-size: var(--text-body); line-height: 1.65; color: var(--muted); margin: 0; }
+.catalog-nav { display: flex; flex-wrap: wrap; gap: 9px 22px; padding: 16px 0; border-block: 1px solid var(--line); margin-bottom: 28px; font-size: 13px; }
+.catalog-nav a { text-decoration: none; border-bottom: 1px solid transparent; }
+.catalog-nav a:hover { border-color: currentColor; }
+.catalog-group { margin: 0 0 38px; scroll-margin-top: 105px; }
+.catalog-group-heading { margin: 0 0 18px; }
+.catalog-group-heading h2 { margin: 0 0 8px; }
+.catalog-group-heading p { margin: 0; font-size: 14px; color: var(--muted); max-width: 980px; }
+.catalog-group .project-grid { gap: 26px 24px; }
+.catalog-group .project-card h3 { margin-bottom: 0; }
+.project-heading .lead { max-width: 1100px; }
+.project-evidence-summary { font-size: 14px; line-height: 1.6; color: var(--muted); margin: 0 0 24px; }
+.legacy-anchor { display: block; height: 0; scroll-margin-top: 105px; }
+@media (max-width: 700px) {
+  .catalog-heading { padding-top: 26px; }
+  .catalog-nav { gap: 9px 16px; font-size: 12px; }
+  .catalog-group { margin-bottom: 30px; }
+  .catalog-group .project-grid { gap: 24px 16px; }
+}

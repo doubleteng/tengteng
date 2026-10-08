@@ -1,30 +1,37 @@
 name: Teng Teng
-description: Architectural computation and design methods. Material systems, design interfaces, robotic tools, teaching,
-  and spatial history by Teng Teng.
-home_title: Architectural Computation & Design Methods
-home_intro: I develop computational methods and tools that connect material behavior, physical interaction, and
-  architectural design. My research combines programmable fabrication and design interfaces, with an emerging investigation
-  into spatial archives and urban memory.
-research_intro: 'I study how computational representations become design decisions: how a material map becomes a
-  printed component, a gesture becomes geometry, and an archival record becomes a place in a digital model. Prototypes
-  and experiments test what these translations make possible and where their limits remain.'
-teaching_intro: I teach students to construct, test, and question the methods they use to design. Computational
-  exercises, physical models, and collaborative building connect decisions about geometry and materials to their
-  architectural and human consequences.
-design_intro: My design practice connects computational tools to architectural coordination, fabrication, and construction.
-  Built work and design studies span buildings, public spaces, products, and physical interfaces.
-contact_intro: For research collaborations, teaching invitations, lectures, and design inquiries, please get in
-  touch by email.
+description: 'Computational design through materiality: material distribution, transitions, structural behavior, and
+  architectural materialization. Research, teaching, and practice by Teng Teng.'
+home_title: Computational Design through Materiality
+home_intro: I investigate materiality as an active dimension of computational design alongside morphology and topology.
+  Through material composition, spatial distribution, and transitions, I explore how material behavior can shape form,
+  tune performance, and realize connections.
+research_intro: 'My research develops materiality as an active dimension of computational design alongside morphology
+  and topology. When materials are treated as fixed, homogeneous inputs, performance is adjusted primarily through geometry
+  and connectivity. Making material composition, distribution, and transitions designable expands this space: material
+  variation can tune responses within a given geometry, generate form through differential behavior, and physically realize
+  connections between members. I develop computational methods, fabrication systems, and physical experiments to investigate
+  these possibilities, connecting local material decisions to structural behavior and architectural construction.'
+teaching_intro: My teaching connects decisions about geometry, materials, and construction to observable structural and
+  physical behavior. Research-led studios and workshops test these relationships through computation and making; professional
+  courses develop the structural reasoning and technical coordination needed for architectural practice.
+design_intro: My architectural practice connects design intent to materialization through geometric development, facade
+  systems, construction details, and coordination with manufacturers and contractors. Built work and design studies show
+  how these responsibilities vary across buildings, public spaces, and objects.
+contact_intro: For research collaborations, teaching invitations, lectures, and design inquiries, please get in touch
+  by email.
 form_url: https://docs.google.com/forms/d/e/1FAIpQLSfKeXggQxQjECm-JgJeL2ko7svUi_bPNObtz4uc9qNKNGJfzw/viewform
 show_form: false
 show_fine_art_nav: false
-footer_text: Architectural computation · Design methods · Research & teaching
-home_research_title: Making design decisions available for testing.
-home_research_text: My work connects the development of computational tools with their use in design. Material experiments
-  test the consequences of programmed composition; interactive prototypes examine how designers manipulate geometry;
-  architectural assemblies expose the constraints of fabrication and construction.
+footer_text: Computational design · Materiality · Architecture
+home_research_title: Materiality as a design dimension.
+home_research_text: 'My research develops materiality as an active dimension of computational design alongside morphology
+  and topology. When materials are treated as fixed, homogeneous inputs, performance is adjusted primarily through geometry
+  and connectivity. Making material composition, distribution, and transitions designable expands this space: material
+  variation can tune responses within a given geometry, generate form through differential behavior, and physically realize
+  connections between members. I develop computational methods, fabrication systems, and physical experiments to investigate
+  these possibilities, connecting local material decisions to structural behavior and architectural construction.'
 collaboration_intro: I welcome conversations with students and collaborators working on material computation, design
   interfaces, robotic fabrication, and spatial history.
-
-home_focus: I develop multi-material fabrication systems and computational tools that connect material behavior,
-  structural performance, and architectural construction.
+home_focus: I investigate materiality as an active dimension of computational design alongside morphology and topology.
+  Through material composition, spatial distribution, and transitions, I explore how material behavior can shape form,
+  tune performance, and realize connections.

@@ -8,8 +8,8 @@ featured_order: 1
 permalink: /research/snmm-additive-manufacturing-system/
 cover: /assets/media/snmm-additive-manufacturing-system/detail-cover.webp
 cover_alt: Single-nozzle printed object with a continuous material gradient
-summary: A four-filament printhead, a calibrated transition model, and material-aware toolpaths place graded compositions
-  and functional regions within one continuous print.
+summary: A single-nozzle fabrication system programs material composition and transitions within a continuous extrusion
+  process.
 role: Leading Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
@@ -206,7 +206,7 @@ project_stage: Research prototype
 research_areas:
 - material-computation
 research_order: 2
-research_question: How can a designer place a material transition where a component needs it?
+research_question: How can a designed material distribution be translated into controlled deposition?
 contribution: The SNMF system connects representations of material distribution to a model of mixing inside the
   nozzle. Feed commands can therefore account for the transition between intended and deposited composition.
 method_steps:
@@ -240,11 +240,11 @@ evidence_summary: An 18 mm command advance aligns the tested interface; a printe
   kN for its control. Both results are setup-specific.
 related_connections:
 - url: /research/continuous-multi-material-extrusion/
-  reason: Compensating for mixing delay along continuous toolpaths
+  reason: Controls transition delay and continuity along a printing path.
 - url: /research/multi-material-3d-printing-for-tension-compression-structure/
-  reason: Assigning material to tensile and compressive regions
+  reason: Uses structural demand to assign the materials a mixing system must place.
 - url: /research/integrated-and-tailored-thermal-insulation/
-  reason: Translating spatial material maps into graded prints
+  reason: Translates structural and thermal requirements into graded material regions.
 reading_path:
 - title: Interface test
   target: interface-test
@@ -256,6 +256,7 @@ reading_path:
   target: scope
 evidence_target: interface-test
 evidence_first: 4
+question_label: Research question
 ---
 ## Material distribution as a design input
 

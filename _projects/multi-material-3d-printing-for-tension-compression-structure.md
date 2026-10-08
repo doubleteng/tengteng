@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /research/multi-material-3d-printing-for-tension-compression-structure/
 cover: /assets/media/multi-material-3d-printing-for-tension-compression-structure/detail-2.webp
 cover_alt: Printed truss with distinct materials along tension and compression regions
-summary: Continuous multimaterial printing distributes material according to tensile and compressive demand in a
-  truss.
+summary: Stress-informed material placement tunes the response of continuously printed tension and compression members.
 role: Leading Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory
 location: ''
@@ -69,7 +68,7 @@ project_stage: Research prototype
 research_areas:
 - material-computation
 research_order: 4
-research_question: How can force flow inform material placement along a continuous printing path?
+research_question: How does material distribution affect structural response within a given geometry?
 contribution: A toolpath generator assigns materials according to tensile and compressive demand, connecting structural
   analysis to fabrication instructions.
 method_steps:
@@ -96,10 +95,12 @@ role_summary: Led the continuous multi-filament structural-printing study and de
 evidence_summary: Printed Pratt trusses and comparative load tests support specimen-specific performance claims;
   the related strut-and-tie study is identified separately.
 related_connections:
-- url: /research/snmm-additive-manufacturing-system/
-  reason: Assigning material to tensile and compressive regions
 - url: /research/stresspath/
-  reason: Force-informed toolpaths and material placement
+  reason: Turns force patterns into toolpaths and material assignments.
+- url: /research/snmm-additive-manufacturing-system/
+  reason: Makes spatial material assignments physically controllable.
+- url: /research/integrated-and-tailored-thermal-insulation/
+  reason: Extends material allocation from structural demand to combined structural and thermal needs.
 reading_path:
 - title: Load testing
   target: load-testing
@@ -109,6 +110,7 @@ reading_path:
   target: strut-tie
 evidence_target: load-testing
 evidence_first: 2
+question_label: Research question
 ---
 This project develops continuous multi-filament printing for structural components whose material distribution follows tensile and compressive demand. A single nozzle switches between filament feeds while maintaining a connected deposition path.
 

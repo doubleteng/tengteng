@@ -8,8 +8,8 @@ featured_order: 99
 permalink: /design/shanghai-museum-phase-ii/
 cover: /assets/media/shanghai-museum-phase-ii/competition-courtyard.webp
 cover_alt: Competition rendering of Shanghai Museum Phase II with a planted public route between exhibition volumes
-summary: A museum competition proposal organizes exhibition halls around a continuous landscape promenade, translating
-  Chinese landscape painting into routes, gardens, and changing views.
+summary: A museum competition proposal uses a continuous landscape promenade to organize exhibition halls, gardens, and
+  changing views.
 role: Chief designer — competition concept design
 institution: ''
 location: Shanghai, China
@@ -89,7 +89,7 @@ project_type: Museum / architecture competition
 project_stage: Competition entry · concept design
 contributions:
 - Led the concept design for the Shanghai Museum Phase II public competition.
-research_question: How can a landscape promenade organize exhibition halls, gardens, and the museum visit?
+research_question: How can routes and sectional relationships organize a museum as a sequence of spatial encounters?
 role_summary: Chief designer for the competition concept, working with Song Shuai and Chuou Zhang.
 evidence_summary: Sketches, plans, circulation studies, and renderings document the competition proposal; it is
   presented as an unbuilt concept.
@@ -99,6 +99,7 @@ related_connections:
 - url: /design/tang-courtyard-promenade/
   reason: A promenade organizing courts, routes, and changing views
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 Shanghai Museum – Phase II was a public competition proposal developed with Song Shuai and Chuou Zhang. I served as chief designer for the concept scheme.
 

@@ -8,9 +8,8 @@ featured_order: 99
 permalink: /teaching/new-material-and-method/
 cover: /assets/media/new-material-and-method/myco-shell-preview.webp
 cover_alt: Student research and design board for the Myco-Shell Pavilion
-summary: A graduate seminar on emerging materials and fabrication methods, with
-  student proposals for mycelium composites, bamboo-reinforced clay, and lunar
-  regolith construction.
+summary: Material experiments and fabrication proposals connect emerging material behavior to architectural component
+  design.
 role: Teaching Fellow
 institution: University of Pennsylvania · Weitzman School of Design
 location: Philadelphia, Pennsylvania, USA
@@ -75,7 +74,7 @@ project_type: Graduate seminar · ARCH 7330
 project_stage: Material research and design proposals
 cover_preview_only: true
 structure_lab: false
-research_question: How can emerging material behavior inform a fabrication method and architectural proposal?
+research_question: How can material behavior become a design variable that students investigate through making?
 role_summary: Teaching Fellow; developed and taught the seminar with Laia Mogas-Soldevila.
 evidence_summary: Three credited student proposals investigate mycelium, bamboo-reinforced clay, and lunar regolith.
   They are design research proposals, not built systems.
@@ -83,11 +82,14 @@ related_projects:
 - /research/integrated-and-tailored-thermal-insulation/
 - /research/multi-material-deployable-structures/
 related_connections:
-- url: /research/integrated-and-tailored-thermal-insulation/
-  reason: Material composition as a basis for component performance
 - url: /research/multi-material-deployable-structures/
-  reason: Bio-based material behavior driving fabrication and form
+  reason: Uses material behavior as an input to form generation.
+- url: /research/integrated-and-tailored-thermal-insulation/
+  reason: Investigates how material organization coordinates component functions.
+- url: /teaching/building-robots-for-robotic-fabrication/
+  reason: Treats fabrication capability as part of the design inquiry.
 evidence_target: project-evidence
+question_label: Learning question
 ---
 **ARCH 7330: New Materials and Methods Research** is a graduate seminar in Penn’s Master of Science in Design-Advanced Architectural Design program taught in Spring 2024. I served as Teaching Fellow, delivering lectures, leading discussion panels, and mentoring graduate students through project ideation and production.
 

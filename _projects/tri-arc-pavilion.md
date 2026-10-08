@@ -5,8 +5,8 @@ year: Summer 2026
 published: true
 featured: true
 featured_order: 8
-summary: A force-formed timber canopy connecting structural equilibrium, digital fabrication, material reuse, and
-  a distributed design-build studio.
+summary: A timber canopy materializes computational equilibrium through branching trusses, custom connections, and staged
+  post-tensioning.
 permalink: /research/tri-arc-pavilion/
 cover: /assets/media/tri-arc/built-canopy.webp
 cover_caption: TRI-ARC at the UTLC south entrance, Lawrence Technological University. Completed July 2026.
@@ -296,9 +296,8 @@ links:
 research_areas:
 - material-computation
 research_order: 1
-question_label: Teaching and research proposition
-research_question: How can structural equilibrium organize architectural form, fabrication, and collaboration across
-  a distributed design-build studio?
+question_label: Research question
+research_question: How can a force-derived geometry be assembled and activated as a full-scale timber structure?
 contribution: Three mutually supporting arches connect an equilibrium network to a coordinated system of timber
   trusses, steel joints, textile panels, and furniture-integrated ballast. Shared component families and assembly
   protocols allow specialized teams to work on interdependent parts of the same structure.
@@ -338,11 +337,11 @@ related_projects:
 - /teaching/structural-systems/
 related_connections:
 - url: /design/floralis-an-etfe-clad-multilaminar-timber-structure/
-  reason: Equilibrium-based timber geometry translated into fabricated joints
-- url: /projects/digital-practice-workshop/
-  reason: Coordinating digital models and full-scale student construction
+  reason: Translates force-derived geometry into finite timber members and fabricated connections.
+- url: /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
+  reason: Uses post-tensioning to connect manufactured parts into a structural assembly.
 - url: /teaching/structural-systems/
-  reason: Making equilibrium and load paths legible through physical systems
+  reason: Makes load paths and connection behavior part of architectural education.
 reading_path:
 - title: Form & force
   target: form-force

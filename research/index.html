@@ -1,60 +1,19 @@
 ---
 title: Research
-description: Research projects in materials, fabrication, design interfaces, and spatial archives.
+description: Materiality as an active dimension of computational design, alongside morphology and topology.
 ---
-<style>
-.research-heading { padding: 32px 0 24px; }
-.research-heading h1 { margin: 0; }
-.research-heading .legacy-anchor { display: block; height: 0; scroll-margin-top: 110px; }
-.research-catalog .project-card h2 {
-  font: var(--text-card)/1.35 var(--serif);
-  letter-spacing: -.015em;
-  margin: 0;
-}
-.research-catalog .eyebrow { margin-bottom: 8px; }
-</style>
-<header class="page-heading research-heading">
-  {% comment %}Keep existing links from the homepage pointing to the simplified catalog.{% endcomment %}
-  {% for area in site.data.research.areas %}<span class="legacy-anchor" id="{{ area.id | escape }}" aria-hidden="true"></span>{% endfor %}
-  <h1>Research</h1>
-</header>
-{% comment %}
-  Preserve the existing research selection, including cross-disciplinary projects.
-  Render each project once, ordered by its latest listed year.
-{% endcomment %}
+<header class="page-heading catalog-heading"><span id="material-computation" class="legacy-anchor" aria-hidden="true"></span><span id="interfaces-and-tools" class="legacy-anchor" aria-hidden="true"></span><h1>Research</h1><p class="catalog-statement">{{ site.data.site.research_intro | escape }}</p></header>
+{% assign catalog_groups = site.data.portfolio.research_groups %}
 {% assign published_projects = site.projects | where: 'published', true %}
-{%- capture chronological_index -%}
-  {%- for project in published_projects -%}
-    {%- if project.category == 'research' or project.research_areas.size > 0 -%}
-      {%- assign latest_year = 0 -%}
-      {%- assign year_parts = project.year | append: '' | replace: '–', ' ' | replace: '—', ' ' | replace: '-', ' ' | replace: '/', ' ' | split: ' ' -%}
-      {%- for part in year_parts -%}
-        {%- assign candidate_year = part | plus: 0 -%}
-        {%- if candidate_year >= 1000 and candidate_year <= 9999 and candidate_year > latest_year -%}
-          {%- assign latest_year = candidate_year -%}
-        {%- endif -%}
-      {%- endfor -%}
-      {%- assign descending_year = 9999 | minus: latest_year -%}
-      {{- descending_year | prepend: '0000' | slice: -4, 4 -}}:{{- forloop.index0 | prepend: '0000' | slice: -4, 4 -}}|
-    {%- endif -%}
-  {%- endfor -%}
-{%- endcapture -%}
-{% assign sorted_project_keys = chronological_index | split: '|' | sort %}
-<div class="project-grid research-catalog">
-  {% for project_key in sorted_project_keys %}
-    {% assign project_index = project_key | split: ':' | last | plus: 0 %}
-    {% assign project = published_projects[project_index] %}
-    <article class="project-card">
-      <a href="{{ project.url | relative_url }}" class="project-link">
-        {% if project.cover and project.cover != '' %}
-          <div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: project.title | escape }}"{% if project.cover_fit == 'contain' %} style="object-fit:contain"{% endif %} loading="lazy" decoding="async" width="720" height="480"></div>
-        {% else %}
-          <div class="project-image text-cover" aria-hidden="true"><span>Research</span><strong>{{ project.card_title | default: project.title | escape }}</strong></div>
-        {% endif %}
-        {% if project.year and project.year != '' %}<p class="eyebrow">{{ project.year | escape }}</p>{% endif %}
-        <h2>{{ project.card_title | default: project.title | escape }}</h2>
-      </a>
-    </article>
+<nav class="catalog-nav" aria-label="{{ page.title | escape }} groups">{% for group in catalog_groups %}<a href="#{{ group.id | escape }}">{{ group.title | escape }}</a>{% endfor %}</nav>
+{% for group in catalog_groups %}
+<section class="catalog-group" id="{{ group.id | escape }}" aria-labelledby="{{ group.id | escape }}-heading">
+  <div class="catalog-group-heading"><h2 id="{{ group.id | escape }}-heading">{{ group.title | escape }}</h2><p>{{ group.description | escape }}</p></div>
+  <div class="project-grid">
+  {% for project_url in group.projects %}
+    {% assign project = published_projects | where: 'url', project_url | first %}
+    {% if project %}{% include project-card.html project=project compact=true %}{% endif %}
   {% endfor %}
-</div>
-
+  </div>
+</section>
+{% endfor %}

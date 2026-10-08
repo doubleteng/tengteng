@@ -5,9 +5,8 @@ year: "2026"
 published: true
 featured: false
 featured_order: 99
-summary: An ongoing undergraduate course connecting structural theory, multiple
-  modes of structural communication, and the configuration of wood, steel, and
-  concrete building systems.
+summary: Interactive studies and building-system assignments connect loads, geometry, materials, and connections to structural
+  behavior.
 permalink: /teaching/structural-systems/
 cover: /assets/media/structural-systems-1-preview.webp
 cover_preview_only: true
@@ -37,7 +36,7 @@ evidence: The course is ongoing. The first three weeks establish structural
   Concrete Building projects, then A.R.E. structure content. Structure Lab is
   being developed alongside this sequence and currently supports the fundamental
   concepts and Wood Building project.
-research_question: How can students connect structural concepts to visible behavior and complete building systems?
+research_question: How can students use structural behavior to explain and improve architectural design decisions?
 role_summary: Co-teach the course with Ralph Nelson and develop Structure Lab alongside the assignments.
 evidence_summary: The working Structure Lab and current Wood Building sequence support an ongoing course; final
   semester outcomes are not yet available.
@@ -47,12 +46,13 @@ related_projects:
 - /research/stresspath/
 related_connections:
 - url: /research/tri-arc-pavilion/
-  reason: Making equilibrium and load paths legible through physical systems
+  reason: Tests equilibrium, joints, and assembly in a full-scale timber structure.
 - url: /teaching/integrated-design-studio-iii/
-  reason: Structural bays, member hierarchy, and building-system integration
+  reason: Carries structural reasoning into the organization of a building.
 - url: /research/stresspath/
-  reason: Interactive experiments with loads, supports, and force flow
+  reason: Makes force patterns available for computational design decisions.
 evidence_target: structure-lab-embed-title
+question_label: Learning question
 ---
 ## Structural Systems I
 

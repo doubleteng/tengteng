@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /research/automated-concrete-toolpaths/
-summary: Geometry and graph algorithms coordinate buildability, continuous deposition, and toolpath visualization
-  for concrete printing.
+summary: Geometry and graph algorithms translate branching concrete components into continuous, buildable deposition
+  paths.
 tags:
 - 3D concrete printing
 - toolpath design
@@ -71,8 +71,7 @@ cover_alt: Layered surface and openings of a 3D-printed concrete component
 research_areas:
 - material-computation
 research_order: 7
-research_question: How can branching concrete components be printed with fewer interruptions and more controlled
-  deposition?
+research_question: How can connectivity and printing constraints guide continuous deposition of branching components?
 role_summary: Research coauthor with Yefan Zhi, Hua Chai, and Masoud Akbarzadeh.
 evidence_summary: Printed specimens and Ovenbird toolpath studies document continuity, overhang assessment, and
   deposition planning across component geometries.
@@ -88,6 +87,7 @@ related_connections:
 - url: /research/scaled-fabrication-models/
   reason: Testing concrete fabrication sequences through printed models
 evidence_target: project-evidence
+question_label: Research question
 ---
 This research automates toolpath design for 3D-printed concrete structural components. Hierarchical geometric data structures and graph algorithms connect the topology of a component to its printing sequence.
 

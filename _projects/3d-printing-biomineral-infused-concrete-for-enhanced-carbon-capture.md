@@ -8,8 +8,8 @@ featured_order: 99
 permalink: /research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/
 cover: /assets/media/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/detail-mat-0-1.webp
 cover_alt: Cylindrical and triply periodic surface concrete specimens
-summary: Biomineral-infused concrete and printed surface geometry are investigated for enhanced carbon capture and
-  storage.
+summary: Concrete composition and printed surface geometry are investigated together as variables for enhanced carbon
+  uptake.
 role: Major Contributor
 institution: University of Pennsylvania · Polyhedral Structures Laboratory and Shu Yang Group
 location: ''
@@ -52,7 +52,7 @@ project_stage: Research prototype
 research_areas:
 - material-computation
 research_order: 6
-research_question: How can a concrete mixture and its printed surface geometry increase carbon uptake?
+research_question: How do material composition and surface geometry influence carbon uptake in printed concrete?
 role_summary: Major contributor and second author of the collaborative material and geometry study.
 evidence_summary: Material specimens, carbon-uptake comparisons, and the 2025 Advanced Functional Materials paper;
   related structural prototypes are shown separately.
@@ -65,6 +65,7 @@ related_connections:
 - url: /research/automated-concrete-toolpaths/
   reason: Printability of porous concrete geometries
 evidence_target: project-evidence
+question_label: Research question
 ---
 This research combines a biomineral-infused concrete mixture with 3D-printed surface geometry to increase carbon capture and storage. Porous silica biominerals replace part of the cement, reducing the mixture’s cement demand while supporting carbonation.
 

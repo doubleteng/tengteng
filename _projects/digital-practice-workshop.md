@@ -24,8 +24,8 @@ team: []
 links: []
 related_publications: []
 awards: []
-summary: A ten-day SIVA–University of Washington workshop connects digital design, team coordination, and full-scale
-  pavilion fabrication.
+summary: A ten-day workshop connects parametric design, fabrication planning, and collective assembly through a full-scale
+  pavilion.
 editor_notes: 资料未列出举办年份及完整教师／学生名单，年份字段暂不虚构。
 role: Workshop initiator and co-instructor
 institution: Shanghai Institute of Visual Art · University of Washington
@@ -38,7 +38,7 @@ tags:
 - fabrication
 - design-build
 - collaboration
-research_question: How can a short workshop connect digital design decisions with full-scale construction?
+research_question: How can students carry digital design decisions through fabrication and full-scale assembly?
 role_summary: Initiated the SIVA–University of Washington collaboration and co-taught the ten-day workshop.
 evidence_summary: Three full-scale student pavilions, documented in construction and exhibition photographs, were
   acquired by the Shanghai Museum of Trade.
@@ -47,10 +47,11 @@ related_projects:
 - /teaching/digital-fabrication/
 related_connections:
 - url: /research/tri-arc-pavilion/
-  reason: Coordinating digital models and full-scale student construction
+  reason: Extends digital-to-physical coordination to structural activation and joint design.
 - url: /teaching/digital-fabrication/
-  reason: Moving from parametric geometry to physical fabrication
+  reason: Builds the geometric and fabrication skills used in full-scale making.
 evidence_target: project-evidence
+question_label: Learning question
 ---
 I initiated Digital Practice as a collaboration between the University of Washington’s Department of Architecture and the Shanghai Institute of Visual Art. The ten-day summer workshop took place on the SIVA campus with faculty from both institutions.
 

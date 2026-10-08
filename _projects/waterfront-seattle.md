@@ -8,7 +8,7 @@ featured_order: 99
 permalink: /design/waterfront-seattle/
 cover: /assets/media/waterfront-seattle/portfolio-page-127-x1540.webp
 cover_alt: Schematic rendering of Pier 62/63 and the proposed pool barge
-summary: Schematic design studies for Pier 62/63 and a floating pool barge explore public access to Elliott Bay.
+summary: Schematic models and drawings explore how a pier and floating pool could extend public access to Elliott Bay.
 role: Schematic design, physical models, drawings, and visualization
 institution: Schemata Workshop
 location: Seattle, Washington, USA
@@ -53,7 +53,7 @@ editor_notes: ''
 source_links: []
 project_type: Public space
 project_stage: Schematic proposal
-research_question: How can a pier and floating pool proposal extend public access to Elliott Bay?
+research_question: How can physical models and sectional studies test new forms of waterfront access?
 role_summary: Contributed schematic design, physical models, drawings, visualization, and presentation material
   at Schemata Workshop.
 evidence_summary: Models, drawings, and renderings document the Pier 62/63 and pool-barge schematic proposal, rather
@@ -64,6 +64,7 @@ related_connections:
 - url: /design/wfj-waterfront-development/
   reason: Waterfront access and circulation as organizing design problems
 evidence_target: project-evidence
+question_label: Design challenge
 ---
 These studies formed part of the schematic design for Pier 62/63 and a proposed pool barge on Seattle’s waterfront. A gangway and floating dock connect the barge to the pier, giving visitors a place on the water from which to look back toward the city.
 

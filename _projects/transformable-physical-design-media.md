@@ -8,8 +8,7 @@ featured_order: 99
 permalink: /research/transformable-physical-design-media/
 cover: /assets/media/transformable-physical-design-media/cube-tabletop-information.webp
 cover_alt: CuBe physical building models with projected height, floor count, and floor-area information
-summary: CuBe connects tangible massing models to digital geometry and projected building information, shadow studies,
-  and wind-field visualizations.
+summary: A tangible modeling interface links physical massing changes to digital geometry and environmental feedback.
 role: Project lead; interface and research prototype development
 institution: University of Washington · Design Machine Group
 location: Seattle, Washington, USA
@@ -113,7 +112,7 @@ contributions:
 related_projects:
 - /research/inspire/
 - /research/scutoid-brick/
-research_question: How can a physical massing model remain connected to digital geometry and environmental feedback?
+research_question: How can physical manipulation remain connected to computational evaluation during design?
 role_summary: Led CuBe’s interface and research-prototype development at the University of Washington.
 evidence_summary: Working prototypes and video demonstrate tracked movement, deformation, and projected shadow and
   wind-field feedback.
@@ -130,6 +129,7 @@ reading_path:
 - title: Design feedback
   target: feedback
 evidence_target: demonstration
+question_label: Research question
 ---
 CuBe is a tangible toolkit for architectural massing studies. I led its development at the University of Washington’s Design Machine Group. Designers move, rotate, twist, and stretch physical models while the system tracks their position or deformation and updates digital geometry. The prototypes give the hands a physical reference and bring building information and environmental visualizations into the working space. The work was published in *Transformable Physical Design Media* at eCAADe 2015.
 

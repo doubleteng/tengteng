@@ -10,7 +10,8 @@ permalink: /teaching/ai-empowered-creative-robotics-workshop/
 cover: /assets/media/ai-empowered-creative-robotics-workshop/robotic-painting-poster.webp
 cover_alt: A UR5 robot paints a layered portrait using a sponge end effector
 cover_preview_only: true
-summary: Students connect AI image generation, robotic painting, and manual intervention to examine how gender and leadership are represented in generated portraits.
+summary: Students move between AI imagery, robotic painting, and manual intervention to examine gender and leadership
+  representation.
 role: Workshop organizer and instructor
 institution: Tongji University
 location: Shanghai, China
@@ -30,8 +31,8 @@ contributions:
 - Organized and led the workshop in August 2023.
 - Guided the exchange between AI-generated imagery, robotic painting, and manual intervention.
 - Student participants developed Inverse Portrait and its visual and toolpath studies.
-question_label: Teaching question
-research_question: How can physical intervention expose and challenge assumptions in an AI-generated image?
+question_label: Learning question
+research_question: How can physical making expose and challenge assumptions within computational image generation?
 method_steps:
 - title: Generate
   text: Use text prompts to produce portraits and examine the identities they depict.

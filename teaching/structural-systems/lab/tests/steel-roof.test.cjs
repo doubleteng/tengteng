@@ -34,3 +34,16 @@ s={...s,lesson:'girder-table',notes:{'brief':'My supports','joist-table':'Check 
 const restored=A.normalize(JSON.parse(JSON.stringify(s)));assert.equal(restored.notes.brief,'My supports');assert.equal(restored.joist,'40LH13');assert.equal(restored.lesson,'girder-table');assert.equal(restored.tablePick.span,6);
 const invalid=A.normalize({...s,spaces:0,gauge:999,joist:'fake',allowance:Infinity,girderDepth:999});assert.ok(Number.isFinite(A.calc(invalid).wTotal));assert.ok(A.calc(invalid).gWeight!==undefined);
 console.log(`Steel source and load-path checks passed; ${combinations} assignment / spacing combinations.`);
+
+// Concept exploration must not replace table-selected geometry, including after Save/Open.
+assert.equal(A.lecture('anatomy'),1);
+for(const step of A.steps)assert.equal(A.lecture(step.id),1.1);
+const separated=A.normalize({...restored,concepts:{lesson:'spans',direction:'short',spaces:3,notes:{spans:'Compare support spacing.'}}});
+assert.equal(separated.direction,restored.direction);assert.equal(separated.spaces,restored.spaces);
+assert.equal(separated.joist,restored.joist);assert.equal(separated.concepts.spaces,3);
+assert.equal(separated.concepts.direction,'short');assert.equal(separated.concepts.notes.spans,'Compare support spacing.');
+const oldConcept=A.normalize({version:1,lesson:'spans',direction:'short',spaces:3,notes:{spans:'My original reflection.'}});
+assert.equal(oldConcept.concepts.spaces,3);assert.equal(oldConcept.concepts.notes.spans,'My original reflection.');
+const doubleRoundTrip=A.normalize(JSON.parse(JSON.stringify(separated)));
+assert.equal(doubleRoundTrip.tableLesson,'girder-table');assert.equal(doubleRoundTrip.concepts.spaces,3);
+console.log('Restored Lecture 1 and independent Lecture 1.1 study records passed.');

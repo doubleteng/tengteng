@@ -81,7 +81,7 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
 /* END STEEL REFLECTION STYLE */
 .course-reference-notice{margin:12px 0;padding:12px;border:1px solid #b7cce3;border-left:3px solid #005eb8;border-radius:5px;background:#eef5fc;color:#284b69;font-size:12px;line-height:1.6}.course-reference-notice[hidden]{display:none}.course-reference-notice strong{font-size:12px}.course-reference-notice p{margin:4px 0 0}
 </style>
-<link rel="stylesheet" href="steel-roof-lessons.css?v=1.10.2">
+<link rel="stylesheet" href="steel-roof-lessons.css?v=1.10.3">
 </head>
 <body>
 <header class="topbar">
@@ -90,7 +90,7 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
  <div class="top-actions"><span class="study-file-note">Study files are saved locally as JSON. Open that JSON later to continue from the same saved progress.</span><button id="courseMap" class="quiet">Course map</button><button id="exportBtn" class="quiet">Save study</button><button id="importBtn" class="quiet">Open study</button></div>
 </header>
 <main class="workspace" id="workspace">
- <nav class="sidebar" aria-label="Concept labs and building project"><div class="rail-heading">STRUCTURAL SYSTEMS I</div><button id="glossaryNav" class="learn-nav"><span class="learn-icon">?</span><span>Start here<small>Terms & diagrams</small></span></button><div id="modules"></div><div class="rail-footer"><span class="edition">STRUCTURE LAB · 1.10.2</span><p>Explore a change. Explain its consequences.</p><button id="helpBtn" class="text-link">Controls & model notes</button></div></nav>
+ <nav class="sidebar" aria-label="Concept labs and building project"><div class="rail-heading">STRUCTURAL SYSTEMS I</div><button id="glossaryNav" class="learn-nav"><span class="learn-icon">?</span><span>Start here<small>Terms & diagrams</small></span></button><div id="modules"></div><div class="rail-footer"><span class="edition">STRUCTURE LAB · 1.10.3</span><p>Explore a change. Explain its consequences.</p><button id="helpBtn" class="text-link">Controls & model notes</button></div></nav>
  <section id="coachScreen" class="coach-screen" aria-label="Structure Coach" hidden></section>
  <section id="steelScreen" class="steel-screen" aria-label="Steel Project Lecture 1 reflection activities" hidden></section>
  <section id="glossaryScreen" class="glossary-screen" aria-label="Interactive terms and diagram reading"></section>
@@ -2234,10 +2234,10 @@ root.SteelReflection={lessons,defaults,normalize,materialState,spanRule,scene,co
 
 /* END STEEL REFLECTION SCRIPT */
 </script>
-<script src="steel-roof-data.js?v=1.10.2"></script>
-<script src="steel-pdf-map.js?v=1.10.2"></script>
-<script src="steel-pdf-tables.js?v=1.10.2"></script>
-<script src="steel-roof-lessons.js?v=1.10.2"></script>
+<script src="steel-roof-data.js?v=1.10.3"></script>
+<script src="steel-pdf-map.js?v=1.10.3"></script>
+<script src="steel-pdf-tables.js?v=1.10.3"></script>
+<script src="steel-roof-lessons.js?v=1.10.3"></script>
 <script>
 (function(){
 'use strict';
@@ -2481,7 +2481,7 @@ $('brand').onclick=e=>{e.preventDefault();openLearning();};
 $('glossaryNav').onclick=()=>openLearning();
 document.addEventListener?.('keydown',e=>{if(intro||coaching||steelMode||!studio.active||['INPUT','SELECT','TEXTAREA'].includes(e.target?.tagName)||$('dialog').open)return;const key=e.key.toLowerCase(),ctrl=e.ctrlKey||e.metaKey;if(key==='escape'){studio.chain=null;studio.chooseTool('select');return;}if(ctrl&&key==='z'){e.preventDefault();studio.restore(!e.shiftKey);return;}if(ctrl&&key==='y'){e.preventDefault();studio.restore(false);return;}if(ctrl)return;if(key==='delete'||key==='backspace'){e.preventDefault();studio.removeSelected();return;}const tool={v:'select',n:'node',m:'member',l:'load',s:'support'}[key];if(tool){e.preventDefault();studio.chooseTool(tool);}});
 // Structured in-browser access is read-only and does not bypass visible controls.
-window.StructureLab={getState:()=>JSON.parse(JSON.stringify({active,states,view,predictions,reflections,screen:steelMode?'steel':coaching?'coach':intro?'glossary':'lab',steel:steel?.getData(),coach:coach?.getData()})),getResults:()=>steelMode?{module:'steel-'+steel.state.lesson,metrics:[],assumptions:'Nominal horizontal span study using assigned PDF tables; not a complete roof design.',study:window.SteelRoof.calc(steel.state)}:JSON.parse(JSON.stringify({module:active,metrics:current.stats,assumptions:t(active==='floor'&&(states.floor.bayMode==='auto'||states.floor.layout?.enabled)?current.explanation:module().equations)})),version:'1.10.2-structure-coach'};
+window.StructureLab={getState:()=>JSON.parse(JSON.stringify({active,states,view,predictions,reflections,screen:steelMode?'steel':coaching?'coach':intro?'glossary':'lab',steel:steel?.getData(),coach:coach?.getData()})),getResults:()=>steelMode?{module:'steel-'+steel.state.lesson,metrics:[],assumptions:'Nominal horizontal span study using assigned PDF tables; not a complete roof design.',study:window.SteelRoof.calc(steel.state)}:JSON.parse(JSON.stringify({module:active,metrics:current.stats,assumptions:t(active==='floor'&&(states.floor.bayMode==='auto'||states.floor.layout?.enabled)?current.explanation:module().equations)})),version:'1.10.3-structure-coach'};
 
 function captureCoachContext(){
  const m=module(),p=states[active],rows=m.controls.filter(controlVisible).slice(0,25).map(c=>({label:c.label,value:c.type==='select'?String(c.options.find(o=>String(o[0])===String(p[c.key]))?.[1]??p[c.key]):String(p[c.key]??''),unit:c.unit||''}));

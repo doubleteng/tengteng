@@ -9,3 +9,11 @@ built_design_projects:
   - /design/tang-courtyard-promenade/
   - /design/w-newton-st-rowhouse/
   - /design/yintai-centre-mixed-use/
+
+# Fixed opening sequence in Explore mode. Each URL points to one project record.
+core_projects:
+  - /research/multi-material-3d-printing-for-tension-compression-structure/
+  - /research/multi-material-deployable-structures/
+  - /research/snmm-additive-manufacturing-system/
+  - /research/tri-arc-pavilion/
+

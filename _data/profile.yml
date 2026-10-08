@@ -30,28 +30,56 @@ interests:
 - Cello
 - Cooking
 appointments:
-- Lawrence Technological University — Tenure-Track Assistant Professor of Architecture · December 2025–present
-- University of Pennsylvania, Polyhedral Structures Lab — PhD Research/Teaching Fellow 2021–2026 · multiscale & multimaterial
-  AM; concrete 3DP & carbon capture
-- Cornell University, Jenny Sabin Lab — Senior Research Associate 2018–2021 · robotic clay printing; programmable surfaces;
-  personal fab robot
-- Shanghai Institute of Visual Art, Computational Design Group — Lecturer 2015–2017 · computational design; interior
-  design studio; undergraduate thesis (architecture, product)
-- Tongji University — Adjunct Instructor 2023 · Advanced Manufacturing (seminar)
-- Shanghai University — Adjunct Instructor 2022 · Computational Design & Fabrication (seminar)
-- Cornell University — Teaching Assistant 2018–2019 · Matter Design Computation (4605/6605)
-- University of Washington — Teaching Assistant 2013–2014 · 3D Modeling & Rendering; CG Programming
+- name: Lawrence Technological University
+  role: Tenure-Track Assistant Professor
+  url: /work/ltu/
+- name: University of Pennsylvania · Polyhedral Structures Lab
+  role: Research & Teaching Fellow
+  url: /work/penn/
+- name: Cornell University · Jenny Sabin Lab
+  role: Senior Research Associate
+  url: /work/cornell/
+- name: Shanghai Institute of Visual Art
+  role: Lecturer
+  url: /work/siva/
+- name: Tongji University
+  role: Adjunct Instructor
+  url: /work/tongji/
+- name: Shanghai University
+  role: Adjunct Instructor
+  url: /work/shanghai-university/
+- name: Cornell University
+  role: Teaching Assistant
+  url: /work/cornell/
+- name: University of Washington
+  role: Teaching Assistant
+  url: /work/washington/
 experience:
-- Ju Square Development LLC — Founder and Managing Director 2017–2021 · Townhouse development, design oversight, and
-  construction management
-- Adaptive Design LLC — Chief Designer & Partner 2017–2018 · Retail architecture & interiors
-- CallisonRTKL — Project Architect & Design Technologist 2013–2017 · Computational lead; mixed-use
-- Callison (Shanghai) — Design Technologist 2010–2012 · Large-scale commercial project tech support
+- name: Ju Square Development LLC
+  role: Founder & Managing Director
+  url: /work/ju-square/
+- name: Adaptive Design LLC
+  role: Chief Designer & Partner
+  url: /work/adaptive-design/
+- name: CallisonRTKL
+  role: Project Architect & Design Technologist
+  url: /work/callisonrtkl/
+- name: Callison (Shanghai)
+  role: Design Technologist
+  url: /work/callison-shanghai/
 education:
-- University of Pennsylvania — Ph.D. in Architecture
-- Cornell University — M.S. in Matter Design Computation
-- University of Washington — M.S. in Architecture
-- Shanghai University — B.Arch
+- name: University of Pennsylvania
+  role: Ph.D. in Architecture
+  url: /work/penn/
+- name: Cornell University
+  role: M.S. in Matter Design Computation
+  url: /work/cornell/
+- name: University of Washington
+  role: M.S. in Architecture
+  url: /work/washington/
+- name: Shanghai University
+  role: B.Arch
+  url: /work/shanghai-university/
 social:
 - label: Google Scholar
   url: https://scholar.google.com/citations?user=oaYwxwYAAAAJ&hl=en
@@ -62,6 +90,15 @@ social:
 - label: ResearchGate
   url: https://www.researchgate.net/profile/Teng-Teng-8
 service:
-- ACADIA — Board of Directors, 2026–2028
-- ACADIA 2026 — Technical Co-Chair
-- Peer review — ACADIA, CAADRIA, CAAD Futures, and CHI
+- name: ACADIA
+  role: Board of Directors · Technical Co-Chair · Peer Reviewer
+  url: /work/acadia/
+- name: CAADRIA
+  role: Peer Reviewer
+  url: /work/caadria/
+- name: CAAD Futures
+  role: Peer Reviewer
+  url: /work/caad-futures/
+- name: CHI
+  role: Peer Reviewer
+  url: /work/chi/

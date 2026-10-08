@@ -90,8 +90,14 @@ primary_link:
   title: Explore the interactive map
   url: https://afterchinatown.org/
 evidence_label: Evidence and limits
+role_summary: Co-led computational and spatial methods and developed the platform; Zhen Cheng leads the archival
+  and humanistic investigation.
+evidence_summary: The working map links historical records to places and dates. Conflicting sources and reconstructed
+  dimensions remain explicitly qualified.
+related_projects: []
+related_connections: []
 ---
-
 After Chinatown investigates what happens when a community outlasts the spatial enclave through which its history is usually told. Detroit provides a case for examining how displacement, relocation, and metropolitan dispersal alter the proximity of businesses, institutions, and everyday places. A building’s demolition establishes the loss of a site; it does not, by itself, establish the disappearance of the community relationships connected to it.
 
 Developed with Zhen Cheng, the project combines archival research with computational urban and spatial modeling. Historical sources are registered to locations and time periods so that records can be examined alongside changing buildings and infrastructure. The map connects a documented event or use to its urban setting and allows that relationship to be revisited when new evidence changes an address, date, or interpretation.
+

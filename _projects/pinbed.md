@@ -26,6 +26,7 @@ team:
 acknowledgements: ''
 sections:
 - type: gallery
+  anchor: printing-tests
   heading: Prototype and printing tests
   images:
   - /assets/media/pinbed/prototype-printing-setup.jpg
@@ -44,6 +45,7 @@ sections:
   caption: Assembly — the 6 × 6 actuator array mounted in its wooden frame, before the flexible printing surface
     is installed.
 - type: text
+  anchor: actuation
   heading: Structure and actuation
   body: |-
     The prototype has an approximately **30 × 30-inch working area** and **6 inches of vertical travel**. Its 36 linear actuators form a 6 × 6 grid. Flexible metal strips span the actuator heads and support a cast silicone-rubber printing surface, translating the individual pin heights into a continuous bed.
@@ -61,6 +63,7 @@ sections:
   - 0.743527
   - 0.727273
 - type: text
+  anchor: control
   heading: Electronics and Grasshopper control
   body: |-
     I designed and fabricated three PCB-based control modules, each serving 12 linear actuators. H-bridge drivers control the DC motors, while Hall-effect feedback records their rotation. The modular arrangement was intended to allow additional actuator groups to be connected for a higher-resolution bed.
@@ -95,6 +98,7 @@ sections:
   - 1.324503
   - 2.662037
 - type: text
+  anchor: scope
   heading: Research scope
   body: The work produced an assembled and programmed printbed, custom control electronics, a Grasshopper interface,
     and initial printing tests. It explored a reusable support surface for curved deposition as part of my
@@ -127,8 +131,31 @@ contributions:
 - Wiring, actuator programming, and Hall-effect rotation feedback
 - Grasshopper interface linking target surface geometry to actuator heights and robot toolpaths
 - Prototype integration and initial robotic printing tests
+research_question: How can a reconfigurable printbed support robotic deposition on nonplanar surfaces?
+role_summary: Led mechanical design, electronics, actuator control, Grasshopper integration, assembly, and initial
+  printing tests.
+evidence_summary: A working 36-actuator bed, custom control boards, and initial robot-printing tests demonstrate
+  reconfiguration; structural performance of prints is not established.
+related_projects:
+- /research/robosense/
+- /research/minimum-device-maximum-space/
+related_connections:
+- url: /research/robosense/
+  reason: Hardware and control for nonplanar robotic deposition
+- url: /research/minimum-device-maximum-space/
+  reason: Using a receiving surface to extend robotic deposition
+reading_path:
+- title: Printing tests
+  target: printing-tests
+- title: Actuation
+  target: actuation
+- title: Control
+  target: control
+- title: Scope
+  target: scope
+evidence_target: printing-tests
 ---
-
 Pinbed is a reconfigurable printing bed for robotic additive manufacturing. Inspired by multi-point forming, it uses an array of independently driven pins to generate different nonplanar support surfaces from a digital model.
 
 Developed in 2020 as part of my master’s research at Cornell University’s Jenny Sabin Lab, the project connects **mechanical design, custom electronics, and Grasshopper control** in one fabrication system. I led the prototype development, including its construction, wiring, programming, and initial printing tests.
+

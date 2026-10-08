@@ -103,8 +103,17 @@ source_links:
   url: https://drive.google.com/drive/folders/1KXwKI2UxB2KuHgD3EPXp1ixhUIoBMs2U
 related_projects:
 - /teaching/building-robots-for-robotic-fabrication/
-- /teaching/digital-fabrication/
+- /research/pica/
+role_summary: Organized and taught the workshop with Kangyi Zheng; participants authored the portraits and robotic
+  painting experiments.
+evidence_summary: Student paintings, process images, and fabrication video show the AI–robot–hand feedback loop.
+related_connections:
+- url: /teaching/building-robots-for-robotic-fabrication/
+  reason: Learning robotic control through physical experimentation
+- url: /research/pica/
+  reason: Human intervention within a robotic fabrication loop
+evidence_target: project-evidence
 ---
-
 I organized and led this one-week workshop at Tongji University in August 2023. Participants used AI image generation and robotic painting to investigate how a portrait encodes assumptions about gender, identity, and social roles. They moved repeatedly between digital images and painted surfaces, modifying machine-generated representations by hand before using them as inputs to further generation.
+
 

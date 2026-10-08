@@ -22,36 +22,33 @@ credits:
 team: []
 acknowledgements: ''
 sections:
-- type: video
-  heading: Active mixing in operation
-  file: /assets/videos/snmf-active-mixing.mp4
-  caption: A short demonstration of the printing system.
 - type: text
-  heading: Active mixing in a four-filament printhead
+  anchor: interface-test
+  heading: Locating the intended interface
   body: |-
-    Four independently driven filament feeds enter a shared, heated aluminum-alloy nozzle. A motor-driven, 2 mm tungsten-steel auger mixes the molten materials in the output chamber. Changing the relative feed rates changes composition; coordinating the total feed and auger rotation sustains extrusion along the toolpath.
+    The calibration test prints a 200 × 50 mm zig-zag pattern with a 2 mm extrusion width and a 0.8 mm layer height. Without an advance, the observed interface falls beyond the intended boundary. A 30 mm advance overcompensates; an 18 mm advance aligns the visual breakpoint for this tested setup.
 
-    The modular assembly combines filament feeders, heat breaks, a cooling tower, and a heated mixing chamber on a CR-10 three-axis gantry. The chamber has a 2 mm diameter and a 5 mm length. This finite volume matters: material remains inside the head while the input ratios change, so the output records a history of earlier commands.
-- type: gallery
-  heading: Active-mixing extrusion system
-  images:
-  - /assets/media/snmm-additive-manufacturing-system/detail-materials-design-5.webp
-  - /assets/media/snmm-additive-manufacturing-system/detail-materials-design-6.webp
-  caption: Extrusion-head components and the integrated printing platform.
-  columns: one
-- type: text
-  heading: Programming material profiles
-  body: |-
-    A material profile stores the fraction of each input filament in a mixture. Two filaments can therefore supply more than two printable compositions: black and white PLA, for example, produce four grayscale profiles with ratios of 1:0, 0.7:0.3, 0.3:0.7, and 0:1.
-
-    Custom software associates these profiles with segments of a curve and translates the result into G-code. The modified Marlin firmware uses M163 to assign feeder weights, M164 to store a mixture, and tool-selection commands to recall it during motion. The selected tool index identifies a material recipe within the same printhead. Coordinated feeder speeds then deliver that recipe while the auger maintains extrusion.
+    The 18 mm value is an empirical calibration for these materials and printing conditions. Treating the delay and transition as fixed path lengths assumes a fixed extrusion cross-section and flow condition, with materials of similar viscosity.
 - type: image
-  image: /assets/media/snmm-additive-manufacturing-system/paper-fig-02-material-programming.webp
-  alt: Flowchart for storing filament ratios as material profiles and recalling them along a print toolpath
-  caption: Material recipes are defined before printing and recalled for successive path segments. The flowchart
-    connects profile setup to motion and extrusion. Figure 2, Teng, Zhi & Akbarzadeh, Materials & Design 249 (2025),
-    113479.
+  image: /assets/media/snmm-additive-manufacturing-system/paper-fig-04-transition-calibration.webp
+  alt: Three-column comparison of toolpaths, printed transitions, and predictions with zero, 30 mm, and 18 mm advance
+  caption: 'Left to right: no advance, a 30 mm advance, and the calibrated 18 mm advance. Each column compares the
+    command locations, deposited result, and modeled transition. Figure 4, Teng, Zhi & Akbarzadeh, Materials & Design
+    249 (2025), 113479.'
 - type: text
+  anchor: truss-test
+  heading: 'Discrete patches: assigning material by structural demand'
+  body: |-
+    A pair of 250 × 65 × 16 mm Pratt trusses tests material assignment under three-point bending. The multimaterial specimen places carbon-fiber-reinforced PLA in tensile members and white PLA in compressive members. The control uses white PLA throughout. Both are printed at 30 mm/s with a 0.8 mm layer height and a 2 mm extrusion width, then tested over a 220 mm span.
+
+    The multimaterial specimen reaches 1.16 kN, compared with 0.83 kN for the control, while weighing 166 g rather than 179 g. The paper reports approximately 67% greater toughness from numerical integration of the bending response. These results describe the tested pair of specimens; buckling of a compression member governs the observed deformation.
+- type: image
+  image: /assets/media/snmm-additive-manufacturing-system/paper-fig-10-truss-bending-test.webp
+  alt: Multimaterial and all-PLA Pratt trusses with their three-point-bending load-displacement curves
+  caption: The tested multimaterial truss reaches 1.16 kN versus 0.83 kN for the white-PLA control. The corresponding
+    specimen masses are 166 g and 179 g. Figure 10, Teng, Zhi & Akbarzadeh, Materials & Design 249 (2025), 113479.
+- type: text
+  anchor: transition-model
   heading: Calibrating the translation into matter
   body: |-
     Material already inside a nozzle continues to influence the output after a feed ratio changes. A numerical model describes this transition, while experiments relate feed commands to deposited composition. Accounting for this behavior is necessary to locate an interface within the printed geometry.
@@ -66,18 +63,6 @@ sections:
     breakpoint lies at the midpoint of that ramp. Figure 5, Teng, Zhi & Akbarzadeh, Materials & Design 249 (2025),
     113479.
 - type: text
-  heading: Locating the intended interface
-  body: |-
-    The calibration test prints a 200 × 50 mm zig-zag pattern with a 2 mm extrusion width and a 0.8 mm layer height. Without an advance, the observed interface falls beyond the intended boundary. A 30 mm advance overcompensates; an 18 mm advance aligns the visual breakpoint for this tested setup.
-
-    The 18 mm value is an empirical calibration for these materials and printing conditions. Treating the delay and transition as fixed path lengths assumes a fixed extrusion cross-section and flow condition, with materials of similar viscosity.
-- type: image
-  image: /assets/media/snmm-additive-manufacturing-system/paper-fig-04-transition-calibration.webp
-  alt: Three-column comparison of toolpaths, printed transitions, and predictions with zero, 30 mm, and 18 mm advance
-  caption: 'Left to right: no advance, a 30 mm advance, and the calibrated 18 mm advance. Each column compares the
-    command locations, deposited result, and modeled transition. Figure 4, Teng, Zhi & Akbarzadeh, Materials & Design
-    249 (2025), 113479.'
-- type: text
   heading: Comparing designed and deposited gradients
   body: |-
     A 200 × 100 mm sample tests ten programmed mixtures of red and green PLA. The study compares the toolpath visualization with the printed sample by extracting average red and green intensity profiles along the images.
@@ -89,6 +74,35 @@ sections:
   caption: Ten mixture profiles are compared through the design visualization, the 200 × 100 mm print, and measured
     image-color intensities. Initial deviations remain visible in the curves. Figure 7, Teng, Zhi & Akbarzadeh,
     Materials & Design 249 (2025), 113479.
+- type: text
+  heading: Active mixing in a four-filament printhead
+  body: |-
+    Four independently driven filament feeds enter a shared, heated aluminum-alloy nozzle. A motor-driven, 2 mm tungsten-steel auger mixes the molten materials in the output chamber. Changing the relative feed rates changes composition; coordinating the total feed and auger rotation sustains extrusion along the toolpath.
+
+    The modular assembly combines filament feeders, heat breaks, a cooling tower, and a heated mixing chamber on a CR-10 three-axis gantry. The chamber has a 2 mm diameter and a 5 mm length. This finite volume matters: material remains inside the head while the input ratios change, so the output records a history of earlier commands.
+- type: gallery
+  heading: Active-mixing extrusion system
+  images:
+  - /assets/media/snmm-additive-manufacturing-system/detail-materials-design-5.webp
+  - /assets/media/snmm-additive-manufacturing-system/detail-materials-design-6.webp
+  caption: Extrusion-head components and the integrated printing platform.
+  columns: one
+- type: video
+  heading: Active mixing in operation
+  file: /assets/videos/snmf-active-mixing.mp4
+  caption: A short demonstration of the printing system.
+- type: text
+  heading: Programming material profiles
+  body: |-
+    A material profile stores the fraction of each input filament in a mixture. Two filaments can therefore supply more than two printable compositions: black and white PLA, for example, produce four grayscale profiles with ratios of 1:0, 0.7:0.3, 0.3:0.7, and 0:1.
+
+    Custom software associates these profiles with segments of a curve and translates the result into G-code. The modified Marlin firmware uses M163 to assign feeder weights, M164 to store a mixture, and tool-selection commands to recall it during motion. The selected tool index identifies a material recipe within the same printhead. Coordinated feeder speeds then deliver that recipe while the auger maintains extrusion.
+- type: image
+  image: /assets/media/snmm-additive-manufacturing-system/paper-fig-02-material-programming.webp
+  alt: Flowchart for storing filament ratios as material profiles and recalling them along a print toolpath
+  caption: Material recipes are defined before printing and recalled for successive path segments. The flowchart
+    connects profile setup to motion and extrusion. Figure 2, Teng, Zhi & Akbarzadeh, Materials & Design 249 (2025),
+    113479.
 - type: text
   heading: Auger speed changes the material transition
   body: |-
@@ -118,17 +132,6 @@ sections:
   alt: Image sampling workflow from the Mona Lisa bitmap to four grayscale mixtures and a continuous printed pattern
   caption: Image sampling maps a four-level grayscale bitmap to black-and-white PLA mixtures along a continuous
     toolpath.
-- type: text
-  heading: 'Discrete patches: assigning material by structural demand'
-  body: |-
-    A pair of 250 × 65 × 16 mm Pratt trusses tests material assignment under three-point bending. The multimaterial specimen places carbon-fiber-reinforced PLA in tensile members and white PLA in compressive members. The control uses white PLA throughout. Both are printed at 30 mm/s with a 0.8 mm layer height and a 2 mm extrusion width, then tested over a 220 mm span.
-
-    The multimaterial specimen reaches 1.16 kN, compared with 0.83 kN for the control, while weighing 166 g rather than 179 g. The paper reports approximately 67% greater toughness from numerical integration of the bending response. These results describe the tested pair of specimens; buckling of a compression member governs the observed deformation.
-- type: image
-  image: /assets/media/snmm-additive-manufacturing-system/paper-fig-10-truss-bending-test.webp
-  alt: Multimaterial and all-PLA Pratt trusses with their three-point-bending load-displacement curves
-  caption: The tested multimaterial truss reaches 1.16 kN versus 0.83 kN for the white-PLA control. The corresponding
-    specimen masses are 166 g and 179 g. Figure 10, Teng, Zhi & Akbarzadeh, Materials & Design 249 (2025), 113479.
 - type: text
   heading: Connecting stress regions into a continuous path
   body: |-
@@ -177,6 +180,7 @@ sections:
   caption: ''
   columns: two
 - type: text
+  anchor: scope
   heading: Material fidelity and the scope of the system
   body: |-
     The hardware, transition model, and three assignment strategies give designers control over both the intended mixture and the position of its transition. Finite mixing lengths set a limit on how quickly composition can change, and viscosity differences affect the predictability of a material pair. Auger speed must be calibrated together with flow, cross-section, and the desired interface behavior.
@@ -223,14 +227,36 @@ evidence: The published study combines a numerical description of mixing, experi
   and six design case studies. These establish the workflow under the tested material and printing conditions; the
   performance of an architectural assembly requires further component-specific testing.
 related_projects:
+- /research/continuous-multi-material-extrusion/
 - /research/multi-material-3d-printing-for-tension-compression-structure/
 - /research/integrated-and-tailored-thermal-insulation/
 card_title: Single-Nozzle Material Computation
 primary_link:
   title: Read the paper · Materials & Design
   url: https://doi.org/10.1016/j.matdes.2024.113479
+role_summary: Led the study, integrating the active-mixing printhead, material-assignment workflow, and experimental
+  investigation.
+evidence_summary: An 18 mm command advance aligns the tested interface; a printed truss reaches 1.16 kN versus 0.83
+  kN for its control. Both results are setup-specific.
+related_connections:
+- url: /research/continuous-multi-material-extrusion/
+  reason: Compensating for mixing delay along continuous toolpaths
+- url: /research/multi-material-3d-printing-for-tension-compression-structure/
+  reason: Assigning material to tensile and compressive regions
+- url: /research/integrated-and-tailored-thermal-insulation/
+  reason: Translating spatial material maps into graded prints
+reading_path:
+- title: Interface test
+  target: interface-test
+- title: Truss comparison
+  target: truss-test
+- title: Transition model
+  target: transition-model
+- title: Scope
+  target: scope
+evidence_target: interface-test
+evidence_first: 4
 ---
-
 ## Material distribution as a design input
 
 A component can demand different material behavior at adjacent locations: a stronger tensile member, a lighter infill, or a gradual transition between regions. This project treats that spatial distribution as an input to fabrication. Its central measure is **material fidelity**—how closely the composition and location of deposited material follow the design.
@@ -242,3 +268,4 @@ The research joins three parts of the problem: a four-filament printhead with ac
 The computational workflow supports three representations of material intent. Image sampling maps pixel values to composition. Discrete patches assign material to regions in a plane. Surface division organizes composition over three-dimensional geometry. Each representation becomes a sequence of fabrication instructions.
 
 Developed at the University of Pennsylvania’s Polyhedral Structures Laboratory, the study was published by Teng Teng, Yefan Zhi, and Masoud Akbarzadeh in *Materials & Design* 249 (2025), article 113479. The experiments below trace the workflow from material recipes and calibrated transitions to image patterns, structural regions, and three-dimensional surfaces.
+

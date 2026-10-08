@@ -29,6 +29,7 @@ team: []
 acknowledgements: ''
 sections:
 - type: text
+  anchor: robot-assembly
   heading: From components to a working robot
   body: '1. **Assemble.** Build the base, arm, wrist, and end-effector mount from individual parts; install the
     servos and connect the control board. Assembly makes joint axes, link lengths, movement limits, and mechanical
@@ -56,6 +57,7 @@ sections:
   caption: Student documentation traces the control chain from a geometric model and joint angles to serial commands,
     a servo controller, and physical motion. The shoulder uses two coordinated servos.
 - type: video
+  anchor: control
   heading: Grasshopper motion control
   file: /assets/videos/building-robots/grasshopper-motion-control.mp4
   poster: /assets/media/building-robots-for-robotic-fabrication/grasshopper-motion-control-poster.webp
@@ -66,6 +68,7 @@ sections:
   poster: /assets/media/building-robots-for-robotic-fabrication/robot-control-demonstration-poster.webp
   caption: A second demonstration records the operator, controller, and robot together during motion tests.
 - type: text
+  anchor: student-work
   heading: 'Robotic winding: Traditional Yurt'
   body: '**Fall 2024 · Individual student project.** *Robotic Rhythms of the Traditional Yurt* applies the assembled
     arm to winding twine around wooden frames. The student developed the kinematic model, planned winding points
@@ -202,8 +205,26 @@ source_links: []
 related_projects:
 - /research/pica/
 - /teaching/ai-empowered-creative-robotics-workshop/
+research_question: How can building a robot teach the mechanics, computation, and control behind fabrication?
+role_summary: Independently designed and taught six course offerings, from mechanical assembly and kinematics to
+  student application development.
+evidence_summary: Assembly and control videos, plus student winding, printing, cutting, and vision-guided assembly
+  projects.
+related_connections:
+- url: /research/pica/
+  reason: Building and programming adaptable six-axis robots
+- url: /teaching/ai-empowered-creative-robotics-workshop/
+  reason: Learning robotic control through physical experimentation
+reading_path:
+- title: Build a robot
+  target: robot-assembly
+- title: Control
+  target: control
+- title: Student work
+  target: student-work
+evidence_target: robot-assembly
 ---
-
 **I designed this course around learning robotics by building a robot from individual components.** Students assemble a desktop six-axis robotic arm by hand and use that process to understand its mechanics, calculate inverse kinematics, and develop motor-control algorithms. They then use the arm they built to create a fabrication or interaction application.
 
 I independently developed and taught six offerings between 2021 and 2024. Online lectures and remote studio sessions connect mechanical assembly, Grasshopper modeling, electronics, programming, and project development. Students enter with Rhino and Grasshopper experience; the course introduces the programming needed to control their robot.
+

@@ -46,82 +46,10 @@ related_publications:
 related_projects:
 - /research/snmm-additive-manufacturing-system/
 - /research/automated-concrete-toolpaths/
-- /research/stresspath/
-- /research/integrated-and-tailored-thermal-insulation/
+- /research/programmable-footwear/
 sections:
 - type: text
-  heading: Composition and continuity in one workflow
-  body: 'Changing a nozzle’s input mixture does not immediately change the material leaving its tip. Material
-    retained in the mixing chamber delays and blends each transition, while disconnected print regions introduce
-    travel moves and additional material changes. The workflow coordinates mixture assignment, transition compensation,
-    and the order of extrusion paths so these effects can be planned together.
-
-
-    Implemented in [**Ovenbird for Rhino and Grasshopper**](https://www.food4rhino.com/en/app/ovenbird), it converts three-dimensional models or posterized
-    images into material-coded toolpaths, predicts the resulting gradients, and exports machine instructions.'
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/continuous-multi-material-extrusion/computation-workflow.webp
-  columns: one
-  caption: The 3D workflow assigns mixtures to a sliced model; the 2D workflow connects paths within image regions.
-    Both pass through transition adjustment and visual inspection before G-code export.
-- type: text
-  heading: Modeling the material transition
-  body: 'Each mixture is stored as a vector of input-material fractions; the collection forms a reusable palette.
-    The nozzle response is modeled as a **moving average with a lag**, with delay and transition lengths calibrated
-    from extrusion tests. Advancing the commanded mixture change aligns the midpoint of the predicted transition
-    with its intended position.
-
-
-    Changes spaced more closely than the transition length blend together before the nozzle reaches the requested
-    mixture. Longer gradients can be constructed from intermediate palette entries.'
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/continuous-multi-material-extrusion/transition-model.webp
-  columns: one
-  caption: 'Predicted input and output compositions: delay compensation, consecutive mixture changes, extended
-    gradients, and color blending across a palette.'
-- type: text
-  heading: Assigning mixtures to geometry
-  body: The toolpath stores each segment by **layer, curve, and segment**, with an associated mixture index. Explicit
-    boundary objects split paths into material regions; sampled fields assign mixtures from values such as local
-    overhang or structural response. Continuous values are mapped to the nearest palette entry, and neighboring
-    segments with the same assignment are merged.
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/continuous-multi-material-extrusion/material-data-structure.webp
-  - /assets/media/continuous-multi-material-extrusion/ovenbird-interface.webp
-  columns: two
-  image_ratios:
-  - 1.063395
-  - 1.805556
-  caption: Layer–curve–segment indexing and alternative material-assignment methods (left); Ovenbird components
-    and a Grasshopper workflow (right).
-- type: text
-  heading: Keeping material changes out of the printed body
-  body: 'For a closed curve, the planner places entry and exit within the same material region. It then uses a
-    greedy sequence to print as many compatible curves and layers as possible before changing that transit material.
-    The algorithm reduces wiping stops without claiming a globally optimal sequence.
-
-
-    Separate wipe units collect transitions when a change is required. Clearance between the print and wipe zones
-    lets the extruder reach the bed without colliding with the growing object, so wipe units do not need to rise
-    to the current print height.'
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/continuous-multi-material-extrusion/mixing-systems.webp
-  - /assets/media/continuous-multi-material-extrusion/wiping-layout.webp
-  columns: two
-  image_ratios:
-  - 1.934524
-  - 1.435671
-  caption: Actively mixed filament and paste extrusion concepts (left); separate print and wipe zones with extruder-clearance
-    allowances (right). The experiments presented here use thermoplastic filaments.
-- type: text
+  anchor: printing-results
   heading: Three-dimensional printing results
   body: 'A **90-layer planning example** on a **300 × 300 mm bed** uses **8 wipe units**. Compared with a tower
     requiring at least one unit per layer, the paper reports **91% less wiping material**, **11% less total material**,
@@ -160,6 +88,81 @@ sections:
   caption: 'Physical 200 × 200 mm prints: soft-edge parallel filling (left) and hard-edge alpha-complex filling
     (right).'
 - type: text
+  heading: Composition and continuity in one workflow
+  body: 'Changing a nozzle’s input mixture does not immediately change the material leaving its tip. Material
+    retained in the mixing chamber delays and blends each transition, while disconnected print regions introduce
+    travel moves and additional material changes. The workflow coordinates mixture assignment, transition compensation,
+    and the order of extrusion paths so these effects can be planned together.
+
+
+    Implemented in [**Ovenbird for Rhino and Grasshopper**](https://www.food4rhino.com/en/app/ovenbird), it converts three-dimensional models or posterized
+    images into material-coded toolpaths, predicts the resulting gradients, and exports machine instructions.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/continuous-multi-material-extrusion/computation-workflow.webp
+  columns: one
+  caption: The 3D workflow assigns mixtures to a sliced model; the 2D workflow connects paths within image regions.
+    Both pass through transition adjustment and visual inspection before G-code export.
+- type: text
+  anchor: transition-model
+  heading: Modeling the material transition
+  body: 'Each mixture is stored as a vector of input-material fractions; the collection forms a reusable palette.
+    The nozzle response is modeled as a **moving average with a lag**, with delay and transition lengths calibrated
+    from extrusion tests. Advancing the commanded mixture change aligns the midpoint of the predicted transition
+    with its intended position.
+
+
+    Changes spaced more closely than the transition length blend together before the nozzle reaches the requested
+    mixture. Longer gradients can be constructed from intermediate palette entries.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/continuous-multi-material-extrusion/transition-model.webp
+  columns: one
+  caption: 'Predicted input and output compositions: delay compensation, consecutive mixture changes, extended
+    gradients, and color blending across a palette.'
+- type: text
+  heading: Assigning mixtures to geometry
+  body: The toolpath stores each segment by **layer, curve, and segment**, with an associated mixture index. Explicit
+    boundary objects split paths into material regions; sampled fields assign mixtures from values such as local
+    overhang or structural response. Continuous values are mapped to the nearest palette entry, and neighboring
+    segments with the same assignment are merged.
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/continuous-multi-material-extrusion/material-data-structure.webp
+  - /assets/media/continuous-multi-material-extrusion/ovenbird-interface.webp
+  columns: two
+  image_ratios:
+  - 1.063395
+  - 1.805556
+  caption: Layer–curve–segment indexing and alternative material-assignment methods (left); Ovenbird components
+    and a Grasshopper workflow (right).
+- type: text
+  anchor: wiping
+  heading: Keeping material changes out of the printed body
+  body: 'For a closed curve, the planner places entry and exit within the same material region. It then uses a
+    greedy sequence to print as many compatible curves and layers as possible before changing that transit material.
+    The algorithm reduces wiping stops without claiming a globally optimal sequence.
+
+
+    Separate wipe units collect transitions when a change is required. Clearance between the print and wipe zones
+    lets the extruder reach the bed without colliding with the growing object, so wipe units do not need to rise
+    to the current print height.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/continuous-multi-material-extrusion/mixing-systems.webp
+  - /assets/media/continuous-multi-material-extrusion/wiping-layout.webp
+  columns: two
+  image_ratios:
+  - 1.934524
+  - 1.435671
+  caption: Actively mixed filament and paste extrusion concepts (left); separate print and wipe zones with extruder-clearance
+    allowances (right). The experiments presented here use thermoplastic filaments.
+- type: text
+  anchor: scope
   heading: Experimental scope
   body: The printed demonstrations use thermoplastic filaments, mainly PLA. Extension to paste extrusion and architectural-scale
     production requires further testing of material compatibility, deposition accuracy, and transition behavior.
@@ -177,4 +180,26 @@ editor_notes: 'Sources: the user-provided Google Drive folder 1a_i1een68PyVhkA3-
   saving concerns travel time, not total print time. Experimental demonstrations use thermoplastics; paste and
   construction-scale extensions are not represented as validated outcomes. No separate formal Publications entry
   until final metadata is confirmed.'
+research_question: How can a mixing nozzle preserve both material boundaries and continuous deposition?
+role_summary: Major contributor and second author of the collaborative extrusion and toolpath-planning study.
+evidence_summary: A 90-layer planning example reports 91% less wiping material; a separate 45-layer print tests
+  graded composition. These are different demonstrations.
+related_connections:
+- url: /research/snmm-additive-manufacturing-system/
+  reason: Compensating for mixing delay along continuous toolpaths
+- url: /research/automated-concrete-toolpaths/
+  reason: Graph-based continuity and deposition planning
+- url: /research/programmable-footwear/
+  reason: Material boundaries and gradients along a continuous path
+reading_path:
+- title: Printing results
+  target: printing-results
+- title: Transition model
+  target: transition-model
+- title: Wiping strategy
+  target: wiping
+- title: Scope
+  target: scope
+evidence_target: printing-results
+evidence_first: 4
 ---

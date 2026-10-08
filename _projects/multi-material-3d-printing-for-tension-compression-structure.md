@@ -22,13 +22,7 @@ team: []
 acknowledgements: ''
 sections:
 - type: gallery
-  heading: Printed trusses
-  images:
-  - /assets/media/multi-material-3d-printing-for-tension-compression-structure/detail-1.webp
-  - /assets/media/multi-material-3d-printing-for-tension-compression-structure/detail-3.webp
-  caption: Material distribution and structural analysis of the truss prototype.
-  columns: two
-- type: gallery
+  anchor: load-testing
   heading: Toolpath and load testing
   images:
   - /assets/media/multi-material-3d-printing-for-tension-compression-structure/detail-4.webp
@@ -37,6 +31,15 @@ sections:
   caption: Material assignment, comparative load tests, and measured specimen response.
   columns: one
 - type: gallery
+  anchor: printed-trusses
+  heading: Printed trusses
+  images:
+  - /assets/media/multi-material-3d-printing-for-tension-compression-structure/detail-1.webp
+  - /assets/media/multi-material-3d-printing-for-tension-compression-structure/detail-3.webp
+  caption: Material distribution and structural analysis of the truss prototype.
+  columns: two
+- type: gallery
+  anchor: strut-tie
   heading: Strut-and-tie printing study
   images:
   - /assets/media/multi-material-3d-printing-for-tension-compression-structure/detail-strut-and-tie-truss-print.webp
@@ -87,9 +90,26 @@ evidence: Comparative tests show improved performance for the tested multimateri
   specific to the specimen geometry, material combinations, and test setup reported in the study.
 related_projects:
 - /research/snmm-additive-manufacturing-system/
-- /research/integrated-and-tailored-thermal-insulation/
+- /research/stresspath/
+role_summary: Led the continuous multi-filament structural-printing study and developed material-assignment and
+  fabrication methods.
+evidence_summary: Printed Pratt trusses and comparative load tests support specimen-specific performance claims;
+  the related strut-and-tie study is identified separately.
+related_connections:
+- url: /research/snmm-additive-manufacturing-system/
+  reason: Assigning material to tensile and compressive regions
+- url: /research/stresspath/
+  reason: Force-informed toolpaths and material placement
+reading_path:
+- title: Load testing
+  target: load-testing
+- title: Printed trusses
+  target: printed-trusses
+- title: Related specimen
+  target: strut-tie
+evidence_target: load-testing
+evidence_first: 2
 ---
-
 This project develops continuous multi-filament printing for structural components whose material distribution follows tensile and compressive demand. A single nozzle switches between filament feeds while maintaining a connected deposition path.
 
 A toolpath generator assigns materials to specific regions according to their stress conditions. Printed Pratt trusses provide a test case for coordinating structural geometry, material selection, and fabrication sequence.
@@ -105,3 +125,4 @@ A related strut-and-tie specimen was printed by Yefan Zhi and me in 2023. Its un
 StressPath provides a browser-based workspace for exploring structural design, analysis, toolpath generation, and material distribution alongside this research. Save a study as a JSON project file and open it later to continue working.
 
 [Explore StressPath](/research/stresspath/) · [Open the workspace](/research/stresspath/app/)
+

@@ -1,5 +1,5 @@
 {% for block in include.sections %}
-<section class="content-block block-{{ block.type | escape }}">
+<section class="content-block block-{{ block.type | escape }}"{% if block.anchor and block.anchor != '' %} id="{{ block.anchor | escape }}"{% endif %}>
   {% if block.heading and block.heading != '' %}<h2>{{ block.heading | escape }}</h2>{% endif %}
   {% case block.type %}
   {% when 'text' %}<div class="prose">{{ block.body | markdownify }}</div>
@@ -26,3 +26,4 @@
   {% endcase %}
 </section>
 {% endfor %}
+

@@ -172,6 +172,16 @@ hero_gallery:
   alt: 'Construction: the change in floor level establishes the stepped interior landscape.'
   caption: 'Construction: the change in floor level establishes the stepped interior landscape.'
 hero_gallery_fit: contain
+research_question: How can terraces and stepped interiors create a shared social ground within a corporate campus?
+role_summary: Architectural designer for the clubhouse, my first independently designed built project.
+evidence_summary: Completed 2012 photographs and spatial studies show the continuous interior, terraces, and curved
+  glazed edge.
+related_projects:
+- /design/tang-courtyard-promenade/
+related_connections:
+- url: /design/tang-courtyard-promenade/
+  reason: Stepped landscapes linking movement, terraces, and shared space
+evidence_target: project-evidence
 ---
-
 RIBO Central Club is a **300 m² clubhouse at the RIBO Group headquarters in Qingpu District, Shanghai**. Completed in 2012, it was my first built project. Designed for employees and visiting clients, it brings dining, reading, meetings, and informal gathering into a small addition to the existing campus.
+

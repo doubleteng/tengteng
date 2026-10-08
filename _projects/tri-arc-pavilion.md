@@ -43,6 +43,7 @@ sections:
   alt: Schematic elevation of the pavilion in relation to the adjacent building and trees
   caption: Schematic elevation locates the canopy against the existing campus building and landscape.
 - type: text
+  anchor: form-force
   heading: Form and force
   body: 'Polyhedral three-dimensional graphic statics (3DGS) generated three mutually supporting arches arranged
     triangularly in plan. Reciprocal form and force diagrams developed the spatial network through equilibrium;
@@ -115,6 +116,7 @@ sections:
   poster: /assets/media/tri-arc/storm-video-poster.webp
   caption: 'On-site storm footage. Reported maximum storm wind speed: 90 mph.'
 - type: text
+  anchor: joints
   heading: Standard lumber, customized joints
   body: 'Three truss families organize twelve branching frames made from standard dimensional lumber. Geometric
     complexity is concentrated at connections, where customized joints accommodate changing member orientations
@@ -177,6 +179,7 @@ sections:
   alt: Triangular furniture modules coordinate the occupied ground with the canopy above.
   caption: Triangular furniture modules coordinate the occupied ground with the canopy above.
 - type: text
+  anchor: manufacturing
   heading: Design for manufacturing
   body: 'Square-cut timber ends simplified processing, while CNC-generated routing and drilling jigs standardized
     work across fabrication stations. Prototypes exposed tolerance differences among plasma-cut steel, routed timber,
@@ -242,6 +245,7 @@ sections:
   alt: Woven seats and furniture frames assembled from repeatable triangular modules.
   caption: Woven seats and furniture frames assembled from repeatable triangular modules.
 - type: text
+  anchor: assembly
   heading: Six days on site
   body: 'The six-day Build Week brought the remotely coordinated work into full-scale assembly. Lower members were
     secured to the foundations before upper members were raised and connected. Primary and secondary cables were
@@ -324,8 +328,32 @@ opening_sections:
   - /assets/media/tri-arc/built-campus.webp
   - /assets/media/tri-arc/built-aerial.webp
   caption: Ground-level and aerial views of the three connected canopy zones.
+role_summary: Co-led the studio with Lee-Su Huang and Ryan Kahen; guided structural reasoning, member and joint
+  design, fabrication, and assembly.
+evidence_summary: The completed pavilion, assembly film, structural diagrams, prototypes, and construction records
+  document a shared student-built outcome.
+related_projects:
+- /design/floralis-an-etfe-clad-multilaminar-timber-structure/
+- /projects/digital-practice-workshop/
+- /teaching/structural-systems/
+related_connections:
+- url: /design/floralis-an-etfe-clad-multilaminar-timber-structure/
+  reason: Equilibrium-based timber geometry translated into fabricated joints
+- url: /projects/digital-practice-workshop/
+  reason: Coordinating digital models and full-scale student construction
+- url: /teaching/structural-systems/
+  reason: Making equilibrium and load paths legible through physical systems
+reading_path:
+- title: Form & force
+  target: form-force
+- title: Joints
+  target: joints
+- title: Manufacturing
+  target: manufacturing
+- title: Assembly
+  target: assembly
+evidence_target: form-force
 ---
-
 ## Building collaboration
 
 TRI-ARC is a full-scale campus pavilion developed by fifty graduate students and three faculty members during a ten-week summer design-build studio at Lawrence Technological University. Eight weeks of remote collaboration preceded six days of on-site construction. Shared digital models, component families, fabrication protocols, and assembly manuals allowed a distributed cohort to coordinate a single built work.
@@ -343,3 +371,4 @@ University purchasing could begin only five days before Build Week. This constra
 | Cladding | Blue and white textiles on EMT frames; 70 3D-printed joints |
 | Furniture | 15 seating modules; 14 planters; 2 tables |
 | Studio | 50 students; 3 faculty; 6 days of on-site construction |
+

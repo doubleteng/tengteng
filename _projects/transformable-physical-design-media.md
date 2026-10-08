@@ -25,6 +25,7 @@ team:
 acknowledgements: ''
 sections:
 - type: video
+  anchor: demonstration
   heading: CuBe in use
   url: https://www.youtube.com/watch?v=VnZFhSAxrmk
   caption: 'Prototype demonstration: physical manipulation and projected feedback share one working surface.'
@@ -47,6 +48,7 @@ sections:
     Media, eCAADe 2015.
   columns: two
 - type: text
+  anchor: sensing
   heading: Reconstructing a deformable frame
   body: A third prototype uses ten adjustable members, including two diagonals, and four fixed members. Sliding
     potentiometers measure member lengths; a microcontroller supplies the data for trigonometric reconstruction
@@ -57,6 +59,7 @@ sections:
   alt: Two configurations of the instrumented CuBe frame paired with their reconstructed digital geometry
   caption: Measured changes in the physical frame are reconstructed as digital geometry.
 - type: text
+  anchor: feedback
   heading: Feedback during massing studies
   body: Building height, floor count, and area remain associated with the objects as they move. Shadow studies respond
     to model position, sun position, and deformation of the twisting block. A projected wind-vector field updates
@@ -110,6 +113,23 @@ contributions:
 related_projects:
 - /research/inspire/
 - /research/scutoid-brick/
+research_question: How can a physical massing model remain connected to digital geometry and environmental feedback?
+role_summary: Led CuBe’s interface and research-prototype development at the University of Washington.
+evidence_summary: Working prototypes and video demonstrate tracked movement, deformation, and projected shadow and
+  wind-field feedback.
+related_connections:
+- url: /research/inspire/
+  reason: Physical manipulation linked to digital geometry and feedback
+- url: /research/scutoid-brick/
+  reason: Sensing physical deformation to update a digital model
+reading_path:
+- title: Demonstration
+  target: demonstration
+- title: Sensing
+  target: sensing
+- title: Design feedback
+  target: feedback
+evidence_target: demonstration
 ---
-
 CuBe is a tangible toolkit for architectural massing studies. I led its development at the University of Washington’s Design Machine Group. Designers move, rotate, twist, and stretch physical models while the system tracks their position or deformation and updates digital geometry. The prototypes give the hands a physical reference and bring building information and environmental visualizations into the working space. The work was published in *Transformable Physical Design Media* at eCAADe 2015.
+

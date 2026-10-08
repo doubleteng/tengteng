@@ -33,9 +33,9 @@ credits:
 - 'eCAADe 2020 authors: Teng Teng, Mian Jia, Jenny Sabin'
 - 'eCAADe 2021 authors: Teng Teng, Jenny Sabin'
 related_projects:
-- /research/pinbed/
+- /research/multi-material-deployable-structures/
 - /research/robosense/
-- /research/pica/
+- /research/transformable-physical-design-media/
 related_publications:
 - title: Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System
   url: https://doi.org/10.52842/conf.ecaade.2020.1.563
@@ -137,6 +137,7 @@ sections:
   - 3.045023697
   - 2.222222222
 - type: text
+  anchor: shell-test
   heading: Interlocking, fabrication and model testing
   body: 'Each brick family has triangular connections aligned with one of the shell’s two surface directions. Successive
     units form arch-like sequences that intersect and interlock, linking local joint geometry to the organization
@@ -227,6 +228,7 @@ sections:
   caption: Constraint geometry in flat and curved states, followed by two-cell and four-cell physical prototypes.
   equal_height: true
 - type: text
+  anchor: frame-driven
   heading: Experiment 1 · Global curvature changes local cells
   body: A programmed SMP frame surrounds passive silicone cells. When the frame bends under heating, it rotates
     and compresses adjacent cells, changing their shared boundary lengths and generating scutoid-like profiles.
@@ -252,6 +254,7 @@ sections:
   - 7.857142857
   - 4.592901879
 - type: text
+  anchor: cell-driven
   heading: Experiment 2 · Local cells generate global curvature
   body: 'Reversing the material assignment makes the cells active. Individually programmed SMP units sit inside
     a passive silicone frame. Heating changes the units’ shared boundaries and triangular contacts, forcing the
@@ -320,6 +323,7 @@ sections:
   caption: 'Thermal deformation experiments: frame-driven silicone cells (left), cell-driven surface bending (center),
     and an additional cell-array deformation sequence (right).'
 - type: text
+  anchor: tangible-interface
   heading: Tangible interface · From physical shaping to digital geometry
   body: 'A flex sensor attached to the assembly converts bending into a change in electrical resistance. An Arduino
     reads that change and transmits curvature data to Rhino and Grasshopper, where the corresponding digital geometry
@@ -346,6 +350,28 @@ sections:
   caption: The cell assembly and flex sensor at rest (left), manual bending (center), and the resulting digital
     model update (right).
   equal_height: true
+research_question: How can local cell connections generate interlocking shells and programmable surface curvature?
+role_summary: Led the computational and physical prototyping research into cell geometry, interlocking units, and
+  responsive surfaces.
+evidence_summary: A PLA shell loading demonstration and two thermal-deformation experiments support distinct model-scale
+  claims; architectural canopy images are proposals.
+related_connections:
+- url: /research/multi-material-deployable-structures/
+  reason: Material actuation connecting local deformation to global curvature
+- url: /research/robosense/
+  reason: Scutoid geometry as a nonplanar printing experiment
+- url: /research/transformable-physical-design-media/
+  reason: Sensing physical deformation to update a digital model
+reading_path:
+- title: Shell test
+  target: shell-test
+- title: Frame-driven test
+  target: frame-driven
+- title: Cell-driven test
+  target: cell-driven
+- title: Tangible interface
+  target: tangible-interface
+evidence_target: shell-test
 ---
-
 Developed as part of my Master of Science thesis at Cornell University, this research asks how the geometry and behavior of individual cells can organize an architectural surface. It connects three modes of design: computational generation, physical construction and material transformation. Scutoid Brick investigates how cellular contacts become interlocking shell joints; Programmable Surface Geometry tests how local deformation and overall curvature influence each other, then connects physical shaping to digital modeling. The two studies were published at eCAADe in 2020 and 2021. Both papers and the master’s thesis are [linked below](#research-publications-heading).
+

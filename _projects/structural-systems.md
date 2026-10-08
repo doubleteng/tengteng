@@ -37,6 +37,22 @@ evidence: The course is ongoing. The first three weeks establish structural
   Concrete Building projects, then A.R.E. structure content. Structure Lab is
   being developed alongside this sequence and currently supports the fundamental
   concepts and Wood Building project.
+research_question: How can students connect structural concepts to visible behavior and complete building systems?
+role_summary: Co-teach the course with Ralph Nelson and develop Structure Lab alongside the assignments.
+evidence_summary: The working Structure Lab and current Wood Building sequence support an ongoing course; final
+  semester outcomes are not yet available.
+related_projects:
+- /research/tri-arc-pavilion/
+- /teaching/integrated-design-studio-iii/
+- /research/stresspath/
+related_connections:
+- url: /research/tri-arc-pavilion/
+  reason: Making equilibrium and load paths legible through physical systems
+- url: /teaching/integrated-design-studio-iii/
+  reason: Structural bays, member hierarchy, and building-system integration
+- url: /research/stresspath/
+  reason: Interactive experiments with loads, supports, and force flow
+evidence_target: structure-lab-embed-title
 ---
 ## Structural Systems I
 

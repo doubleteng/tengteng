@@ -111,10 +111,27 @@ related_publications: []
 awards: []
 editor_notes: ''
 source_links: []
+research_question: How can a continuous triangulated facade be resolved across different enclosure systems?
+role_summary: Designed and optimized the retail podium facade, developed its systems, and coordinated manufacturers
+  at Callison.
+evidence_summary: Built photographs, facade studies, and detail drawings trace the design from the Dragon Skin geometry
+  to enclosure and edge conditions.
+related_projects:
+- /projects/series-facade-optimization/
+- /design/kaisa-center-mixed-use/
+- /design/yintai-centre-mixed-use/
+related_connections:
+- url: /projects/series-facade-optimization/
+  reason: Coordinating free-form envelope geometry with fabrication
+- url: /design/kaisa-center-mixed-use/
+  reason: Continuous retail podium skins and curtain-wall detailing
+- url: /design/yintai-centre-mixed-use/
+  reason: Facade-system development across materially different enclosures
+evidence_target: project-evidence
 ---
-
 Dragon Light International Shopping Mall is the commercial anchor of a large mixed-use development in Puyang, Henan. The project combines an approximately 120,000 m² shopping mall, open-air lifestyle retail, public plazas, bridges, terraces, and service-apartment towers.
 
 Its architectural identity is concentrated in the podium. A curved triangulated “Dragon Skin” wraps the upper mall volume, while the lower levels shift among transparent storefronts, stone-clad retail volumes, louvers, canopies, and open-air circulation. The façade had to read as one continuous urban figure while accommodating materially and geometrically different enclosure systems.
 
 As a project designer at Callison, I worked from schematic design through design development with primary responsibility for the **design and optimization of the podium façade**. My work included elevation design, façade-system studies, three-dimensional envelope coordination, rationalization of the triangulated skin, development of wall and edge conditions, and coordination with façade manufacturers.
+

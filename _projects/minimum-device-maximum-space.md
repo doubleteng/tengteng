@@ -30,13 +30,12 @@ related_publications:
   context: Project manuscript
 related_projects:
 - /research/pica/
-- /research/automated-concrete-toolpaths/
-- /research/snmm-additive-manufacturing-system/
-- /research/integrated-and-tailored-thermal-insulation/
+- /research/pinbed/
 source_links:
 - https://drive.google.com/drive/folders/1ae5pGhZTSvtJ8JbvS0A8xlMM-A-nX2pz
 sections:
 - type: media-row
+  anchor: built-prototype
   equal_height: true
   items:
   - type: image
@@ -67,6 +66,25 @@ sections:
     heading: Robotic polyurethane spraying — view 3
     ratio: 1.764706
 - type: text
+  anchor: full-scale-result
+  heading: Projected deposition at 5 m span
+  body: |-
+    The **5 m-span prototype** transferred the calibration and sequencing approach to a membrane that the arm could not surface-follow. In many regions, polyurethane traveled **more than 2 m** before reaching the membrane. Nozzle direction and robot speed shaped the impact zone; membrane curvature, surface condition, and reaction state influenced how the material accumulated.
+
+    Overspray created secondary deposits, wet-material accumulation caused local sagging, and hose drag constrained wrist motion. Operators adjusted nozzle direction, dwell time, and band sequence as membrane deformation and curing conditions changed. The prototype demonstrates architectural-scale deposition from a compact internal robot and identifies projection control, band overlap, and hose management as requirements for a more repeatable process.
+- type: media-row
+  equal_height: true
+  items:
+  - type: image
+    image: /assets/media/minimum-device-maximum-space/five-metre-setup.webp
+    alt: Isometric, plan, and sectional views of the five-metre membrane showing robot placement and limited reach
+    ratio: 1.772727
+  - type: image
+    image: /assets/media/minimum-device-maximum-space/interior-test.webp
+    alt: Robot and researchers inside the five-metre prototype inspecting polyurethane bands during curing
+    ratio: 1.333333
+  caption: Robot placement and access constraints in the 5 m enclosure (left); inspection of deposited bands during an early spraying test (right).
+- type: text
   heading: Inflation defines the fabrication volume
   body: >-
     The inflated PVC membrane establishes the enclosure's geometry before rigid material is added.
@@ -79,6 +97,7 @@ sections:
   alt: Built sprayed membrane prototype, digital robot placement, and custom polyurethane spray end-effector
   caption: Built prototype, digital fabrication setup, and custom spray end-effector. The nozzle projects material onto a receiving surface beyond the robot's contact workspace.
 - type: text
+  anchor: calibration
   heading: Calibrating reach and material retention
   body: >-
     Tests in **2 m spherical membranes** established the relationship between nozzle clearance
@@ -101,6 +120,7 @@ sections:
     ratio: 2.704212
   caption: Small-membrane reach calibration (left); deposited PU on Oxford cloth and PVC (right). Nozzle distance and substrate retention informed the larger prototype.
 - type: text
+  anchor: sequence
   heading: Curing time organizes the sequence
   body: >-
     Spraying began near the lower perimeter and progressed upward in staged bands. Lower regions
@@ -111,24 +131,29 @@ sections:
   image: /assets/media/minimum-device-maximum-space/spray-sequence.webp
   alt: Spherical spray toolpaths and sequential photographs of bottom-up robotic polyurethane deposition
   caption: Toolpath geometry and staged spraying in the small spherical membrane. Previously deposited lower bands had time to stiffen as fabrication progressed upward.
-- type: text
-  heading: Projected deposition at 5 m span
-  body: |-
-    The **5 m-span prototype** transferred the calibration and sequencing approach to a membrane that the arm could not surface-follow. In many regions, polyurethane traveled **more than 2 m** before reaching the membrane. Nozzle direction and robot speed shaped the impact zone; membrane curvature, surface condition, and reaction state influenced how the material accumulated.
-
-    Overspray created secondary deposits, wet-material accumulation caused local sagging, and hose drag constrained wrist motion. Operators adjusted nozzle direction, dwell time, and band sequence as membrane deformation and curing conditions changed. The prototype demonstrates architectural-scale deposition from a compact internal robot and identifies projection control, band overlap, and hose management as requirements for a more repeatable process.
-- type: media-row
-  equal_height: true
-  items:
-  - type: image
-    image: /assets/media/minimum-device-maximum-space/five-metre-setup.webp
-    alt: Isometric, plan, and sectional views of the five-metre membrane showing robot placement and limited reach
-    ratio: 1.772727
-  - type: image
-    image: /assets/media/minimum-device-maximum-space/interior-test.webp
-    alt: Robot and researchers inside the five-metre prototype inspecting polyurethane bands during curing
-    ratio: 1.333333
-  caption: Robot placement and access constraints in the 5 m enclosure (left); inspection of deposited bands during an early spraying test (right).
+research_question: How can a compact robot fabricate an enclosure beyond its physical reach?
+role_summary: Research coauthor with Kangyi Zheng.
+evidence_summary: Calibration in 2 m membranes informed a 5 m-span sprayed prototype. Process videos and substrate
+  comparisons also document sagging, overspray, and access limits.
+role: Research coauthor
+editor_notes: Coauthorship with Kangyi Zheng is documented. Confirm the specific individual contribution before
+  replacing the short role summary.
+related_connections:
+- url: /research/pica/
+  reason: Extending a compact robot through custom fabrication end effectors
+- url: /research/pinbed/
+  reason: Using a receiving surface to extend robotic deposition
+reading_path:
+- title: Built prototype
+  target: built-prototype
+- title: 5 m result
+  target: full-scale-result
+- title: 2 m calibration
+  target: calibration
+- title: Spray sequence
+  target: sequence
+evidence_target: built-prototype
+evidence_first: 4
 ---
-
 **Minimum Device, Maximum Space** investigates how a compact fabrication device can materialize an architectural enclosure larger than its reach. Inflation establishes the volume, projected polyurethane bridges the distance between nozzle and membrane, and staged curing converts the deposited material into a stiffened coating.
+

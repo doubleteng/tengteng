@@ -1,0 +1,7 @@
+{% if page.research_question or page.role_summary or page.evidence_summary %}
+<dl class="project-brief" aria-label="Project at a glance">
+  {% if page.research_question %}<div><dt>{{ page.question_label | default: 'Question' | escape }}</dt><dd>{{ page.research_question | escape }}</dd></div>{% endif %}
+  {% assign brief_role = page.role_summary | default: page.role %}{% if brief_role %}<div><dt>My role</dt><dd>{{ brief_role | escape }}</dd></div>{% endif %}
+  {% if page.evidence_summary %}<div><dt>Evidence</dt><dd>{{ page.evidence_summary | escape }}{% if page.evidence_target %} <a class="brief-evidence-link" href="#{{ page.evidence_target | escape }}">View evidence ↓</a>{% endif %}</dd></div>{% endif %}
+</dl>
+{% endif %}

@@ -42,8 +42,21 @@ editor_notes: 详细项目页记载参与时间为 2013；目录和原站标为 
 source_links: []
 project_type: Urban design
 project_stage: Master planning and schematic design
+research_question: How can a mixed-use master plan organize a public landscape along the Grand Canal?
+role_summary: Worked on master planning, waterfront landscape, retail design, 3D model management, and visualization
+  coordination.
+evidence_summary: Master-plan drawings, spatial studies, and renderings document the conceptual and schematic proposal.
+related_projects:
+- /design/tang-courtyard-promenade/
+- /design/waterfront-seattle/
+related_connections:
+- url: /design/tang-courtyard-promenade/
+  reason: Public-space networks within commercial master planning
+- url: /design/waterfront-seattle/
+  reason: Waterfront access and circulation as organizing design problems
+evidence_target: project-evidence
 ---
-
 The Tongzhou WFJ Waterfront proposal combines a hotel tower, three office buildings, four residential towers, and a shopping center in Beijing. The master plan uses the site’s position along the Grand Canal to organize a contemporary waterfront district with reference to Tongzhou’s history as an entry point to the capital.
 
 I contributed to master planning and conceptual and schematic design, with particular responsibility for waterfront landscape, shopping-mall design, 3D modeling, and model management. I also coordinated with the visualization consultants.
+

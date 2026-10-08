@@ -1,0 +1,5 @@
+{% if page.reading_path.size > 0 %}
+<nav class="project-reading-path" aria-label="Project reading order">
+  <span>Read the project</span><ol>{% for item in page.reading_path %}<li><a href="#{{ item.target | escape }}">{{ item.title | escape }}</a></li>{% endfor %}</ol>
+</nav>
+{% endif %}

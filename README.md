@@ -40,6 +40,7 @@ For validation:
 ```sh
 bundle exec jekyll build --strict_front_matter
 python3 scripts/validate_site.py
+node tests/home-sort.test.cjs
 ```
 
 The validation script uses the Python standard library. It checks generated internal links, local assets, all active project routes, content counts, and sitemap coverage.
@@ -59,3 +60,4 @@ Every edit is versioned in Git. Restore an individual file from History, or reve
 The portfolio now contains 37 project records. Source-based revisions expand 26 entries, including two newly added projects. Confirmed placeholder images were removed from public pages. A follow-up source review added 115 images to 16 projects and filled 14 missing covers. See [source review](docs/SOURCE_REVIEW.md) for the source inventory, asset mapping, and remaining questions. The public admin route contains only an English sign-in entrance; tutorials are accessed through the CMS.
 
 Video files can be managed under **Videos / 视频** in Pages CMS and selected directly in a project Video block.
+

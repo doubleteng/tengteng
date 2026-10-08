@@ -37,6 +37,7 @@ sections:
   caption: A wireframe model appears above the hand (left), and a hand interacts with displayed geometry through
     the transparent screen (right).
 - type: video
+  anchor: demonstration
   heading: Prototype demonstration
   url: https://www.youtube.com/watch?v=LHzXghdVDZA
   caption: Original demonstration of InSpire’s integrated spatial gesture-based modeling and display.
@@ -63,6 +64,7 @@ sections:
   caption: Optical display and tracking arrangement (left), and the tablet command panel beside the gesture-sensing
     area (right).
 - type: text
+  anchor: gesture-modeling
   heading: Turning hand movement into geometry
   body: 'The prototype is built on **Rhino and Grasshopper**. Leap Motion reports fingertip and palm positions,
     trajectories, and speeds. These data enter Grasshopper over UDP, where Python components extract hand coordinates.
@@ -116,6 +118,7 @@ sections:
   caption: Editing a form with the virtual hot-wire tool (left) and moving or rotating an object with two hands
     (right).
 - type: text
+  anchor: tracking
   heading: Keeping hands, model, and viewpoint aligned
   body: '**Head tracking** adds motion parallax: the displayed view changes when the user moves. Two LEDs mounted
     on a pair of glasses provide targets for the RGB webcam. Their image positions and apparent separation are
@@ -160,6 +163,7 @@ sections:
   caption: 'Prototype photographs documenting the hand–geometry depth relationship before and after the occlusion
     adjustment. Source: ACADIA 2014, Figure 8.'
 - type: text
+  anchor: scope
   heading: Research contribution and scope
   body: 'InSpire demonstrates an integrated system for creating, editing, and viewing freeform geometry through
     spatial gestures. I led the research at the University of Washington. Presented at **ACADIA
@@ -215,14 +219,34 @@ contributions:
 - Integration of hand tracking, viewpoint updates, and display occlusion
 - Modeling and navigation demonstrations; first authorship of the ACADIA 2014 paper
 related_projects:
+- /research/transformable-physical-design-media/
 - /research/pica/
-- /research/scutoid-brick/
 cover_preview_only: true
 primary_link:
   title: Read the paper · ACADIA 2014
   url: /assets/papers/inspire-acadia-2014.pdf
+research_question: How can hand gestures and digital geometry share one visual space for architectural sketch modeling?
+role_summary: Led the project and developed the interface, gesture-modeling tools, tracking integration, and working
+  prototype.
+evidence_summary: Prototype video and modeling demonstrations show gesture control, viewpoint updates, and display
+  occlusion; the ACADIA 2014 paper describes the system.
+related_connections:
+- url: /research/transformable-physical-design-media/
+  reason: Physical manipulation linked to digital geometry and feedback
+- url: /research/pica/
+  reason: Direct manipulation as an input to digital design and making
+reading_path:
+- title: Demonstration
+  target: demonstration
+- title: Gesture modeling
+  target: gesture-modeling
+- title: Tracking
+  target: tracking
+- title: Scope
+  target: scope
+evidence_target: demonstration
 ---
-
 InSpire is an interactive 3D modeling system that places **hand gestures and digital geometry in the same visual space**. An optical see-through display, hand sensing, and head tracking let a designer create, reshape, and inspect a model through spatial movement.
 
 I led the project and developed the prototype at the University of Washington. The project explores how the coordination of hand, eye, and model can support architectural schematic design, bringing the immediacy of making and handling a physical model into a digital workflow.
+

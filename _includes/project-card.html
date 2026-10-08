@@ -5,6 +5,8 @@
     {% else %}<div class="project-image text-cover"><span>{{ p.category | capitalize }}</span><strong>{{ p.title | escape }}</strong></div>{% endif %}
     <p class="eyebrow">{{ p.category | capitalize }}{% if p.year %}<span>{{ p.year | escape }}</span>{% endif %}</p>
     <h3>{{ p.card_title | default: p.title | escape }}</h3>
+    {% if include.relation %}<p class="card-relation">{{ include.relation | escape }}</p>{% endif %}
     {% if include.compact != true and p.summary and p.summary != p.title %}<p class="card-summary">{{ p.summary | escape }}</p>{% endif %}
   </a>
 </article>
+

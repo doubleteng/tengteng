@@ -146,8 +146,20 @@ hero_gallery:
   alt: The west frontage viewed across the intersection.
   caption: The west frontage viewed across the intersection.
   duration_ms: 3000
+research_question: How can a steep Seattle corner lot accommodate four homes with individual access and outdoor
+  space?
+role_summary: As founder and managing director, oversaw development and project delivery; David Vandervort Architects
+  provided architectural design.
+evidence_summary: Completed homes and project documentation show the built development, including stepped volumes,
+  separate entrances, and roof terraces.
+related_projects:
+- /design/fana-mixed-use-complex-development/
+related_connections:
+- url: /design/fana-mixed-use-complex-development/
+  reason: Coordinating residential access and shared outdoor space
+evidence_target: project-evidence
 ---
-
 W. Newton St Rowhouse replaces a single-family property with four homes in Seattle’s West Queen Anne neighborhood. The development uses a steep corner site to combine separate street entrances, vertically organized interiors, and outdoor space at roof level.
 
 As Founder and Managing Director of Ju Square Development LLC, I oversaw all aspects of the project during 2017–2020, including development, design, engineering, and construction management. I coordinated the architect, engineering consultants, city officials, contractors, vendors, and brokers throughout the project. David Vandervort Architects provided the architectural design.
+

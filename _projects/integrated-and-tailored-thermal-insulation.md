@@ -22,11 +22,16 @@ credits:
 team: []
 acknowledgements: ''
 sections:
-- type: video
-  heading: Gradient insulation demonstration
-  url: https://youtu.be/EDOY58G-uFU
-  caption: Material placement and thermal-performance studies.
 - type: gallery
+  anchor: thermal-images
+  heading: Thermal imaging
+  images:
+  - /assets/media/integrated-and-tailored-thermal-insulation/detail-5.webp
+  - /assets/media/integrated-and-tailored-thermal-insulation/detail-6.webp
+  caption: Exterior and interior observations of the wall prototype under the illustrated test conditions.
+  columns: one
+- type: gallery
+  anchor: wall-prototype
   heading: Wall prototype and components
   images:
   - /assets/media/integrated-and-tailored-thermal-insulation/detail-2.webp
@@ -34,20 +39,18 @@ sections:
   - /assets/media/integrated-and-tailored-thermal-insulation/detail-components.webp
   caption: Printed layer organization, structural ribs, and individual masonry components.
   columns: two
+- type: video
+  heading: Gradient insulation demonstration
+  url: https://youtu.be/EDOY58G-uFU
+  caption: Material placement and thermal-performance studies.
 - type: gallery
+  anchor: material-placement
   heading: Geometry and material placement
   images:
   - /assets/media/integrated-and-tailored-thermal-insulation/detail-7.webp
   - /assets/media/integrated-and-tailored-thermal-insulation/detail-8.webp
   - /assets/media/integrated-and-tailored-thermal-insulation/detail-9.webp
   caption: Force-informed wall geometry and composition studies using clay and diatomaceous earth.
-  columns: one
-- type: gallery
-  heading: Thermal imaging
-  images:
-  - /assets/media/integrated-and-tailored-thermal-insulation/detail-5.webp
-  - /assets/media/integrated-and-tailored-thermal-insulation/detail-6.webp
-  caption: Exterior and interior observations of the wall prototype under the illustrated test conditions.
   columns: one
 - type: gallery
   heading: Additional experiments and design studies
@@ -97,10 +100,29 @@ evidence: Material-transition tests, printed components, thermal images, and a w
   evaluation. The paper received the ACADIA 2024 Best Paper Runner-Up Award.
 related_projects:
 - /research/snmm-additive-manufacturing-system/
-- /research/multi-material-3d-printing-for-tension-compression-structure/
+- /research/programmable-footwear/
+- /teaching/new-material-and-method/
 card_title: Gradient Thermal Insulation
+role_summary: Led the study and developed material-placement and fabrication methods with Yefan Zhi and Masoud Akbarzadeh.
+evidence_summary: Thermal images, transition tests, printed components, and a wall prototype show specimen-scale
+  response, without establishing whole-building energy performance.
+related_connections:
+- url: /research/snmm-additive-manufacturing-system/
+  reason: Translating spatial material maps into graded prints
+- url: /research/programmable-footwear/
+  reason: Allocating different material behavior within one component
+- url: /teaching/new-material-and-method/
+  reason: Material composition as a basis for component performance
+reading_path:
+- title: Thermal images
+  target: thermal-images
+- title: Wall prototype
+  target: wall-prototype
+- title: Material placement
+  target: material-placement
+evidence_target: thermal-images
+evidence_first: 2
 ---
-
 This research integrates load-bearing capacity and thermal insulation within the material distribution of printed architectural components. A single-nozzle process changes the mixture during fabrication, creating continuous transitions between regions with different structural and thermal demands.
 
 The experiments investigate paste-based mixtures containing clay and diatomaceous earth, alongside reinforced and foaming polymer filaments. Print-quality tests examine material transitions, while thermal imaging compares the response of samples with different compositions.
@@ -108,3 +130,4 @@ The experiments investigate paste-based mixtures containing clay and diatomaceou
 A wall prototype places reinforced material along regions of higher stress and insulating material in lower-stress areas. Its geometry, material map, and printing sequence are coordinated so that the thermal and structural functions are organized within each masonry unit.
 
 The work received the Best Paper Runner-Up Award at ACADIA 2024.
+

@@ -48,8 +48,20 @@ project_stage: Research prototype
 research_areas:
 - material-computation
 research_order: 8
+research_question: How can small models test a concrete component’s printing and assembly sequence?
+role_summary: Major contributor and second author of the collaborative fabrication-model study.
+evidence_summary: Printed models and assembly sequences compare force-informed print directions and component organization
+  at model scale.
+related_projects:
+- /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
+- /research/automated-concrete-toolpaths/
+related_connections:
+- url: /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
+  reason: Model-scale tests of print orientation and assembly
+- url: /research/automated-concrete-toolpaths/
+  reason: Testing concrete fabrication sequences through printed models
+evidence_target: project-evidence
 ---
-
 Scaled fabrication models test how discrete concrete structures can be printed and assembled before committing to full-scale production. Each model reproduces the intended fabrication approach and layer organization, making toolpath choices visible in a physical object.
 
 At a scale of 1:10, the components can be produced on desktop 3D printers with limited modification. Component tests, partial assemblies, and complete models reveal how printing direction, surface texture, and joint geometry affect the fabrication scheme.
@@ -57,3 +69,4 @@ At a scale of 1:10, the components can be produced on desktop 3D printers with l
 A compression-dominant funicular floor provides the case study. Parallel, nonparallel, and creased slicing strategies are compared across its components, with print directions aligned to the principal stress paths.
 
 The collaborative study by Yefan Zhi, Teng Teng, and Masoud Akbarzadeh was published in *Architectural Intelligence* in 2024.
+

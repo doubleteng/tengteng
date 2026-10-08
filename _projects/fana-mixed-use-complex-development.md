@@ -44,10 +44,21 @@ editor_notes: ''
 source_links: []
 project_type: Architecture
 project_stage: Schematic design and design development
+research_question: How can two residential towers share a retail podium and pedestrian connections on a downtown
+  block?
+role_summary: Project designer at Callison Seattle through schematic design and design development.
+evidence_summary: Plans, massing studies, and project visualizations document the proposal and its ground-level
+  connections; they are not built-outcome evidence.
+related_projects:
+- /design/w-newton-st-rowhouse/
+related_connections:
+- url: /design/w-newton-st-rowhouse/
+  reason: Coordinating residential access and shared outdoor space
+evidence_target: project-evidence
 ---
-
 The FANA proposal combines North and South Towers above a shared podium in downtown Bellevue. Retail and dining occupy the lower levels, with residential accommodation and shared amenities above.
 
 The ground-level plan coordinates storefronts, drop-off areas, garage access, and a mid-block pedestrian connection. Terraces and rooftop spaces extend the shared program above street level.
 
 I worked as a project designer in Callison’s Seattle office during 2015–2016, contributing through schematic design and design development.
+

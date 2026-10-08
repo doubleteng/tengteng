@@ -41,8 +41,43 @@ related_publications:
   context: Accepted for ACADIA 2026 · Conference in October 2026
 related_projects:
 - /research/multi-material-deployable-structures/
-- /research/multi-material-3d-printing-for-tension-compression-structure/
+- /design/operation-ppe/
 sections:
+- type: text
+  anchor: paper-prototype
+  heading: 'Thin sheet: reconstructing the shell in paper'
+  body: 'A **1:10 Bristol-paper model**, measuring **650 × 650 mm**, assembles the shell from **21 pieces**. Laser-cut
+    dashed lines allow both mountain and valley folds. Gluing the tucks fixes their 180° creases and joins the
+    pieces into the slab.
+
+
+    Comparison with the digital target shows qualitative geometric agreement. Thin or long, narrow tucks provide
+    weaker control of the folded shape; the isolated model also requires horizontal support at its outer boundary.
+    The glued assembly demonstrates reconstruction but cannot be unfolded for reuse.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/tuck-folding/paper-model.webp
+  columns: one
+  caption: 'The 1:10 paper prototype: laser-cut patterns, folding, glued modules, and the assembled slab in plan
+    and elevation.'
+- type: text
+  anchor: fabric-prototype
+  heading: 'Thick sheet: beveled panels and fabric hinges'
+  body: 'Finite material thickness introduces collisions at a fold. Beveled panel edges encode the required angles,
+    while a continuous fabric layer acts as a hinge. A **1:25 prototype** uses **PLA printed directly onto gold
+    tulle mesh**, divided into **13 pieces**. A 0.1 mm offset on each side of the 180° creases prevents adjacent
+    faces from fusing during printing.
+
+
+    The printed components fold into the target curvature and can be unfolded without damaging the fabric hinges.
+    This prototype demonstrates thick-sheet geometry and reusable folding; it was not used to cast concrete.'
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/tuck-folding/fabric-hinge-model.webp
+  columns: one
+  caption: The 1:25 PLA-on-fabric prototype, from flat printed pieces to folded modules and assembled formwork.
 - type: text
   heading: From force diagrams to foldable geometry
   body: 'PolyFrame 2 generates a planar-faced shell through reciprocal force and form diagrams. A modular slab
@@ -67,6 +102,7 @@ sections:
   columns: one
   caption: Four force-diagram subdivision patterns and their corresponding shell layouts.
 - type: text
+  anchor: tuck-method
   heading: Tucks compensate for flattening
   body: 'Unfolding a doubly curved panel network creates gaps, overlaps, and rotational mismatch. A tuck inserts
     a local fold region that absorbs this mismatch when the sheet is refolded. Its central crease closes through
@@ -77,39 +113,7 @@ sections:
     within limits set by material thickness, fold collisions, machine-bed dimensions, and assembly. Splitting
     along the anticlastic arch regions separates demanding curvature into manageable pieces.'
 - type: text
-  heading: 'Thin sheet: reconstructing the shell in paper'
-  body: 'A **1:10 Bristol-paper model**, measuring **650 × 650 mm**, assembles the shell from **21 pieces**. Laser-cut
-    dashed lines allow both mountain and valley folds. Gluing the tucks fixes their 180° creases and joins the
-    pieces into the slab.
-
-
-    Comparison with the digital target shows qualitative geometric agreement. Thin or long, narrow tucks provide
-    weaker control of the folded shape; the isolated model also requires horizontal support at its outer boundary.
-    The glued assembly demonstrates reconstruction but cannot be unfolded for reuse.'
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/tuck-folding/paper-model.webp
-  columns: one
-  caption: 'The 1:10 paper prototype: laser-cut patterns, folding, glued modules, and the assembled slab in plan
-    and elevation.'
-- type: text
-  heading: 'Thick sheet: beveled panels and fabric hinges'
-  body: 'Finite material thickness introduces collisions at a fold. Beveled panel edges encode the required angles,
-    while a continuous fabric layer acts as a hinge. A **1:25 prototype** uses **PLA printed directly onto gold
-    tulle mesh**, divided into **13 pieces**. A 0.1 mm offset on each side of the 180° creases prevents adjacent
-    faces from fusing during printing.
-
-
-    The printed components fold into the target curvature and can be unfolded without damaging the fabric hinges.
-    This prototype demonstrates thick-sheet geometry and reusable folding; it was not used to cast concrete.'
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/tuck-folding/fabric-hinge-model.webp
-  columns: one
-  caption: The 1:25 PLA-on-fabric prototype, from flat printed pieces to folded modules and assembled formwork.
-- type: text
+  anchor: scope
   heading: A proposed route to concrete shell construction
   body: 'A **10 × 5 m outdoor gallery pavilion** applies the system as a modular shell canopy. The proposed construction
     sequence combines CNC-cut plywood ribs with fabric membranes, transports the components flat, and folds and
@@ -139,4 +143,24 @@ editor_notes: 'Sources: user-supplied 195_Yang.pdf and original figures in Googl
   image; diagrams and proposal plates use two-column galleries, wide montages use single rows. The cover appears
   only in cards/social previews. Paper and PLA/fabric models are physical prototypes; concrete casting and the
   pavilion remain proposals.'
+research_question: How can flat sheet patterns reconstruct the curvature of compression-dominant shells?
+role_summary: Coauthor of the computational folding study with Yi Yang and Chun Zhou.
+evidence_summary: A 1:10 paper shell and 1:25 PLA-on-fabric prototype demonstrate reconstruction. Full-scale plywood
+  formwork and concrete casting remain proposed.
+related_connections:
+- url: /research/multi-material-deployable-structures/
+  reason: Encoding curved geometry in flat patterns and local folds
+- url: /design/operation-ppe/
+  reason: Transforming flat printed patterns through flexible hinges
+reading_path:
+- title: Paper prototype
+  target: paper-prototype
+- title: Fabric prototype
+  target: fabric-prototype
+- title: Tuck geometry
+  target: tuck-method
+- title: Proposed scale-up
+  target: scope
+evidence_target: paper-prototype
+evidence_first: 4
 ---

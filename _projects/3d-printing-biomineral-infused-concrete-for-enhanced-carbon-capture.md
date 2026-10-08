@@ -52,8 +52,20 @@ project_stage: Research prototype
 research_areas:
 - material-computation
 research_order: 6
+research_question: How can a concrete mixture and its printed surface geometry increase carbon uptake?
+role_summary: Major contributor and second author of the collaborative material and geometry study.
+evidence_summary: Material specimens, carbon-uptake comparisons, and the 2025 Advanced Functional Materials paper;
+  related structural prototypes are shown separately.
+related_projects:
+- /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
+- /research/automated-concrete-toolpaths/
+related_connections:
+- url: /research/diamanti-3d-printed-post-tensioned-concrete-canopy/
+  reason: TPMS geometry for printed concrete components
+- url: /research/automated-concrete-toolpaths/
+  reason: Printability of porous concrete geometries
+evidence_target: project-evidence
 ---
-
 This research combines a biomineral-infused concrete mixture with 3D-printed surface geometry to increase carbon capture and storage. Porous silica biominerals replace part of the cement, reducing the mixture’s cement demand while supporting carbonation.
 
 Triply periodic minimal surface geometries increase the exposed surface area of printed specimens. The material formulation and geometric organization are studied together so that carbon uptake, printability, and mechanical performance can be evaluated within the same fabrication approach.
@@ -61,3 +73,4 @@ Triply periodic minimal surface geometries increase the exposed surface area of 
 The broader building-system research connects these material studies to prefabricated, post-tensioned floor components. The images below document the material samples, printed geometries, and carbon-uptake comparisons used in that investigation.
 
 The associated collaborative paper, *3D Concrete Printing of Triply Periodic Minimum Surfaces for Enhanced Carbon Capture and Storage*, was published in *Advanced Functional Materials* in 2025.
+

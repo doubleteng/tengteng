@@ -81,10 +81,27 @@ related_publications: []
 awards: []
 editor_notes: ''
 source_links: []
+research_question: How can a retail district use lanes, courtyards, and elevated walks as its public-space framework?
+role_summary: Design Partner; led the project from urban strategy and master planning through design development
+  and construction documentation.
+evidence_summary: Built photographs, spatial diagrams, and technical development show how the pedestrian network
+  organizes the completed district.
+related_projects:
+- /design/shanghai-museum-phase-ii/
+- /design/wfj-waterfront-development/
+- /design/ribo-central-club/
+related_connections:
+- url: /design/shanghai-museum-phase-ii/
+  reason: A promenade organizing courts, routes, and changing views
+- url: /design/wfj-waterfront-development/
+  reason: Public-space networks within commercial master planning
+- url: /design/ribo-central-club/
+  reason: Stepped landscapes linking movement, terraces, and shared space
+evidence_target: project-evidence
 ---
-
 Tang Courtyard Promenade is a built walkable retail district in Zhangpu, Fujian, organized around a network of lanes, courtyards, gateways, terraces, and upper-level walks. The project treats commercial circulation as public realm, replacing the single enclosed shopping-center interior with a sequence of outdoor and semi-outdoor spaces that operate more like a piece of city fabric.
 
 The overall design is structured through a hierarchy of public spaces. Entrance plazas establish clear thresholds from the surrounding streets; internal lanes branch toward smaller courts and larger gathering spaces; upper-level terraces and bridges extend the pedestrian network vertically. Architecture, landscape, circulation, and retail frontage were developed together so the district could support both commercial activity and everyday occupation.
 
 As Design Partner at Adaptive Design LLC, I led the project-wide design direction from the initial urban and commercial strategy through master planning, architectural concept, design development, and construction documentation. I established the spatial framework, massing logic, architectural language, and public-realm hierarchy, and continued to guide the project through later technical stages to maintain design intent across façades, roofscape, material transitions, circulation, and key public-space interfaces.
+

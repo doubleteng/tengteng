@@ -75,6 +75,19 @@ project_type: Graduate seminar · ARCH 7330
 project_stage: Material research and design proposals
 cover_preview_only: true
 structure_lab: false
+research_question: How can emerging material behavior inform a fabrication method and architectural proposal?
+role_summary: Teaching Fellow; developed and taught the seminar with Laia Mogas-Soldevila.
+evidence_summary: Three credited student proposals investigate mycelium, bamboo-reinforced clay, and lunar regolith.
+  They are design research proposals, not built systems.
+related_projects:
+- /research/integrated-and-tailored-thermal-insulation/
+- /research/multi-material-deployable-structures/
+related_connections:
+- url: /research/integrated-and-tailored-thermal-insulation/
+  reason: Material composition as a basis for component performance
+- url: /research/multi-material-deployable-structures/
+  reason: Bio-based material behavior driving fabrication and form
+evidence_target: project-evidence
 ---
 **ARCH 7330: New Materials and Methods Research** is a graduate seminar in Penn’s Master of Science in Design-Advanced Architectural Design program taught in Spring 2024. I served as Teaching Fellow, delivering lectures, leading discussion panels, and mentoring graduate students through project ideation and production.
 

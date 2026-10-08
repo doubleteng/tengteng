@@ -57,10 +57,20 @@ editor_notes: 作品集明确记载 SIVA 教学为 2015–2017；原站合并条
 source_links: []
 project_type: Thesis supervision
 project_stage: Teaching
+research_question: How can evidence about buildings and users guide spatial renovation?
+role_summary: Supervised undergraduate theses at SIVA; the individual designs remain the students’ work.
+evidence_summary: Yanyu Chen’s retail-street study and Chuou Zhang’s workplace-renovation proposal show distinct
+  student applications of research to spatial design.
+related_projects:
+- /teaching/undergraduate-product-design-thesis/
+related_connections:
+- url: /teaching/undergraduate-product-design-thesis/
+  reason: User research translated into spatial and physical prototypes
+evidence_target: project-evidence
 ---
-
 At the Shanghai Institute of Visual Art, I supervised undergraduate theses spanning retail environments, workplace renovation, and spatial interaction. Across architecture and product design, this teaching included more than twenty theses during 2015–2017.
 
 Yanyu Chen’s *Design and Renovation of a Lifestyle Retail Street* explores the spatial organization of commercial activity. Chuou Zhang’s *Interactive Renovation Design of Workplace* uses post-occupancy evaluation to identify concerns about daylight, shared space, noise, and privacy. Zhang’s proposal develops movable partitions that change the relationship between circulation, conversation, and rest.
 
 The projects shown are student work developed under my supervision.
+

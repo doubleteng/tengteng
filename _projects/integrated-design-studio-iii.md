@@ -44,8 +44,19 @@ contributions:
 - Coordinate the relationship between studio and the lab led by Eric Ward.
 evidence: The Fall 2026 course is in progress. The sequence presented here describes the course framing and assignments;
   completed final-project outcomes are not yet available.
+role_summary: Co-coordinate and teach the studio with Ralph Nelson, connecting structural reasoning, enclosure design,
+  and iterative model review.
+evidence_summary: The Fall 2026 course framing and assignments are documented. The course is ongoing; completed
+  final-project outcomes are not yet available.
+related_projects:
+- /teaching/structural-systems/
+- /teaching/digital-fabrication/
+related_connections:
+- url: /teaching/structural-systems/
+  reason: Structural bays, member hierarchy, and building-system integration
+- url: /teaching/digital-fabrication/
+  reason: Testing geometric and assembly decisions with physical models
 ---
-
 ## Structural reasoning as a design method
 
 Integrated Design Studio III examines how off-site structural systems, enclosure assemblies, environmental systems, and construction joints shape architecture. Students work with steel, precast concrete, or mass timber and move between analysis, physical models, digital iterations, and technical drawings.
@@ -63,3 +74,4 @@ The enclosure module connects panel dimensions and subdivision to the structural
 ## Integration and feedback
 
 Later work integrates environmental systems, program, life safety, and essential site constraints. Digital iterations and physical models provide a basis for revising the same design as additional technical requirements become explicit.
+

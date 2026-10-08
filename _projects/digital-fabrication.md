@@ -54,8 +54,20 @@ contributions:
 evidence: The student example pairs a woven-surface geometry with a fabricated model. The source combines several
   seminar offerings; the archive year is retained without assigning undocumented dates or institutions to individual
   exercises.
+role_summary: Taught parametric modeling and computational geometry through digital exercises and physical prototyping.
+evidence_summary: A documented student woven-surface model connects geometric rules to a fabricated result; the
+  archive represents several seminar offerings.
+related_projects:
+- /projects/digital-practice-workshop/
+- /teaching/integrated-design-studio-iii/
+related_connections:
+- url: /projects/digital-practice-workshop/
+  reason: Moving from parametric geometry to physical fabrication
+- url: /teaching/integrated-design-studio-iii/
+  reason: Testing geometric and assembly decisions with physical models
+evidence_target: project-evidence
 ---
-
 These seminars introduce parametric design and computational geometry through Rhino and Grasshopper, with additional modeling work in SolidWorks and Maya. Exercises address rule-based design, data organization, geometric transformation, generative modeling, and form finding.
 
 Students develop parametric models and fabricate physical prototypes to test the relationship between geometric decisions and production constraints. Iteration between digital models and physical results connects computational reasoning with material behavior.
+

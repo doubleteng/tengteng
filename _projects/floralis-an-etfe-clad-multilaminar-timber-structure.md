@@ -103,8 +103,17 @@ editor_notes: ''
 source_links: []
 project_type: Architecture
 project_stage: Built prototype
+research_question: How can a lightweight timber and ETFE shelter protect fossils while preserving visitors’ views?
+role_summary: Contributed to conceptual design with Masoud Akbarzadeh, Hua Chai, and Yiliang Shao.
+evidence_summary: The built prototype, fabrication and assembly images, physical model, and connection studies document
+  the shelter system.
+related_projects:
+- /research/tri-arc-pavilion/
+related_connections:
+- url: /research/tri-arc-pavilion/
+  reason: Equilibrium-based timber geometry translated into fabricated joints
+evidence_target: project-evidence
 ---
-
 Floralis is an ETFE-clad timber shelter developed to protect petrified tree stumps at Colorado’s Florissant Fossil Beds National Monument. The prototype explores how a lightweight enclosure can shield fossils from environmental exposure while preserving views for visitors.
 
 A folded funnel shell is materialized as an open polyhedral lattice assembled from sheet-timber layers. Polyhedral graphic statics informs its geometry, while translucent ETFE foil completes the enclosure.
@@ -114,3 +123,4 @@ The fabrication workflow transfers geometric data from the structural model to m
 Photogrammetry and laser surveying support assembly by comparing the built structure with its digital model. The completed pavilion includes sensors for subsequent evaluation of its thermal performance.
 
 My contribution was to the conceptual design, working with Masoud Akbarzadeh, Hua Chai, and Yiliang Shao.
+

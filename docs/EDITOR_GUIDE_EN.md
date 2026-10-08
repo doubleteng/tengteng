@@ -72,3 +72,14 @@ In a project, add a **Video** content block. Use **Upload or select a video** to
 The project form also provides a short card title, research/teaching question, method steps, evidence and scope, specific contributions, a primary link, and connected project URLs. Four method steps display as a sequence above the main description. Existing image, gallery, and video blocks remain below the text.
 
 **Teaching and courses** manages the selected teaching projects, current course links, and Proposed teaching. Keep proposed courses distinct from previously taught offerings. The CV field in **Profile and CV** controls the download links on Home and About.
+
+
+## Project openings and reading order
+
+Each published project starts with a question, an opening role summary, and an opening evidence summary. Keep these concise and factual. Distinguish student authorship, team contributions, simulations, physical tests, built work, and ongoing courses.
+
+For long pages, assign a unique reading anchor to a content block, then use that anchor in Reading order. Opening evidence blocks sets how many of the first content blocks appear before the longer project description. The remaining blocks retain their listed order. Publications follow the evidence and scope.
+
+Related projects with reasons is an ordered list of specific shared problems or methods. It takes precedence over the older Connected project URLs field. Up to four links are displayed; an empty list produces no automatic recommendations. To remove all recommendations, clear both lists.
+
+Homepage focus is a single sentence in Site text. Random shows a weighted sample of 16 projects; Newest first and Project type use the complete published catalogue. Date ordering uses the latest four-digit year in each displayed period, with undated projects last.

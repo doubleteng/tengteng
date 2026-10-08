@@ -71,8 +71,24 @@ cover_alt: Layered surface and openings of a 3D-printed concrete component
 research_areas:
 - material-computation
 research_order: 7
+research_question: How can branching concrete components be printed with fewer interruptions and more controlled
+  deposition?
+role_summary: Research coauthor with Yefan Zhi, Hua Chai, and Masoud Akbarzadeh.
+evidence_summary: Printed specimens and Ovenbird toolpath studies document continuity, overhang assessment, and
+  deposition planning across component geometries.
+related_projects:
+- /research/continuous-multi-material-extrusion/
+- /research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/
+- /research/scaled-fabrication-models/
+related_connections:
+- url: /research/continuous-multi-material-extrusion/
+  reason: Graph-based continuity and deposition planning
+- url: /research/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/
+  reason: Printability of porous concrete geometries
+- url: /research/scaled-fabrication-models/
+  reason: Testing concrete fabrication sequences through printed models
+evidence_target: project-evidence
 ---
-
 This research automates toolpath design for 3D-printed concrete structural components. Hierarchical geometric data structures and graph algorithms connect the topology of a component to its printing sequence.
 
 Overhang analysis provides criteria for assessing buildability and locating potential failures. Offsetting and filleting methods adjust the path to improve dimensional accuracy and manage overfill at changes in direction.
@@ -80,3 +96,4 @@ Overhang analysis provides criteria for assessing buildability and locating pote
 For branching and porous geometries, the workflow minimizes interruptions by generating paths with as few starts and stops as their topology permits. The resulting paths can also be converted into meshes that represent layer textures or support finite element analysis.
 
 The methods are implemented in Ovenbird, a Grasshopper plug-in for Rhino. Printed specimens test the workflow across different component geometries. I contributed as a coauthor alongside Yefan Zhi, Hua Chai, and Masoud Akbarzadeh.
+

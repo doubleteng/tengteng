@@ -48,24 +48,7 @@ links:
   url: https://github.com/Mahshid-Moghadasi/DynPath
 sections:
 - type: text
-  heading: Separating material supply from deposition
-  body: |
-    CERA III separates clay delivery into two independently driven stages. A motorized piston pushes material from a reservoir through a hose; an auger mounted on the ABB IRB 4600 meters the clay through the nozzle. This separation gives the system control over both material supply and local deposition.
-
-    A worm-gear screw jack increases the piston drive's torque, while a closed-loop stepper motor stops under excessive resistance. The assembly connects replaceable mechanical components to a parametric calibration model, allowing changes in reservoir, auger, and nozzle dimensions to be reflected in motor settings.
-- type: gallery
-  images:
-  - /assets/media/robosense/extrusion-system.webp
-  - /assets/media/robosense/extrusion-calibration.webp
-  columns: two
-  caption: CERA III assembly and robot-mounted configuration (left); travel-speed, nozzle-size, and layer-height calibration studies (right).
-- type: text
-  heading: Calibrating the flow
-  body: |
-    PulseControl connects Grasshopper to Arduino firmware for direct adjustment of stepper-motor speed and direction. A volumetric model relates piston displacement to auger rotation so that clay supplied through the hose matches the amount leaving the extruder. The motor settings are then calibrated against the robot's travel speed and the clay mixture.
-
-    Cylinder tests show how excessive travel speed interrupts deposition, while nozzle tests document bead and layer dimensions across **4.5, 7, and 9 mm nozzle diameters**. These tests connect hardware settings to the continuity and resolution of the printed material.
-- type: text
+  anchor: live-control
   heading: Changing the toolpath during printing
   body: |
     DYNPath sends successive toolpath points from Grasshopper through the MACHINA bridge. Between commands, the designer can offset a layer, translate the path in X, Y, or Z, and change the tool-center-point speed. Updates affect the remaining points in the current layer, allowing the printed form to develop through decisions made during fabrication.
@@ -87,6 +70,25 @@ sections:
     poster: /assets/media/robosense/clay-printing-poster.webp
   caption: Supplementary recordings show the software-control workflow (left) and robot-mounted clay deposition (right).
 - type: text
+  heading: Separating material supply from deposition
+  body: |
+    CERA III separates clay delivery into two independently driven stages. A motorized piston pushes material from a reservoir through a hose; an auger mounted on the ABB IRB 4600 meters the clay through the nozzle. This separation gives the system control over both material supply and local deposition.
+
+    A worm-gear screw jack increases the piston drive's torque, while a closed-loop stepper motor stops under excessive resistance. The assembly connects replaceable mechanical components to a parametric calibration model, allowing changes in reservoir, auger, and nozzle dimensions to be reflected in motor settings.
+- type: gallery
+  images:
+  - /assets/media/robosense/extrusion-system.webp
+  - /assets/media/robosense/extrusion-calibration.webp
+  columns: two
+  caption: CERA III assembly and robot-mounted configuration (left); travel-speed, nozzle-size, and layer-height calibration studies (right).
+- type: text
+  anchor: calibration
+  heading: Calibrating the flow
+  body: |
+    PulseControl connects Grasshopper to Arduino firmware for direct adjustment of stepper-motor speed and direction. A volumetric model relates piston displacement to auger rotation so that clay supplied through the hose matches the amount leaving the extruder. The motor settings are then calibrated against the robot's travel speed and the clay mixture.
+
+    Cylinder tests show how excessive travel speed interrupts deposition, while nozzle tests document bead and layer dimensions across **4.5, 7, and 9 mm nozzle diameters**. These tests connect hardware settings to the continuity and resolution of the printed material.
+- type: text
   heading: Designing through deposition
   body: |
     Inward and outward path offsets produce different wall profiles from the same initial cylinder toolpath. Further experiments combine path and speed changes to vary the deposited texture, while a MIDI controller gives designers a physical interface for adjusting the print in progress.
@@ -97,6 +99,7 @@ sections:
   columns: two
   caption: Controlled path variations applied during printing (left); interactive forms and column studies from Digital Impromptu by Mahshid Moghadasi (right).
 - type: text
+  anchor: nonplanar-tests
   heading: Architectural components and nonplanar printing
   body: |
     PolyBrick 2.0 tests the system's capacity to produce porous lattice components through controlled deposition and start-stop sequences. Scutoid experiments use nonplanar toolpaths and the robot's range of motion to print cell-derived components and curved assemblies.
@@ -109,8 +112,33 @@ sections:
 source_links:
 - https://journals.sagepub.com/doi/abs/10.1177/23297662251388855
 - https://drive.google.com/drive/folders/1IVaBSc3cc7V8EKGziswdyvNw39iM9zA1
+research_question: How can designers adjust clay deposition and toolpaths while a robot is printing?
+role_summary: Developed extrusion hardware, motor calibration, PulseControl software and firmware, and nonplanar
+  printing experiments.
+evidence_summary: Calibration studies, printing videos, interrupted-print recovery, and scutoid prototypes document
+  live control and its physical results.
+related_projects:
+- /research/pinbed/
+- /research/scutoid-brick/
+- /research/pica/
+related_connections:
+- url: /research/pinbed/
+  reason: Hardware and control for nonplanar robotic deposition
+- url: /research/scutoid-brick/
+  reason: Scutoid geometry as a nonplanar printing experiment
+- url: /research/pica/
+  reason: Live interaction between modeling and robotic fabrication
+reading_path:
+- title: Live control
+  target: live-control
+- title: Calibration
+  target: calibration
+- title: Nonplanar tests
+  target: nonplanar-tests
+evidence_target: live-control
+evidence_first: 3
 ---
-
 Robosense 3.0 develops **CERA III**, a two-stage robotic clay extruder, together with software for motor calibration and real-time path adjustment. Developed at Cornell University's Jenny Sabin Lab, the system connects material delivery to robotic motion while keeping the designer able to intervene during a print.
 
 Clay flow varies with moisture, internal pressure, and nozzle conditions. The research addresses these variations through calibrated feeding and extrusion, followed by live corrections or geometric changes in response to the material being deposited.
+

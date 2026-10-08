@@ -39,11 +39,38 @@ related_publications:
   url: https://psl.design.upenn.edu/wp-content/uploads/2026/09/23-3D-Printed-Multi-Material-Deployable-Structures-Programmable-Shape-Transformation-through-Additive-Manufacturing.pdf
   publication_id: teng2026deployable
 related_projects:
-- /research/snmm-additive-manufacturing-system/
-- /research/multi-material-3d-printing-for-tension-compression-structure/
-- /research/integrated-and-tailored-thermal-insulation/
+- /research/tuck-folding/
+- /research/scutoid-brick/
+- /teaching/new-material-and-method/
 links: []
 sections:
+- type: text
+  anchor: canopy-result
+  heading: Suspended forming at meter scale
+  body: 'Wet agarose adds weight and rehydrates the passive lattice at the hinges. At meter scale, early bending
+    on the printbed concentrates stress along these softened regions and can tear the scaffold before its shape
+    locks.
+
+
+    **Suspended forming uses gravity as a controlled boundary condition.** Rope positions and lengths establish
+    an intermediate curved geometry and redistribute self-weight during drying. Agarose contraction then refines
+    the fold rotations. Module B retains developable curvature, while Module C forms an anticlastic surface through
+    tuck activation.'
+- type: video
+  heading: Suspended forming and canopy assembly
+  file: /assets/media/multi-material-deployable-structures/suspended-forming-video.mp4
+  poster: /assets/media/multi-material-deployable-structures/suspended-forming-video-poster.webp
+  caption: Pavilion assembly and time-lapse sequences of suspended modules developing curvature.
+- type: gallery
+  heading: ''
+  images:
+  - /assets/media/multi-material-deployable-structures/hinge-softening.webp
+  - /assets/media/multi-material-deployable-structures/morphed-module.webp
+  columns: two
+  image_ratios:
+  - 1.262911
+  - 1.147028
+  caption: A module damaged during flat-bed actuation (left) and the flat-to-curved transformation of Module C (right).
 - type: gallery
   heading: ''
   images:
@@ -110,6 +137,7 @@ sections:
     caption: A folding sequence followed by manual flexing of the formed lattice.
   caption: Early PLA/agarose bending studies (left); fold formation and physical handling of a lattice (right).
 - type: text
+  anchor: hinge-tests
   heading: Calibrating hinge rotation
   body: Hinge length converts local bilayer curvature into fold rotation. With **2 mm passive and 2 mm active layers**,
     the study compares 18, 32, and 50 mm active regions. The **50 mm hinge** develops the fold depth used in the
@@ -143,6 +171,7 @@ sections:
   caption: Active/passive lattice transformation (left). Time-lapse comparison of samples with different active-layer
     thicknesses (right).
 - type: text
+  anchor: printing
   heading: Robotic printing and material placement
   body: 'An ABB IRB 6640 prints the passive lattice on a flat heated bed. Toolpaths maintain continuity through
     the cellular network to reduce extrusion starts and stops. The pavilion uses approximately **25 mm cells, 6
@@ -169,32 +198,7 @@ sections:
   caption: Infrared footage documents the heated extrusion process used in the active-material experiments.
   width_percent: 25
 - type: text
-  heading: Suspended forming at meter scale
-  body: 'Wet agarose adds weight and rehydrates the passive lattice at the hinges. At meter scale, early bending
-    on the printbed concentrates stress along these softened regions and can tear the scaffold before its shape
-    locks.
-
-
-    **Suspended forming uses gravity as a controlled boundary condition.** Rope positions and lengths establish
-    an intermediate curved geometry and redistribute self-weight during drying. Agarose contraction then refines
-    the fold rotations. Module B retains developable curvature, while Module C forms an anticlastic surface through
-    tuck activation.'
-- type: video
-  heading: Suspended forming and canopy assembly
-  file: /assets/media/multi-material-deployable-structures/suspended-forming-video.mp4
-  poster: /assets/media/multi-material-deployable-structures/suspended-forming-video-poster.webp
-  caption: Pavilion assembly and time-lapse sequences of suspended modules developing curvature.
-- type: gallery
-  heading: ''
-  images:
-  - /assets/media/multi-material-deployable-structures/hinge-softening.webp
-  - /assets/media/multi-material-deployable-structures/morphed-module.webp
-  columns: two
-  image_ratios:
-  - 1.262911
-  - 1.147028
-  caption: A module damaged during flat-bed actuation (left) and the flat-to-curved transformation of Module C (right).
-- type: text
+  anchor: scope
   heading: Assembly and structural scope
   body: 'The formed modules are registered on a temporary frame and joined progressively with zip ties through their
     boundary lattices. Assembly takes approximately **13 hours**. Closing the module network allows the frame to
@@ -217,8 +221,30 @@ editor_notes: 'Source: supplied IASS 2026 presentation (37 slides) and the 10-pa
   preserve full size only for suspended forming and canopy assembly. Other five videos use one-quarter of the former
   full-row display width; group the two landscape clips together, and the near-square/portrait transformation and
   thickness clips together. All autoplay, loop and mute.'
+research_question: How can flat printed lattices form curved canopy modules through controlled material contraction?
+role_summary: Led the research as first and corresponding author.
+evidence_summary: Hinge calibration, transformation videos, and a meter-scale canopy show the forming and assembly
+  process; environmental load capacity remains unquantified.
+related_connections:
+- url: /research/tuck-folding/
+  reason: Encoding curved geometry in flat patterns and local folds
+- url: /research/scutoid-brick/
+  reason: Material actuation connecting local deformation to global curvature
+- url: /teaching/new-material-and-method/
+  reason: Bio-based material behavior driving fabrication and form
+reading_path:
+- title: Canopy result
+  target: canopy-result
+- title: Hinge calibration
+  target: hinge-tests
+- title: Printing
+  target: printing
+- title: Scope
+  target: scope
+evidence_target: canopy-result
+evidence_first: 3
 ---
-
 This project uses **multi-material additive manufacturing to achieve 4D printing at pavilion scale**. Spatially patterned active and passive materials program how a flat-printed lattice changes shape over time during drying. Localized agarose hinges generate the contraction that transforms the planar modules into a curved canopy.
 
 Scaling this programmed transformation to architectural components requires control of self-weight and temporary material softening. The fabrication sequence coordinates passive-first drying, active-hinge deposition, and suspended forming so the modules develop and retain their target curvature.
+

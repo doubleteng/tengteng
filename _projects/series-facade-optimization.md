@@ -75,10 +75,25 @@ contributions:
 evidence: The documented work includes constraint diagrams, parametric solver interfaces, and design studies from
   2010–2012. These show the coordination method; no measured project-wide time or cost reduction is claimed.
 card_title: 'SERIES: Facade Design Toolkit'
+role_summary: Developed computational design tools at Callison to coordinate tower geometry and facade constraints.
+evidence_summary: Constraint diagrams, solver interfaces, and 2010–2012 design studies show the method; no measured
+  project-wide time or cost reduction is claimed.
+related_projects:
+- /design/kaisa-center-mixed-use/
+- /design/yintai-centre-mixed-use/
+- /design/dragon-light-international-shopping-mall/
+related_connections:
+- url: /design/kaisa-center-mixed-use/
+  reason: Bringing facade geometry and supplier constraints into design
+- url: /design/yintai-centre-mixed-use/
+  reason: Parametric rationalization of tower and podium envelopes
+- url: /design/dragon-light-international-shopping-mall/
+  reason: Coordinating free-form envelope geometry with fabrication
+evidence_target: project-evidence
 ---
-
 SERIES is a computational design toolkit developed at Callison’s Shanghai office during 2010–2012. It links free-form tower design with the geometric and manufacturing constraints of curtain-wall systems.
 
 The toolkit uses simulated annealing to adjust floor outlines while responding to floor-area limits, column alignment, façade curvature, and panel requirements. Separate solvers address overall form, floor profiles, inclined columns, and the coordination of model information.
 
 The workflow incorporates supplier and façade-consultant requirements into the design team’s own model, allowing geometry to be rationalized while maintaining control of the intended appearance.
+

@@ -37,9 +37,9 @@ description: Architecture, research, and teaching projects by Teng Teng.
 }
 .home-shuffle:hover { border-color: var(--ink); }
 .home-shuffle:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-.home-catalog .project-card:nth-child(n+17) { display: none; }
+ .home-focus { max-width: 880px; margin: -4px 0 28px; font-size: var(--text-body); line-height: 1.6; color: var(--muted); }
 .home-catalog .project-card h2 {
-  font: calc(1.25rem * var(--heading-scale))/1.35 var(--serif);
+  font: var(--text-card)/1.35 var(--serif);
   letter-spacing: -.015em;
   margin: 0;
 }
@@ -64,7 +64,7 @@ description: Architecture, research, and teaching projects by Teng Teng.
   <div class="home-index-actions">
     <label class="home-sort-control" id="home-sort-control" hidden>
       <span>Sort</span>
-      <select id="home-sort" aria-label="Sort the 16 displayed projects" aria-controls="home-projects">
+      <select id="home-sort" aria-label="Sort all projects or sample randomly" aria-controls="home-projects">
         <option value="random">Random</option>
         <option value="date">Newest first</option>
         <option value="type">Project type</option>
@@ -74,6 +74,7 @@ description: Architecture, research, and teaching projects by Teng Teng.
     <a class="text-link" href="{{ '/gallery/' | relative_url }}">All projects →</a>
   </div>
 </header>
+<p class="home-focus">{{ site.data.site.home_focus | escape }}</p>
 {% assign published_projects = site.projects | where: 'published', true %}
 <div class="project-grid home-catalog" id="home-projects">
   {% for project in published_projects %}
@@ -144,9 +145,10 @@ description: Architecture, research, and teaching projects by Teng Teng.
   }
 
   function render(announce = false) {
-    if (sort.value === 'date') selection.sort(byDate);
+    // Ordered modes always start from the complete catalogue, not the random sample.
+    if (sort.value === 'date') selection = [...pool].sort(byDate);
     if (sort.value === 'type') {
-      selection.sort((a, b) =>
+      selection = [...pool].sort((a, b) =>
         (typeOrder[a.dataset.category] ?? 3) - (typeOrder[b.dataset.category] ?? 3) || byDate(a, b));
     }
     const fragment = document.createDocumentFragment();
@@ -158,7 +160,7 @@ description: Architecture, research, and teaching projects by Teng Teng.
     grid.replaceChildren(fragment);
     if (announce) {
       const order = { random: 'random order', date: 'newest first', type: 'grouped by project type' };
-      status.textContent = selection.length + ' projects, ' + order[sort.value] + '.';
+      status.textContent = selection.length + ' of ' + pool.length + ' projects, ' + order[sort.value] + '.';
     }
   }
 
@@ -178,3 +180,4 @@ description: Architecture, research, and teaching projects by Teng Teng.
   });
 })();
 </script>
+

@@ -194,8 +194,23 @@ editor_notes: |
   built-street-retouched.webp由20260802_141101.jpg经AI辅助美化；其余实拍保留原摄影内容。排除重复照片、重复效果图和来源不清的既有AI版本。
 source_links:
 - https://drive.google.com/drive/folders/1dfGEDDHeqEOUy_1xVf9wlW1LMYmQkrI1
+research_question: How can a flowing retail envelope be coordinated with the planning and construction of a mixed-use
+  complex?
+role_summary: Contributed to early master planning and overall design; led curtain-wall design, optimization, and
+  later technical coordination.
+evidence_summary: Built photographs, design-development studies, and facade documentation connect the podium geometry
+  to its construction.
+related_projects:
+- /projects/series-facade-optimization/
+- /design/dragon-light-international-shopping-mall/
+related_connections:
+- url: /projects/series-facade-optimization/
+  reason: Bringing facade geometry and supplier constraints into design
+- url: /design/dragon-light-international-shopping-mall/
+  reason: Continuous retail podium skins and curtain-wall detailing
+evidence_target: project-evidence
 ---
-
 Kaisa Center brings together a shopping podium, an office tower, and two residential towers in Shenyang. The flowing podium envelope creates a continuous retail frontage beneath the more regular tower façades.
 
 **I participated in the early master planning and overall architectural design, and served as the curtain-wall design lead from the outset.** As the project progressed, my involvement became increasingly focused on façade design and optimization, continuing through later construction documentation and coordination with contractors and curtain-wall suppliers.
+

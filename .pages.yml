@@ -129,6 +129,48 @@ content:
       label: Project stage
       type: string
       description: For example, Built, Schematic design, or Research prototype.
+    - name: role_summary
+      label: Opening role summary
+      type: text
+      description: Use a short, factual statement of your own work. Keep full credits below.
+    - name: evidence_summary
+      label: Opening evidence summary
+      type: text
+      description: Name the actual prototype, test, built result, or student work. Preserve limits and ongoing
+        status.
+    - name: evidence_target
+      label: Evidence anchor
+      type: string
+      description: 'Optional block anchor, without #, for View evidence.'
+    - name: evidence_first
+      label: Opening evidence blocks
+      type: number
+      description: Number of first content blocks to show before the longer description. Leave blank for the
+        standard order.
+    - name: reading_path
+      label: Reading order
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: Label
+        type: string
+      - name: target
+        label: Block anchor
+        type: string
+    - name: related_connections
+      label: Related projects with reasons
+      type: object
+      list: true
+      description: Use only specific shared problems or methods. Up to four are shown in this order; fewer
+        is fine. This list takes precedence over Connected project URLs.
+      fields:
+      - name: url
+        label: Project URL
+        type: string
+      - name: reason
+        label: Shared problem or method
+        type: text
     - name: role
       label: My role
       type: string
@@ -219,6 +261,10 @@ content:
       - name: text
         label: Text
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: Heading
           type: string
@@ -231,6 +277,10 @@ content:
       - name: image
         label: Image with credit
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: Heading
           type: string
@@ -253,6 +303,10 @@ content:
       - name: gallery
         label: Image gallery
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: Gallery heading
           type: string
@@ -281,6 +335,10 @@ content:
       - name: video
         label: Video
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: Video heading
           type: string
@@ -316,6 +374,10 @@ content:
       - name: links
         label: Downloads and external links
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: Heading
           type: string
@@ -852,6 +914,10 @@ content:
     - name: home_title
       label: Homepage heading
       type: text
+    - name: home_focus
+      label: Homepage focus / 首页工作重心
+      type: text
+      description: One short sentence above the project grid.
     - name: home_intro
       label: Homepage introduction
       type: text
@@ -1003,6 +1069,48 @@ content:
       label: 项目阶段
       type: string
       description: 例如 Built、Schematic design、Research prototype。
+    - name: role_summary
+      label: Opening role summary / 开头职责摘要
+      type: text
+      description: Use a short, factual statement of your own work. Keep full credits below.
+    - name: evidence_summary
+      label: Opening evidence summary / 开头证据摘要
+      type: text
+      description: Name the actual prototype, test, built result, or student work. Preserve limits and ongoing
+        status.
+    - name: evidence_target
+      label: Evidence anchor / 证据锚点
+      type: string
+      description: 'Optional block anchor, without #, for View evidence.'
+    - name: evidence_first
+      label: Opening evidence blocks / 提前显示的证据块数量
+      type: number
+      description: Number of first content blocks to show before the longer description. Leave blank for the
+        standard order.
+    - name: reading_path
+      label: Reading order / 阅读顺序
+      type: object
+      list: true
+      fields:
+      - name: title
+        label: Label / 标签
+        type: string
+      - name: target
+        label: Block anchor / 内容块锚点
+        type: string
+    - name: related_connections
+      label: Related projects with reasons / 相关项目与理由
+      type: object
+      list: true
+      description: Use only specific shared problems or methods. Up to four are shown in this order; fewer
+        is fine. This list takes precedence over Connected project URLs.
+      fields:
+      - name: url
+        label: Project URL / 项目地址
+        type: string
+      - name: reason
+        label: Shared problem or method / 共同问题或方法
+        type: text
     - name: role
       label: 我的职责
       type: string
@@ -1090,6 +1198,10 @@ content:
       - name: text
         label: 文字段落
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: 小标题
           type: string
@@ -1102,6 +1214,10 @@ content:
       - name: image
         label: 单张图片（含署名）
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: 小标题
           type: string
@@ -1124,6 +1240,10 @@ content:
       - name: gallery
         label: 批量图片相册
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: 相册标题
           type: string
@@ -1152,6 +1272,10 @@ content:
       - name: video
         label: 视频
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: 视频标题
           type: string
@@ -1187,6 +1311,10 @@ content:
       - name: links
         label: 下载与外部链接
         fields:
+        - name: anchor
+          label: Reading anchor / 阅读锚点
+          type: string
+          description: A unique short ID without spaces, used by reading-order links.
         - name: heading
           label: 小标题
           type: string
@@ -1700,6 +1828,10 @@ content:
     - name: home_title
       label: 首页主标题
       type: text
+    - name: home_focus
+      label: Homepage focus / 首页工作重心
+      type: text
+      description: One short sentence above the project grid.
     - name: home_intro
       label: 首页介绍
       type: text
@@ -1755,3 +1887,4 @@ content:
 settings:
   content:
     merge: true
+

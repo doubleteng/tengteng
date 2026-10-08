@@ -44,10 +44,23 @@ editor_notes: 作品集中的奖项英文存在拼写错误，未将未核实奖
 source_links: []
 project_type: Thesis supervision
 project_stage: Teaching
+research_question: How can observations of everyday use become testable mechanisms and product prototypes?
+role_summary: Supervised student design development at SIVA; students retain authorship of their designs.
+evidence_summary: Mingyuan Li’s Power Walker and Chuou Zhang’s Leaf Chair document student investigations into movement,
+  material, and use.
+related_projects:
+- /teaching/undergraduate-architecture-thesis/
+- /design/operation-ppe/
+related_connections:
+- url: /teaching/undergraduate-architecture-thesis/
+  reason: User research translated into spatial and physical prototypes
+- url: /design/operation-ppe/
+  reason: Body-related product geometry, fit, and physical prototyping
+evidence_target: project-evidence
 ---
-
 Undergraduate product-design projects at the Shanghai Institute of Visual Art translate observations about everyday use into physical mechanisms and prototypes.
 
 Mingyuan Li’s *Power Walker* investigates a walking-assistance device that combines a spring mechanism with shock absorption to reduce loading at the knee. The work is presented as a student design investigation. Furniture studies by Chuou Zhang extend the teaching into the relationship between the body, material, and use.
 
 I supervised the students’ design development. Authorship of the individual designs remains with the students.
+

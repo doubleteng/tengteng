@@ -218,7 +218,22 @@ editor_notes: |
 source_links:
 - http://ttistengteng.com/html/pic/d/479.html
 - https://drive.google.com/drive/folders/17iupPjYWF9CrSYN-WczSZ7NDlIO5NJUv
+research_question: How can tower and podium facade systems be coordinated across a large mixed-use development?
+role_summary: Contributed overall architectural design and carried out curtain-wall design and optimization through
+  all project stages.
+evidence_summary: Built photographs, facade studies, environmental analysis, and construction details connect design
+  intent to enclosure development.
+related_projects:
+- /projects/series-facade-optimization/
+- /design/dragon-light-international-shopping-mall/
+related_connections:
+- url: /projects/series-facade-optimization/
+  reason: Parametric rationalization of tower and podium envelopes
+- url: /design/dragon-light-international-shopping-mall/
+  reason: Facade-system development across materially different enclosures
+evidence_target: project-evidence
 ---
 Yintai Centre is a mixed-use development in Chengdu combining a retail podium with office, residential, hotel, and serviced-apartment towers. The archived design brief describes approximately **720,000 m²** of total construction floor area and a tallest tower of **220 m**.
 
 **I participated in the early overall design and carried out curtain-wall design and optimization across all stages**, from concept design through later construction documentation and coordination with contractors and curtain-wall suppliers. My work included podium planning, hotel and office tower façades, environmental analysis, and the development of façade systems and construction details.
+

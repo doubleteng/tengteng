@@ -2,20 +2,25 @@
 layout: default
 ---
 {% comment %}Keep the workspace outside the CMS rich-text body so saving prose cannot strip its iframe.{% endcomment %}
-<style>
-.stresspath-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:18px 0 20px}
-.stresspath-heading h1{margin:0}
-.stresspath-frame{display:block;width:100%;height:90vh;height:90dvh;min-height:720px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
-.stresspath-description{max-width:1040px;margin:0 0 32px;line-height:1.7}
-.stresspath-description h2{margin-top:26px;margin-bottom:12px}
-.stresspath-description li{margin-bottom:12px}
-@media(max-width:760px){.stresspath-heading{display:block}.stresspath-heading .button{display:inline-block;margin-top:14px}.stresspath-frame{min-height:720px}}
-</style>
 <div class="page-top"><a class="back-link" href="{{ '/research/' | relative_url }}">← Research</a><p class="eyebrow">{{ page.year | escape }}</p></div>
-<header class="stresspath-heading">
-  <h1>{{ page.title | escape }}</h1>
+<header class="project-heading stresspath-heading">
+  <div><h1>{{ page.title | escape }}</h1><p class="lead">{{ page.summary | escape }}</p></div>
   <a class="button" href="{{ '/research/stresspath/app/' | relative_url }}?v=1.35" target="_blank" rel="noopener">Open full screen ↗</a>
 </header>
-<div class="stresspath-description">{{ content }}{% include research-publications.html %}</div>
-<iframe class="stresspath-frame" src="{{ '/research/stresspath/app/' | relative_url }}?v=1.35" title="StressPath interactive workspace" loading="eager" allow="fullscreen; clipboard-write" allowfullscreen></iframe>
+{% include project-brief.html %}
+<section class="stresspath-quickstart" aria-labelledby="stresspath-try-title">
+  <h2 id="stresspath-try-title">Try one change</h2>
+  <ol>
+    <li><h3>Change a load</h3><p>Use the default Howe · 10 panels model. In Design, click the central downward load arrow (node 16), then choose Up in its Direction controls.</p></li>
+    <li><h3>Read the response</h3><p>Open Analyze. Compare tension, compression, and Peak movement. Switch the same load between Down and Up to see the difference.</p></li>
+    <li><h3>Inspect the path</h3><p>Open Toolpath and keep Axial + bending stress. After generation finishes, compare member fill and tensile runs at the central joints. Return to Design to repeat.</p></li>
+  </ol>
+  <p class="caption">Keep geometry and other settings unchanged. Path continuity is a geometric check; the prototype does not verify printed joint strength.</p>
+</section>
+<section id="stresspath-workspace" aria-label="Interactive StressPath demonstration">
+  <iframe class="stresspath-frame" src="{{ '/research/stresspath/app/' | relative_url }}?v=1.35" title="StressPath interactive workspace" loading="eager" allow="fullscreen; clipboard-write" allowfullscreen></iframe>
+  <p class="caption">For more workspace, especially on a phone, <a href="{{ '/research/stresspath/app/' | relative_url }}?v=1.35" target="_blank" rel="noopener">open StressPath full screen ↗</a>.</p>
+</section>
+<section class="stresspath-description prose" aria-labelledby="stresspath-background"><h2 id="stresspath-background">Research background and scope</h2>{{ content }}</section>
+{% include research-publications.html %}
 {% include related-projects.html %}

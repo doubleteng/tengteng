@@ -38,10 +38,23 @@ tags:
 - fabrication
 - design-build
 - collaboration
+research_question: How can a short workshop connect digital design decisions with full-scale construction?
+role_summary: Initiated the SIVA–University of Washington collaboration and co-taught the ten-day workshop.
+evidence_summary: Three full-scale student pavilions, documented in construction and exhibition photographs, were
+  acquired by the Shanghai Museum of Trade.
+related_projects:
+- /research/tri-arc-pavilion/
+- /teaching/digital-fabrication/
+related_connections:
+- url: /research/tri-arc-pavilion/
+  reason: Coordinating digital models and full-scale student construction
+- url: /teaching/digital-fabrication/
+  reason: Moving from parametric geometry to physical fabrication
+evidence_target: project-evidence
 ---
-
 I initiated Digital Practice as a collaboration between the University of Washington’s Department of Architecture and the Shanghai Institute of Visual Art. The ten-day summer workshop took place on the SIVA campus with faculty from both institutions.
 
 Teams applied digital tools to design development, information exchange, and fabrication. Case studies in Shanghai connected modeling decisions with the practical coordination needed to build at full scale.
 
 The workshop produced three full-scale pavilions that the Shanghai Museum of Trade subsequently acquired for public display.
+

@@ -37,7 +37,7 @@ Open **Profile and CV** to update your position, biography, appointments, educat
 
 Publications include title, authors, year, publication type, status, venue, and DOI. PDF, abstract, and BibTeX are optional. The public page supports search, type filters, abstract expansion, and citation copying.
 
-News records include a title, date, category, summary, and body. Published records appear on News, and the latest three appear on the homepage. A future date is a display date, not a publishing schedule.
+The News index and navigation entry have been removed. Existing news records remain editable in the CMS; publishing a record generates only its standalone detail page. News records do not appear on the homepage. A future date is a display date, not a publishing schedule.
 
 ## Drafts, publishing, and recovery
 
@@ -53,7 +53,7 @@ To withdraw a project, turn publishing off. To recover an earlier version, open 
 | --- | --- |
 | Projects | Homepage selections, Research, Teaching, Design, All Work, project pages |
 | Publications | Publications |
-| News | News and the latest updates on the homepage |
+| News | Standalone detail pages for published records only |
 | Profile and CV | About, homepage identity, Contact, footer email |
 | Teaching and courses | Teaching |
 | Fine art | Fine Art |

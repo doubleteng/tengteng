@@ -58,7 +58,7 @@ pub_count = sum(bool(re.search(r'^published: true$', p.read_text().split('---', 
 if (SITE / 'publications/index.html').read_text().count('<article class="publication"') != pub_count: errors.append('Publication index count mismatch')
 sitemap = ET.parse(SITE / 'sitemap.xml')
 urls = {node.text for node in sitemap.iter('{http://www.sitemaps.org/schemas/sitemap/0.9}loc')}
-for route in ['/', '/research/', '/teaching/', '/design/', '/gallery/', '/publications/', '/about/', '/contact/', '/news/']:
+for route in ['/', '/research/', '/teaching/', '/design/', '/gallery/', '/publications/', '/about/', '/contact/']:
     if 'https://teng-teng.org' + route not in urls: errors.append('Sitemap missing ' + route)
 if any('/admin/' in url for url in urls): errors.append('Admin included in sitemap')
 if errors:

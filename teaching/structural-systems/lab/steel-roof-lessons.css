@@ -74,3 +74,10 @@
 
 .sr-pdf-host:not([data-pdf-ready=true]) .sr-pdf-overlay{visibility:hidden}
 .sr-model-steps{padding-left:20px;line-height:1.75}.sr-model-steps li{margin-bottom:8px}
+
+/* Keep the designation beside the member, above the orbiting geometry. */
+.sr-modelbar{display:block}.sr-modelbar>.sr-modelbar-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}.sr-modelbar-heading>div{display:flex;gap:4px;flex-shrink:0}
+.sr-member-key{margin-top:11px;padding-top:10px;border-top:1px solid #cbd8d7;line-height:1.45}.sr-member-title{margin:0 0 8px;font-size:11px;color:#607983}.sr-member-title>span{font-size:17px;color:#244c60;font-variant-numeric:tabular-nums}
+.sr-code{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;gap:6px}.sr-code-girder{grid-template-columns:repeat(4,minmax(0,1fr))}.sr-code>div{min-width:0;padding:5px 6px;border-left:2px solid #9bbac8;background:#edf3f4}.sr-code dt{font-size:21px;line-height:1.2;color:#265775;font-variant-numeric:tabular-nums}.sr-code dd{margin:5px 0 0;font-size:10px;color:#3b5967}.sr-code small{display:block;font-size:9px;color:#677f89;margin-top:2px}
+.sr-member-count{margin:8px 0 5px;font-size:11px;color:#355c6b;font-variant-numeric:tabular-nums}.sr-member-truth{margin:5px 0 0;font-size:10px;line-height:1.55;color:#637880}.sr-modelbar:has(.sr-member-key:not([hidden])){padding-bottom:8px}
+@media(min-width:1300px) and (max-height:870px){.sr-table-mode .sr-left{overflow:auto}.sr-table-mode .sr-reading{position:sticky;top:0;max-height:100%}}

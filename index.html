@@ -64,13 +64,13 @@ description: Materiality as an active dimension of computational design. Researc
   <div class="home-index-actions">
     <label class="home-sort-control" id="home-sort-control" hidden>
       <span>Sort</span>
-      <select id="home-sort" aria-label="Sort all projects or sample randomly" aria-controls="home-projects">
-        <option value="random">Random</option>
+      <select id="home-sort" aria-label="Explore or sort all projects" aria-controls="home-projects">
+        <option value="random">Explore</option>
         <option value="date">Newest first</option>
         <option value="type">Project type</option>
       </select>
     </label>
-    <button class="home-shuffle" id="home-shuffle" type="button" aria-controls="home-projects" hidden>Shuffle ↻</button>
+    <button class="home-shuffle" id="home-shuffle" type="button" aria-controls="home-projects" hidden>Discover more ↻</button>
     <a class="text-link" href="{{ '/gallery/' | relative_url }}">All projects →</a>
   </div>
 </header>
@@ -78,6 +78,10 @@ description: Materiality as an active dimension of computational design. Researc
 {% assign published_projects = site.projects | where: 'published', true %}
 <div class="project-grid home-catalog" id="home-projects">
   {% for project in published_projects %}
+    {% assign core_order = 0 %}
+    {% for core_url in site.data.home.core_projects %}
+      {% if project.url == core_url %}{% assign core_order = forloop.index %}{% endif %}
+    {% endfor %}
     {% assign home_weight = 1 %}
     {% assign home_tags = project.tags | join: ' ' | downcase %}
     {% assign home_type = project.project_type | downcase %}
@@ -89,7 +93,7 @@ description: Materiality as an active dimension of computational design. Researc
     {% elsif project.category == 'teaching' %}
       {% if home_type contains 'design studio' or home_type contains 'thesis supervision' or home_tags contains 'design-build' %}{% assign home_weight = site.data.home.priority_weight %}{% endif %}
     {% endif %}
-    <article class="project-card" data-year="{{ project.year | escape }}" data-category="{{ project.category | escape }}" data-title="{{ project.card_title | default: project.title | escape }}" data-weight="{{ home_weight }}">
+    <article class="project-card" data-project-id="{{ project.url | escape }}" data-core-order="{{ core_order }}" data-year="{{ project.year | escape }}" data-category="{{ project.category | escape }}" data-title="{{ project.card_title | default: project.title | escape }}" data-weight="{{ home_weight }}">
       <a href="{{ project.url | relative_url }}" class="project-link">
         {% if project.cover and project.cover != '' %}
           <div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: project.title | escape }}"{% if project.cover_fit == 'contain' %} style="object-fit:contain"{% endif %} loading="lazy" decoding="async" width="720" height="480"></div>
@@ -111,37 +115,59 @@ description: Materiality as an active dimension of computational design. Researc
   const sort = document.getElementById('home-sort');
   const sortControl = document.getElementById('home-sort-control');
   const status = document.getElementById('home-grid-status');
-  const pool = Array.from(grid.children);
+  // One canonical URL per project, including work listed in several catalogues.
+  const pool = Array.from(new Map(Array.from(grid.children).map(card => [card.dataset.projectId, card])).values());
   const limit = 16;
+  const core = pool.filter(card => Number(card.dataset.coreOrder) > 0)
+    .sort((a, b) => Number(a.dataset.coreOrder) - Number(b.dataset.coreOrder)).slice(0, 4);
+  const rotatingPool = pool.filter(card => !core.includes(card));
   const typeOrder = { research: 0, teaching: 1, design: 2 };
   const year = card => Math.max(0, ...(card.dataset.year.match(/\b\d{4}\b/g) || []).map(Number));
   const byDate = (a, b) => year(b) - year(a) || a.dataset.title.localeCompare(b.dataset.title);
   let selection = [];
+  let previousExplore = new Set();
+
+  function weightedOrder(cards) {
+    return cards.map(card => ({ card, key: -Math.log(1 - Math.random()) / (Number(card.dataset.weight) || 1) }))
+      .sort((a, b) => a.key - b.key)
+      .map(entry => entry.card);
+  }
+
+  function freshFirst(cards) {
+    // New identities take precedence over weights or reshuffling the same cards.
+    return weightedOrder(cards.filter(card => !previousExplore.has(card.dataset.projectId)))
+      .concat(weightedOrder(cards.filter(card => previousExplore.has(card.dataset.projectId))));
+  }
 
   function randomSelection() {
-    // Preserve the category mix while sampling preferred work more often within each category.
-    const count = Math.min(limit, pool.length);
-    const groups = Array.from(new Set(pool.map(card => card.dataset.category))).map(category => {
-      const cards = pool.filter(card => card.dataset.category === category);
-      const share = count * cards.length / pool.length;
-      return { cards, slots: Math.floor(share), remainder: share % 1 };
-    });
-    let remaining = count - groups.reduce((total, group) => total + group.slots, 0);
-    groups.sort((a, b) => b.remainder - a.remainder);
-    for (const group of groups) {
-      if (remaining > 0) { group.slots++; remaining--; }
+    // Keep four additional projects from each discipline; core projects use no quota.
+    const groups = ['research', 'design', 'teaching'].map(category => ({
+      category,
+      cards: freshFirst(rotatingPool.filter(card => card.dataset.category === category)).slice(0, 4)
+    }));
+    const cards = [];
+    let previousCategory = core.at(-1)?.dataset.category;
+    while (groups.some(group => group.cards.length)) {
+      // Interleave disciplines so printed research samples are separated by other work.
+      const round = [...groups];
+      for (let i = round.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [round[i], round[j]] = [round[j], round[i]];
+      }
+      const first = round.findIndex(group => group.cards.length && group.category !== previousCategory);
+      if (first > 0) [round[0], round[first]] = [round[first], round[0]];
+      for (const group of round) {
+        if (!group.cards.length) continue;
+        cards.push(group.cards.shift());
+        previousCategory = group.category;
+      }
     }
-    const cards = groups.flatMap(group => group.cards
-      .map(card => ({ card, key: -Math.log(1 - Math.random()) / (Number(card.dataset.weight) || 1) }))
-      .sort((a, b) => a.key - b.key)
-      .slice(0, group.slots)
-      .map(entry => entry.card));
-    // Keep the visible grid mixed and random, including the first row.
-    for (let i = cards.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [cards[i], cards[j]] = [cards[j], cards[i]];
-    }
-    selection = cards;
+    // If the catalogue shrinks or a core project is unpublished, fill available slots.
+    const selected = new Set(cards);
+    const fallback = freshFirst(rotatingPool.filter(card => !selected.has(card)));
+    const rotating = cards.concat(fallback).slice(0, limit - core.length);
+    previousExplore = new Set(rotating.map(card => card.dataset.projectId));
+    selection = core.concat(rotating);
   }
 
   function render(announce = false) {
@@ -159,7 +185,7 @@ description: Materiality as an active dimension of computational design. Researc
     });
     grid.replaceChildren(fragment);
     if (announce) {
-      const order = { random: 'random order', date: 'newest first', type: 'grouped by project type' };
+      const order = { random: core.length + ' core projects followed by a refreshed selection', date: 'newest first', type: 'grouped by project type' };
       status.textContent = selection.length + ' of ' + pool.length + ' projects, ' + order[sort.value] + '.';
     }
   }
@@ -180,4 +206,5 @@ description: Materiality as an active dimension of computational design. Researc
   });
 })();
 </script>
+
 

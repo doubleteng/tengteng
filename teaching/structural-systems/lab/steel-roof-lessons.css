@@ -47,3 +47,30 @@
 @media(max-width:800px){.sr-table-mode .sr-canvas{height:340px;min-height:340px}}
 .sr-picker{overflow:auto;padding:28px 30px 50px;background:#f6f8f6;flex:1;min-height:0}.sr-picker section{max-width:1120px;margin:0 auto 34px}.sr-picker h2{font-size:23px;letter-spacing:-.02em;margin:6px 0 16px}.sr-picker p{font-size:13px;color:#667e83}.sr-family-cards,.sr-use-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.sr-family-cards button{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:22px;text-align:left}.sr-family-cards button>span:first-child{font-size:29px}.sr-family-cards button>span:nth-child(2){font-size:19px}.sr-family-cards small,.sr-option-cards small,.sr-use-cards small{display:block;font-size:11px;color:#6f858c;line-height:1.6}.sr-picker button[aria-pressed=true] small{color:#d5e8e8}.sr-option-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.sr-option-cards button{padding:8px 8px 14px;overflow:hidden;text-align:left}.sr-option-cards img{display:block;width:100%;border-radius:3px;margin-bottom:10px}.sr-option-cards button>span,.sr-option-cards small{padding:0 7px}.sr-option-cards button>span{display:block;font-size:18px;margin-bottom:7px}.sr-use-cards{grid-template-columns:repeat(3,minmax(0,1fr))}.sr-use-cards button{text-align:left;padding:17px;line-height:1.7}.sr-use-cards button>span{display:block;margin-bottom:7px}.sr-choice-summary{padding:20px 24px;border:1px solid #bacfca;border-radius:7px;background:#edf4ef}.sr-choice-summary button{background:#234e60;color:white}.sr-picker section[hidden]{display:none!important}
 @media(max-width:800px){.sr-picker{padding:22px 15px;overflow:visible}.sr-option-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.sr-family-cards button{padding:15px}.sr-family-cards button>span:first-child{font-size:25px}.sr-family-cards button>span:nth-child(2){font-size:16px}.sr-use-cards{grid-template-columns:1fr}.sr-picker h2{font-size:21px}.sr-choice-summary{padding:16px}}
+/* Original PDF table reader: source pixels and transparent selection overlays. */
+.sr-pdf-host{border:1px solid #b9cbd4;background:#fff;min-width:0;margin:12px 0}
+.sr-pdf-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-bottom:1px solid #d7e1e6;font-size:13px}
+.sr-pdf-toolbar>div{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.sr-pdf-toolbar button,.sr-column-tabs button{background:#fff;border:1px solid #b7c8d2;padding:6px 9px;border-radius:3px;cursor:pointer;color:#24465e;font:inherit;min-height:32px}
+.sr-pdf-toolbar output{min-width:42px;text-align:center;font-size:12px}
+.sr-pdf-guide{padding:8px 10px!important;margin:0!important;background:#edf4f7;font-size:13px!important;color:#274b61;line-height:1.5!important}
+.sr-pdf-scroll{height:440px;max-height:58vh;overflow:auto;background:#e0e5e9;overscroll-behavior:contain;scrollbar-gutter:stable}
+.sr-pdf-page{position:relative;background:white;flex:none;min-width:0}
+.sr-pdf-page canvas{width:100%;height:100%;display:block}
+.sr-pdf-overlay{position:absolute;inset:0;pointer-events:none}
+.sr-pdf-overlay button{position:absolute!important;pointer-events:auto;padding:0!important;min-width:0!important;min-height:0!important;border:1px solid transparent!important;border-radius:0!important;background:transparent!important;cursor:pointer;box-shadow:none!important;margin:0!important}
+.sr-pdf-overlay button:hover,.sr-pdf-overlay button:focus-visible{background:#f4a93730!important;border:2px solid #ac6711!important;z-index:4;outline-offset:0}
+.sr-pdf-overlay button[aria-pressed=true]{border:2px solid #167694!important;background:#2b94b31c!important;z-index:3}
+.sr-pdf-mark{position:absolute;pointer-events:none;box-sizing:border-box}
+.sr-pdf-row{background:#27aac018;border:1px solid #297e9a85}
+.sr-pdf-column{background:#d995001b;border:1px solid #b2762060}
+.sr-pdf-cell{background:#f1b44d44;border:2px solid #9b671f;z-index:2}
+.sr-pdf-group{border:1.5px dashed #4c8497;z-index:1}
+.sr-pdf-status{font-size:12px!important;line-height:1.5!important;margin:8px 10px!important}
+.sr-pdf-file{display:block;margin:6px 10px 10px;font-size:12px;overflow-wrap:anywhere}
+.sr-column-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;font-size:13px}
+.sr-column-tabs button[aria-pressed=true]{background:#244b65;color:white}
+@media(max-width:700px){.sr-pdf-scroll{height:380px;max-height:55vh}.sr-pdf-toolbar{align-items:flex-start}.sr-pdf-toolbar>div{gap:3px}.sr-pdf-toolbar button{padding:6px}.sr-pdf-guide{font-size:12px!important}}
+
+.sr-pdf-host:not([data-pdf-ready=true]) .sr-pdf-overlay{visibility:hidden}
+.sr-model-steps{padding-left:20px;line-height:1.75}.sr-model-steps li{margin-bottom:8px}

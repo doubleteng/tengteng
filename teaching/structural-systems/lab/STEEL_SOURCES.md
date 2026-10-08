@@ -1,4 +1,4 @@
-# Steel Project Lectures 1 and 2
+# Steel Project Lectures 1 and 1.1
 
 This module turns the supplied Lecture 9 assignment into a linked nominal-span model and table-reading exercise. Students first choose 3060 or 4060, then A–E from the original diagrams, then their assigned use/load condition. The study stays gated until those choices are explicit. It shares state between the two lectures and preserves the earlier steel material and anatomy activities.
 
@@ -6,7 +6,7 @@ Sizing uses discrete source-table entries, not continuous size sliders. Clicking
 
 ## Source trail
 
-All source page numbers below refer to the uploaded PDFs, not the course's lecture numbering. The `steel-sources/` images are readable renderings of the supplied pages.
+All source page numbers below refer to the uploaded PDFs, not the course's lecture numbering. The original PDFs in `steel-sources/` are copied unchanged from the supplied files. PDF.js 5.6.205 (legacy build, Apache-2.0 license in `vendor/pdfjs/LICENSE`) renders the original pages locally. Transparent PDF-coordinate hit regions highlight selectable cells; the printed layout, colors and values remain intact. `steel-pdf-map.js` maps joist/girder source coordinates to the separately validated lookup data. The student can zoom, inspect original headings, return to a selection or open the complete PDF. Source-page JPEGs are retained for reference; they no longer replace the table reader.
 
 - `Lecture_9_Steel_Building_Roof.pdf`: project brief pp. 59–61; 3060 options pp. 65, 71–74; 4060 options pp. 75–79; deck and load example pp. 85–102; support and extension details pp. 103–105.
 - `Steel_Roof_Deck_Span_Load_Table.pdf`: p. 1, printed p. 8. All displayed gauge / span / continuity values are transcribed from the allowable-load table. Each pair is total load / load causing L/240 deflection, in psf. Source blanks remain unavailable entries. The double-span 16 ga, 7 ft deflection value is 163 psf.
@@ -26,3 +26,7 @@ The Lecture 9 replay keeps the example as a trial: 4060 C, Houghton, 20 ga tripl
 ## Verification
 
 Run `node tests/steel-roof.test.cjs` from this directory. It checks the source example, load conservation, service/deflection distinctions, source blanks, conservative span lookup, differing E-option constraints, state restoration and 360 assignment/spacing combinations. Browser checks cover table interaction, incorrect/correct student attempts, trial changes, study export/import, existing anatomy, and desktop/mobile layouts.
+
+## Coach integration
+
+Structure Coach uses the same Lecture 9 knowledge and source-table data. Five optional conversation starters cover the assignment, deck, joist, girder and independent modeling. They prepare an editable message without sending it. Source-backed row lookup retains PDF page, nominal span, units and blanks. General explanations leave the calculation prompt unchanged. The evidence step connects recorded dimensions/designations to student-built grids, bearings, family/type dimensions and roof geometry. Steel Lecture 2 remains Upcoming.

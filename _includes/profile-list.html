@@ -1,0 +1,5 @@
+<ul class="timeline">
+{% for item in include.items %}
+  <li>{% if item.name %}{% if item.url and item.url != '' %}<a href="{{ item.url | relative_url }}">{{ item.name | escape }}</a>{% else %}{{ item.name | escape }}{% endif %}{% if item.role and item.role != '' %}<span class="credential-role"> — {{ item.role | escape }}</span>{% endif %}{% else %}{{ item | escape }}{% endif %}</li>
+{% endfor %}
+</ul>

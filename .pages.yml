@@ -823,16 +823,46 @@ content:
       list: true
     - name: education
       label: Education
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: Institution or organization
+        type: string
+      - name: role
+        label: Degree or role (no dates)
+        type: string
+      - name: url
+        label: Internal work-list URL
+        type: string
     - name: appointments
       label: Academic appointments
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: Institution or organization
+        type: string
+      - name: role
+        label: Degree or role (no dates)
+        type: string
+      - name: url
+        label: Internal work-list URL
+        type: string
     - name: experience
       label: Professional experience
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: Institution or organization
+        type: string
+      - name: role
+        label: Degree or role (no dates)
+        type: string
+      - name: url
+        label: Internal work-list URL
+        type: string
     - name: social
       label: Academic and social profiles
       type: object
@@ -846,8 +876,18 @@ content:
       list: true
     - name: service
       label: Academic service
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: Institution or organization
+        type: string
+      - name: role
+        label: Degree or role (no dates)
+        type: string
+      - name: url
+        label: Internal work-list URL
+        type: string
   - name: teaching-en
     label: Teaching and courses
     type: file
@@ -1737,16 +1777,46 @@ content:
       list: true
     - name: education
       label: 教育经历
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: 机构名称
+        type: string
+      - name: role
+        label: 学位或职位（不填时间）
+        type: string
+      - name: url
+        label: 站内作品列表链接
+        type: string
     - name: appointments
       label: 学术任职
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: 机构名称
+        type: string
+      - name: role
+        label: 学位或职位（不填时间）
+        type: string
+      - name: url
+        label: 站内作品列表链接
+        type: string
     - name: experience
       label: 职业经历
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: 机构名称
+        type: string
+      - name: role
+        label: 学位或职位（不填时间）
+        type: string
+      - name: url
+        label: 站内作品列表链接
+        type: string
     - name: social
       label: 学术与社交主页
       type: object
@@ -1760,8 +1830,18 @@ content:
       list: true
     - name: service
       label: 学术服务
-      type: string
+      type: object
       list: true
+      fields:
+      - name: name
+        label: 机构名称
+        type: string
+      - name: role
+        label: 学位或职位（不填时间）
+        type: string
+      - name: url
+        label: 站内作品列表链接
+        type: string
   - name: teaching
     label: 教学介绍与课程
     type: file

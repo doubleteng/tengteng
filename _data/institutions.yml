@@ -1,0 +1,61 @@
+penn:
+  name: University of Pennsylvania
+  match: University of Pennsylvania
+cornell:
+  name: Cornell University
+  match: Cornell University
+washington:
+  name: University of Washington
+  match: University of Washington
+shanghai-university:
+  name: Shanghai University
+  match: Shanghai University
+ltu:
+  name: Lawrence Technological University
+  match: Lawrence Technological University
+siva:
+  name: Shanghai Institute of Visual Art
+  match: Shanghai Institute of Visual Art
+tongji:
+  name: Tongji University
+  match: Tongji University
+ju-square:
+  name: Ju Square Development LLC
+  match: Ju Square Development LLC
+adaptive-design:
+  name: Adaptive Design LLC
+  match: Adaptive Design LLC
+callisonrtkl:
+  name: CallisonRTKL
+  match: CallisonRTKL
+  projects:
+  - /design/dragon-light-international-shopping-mall/
+  - /design/fana-mixed-use-complex-development/
+  - /design/wfj-waterfront-development/
+callison-shanghai:
+  name: Callison (Shanghai)
+  match: Callison, Shanghai
+acadia:
+  name: ACADIA
+  kind: service
+  role: Board of Directors · Technical Co-Chair · Peer Reviewer
+  projects:
+  - /research/programmable-footwear/
+  - /research/integrated-and-tailored-thermal-insulation/
+  - /research/inspire/
+  description: Projects with papers presented at or accepted by ACADIA.
+caadria:
+  name: CAADRIA
+  kind: service
+  role: Peer Reviewer
+  projects:
+  - /research/pica/
+  description: Projects published through CAADRIA.
+caad-futures:
+  name: CAAD Futures
+  kind: service
+  role: Peer Reviewer
+chi:
+  name: CHI
+  kind: service
+  role: Peer Reviewer

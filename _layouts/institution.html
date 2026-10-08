@@ -1,0 +1,32 @@
+---
+layout: default
+---
+{% assign institution = site.data.institutions[page.institution_key] %}
+{% assign projects = site.projects | where: 'published', true | sort: 'year' | reverse %}
+{% assign project_count = 0 %}
+{% capture project_cards %}
+  {% for project in projects %}
+    {% assign belongs = false %}
+    {% if institution.match and project.institution contains institution.match %}{% assign belongs = true %}{% endif %}
+    {% if institution.projects contains project.url %}{% assign belongs = true %}{% endif %}
+    {% if belongs %}
+      {% assign project_count = project_count | plus: 1 %}
+      {% include project-card.html project=project compact=true hide_year=true %}
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+<div class="page-top"><a class="back-link" href="{{ '/about/' | relative_url }}">← About Teng</a></div>
+<header class="page-heading">
+  <p class="eyebrow">{% if institution.kind == 'service' %}Academic service{% else %}Work by institution{% endif %}</p>
+  <h1>{{ institution.name | escape }}</h1>
+  {% if institution.role %}<p class="lead">{{ institution.role | escape }}</p>{% endif %}
+  {% if institution.description %}<p class="caption">{{ institution.description | escape }}</p>{% endif %}
+</header>
+{% if project_count > 0 %}
+<section class="catalog-group" aria-label="{% if institution.kind == 'service' %}Related projects{% else %}Projects at {{ institution.name | escape }}{% endif %}">
+  <p class="result-count">{{ project_count }} {% if project_count == 1 %}project{% else %}projects{% endif %}</p>
+  <div class="project-grid">{{ project_cards }}</div>
+</section>
+{% else %}
+<p class="caption">{% if institution.kind == 'service' %}No related project pages are currently included in this portfolio.{% else %}Projects from this institution have not yet been added to this portfolio.{% endif %}</p>
+{% endif %}

@@ -2,4 +2,8 @@
 title: Design
 ---
 <header class="page-heading"><p class="eyebrow">Architecture / Urbanism / Objects</p><h1>Design</h1><p class="lead">{{ site.data.site.design_intro | escape }}</p></header>
-{% assign projects = site.projects | where: 'published', true | where: 'category', 'design' | sort: 'year' | reverse %}{% include project-browser.html projects=projects %}
+{% assign published_projects = site.projects | where: 'published', true %}
+{% assign design_projects = published_projects | where: 'category', 'design' %}
+{% assign design_build_projects = published_projects | where: 'url', '/research/tri-arc-pavilion/' %}
+{% assign projects = design_projects | concat: design_build_projects | uniq | sort: 'year' | reverse %}
+{% include project-browser.html projects=projects %}

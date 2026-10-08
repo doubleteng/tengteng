@@ -230,7 +230,7 @@ related_projects:
 - /research/continuous-multi-material-extrusion/
 - /research/multi-material-3d-printing-for-tension-compression-structure/
 - /research/integrated-and-tailored-thermal-insulation/
-card_title: Single-Nozzle Material Computation
+card_title: Multi-Material 3D Printing with Active Mixing
 primary_link:
   title: Read the paper · Materials & Design
   url: https://doi.org/10.1016/j.matdes.2024.113479

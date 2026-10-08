@@ -1,4 +1,5 @@
 ---
 title: Fine Art
 ---
+<div class="page-top"><a class="back-link" href="{{ '/about/#beyond-architecture' | relative_url }}">← About</a></div>
 <header class="page-heading"><p class="eyebrow">Studio work</p><h1>{{ site.data.fine_art.title | escape }}</h1><p class="lead">{{ site.data.fine_art.intro | escape }}</p></header><div class="art-gallery">{% for item in site.data.fine_art.images %}<figure><button type="button" class="image-trigger" data-image="{{ item.image | relative_url }}" data-caption="{{ item.caption | escape }}" aria-label="Enlarge {{ item.alt | escape }}"><img src="{{ item.image | relative_url }}" alt="{{ item.alt | escape }}" loading="lazy"></button>{% if item.caption and item.caption != '' %}<figcaption>{{ item.caption | escape }}</figcaption>{% endif %}</figure>{% endfor %}</div>

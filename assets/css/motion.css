@@ -1,6 +1,6 @@
 /* Native document navigation; links work normally without API support or JS. */
 @view-transition { navigation: auto; }
-:root { --motion-time: 260ms; --image-motion-time: 360ms; }
+:root { --motion-time: 340ms; --image-motion-time: 620ms; }
 .site-header { view-transition-name: site-header; }
 ::view-transition-old(root) { animation: page-out 180ms ease both; }
 ::view-transition-new(root) { animation: page-in var(--motion-time) ease both; }
@@ -18,6 +18,9 @@
   animation-duration: var(--image-motion-time);
   mix-blend-mode: normal;
 }
+/* A single moving photograph avoids double images while the crop changes. */
+::view-transition-old(project-cover) { display: none; }
+::view-transition-new(project-cover) { animation: none; opacity: 1; }
 @keyframes page-out { to { opacity: 0; } }
 @keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
@@ -35,10 +38,9 @@
   100% { box-shadow: 0 0 0 0 transparent; }
 }
 @media (max-width: 800px) {
-  :root { --motion-time: 200ms; --image-motion-time: 260ms; }
+  :root { --motion-time: 240ms; --image-motion-time: 420ms; }
 }
-@media (prefers-reduced-motion: reduce) {
-  @view-transition { navigation: none; }
-  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
-  .project-image .thumbnail-preview { transition: none; }
-}
+:root[data-motion="reduce"]::view-transition-group(*),
+:root[data-motion="reduce"]::view-transition-old(*),
+:root[data-motion="reduce"]::view-transition-new(*) { animation: none !important; }
+:root[data-motion="reduce"] .project-image .thumbnail-preview { transition: none; }

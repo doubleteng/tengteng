@@ -46,7 +46,7 @@ document.querySelectorAll('[data-browser]').forEach(browser => {
       const url = new URL(location.href);
       category === 'all' ? url.searchParams.delete('category') : url.searchParams.set('category', category);
       input?.value.trim() ? url.searchParams.set('q', input.value.trim()) : url.searchParams.delete('q');
-      history.replaceState(null, '', url);
+      history.replaceState(history.state, '', url);
     }
   }
   input?.addEventListener('input', () => filter());

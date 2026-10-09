@@ -1,0 +1,15 @@
+{%- assign thumbnail_project = include.project -%}
+{%- assign preview = site.data.preview_media[thumbnail_project.slug] -%}
+{%- assign preview_video = thumbnail_project.preview_video | default: preview.video -%}
+{%- assign preview_animation = thumbnail_project.preview_animation | default: preview.animation -%}
+{%- assign transition_cover = false -%}
+{%- if thumbnail_project.interactive_map != true -%}
+  {%- if thumbnail_project.hero_gallery.size > 0 -%}
+    {%- if thumbnail_project.hero_gallery.first.image == thumbnail_project.cover -%}{%- assign transition_cover = true -%}{%- endif -%}
+  {%- elsif thumbnail_project.cover_preview_only != true -%}
+    {%- assign transition_cover = true -%}
+  {%- endif -%}
+{%- endif -%}
+<div class="project-image"{% if preview_video %} data-preview-video="{{ preview_video | relative_url | escape }}"{% elsif preview_animation %} data-preview-animation="{{ preview_animation | relative_url | escape }}"{% endif %}>
+  <img src="{{ thumbnail_project.cover | relative_url }}" alt="{{ thumbnail_project.cover_alt | default: thumbnail_project.title | escape }}"{% if thumbnail_project.cover_fit == 'contain' %} style="object-fit:contain"{% endif %}{% if transition_cover %} data-transition-cover{% endif %} loading="lazy" decoding="async" width="720" height="480">
+</div>

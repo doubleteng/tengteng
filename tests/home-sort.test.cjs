@@ -17,7 +17,7 @@ function card(category, i, coreOrder = 0) {
 // Match the current catalogue's 21 research, 13 design and 9 teaching records.
 const cards = Array.from({length: 43}, (_, i) => card(
   i < 21 ? 'research' : i < 34 ? 'design' : 'teaching', i, i < 4 ? i + 1 : 0));
-function mount(input, seed = 1) {
+function mount(input, seed = 1, saved = null) {
   const grid = {children: input, replaceChildren(fragment) { this.children = fragment.children; }};
   const control = () => ({value: '', hidden: true, events: {}, addEventListener(type, fn) { this.events[type] = fn; }});
   const sort = control(), shuffle = control(), status = {};
@@ -25,11 +25,12 @@ function mount(input, seed = 1) {
     'home-sort-control': {}, 'home-grid-status': status};
   const math = Object.create(Math);
   math.random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
-  vm.runInNewContext(source, {Math: math, document: {
+  const history = {state: saved ? {portfolioHome: saved} : null, replaceState(state) { this.state = state; }};
+  vm.runInNewContext(source, {Math: math, history, document: {
     getElementById: id => elements[id],
     createDocumentFragment: () => ({children: [], appendChild(c) { this.children.push(c); }})
   }});
-  return {grid, sort, shuffle, status};
+  return {grid, sort, shuffle, status, history};
 }
 const ids = list => Array.from(list, c => c.dataset.projectId);
 const years = c => Math.max(0, ...(c.dataset.year.match(/\b\d{4}\b/g) || []).map(Number));
@@ -82,3 +83,18 @@ for (const smaller of [cards.slice(4), cards.slice(0, 8), [], [cards[0]]]) {
 }
 console.log('PASS: 2,000 Explore transitions, fixed core order, 4/4/4 quotas, >=6 replacements, deduplication, interleaving, global sorting, and small catalogues.');
 
+
+const firstVisit = mount(cards, 7);
+firstVisit.shuffle.events.click();
+const saved = firstVisit.history.state.portfolioHome;
+const returned = mount(cards, 19, saved);
+assert.deepEqual(ids(returned.grid.children), ids(firstVisit.grid.children), 'Back/reload restores the exact Explore selection');
+checkExplore(returned.grid.children);
+returned.sort.value = 'date'; returned.sort.events.change();
+const sortedReturn = mount(cards, 2, returned.history.state.portfolioHome);
+assert.equal(sortedReturn.sort.value, 'date');
+assert.deepEqual(ids(sortedReturn.grid.children), expectedDate, 'Back/reload preserves the selected sort mode');
+for (const invalid of [{mode:'random', ids:['/removed-project/']}, {mode:'random',ids:Array(16).fill(cards[0].dataset.projectId)}]) {
+  checkExplore(mount(cards, 1, invalid).grid.children);
+}
+console.log('PASS: saved selection, sort mode, and stale/duplicate history recovery.');

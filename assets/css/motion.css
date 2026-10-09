@@ -1,0 +1,44 @@
+/* Native document navigation; links work normally without API support or JS. */
+@view-transition { navigation: auto; }
+:root { --motion-time: 260ms; --image-motion-time: 360ms; }
+.site-header { view-transition-name: site-header; }
+::view-transition-old(root) { animation: page-out 180ms ease both; }
+::view-transition-new(root) { animation: page-in var(--motion-time) ease both; }
+::view-transition-group(site-header) { animation: none; z-index: 2; }
+::view-transition-old(site-header) { animation: none; }
+::view-transition-new(site-header) { animation: none; }
+::view-transition-group(project-cover) {
+  animation-duration: var(--image-motion-time);
+  animation-timing-function: cubic-bezier(.22,.61,.36,1);
+  z-index: 1;
+}
+::view-transition-old(project-cover),
+::view-transition-new(project-cover) {
+  width: 100%; height: 100%; object-fit: cover;
+  animation-duration: var(--image-motion-time);
+  mix-blend-mode: normal;
+}
+@keyframes page-out { to { opacity: 0; } }
+@keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.project-image { position: relative; }
+.project-image .thumbnail-preview {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; pointer-events: none;
+  transform: none; transition: opacity 180ms ease;
+}
+.project-image.is-previewing .thumbnail-preview { opacity: 1; }
+.project-link:hover .thumbnail-preview { transform: none; }
+.project-card.is-returned .project-image { animation: project-return 1100ms ease-out; }
+@keyframes project-return {
+  0%, 25% { box-shadow: 0 0 0 3px var(--slate); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (max-width: 800px) {
+  :root { --motion-time: 200ms; --image-motion-time: 260ms; }
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  .project-image .thumbnail-preview { transition: none; }
+}

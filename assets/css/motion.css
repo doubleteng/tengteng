@@ -1,10 +1,11 @@
 /* Native document navigation; links work normally without API support or JS. */
 @view-transition { navigation: auto; }
-:root { --motion-time: 340ms; --image-motion-time: 620ms; }
+:root { --motion-time: 300ms; --image-motion-time: 620ms; --project-copy-delay: 120ms; }
+:root[data-project-arrival="morph"] { --project-copy-delay: 520ms; }
 .site-header { view-transition-name: site-header; }
 ::view-transition-old(root) { animation: page-out 180ms ease both; }
 ::view-transition-new(root) { animation: page-in var(--motion-time) ease both; }
-::view-transition-group(site-header) { animation: none; z-index: 2; }
+::view-transition-group(site-header) { animation: none; z-index: 3; }
 ::view-transition-old(site-header) { animation: none; }
 ::view-transition-new(site-header) { animation: none; }
 ::view-transition-group(project-cover) {
@@ -21,6 +22,35 @@
 /* A single moving photograph avoids double images while the crop changes. */
 ::view-transition-old(project-cover) { display: none; }
 ::view-transition-new(project-cover) { animation: none; opacity: 1; }
+/* The title follows its card independently of the photograph. Different short
+   card titles dissolve into their full project title while the position moves. */
+::view-transition-group(project-title) {
+  animation-duration: var(--image-motion-time);
+  animation-timing-function: cubic-bezier(.22,.61,.36,1);
+  z-index: 2;
+}
+::view-transition-old(project-title) { animation: page-out 120ms ease both; }
+::view-transition-new(project-title) { animation: title-in 260ms 80ms ease both; }
+::view-transition-group(project-meta),
+::view-transition-group(project-summary),
+::view-transition-group(project-actions),
+::view-transition-group(project-brief),
+::view-transition-group(project-reading),
+::view-transition-group(project-opening),
+::view-transition-group(project-body) { animation: none; }
+::view-transition-new(project-meta) { animation: copy-in 260ms 80ms both; }
+::view-transition-new(project-summary) { animation: copy-in 300ms 160ms both; }
+::view-transition-new(project-actions) { animation: copy-in 300ms 200ms both; }
+::view-transition-new(project-brief),
+::view-transition-new(project-reading),
+::view-transition-new(project-opening),
+::view-transition-new(project-body) {
+  animation: copy-in 300ms var(--project-copy-delay) both;
+  animation-timing-function: cubic-bezier(.22,.61,.36,1);
+}
+:root[data-project-arrival]::view-transition-new(root) { animation: title-in 240ms ease both; }
+@keyframes title-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes copy-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes page-out { to { opacity: 0; } }
 @keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
@@ -32,6 +62,8 @@
 }
 .project-image.is-previewing .thumbnail-preview { opacity: 1; }
 .project-link:hover .thumbnail-preview { transform: none; }
+.project-card-exit { position: absolute; pointer-events: none; z-index: 10; }
+.project-card-exit h2 { font: var(--text-card)/1.35 var(--serif); letter-spacing: -.015em; margin: 0; }
 .project-card.is-returned .project-image { animation: project-return 1100ms ease-out; }
 @keyframes project-return {
   0%, 25% { box-shadow: 0 0 0 3px var(--slate); }
@@ -39,6 +71,7 @@
 }
 @media (max-width: 800px) {
   :root { --motion-time: 240ms; --image-motion-time: 420ms; }
+  :root[data-project-arrival="morph"] { --project-copy-delay: 320ms; }
 }
 :root[data-motion="reduce"]::view-transition-group(*),
 :root[data-motion="reduce"]::view-transition-old(*),

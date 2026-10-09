@@ -47,6 +47,8 @@ exclude:
 - scripts
 - tests
 - node_modules
+- package.json
+- package-lock.json
 - vendor
 - assets/data
 - assets/js/projects.js

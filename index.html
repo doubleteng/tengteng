@@ -96,7 +96,7 @@ description: Materiality as an active dimension of computational design. Researc
     <article class="project-card" data-project-id="{{ project.url | escape }}" data-core-order="{{ core_order }}" data-year="{{ project.year | escape }}" data-category="{{ project.category | escape }}" data-title="{{ project.card_title | default: project.title | escape }}" data-weight="{{ home_weight }}">
       <a href="{{ project.url | relative_url }}" class="project-link">
         {% if project.cover and project.cover != '' %}
-          <div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: project.title | escape }}"{% if project.cover_fit == 'contain' %} style="object-fit:contain"{% endif %} loading="lazy" decoding="async" width="720" height="480"></div>
+          {% include project-thumbnail.html project=project %}
         {% else %}
           <div class="project-image text-cover" aria-hidden="true"><span>{{ project.category | capitalize }}</span><strong>{{ project.card_title | default: project.title | escape }}</strong></div>
         {% endif %}
@@ -177,21 +177,35 @@ description: Materiality as an active dimension of computational design. Researc
       selection = [...pool].sort((a, b) =>
         (typeOrder[a.dataset.category] ?? 3) - (typeOrder[b.dataset.category] ?? 3) || byDate(a, b));
     }
-    const fragment = document.createDocumentFragment();
-    selection.forEach((card, index) => {
-      const image = card.querySelector('img');
-      if (image) image.loading = index < 4 ? 'eager' : 'lazy';
-      fragment.appendChild(card);
-    });
-    grid.replaceChildren(fragment);
+    const update = () => {
+      const fragment = document.createDocumentFragment();
+      selection.forEach((card, index) => {
+        const image = card.querySelector('img');
+        if (image) image.loading = index < 4 ? 'eager' : 'lazy';
+        fragment.appendChild(card);
+      });
+      grid.replaceChildren(fragment);
+    };
+    if (announce && typeof window !== 'undefined' && window.portfolioMotion) window.portfolioMotion.reorder(grid, update);
+    else update();
+    // Keep each history entry's exact selection for reload and browser Back.
+    try {
+      history.replaceState({ ...history.state, portfolioHome: { mode: sort.value, ids: selection.map(card => card.dataset.projectId) } }, '');
+    } catch { /* Storage and history may be unavailable in embedded previews. */ }
     if (announce) {
       const order = { random: core.length + ' core projects followed by a refreshed selection', date: 'newest first', type: 'grouped by project type' };
       status.textContent = selection.length + ' of ' + pool.length + ' projects, ' + order[sort.value] + '.';
     }
   }
 
-  sort.value = 'random';
-  randomSelection();
+  let saved;
+  try { saved = history.state?.portfolioHome; } catch { /* Fresh visit. */ }
+  sort.value = ['random', 'date', 'type'].includes(saved?.mode) ? saved.mode : 'random';
+  const byId = new Map(pool.map(card => [card.dataset.projectId, card]));
+  if (sort.value === 'random' && Array.isArray(saved?.ids) && saved.ids.length === Math.min(limit, pool.length) && new Set(saved.ids).size === saved.ids.length && saved.ids.every(id => byId.has(id))) {
+    selection = saved.ids.map(id => byId.get(id));
+    previousExplore = new Set(selection.filter(card => !core.includes(card)).map(card => card.dataset.projectId));
+  } else randomSelection();
   render();
   button.hidden = false;
   sortControl.hidden = false;

@@ -15,7 +15,7 @@ description: Interactive tools and research prototypes for computational design,
       {% if project and project.published %}
       <article class="project-card tool-card">
         <a class="project-link" href="{{ tool_url | escape }}">
-          {% if project.cover %}<div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: tool.title | escape }}" loading="lazy" decoding="async" width="720" height="480"></div>{% endif %}
+          {% if project.cover %}{% include project-thumbnail.html project=project %}{% endif %}
           <h3>{{ tool.title | escape }}</h3>
         </a>
         <p class="card-summary">{{ tool.description | escape }}</p>
@@ -34,7 +34,7 @@ description: Interactive tools and research prototypes for computational design,
       {% if project and project.published %}
       <article class="project-card tool-card">
         <a class="project-link" href="{{ project.url | relative_url }}">
-          {% if project.cover %}<div class="project-image"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | default: project.title | escape }}" loading="lazy" decoding="async" width="720" height="480"></div>{% endif %}
+          {% if project.cover %}{% include project-thumbnail.html project=project %}{% endif %}
           <h3>{{ project.card_title | default: project.title | escape }}</h3>
         </a>
         <p class="card-summary">{{ tool.description | escape }}</p>

@@ -2,7 +2,7 @@
 layout: default
 ---
 <div class="page-top"><a class="back-link" href="{{ page.category | prepend: '/' | append: '/' | relative_url }}">← {{ page.category | capitalize }}</a><p class="eyebrow">{{ page.year | escape }}</p></div>
-<header class="project-heading"><h1>{{ page.title | escape }}</h1>{% if page.summary and page.summary != '' %}<p class="lead">{{ page.summary | escape }}</p>{% endif %}{% if page.primary_link and page.interactive_map != true %}<div class="actions"><a class="button" href="{{ page.primary_link.url | escape }}" target="_blank" rel="noopener">{{ page.primary_link.title | escape }} ↗</a></div>{% endif %}</header>
+<header class="project-heading" data-project-page="{{ page.url | relative_url }}"><h1>{{ page.title | escape }}</h1>{% if page.summary and page.summary != '' %}<p class="lead">{{ page.summary | escape }}</p>{% endif %}{% if page.primary_link and page.interactive_map != true %}<div class="actions"><a class="button" href="{{ page.primary_link.url | escape }}" target="_blank" rel="noopener">{{ page.primary_link.title | escape }} ↗</a></div>{% endif %}</header>
 {% include project-brief.html %}
 {% include project-reading-path.html %}
 {% if page.structure_lab %}{% include structure-lab.html %}{% endif %}

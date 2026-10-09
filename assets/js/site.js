@@ -25,6 +25,7 @@ document.querySelectorAll('[data-browser]').forEach(browser => {
   const records = [...browser.querySelectorAll('[data-search]')];
   const count = browser.querySelector('[data-result-count]');
   const noun = browser.querySelector('.publication-list') ? 'publication' : 'project';
+  const grid = browser.querySelector('.project-grid');
   let category = 'all';
   const params = new URLSearchParams(location.search);
   if (buttons.some(button => button.dataset.filter === params.get('category'))) category = params.get('category');
@@ -32,12 +33,16 @@ document.querySelectorAll('[data-browser]').forEach(browser => {
   function filter(updateURL = true) {
     const terms = (input?.value || '').trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
     let visible = 0;
-    for (const record of records) {
-      const text = record.dataset.search.toLocaleLowerCase();
-      const matches = (category === 'all' || record.dataset.category === category) && terms.every(term => text.includes(term));
-      record.hidden = !matches;
-      if (matches) visible++;
-    }
+    const update = () => {
+      for (const record of records) {
+        const text = record.dataset.search.toLocaleLowerCase();
+        const matches = (category === 'all' || record.dataset.category === category) && terms.every(term => text.includes(term));
+        record.hidden = !matches;
+        if (matches) visible++;
+      }
+    };
+    if (updateURL && grid && window.portfolioMotion) window.portfolioMotion.reorder(grid, update);
+    else update();
     buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === category)));
     if (count) count.textContent = `${visible} ${noun}${visible === 1 ? '' : 's'}`;
     const empty = browser.querySelector('[data-empty]');

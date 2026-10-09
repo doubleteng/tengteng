@@ -63,7 +63,13 @@ async function preview() {
   if (version !== renderVersion || target !== current) return;
   const safe = DOMPurify.sanitize(result.html, { WHOLE_DOCUMENT: true, ADD_TAGS: ['link','iframe'], ADD_ATTR: ['allow','allowfullscreen','loading','fetchpriority'], FORBID_TAGS: ['script','form','input','textarea','select','object','embed','base','meta'] });
   const doc = new DOMParser().parseFromString(safe, 'text/html');
-  doc.querySelectorAll('iframe').forEach(el => { try { const u = new URL(el.getAttribute('src'), bundle.config.url); if (!['www.youtube-nocookie.com','player.vimeo.com'].includes(u.hostname)) el.remove(); else { el.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation'); el.setAttribute('referrerpolicy','no-referrer'); } } catch { el.remove(); } });
+  doc.querySelectorAll('iframe').forEach(el => {
+    const placeholder = doc.createElement('div'); placeholder.className = 'studio-embed-placeholder';
+    const title = doc.createElement('span'); title.textContent = el.getAttribute('title') || '嵌入内容';
+    const note = doc.createElement('small'); note.textContent = '嵌入内容保持原样 · 在网站中查看交互';
+    placeholder.append(title, note); placeholder.style.cssText = 'width:100%;min-height:180px;aspect-ratio:16/9;background:#e5eae7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px';
+    el.replaceWith(placeholder);
+  });
   doc.querySelectorAll('link').forEach(el => { if (el.getAttribute('rel') !== 'stylesheet' || !el.getAttribute('href')?.startsWith('/assets/css/')) el.remove(); });
   decorate(doc, target.path, result.data, result.body, target.uploads);
   doc.querySelectorAll('[data-edit-kind="rich"]').forEach(el => {
@@ -76,13 +82,17 @@ async function preview() {
   const csp = doc.createElement('meta'); csp.httpEquiv = 'Content-Security-Policy';
   csp.content = `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline' ${bundle.config.url}; img-src https: data: blob:; media-src https: blob:; font-src ${bundle.config.url}; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; connect-src 'none'; form-action 'none'; base-uri ${bundle.config.url}`; doc.head.prepend(csp);
   const style = doc.createElement('style'); style.textContent = (clean ? '' : '[data-edit-path]{cursor:pointer;outline-offset:5px}[data-edit-path]:hover{outline:1px dashed #709c75}[data-selected]{outline:2px solid #5b8864!important}[contenteditable=true]{outline:2px solid #32603b!important;cursor:text}') + 'html{scroll-behavior:auto!important}.site-header,.site-footer{pointer-events:none}.project-context:empty{min-height:20px}'; doc.head.append(style);
-  const script = doc.createElement('script'); script.nonce = nonce; script.textContent = bridgeScript(nonce, scroll, clean); doc.body.append(script);
-  $('#preview').srcdoc = '<!doctype html>' + doc.documentElement.outerHTML;
+  // Serialize first: nonce hiding in an inert document can omit a property-set nonce.
+  // Add only our fixed trusted bridge after sanitization, with an explicit nonce attribute.
+  const trustedBridge = '<script nonce="' + nonce + '">' + bridgeScript(nonce, scroll, clean) + '</script>';
+  $('#preview').setAttribute('data-ready', 'false');
+  $('#preview').srcdoc = '<!doctype html>' + doc.documentElement.outerHTML.replace('</body>', trustedBridge + '</body>');
   $('#live-link').href = new URL(result.page.url || '/', bundle.config.url).href;
 }
 window.addEventListener('message', run(async event => {
   if (event.source !== $('#preview').contentWindow || event.data?.studio !== nonce || !current) return;
   const message = event.data;
+  if (message.type === 'ready') { $('#preview').setAttribute('data-ready','true'); return; }
   if (message.type === 'scroll') { scroll = Math.max(0, Number(message.y) || 0); return; }
   if (message.type === 'select') { selected = message.path; inspect(); }
   if (message.type === 'edit') {
@@ -243,24 +253,34 @@ function inspect() {
     for(const key of Object.keys(optional).filter(k=>!Object.hasOwn(p.data,k)))select.add(new Option(labels[key]||key,key));
     if(select.options.length){add.append(select,button('添加字段',()=>{apply([select.value],optional[select.value]);inspect();}));panel.append(add);}
   }
+  if(current.path==='_data/preview_media.yml') {
+    const add=document.createElement('div');add.className='add-row';const select=document.createElement('select');select.setAttribute('aria-label','添加悬停视频的项目');
+    for(const project of site.projects){const slug=project.path.split('/').at(-1).slice(0,-3);if(!Object.hasOwn(p.data,slug))select.add(new Option(project.title,slug));}
+    if(select.options.length){add.append(select,button('添加',()=>{apply([select.value],{video:''});inspect();}));panel.append(add);}
+  }
   if(current.path==='_data/profile.yml') {
     const optional={portrait:'',cv:''};const missing=Object.keys(optional).filter(k=>!Object.hasOwn(p.data,k));
     for(const key of missing)panel.append(button('＋ 添加'+labels[key],()=>{apply([key],optional[key]);inspect();},'wide-action'));
   }
   const path=document.createElement('p');path.className='code-path';path.textContent=current.path;panel.append(path);
 }
+function mediaExtensions(path) {
+  const key=path.at(-1);
+  return ['pdf','cv'].includes(key) ? ['pdf'] : ['file','video'].includes(key) ? ['mp4','webm'] : ['png','jpg','jpeg','webp','gif','avif'];
+}
 async function mediaPicker(path) {
   dialog('选择已有素材','<input id="media-search" type="search" placeholder="搜索文件名…" aria-label="搜索素材"><div id="media-grid" class="media-grid"></div><p class="hint">选择只改变当前字段，不移动或覆盖原素材。每次显示前 80 个匹配结果。</p>');
-  function draw(){const q=$('#media-search').value.toLowerCase(),grid=$('#media-grid');grid.replaceChildren();for(const url of bundle.media.filter(x=>x.toLowerCase().includes(q)).slice(0,80)){const b=button('',()=>{apply(path,url);closeModal();inspect();},'media-card');b.innerHTML=/\.(png|jpe?g|webp|gif|avif)$/i.test(url)?`<img src="${esc(url)}" loading="lazy" alt=""><span>${esc(url.split('/').at(-1))}</span>`:`<div class="empty">${/\.pdf$/i.test(url)?'PDF':'▶ 视频'}</div><span>${esc(url.split('/').at(-1))}</span>`;grid.append(b);}}
+  function draw(){const q=$('#media-search').value.toLowerCase(),grid=$('#media-grid');grid.replaceChildren();for(const url of bundle.media.filter(x=>x.toLowerCase().includes(q)&&mediaExtensions(path).includes(x.split('.').at(-1).toLowerCase())).slice(0,80)){const b=button('',()=>{apply(path,url);closeModal();inspect();},'media-card');b.innerHTML=/\.(png|jpe?g|webp|gif|avif)$/i.test(url)?`<img src="${esc(url)}" loading="lazy" alt=""><span>${esc(url.split('/').at(-1))}</span>`:`<div class="empty">${/\.pdf$/i.test(url)?'PDF':'▶ 视频'}</div><span>${esc(url.split('/').at(-1))}</span>`;grid.append(b);}}
   $('#media-search').oninput=draw;draw();
 }
 function uploadPicker(path) {
   dialog('上传新素材','<p>图片、视频或 PDF；每个文件最多 20 MB。使用新文件名，与你的内容一起发布，不覆盖已有素材。</p><input id="upload-file" type="file" accept=".png,.jpg,.jpeg,.webp,.gif,.avif,.mp4,.webm,.pdf"><p class="hint">上传文件暂存在当前标签页。刷新前请发布，或保留原文件以便重新上传。</p><p id="modal-error" class="inline-error"></p>',[button('取消',closeModal),button('加入草稿',async()=>{
-    const file=$('#upload-file').files[0];if(!file)throw new Error('请先选择文件');if(file.size>20*1024*1024)throw new Error('文件超过 20 MB，请先压缩。');const ext=file.name.split('.').at(-1).toLowerCase();if(!/^(png|jpe?g|webp|gif|avif|mp4|webm|pdf)$/.test(ext))throw new Error('不支持这个文件类型');
+    const file=$('#upload-file').files[0];if(!file)throw new Error('请先选择文件');if(file.size>20*1024*1024)throw new Error('文件超过 20 MB，请先压缩。');const ext=file.name.split('.').at(-1).toLowerCase();if(!mediaExtensions(path).includes(ext))throw new Error('当前字段需要：'+mediaExtensions(path).join('、'));
     const filename='assets/uploads/'+new Date().toISOString().slice(0,10)+'-'+crypto.randomUUID().slice(0,12)+'.'+ext;
     const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});
     current.uploads.push({path:filename,base64:data.split(',')[1],objectURL:URL.createObjectURL(file),name:file.name});apply(path,'/'+filename);closeModal();inspect();status('素材已加入草稿；发布时会与当前内容一起保存。');
   },'primary')]);
+  $('#upload-file').accept=mediaExtensions(path).map(x=>'.'+x).join(',');
 }
 function connectDialog() {
   if(api.token){dialog('GitHub 已连接','<p>令牌只保留在这个标签页的内存中，关闭或刷新页面后需要重新连接。</p>',[button('断开连接',()=>{api.token='';updateToolbar();closeModal();}),button('完成',closeModal,'primary')]);return;}
@@ -323,7 +343,7 @@ $('#collections').onclick=run(e=>{const b=e.target.closest('[data-collection]');
 $('#all-fields').onclick=()=>{selected=null;inspect();};$('#connect').onclick=connectDialog;$('#review').onclick=run(review);$('#history').onclick=run(history);$('#help').onclick=help;$('#new-record').onclick=newRecord;$('#export-draft').onclick=exportDraft;
 $('#undo').onclick=run(()=>{if(!current?.undo.length)return;current.redo.push(current.source);current.source=current.undo.pop();remember();inspect();schedulePreview();});
 $('#redo').onclick=run(()=>{if(!current?.redo.length)return;current.undo.push(current.source);current.source=current.redo.pop();remember();inspect();schedulePreview();});
-$('#discard').onclick=()=>{if(!current)return;dialog('放弃当前草稿？','<p>将重新读取线上当前版本。其他内容的草稿不会改变。建议先导出需要保留的修改。</p>',[button('取消',closeModal),button('导出草稿',exportDraft),button('放弃并重新读取',async()=>{const path=current.path;localStorage.removeItem(storageKey(path));current.source=current.base;current.uploads.forEach(x=>URL.revokeObjectURL(x.objectURL));drafts.delete(path);cache.delete(path);current=null;closeModal();await open(path);},'danger')]);};
+$('#discard').onclick=()=>{if(!current)return;dialog('放弃当前草稿？','<p>将重新读取线上当前版本。其他内容的草稿不会改变。建议先导出需要保留的修改。</p>',[button('取消',closeModal),button('导出草稿',exportDraft),button('放弃并重新读取',async()=>{const path=current.path, wasNew=!current.baseSHA;localStorage.removeItem(storageKey(path));current.source=current.base;current.uploads.forEach(x=>URL.revokeObjectURL(x.objectURL));drafts.delete(path);cache.delete(path);current=null;closeModal();if(wasNew){list();const next=fileRecords()[0]?.path;if(next)await open(next);}else await open(path);},'danger')]);};
 for(const mode of ['desktop','mobile'])$('#'+mode).onclick=()=>{$('#canvas').classList.toggle('mobile',mode==='mobile');$('#desktop').setAttribute('aria-pressed',String(mode==='desktop'));$('#mobile').setAttribute('aria-pressed',String(mode==='mobile'));};
 $('#clean-preview').onclick=run(async()=>{clean=!clean;$('#clean-preview').setAttribute('aria-pressed',String(clean));$('#clean-preview').textContent=clean?'返回编辑':'纯预览';$('#preview-instruction').textContent=clean?'预览模式 · 编辑标记已隐藏':'点击选择 · 双击文字原位编辑';await preview();});
 window.addEventListener('beforeunload',e=>{remember();if(current?.uploads.some(x=>!current.base.includes('/'+x.path))){e.preventDefault();e.returnValue='';}});

@@ -1,0 +1,4 @@
+---
+layout: null
+---
+{"data":{{ site.data | jsonify }},"projects":[{% for item in site.projects %}{% unless forloop.first %},{% endunless %}{"path":{{ item.path | jsonify }},"record":{{ item | jsonify }}}{% endfor %}],"publications":[{% for item in site.publications %}{% unless forloop.first %},{% endunless %}{"path":{{ item.path | jsonify }},"record":{{ item | jsonify }}}{% endfor %}],"updates":[{% for item in site.updates %}{% unless forloop.first %},{% endunless %}{"path":{{ item.path | jsonify }},"record":{{ item | jsonify }}}{% endfor %}]}

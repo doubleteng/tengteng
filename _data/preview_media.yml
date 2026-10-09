@@ -1,27 +1,27 @@
-# Local media only: no third-party players or requests until a visitor hovers.
+# Lightweight, silent hover loops; full project films remain on the project pages.
 ai-empowered-creative-robotics-workshop:
-  video: /assets/media/ai-empowered-creative-robotics-workshop/robotic-painting.mp4
+  video: /assets/videos/previews/ai-empowered-creative-robotics-workshop.mp4
 building-robots-for-robotic-fabrication:
-  video: /assets/videos/building-robots/robot-assembly.mp4
+  video: /assets/videos/previews/building-robots-for-robotic-fabrication.mp4
 diamanti-3d-printed-post-tensioned-concrete-canopy:
-  video: /assets/videos/diamanti-form-finding.mp4
+  video: /assets/videos/previews/diamanti-3d-printed-post-tensioned-concrete-canopy.mp4
 kaisa-center-mixed-use:
-  video: /assets/videos/kaisa-center-mixed-use/lighting-concept-option-2.mp4
+  video: /assets/videos/previews/kaisa-center-mixed-use.mp4
 minimum-device-maximum-space:
-  video: /assets/media/minimum-device-maximum-space/spray-process-01.mp4
+  video: /assets/videos/previews/minimum-device-maximum-space.mp4
 multi-material-deployable-structures:
-  video: /assets/media/multi-material-deployable-structures/suspended-forming-video.mp4
+  video: /assets/videos/previews/multi-material-deployable-structures.mp4
 pica:
-  animation: /assets/media/pica/arm-motion.gif
+  video: /assets/videos/previews/pica.mp4
 pinbed:
-  animation: /assets/media/pinbed/reconfiguration.gif
+  video: /assets/videos/previews/pinbed.mp4
 programmable-footwear:
-  video: /assets/media/programmable-footwear/gradient-shoe-printing.mp4
+  video: /assets/videos/previews/programmable-footwear.mp4
 robosense:
-  video: /assets/videos/robosense/clay-printing.mp4
+  video: /assets/videos/previews/robosense.mp4
 scutoid-brick:
-  video: /assets/videos/scutoid/shell-assembly.mp4
+  video: /assets/videos/previews/scutoid-brick.mp4
 snmm-additive-manufacturing-system:
-  video: /assets/videos/snmf-active-mixing.mp4
+  video: /assets/videos/previews/snmm-additive-manufacturing-system.mp4
 tri-arc-pavilion:
-  video: /assets/videos/tri-arc/michigan-tornado.mp4
+  video: /assets/videos/previews/tri-arc-pavilion.mp4

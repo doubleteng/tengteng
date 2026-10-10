@@ -9,6 +9,7 @@ permissions:
 concurrency:
   group: portfolio-chatbot-sync
   cancel-in-progress: false
+  queue: max
 jobs:
   sync:
     if: ${{ github.repository == 'doubleteng/tengteng' && github.ref == 'refs/heads/main' && (github.event_name != 'page_build' || github.event.build.status == 'built') }}

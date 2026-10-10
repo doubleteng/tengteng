@@ -20,6 +20,9 @@ test('pasted Google key labels are removed without accepting ambiguous keys or l
   for (const raw of ['只有名称没有密钥', key + '\n' + 'AIza' + 'b'.repeat(35), 'Key ：not-a-real-key']) {
     assert.throws(() => normalizeGeminiKey(raw), error => !error.message.includes(raw) && /key value only/.test(error.message));
   }
+  assert.throws(() => normalizeGeminiKey('Key ：not-a-real-key'), /non-ASCII text/);
+  assert.throws(() => normalizeGeminiKey('not a real key'), /embedded whitespace/);
+  assert.throws(() => normalizeGeminiKey(''), /missing value/);
 });
 
 test('derived secrets are stable, distinct, rotate with the provider key and support manual credentials', () => {
@@ -119,6 +122,9 @@ test('deployment is limited to main and shares the sync lock; public artifact ex
   const artifact = deploy.jobs.deploy.steps.find(step => step.uses?.startsWith('actions/upload-artifact'));
   assert.equal(artifact.with.path, '.chatbot/activation/');
   assert.equal(deploy.jobs.deploy.steps.filter(step => step.env?.CLOUDFLARE_API_TOKEN).length, 1);
+  for (const job of [deploy.jobs.deploy, sync.jobs.sync]) for (const step of job.steps) {
+    if (step.env?.GEMINI_API_KEY) assert.equal(step.env.GEMINI_API_KEY, '${{ secrets.PORTFOLIOCHATBOT || secrets.GEMINI_API_KEY }}');
+  }
 });
 
 for (const fail of [false, true]) test('deployment runner ' + (fail ? 'redacts CLI failures and removes temporary credentials' : 'passes protected secrets to Wrangler and removes them after success'), () => {

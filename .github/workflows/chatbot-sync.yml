@@ -23,6 +23,6 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: node scripts/chatbot/sync-ci.mjs
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.PORTFOLIOCHATBOT }}
+          GEMINI_API_KEY: ${{ secrets.PORTFOLIOCHATBOT || secrets.GEMINI_API_KEY }}
           CHAT_SYNC_TOKEN: ${{ secrets.CHAT_SYNC_TOKEN }}
           CHAT_BACKEND_URL: ${{ vars.CHAT_BACKEND_URL }}

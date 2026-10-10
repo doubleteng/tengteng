@@ -74,6 +74,12 @@ export function createWorker(fetcher = fetch) {
         ? reply(null, 204, { 'Access-Control-Allow-Methods': 'POST', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Max-Age': '600' })
         : reply({ error: 'forbidden' }, 403);
       if (!env.CHAT_DB) return reply({ error: 'unavailable' }, 503);
+      let diagnostic = false, stage = 'request';
+      const diagnosticDetail = message => {
+        const redacted = [env.GEMINI_API_KEY, env.SYNC_TOKEN, env.RATE_LIMIT_SECRET].filter(Boolean)
+          .reduce((text, secret) => text.split(secret).join('[redacted]'), String(message));
+        return diagnostic ? { diagnostic: { stage, message: redacted.slice(0, 1000) } } : {};
+      };
       try {
         if (url.pathname === '/sync' && ['GET', 'POST'].includes(request.method)) {
           if (!await tokenOK(request, env.SYNC_TOKEN)) return reply({ error: 'unauthorized' }, 401);
@@ -96,6 +102,7 @@ export function createWorker(fetcher = fetch) {
         if (url.pathname !== '/chat') return reply({ error: 'not_found' }, 404);
         if (request.method !== 'POST') return reply({ error: 'method_not_allowed' }, 405);
         if (!allowed) return reply({ error: 'forbidden' }, 403);
+        diagnostic = request.headers.has('Authorization') && await tokenOK(request, env.SYNC_TOKEN);
         if (!env.GEMINI_API_KEY || typeof env.RATE_LIMIT_SECRET !== 'string' || env.RATE_LIMIT_SECRET.length < 32 || env.CHAT_ENABLED !== 'true') return reply({ error: 'unavailable' }, 503);
         const body = validateQuestion(await readJSON(request));
         const catalog = (await catalogState(env)).current;
@@ -103,21 +110,27 @@ export function createWorker(fetcher = fetch) {
         // The trusted edge supplies this header; do not accept a client-provided IP field.
         const ip = request.headers.get('CF-Connecting-IP');
         if (!ip) return reply({ error: 'unavailable' }, 503);
+        stage = 'quota';
         if (!await consumeQuota(env, ip)) return reply({ error: 'rate_limited' }, 429, { 'Retry-After': '60' });
         const payload = { model: env.GEMINI_MODEL || DEFAULT_MODEL, store: false,
           system_instruction: INSTRUCTIONS, input: JSON.stringify(body),
           tools: [{ type: 'file_search', file_search_store_names: [catalog.store] }],
           generation_config: { max_output_tokens: 1800, thinking_level: 'low' } };
+        stage = 'provider_request';
         const upstream = await fetcher(GOOGLE + '/v1beta/interactions', {
           method: 'POST', redirect: 'error', signal: AbortSignal.timeout(30000),
           headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY }, body: JSON.stringify(payload)
         });
-        if (!upstream.ok) return reply({ error: 'provider_unavailable' }, 503);
+        if (!upstream.ok) {
+          const detail = diagnostic ? await upstream.json().catch(() => ({})) : {};
+          return reply({ error: 'provider_unavailable', ...diagnosticDetail('HTTP ' + upstream.status + ': ' + (detail.error?.message || 'Provider rejected the request.')) }, 503);
+        }
+        stage = 'provider_response';
         const interaction = await readJSON(upstream, 1000000);
         return reply(groundedAnswer(interaction, catalog, body.question));
       } catch (error) {
         const validation = /^(invalid_|too_large)/.test(error.message) || error instanceof SyntaxError;
-        return reply({ error: validation ? 'invalid_request' : 'unavailable' }, validation ? 400 : 503);
+        return reply({ error: validation ? 'invalid_request' : 'unavailable', ...diagnosticDetail(error.message) }, validation ? 400 : 503);
       }
     },
     async scheduled(_event, env) { if (env.CHAT_DB) await env.CHAT_DB.prepare('DELETE FROM chat_quota WHERE expires < ?').bind(Date.now()).run(); }

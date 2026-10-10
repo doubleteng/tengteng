@@ -88,6 +88,22 @@ test('upstream errors are sanitized and cannot expose provider credentials', asy
     const { send } = setup(upstream); const response = await send(); assert.equal(response.status, 503); assert.doesNotMatch(await response.text(), /gemini-test-secret/);
   }
 });
+test('deployment diagnostics require the sync credential and redact secrets even for authorized callers', async () => {
+  for (const throws of [false, true]) {
+    const { send, env } = setup(async () => {
+      const message = 'failure: gemini-test-secret-never-display';
+      if (throws) throw new Error(message);
+      return json({ error: { message } }, 400);
+    });
+    for (const token of ['', 'invalid', env.SYNC_TOKEN]) {
+      const response = await send('/chat', { question: 'What does Teng research?' }, { headers: { Authorization: 'Bearer ' + token } });
+      const body = await response.json();
+      assert.equal(Boolean(body.diagnostic), token === env.SYNC_TOKEN);
+      assert.doesNotMatch(JSON.stringify(body), /gemini-test-secret-never-display/);
+      if (body.diagnostic) assert.equal(body.diagnostic.stage, 'provider_request');
+    }
+  }
+});
 test('quotas enforce minute, daily and global monthly caps and retain no raw IP', async () => {
   const { send, calls, env, worker } = setup();
   for (let i = 0; i < 6; i++) assert.equal((await send()).status, 200);

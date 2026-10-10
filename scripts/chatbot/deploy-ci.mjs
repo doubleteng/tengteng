@@ -36,6 +36,17 @@ async function main() {
     console.log('Chat database migrations applied.');
     await run(['deploy', '--config', configPath, '--keep-vars', '--secrets-file', secretPath]);
     console.log('Chat interface deployed: ' + backend);
+    let reachable = false;
+    for (let attempt = 0; attempt < 40; attempt++) {
+      try {
+        const response = await fetch(backend + '/health', { redirect: 'error', signal: AbortSignal.timeout(10000) });
+        const status = await response.json();
+        // An empty knowledge catalog is expected on first deployment.
+        if ([200, 503].includes(response.status) && typeof status.ready === 'boolean') { reachable = true; break; }
+      } catch {}
+      await new Promise(resolve => setTimeout(resolve, 3000));
+    }
+    if (!reachable) throw new Error('Worker was deployed but its new address is not reachable yet. Rerun deployment after DNS propagation.');
     if (process.env.GITHUB_ENV) await fs.appendFile(process.env.GITHUB_ENV, 'CHAT_BACKEND_URL=' + backend + '\n');
     if (process.env.GITHUB_STEP_SUMMARY) await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, 'Chat API deployed: ' + backend + '\n\nThe website chat remains disabled until knowledge sync and live checks pass and the activation file is published.\n');
   } finally {

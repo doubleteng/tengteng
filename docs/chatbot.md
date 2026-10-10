@@ -28,7 +28,7 @@ The owner has reported creating the Google key, saving `GEMINI_API_KEY` in GitHu
 
 ### GitHub deployment (no local terminal required)
 
-1. In Cloudflare, open Workers & Pages once and finish the `workers.dev` subdomain setup if requested. Copy the account ID from the account dashboard.
+1. Copy the Cloudflare account ID from the account dashboard. If the account has no `workers.dev` subdomain, deployment registers a stable `teng-portfolio-…` address automatically; existing subdomains are reused. Deployment waits for the new endpoint before indexing.
 2. Create a custom Cloudflare API token scoped only to this account with Account / Workers Scripts / Edit, Account / D1 / Edit, and Account / Account Settings / Read. Do not add zone/DNS permissions. Store it in GitHub repository Actions secrets as `CLOUDFLARE_API_TOKEN`; store the account ID as `CLOUDFLARE_ACCOUNT_ID`. Keep the existing `GEMINI_API_KEY` secret. Never paste any secret into chat or repository files.
 3. Publish this source change with `_data/chatbot.yml` disabled. From Actions, run Deploy portfolio chatbot on `main` (it also runs when backend source changes). It reuses/creates only `teng-portfolio-chat`, applies migrations, deploys the Worker, syncs the published pages and checks real English/Chinese answers.
 4. A successful run produces the `chatbot-activation` artifact containing only sample answers/source links and `chatbot.yml`. Review the answers, then publish that configuration as `_data/chatbot.yml`. The workflow has no repository write permission and cannot turn on the website automatically.

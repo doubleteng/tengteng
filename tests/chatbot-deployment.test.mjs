@@ -54,20 +54,39 @@ test('first setup creates one database without touching unrelated resources', as
   assert.equal(calls.filter(call => call.method === 'POST').length, 1);
 });
 
-test('setup stops before mutation for bad account, missing subdomain or permission failures without echoing responses', async () => {
+test('setup stops before mutation for bad account or permission failures without echoing responses', async () => {
   let calls = 0;
   await assert.rejects(provisionDatabase({ ...env, CLOUDFLARE_ACCOUNT_ID: '../other' }, async () => { calls++; }), /CLOUDFLARE_ACCOUNT_ID/);
   assert.equal(calls, 0);
-  await assert.rejects(provisionDatabase(env, async () => {
-    calls++;
-    return Response.json({ success: false, errors: [{ code: 10007 }] }, { status: 404 });
-  }), /workers.dev subdomain/);
-  assert.equal(calls, 1);
   await assert.rejects(provisionDatabase(env, async () => Response.json({ success: false, errors: [{ message: env.CLOUDFLARE_API_TOKEN }] }, { status: 403 })), error => {
     assert.match(error.message, /HTTP 403/);
     assert.ok(!error.message.includes(env.CLOUDFLARE_API_TOKEN));
     return true;
   });
+});
+
+test('a new account receives a workers.dev address only after Cloudflare confirms none exists', async () => {
+  const calls = [];
+  let name;
+  const result = await provisionDatabase(env, async (url, options) => {
+    calls.push({ url, method: options.method });
+    if (url.endsWith('/workers/subdomain') && options.method === 'GET') return Response.json({ success: false, errors: [{ code: 10007 }] }, { status: 404 });
+    if (options.method === 'PUT') {
+      name = JSON.parse(options.body).subdomain;
+      assert.match(name, /^teng-portfolio-[a-f0-9]{12}$/);
+      assert.ok(!name.includes(env.CLOUDFLARE_ACCOUNT_ID));
+      return success({ subdomain: name });
+    }
+    return success([{ name: WORKER_NAME, uuid }]);
+  });
+  assert.equal(result.backend, 'https://' + WORKER_NAME + '.' + name + '.workers.dev');
+  assert.deepEqual(calls.map(call => call.method), ['GET', 'PUT', 'GET']);
+  let permissionCalls = 0;
+  await assert.rejects(provisionDatabase(env, async () => {
+    permissionCalls++;
+    return Response.json({ success: false, errors: [{ code: 10007 }] }, { status: 403 });
+  }), /HTTP 403/);
+  assert.equal(permissionCalls, 1);
 });
 
 test('untrusted provider identifiers cannot become a credential destination or substitute database', async () => {
@@ -97,7 +116,7 @@ for (const fail of [false, true]) test('deployment runner ' + (fail ? 'redacts C
     fs.mkdirSync(path.join(directory, 'scripts/chatbot'), { recursive: true });
     fs.copyFileSync('scripts/chatbot/wrangler.jsonc', path.join(directory, 'scripts/chatbot/wrangler.jsonc'));
     fs.mkdirSync(path.join(directory, 'node_modules/wrangler/bin'), { recursive: true });
-    fs.writeFileSync(path.join(directory, 'preload.mjs'), `globalThis.fetch = async url => Response.json({ success: true, result: url.endsWith('/workers/subdomain') ? { subdomain: 'test' } : [{ name: '${WORKER_NAME}', uuid: '${uuid}' }] });`);
+    fs.writeFileSync(path.join(directory, 'preload.mjs'), `globalThis.fetch = async url => url.endsWith('/health') ? Response.json({ ready: false }, { status: 503 }) : Response.json({ success: true, result: url.endsWith('/workers/subdomain') ? { subdomain: 'test' } : [{ name: '${WORKER_NAME}', uuid: '${uuid}' }] });`);
     fs.writeFileSync(path.join(directory, 'node_modules/wrangler/bin/wrangler.js'), `
       const fs = require('node:fs');
       if (process.argv.includes('--secrets-file')) {

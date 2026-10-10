@@ -170,7 +170,7 @@ function leafField(path, value, parent) {
     toolbar.append(button('源码', () => { const input = document.createElement('textarea'); input.value = path[0] === '$body' ? parseCurrent().body : getAt(parseCurrent().data, path) || ''; input.setAttribute('aria-label', title + ' Markdown'); input.oninput = run(() => apply(path, input.value)); editor.replaceWith(input); toolbar.remove(); }));
     editor.oninput = run(() => apply(path, richMarkdown(editor.innerHTML))); wrapper.append(toolbar, editor);
   } else {
-    if (media && value && /\.(png|jpe?g|webp|gif|avif)(?:[?#]|$)/i.test(value)) { const img = document.createElement('img'); img.className = 'media-thumb'; img.src = current.uploads.find(x => '/' + x.path === value)?.objectURL || value; img.alt = title; wrapper.append(img); }
+    if (media && value && /\.(png|jpe?g|webp|gif|avif)(?:[?#]|$)/i.test(value)) { const img = document.createElement('img'); img.className = 'media-thumb'; img.src = current.uploads.find(x => '/' + x.path === value)?.objectURL || new URL(value, bundle.config.url + '/').href; img.alt = title; wrapper.append(img); }
     let input;
     const options = key === 'category' ? ['research','teaching','design','computational-tools','fine-art'] : key === 'columns' ? ['one','two','three'] : key === 'hero_gallery_fit' || key === 'cover_fit' ? ['cover','contain'] : key === 'image_alignment' ? ['left','center'] : null;
     if (options) { input = document.createElement('select'); for (const option of new Set([value || '', ...options])) input.add(new Option(option, option)); input.value = value || ''; }
@@ -349,7 +349,18 @@ $('#all-fields').onclick=()=>{selected=null;inspect();};$('#connect').onclick=co
 $('#undo').onclick=run(()=>{if(!current?.undo.length)return;current.redo.push(current.source);current.source=current.undo.pop();remember();inspect();schedulePreview();});
 $('#redo').onclick=run(()=>{if(!current?.redo.length)return;current.undo.push(current.source);current.source=current.redo.pop();remember();inspect();schedulePreview();});
 $('#discard').onclick=()=>{if(!current)return;dialog('放弃当前草稿？','<p>将重新读取线上当前版本。其他内容的草稿不会改变。建议先导出需要保留的修改。</p>',[button('取消',closeModal),button('导出草稿',exportDraft),button('放弃并重新读取',async()=>{const path=current.path, wasNew=!current.baseSHA;localStorage.removeItem(storageKey(path));current.source=current.base;current.uploads.forEach(x=>URL.revokeObjectURL(x.objectURL));drafts.delete(path);cache.delete(path);current=null;closeModal();if(wasNew){list();const next=fileRecords()[0]?.path;if(next)await open(next);}else await open(path);},'danger')]);};
-for(const mode of ['desktop','mobile'])$('#'+mode).onclick=()=>{$('#canvas').classList.toggle('mobile',mode==='mobile');$('#desktop').setAttribute('aria-pressed',String(mode==='desktop'));$('#mobile').setAttribute('aria-pressed',String(mode==='mobile'));};
+function resizePreview() {
+  const canvas=$('#canvas'),frame=$('#preview'),style=getComputedStyle(canvas);
+  const availableWidth=canvas.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);
+  const availableHeight=canvas.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);
+  const width=canvas.classList.contains('mobile')?390:1280;
+  const scale=Math.min(1,Math.max(1,availableWidth)/width);
+  frame.style.width=width+'px';frame.style.height=Math.max(1,availableHeight/scale)+'px';
+  frame.style.transform='scale('+scale+')';
+}
+for(const mode of ['desktop','mobile'])$('#'+mode).onclick=()=>{$('#canvas').classList.toggle('mobile',mode==='mobile');$('#desktop').setAttribute('aria-pressed',String(mode==='desktop'));$('#mobile').setAttribute('aria-pressed',String(mode==='mobile'));resizePreview();};
+new ResizeObserver(resizePreview).observe($('#canvas'));
+resizePreview();
 $('#clean-preview').onclick=run(async()=>{clean=!clean;$('#clean-preview').setAttribute('aria-pressed',String(clean));$('#clean-preview').textContent=clean?'返回编辑':'纯预览';$('#preview-instruction').textContent=clean?'预览模式 · 编辑标记已隐藏':'点击选择 · 双击文字原位编辑';await preview();});
 window.addEventListener('beforeunload',e=>{remember();if(current?.uploads.some(x=>!current.base.includes('/'+x.path))){e.preventDefault();e.returnValue='';}});
 window.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();remember();status('草稿已保存到这台设备。点击“查看改动 / 发布”更新网站。');}});

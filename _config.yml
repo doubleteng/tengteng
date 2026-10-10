@@ -51,6 +51,8 @@ exclude:
 - package-lock.json
 - vendor
 - assets/data
+- assets/admin/studio.js
+- assets/admin/context.json
 - assets/js/projects.js
 - assets/js/news.js
 - assets/js/pubs.js

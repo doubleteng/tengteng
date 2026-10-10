@@ -3,23 +3,28 @@ layout: null
 ---
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
-<title>Content Studio · Teng Teng</title>
-<link rel="icon" href="/assets/favicon.svg"><link rel="stylesheet" href="/assets/admin/studio.css?v=1">
-<script type="module" src="/assets/admin/studio.js?v=2"></script>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><title>Content Studio · GitHub 登录</title><link rel="icon" href="/assets/favicon.svg">
+<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:#f4f5f6;color:#192331;font:16px/1.7 system-ui,sans-serif}main{width:min(100%,500px);padding:40px;background:white;border:1px solid #e1e5e9;border-radius:16px}small{color:#77828e;font-size:12px;letter-spacing:.08em}h1{font-size:28px;letter-spacing:-.04em;line-height:1.25}p{color:#5e6975}a{color:#344f72}.action{display:block;padding:13px 20px;margin:24px 0;border-radius:8px;background:#233c59;color:white;text-align:center;text-decoration:none}button{display:block;width:100%;padding:10px;margin:8px 0;border:1px solid #dbe1e8;border-radius:6px;background:white;color:#344f72;cursor:pointer;text-align:left;overflow-wrap:anywhere}details{margin-top:24px}summary{cursor:pointer}footer{font-size:13px;margin-top:24px}</style>
 </head>
-<body>
-<header class="studio-header"><a href="/" class="studio-brand" target="_blank" rel="noopener"><span>TT</span><div>Content Studio<small>Teng Teng · 内容管理</small></div></a><div class="header-right"><span class="privacy-note">草稿仅存于这台设备</span><button id="connect">连接 GitHub</button></div></header>
-<main class="workspace">
-<aside class="library-panel" aria-label="网站内容"><div class="panel-heading"><h1>内容</h1><button id="new-record" class="icon-button" title="新增内容" aria-label="新增内容">＋</button></div><input id="search" type="search" placeholder="搜索标题或项目…" aria-label="搜索内容"><div class="tabs" id="collections"><button data-collection="projects" aria-pressed="true">项目</button><button data-collection="data" aria-pressed="false">页面</button><button data-collection="publications" aria-pressed="false">出版物</button><button data-collection="updates" aria-pressed="false">动态</button></div><div id="content-list" class="content-list"><p class="empty">正在读取内容…</p></div><div class="library-footer"><button id="help">使用说明</button><a href="https://github.com/doubleteng/tengteng/commits/main" target="_blank" rel="noopener">网站版本 ↗</a></div></aside>
-<section class="editor-panel" aria-label="可视化编辑器"><div class="editor-toolbar"><div class="document-heading"><span id="document-name">选择一项内容</span><small id="document-state">读取原始内容，保留全部字段</small></div><div class="toolbar-actions"><button id="undo" title="撤销" aria-label="撤销" disabled>↶</button><button id="redo" title="重做" aria-label="重做" disabled>↷</button><button id="history">历史</button><button id="review" class="primary" disabled>查看改动 / 发布</button></div></div>
-<div class="preview-toolbar"><div class="segmented"><button id="desktop" aria-pressed="true">桌面</button><button id="mobile" aria-pressed="false">手机</button></div><span id="preview-instruction">点击选择 · 双击文字原位编辑</span><div class="preview-options"><button id="clean-preview" aria-pressed="false">纯预览</button><a id="live-link" target="_blank" rel="noopener">线上页面 ↗</a></div></div>
-<div id="status" class="status" role="status" aria-live="polite">正在准备真实页面预览…</div>
-<div class="canvas" id="canvas"><iframe id="preview" title="页面实时预览" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div>
-</section>
-<aside class="inspector-panel" aria-label="内容属性"><div class="panel-heading"><h2>编辑内容</h2><button id="all-fields">全部字段</button></div><div id="inspector" class="inspector"><p class="empty">从左边选择一个项目或页面。原有排版会显示在中间。</p></div><div class="draft-actions"><button id="export-draft">导出草稿</button><button id="discard">放弃当前草稿</button></div></aside>
-</main>
-<dialog id="modal"><div class="dialog-heading"><h2 id="modal-title"></h2><button id="modal-close" aria-label="关闭">×</button></div><div id="modal-body"></div><div id="modal-actions" class="dialog-actions"></div></dialog>
-<noscript>请启用 JavaScript 后使用可视化管理后台。</noscript>
-</body></html>
+<body><main><small>TT / CONTENT STUDIO</small><h1>管理你的网站</h1><p>登录后，在页面预览中编辑文字、图片和内容区块。</p><a class="action" href="https://teng-content-studio.teng-portfolio-11e715bd5693.workers.dev/admin/">使用 GitHub 登录</a><small>仅限 doubleteng · 未登录无法进入编辑器</small><details id="drafts" hidden><summary>这台设备上有未发布的旧草稿</summary><p>可先下载保留。登录后，在「使用说明」中导入对应草稿。这里不会发布或删除内容。</p><div id="draft-list"></div></details><footer><a href="/">返回网站 ↗</a></footer></main>
+<script>
+(() => {
+  try {
+    for (const key of Object.keys(localStorage)) {
+      if (!key.startsWith('tt-studio-v1:')) continue;
+      let saved; try { saved = JSON.parse(localStorage.getItem(key)); } catch { continue; }
+      if (typeof saved?.path !== 'string' || typeof saved.source !== 'string' || typeof saved.base !== 'string') continue;
+      const button = document.createElement('button');
+      button.textContent = '下载草稿 · ' + saved.path;
+      button.onclick = () => {
+        const content = {version:1,path:saved.path,source:saved.source,base:saved.base,baseSHA:saved.baseSHA,exportedAt:new Date().toISOString()};
+        const url = URL.createObjectURL(new Blob([JSON.stringify(content,null,2)],{type:'application/json'}));
+        const link = document.createElement('a'); link.href=url; link.download=saved.path.split('/').pop()+'.draft.json'; link.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+      };
+      document.getElementById('draft-list').append(button);
+      document.getElementById('drafts').hidden = false;
+    }
+  } catch { /* Login works even when local storage is unavailable. */ }
+})();
+</script></body></html>

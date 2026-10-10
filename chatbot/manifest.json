@@ -1,0 +1,4 @@
+---
+layout: null
+---
+{"version":1,"pages":[{"url":"https://teng-teng.org/about/","title":"About Teng Teng"},{"url":"https://teng-teng.org/research/","title":"Research"},{"url":"https://teng-teng.org/publications/","title":"Publications"},{"url":"https://teng-teng.org/computational-tools/","title":"Computational tools"},{"url":"https://teng-teng.org/contact/","title":"Contact Teng Teng"}{% assign chat_projects = site.projects | where: 'published', true | sort: 'url' %}{% for item in chat_projects %}{% unless item.chatbot == false %},{"url":{{ item.url | absolute_url | jsonify }},"title":{{ item.title | jsonify }}}{% endunless %}{% endfor %}]}

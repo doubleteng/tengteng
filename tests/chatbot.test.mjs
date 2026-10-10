@@ -115,7 +115,9 @@ test('catalog activation requires secret, rejects stale sync and atomically reta
   assert.equal((await send('/sync', { catalog: { ...catalog, files: [{ ...catalog.files[0], url: 'https://evil.example' }] }, expectedRevision: next.revision }, options)).status, 400);
 });
 test('source URLs and catalogs cannot redirect to private or arbitrary destinations', () => {
-  for (const url of [SITE + '/admin/', 'https://evil.example/research/', SITE + '/about/?secret=x', 'http://teng-teng.org/about/', 'https://u:p@teng-teng.org/about/']) assert.equal(publicURL(url), null);
+  for (const url of [SITE + '/admin/', SITE + '/projects/example/private/', 'https://evil.example/research/', SITE + '/about/?secret=x', 'http://teng-teng.org/about/', 'https://u:p@teng-teng.org/about/']) assert.equal(publicURL(url), null);
+  assert.equal(publicURL(SITE + '/projects/digital-practice-workshop/'), SITE + '/projects/digital-practice-workshop/');
+  assert.equal(publicURL(SITE + '/projects/series-facade-optimization/'), SITE + '/projects/series-facade-optimization/');
   assert.equal(validateQuestion({ question: 'Hello', page: '/admin/' }).page, '');
   assert.throws(() => validateCatalog({ ...catalog, files: [catalog.files[0], catalog.files[0]] }));
 });
@@ -169,11 +171,12 @@ test('Liquid manifest includes only published projects, preserves explicit opt-o
   const engine = new Liquid(); engine.registerFilter('absolute_url', path => SITE + path); engine.registerFilter('jsonify', JSON.stringify);
   const raw = fs.readFileSync(new URL('../chatbot/manifest.json', import.meta.url), 'utf8').replace(/^---\n[\s\S]*?\n---\n/, '');
   const result = JSON.parse(await engine.parseAndRender(raw, { site: { projects: [
-    { title: 'Published', url: '/research/published/', published: true }, { title: 'Draft secret', url: '/research/draft/', published: false },
+    { title: 'Published', url: '/research/published/', published: true }, { title: 'Legacy project', url: '/projects/legacy-project/', published: true }, { title: 'Draft secret', url: '/research/draft/', published: false },
     { title: 'Opt out', url: '/research/opt-out/', published: true, chatbot: false }, { title: 'Implicit draft', url: '/research/no-flag/' }
   ] } }));
-  assert.equal(result.pages.length, 6); assert.equal(result.pages[5].title, 'Published');
-  const config = parse(fs.readFileSync(new URL('../_data/chatbot.yml', import.meta.url), 'utf8')); assert.equal(config.enabled, false);
+  assert.equal(result.pages.length, 7); assert.ok(result.pages.some(page => page.title === 'Published')); assert.ok(result.pages.every(page => publicURL(page.url)));
+  // Test the disabled state independently of a later verified live activation.
+  const config = { ...parse(fs.readFileSync(new URL('../_data/chatbot.yml', import.meta.url), 'utf8')), enabled: false };
   const fragment = fs.readFileSync(new URL('../_includes/chatbot.html', import.meta.url), 'utf8');
   engine.registerFilter('relative_url', value => value);
   assert.equal((await engine.parseAndRender(fragment, { site: { data: { chatbot: config } }, page: {} })).trim(), '');

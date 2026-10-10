@@ -11,7 +11,8 @@ function page(title, content, status = 200) {
 function headers(response, nonce) {
   const result = new Response(response.body, response);
   result.headers.set('Cache-Control', 'no-store, private');
-  result.headers.set('Referrer-Policy', 'no-referrer');
+  // Keep form POST Origin available without disclosing callback paths or query strings.
+  result.headers.set('Referrer-Policy', 'strict-origin');
   result.headers.set('X-Content-Type-Options', 'nosniff');
   result.headers.set('X-Frame-Options', 'DENY');
   result.headers.set('Strict-Transport-Security', 'max-age=31536000');

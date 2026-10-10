@@ -119,6 +119,8 @@ test('publish rejects CSRF, invalid content, extra files and non-JSON before Git
 test('manifest setup rejects the wrong GitHub owner, binds state and never overwrites registered settings',async()=>{
   for(const userId of [OWNER_ID,123]){const {send,env,calls}=await setup({configured:false,userId});
     assert.equal((await send('/setup',{method:'POST',headers:{Origin:'https://evil.example'}})).status,403);
+    assert.equal((await send('/setup')).headers.get('Referrer-Policy'),'strict-origin');
+    assert.equal((await send('/setup',{method:'POST',headers:{Origin:'null'}})).status,403);
     const start=await send('/setup',{method:'POST',headers:{Origin:ORIGIN}}),html=await start.text(),state=html.match(/apps\/new\?state=([\w-]+)/)[1];
     assert.match(html,/&quot;contents&quot;:&quot;write&quot;/);assert.match(html,/&quot;public&quot;:false/);assert.doesNotMatch(html,/app-secret/);
     const callback='/auth/setup/callback?code=manifest-code-1234&state='+state;

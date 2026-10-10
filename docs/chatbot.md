@@ -24,7 +24,19 @@ The workflow runs after a successful Pages build, manually, and every 30 minutes
 
 ## Account and deployment setup
 
-No real API key, Cloudflare account, D1 database or Gemini store has been created by this change. No real Gemini answer quality or response time has been measured yet.
+The owner has reported creating the Google key, saving `GEMINI_API_KEY` in GitHub Actions secrets, and registering Cloudflare. Cloudflare deployment access is still needed; no real Gemini answer quality or response time has been measured yet.
+
+### GitHub deployment (no local terminal required)
+
+1. In Cloudflare, open Workers & Pages once and finish the `workers.dev` subdomain setup if requested. Copy the account ID from the account dashboard.
+2. Create a custom Cloudflare API token scoped only to this account with Account / Workers Scripts / Edit, Account / D1 / Edit, and Account / Account Settings / Read. Do not add zone/DNS permissions. Store it in GitHub repository Actions secrets as `CLOUDFLARE_API_TOKEN`; store the account ID as `CLOUDFLARE_ACCOUNT_ID`. Keep the existing `GEMINI_API_KEY` secret. Never paste any secret into chat or repository files.
+3. Publish this source change with `_data/chatbot.yml` disabled. From Actions, run Deploy portfolio chatbot on `main` (it also runs when backend source changes). It reuses/creates only `teng-portfolio-chat`, applies migrations, deploys the Worker, syncs the published pages and checks real English/Chinese answers.
+4. A successful run produces the `chatbot-activation` artifact containing only sample answers/source links and `chatbot.yml`. Review the answers, then publish that configuration as `_data/chatbot.yml`. The workflow has no repository write permission and cannot turn on the website automatically.
+5. Later sync runs read the endpoint from the enabled website configuration. No `CHAT_BACKEND_URL` variable is needed for this path. Existing manual variable/token configuration remains supported.
+
+The automatic path derives two different 256-bit HMAC authentication values from the dedicated Gemini key, using separate labels for synchronization and visitor hashing. They are stable across deployments and are stored as Worker secrets. The Gemini key itself is never used as the sync bearer token. Optional existing `CHAT_SYNC_TOKEN` / `RATE_LIMIT_SECRET` repository secrets override those defaults. After rotating the Gemini key or an override, rerun deployment before syncing. Derived values are masked in CI logs; the temporary secret file is removed even if deployment fails and is never uploaded as an artifact. Cloudflare credentials are supplied only to the deployment step, not the Gemini sync step.
+
+### Manual deployment (alternative)
 
 1. Use a Google AI Studio / Google Cloud project with Gemini API access. Use a dedicated project/key for this portfolio, with the appropriate API restriction and billing/quota settings. Do not paste keys into chat or commit them to GitHub. The existing Structure Coach key is not copied or reused.
 2. In the intended Cloudflare account, create an empty Worker named `teng-portfolio-chat`, then authenticate Wrangler and run:

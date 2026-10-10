@@ -13,7 +13,7 @@ async function main() {
   }
   if (!backend) { console.log('Chat has not been deployed and activated yet; knowledge sync skipped.'); return; }
   const secrets = deploymentSecrets(process.env);
-  if (process.env.GITHUB_ACTIONS === 'true') console.log('::add-mask::' + secrets.SYNC_TOKEN);
+  if (process.env.GITHUB_ACTIONS === 'true') for (const value of [secrets.GEMINI_API_KEY, secrets.SYNC_TOKEN]) console.log('::add-mask::' + value);
   await syncKnowledge({ key: secrets.GEMINI_API_KEY, token: secrets.SYNC_TOKEN, backend });
 }
 main().catch(error => { console.error(error.message); process.exitCode = 1; });

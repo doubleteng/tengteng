@@ -1,0 +1,30 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><title>Content Studio · GitHub 登录</title><link rel="icon" href="/assets/favicon.svg">
+<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:#f4f5f6;color:#192331;font:16px/1.7 system-ui,sans-serif}main{width:min(100%,500px);padding:40px;background:white;border:1px solid #e1e5e9;border-radius:16px}small{color:#77828e;font-size:12px;letter-spacing:.08em}h1{font-size:28px;letter-spacing:-.04em;line-height:1.25}p{color:#5e6975}a{color:#344f72}.action{display:block;padding:13px 20px;margin:24px 0;border-radius:8px;background:#233c59;color:white;text-align:center;text-decoration:none}button{display:block;width:100%;padding:10px;margin:8px 0;border:1px solid #dbe1e8;border-radius:6px;background:white;color:#344f72;cursor:pointer;text-align:left;overflow-wrap:anywhere}details{margin-top:24px}summary{cursor:pointer}footer{font-size:13px;margin-top:24px}</style>
+</head>
+<body><main><small>TT / CONTENT STUDIO</small><h1>管理你的网站</h1><p>登录后，在页面预览中编辑文字、图片和内容区块。</p><a class="action" href="__STUDIO_ORIGIN__/admin/">使用 GitHub 登录</a><small>仅限 doubleteng · 未登录无法进入编辑器</small><details id="drafts" hidden><summary>这台设备上有未发布的旧草稿</summary><p>可先下载保留。登录后，在「使用说明」中导入对应草稿。这里不会发布或删除内容。</p><div id="draft-list"></div></details><footer><a href="/">返回网站 ↗</a></footer></main>
+<script>
+(() => {
+  try {
+    for (const key of Object.keys(localStorage)) {
+      if (!key.startsWith('tt-studio-v1:')) continue;
+      let saved; try { saved = JSON.parse(localStorage.getItem(key)); } catch { continue; }
+      if (typeof saved?.path !== 'string' || typeof saved.source !== 'string' || typeof saved.base !== 'string') continue;
+      const button = document.createElement('button');
+      button.textContent = '下载草稿 · ' + saved.path;
+      button.onclick = () => {
+        const content = {version:1,path:saved.path,source:saved.source,base:saved.base,baseSHA:saved.baseSHA,exportedAt:new Date().toISOString()};
+        const url = URL.createObjectURL(new Blob([JSON.stringify(content,null,2)],{type:'application/json'}));
+        const link = document.createElement('a'); link.href=url; link.download=saved.path.split('/').pop()+'.draft.json'; link.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+      };
+      document.getElementById('draft-list').append(button);
+      document.getElementById('drafts').hidden = false;
+    }
+  } catch { /* Login works even when local storage is unavailable. */ }
+})();
+</script></body></html>

@@ -8,6 +8,8 @@ Edits remain local drafts until **Review changes / Publish**. Reloading restores
 
 For first-time publishing, connect a fine-grained GitHub personal access token scoped only to `doubleteng/tengteng` with Contents read/write. The token stays in tab memory and is not written to storage, URLs, logs, or the repository. Refreshing disconnects it. Public content can be previewed and edited without connecting. The previous Pages CMS form is no longer the admin entry point.
 
+The replacement GitHub-account login service is implemented in `scripts/admin-auth`. See [GitHub login deployment and cutover](github-login.md). It must be deployed and authorized before redirecting the public admin entry. Until cutover, the paragraph above describes the existing static editor.
+
 ## Preservation model
 
 - Parse the exact original YAML and Markdown. No-op edits return the identical source.

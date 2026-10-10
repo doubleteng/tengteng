@@ -5,6 +5,11 @@
   "scripts": {
     "build:admin": "node scripts/build-admin.mjs",
     "test:admin": "node --test tests/admin*.test.mjs",
+    "build:secure-admin": "node scripts/build-secure-admin.mjs",
+    "test:auth": "node --test tests/admin-auth.test.mjs",
+    "check:secure-admin": "wrangler deploy --config scripts/admin-auth/wrangler.jsonc --dry-run --outdir .secure-admin/worker",
+    "deploy:secure-admin": "wrangler deploy --config scripts/admin-auth/wrangler.jsonc --keep-vars",
+    "migrate:secure-admin": "wrangler d1 migrations apply DB --remote --config scripts/admin-auth/wrangler.jsonc",
     "test:chatbot": "node --test tests/chatbot*.test.mjs",
     "sync:chatbot": "node scripts/chatbot/sync.mjs",
     "check:chatbot": "wrangler deploy --config scripts/chatbot/wrangler.jsonc --dry-run --outdir .chatbot/worker",

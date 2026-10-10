@@ -1,0 +1,49 @@
+name: Deploy authenticated Content Studio
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/admin/**'
+      - 'scripts/admin-auth/**'
+      - 'scripts/build-admin.mjs'
+      - 'scripts/build-secure-admin.mjs'
+      - 'assets/admin/studio.css'
+      - '_config.yml'
+      - '_layouts/**'
+      - '_includes/**'
+      - '_data/**'
+      - '_projects/**'
+      - '_publications/**'
+      - '_updates/**'
+      - '**/index.html'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/content-studio-deploy.yml'
+permissions:
+  contents: read
+concurrency:
+  group: content-studio-deploy
+  cancel-in-progress: false
+  queue: max
+jobs:
+  deploy:
+    if: github.repository == 'doubleteng/tengteng' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run build:secure-admin
+      - run: npm run test:admin
+      - run: npm run check:secure-admin
+      - name: Deploy protected editor and verify anonymous access
+        run: node scripts/admin-auth/deploy-ci.mjs
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

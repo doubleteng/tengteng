@@ -39,7 +39,7 @@ function updateToolbar() {
   $('#undo').disabled = !current.undo.length || busy; $('#redo').disabled = !current.redo.length || busy;
   $('#review').disabled = !modified() || busy;
   $('#discard').disabled = !modified() || busy;
-  $('#connect').textContent = api.token ? 'GitHub 已连接' : '连接 GitHub';
+  $('#connect').textContent = api.connected ? (api.secure ? api.user.login + ' · 已登录' : 'GitHub 已连接') : (api.secure ? 'GitHub 登录' : '连接 GitHub');
 }
 function change(next, { skipRender = false } = {}) {
   if (busy) return;
@@ -79,12 +79,13 @@ async function preview() {
   if (clean) doc.querySelectorAll('[data-edit-path]').forEach(el => { el.removeAttribute('title'); });
   const base = doc.createElement('base'); base.href = bundle.config.url + '/'; doc.head.prepend(base);
   nonce = crypto.randomUUID().replaceAll('-', '');
+  const scriptNonce = document.querySelector('meta[name=studio-script-nonce]')?.content || nonce;
   const csp = doc.createElement('meta'); csp.httpEquiv = 'Content-Security-Policy';
-  csp.content = `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline' ${bundle.config.url}; img-src https: data: blob:; media-src https: blob:; font-src ${bundle.config.url}; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; connect-src 'none'; form-action 'none'; base-uri ${bundle.config.url}`; doc.head.prepend(csp);
+  csp.content = `default-src 'none'; script-src 'nonce-${scriptNonce}'; style-src 'unsafe-inline' ${bundle.config.url}; img-src https: data: blob:; media-src https: blob:; font-src ${bundle.config.url}; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; connect-src 'none'; form-action 'none'; base-uri ${bundle.config.url}`; doc.head.prepend(csp);
   const style = doc.createElement('style'); style.textContent = (clean ? '' : '[data-edit-path]{cursor:pointer;outline-offset:5px}[data-edit-path]:hover{outline:1px dashed #709c75}[data-selected]{outline:2px solid #5b8864!important}[contenteditable=true]{outline:2px solid #32603b!important;cursor:text}') + 'html{scroll-behavior:auto!important}.site-header,.site-footer{pointer-events:none}.project-context:empty{min-height:20px}'; doc.head.append(style);
   // Serialize first: nonce hiding in an inert document can omit a property-set nonce.
   // Add only our fixed trusted bridge after sanitization, with an explicit nonce attribute.
-  const trustedBridge = '<script nonce="' + nonce + '">' + bridgeScript(nonce, scroll, clean) + '</script>';
+  const trustedBridge = '<script nonce="' + scriptNonce + '">' + bridgeScript(nonce, scroll, clean) + '</script>';
   $('#preview').setAttribute('data-ready', 'false');
   $('#preview').srcdoc = '<!doctype html>' + doc.documentElement.outerHTML.replace('</body>', trustedBridge + '</body>');
   $('#live-link').href = new URL(result.page.url || '/', bundle.config.url).href;
@@ -119,7 +120,7 @@ function list() {
   const records = fileRecords().filter(x => (x.title + ' ' + x.path + ' ' + x.category).toLowerCase().includes(query));
   for (const record of records) {
     const b = button('', () => open(record.path), 'record'); b.setAttribute('aria-current', String(current?.path === record.path));
-    const cover = record.cover; b.innerHTML = `${cover && /^(\/assets\/|https:\/\/)/.test(cover) ? `<img src="${esc(cover)}" loading="lazy" alt="">` : '<span class="record-icon">' + (collection === 'data' ? '▤' : '◻') + '</span>'}<span><strong>${esc(record.title || record.path)}</strong><small>${esc([record.category || record.kind || '', record.year || '', record.published === false ? '未公开' : ''].filter(Boolean).join(' · '))}${modified(drafts.get(record.path)) ? '<i class="draft-dot"></i>' : ''}</small></span>`;
+    const cover = record.cover; b.innerHTML = `${cover && /^(\/assets\/|https:\/\/)/.test(cover) ? `<img src="${esc(new URL(cover,bundle.config.url).href)}" loading="lazy" alt="">` : '<span class="record-icon">' + (collection === 'data' ? '▤' : '◻') + '</span>'}<span><strong>${esc(record.title || record.path)}</strong><small>${esc([record.category || record.kind || '', record.year || '', record.published === false ? '未公开' : ''].filter(Boolean).join(' · '))}${modified(drafts.get(record.path)) ? '<i class="draft-dot"></i>' : ''}</small></span>`;
     $('#content-list').append(b);
   }
   if (!records.length) $('#content-list').innerHTML = '<p class="empty">没有匹配的内容。</p>';
@@ -270,12 +271,12 @@ function mediaExtensions(path) {
 }
 async function mediaPicker(path) {
   dialog('选择已有素材','<input id="media-search" type="search" placeholder="搜索文件名…" aria-label="搜索素材"><div id="media-grid" class="media-grid"></div><p class="hint">选择只改变当前字段，不移动或覆盖原素材。每次显示前 80 个匹配结果。</p>');
-  function draw(){const q=$('#media-search').value.toLowerCase(),grid=$('#media-grid');grid.replaceChildren();for(const url of bundle.media.filter(x=>x.toLowerCase().includes(q)&&mediaExtensions(path).includes(x.split('.').at(-1).toLowerCase())).slice(0,80)){const b=button('',()=>{apply(path,url);closeModal();inspect();},'media-card');b.innerHTML=/\.(png|jpe?g|webp|gif|avif)$/i.test(url)?`<img src="${esc(url)}" loading="lazy" alt=""><span>${esc(url.split('/').at(-1))}</span>`:`<div class="empty">${/\.pdf$/i.test(url)?'PDF':'▶ 视频'}</div><span>${esc(url.split('/').at(-1))}</span>`;grid.append(b);}}
+  function draw(){const q=$('#media-search').value.toLowerCase(),grid=$('#media-grid');grid.replaceChildren();for(const url of bundle.media.filter(x=>x.toLowerCase().includes(q)&&mediaExtensions(path).includes(x.split('.').at(-1).toLowerCase())).slice(0,80)){const b=button('',()=>{apply(path,url);closeModal();inspect();},'media-card');b.innerHTML=/\.(png|jpe?g|webp|gif|avif)$/i.test(url)?`<img src="${esc(new URL(url,bundle.config.url).href)}" loading="lazy" alt=""><span>${esc(url.split('/').at(-1))}</span>`:`<div class="empty">${/\.pdf$/i.test(url)?'PDF':'▶ 视频'}</div><span>${esc(url.split('/').at(-1))}</span>`;grid.append(b);}}
   $('#media-search').oninput=draw;draw();
 }
 function uploadPicker(path) {
   dialog('上传新素材','<p>图片、视频或 PDF；每个文件最多 20 MB。使用新文件名，与你的内容一起发布，不覆盖已有素材。</p><input id="upload-file" type="file" accept=".png,.jpg,.jpeg,.webp,.gif,.avif,.mp4,.webm,.pdf"><p class="hint">上传文件暂存在当前标签页。刷新前请发布，或保留原文件以便重新上传。</p><p id="modal-error" class="inline-error"></p>',[button('取消',closeModal),button('加入草稿',async()=>{
-    const file=$('#upload-file').files[0];if(!file)throw new Error('请先选择文件');if(file.size>20*1024*1024)throw new Error('文件超过 20 MB，请先压缩。');const ext=file.name.split('.').at(-1).toLowerCase();if(!mediaExtensions(path).includes(ext))throw new Error('当前字段需要：'+mediaExtensions(path).join('、'));
+    const file=$('#upload-file').files[0];if(api.secure && file && current.uploads.reduce((sum,x)=>sum+x.base64.length*3/4,0)+file.size>20*1024*1024)throw new Error('本次新素材总量超过 20 MB，请分次发布。');if(!file)throw new Error('请先选择文件');if(file.size>20*1024*1024)throw new Error('文件超过 20 MB，请先压缩。');const ext=file.name.split('.').at(-1).toLowerCase();if(!mediaExtensions(path).includes(ext))throw new Error('当前字段需要：'+mediaExtensions(path).join('、'));
     const filename='assets/uploads/'+new Date().toISOString().slice(0,10)+'-'+crypto.randomUUID().slice(0,12)+'.'+ext;
     const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});
     current.uploads.push({path:filename,base64:data.split(',')[1],objectURL:URL.createObjectURL(file),name:file.name});apply(path,'/'+filename);closeModal();inspect();status('素材已加入草稿；发布时会与当前内容一起保存。');
@@ -283,6 +284,10 @@ function uploadPicker(path) {
   $('#upload-file').accept=mediaExtensions(path).map(x=>'.'+x).join(',');
 }
 function connectDialog() {
+  if(api.secure){
+    if(!api.connected){remember();dialog('重新登录 GitHub','<p>登录已过期。文字草稿已保留在这台设备上；重新登录后可继续。尚未发布的新素材需要重新选择。</p>',[button('返回草稿',closeModal),button('使用 GitHub 登录',()=>{location.assign('/auth/github');},'primary')]);return;}
+    dialog('GitHub 账号',`<p>当前账号：<code>${esc(api.user.login)}</code></p><p>登录最长持续 2 小时，30 分钟未与服务交互会过期。文字草稿保存在这台设备上，退出不会发布内容。</p><label><input id="clear-local-drafts" type="checkbox"> 退出时清除这台设备上的全部草稿</label><p id="modal-error" class="inline-error"></p>`,[button('返回编辑',closeModal),button('退出登录',async()=>{remember();const clear=$('#clear-local-drafts').checked;await api.logout();if(clear){for(const key of Object.keys(localStorage))if(key.startsWith('tt-studio-v1:'))localStorage.removeItem(key);current=null;}location.assign('/login');},'primary')]);return;
+  }
   if(api.token){dialog('GitHub 已连接','<p>令牌只保留在这个标签页的内存中，关闭或刷新页面后需要重新连接。</p>',[button('断开连接',()=>{api.token='';updateToolbar();closeModal();}),button('完成',closeModal,'primary')]);return;}
   dialog('连接 GitHub 后发布',`<p>预览和编辑不需要登录。发布需要你对 <code>doubleteng/tengteng</code> 的写入权限。</p><ol><li>在 GitHub 创建 Fine-grained personal access token。</li><li>只选择 <code>tengteng</code> 仓库，设置 <code>Contents → Read and write</code>。</li><li>把令牌粘贴在下方。这不会存入网站文件或浏览器本地存储。</li></ol><p><a href="https://github.com/settings/personal-access-tokens/new?name=Teng%20Content%20Studio&description=Edit%20my%20portfolio%20content&target_name=doubleteng&contents=write" target="_blank" rel="noopener noreferrer">在 GitHub 创建令牌 ↗</a></p><label class="field">GitHub 令牌<input id="github-token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></label><p id="modal-error" class="inline-error"></p>`,[button('取消',closeModal),button('连接',async()=>{const value=$('#github-token').value;if(!value.trim())throw new Error('请填写令牌');await api.connect(value);$('#github-token').value='';updateToolbar();closeModal();status('GitHub 已连接。发布前仍需查看并确认当前文件的改动。');await discover();},'primary')]);
 }
@@ -296,7 +301,7 @@ async function review() {
   if(missing.length)throw new Error('草稿引用的上传文件已不在当前标签页，请重新上传后发布：'+missing.join(', '));
   const patch=createTwoFilesPatch(current.path,current.path,current.base,snapshot,'当前版本','草稿');
   dialog('检查改动后发布',`<p>本次只保存 <code>${esc(current.path)}</code>${uploadRefs.length?'，并添加 '+uploadRefs.length+' 个新素材':''}。其他页面不会被改写。</p><p class="notice">${current.baseSHA?'发布前将再次检查线上文件版本。':'这是新内容。保留“在网站显示”关闭可先保存为未公开内容。'}</p>${delta.map(x=>`<div class="change-card"><div>${esc(nameFor(x.path))}</div><div class="before">${esc(short(x.before))}</div><div class="after">${esc(short(x.after))}</div></div>`).join('')}<details><summary>查看文件逐行差异</summary><div class="diff">${diffHTML(patch)}</div></details><p id="modal-error" class="inline-error"></p>`,[button('继续编辑',closeModal),button('发布这些改动',async()=>{
-    if(!api.token){connectDialog();return;}
+    if(!api.connected){connectDialog();return;}
     if(current.source!==snapshot)throw new Error('草稿已变化，请关闭后重新检查改动。');
     busy=true;updateToolbar();$('#modal-actions').querySelectorAll('button').forEach(b=>b.disabled=true);status('正在检查版本并发布当前文件…');
     try{
@@ -325,7 +330,7 @@ function exportDraft() {
   if(!current)return;const data=JSON.stringify({version:1,path:current.path,source:current.source,base:current.base,baseSHA:current.baseSHA,exportedAt:new Date().toISOString()},null,2);const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=current.path.split('/').at(-1)+'.draft.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function help() {
-  dialog('管理你的网站',`<div class="guide-step"><span>1</span><div>选内容，直接在页面上修改<small>左侧选项目或页面。点文字 / 图片定位，双击文字原位编辑；右侧编辑链接、媒体和区块顺序。</small></div></div><div class="guide-step"><span>2</span><div>检查桌面与手机效果<small>预览使用网站的真实模板与样式。顶部轮播可用箭头切换；动态地图等自定义交互请在发布后检查线上页。</small></div></div><div class="guide-step"><span>3</span><div>查看改动，再发布<small>只写入当前文件和你新增的素材。遇到版本冲突停止覆盖；历史版本也先载入草稿，不会直接替换网站。</small></div></div><p class="notice">草稿自动保存在这台设备上，不会自动发布。令牌只留在当前标签页内存。不要使用旧表单同时编辑同一内容。</p><p>内容：项目、个人资料、页面文字、首页顺序、出版物、动态、缩略图视频。网站模板和复杂交互代码保留在仓库中。</p><label class="field">导入已导出的草稿<input id="import-file" type="file" accept=".json"></label><p id="modal-error" class="inline-error"></p>`,[button('完成',closeModal)]);
+  dialog('管理你的网站',`<div class="guide-step"><span>1</span><div>选内容，直接在页面上修改<small>左侧选项目或页面。点文字 / 图片定位，双击文字原位编辑；右侧编辑链接、媒体和区块顺序。</small></div></div><div class="guide-step"><span>2</span><div>检查桌面与手机效果<small>预览使用网站的真实模板与样式。顶部轮播可用箭头切换；动态地图等自定义交互请在发布后检查线上页。</small></div></div><div class="guide-step"><span>3</span><div>查看改动，再发布<small>只写入当前文件和你新增的素材。遇到版本冲突停止覆盖；历史版本也先载入草稿，不会直接替换网站。</small></div></div><p class="notice">草稿自动保存在这台设备上，不会自动发布。${api.secure?'GitHub 登录凭据由服务端保管。':'令牌只留在当前标签页内存。'}不要使用旧表单同时编辑同一内容。</p><p>内容：项目、个人资料、页面文字、首页顺序、出版物、动态、缩略图视频。网站模板和复杂交互代码保留在仓库中。</p><label class="field">导入已导出的草稿<input id="import-file" type="file" accept=".json"></label><p id="modal-error" class="inline-error"></p>`,[button('完成',closeModal)]);
   $('#import-file').onchange=run(async e=>{const file=e.target.files[0];if(!file)return;const saved=JSON.parse(await file.text());if(!allowedFile(saved.path)||typeof saved.source!=='string'||typeof saved.base!=='string')throw new Error('不是有效的内容草稿');parseSource(saved.source,saved.path);await open(saved.path);change(saved.source);current.base=saved.base;current.baseSHA=saved.baseSHA;remember();selected=null;inspect();schedulePreview();closeModal();status('草稿已导入。发布前会重新检查线上版本。');});
 }
 function newRecord() {
@@ -349,6 +354,7 @@ $('#clean-preview').onclick=run(async()=>{clean=!clean;$('#clean-preview').setAt
 window.addEventListener('beforeunload',e=>{remember();if(current?.uploads.some(x=>!current.base.includes('/'+x.path))){e.preventDefault();e.returnValue='';}});
 window.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();remember();status('草稿已保存到这台设备。点击“查看改动 / 发布”更新网站。');}});
 async function boot(){
+  if(api.secure){try{await api.session();}catch(error){if(error.status===401){location.replace('/login');return;}throw error;}}
   const response=await fetch('/assets/admin/context.json?v=1');if(!response.ok)throw new Error('编辑器内容读取失败，请刷新重试');bundle=await response.json();site=contextFromFiles(bundle);render=renderer(bundle);
   try{const response=await fetch('/admin/catalog.json?fresh='+Date.now(),{cache:'no-store'});if(response.ok){const live=await response.json();if(live.data)site.data=live.data;for(const col of ['projects','publications','updates'])if(Array.isArray(live[col]))for(const record of live[col]){const item=record.record?{...record.record,path:record.path}:record;if(!item.path)continue;site[col]=site[col].filter(x=>x.path!==item.path);site[col].push(item);}}}catch{/* Bundled content is a read-only fallback until a file is loaded. */}
   // Recover new local documents so a reload never loses an unpublished record.

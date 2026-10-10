@@ -4,6 +4,7 @@ _site/
 vendor/
 .bundle/
 node_modules
+.secure-admin/
 .chatbot/
 .wrangler/
 .dev.vars*

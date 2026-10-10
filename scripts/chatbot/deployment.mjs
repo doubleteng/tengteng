@@ -4,16 +4,18 @@ export const WORKER_NAME = 'teng-portfolio-chat';
 
 export function normalizeGeminiKey(value) {
   const raw = typeof value === 'string' ? value.trim() : '';
+  // Google authorization keys are opaque and may contain dots or exceed the
+  // legacy key length. Validate safe header syntax here; Google validates auth.
+  if (/^[A-Za-z0-9._~+/=-]{20,4096}$/.test(raw)) return raw;
   // Accept one recognizable Google key copied with its label or quotation marks.
   // Ambiguous/missing keys fail closed; never print the pasted secret text.
   const matches = [...raw.matchAll(/(?<![A-Za-z0-9_-])AIza[A-Za-z0-9_-]{35}(?![A-Za-z0-9_-])/g)].map(match => match[0]);
   if (matches.length === 1) return matches[0];
-  if (matches.length > 1 || !/^[A-Za-z0-9_-]{20,200}$/.test(raw)) {
+  if (matches.length !== 1) {
     const reason = !raw ? 'missing value' : matches.length > 1 ? 'multiple keys' : /[^\x00-\x7F]/.test(raw)
       ? 'non-ASCII text' : /\s/.test(raw) ? 'embedded whitespace' : 'unsupported key format';
     throw new Error('The Google API secret has ' + reason + '. Update PORTFOLIOCHATBOT (or GEMINI_API_KEY if no PORTFOLIOCHATBOT exists) with the key value only.');
   }
-  return raw;
 }
 
 // Domain-separated authentication secrets avoid another manual credential step.

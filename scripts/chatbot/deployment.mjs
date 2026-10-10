@@ -1,4 +1,4 @@
-import { createHmac } from 'node:crypto';
+import { createHash, createHmac } from 'node:crypto';
 
 export const WORKER_NAME = 'teng-portfolio-chat';
 
@@ -29,12 +29,17 @@ export async function provisionDatabase(env, fetcher = fetch) {
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok || data.success !== true) {
-      if (path === '/workers/subdomain' && data.errors?.some(item => item.code === 10007)) throw new Error('Open Cloudflare Workers & Pages and finish setting up your workers.dev subdomain, then rerun deployment.');
+      if (method === 'GET' && path === '/workers/subdomain' && response.status !== 401 && response.status !== 403 && data.errors?.some(item => item.code === 10007)) return null;
       throw new Error('Cloudflare setup failed (HTTP ' + response.status + '). Check the token account and Workers Scripts / D1 permissions.');
     }
     return data.result;
   };
-  const { subdomain } = await request('/workers/subdomain');
+  let registration = await request('/workers/subdomain');
+  if (!registration) {
+    const name = 'teng-portfolio-' + createHash('sha256').update(account).digest('hex').slice(0, 12);
+    registration = await request('/workers/subdomain', 'PUT', { subdomain: name });
+  }
+  const { subdomain } = registration;
   if (typeof subdomain !== 'string' || !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(subdomain)) throw new Error('Cloudflare returned an invalid workers.dev subdomain.');
   const databases = await request('/d1/database?name=' + WORKER_NAME + '&per_page=100');
   if (!Array.isArray(databases)) throw new Error('Cloudflare returned an invalid database list.');

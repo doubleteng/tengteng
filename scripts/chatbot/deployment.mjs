@@ -2,11 +2,20 @@ import { createHash, createHmac } from 'node:crypto';
 
 export const WORKER_NAME = 'teng-portfolio-chat';
 
+export function normalizeGeminiKey(value) {
+  const raw = typeof value === 'string' ? value.trim() : '';
+  // Accept one recognizable Google key copied with its label or quotation marks.
+  // Ambiguous/missing keys fail closed; never print the pasted secret text.
+  const matches = [...raw.matchAll(/(?<![A-Za-z0-9_-])AIza[A-Za-z0-9_-]{35}(?![A-Za-z0-9_-])/g)].map(match => match[0]);
+  if (matches.length === 1) return matches[0];
+  if (matches.length > 1 || !/^[A-Za-z0-9_-]{20,200}$/.test(raw)) throw new Error('The Google API secret must contain one API key. Update PORTFOLIOCHATBOT or GEMINI_API_KEY with the key value only.');
+  return raw;
+}
+
 // Domain-separated authentication secrets avoid another manual credential step.
 // Rotate the Gemini key by running deployment again before the next sync.
 export function deploymentSecrets(env) {
-  const key = env.GEMINI_API_KEY?.trim();
-  if (!key || key.length < 20) throw new Error('Add GEMINI_API_KEY to repository Actions secrets.');
+  const key = normalizeGeminiKey(env.GEMINI_API_KEY);
   const derive = purpose => createHmac('sha256', key).update('doubleteng/tengteng:portfolio-chatbot:v1:' + purpose).digest('hex');
   const secrets = {
     GEMINI_API_KEY: key,

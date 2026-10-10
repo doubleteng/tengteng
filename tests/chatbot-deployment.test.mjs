@@ -5,11 +5,22 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { parse } from 'yaml';
-import { deploymentSecrets, provisionDatabase, WORKER_NAME } from '../scripts/chatbot/deployment.mjs';
+import { deploymentSecrets, normalizeGeminiKey, provisionDatabase, WORKER_NAME } from '../scripts/chatbot/deployment.mjs';
 
 const env = { GEMINI_API_KEY: 'test-google-key-only-not-a-real-secret', CLOUDFLARE_ACCOUNT_ID: 'a'.repeat(32), CLOUDFLARE_API_TOKEN: 'test-cloudflare-token' };
 const uuid = '12345678-1234-1234-1234-123456789abc';
 const success = result => Response.json({ success: true, result });
+
+test('pasted Google key labels are removed without accepting ambiguous keys or logging the value', () => {
+  const key = 'AIza' + 'a'.repeat(35);
+  assert.equal(normalizeGeminiKey(key), key);
+  assert.equal(normalizeGeminiKey('Key ： "' + key + '"\n'), key);
+  assert.equal(normalizeGeminiKey('API 密钥：' + key), key);
+  assert.deepEqual(deploymentSecrets({ GEMINI_API_KEY: 'Key ：' + key }), deploymentSecrets({ GEMINI_API_KEY: key }));
+  for (const raw of ['只有名称没有密钥', key + '\n' + 'AIza' + 'b'.repeat(35), 'Key ：not-a-real-key']) {
+    assert.throws(() => normalizeGeminiKey(raw), error => !error.message.includes(raw) && /key value only/.test(error.message));
+  }
+});
 
 test('derived secrets are stable, distinct, rotate with the provider key and support manual credentials', () => {
   const secrets = deploymentSecrets(env);

@@ -6,7 +6,7 @@ export function publicURL(value) {
   try {
     const u = new URL(value);
     return u.origin === SITE && !u.username && !u.password && !u.search && !u.hash &&
-      /^\/(?:about|contact|publications|computational-tools|research|teaching|design)(?:\/[a-z0-9-]+)?\/$/.test(u.pathname) ? u.href : null;
+      /^\/(?:about|contact|publications|computational-tools|research|teaching|design|projects)(?:\/[a-z0-9-]+)?\/$/.test(u.pathname) ? u.href : null;
   } catch { return null; }
 }
 export async function digest(value) {

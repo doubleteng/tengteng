@@ -1,0 +1,28 @@
+name: Sync published portfolio to Gemini
+on:
+  page_build:
+  workflow_dispatch:
+  schedule:
+    - cron: '17,47 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-chatbot-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    if: ${{ github.repository == 'doubleteng/tengteng' && github.ref == 'refs/heads/main' && (github.event_name != 'page_build' || github.event.build.status == 'built') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node scripts/chatbot/sync-ci.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CHAT_SYNC_TOKEN: ${{ secrets.CHAT_SYNC_TOKEN }}
+          CHAT_BACKEND_URL: ${{ vars.CHAT_BACKEND_URL }}

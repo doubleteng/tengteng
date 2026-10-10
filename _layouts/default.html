@@ -48,6 +48,7 @@
   <main id="main" class="container{% if page.wide %} wide{% endif %}{% if page.structure_lab %} structure-lab-page{% endif %}">{{ content }}</main>
   <footer class="site-footer container"><div><strong>{{ site.data.profile.name | escape }}</strong><p>{{ site.data.site.footer_text | escape }}</p></div><div class="footer-links"><a href="mailto:{{ site.data.profile.email | escape }}">Email</a><a href="{{ '/gallery/' | relative_url }}">All work</a><a href="{{ '/admin/' | relative_url }}">Manage</a><span>© {{ 'now' | date: '%Y' }}</span></div></footer>
   <dialog id="image-dialog" aria-label="Image viewer"><button type="button" class="dialog-close" aria-label="Close image viewer">Close ×</button><img alt=""><p></p><div class="dialog-controls"><button type="button" data-direction="-1" aria-label="Previous image">← Previous</button><span id="image-position"></span><button type="button" data-direction="1" aria-label="Next image">Next →</button></div></dialog>
+  {% include chatbot.html %}
 </body>
 </html>
 

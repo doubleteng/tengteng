@@ -1,0 +1,18 @@
+{% if site.data.chatbot.enabled and site.data.chatbot.endpoint != '' and page.chatbot != false %}
+<link rel="stylesheet" href="{{ '/assets/css/chatbot.css' | relative_url }}?v=1">
+<div class="teng-chat" data-teng-chat data-endpoint="{{ site.data.chatbot.endpoint | escape }}">
+  <button class="teng-chat-launch" type="button" aria-controls="teng-chat-panel" aria-expanded="false">Ask about Teng <span aria-hidden="true">↗</span></button>
+  <section id="teng-chat-panel" class="teng-chat-panel" role="dialog" aria-labelledby="teng-chat-title" hidden>
+    <header class="teng-chat-header"><div><h2 id="teng-chat-title">Ask about Teng</h2><p>Research · Projects · Teaching</p></div><button type="button" data-chat-close aria-label="Close chat">×</button></header>
+    <div class="teng-chat-scroll">
+      <p class="teng-chat-intro">Explore Teng’s work with an AI guide. Answers link to the published portfolio. English or 中文.</p>
+      <div class="teng-chat-prompts" aria-label="Suggested questions"><button type="button">What connects Teng’s research?</button><button type="button">Show me multi-material projects.</button><button type="button" data-chat-page hidden>Tell me about this project.</button></div>
+      <div class="teng-chat-messages" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions"></div>
+      <p class="teng-chat-status" role="status"></p>
+    </div>
+    <form class="teng-chat-form"><label for="teng-chat-question">Ask a question</label><textarea id="teng-chat-question" maxlength="1200" rows="2" placeholder="Ask about a project, idea, or course…" required></textarea><div class="teng-chat-actions"><button type="button" data-chat-clear>Clear conversation</button><button type="submit">Send ↗</button></div></form>
+    <p class="teng-chat-note">AI can make mistakes. Check the linked sources. Questions are processed by Google Gemini; avoid sharing private information.</p>
+  </section>
+</div>
+<script src="{{ '/assets/js/chatbot.js' | relative_url }}?v=1" defer></script>
+{% endif %}

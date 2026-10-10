@@ -3,5 +3,9 @@ _site/
 .jekyll-metadata
 vendor/
 .bundle/
-node_modules/
+node_modules
+.chatbot/
+.wrangler/
+.dev.vars*
+.env*
 .DS_Store

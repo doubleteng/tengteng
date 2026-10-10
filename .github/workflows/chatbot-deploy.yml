@@ -1,0 +1,69 @@
+name: Deploy portfolio chatbot
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/chatbot/**'
+      - '.github/workflows/chatbot-deploy.yml'
+      - 'package.json'
+      - 'package-lock.json'
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-chatbot-sync
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.repository == 'doubleteng/tengteng' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run test:chatbot
+      - run: npm run check:chatbot
+      - name: Deploy Worker and database
+        run: node scripts/chatbot/deploy-ci.mjs
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CHAT_SYNC_TOKEN: ${{ secrets.CHAT_SYNC_TOKEN }}
+          RATE_LIMIT_SECRET: ${{ secrets.RATE_LIMIT_SECRET }}
+      - name: Wait for published source manifest
+        run: |
+          node --input-type=module <<'NODE'
+          let ready = false;
+          for (let attempt = 0; attempt < 24; attempt++) {
+            try {
+              const response = await fetch('https://teng-teng.org/chatbot/manifest.json', { redirect: 'error', cache: 'no-store', signal: AbortSignal.timeout(10000) });
+              const manifest = response.ok ? await response.json() : null;
+              if (manifest?.version === 1 && manifest.pages?.length >= 5) { ready = true; break; }
+            } catch {}
+            await new Promise(resolve => setTimeout(resolve, 10000));
+          }
+          if (!ready) throw new Error('GitHub Pages manifest is not ready. Rerun this workflow after the Pages build completes.');
+          NODE
+      - name: Sync published portfolio
+        run: node scripts/chatbot/sync-ci.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CHAT_SYNC_TOKEN: ${{ secrets.CHAT_SYNC_TOKEN }}
+      - name: Check real English and Chinese answers
+        run: |
+          mkdir -p .chatbot/activation
+          node scripts/chatbot/activate.mjs "$CHAT_BACKEND_URL" > .chatbot/activation/answers.txt
+          cp _data/chatbot.yml .chatbot/activation/chatbot.yml
+          printf '%s\n' 'Live checks passed. Review the chatbot-activation artifact, then publish chatbot.yml as _data/chatbot.yml to enable the widget.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chatbot-activation
+          path: .chatbot/activation/
+          retention-days: 7
+          if-no-files-found: error
+          include-hidden-files: true

@@ -1,0 +1,18 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "teng-portfolio-chat",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-10",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": false },
+  "vars": {
+    "GEMINI_MODEL": "gemini-3.8-flash",
+    "CHAT_ENABLED": "true",
+    "IP_DAILY_LIMIT": "40",
+    "DAILY_LIMIT": "200",
+    "MONTHLY_LIMIT": "3000"
+  },
+  "d1_databases": [{ "binding": "CHAT_DB", "database_name": "teng-portfolio-chat", "migrations_dir": "migrations" }],
+  "triggers": { "crons": ["23 4 * * *"] }
+}

@@ -4,7 +4,12 @@
   "type": "module",
   "scripts": {
     "build:admin": "node scripts/build-admin.mjs",
-    "test:admin": "node --test tests/admin*.test.mjs"
+    "test:admin": "node --test tests/admin*.test.mjs",
+    "test:chatbot": "node --test tests/chatbot*.test.mjs",
+    "sync:chatbot": "node scripts/chatbot/sync.mjs",
+    "check:chatbot": "wrangler deploy --config scripts/chatbot/wrangler.jsonc --dry-run --outdir .chatbot/worker",
+    "deploy:chatbot": "wrangler deploy --config scripts/chatbot/wrangler.jsonc --keep-vars",
+    "migrate:chatbot": "wrangler d1 migrations apply CHAT_DB --remote --config scripts/chatbot/wrangler.jsonc"
   },
   "dependencies": {
     "diff": "9.0.0",
@@ -16,6 +21,7 @@
   },
   "devDependencies": {
     "esbuild": "0.28.2",
-    "linkedom": "0.18.13"
+    "linkedom": "0.18.13",
+    "wrangler": "4.149.0"
   }
 }

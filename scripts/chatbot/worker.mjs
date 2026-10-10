@@ -118,7 +118,8 @@ export function createWorker(fetcher = fetch) {
           generation_config: { max_output_tokens: 1800, thinking_level: 'low' } };
         stage = 'provider_request';
         const upstream = await fetcher(GOOGLE + '/v1beta/interactions', {
-          method: 'POST', redirect: 'error', signal: AbortSignal.timeout(30000),
+          // Workers supports manual redirects; any 3xx is rejected below.
+          method: 'POST', redirect: 'manual', signal: AbortSignal.timeout(30000),
           headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY }, body: JSON.stringify(payload)
         });
         if (!upstream.ok) {

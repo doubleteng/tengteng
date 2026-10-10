@@ -23,6 +23,12 @@ test('pasted Google key labels are removed without accepting ambiguous keys or l
   assert.throws(() => normalizeGeminiKey('Key ：not-a-real-key'), /non-ASCII text/);
   assert.throws(() => normalizeGeminiKey('not a real key'), /embedded whitespace/);
   assert.throws(() => normalizeGeminiKey(''), /missing value/);
+  const authorizationKey = 'AQ.' + 'aB09_-'.repeat(60) + '.value=';
+  assert.equal(normalizeGeminiKey(authorizationKey), authorizationKey);
+  assert.equal(deploymentSecrets({ GEMINI_API_KEY: authorizationKey }).GEMINI_API_KEY, authorizationKey);
+  for (const invalid of [authorizationKey + '\r\nInjected: value', 'a'.repeat(4097)]) {
+    assert.throws(() => normalizeGeminiKey(invalid), error => !error.message.includes(invalid));
+  }
 });
 
 test('derived secrets are stable, distinct, rotate with the provider key and support manual credentials', () => {

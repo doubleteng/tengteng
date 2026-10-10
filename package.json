@@ -4,7 +4,12 @@
   "type": "module",
   "scripts": {
     "build:admin": "node scripts/build-admin.mjs",
-    "test:admin": "node --test tests/admin*.test.mjs"
+    "test:admin": "node --test tests/admin*.test.mjs",
+    "build:secure-admin": "node scripts/build-secure-admin.mjs",
+    "test:auth": "node --test tests/admin-auth.test.mjs",
+    "check:secure-admin": "wrangler deploy --config scripts/admin-auth/wrangler.jsonc --dry-run --outdir .secure-admin/worker",
+    "deploy:secure-admin": "wrangler deploy --config scripts/admin-auth/wrangler.jsonc --keep-vars",
+    "migrate:secure-admin": "wrangler d1 migrations apply DB --remote --config scripts/admin-auth/wrangler.jsonc"
   },
   "dependencies": {
     "diff": "9.0.0",
@@ -16,6 +21,7 @@
   },
   "devDependencies": {
     "esbuild": "0.28.2",
-    "linkedom": "0.18.13"
+    "linkedom": "0.18.13",
+    "wrangler": "4.149.0"
   }
 }

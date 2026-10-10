@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+const value = process.argv[2];
+if (!value) throw new Error('Provide the verified HTTPS origin of the authenticated editor.');
+const origin = new URL(value);
+if (origin.protocol !== 'https:' || origin.username || origin.password || origin.pathname !== '/' || origin.search || origin.hash || origin.hostname === 'teng-teng.org') throw new Error('Expected a separate HTTPS origin, with no path or credentials.');
+const request = async path => fetch(new URL(path, origin), { redirect:'manual', signal:AbortSignal.timeout(15000) });
+const [login, api, asset] = await Promise.all([request('/login'),request('/api/session'),request('/assets/admin/studio.js')]);
+if (login.status !== 200 || !(await login.text()).includes('href="/auth/github"') || api.status !== 401 || asset.status !== 303 || asset.headers.get('location') !== '/login') throw new Error('Login is not configured or protected routes failed their signed-out checks. Existing admin entry preserved.');
+const target = origin.origin + '/admin/';
+const html = `---\nlayout: null\n---\n<!doctype html>\n<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta http-equiv="refresh" content="0;url=${target}"><title>Content Studio · GitHub 登录</title></head><body><p><a href="${target}">使用 GitHub 登录 Content Studio →</a></p></body></html>\n`;
+fs.writeFileSync('admin/index.html',html);
+console.log('Prepared admin/index.html redirect to ' + target + '. Review and commit only after verifying real owner login.');

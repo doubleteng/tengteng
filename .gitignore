@@ -4,4 +4,8 @@ _site/
 vendor/
 .bundle/
 node_modules/
+.secure-admin/
+.wrangler/
+.dev.vars*
+.env*
 .DS_Store

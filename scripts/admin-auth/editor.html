@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<title>Content Studio · Teng Teng</title>
+<link rel="icon" href="/assets/favicon.svg"><link rel="stylesheet" href="/assets/admin/studio.css?v=1">
+<script type="module" src="/assets/admin/studio.js?v=2"></script>
+</head>
+<body>
+<header class="studio-header"><a href="/" class="studio-brand" target="_blank" rel="noopener"><span>TT</span><div>Content Studio<small>Teng Teng · 内容管理</small></div></a><div class="header-right"><span class="privacy-note">草稿仅存于这台设备</span><button id="connect">连接 GitHub</button></div></header>
+<main class="workspace">
+<aside class="library-panel" aria-label="网站内容"><div class="panel-heading"><h1>内容</h1><button id="new-record" class="icon-button" title="新增内容" aria-label="新增内容">＋</button></div><input id="search" type="search" placeholder="搜索标题或项目…" aria-label="搜索内容"><div class="tabs" id="collections"><button data-collection="projects" aria-pressed="true">项目</button><button data-collection="data" aria-pressed="false">页面</button><button data-collection="publications" aria-pressed="false">出版物</button><button data-collection="updates" aria-pressed="false">动态</button></div><div id="content-list" class="content-list"><p class="empty">正在读取内容…</p></div><div class="library-footer"><button id="help">使用说明</button><a href="https://github.com/doubleteng/tengteng/commits/main" target="_blank" rel="noopener">网站版本 ↗</a></div></aside>
+<section class="editor-panel" aria-label="可视化编辑器"><div class="editor-toolbar"><div class="document-heading"><span id="document-name">选择一项内容</span><small id="document-state">读取原始内容，保留全部字段</small></div><div class="toolbar-actions"><button id="undo" title="撤销" aria-label="撤销" disabled>↶</button><button id="redo" title="重做" aria-label="重做" disabled>↷</button><button id="history">历史</button><button id="review" class="primary" disabled>查看改动 / 发布</button></div></div>
+<div class="preview-toolbar"><div class="segmented"><button id="desktop" aria-pressed="true">桌面</button><button id="mobile" aria-pressed="false">手机</button></div><span id="preview-instruction">点击选择 · 双击文字原位编辑</span><div class="preview-options"><button id="clean-preview" aria-pressed="false">纯预览</button><a id="live-link" target="_blank" rel="noopener">线上页面 ↗</a></div></div>
+<div id="status" class="status" role="status" aria-live="polite">正在准备真实页面预览…</div>
+<div class="canvas" id="canvas"><iframe id="preview" title="页面实时预览" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div>
+</section>
+<aside class="inspector-panel" aria-label="内容属性"><div class="panel-heading"><h2>编辑内容</h2><button id="all-fields">全部字段</button></div><div id="inspector" class="inspector"><p class="empty">从左边选择一个项目或页面。原有排版会显示在中间。</p></div><div class="draft-actions"><button id="export-draft">导出草稿</button><button id="discard">放弃当前草稿</button></div></aside>
+</main>
+<dialog id="modal"><div class="dialog-heading"><h2 id="modal-title"></h2><button id="modal-close" aria-label="关闭">×</button></div><div id="modal-body"></div><div id="modal-actions" class="dialog-actions"></div></dialog>
+<noscript>请启用 JavaScript 后使用可视化管理后台。</noscript>
+</body></html>

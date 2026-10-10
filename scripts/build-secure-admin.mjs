@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { build } from 'esbuild';
+import './build-admin.mjs';
+const directory = '.secure-admin/assets';
+fs.mkdirSync(directory + '/admin', {recursive:true});
+fs.mkdirSync(directory + '/assets/admin', {recursive:true});
+const html = fs.readFileSync('scripts/admin-auth/editor.html','utf8').replace('href="/" class="studio-brand"', 'href="https://teng-teng.org/" class="studio-brand"').replace('href="/assets/favicon.svg"','href="https://teng-teng.org/assets/favicon.svg"').replace('连接 GitHub</button>','GitHub 登录</button>');
+fs.writeFileSync(directory + '/admin/index.html', html);
+fs.copyFileSync('assets/admin/studio.css', directory + '/assets/admin/studio.css');
+fs.copyFileSync('assets/admin/context.json', directory + '/assets/admin/context.json');
+await build({entryPoints:['scripts/admin/app.mjs'], outfile:directory + '/assets/admin/studio.js', bundle:true, minify:true, format:'esm', target:'es2022', legalComments:'eof', plugins:[{name:'session-adapter',setup(b){b.onResolve({filter:/^\.\/github\.mjs$/},() => ({path:path.resolve('scripts/admin/session-api.mjs')}));}}]});
+console.log('Built authenticated Content Studio assets in ' + directory);

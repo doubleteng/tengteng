@@ -2,6 +2,7 @@ import { allowedFile, parseSource } from './document.mjs';
 export const REPO = 'doubleteng/tengteng';
 export class GitHub {
   constructor(fetcher = globalThis.fetch.bind(globalThis)) { this.fetcher = fetcher; this.token = ''; }
+  get connected() { return Boolean(this.token); }
   async request(path, options = {}) {
     const response = await this.fetcher('https://api.github.com/repos/' + REPO + path, {
       ...options, headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...(this.token ? { Authorization: 'Bearer ' + this.token } : {}), ...(options.body ? { 'Content-Type': 'application/json' } : {}) }, cache: 'no-store'
@@ -32,7 +33,7 @@ export class GitHub {
     const head = (await this.request('/git/ref/heads/main')).object.sha;
     let current;
     try { current = await this.file(path, head); } catch (error) { if (error.status !== 404 || baseSHA) throw error; }
-    if ((current?.sha || null) !== (baseSHA || null)) throw new Error('版本冲突：线上内容已变化，已停止发布。你的草稿还在，请查看最新版本并合并。');
+    if ((current?.sha || null) !== (baseSHA || null)) throw Object.assign(new Error('版本冲突：线上内容已变化，已停止发布。你的草稿还在，请查看最新版本并合并。'), { status: 409 });
     if (current?.source === source && !uploads.length) return { unchanged: true, sha: head, fileSHA: current.sha };
     const commit = await this.request('/git/commits/' + head);
     // New assets only. Check at the same pinned commit; never overwrite a filename.

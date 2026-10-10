@@ -50,6 +50,7 @@ test('worker sends only bounded questions to Gemini; secrets and internal though
   assert.equal(response.headers.get('access-control-allow-origin'), SITE);
   const call = calls[0], payload = JSON.parse(call.options.body);
   assert.equal(call.url, GOOGLE + '/v1beta/interactions');
+  assert.equal(call.options.redirect, 'manual');
   assert.equal(payload.model, 'gemini-3.8-flash'); assert.equal(payload.store, false);
   assert.equal(payload.generation_config.thinking_level, 'low');
   assert.deepEqual(payload.tools, [{ type: 'file_search', file_search_store_names: [catalog.store] }]);
@@ -87,6 +88,14 @@ test('upstream errors are sanitized and cannot expose provider credentials', asy
   for (const upstream of [async () => json({ error: { message: 'gemini-test-secret-never-display' } }, 401), async () => { throw new Error('gemini-test-secret-never-display'); }, async () => json({ status: 'incomplete' })]) {
     const { send } = setup(upstream); const response = await send(); assert.equal(response.status, 503); assert.doesNotMatch(await response.text(), /gemini-test-secret/);
   }
+});
+test('provider redirects are rejected without forwarding credentials', async () => {
+  const { send, calls } = setup(async (_url, options) => {
+    assert.equal(options.redirect, 'manual');
+    return new Response(null, { status: 302, headers: { Location: 'https://untrusted.example/' } });
+  });
+  assert.equal((await send()).status, 503);
+  assert.equal(calls.length, 1);
 });
 test('deployment diagnostics require the sync credential and redact secrets even for authorized callers', async () => {
   for (const throws of [false, true]) {

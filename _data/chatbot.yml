@@ -1,3 +1,2 @@
-# Enable only after the deployed API and public knowledge index pass live checks.
-enabled: false
-endpoint: ''
+enabled: true
+endpoint: "https://teng-portfolio-chat.teng-portfolio-11e715bd5693.workers.dev/chat"

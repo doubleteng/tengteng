@@ -13,6 +13,7 @@ permissions:
 concurrency:
   group: portfolio-chatbot-sync
   cancel-in-progress: false
+  queue: max
 jobs:
   deploy:
     if: github.repository == 'doubleteng/tengteng' && github.ref == 'refs/heads/main'

@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   sync:
-    if: ${{ vars.CHAT_BACKEND_URL != '' && (github.event_name != 'page_build' || github.event.build.status == 'built') }}
+    if: ${{ github.repository == 'doubleteng/tengteng' && github.ref == 'refs/heads/main' && (github.event_name != 'page_build' || github.event.build.status == 'built') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -21,7 +21,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: npm run sync:chatbot
+      - run: node scripts/chatbot/sync-ci.mjs
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           CHAT_SYNC_TOKEN: ${{ secrets.CHAT_SYNC_TOKEN }}

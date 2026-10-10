@@ -12,7 +12,7 @@ cover_alt: Scutoid shell architectural visualization on the Cornell campus in au
 cover_preview_only: true
 summary: Cellular geometry, interlocking units, and responsive surfaces explore how local connections and deformation
   organize architectural form.
-role: Project Lead
+role: "Solo research"
 institution: Cornell University
 project_type: Master's thesis research
 project_stage: Computational and physical prototypes

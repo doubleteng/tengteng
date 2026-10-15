@@ -2,7 +2,7 @@
 title: Integrated Design Studio III
 category: teaching
 year: Fall 2026
-published: true
+published: false
 featured: false
 featured_order: 99
 summary: Students develop architecture through structural grids, enclosure assemblies, environmental systems, and iterative

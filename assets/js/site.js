@@ -36,7 +36,7 @@ document.querySelectorAll('[data-browser]').forEach(browser => {
     const update = () => {
       for (const record of records) {
         const text = record.dataset.search.toLocaleLowerCase();
-        const matches = (category === 'all' || record.dataset.category === category) && terms.every(term => text.includes(term));
+        const matches = (category === 'all' || record.dataset.category === category || (category === 'tools' && record.dataset.tool === 'true')) && terms.every(term => text.includes(term));
         record.hidden = !matches;
         if (matches) visible++;
       }

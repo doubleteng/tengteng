@@ -29,28 +29,28 @@ media:
   - mp4
   - webm
 content:
-- name: computational-tools
-  label: Computational Tools / 计算工具
+- name: tools
+  label: Tools / 工具
   type: file
   path: _data/tools.yml
   format: yaml
   fields:
-  - name: browser_tools
-    label: Platforms and plug-ins
+  - name: computational_tools
+    label: Computational tools
     type: object
     list: true
     fields:
     - name: title
-      label: Title
+      label: Title (optional)
       type: string
     - name: project
       label: Project
       type: string
     - name: url
-      label: Url
+      label: Tool URL (optional)
       type: string
     - name: action
-      label: Action
+      label: Action (optional)
       type: string
     - name: description
       label: Description
@@ -61,17 +61,58 @@ content:
     - name: documentation
       label: Documentation URL (optional)
       type: string
-  - name: research_tools
-    label: Research tools and prototypes
+  - name: materialization_tools
+    label: Materialization tools
     type: object
     list: true
     fields:
+    - name: title
+      label: Title (optional)
+      type: string
     - name: project
       label: Project
+      type: string
+    - name: url
+      label: Tool URL (optional)
+      type: string
+    - name: action
+      label: Action (optional)
       type: string
     - name: description
       label: Description
       type: text
+    - name: role
+      label: My role (optional)
+      type: string
+    - name: documentation
+      label: Documentation URL (optional)
+      type: string
+  - name: interface
+    label: Interface
+    type: object
+    list: true
+    fields:
+    - name: title
+      label: Title (optional)
+      type: string
+    - name: project
+      label: Project
+      type: string
+    - name: url
+      label: Tool URL (optional)
+      type: string
+    - name: action
+      label: Action (optional)
+      type: string
+    - name: description
+      label: Description
+      type: text
+    - name: role
+      label: My role (optional)
+      type: string
+    - name: documentation
+      label: Documentation URL (optional)
+      type: string
 - name: portfolio-groups
   label: Portfolio groups / 项目分类
   type: file
@@ -163,6 +204,8 @@ content:
           label: Teaching
         - name: design
           label: Design
+        - name: tools
+          label: Tools
       required: true
     - name: year
       label: Year or period
@@ -722,6 +765,8 @@ content:
           label: Teaching
         - name: design
           label: Design
+        - name: tools
+          label: Tools
         - name: publication
           label: Paper
         - name: exhibition

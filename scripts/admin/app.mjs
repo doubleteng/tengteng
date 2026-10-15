@@ -172,7 +172,7 @@ function leafField(path, value, parent) {
   } else {
     if (media && value && /\.(png|jpe?g|webp|gif|avif)(?:[?#]|$)/i.test(value)) { const img = document.createElement('img'); img.className = 'media-thumb'; img.src = current.uploads.find(x => '/' + x.path === value)?.objectURL || new URL(value, bundle.config.url + '/').href; img.alt = title; wrapper.append(img); }
     let input;
-    const options = key === 'category' ? ['research','teaching','design','computational-tools','fine-art'] : key === 'columns' ? ['one','two','three'] : key === 'hero_gallery_fit' || key === 'cover_fit' ? ['cover','contain'] : key === 'image_alignment' ? ['left','center'] : null;
+    const options = key === 'category' ? ['research','teaching','design','tools','fine-art'] : key === 'columns' ? ['one','two','three'] : key === 'hero_gallery_fit' || key === 'cover_fit' ? ['cover','contain'] : key === 'image_alignment' ? ['left','center'] : null;
     if (options) { input = document.createElement('select'); for (const option of new Set([value || '', ...options])) input.add(new Option(option, option)); input.value = value || ''; }
     else if (typeof value === 'number') { input = document.createElement('input'); input.type = 'number'; input.step = 'any'; input.value = value; }
     else { input = document.createElement(String(value || '').length > 100 || /\n/.test(value) || ['$body','body','bio','summary','intro','text','bibtex'].includes(String(key)) ? 'textarea' : 'input'); input.value = value ?? ''; }

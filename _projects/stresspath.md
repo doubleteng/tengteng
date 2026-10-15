@@ -9,6 +9,7 @@ permalink: /research/stresspath/
 cover: /assets/media/stresspath-preview-20261004.webp
 cover_alt: StressPath material preview and the corresponding 3D-printed truss specimen.
 cover_fit: contain
+cover_background: '#ffffff'
 cover_preview_only: true
 wide: true
 research_areas:

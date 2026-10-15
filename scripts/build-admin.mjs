@@ -11,7 +11,7 @@ for (const path of files) {
     const source = fs.readFileSync(path, 'utf8'), bytes = Buffer.from(source);
     bundle.files[path] = { source, sha: createHash('sha1').update('blob ' + bytes.length + '\0').update(bytes).digest('hex') };
   } else if (/^_(includes|layouts)\/.+\.html$/.test(path)) bundle.templates[path] = fs.readFileSync(path, 'utf8');
-  else if (/^(index.html|(about|contact|research|teaching|design|publications|gallery|computational-tools|fine-art)\/index.html)$/.test(path)) bundle.pages[path] = fs.readFileSync(path, 'utf8');
+  else if (/^(index.html|(about|contact|research|teaching|design|publications|gallery|tools|computational-tools|fine-art)\/index.html)$/.test(path)) bundle.pages[path] = fs.readFileSync(path, 'utf8');
   if (/^assets\/.+\.(png|jpe?g|webp|gif|avif|mp4|webm|pdf)$/i.test(path)) bundle.media.push('/' + path);
 }
 fs.mkdirSync('assets/admin', { recursive: true });

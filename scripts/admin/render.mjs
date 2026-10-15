@@ -2,7 +2,7 @@ import { Liquid } from 'liquidjs';
 import MarkdownIt from 'markdown-it';
 import { parseSource, getAt } from './document.mjs';
 export const markdown = new MarkdownIt({ html: true, linkify: false });
-export const PAGE_FOR_DATA = { profile: 'about/index.html', site: 'index.html', home: 'index.html', research: 'research/index.html', teaching: 'teaching/index.html', portfolio: 'design/index.html', tools: 'computational-tools/index.html', fine_art: 'fine-art/index.html', institutions: 'about/index.html', preview_media: 'gallery/index.html' };
+export const PAGE_FOR_DATA = { profile: 'about/index.html', site: 'index.html', home: 'index.html', research: 'research/index.html', teaching: 'teaching/index.html', portfolio: 'design/index.html', tools: 'tools/index.html', fine_art: 'fine-art/index.html', institutions: 'about/index.html', preview_media: 'gallery/index.html' };
 export function contextFromFiles(bundle) {
   const site = { ...bundle.config, data: {}, projects: [], publications: [], updates: [], time: new Date().toISOString() };
   for (const [path, file] of Object.entries(bundle.files)) {

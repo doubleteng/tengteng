@@ -1,6 +1,6 @@
 ---
 title: 'SERIES: Free-Form Façade Optimization'
-category: design
+category: tools
 year: 2010–2012
 published: true
 featured: true

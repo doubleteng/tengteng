@@ -1,4 +1,4 @@
-browser_tools:
+computational_tools:
 - title: StressPath
   project: /research/stresspath/
   url: /research/stresspath/app/
@@ -19,15 +19,14 @@ browser_tools:
   action: Open tool
   description: Explore structural concepts and building systems through interactive models. Includes Structure Coach
     for developing structural questions and descriptions.
-- title: After Chinatown
-  project: /research/after-chinatown/
-  url: https://afterchinatown.org/
-  action: Open platform
-  description: Explore historical urban models, maps, photographs, and archival records across locations and periods.
-research_tools:
 - project: /projects/series-facade-optimization/
   description: A computational toolkit coordinating architectural geometry, facade constraints, and manufacturing
     requirements.
+materialization_tools:
+- title: Single-Nozzle Multi-Filament Additive Manufacturing
+  project: /research/snmm-additive-manufacturing-system/
+  description: A single-nozzle fabrication system controls multiple filament feeds and active mixing to print continuous
+    material gradients.
 - project: /research/robosense/
   description: Clay extrusion hardware and control software for calibration, live toolpath adjustment, and robotic
     fabrication.
@@ -35,6 +34,12 @@ research_tools:
   description: A compact robotic platform with custom kinematics, control software, and adaptable fabrication tools.
 - project: /research/pinbed/
   description: A programmable support bed connecting actuator control to nonplanar robotic deposition.
+interface:
+- title: After Chinatown
+  project: /research/after-chinatown/
+  url: https://afterchinatown.org/
+  action: Open platform
+  description: Explore historical urban models, maps, photographs, and archival records across locations and periods.
 - project: /research/inspire/
   description: A gesture-based interface for manipulating architectural geometry in a shared physical and digital
     workspace.

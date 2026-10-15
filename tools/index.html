@@ -1,0 +1,46 @@
+---
+title: Tools
+description: Tools for computational design, materialization, and interaction.
+---
+<header class="page-heading tools-heading">
+  <h1>Tools</h1>
+  <p class="lead">Computational design tools, fabrication systems, and interfaces for exploring geometry, materials, and space.</p>
+</header>
+{% assign tool_groups = 'computational_tools,materialization_tools,interface' | split: ',' %}
+{% for group in tool_groups %}
+  {% assign group_id = group | replace: '_', '-' %}
+  {% case group %}
+    {% when 'computational_tools' %}{% assign group_title = 'Computational tools' %}
+    {% when 'materialization_tools' %}{% assign group_title = 'Materialization tools' %}
+    {% when 'interface' %}{% assign group_title = 'Interface' %}
+  {% endcase %}
+<section{% unless forloop.first %} class="tool-archive"{% endunless %} aria-labelledby="{{ group_id }}-heading">
+  <div class="catalog-group-heading"><h2 id="{{ group_id }}-heading">{{ group_title }}</h2></div>
+  <div class="project-grid">
+    {% for tool in site.data.tools[group] %}
+      {% assign project = site.projects | where: 'url', tool.project | first %}
+      {% if project and project.published %}
+      {% assign tool_url = tool.url | default: project.url %}
+      {% unless tool_url contains '://' %}{% assign tool_url = tool_url | relative_url %}{% endunless %}
+      <article class="project-card tool-card">
+        <a class="project-link" href="{{ tool_url | escape }}">
+          {% if project.cover %}{% include project-thumbnail.html project=project %}{% endif %}
+          <h3>{{ tool.title | default: project.card_title | default: project.title | escape }}</h3>
+        </a>
+        <p class="card-summary">{{ tool.description | escape }}</p>
+        {% if tool.role %}<p class="tool-role">My role: {{ tool.role | escape }}</p>{% endif %}
+        <div class="tool-actions">
+          {% if tool.url %}
+          <a class="text-link" href="{{ tool_url | escape }}">{{ tool.action | default: 'Open tool' | escape }} →</a>
+          <a class="text-link" href="{{ project.url | relative_url }}">Project &amp; context →</a>
+          {% else %}
+          <a class="text-link" href="{{ project.url | relative_url }}">View project →</a>
+          {% endif %}
+          {% if tool.documentation %}<a class="text-link" href="{{ tool.documentation | escape }}">Documentation →</a>{% endif %}
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}

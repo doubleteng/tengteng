@@ -6,11 +6,12 @@ year: Spring 2026
 published: true
 featured: false
 featured_order: 99
-summary: 'Force, form, and construction explored through five structural families: analytical diagrams, technical drawings,
-  physical models, and loading tests.'
+summary: Learning structural behavior through modelmaking, connection design, and physical testing across five structural
+  families.
 permalink: /teaching/structural-systems-ii/
-cover: /assets/media/ss2/frame-design.webp
-cover_alt: Dylan Ries and Tadhg McDonald — digital axonometric of the transformed three-pin frames
+cover: /assets/media/ss2/v2-vector-cover.webp
+cover_alt: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — completed two-story truss model
+  with orange and white columns
 cover_preview_only: true
 role: Co-instructor
 institution: Lawrence Technological University
@@ -49,246 +50,347 @@ opening_sections:
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/frame-design.webp
-    alt: Dylan Ries and Tadhg McDonald — digital axonometric of the transformed three-pin frames
-    ratio: 1.7875
+    image: /assets/media/ss2/v2-vector-cover.webp
+    alt: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — completed two-story truss model
+      with orange and white columns
+    ratio: 2.1413
   - type: image
-    image: /assets/media/ss2/frame-interior.webp
-    alt: Dylan Ries and Tadhg McDonald — spatial view beneath the tapered frames and secondary beams
-    ratio: 1.7734
-  caption: Dylan Ries and Tadhg McDonald — a structural transformation of the Toledo Museum of Art Glass Pavilion, from
-    digital framing to spatial assembly.
+    image: /assets/media/ss2/v2-space-truss-test.webp
+    alt: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — hands applying load to the space-truss roof
+      during review
+    ratio: 2.1413
+  caption: 'Modelmaking and testing: a two-story truss by Kochel, Murcko, Martinez-Zamorano, and Burke (left); a space-truss
+    roof by Guldner, Henderson, Ries, and Ullrich (right).'
 sections:
 - type: text
   heading: 01 · Form-active
-  body: Hanging curves, compression arches, and tension cables introduce form finding. Students change geometry, cable
-    spacing, and anchorage through successive physical models, learning to connect equilibrium with the space a structure
-    makes.
+  body: Compression arches and tension networks connect equilibrium to spatial form. Physical iterations test geometry,
+    cable spacing, and anchorage.
   anchor: form-active
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/form-sketch.webp
-    alt: Jordan Brechting — hand sketch of compression arches and tension cables
-    ratio: 1.7128
+    image: /assets/media/ss2/v2-form-brechting-overall.webp
+    alt: Jordan Brechting — completed arch and tension-net model
+    ratio: 1.3928
   - type: image
-    image: /assets/media/ss2/form-arches.webp
-    alt: Jordan Brechting — catenary arches, tension network, and anchored supports
-    ratio: 1.3921
-  caption: Jordan Brechting — the compression-and-tension sketch becomes a catenary arch and cable assembly.
+    image: /assets/media/ss2/v2-form-brechting-interior.webp
+    alt: Jordan Brechting — interior view along the catenary arches and tension net
+    ratio: 0.9567
+  caption: Jordan Brechting — catenary arches and a tension net, seen as a complete assembly and from within.
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/form-inclined.webp
-    alt: Brooke Kochel — inclined arches and taut strings
-    ratio: 1.7769
+    image: /assets/media/ss2/v2-form-brechting-sketch.webp
+    alt: Jordan Brechting — hand study of compression arches and tension cables
+    ratio: 1.7128
   - type: image
-    image: /assets/media/ss2/form-hybrid.webp
-    alt: Jacob Young — catenary arches and intersecting cable network
-    ratio: 1.335
-  caption: Alternative arch-and-cable configurations by Brooke Kochel (left) and Jacob Young (right).
+    image: /assets/media/ss2/v2-form-brechting-anchorage.webp
+    alt: Jordan Brechting — printed anchorage and tension connections
+    ratio: 1.3333
+  caption: Jordan Brechting — structural intention resolved through the design of anchorage and cable connections.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-form-gardner-overall.webp
+    alt: William Gardner — completed cable-supported canopy model
+    ratio: 1.3333
+  - type: image
+    image: /assets/media/ss2/v2-form-gardner-interior.webp
+    alt: William Gardner — interior view of cables, struts, and red printed connections
+    ratio: 1.3333
+  caption: William Gardner — struts, cables, and printed nodes support a lightweight canopy.
 - type: text
   heading: 02 · Vector-active
-  body: A two-story, long-span structure separates compression and tension into discrete members. Truss analysis, dimensioned
-    drawings, and connection studies coordinate the roof, floor, columns, and lateral bracing.
+  body: Two-story, long-span models separate compression and tension into discrete members. Truss geometry, connection
+    details, and loading tests bring the structural system into focus.
   anchor: vector-active
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/vector-design.webp
-    alt: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — floor trusses, space-truss roof, columns,
-      and bracing
+    image: /assets/media/ss2/v2-vector-kochel-overall.webp
+    alt: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — truss spans and printed columns
+      in the assembled model
+    ratio: 1.7809
+  - type: image
+    image: /assets/media/ss2/v2-vector-kochel-joint.webp
+    alt: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — floor-truss connection to the reinforced
+      printed column
+    ratio: 0.7504
+  caption: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — long-span trusses meet reinforced
+    printed columns.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-vector-kochel-making.webp
+    alt: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — threading and tensioning the truss
+      connections
+    ratio: 0.7504
+  - type: image
+    image: /assets/media/ss2/v2-vector-kochel-forces.webp
+    alt: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — truss compression and tension study
+    ratio: 2.139
+  caption: Brooke Kochel, Timotej Murcko, Carmen Martinez-Zamorano, and Olivia Burke — threading the tension members
+    alongside the truss force study.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-vector-ries-assembly.webp
+    alt: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — assembling the space-truss roof above the
+      floor and stayed columns
+    ratio: 1.3333
+  - type: image
+    image: /assets/media/ss2/v2-vector-ries-nodes.webp
+    alt: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — printed nodes and wood members in the space
+      truss
+    ratio: 1.3307
+  caption: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — assembly study and the printed nodes of
+    the space-truss roof.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-vector-ries-loading.webp
+    alt: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — weight test of the space-truss roof
+    ratio: 0.911
+  - type: image
+    image: /assets/media/ss2/v2-vector-ries-design.webp
+    alt: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — digital coordination of the space-truss roof,
+      floor, columns, and bracing
     ratio: 1.033
-  - type: image
-    image: /assets/media/ss2/vector-nodes.webp
-    alt: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — printed nodes joining the space-truss members
-    ratio: 1.3304
-  caption: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — a space-truss design and its printed connections.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/vector-forces.webp
-    alt: Nick Ceccardi, Eli Chrisman, Nicki Kolano, and Tadhg McDonald — floor and roof truss analysis with compression
-      and tension legend
-    ratio: 0.9806
-  - type: image
-    image: /assets/media/ss2/vector-model.webp
-    alt: Nick Ceccardi, Eli Chrisman, Nicki Kolano, and Tadhg McDonald — assembled two-story truss structure
-    ratio: 1.0785
-  caption: Nick Ceccardi, Eli Chrisman, Nicki Kolano, and Tadhg McDonald — truss force studies and the assembled building
-    model.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/vector-elevation.webp
-    alt: Nick Ceccardi, Eli Chrisman, Nicki Kolano, and Tadhg McDonald — dimensioned elevation coordinating truss depth
-      and story heights
-    ratio: 1.5995
-  - type: image
-    image: /assets/media/ss2/vector-joint-sketch.webp
-    alt: Nick Ceccardi, Eli Chrisman, Nicki Kolano, and Tadhg McDonald — hand-drawn truss members and connection details
-    ratio: 0.6761
-  caption: Nick Ceccardi, Eli Chrisman, Nicki Kolano, and Tadhg McDonald — story heights and member depths coordinated
-    with the design of joints.
+  caption: Lucas Guldner, Nick Henderson, Dylan Ries, and Gretchen Ullrich — roof testing and digital coordination of
+    the structural system.
 - type: text
   heading: 03 · Section-active
-  body: Students analyze an existing building and transform its framing into a three-pin system. Member profiles respond
-    to bending; roof slope, secondary beams, bracing, and pin connections turn the structural idea into a buildable assembly.
+  body: Transforming building precedents into three-pin frames connects bending behavior to member profiles. Model construction
+    tests the continuity of primary frames, secondary beams, bracing, and joints.
   anchor: section-active
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/section-moments.webp
-    alt: Jordan Brechting and Victoria Woodard — shear and bending moment diagrams for primary and secondary members
-    ratio: 1.4052
-  - type: image
-    image: /assets/media/ss2/section-profiles.webp
-    alt: Jordan Brechting and Victoria Woodard — primary and secondary member profiles
-    ratio: 1.4252
-  caption: Jordan Brechting and Victoria Woodard — shear and moment studies alongside the transformed member profiles.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/section-digital.webp
-    alt: Jordan Brechting and Victoria Woodard — transformed frame, suspended secondary beams, and connection plates
-    ratio: 2.017
-  - type: image
-    image: /assets/media/ss2/section-model.webp
-    alt: Jordan Brechting and Victoria Woodard — completed Crown Hall structural transformation
-    ratio: 1.3932
-  caption: Jordan Brechting and Victoria Woodard — a Crown Hall transformation with suspended secondary beams and an
-    articulated frame.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/section-components.webp
-    alt: Dylan Ries and Tadhg McDonald — separated frame, pin, and printed connection components
-    ratio: 1.2295
-  - type: image
-    image: /assets/media/ss2/section-base-joint.webp
-    alt: Dylan Ries and Tadhg McDonald — paper-clip pin and printed base connection
-    ratio: 0.8617
-  caption: Dylan Ries and Tadhg McDonald — laser-cut members, printed connection plates, and pins resolve the frame shown
-    above.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/section-framing.webp
-    alt: William Gardner and Jordan Torkelson — coordinated framing plan and elevations
-    ratio: 1.3804
-  - type: image
-    image: /assets/media/ss2/section-rhythm.webp
-    alt: William Gardner and Jordan Torkelson — tapered portal frames and curved secondary beams
+    image: /assets/media/ss2/v2-section-ries-overall.webp
+    alt: Dylan Ries and Tadhg McDonald — completed tapered three-pin frames and secondary beams
     ratio: 1.3333
-  caption: William Gardner and Jordan Torkelson — the Kimbell Art Museum addition study develops into tapered frames
-    and a repeated roof rhythm.
+  - type: image
+    image: /assets/media/ss2/v2-section-ries-interior.webp
+    alt: Dylan Ries and Tadhg McDonald — interior perspective beneath the tapered frames
+    ratio: 1.7778
+  caption: Dylan Ries and Tadhg McDonald — tapered frames turn a Glass Pavilion transformation into a spatial assembly.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-section-ries-parts.webp
+    alt: Dylan Ries and Tadhg McDonald — laser-cut frame members, printed plates, and pins
+    ratio: 1.2285
+  - type: image
+    image: /assets/media/ss2/v2-section-ries-joint.webp
+    alt: Dylan Ries and Tadhg McDonald — pinned connection at the frame base
+    ratio: 0.8615
+  caption: Dylan Ries and Tadhg McDonald — laser-cut members, printed plates, and pins resolve the connections.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-section-gardner-overall.webp
+    alt: William Gardner and Jordan Torkelson — completed frame model in three-quarter view
+    ratio: 1.3333
+  - type: image
+    image: /assets/media/ss2/v2-section-gardner-interior.webp
+    alt: William Gardner and Jordan Torkelson — repeated tapered frames, curved beams, and bolted joints
+    ratio: 1.3333
+  caption: William Gardner and Jordan Torkelson — repeated portal frames and curved secondary beams developed from a
+    Kimbell Art Museum addition study.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-section-gardner-drawing.webp
+    alt: William Gardner and Jordan Torkelson — framing plan and elevations
+    ratio: 1.3803
+  - type: image
+    image: /assets/media/ss2/v2-section-gardner-plan.webp
+    alt: William Gardner and Jordan Torkelson — overhead photograph of the framing and secondary beams
+    ratio: 0.75
+  caption: William Gardner and Jordan Torkelson — framing drawings compared with the constructed roof rhythm.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-section-brechting-overall.webp
+    alt: Jordan Brechting and Victoria Woodard — completed frame with suspended secondary beams and cable bracing
+    ratio: 1.3931
+  - type: image
+    image: /assets/media/ss2/v2-section-brechting-interior.webp
+    alt: Jordan Brechting and Victoria Woodard — interior view of beam profiles and suspended connections
+    ratio: 0.9235
+  caption: Jordan Brechting and Victoria Woodard — a Crown Hall transformation with suspended secondary beams and articulated
+    connections.
 - type: text
   heading: 04 · Surface-active
-  body: Folded plates and segmented shells test how geometry and connections distribute loads across a surface. Force-and-form
-    studies lead to fabrication, assembly, and loading; joint fit and deformation provide feedback for the next iteration.
+  body: Folded plates and segmented shells explore how geometry distributes loads across a surface. Fabrication, joint
+    fit, and physical loading test the relationship between force and form.
   anchor: surface-active
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/surface-force-form.webp
-    alt: Megan Kolff, Jordan Brechting, and Victoria Woodard — force and form constructions generating three curves
-    ratio: 1.8424
-  - type: image
-    image: /assets/media/ss2/surface-curves.webp
-    alt: Megan Kolff, Jordan Brechting, and Victoria Woodard — curves defining a doubly curved surface
-    ratio: 1.3304
-  caption: Megan Kolff, Jordan Brechting, and Victoria Woodard — graphic statics generates the curves used to construct
-    the surface.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/surface-assembly.webp
-    alt: Megan Kolff, Jordan Brechting, and Victoria Woodard — completed segmented plywood surface
-    ratio: 1.1913
-  - type: image
-    image: /assets/media/ss2/surface-joints.webp
-    alt: Megan Kolff, Jordan Brechting, and Victoria Woodard — interlocking plywood units and corner supports
-    ratio: 2.995
-  caption: Megan Kolff, Jordan Brechting, and Victoria Woodard — segmented plywood, interlocking joints, and anchored
-    corners.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/shell-parts.webp
-    alt: Jacob Young, Isaiah Matthews, and Brooke Kochel — printed surface segments arranged before assembly
-    ratio: 0.5617
-  - type: image
-    image: /assets/media/ss2/shell-connector.webp
-    alt: Jacob Young, Isaiah Matthews, and Brooke Kochel — underside connector joining surface segments
-    ratio: 0.73
-  caption: Jacob Young, Isaiah Matthews, and Brooke Kochel — printed surface segments and the underside connection developed
-    through fit tests.
-- type: media-row
-  items:
-  - type: image
-    image: /assets/media/ss2/shell-complete.webp
-    alt: Jacob Young, Isaiah Matthews, and Brooke Kochel — assembled shell spanning between four supports
-    ratio: 1.7769
-  - type: image
-    image: /assets/media/ss2/shell-test.webp
-    alt: Jacob Young, Isaiah Matthews, and Brooke Kochel — physical loading test of the segmented shell
+    image: /assets/media/ss2/v2-surface-gardner-overall.webp
+    alt: William Gardner — completed folded-plate structure
     ratio: 1.3333
-  caption: Jacob Young, Isaiah Matthews, and Brooke Kochel — the assembled shell and its loading test.
+  - type: image
+    image: /assets/media/ss2/v2-surface-gardner-interior.webp
+    alt: William Gardner — interior view of the folded plates and their connections
+    ratio: 1.3333
+  caption: William Gardner — folded plates form a spanning surface with an articulated interior.
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/folded-loads.webp
-    alt: William Gardner — load path, compression, and tension in a folded plate
-    ratio: 1.3453
-  - type: image
-    image: /assets/media/ss2/folded-test.webp
-    alt: William Gardner — loading test of the folded chipboard structure
+    image: /assets/media/ss2/v2-surface-gardner-test.webp
+    alt: William Gardner — loading test of the folded-plate model
     ratio: 1.3333
-  caption: William Gardner — a folded-plate load-path study and physical test.
+  - type: image
+    image: /assets/media/ss2/v2-surface-gardner-forces.webp
+    alt: William Gardner — folded-plate load path and compression-tension study
+    ratio: 1.345
+  caption: William Gardner — physical loading and the folded-plate force study.
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/printed-loads.webp
-    alt: Dylan Ries — load-path study of a segmented shell
-    ratio: 1.3846
-  - type: image
-    image: /assets/media/ss2/printed-test.webp
-    alt: Dylan Ries — filament-spool load test of the printed shell
+    image: /assets/media/ss2/v2-surface-torkelson-overall.webp
+    alt: Jordan Torkelson — completed folded-plate model in three-quarter view
     ratio: 1.3333
-  caption: Dylan Ries — shell geometry and load paths compared with a printed assembly under load.
+  - type: image
+    image: /assets/media/ss2/v2-surface-torkelson-interior.webp
+    alt: Jordan Torkelson — interior view of the faceted arch and connections
+    ratio: 1.3333
+  caption: Jordan Torkelson — a faceted arch assembled from folded plates.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-surface-torkelson-test.webp
+    alt: Jordan Torkelson — folded-plate model under a physical test load
+    ratio: 0.7495
+  - type: image
+    image: /assets/media/ss2/v2-surface-torkelson-forces.webp
+    alt: Jordan Torkelson — load paths, compression, and tension in the folded plate
+    ratio: 1.3123
+  caption: Jordan Torkelson — the loaded model alongside its load-path study.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-surface-lee-overall.webp
+    alt: Ajeonna Lee, Tanawan Vetchaya, and Gwenaelle Rauscher — segmented plywood shell and interlocking circular connectors
+    ratio: 1.3342
+  - type: image
+    image: /assets/media/ss2/v2-surface-lee-interior.webp
+    alt: Ajeonna Lee, Tanawan Vetchaya, and Gwenaelle Rauscher — interior view of the shell surface and interlocking
+      joints
+    ratio: 1.3342
+  caption: Ajeonna Lee, Tanawan Vetchaya, and Gwenaelle Rauscher — interlocking plywood segments form a shell on three
+    supports.
 - type: text
   heading: 05 · Height-active
-  body: The final project extends structural continuity from the tower to its foundations and the ground. Gravity and
-    lateral-load diagrams guide the organization of columns, bracing, floor plates, and the base; full models bring these
-    decisions together for review.
+  body: Tower models connect floor systems and lateral resistance to foundations and the ground. Full-height assemblies
+    and lateral loading make the consequences of bracing, continuity, and connection design visible.
   anchor: height-active
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/height-loads.webp
-    alt: Olivia Burke, Isaac Ayar, Nick Henderson, Nicole Schwartz, Ashley Green, and Jack Swanson — gravity load paths
-      through the tower
-    ratio: 0.734
+    image: /assets/media/ss2/v2-height-diagrid-overall.webp
+    alt: William Gardner, Alexios Karabetsos, Tadhg McDonald, Dylan Ries, and Jordan Torkelson — completed diagrid tower
+      and splayed base
+    ratio: 0.6665
   - type: image
-    image: /assets/media/ss2/height-model.webp
-    alt: Olivia Burke, Isaac Ayar, Nick Henderson, Nicole Schwartz, Ashley Green, and Jack Swanson — completed height-active
-      tower and base
-    ratio: 0.7784
-  caption: Olivia Burke, Isaac Ayar, Nick Henderson, Nicole Schwartz, Ashley Green, and Jack Swanson — load-path analysis
-    and the completed tower.
+    image: /assets/media/ss2/v2-height-diagrid-detail.webp
+    alt: William Gardner, Alexios Karabetsos, Tadhg McDonald, Dylan Ries, and Jordan Torkelson — diagrid intersections
+      and floor plates during review
+    ratio: 0.6665
+  caption: William Gardner, Alexios Karabetsos, Tadhg McDonald, Dylan Ries, and Jordan Torkelson — a diagrid tower with
+    continuous diagonal framing and a splayed base.
 - type: media-row
   items:
   - type: image
-    image: /assets/media/ss2/height-ground.webp
-    alt: Olivia Burke, Isaac Ayar, Nick Henderson, Nicole Schwartz, Ashley Green, and Jack Swanson — substructure and
-      load transfer to the ground
-    ratio: 3.1802
+    image: /assets/media/ss2/v2-height-diagrid-test.webp
+    alt: William Gardner, Alexios Karabetsos, Tadhg McDonald, Dylan Ries, and Jordan Torkelson — lateral loading test
+      of the diagrid tower
+    ratio: 1.3541
   - type: image
-    image: /assets/media/ss2/course-review.webp
-    alt: Structural Systems II — end-of-semester discussion around height-active student models
-    ratio: 1.5
-  caption: Olivia Burke, Isaac Ayar, Nick Henderson, Nicole Schwartz, Ashley Green, and Jack Swanson — foundation and
-    ground-transfer study (left). End-of-semester course review (right).
+    image: /assets/media/ss2/v2-height-diagrid-design.webp
+    alt: William Gardner, Alexios Karabetsos, Tadhg McDonald, Dylan Ries, and Jordan Torkelson — digital model of the
+      diagrid tower and its foundations
+    ratio: 1.3236
+  caption: William Gardner, Alexios Karabetsos, Tadhg McDonald, Dylan Ries, and Jordan Torkelson — lateral testing and
+    the digital structural proposition.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-height-core-overall.webp
+    alt: Justin Ackler, Ashton Barre, Hassan Charara, Muhammad Gonzales, Ajeonna Lee, and Thomas Lewis — completed core-supported
+      tower with changing floor plates
+    ratio: 0.6665
+  - type: image
+    image: /assets/media/ss2/v2-height-core-detail.webp
+    alt: Justin Ackler, Ashton Barre, Hassan Charara, Muhammad Gonzales, Ajeonna Lee, and Thomas Lewis — cantilevered
+      floor plates, central core, and perimeter wires
+    ratio: 0.6665
+  caption: Justin Ackler, Ashton Barre, Hassan Charara, Muhammad Gonzales, Ajeonna Lee, and Thomas Lewis — changing floor
+    plates cantilever from a central core, with perimeter wire bracing.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-height-core-test.webp
+    alt: Justin Ackler, Ashton Barre, Hassan Charara, Muhammad Gonzales, Ajeonna Lee, and Thomas Lewis — lateral loading
+      of the core-supported tower
+    ratio: 0.6665
+  - type: image
+    image: /assets/media/ss2/v2-height-core-assembly.webp
+    alt: Justin Ackler, Ashton Barre, Hassan Charara, Muhammad Gonzales, Ajeonna Lee, and Thomas Lewis — assembly diagram
+      of the core and base
+    ratio: 1.6168
+  caption: Justin Ackler, Ashton Barre, Hassan Charara, Muhammad Gonzales, Ajeonna Lee, and Thomas Lewis — lateral testing
+    and the assembly of the core and base.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-height-blue-overall.webp
+    alt: Rilie Bleau, Gabby Mack, Jalyse Martin, Ariah Mason, and Maya Schmidt — complete tower with printed blue connections
+      and a splayed base
+    ratio: 0.6665
+  - type: image
+    image: /assets/media/ss2/v2-height-blue-detail.webp
+    alt: Rilie Bleau, Gabby Mack, Jalyse Martin, Ariah Mason, and Maya Schmidt — column-to-floor connections and diagonal
+      bracing
+    ratio: 0.6665
+  caption: Rilie Bleau, Gabby Mack, Jalyse Martin, Ariah Mason, and Maya Schmidt — printed connections coordinate the
+    floor plates, columns, and bracing.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-height-suspended-overall.webp
+    alt: Joseph Pitsch, Timotej Murcko, Max Patino, Nick Ceccardi, and Anna Matushevskiy — completed core tower with
+      grouped suspended floors
+    ratio: 0.739
+  - type: image
+    image: /assets/media/ss2/v2-height-suspended-detail.webp
+    alt: Joseph Pitsch, Timotej Murcko, Max Patino, Nick Ceccardi, and Anna Matushevskiy — core, transfer girder, and
+      suspension rods
+    ratio: 0.746
+  caption: Joseph Pitsch, Timotej Murcko, Max Patino, Nick Ceccardi, and Anna Matushevskiy — grouped floor plates hang
+    from transfer girders connected to a central core.
+- type: media-row
+  items:
+  - type: image
+    image: /assets/media/ss2/v2-height-suspended-base.webp
+    alt: Joseph Pitsch, Timotej Murcko, Max Patino, Nick Ceccardi, and Anna Matushevskiy — the foundation assembly around
+      the central core
+    ratio: 1.3387
+  - type: image
+    image: /assets/media/ss2/v2-height-suspended-forces.webp
+    alt: Joseph Pitsch, Timotej Murcko, Max Patino, Nick Ceccardi, and Anna Matushevskiy — gravity and lateral load paths
+      through the tower and base
+    ratio: 1.938
+  caption: Joseph Pitsch, Timotej Murcko, Max Patino, Nick Ceccardi, and Anna Matushevskiy — the foundation assembly
+    and load paths through the tower.
+- type: image
+  image: /assets/media/ss2/v2-height-review.webp
+  alt: Structural Systems II — student towers assembled for the final review
+  ratio: 1.5004
+  caption: Student towers assembled for the final review, Spring 2026.
 ---
 ## Force, form, and construction
 

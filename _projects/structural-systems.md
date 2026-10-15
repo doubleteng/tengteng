@@ -46,6 +46,8 @@ related_projects:
 - /teaching/integrated-design-studio-iii/
 - /research/stresspath/
 related_connections:
+- url: /teaching/structural-systems-ii/
+  reason: Student diagrams, technical drawings, and physical tests connect structural behavior with form and assembly.
 - url: /research/tri-arc-pavilion/
   reason: Tests equilibrium, joints, and assembly in a full-scale timber structure.
 - url: /teaching/integrated-design-studio-iii/

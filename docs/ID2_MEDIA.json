@@ -1,0 +1,751 @@
+{
+  "page": "/teaching/integrated-design-studio-ii/",
+  "images": [
+    {
+      "file": "dylan-access.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 12,
+      "clip": [
+        0.36,
+        0.01,
+        0.76,
+        0.94
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "dylan-concept.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 7,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-interior.webp",
+      "source": "dylan-models.pdf",
+      "page": 9,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-long-section.webp",
+      "source": "boards.pdf",
+      "page": 2,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-loop.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 9,
+      "clip": [
+        0.17,
+        0.055,
+        0.85,
+        0.94
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "dylan-massing.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 8,
+      "clip": [
+        0.02,
+        0.32,
+        0.98,
+        0.75
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "dylan-model-stair.webp",
+      "source": "dylan-models.pdf",
+      "page": 6,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-plans.webp",
+      "source": "boards.pdf",
+      "page": 4,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-program.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 17,
+      "clip": [
+        0.03,
+        0.04,
+        0.97,
+        0.95
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "dylan-public-private.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 19,
+      "clip": [
+        0.35,
+        0.01,
+        0.65,
+        0.95
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "dylan-render-canopy-ai.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 21,
+      "xref": 173,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-render-street-ai.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 1,
+      "xref": 240,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-section.webp",
+      "source": "boards.pdf",
+      "page": 3,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-site-flows.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 5,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-site-plan.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 10,
+      "rotate": 0
+    },
+    {
+      "file": "dylan-structure.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 20,
+      "clip": [
+        0.12,
+        0.02,
+        0.86,
+        0.92
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "dylan-views.webp",
+      "source": "dylan-presentation.pdf",
+      "page": 13,
+      "clip": [
+        0.23,
+        0.02,
+        0.78,
+        0.96
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-aerial.webp",
+      "source": "poster.pdf",
+      "page": 2,
+      "xref": 8,
+      "rotate": 0
+    },
+    {
+      "file": "juan-assignment1-light.webp",
+      "source": "pineros.pdf",
+      "page": 10,
+      "xref": 469,
+      "rotate": 0
+    },
+    {
+      "file": "juan-assignment1-model.webp",
+      "source": "pineros.pdf",
+      "page": 9,
+      "xref": 456,
+      "rotate": 0
+    },
+    {
+      "file": "juan-assignment1-section-two.webp",
+      "source": "pineros.pdf",
+      "page": 5,
+      "rotate": -90
+    },
+    {
+      "file": "juan-assignment1-section.webp",
+      "source": "pineros.pdf",
+      "page": 3,
+      "rotate": -90
+    },
+    {
+      "file": "juan-exterior.webp",
+      "source": "poster.pdf",
+      "page": 1,
+      "clip": [
+        0.3,
+        0.42,
+        1,
+        1
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-form-development.webp",
+      "source": "urban-infill.pdf",
+      "page": 21,
+      "rotate": 0
+    },
+    {
+      "file": "juan-gallery-interior.webp",
+      "source": "poster.pdf",
+      "page": 2,
+      "xref": 16,
+      "rotate": 0
+    },
+    {
+      "file": "juan-loop.webp",
+      "source": "urban-infill.pdf",
+      "page": 25,
+      "clip": [
+        0.02,
+        0.04,
+        0.59,
+        0.96
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-pedestrian.webp",
+      "source": "urban-infill.pdf",
+      "page": 10,
+      "xref": 76,
+      "rotate": 0
+    },
+    {
+      "file": "juan-plans-lower.webp",
+      "source": "poster.pdf",
+      "page": 3,
+      "clip": [
+        0,
+        0,
+        1,
+        0.39
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-plans-upper.webp",
+      "source": "poster.pdf",
+      "page": 3,
+      "clip": [
+        0,
+        0.39,
+        1,
+        0.79
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-program.webp",
+      "source": "urban-infill.pdf",
+      "page": 26,
+      "xref": 188,
+      "rotate": 0
+    },
+    {
+      "file": "juan-public-interior.webp",
+      "source": "poster.pdf",
+      "page": 2,
+      "xref": 20,
+      "rotate": 0
+    },
+    {
+      "file": "juan-section-one.webp",
+      "source": "poster.pdf",
+      "page": 4,
+      "clip": [
+        0,
+        0.01,
+        0.5,
+        0.37
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-section-two.webp",
+      "source": "poster.pdf",
+      "page": 4,
+      "clip": [
+        0.5,
+        0.01,
+        1,
+        0.37
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-site-plan.webp",
+      "source": "poster.pdf",
+      "page": 2,
+      "clip": [
+        0,
+        0.59,
+        0.705,
+        1
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-site-section.webp",
+      "source": "poster.pdf",
+      "page": 3,
+      "clip": [
+        0,
+        0.79,
+        1,
+        1
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-site.webp",
+      "source": "urban-infill.pdf",
+      "page": 18,
+      "clip": [
+        0.1,
+        0.15,
+        0.8,
+        0.94
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "juan-stair-interior.webp",
+      "source": "poster.pdf",
+      "page": 2,
+      "xref": 12,
+      "rotate": 0
+    },
+    {
+      "file": "juan-structure.webp",
+      "source": "urban-infill.pdf",
+      "page": 27,
+      "xref": 195,
+      "rotate": 0
+    },
+    {
+      "file": "juan-theatre-interior.webp",
+      "source": "poster.pdf",
+      "page": 4,
+      "xref": 109,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-activity.webp",
+      "source": "mateusz.pdf",
+      "page": 7,
+      "clip": [
+        0.33,
+        0.03,
+        0.98,
+        0.97
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-development.webp",
+      "source": "mateusz.pdf",
+      "page": 19,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-exterior.webp",
+      "source": "mateusz.pdf",
+      "page": 20,
+      "clip": [
+        0,
+        0.08,
+        1,
+        1
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-gallery.webp",
+      "source": "mateusz.pdf",
+      "page": 28,
+      "xref": 157,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-interior.webp",
+      "source": "mateusz.pdf",
+      "page": 26,
+      "xref": 149,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-landing.webp",
+      "source": "mateusz.pdf",
+      "page": 25,
+      "xref": 145,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-loop.webp",
+      "source": "mateusz.pdf",
+      "page": 12,
+      "clip": [
+        0.12,
+        0.18,
+        0.94,
+        0.95
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-pauses.webp",
+      "source": "mateusz.pdf",
+      "page": 15,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-plan-2.webp",
+      "source": "mateusz-board1.png",
+      "clip": [
+        0.01,
+        0.015,
+        0.36,
+        0.215
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-plan-3.webp",
+      "source": "mateusz-board1.png",
+      "clip": [
+        0.01,
+        0.26,
+        0.375,
+        0.465
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-plan-4.webp",
+      "source": "mateusz-board1.png",
+      "clip": [
+        0.01,
+        0.485,
+        0.41,
+        0.705
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-plan-5.webp",
+      "source": "mateusz-board1.png",
+      "clip": [
+        0.01,
+        0.745,
+        0.445,
+        0.97
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-program.webp",
+      "source": "mateusz.pdf",
+      "page": 13,
+      "clip": [
+        0.04,
+        0.2,
+        0.96,
+        0.94
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-section-one.webp",
+      "source": "mateusz-board2.png",
+      "clip": [
+        0.01,
+        0.01,
+        0.99,
+        0.49
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-section-two.webp",
+      "source": "mateusz-board2.png",
+      "clip": [
+        0.01,
+        0.51,
+        0.99,
+        0.99
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-sun-trims.webp",
+      "source": "mateusz.pdf",
+      "page": 16,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-support.webp",
+      "source": "mateusz.pdf",
+      "page": 17,
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-views.webp",
+      "source": "mateusz.pdf",
+      "page": 8,
+      "clip": [
+        0.33,
+        0.03,
+        0.98,
+        0.97
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "mateusz-void.webp",
+      "source": "mateusz.pdf",
+      "page": 38,
+      "xref": 197,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-entry.webp",
+      "source": "salatyan.pdf",
+      "page": 10,
+      "xref": 82,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-exterior.webp",
+      "source": "salatyan.pdf",
+      "page": 1,
+      "xref": 14,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-form.webp",
+      "source": "salatyan.pdf",
+      "page": 12,
+      "xref": 100,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-glazed-interior.webp",
+      "source": "salatyan.pdf",
+      "page": 15,
+      "xref": 129,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-loop-model.webp",
+      "source": "salatyan-models.pdf",
+      "page": 2,
+      "clip": [
+        0.33,
+        0.29,
+        0.66,
+        0.74
+      ]
+    },
+    {
+      "file": "salatyan-loop.webp",
+      "source": "salatyan.pdf",
+      "page": 9,
+      "xref": 73,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-parking.webp",
+      "source": "salatyan.pdf",
+      "page": 5,
+      "xref": 43,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-paths.webp",
+      "source": "salatyan.pdf",
+      "page": 11,
+      "xref": 91,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-plan-1.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 1,
+      "rotate": 0,
+      "clip": [
+        0.02,
+        0.14,
+        0.65,
+        0.98
+      ]
+    },
+    {
+      "file": "salatyan-plan-2.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 2,
+      "rotate": 0,
+      "clip": [
+        0.02,
+        0.14,
+        0.65,
+        0.98
+      ]
+    },
+    {
+      "file": "salatyan-plan-3.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 3,
+      "rotate": 0,
+      "clip": [
+        0.02,
+        0.14,
+        0.65,
+        0.98
+      ]
+    },
+    {
+      "file": "salatyan-plan-4.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 4,
+      "rotate": 0,
+      "clip": [
+        0.02,
+        0,
+        0.9,
+        1
+      ]
+    },
+    {
+      "file": "salatyan-program.webp",
+      "source": "salatyan.pdf",
+      "page": 8,
+      "xref": 64,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-render-side.webp",
+      "source": "salatyan.pdf",
+      "page": 7,
+      "xref": 57,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-roof-interior.webp",
+      "source": "salatyan.pdf",
+      "page": 13,
+      "xref": 110,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-section-one.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 5,
+      "clip": [
+        0,
+        0.01,
+        1,
+        0.79
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-section-two.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 6,
+      "clip": [
+        0,
+        0.01,
+        1,
+        0.79
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-site-plan.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 8,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-site-section.webp",
+      "source": "salatyan-plans.pdf",
+      "page": 7,
+      "clip": [
+        0,
+        0.3,
+        1,
+        1
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-streets.webp",
+      "source": "salatyan.pdf",
+      "page": 2,
+      "xref": 21,
+      "rotate": 0
+    },
+    {
+      "file": "salatyan-structure.webp",
+      "source": "salatyan.pdf",
+      "page": 16,
+      "xref": 138,
+      "rotate": 0
+    },
+    {
+      "file": "teaching-urban-edges.webp",
+      "source": "instructor-project2.pdf",
+      "page": 10,
+      "clip": [
+        0.03,
+        0.02,
+        0.6,
+        0.98
+      ],
+      "rotate": 0
+    },
+    {
+      "file": "teaching-urban-flows.webp",
+      "source": "instructor-project2.pdf",
+      "page": 6,
+      "clip": [
+        0.1,
+        0,
+        0.9,
+        1
+      ],
+      "rotate": 0
+    }
+  ],
+  "videos": [
+    {
+      "file": "mateusz-floorplan.mp4",
+      "source": "mateusz.pdf",
+      "page": 21,
+      "embedded_file": "florplan.mp4",
+      "stream_xref": 251
+    },
+    {
+      "file": "mateusz-section.mp4",
+      "source": "mateusz.pdf",
+      "page": 22,
+      "embedded_file": "section.mp4",
+      "stream_xref": 252
+    }
+  ],
+  "video_posters": "Frames at 3 seconds (plan) and 6 seconds (section) from the original embedded videos."
+}

@@ -121,7 +121,7 @@ description: Materiality as an active dimension of computational design. Researc
   const core = pool.filter(card => Number(card.dataset.coreOrder) > 0)
     .sort((a, b) => Number(a.dataset.coreOrder) - Number(b.dataset.coreOrder)).slice(0, 4);
   const rotatingPool = pool.filter(card => !core.includes(card));
-  const typeOrder = { research: 0, teaching: 1, design: 2 };
+  const typeOrder = { research: 0, teaching: 1, design: 2, tools: 3 };
   const year = card => Math.max(0, ...(card.dataset.year.match(/\b\d{4}\b/g) || []).map(Number));
   const byDate = (a, b) => year(b) - year(a) || a.dataset.title.localeCompare(b.dataset.title);
   let selection = [];
@@ -140,10 +140,10 @@ description: Materiality as an active dimension of computational design. Researc
   }
 
   function randomSelection() {
-    // Keep four additional projects from each discipline; core projects use no quota.
+    // Tools share the design discovery quota; core projects use no quota.
     const groups = ['research', 'design', 'teaching'].map(category => ({
       category,
-      cards: freshFirst(rotatingPool.filter(card => card.dataset.category === category)).slice(0, 4)
+      cards: freshFirst(rotatingPool.filter(card => card.dataset.category === category || (category === 'design' && card.dataset.category === 'tools'))).slice(0, 4)
     }));
     const cards = [];
     let previousCategory = core.at(-1)?.dataset.category;

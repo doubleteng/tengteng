@@ -63,6 +63,7 @@ teaching_groups:
   description: Courses develop structural reasoning, technical integration, design methods, and independent project development.
   projects:
   - /teaching/structural-systems/
+  - /teaching/integrated-design-studio-ii/
   - /teaching/integrated-design-studio-iii/
   - /teaching/digital-fabrication/
   - /teaching/undergraduate-architecture-thesis/

@@ -40,7 +40,8 @@ links:
 - title: Ovenbird · Rhino and Grasshopper plugin on food4Rhino
   url: https://www.food4rhino.com/en/app/ovenbird
 related_publications:
-- title: As-Continuous-As-Possible Multi-Material Extrusion with Gradient Composition and Transition
+- publication_id: zhi2026continuous
+  title: As-Continuous-As-Possible Multi-Material Extrusion with Gradient Composition and Transition
   url: /assets/documents/continuous-multi-material-extrusion-acadia-2026.pdf
   context: Accepted for ACADIA 2026 · Conference in October 2026
 related_projects:

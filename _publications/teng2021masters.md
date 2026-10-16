@@ -9,9 +9,15 @@ published: true
 featured: false
 url_link: https://hdl.handle.net/1813/110467
 pdf: ''
-note: 'Master of Science thesis, Matter Design Computation.'
-bibtex: "@mastersthesis{teng2021masters,\n address = {Ithaca, NY, US},\n author = {Teng Teng},\n school = {Cornell\
-  \ University},\n title = {Interactive Fabrication and Design of Bioinspired Surface Geometry},\n url = {https://hdl.handle.net/1813/110467},\n\
-  \ year = {2021}\n}"
+note: Master of Science thesis, Matter Design Computation.
+bibtex: |-
+  @mastersthesis{teng2021masters,
+    author = {Teng Teng},
+    title = {{Interactive Fabrication and Design of Bioinspired Surface Geometry}},
+    school = {Cornell University},
+    year = {2021},
+    address = {Ithaca, NY, US},
+    url = {https://hdl.handle.net/1813/110467}
+  }
 scholar_url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=oaYwxwYAAAAJ&citation_for_view=oaYwxwYAAAAJ:LkGwnXOMwfcC
 ---

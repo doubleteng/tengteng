@@ -29,7 +29,8 @@ credits:
 - 'Authors: Teng Teng (first author), Yefan Zhi (second author)'
 - 'Project photographs, diagrams, and video: research team'
 related_publications:
-- title: 'Embodied Material Gradients: Reframing 3D-Printed Footwear through Circular Multi-Material Fabrication'
+- publication_id: teng2026embodied
+  title: 'Embodied Material Gradients: Reframing 3D-Printed Footwear through Circular Multi-Material Fabrication'
   context: Accepted for ACADIA 2026 · Conference in October 2026
 research_areas:
 - material-computation

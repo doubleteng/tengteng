@@ -10,7 +10,13 @@ featured: false
 url_link: http://hdl.handle.net/1773/33440
 pdf: ''
 note: ''
-bibtex: "@mastersthesis{teng2015masters,\n address = {Seattle, WA, US},\n author = {Teng Teng},\n school = {University\
-  \ of Washington},\n title = {Transformable Physical Design Media},\n url = {http://hdl.handle.net/1773/33440},\n\
-  \ year = {2015}\n}"
+bibtex: |-
+  @mastersthesis{teng2015masters,
+    author = {Teng Teng},
+    title = {{Transformable Physical Design Media}},
+    school = {University of Washington},
+    year = {2015},
+    address = {Seattle, WA, US},
+    url = {http://hdl.handle.net/1773/33440}
+  }
 ---

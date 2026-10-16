@@ -39,6 +39,14 @@ sections:
   - /assets/media/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/img-6.webp
   caption: Fabrication studies from the wider collaborative building-system project.
   columns: two
+opening_sections:
+- type: video
+  anchor: concrete-printing
+  heading: Concrete printing
+  file: /assets/videos/biomineral-concrete-printing.mp4
+  poster: /assets/media/3d-printing-biomineral-infused-concrete-for-enhanced-carbon-capture/printing-video-poster.webp
+  width_percent: 50
+  caption: Concrete deposition during fabrication of a structural prototype.
 links: []
 related_publications:
 - title: 3D Concrete Printing of Triply Periodic Minimum Surfaces for Enhanced Carbon Capture and Storage

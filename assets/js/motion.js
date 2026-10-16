@@ -286,6 +286,33 @@
       });
     }
     const selector = '.project-image[data-preview-video], .project-image[data-preview-animation]';
+    function previewEmbed(source) {
+      if (!source) return '';
+      let url;
+      try { url = new URL(source, location.href); } catch { return ''; }
+      const host = url.hostname.replace(/^www\./, '');
+      let id;
+      if (host === 'youtu.be') id = url.pathname.split('/')[1];
+      else if (host === 'youtube.com' || host === 'youtube-nocookie.com' || host === 'm.youtube.com') {
+        id = url.searchParams.get('v') || url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1];
+      }
+      if (id && /^[\w-]{11}$/.test(id)) {
+        const embed = new URL('https://www.youtube-nocookie.com/embed/' + id);
+        embed.search = new URLSearchParams({ autoplay: '1', mute: '1', loop: '1', playlist: id, controls: '0', playsinline: '1', disablekb: '1', fs: '0', rel: '0', origin: location.origin });
+        return embed.href;
+      }
+      if (host === 'vimeo.com' || host === 'player.vimeo.com') {
+        id = url.pathname.match(/\/(?:video\/)?(\d+)(?:\/|$)/)?.[1];
+        if (id) {
+          const embed = new URL('https://player.vimeo.com/video/' + id);
+          embed.search = new URLSearchParams({ autoplay: '1', muted: '1', loop: '1', autopause: '0', controls: '0', playsinline: '1', title: '0', byline: '0', portrait: '0' });
+          const hash = url.searchParams.get('h') || url.pathname.match(/\/\d+\/([\w]+)$/)?.[1];
+          if (hash) embed.searchParams.set('h', hash);
+          return embed.href;
+        }
+      }
+      return '';
+    }
     function begin(frame) {
       if (!frame || activePreview?.frame === frame) return;
       stopPreview();
@@ -295,21 +322,28 @@
       preview.timer = setTimeout(() => {
         if (activePreview !== preview || !visible(frame) || document.hidden) { stopPreview(); return; }
         const isVideo = Boolean(frame.dataset.previewVideo);
-        const media = document.createElement(isVideo ? 'video' : 'img');
+        const embed = isVideo && previewEmbed(frame.dataset.previewVideo);
+        const media = document.createElement(embed ? 'iframe' : isVideo ? 'video' : 'img');
         preview.media = media;
         media.className = 'thumbnail-preview';
         media.setAttribute('aria-hidden', 'true');
         const show = () => { if (activePreview === preview) frame.classList.add('is-previewing'); };
         media.addEventListener('error', () => { if (activePreview === preview) stopPreview(); }, { once: true });
-        if (isVideo) {
+        if (embed) {
+          media.title = 'Project video preview';
+          media.tabIndex = -1;
+          media.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+          media.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          media.addEventListener('load', show, { once: true });
+        } else if (isVideo) {
           media.muted = true; media.defaultMuted = true; media.loop = true; media.autoplay = true; media.playsInline = true;
           media.setAttribute('muted', ''); media.setAttribute('playsinline', '');
           media.preload = 'auto';
           media.addEventListener('playing', show, { once: true });
         } else { media.alt = ''; media.addEventListener('load', show, { once: true }); }
         frame.appendChild(media);
-        media.src = isVideo ? frame.dataset.previewVideo : frame.dataset.previewAnimation;
-        if (isVideo) media.play()?.catch(() => { if (activePreview === preview) stopPreview(); });
+        media.src = embed || (isVideo ? frame.dataset.previewVideo : frame.dataset.previewAnimation);
+        if (isVideo && !embed) media.play()?.catch(() => { if (activePreview === preview) stopPreview(); });
       }, 80);
     }
     // Use the actual input event, including a mouse attached to a touch-first laptop.

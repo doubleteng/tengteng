@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /research/bespoke-paste-printer/
-cover: /assets/media/bespoke-paste-printer/printer-prototype.webp
-cover_alt: Desktop printer converted to paste extrusion with a separate material feeder and auger nozzle
+cover: /assets/media/bespoke-paste-printer/printed-branching-structure.webp
+cover_alt: Multi-branched clay structure printed without support material or infill
 cover_fit: contain
 cover_background: '#ffffff'
 cover_preview_only: true

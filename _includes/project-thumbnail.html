@@ -2,6 +2,33 @@
 {%- assign preview = site.data.preview_media[thumbnail_project.slug] -%}
 {%- assign preview_video = thumbnail_project.preview_video | default: preview.video -%}
 {%- assign preview_animation = thumbnail_project.preview_animation | default: preview.animation -%}
+{%- unless preview_video -%}
+  {%- comment -%}Discover project videos automatically; curated lightweight previews still take priority.{%- endcomment -%}
+  {%- assign thumbnail_empty = '' | split: ',' -%}
+  {%- assign thumbnail_opening = thumbnail_project.opening_sections | default: thumbnail_empty -%}
+  {%- assign thumbnail_sections = thumbnail_project.sections | default: thumbnail_empty -%}
+  {%- assign thumbnail_blocks = thumbnail_opening | concat: thumbnail_sections -%}
+  {%- assign thumbnail_native = '' -%}
+  {%- assign thumbnail_external = '' -%}
+  {%- for thumbnail_block in thumbnail_blocks -%}
+    {%- assign thumbnail_candidates = thumbnail_empty -%}
+    {%- case thumbnail_block.type -%}
+      {%- when 'video' -%}{%- assign thumbnail_candidates = thumbnail_blocks | slice: forloop.index0, 1 -%}
+      {%- when 'video-gallery' -%}{%- assign thumbnail_candidates = thumbnail_block.videos -%}
+      {%- when 'media-row' -%}{%- assign thumbnail_candidates = thumbnail_block.items | where: 'type', 'video' -%}
+    {%- endcase -%}
+    {%- for thumbnail_clip in thumbnail_candidates -%}
+      {%- assign thumbnail_url = thumbnail_clip.file | default: thumbnail_clip.url -%}
+      {%- if thumbnail_url contains '.mp4' or thumbnail_url contains '.webm' -%}
+        {%- if thumbnail_native == '' -%}{%- assign thumbnail_native = thumbnail_url -%}{%- endif -%}
+      {%- elsif thumbnail_url contains 'youtu.be/' or thumbnail_url contains 'youtube.com/' or thumbnail_url contains 'youtube-nocookie.com/' or thumbnail_url contains 'vimeo.com/' -%}
+        {%- if thumbnail_external == '' -%}{%- assign thumbnail_external = thumbnail_url -%}{%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- if thumbnail_native != '' -%}{%- assign preview_video = thumbnail_native -%}
+  {%- elsif thumbnail_external != '' -%}{%- assign preview_video = thumbnail_external -%}{%- endif -%}
+{%- endunless -%}
 {%- assign transition_cover = false -%}
 {%- if thumbnail_project.interactive_map != true -%}
   {%- if thumbnail_project.hero_gallery.size > 0 -%}

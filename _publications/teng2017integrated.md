@@ -2,7 +2,7 @@
 title: Integrated Adaptive and Tangible Architecture Design Tool
 kind: conference
 year: 2017
-authors: Teng Teng; Qinying Li
+authors: Qinying Li; Teng Teng
 venue: ShoCK! - Sharing Computational Knowledge! - Proceedings of the 35th eCAADe Conference - Volume 1
 status: published
 published: true
@@ -12,9 +12,11 @@ pdf: ''
 note: ''
 bibtex: |-
   @inproceedings{teng2017integrated,
-    author = {Teng Teng and Li, Qinying},
+    author = {Li, Qinying and Teng, Teng},
     title = {{Integrated Adaptive and Tangible Architecture Design Tool}},
     booktitle = {ShoCK! - Sharing Computational Knowledge! - Proceedings of the 35th eCAADe Conference - Volume 1},
+    publisher = {eCAADe},
+    volume = {1},
     pages = {619--628},
     year = {2017},
     address = {Sapienza University of Rome, Rome, Italy, 20-22 September 2017},

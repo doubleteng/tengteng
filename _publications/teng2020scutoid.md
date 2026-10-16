@@ -2,7 +2,7 @@
 title: Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System
 kind: conference
 year: 2020
-authors: Teng Teng; Mian Jia; Jenny Sabin
+authors: Teng Teng; Mian Jia; Jenny E. Sabin
 venue: 'Anthropologic: Architecture and Fabrication in the Cognitive Age - Proceedings of the 38th eCAADe Conference
   - Volume 1'
 status: published
@@ -13,9 +13,11 @@ pdf: ''
 note: ''
 bibtex: |-
   @inproceedings{teng2020scutoid,
-    author = {Teng Teng and Jia, Mian and Sabin, Jenny},
+    author = {Teng Teng and Jia, Mian and Sabin, Jenny E.},
     title = {{Scutoid Brick - The Designing of Epithelial Cell Inspired-brick in Masonry Shell System}},
     booktitle = {Anthropologic: Architecture and Fabrication in the Cognitive Age - Proceedings of the 38th eCAADe Conference - Volume 1},
+    publisher = {eCAADe},
+    volume = {1},
     pages = {563--572},
     year = {2020},
     address = {TU Berlin, Berlin, Germany, 16-18 September 2020},

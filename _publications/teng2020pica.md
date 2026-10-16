@@ -2,7 +2,7 @@
 title: PICA - A Designer Oriented Low-Cost Personal Robotic Fabrication Platform for Sketch Level Prototyping
 kind: conference
 year: 2020
-authors: Teng Teng; Jenny Sabin
+authors: Teng Teng; Jenny E. Sabin
 venue: 'RE: Anthropocene, Design in the Age of Humans - Proceedings of the 25th CAADRIA Conference - Volume 2'
 status: published
 published: true
@@ -12,9 +12,11 @@ pdf: ''
 note: ''
 bibtex: |-
   @inproceedings{teng2020pica,
-    author = {Teng Teng and Sabin, Jenny},
+    author = {Teng Teng and Sabin, Jenny E.},
     title = {{PICA - A Designer Oriented Low-Cost Personal Robotic Fabrication Platform for Sketch Level Prototyping}},
     booktitle = {RE: Anthropocene, Design in the Age of Humans - Proceedings of the 25th CAADRIA Conference - Volume 2},
+    publisher = {CAADRIA},
+    volume = {2},
     pages = {473--483},
     year = {2020},
     address = {Chulalongkorn University, Bangkok, Thailand, 5-6 August 2020},

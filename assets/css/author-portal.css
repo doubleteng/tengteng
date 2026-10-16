@@ -1,0 +1,8 @@
+.author-portal-embed{margin:0 0 42px;scroll-margin-top:100px}
+.author-portal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px 30px;margin-bottom:18px}
+.author-portal-toolbar h2{font-size:var(--text-section);margin:0 0 6px}
+.author-portal-toolbar .caption{margin:0;max-width:64ch}
+.author-portal-toolbar>.text-link{flex-shrink:0}
+.author-portal-frame{display:block;width:100%;height:90vh;height:90svh;min-height:760px;border:0;background:transparent}
+.author-portal-caption{margin-top:12px}
+@media(max-width:760px){.author-portal-toolbar{align-items:flex-start;flex-direction:column;gap:12px}.author-portal-frame{height:85vh;height:85svh;min-height:650px}.author-portal-embed{margin-bottom:30px}}

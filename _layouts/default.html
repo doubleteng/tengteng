@@ -28,6 +28,9 @@
   {% if page.structure_lab %}
   <link rel="stylesheet" href="{{ '/assets/css/structure-lab-embed.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   {% endif %}
+  {% if page.author_portal %}
+  <link rel="stylesheet" href="{{ '/assets/css/author-portal.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  {% endif %}
   <script src="{{ '/assets/js/site.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 </head>
 <body>

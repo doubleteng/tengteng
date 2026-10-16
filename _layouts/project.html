@@ -5,6 +5,7 @@ layout: default
 <header class="project-heading" data-project-page="{{ page.url | relative_url }}"><h1>{{ page.title | escape }}</h1>{% if page.summary and page.summary != '' %}<p class="lead">{{ page.summary | escape }}</p>{% endif %}{% if page.primary_link and page.interactive_map != true %}<div class="actions"><a class="button" href="{{ page.primary_link.url | escape }}" target="_blank" rel="noopener">{{ page.primary_link.title | escape }} ↗</a></div>{% endif %}</header>
 {% include project-brief.html %}
 {% include project-reading-path.html %}
+{% if page.author_portal %}{% include author-portal.html %}{% endif %}
 {% if page.structure_lab %}{% include structure-lab.html %}{% endif %}
 {% if page.interactive_map %}{% include chinatown-map.html %}{% elsif page.hero_gallery and page.hero_gallery.size > 0 %}
 <section class="project-hero-carousel" data-hero-carousel data-carousel-fit="{{ page.hero_gallery_fit | default: 'cover' | escape }}" tabindex="0" aria-label="{{ page.title | escape }} project photography">

@@ -37,13 +37,13 @@ research_groups:
   - /research/minimum-device-maximum-space/
 - id: interaction-and-media
   title: Interaction & Design Media
-  description: How do physical interfaces and computational tools let designers manipulate, test, and fabricate
-    design alternatives?
+  description: Interfaces for exploring design alternatives, coordinating fabrication, and managing research workflows.
   projects:
   - /research/pica/
   - /research/pinbed/
   - /research/inspire/
   - /research/transformable-physical-design-media/
+  - /research/acadia-author-portal/
 - id: spatial-history
   title: Spatial Archives & Public History
   description: An independent research direction connecting urban memory, historical evidence, and spatial computation.

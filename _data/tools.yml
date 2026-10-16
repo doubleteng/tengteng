@@ -43,6 +43,9 @@ interface:
   url: https://afterchinatown.org/
   action: Open platform
   description: Explore historical urban models, maps, photographs, and archival records across locations and periods.
+- project: /research/acadia-author-portal/
+  title: ACADIA 2026 Conference Management System
+  description: An integrated post-peer-review system for publication production, author coordination, and conference presentations, with an embedded Author Portal.
 - project: /research/inspire/
   description: A gesture-based interface for manipulating architectural geometry in a shared physical and digital
     workspace.

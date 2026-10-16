@@ -3,8 +3,7 @@ title: Single-Nozzle Multi-Filament System for Fused Deposition Modeling Printer
 kind: patent
 year: 2024
 authors: Teng Teng; Yefan Zhi; Masoud Akbarzadeh
-venue: 'Assigned to: The Trustees of the University of Pennsylvania, Application Number: 63/551,550, Application
-  Date: February 9, 2024, Patent Pending'
+venue: ''
 status: pending
 published: true
 featured: false

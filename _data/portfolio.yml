@@ -16,13 +16,15 @@ research_groups:
   - /research/tuck-folding/
 - id: transitions-and-fabrication
   title: Material Transitions & Fabrication
-  description: How can computation and fabrication make designed material distributions and transitions physically controllable?
+  description: How can computation and fabrication make designed material distributions and transitions physically
+    controllable?
   projects:
   - /research/snmm-additive-manufacturing-system/
   - /research/continuous-multi-material-extrusion/
   - /research/stresspath/
   - /research/automated-concrete-toolpaths/
   - /research/robosense/
+  - /research/bespoke-paste-printer/
 - id: equilibrium-and-materialization
   title: Equilibrium & Materialization
   description: How do computational form and force become physical assemblies through materials, joints, and construction
@@ -35,8 +37,8 @@ research_groups:
   - /research/minimum-device-maximum-space/
 - id: interaction-and-media
   title: Interaction & Design Media
-  description: How do physical interfaces and computational tools let designers manipulate, test, and fabricate design
-    alternatives?
+  description: How do physical interfaces and computational tools let designers manipulate, test, and fabricate
+    design alternatives?
   projects:
   - /research/pica/
   - /research/pinbed/
@@ -48,6 +50,18 @@ research_groups:
   projects:
   - /research/after-chinatown/
 teaching_groups:
+- id: professional-education
+  title: Architectural & Structural Education
+  description: Courses develop structural reasoning, technical integration, design methods, and independent project
+    development.
+  projects:
+  - /teaching/structural-systems/
+  - /teaching/structural-systems-ii/
+  - /teaching/integrated-design-studio-ii/
+  - /teaching/integrated-design-studio-iii/
+  - /teaching/digital-fabrication/
+  - /teaching/undergraduate-architecture-thesis/
+  - /teaching/undergraduate-product-design-thesis/
 - id: research-led-teaching
   title: Research-led Studios & Workshops
   description: Material experiments, computational tools, and fabrication become subjects of design inquiry.
@@ -57,14 +71,3 @@ teaching_groups:
   - /teaching/ai-empowered-creative-robotics-workshop/
   - /research/tri-arc-pavilion/
   - /projects/digital-practice-workshop/
-- id: professional-education
-  title: Structural & Architectural Education
-  description: Courses develop structural reasoning, technical integration, design methods, and independent project development.
-  projects:
-  - /teaching/structural-systems/
-  - /teaching/structural-systems-ii/
-  - /teaching/integrated-design-studio-ii/
-  - /teaching/integrated-design-studio-iii/
-  - /teaching/digital-fabrication/
-  - /teaching/undergraduate-architecture-thesis/
-  - /teaching/undergraduate-product-design-thesis/

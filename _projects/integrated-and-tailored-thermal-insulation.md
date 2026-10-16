@@ -113,6 +113,8 @@ related_connections:
 - url: /research/programmable-footwear/
   reason: Coordinates different local material responses within one printed component.
 reading_path:
+- title: Printing films
+  target: printing-films
 - title: Thermal images
   target: thermal-images
 - title: Wall prototype
@@ -122,6 +124,23 @@ reading_path:
 evidence_target: thermal-images
 evidence_first: 2
 question_label: Research question
+opening_sections:
+- type: media-row
+  anchor: printing-films
+  heading: Printing material transitions
+  equal_height: true
+  items:
+  - type: video
+    heading: Layer deposition
+    file: /assets/videos/thermal-insulation-layer-deposition.mp4
+    poster: /assets/media/integrated-and-tailored-thermal-insulation/layer-deposition-poster.webp
+    ratio: 1.7777777777777777
+  - type: video
+    heading: Material transition during component printing
+    file: /assets/videos/thermal-insulation-material-transition.mp4
+    poster: /assets/media/integrated-and-tailored-thermal-insulation/material-transition-poster.webp
+    ratio: 1
+  caption: Layer deposition and changes in material composition during paste printing.
 ---
 This research integrates load-bearing capacity and thermal insulation within the material distribution of printed architectural components. A single-nozzle process changes the mixture during fabrication, creating continuous transitions between regions with different structural and thermal demands.
 
@@ -130,4 +149,3 @@ The experiments investigate paste-based mixtures containing clay and diatomaceou
 A wall prototype places reinforced material along regions of higher stress and insulating material in lower-stress areas. Its geometry, material map, and printing sequence are coordinated so that the thermal and structural functions are organized within each masonry unit.
 
 The work received the Best Paper Runner-Up Award at ACADIA 2024.
-

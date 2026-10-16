@@ -40,7 +40,7 @@ layout: default
     {% include project-method.html %}
     {% if evidence_count > 0 %}{% assign remaining_sections = page.sections | slice: evidence_count, 1000 %}{% include blocks.html sections=remaining_sections %}{% else %}<div id="project-evidence">{% include blocks.html sections=page.sections %}</div>{% endif %}
     {% if page.evidence %}<section class="evidence-note" id="project-scope"><h2>{{ page.evidence_label | default: "Evidence & scope" | escape }}</h2><p>{{ page.evidence | escape }}</p></section>{% endif %}
-    {% if page.category == 'research' %}{% include research-publications.html %}{% endif %}
+    {% if page.category == 'research' and page.show_publications != false %}{% include research-publications.html %}{% endif %}
   </article>
   <aside id="project-details" class="project-details" aria-label="Project details">
     <dl><dt>Category</dt><dd>{{ page.category | capitalize }}</dd>{% if page.year and page.year != '' %}<dt>Year</dt><dd>{{ page.year | escape }}</dd>{% endif %}{% if page.project_type and page.project_type != '' %}<dt>Project type</dt><dd>{{ page.project_type | escape }}</dd>{% endif %}{% if page.project_stage and page.project_stage != '' %}<dt>Stage</dt><dd>{{ page.project_stage | escape }}</dd>{% endif %}{% if page.role and page.role != '' %}<dt>My role</dt><dd>{{ page.role | escape }}</dd>{% endif %}{% if page.institution and page.institution != '' %}<dt>Institution</dt><dd>{{ page.institution | escape }}</dd>{% endif %}{% if page.location and page.location != '' %}<dt>Location</dt><dd>{{ page.location | escape }}</dd>{% endif %}</dl>

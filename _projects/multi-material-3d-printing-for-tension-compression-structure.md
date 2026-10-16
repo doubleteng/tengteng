@@ -102,6 +102,8 @@ related_connections:
 - url: /research/integrated-and-tailored-thermal-insulation/
   reason: Extends material allocation from structural demand to combined structural and thermal needs.
 reading_path:
+- title: Printing film
+  target: printing-film
 - title: Load testing
   target: load-testing
 - title: Printed trusses
@@ -111,6 +113,13 @@ reading_path:
 evidence_target: load-testing
 evidence_first: 2
 question_label: Research question
+opening_sections:
+- type: video
+  anchor: printing-film
+  heading: Material deposition
+  file: /assets/videos/tension-compression-material-deposition.mp4
+  poster: /assets/media/multi-material-3d-printing-for-tension-compression-structure/material-deposition-poster.webp
+  caption: Close-up footage of material deposition along the truss geometry.
 ---
 This project develops continuous multi-filament printing for structural components whose material distribution follows tensile and compressive demand. A single nozzle switches between filament feeds while maintaining a connected deposition path.
 
@@ -127,4 +136,3 @@ A related strut-and-tie specimen was printed by Yefan Zhi and me in 2023. Its un
 StressPath provides a browser-based workspace for exploring structural design, analysis, toolpath generation, and material distribution alongside this research. Save a study as a JSON project file and open it later to continue working.
 
 [Explore StressPath](/research/stresspath/) · [Open the workspace](/research/stresspath/app/)
-

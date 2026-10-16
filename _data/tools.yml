@@ -27,6 +27,9 @@ materialization_tools:
   project: /research/snmm-additive-manufacturing-system/
   description: A single-nozzle fabrication system controls multiple filament feeds and active mixing to print continuous
     material gradients.
+- project: /research/bespoke-paste-printer/
+  description: A low-cost desktop conversion pairs two-stage paste extrusion with nonplanar toolpaths for branching
+    clay forms.
 - project: /research/robosense/
   description: Clay extrusion hardware and control software for calibration, live toolpath adjustment, and robotic
     fabrication.

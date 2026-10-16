@@ -16,7 +16,7 @@
 .project-hero figcaption{background:var(--paper);padding-top:8px;margin:0}
 
 /* Optional project opening sequence; content remains editable in Pages CMS. */
-.project-opening{margin-bottom:52px}.project-opening>.content-block:first-child{margin-top:0}.project-opening .block-text{max-width:780px}.project-opening .block-video{margin-top:24px}.project-opening video{aspect-ratio:16/9;background:var(--wash)}
+.project-opening{margin-bottom:52px}.project-opening>.content-block:first-child{margin-top:0}.project-opening .block-text{max-width:780px}.project-opening .block-video{margin-top:24px}.project-opening video{height:auto;background:transparent}
 
 .research-publications{border-block:1px solid var(--line);padding:24px 0;margin:32px 0}
 .research-publications-heading{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px 24px}

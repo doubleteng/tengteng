@@ -15,11 +15,11 @@
 }
 ::view-transition-old(project-cover),
 ::view-transition-new(project-cover) {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: 100%; object-fit: contain;
   animation-duration: var(--image-motion-time);
   mix-blend-mode: normal;
 }
-/* A single moving photograph avoids double images while the crop changes. */
+/* A single photograph keeps its full composition while moving between pages. */
 ::view-transition-old(project-cover) { display: none; }
 ::view-transition-new(project-cover) { animation: none; opacity: 1; }
 /* The title follows its card independently of the photograph. Different short
@@ -57,15 +57,24 @@
 .project-image { position: relative; }
 .project-image .thumbnail-preview {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; opacity: 0; pointer-events: none; border: 0;
+  object-fit: contain; opacity: 0; pointer-events: none; border: 0;
   transform: none; transition: opacity 180ms ease;
+}
+.project-image.is-previewing {
+  width: var(--preview-width, 100%); aspect-ratio: var(--preview-ratio);
+  margin-inline: auto;
+  margin-bottom: calc(var(--thumbnail-gap) + var(--preview-space, 0px));
+}
+.project-image.is-previewing > img:not(.thumbnail-preview) {
+  position: absolute; opacity: 0;
 }
 .project-image.is-previewing .thumbnail-preview { opacity: 1; }
 .project-image iframe.thumbnail-preview {
-  min-width: 200px; min-height: 200px;
-  inset: auto; top: 50%; left: 50%; translate: -50% -50%;
+  width: var(--embed-width, 100%); height: var(--embed-height, 100%); max-width: none;
+  inset: auto; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(var(--embed-scale, 1));
 }
-.project-link:hover .thumbnail-preview { transform: none; }
+.project-link:hover .thumbnail-preview:not(iframe) { transform: none; }
 .project-card-exit { position: absolute; pointer-events: none; z-index: 10; }
 .project-card-exit h2 { font: var(--text-card)/1.35 var(--serif); letter-spacing: -.015em; margin: 0; }
 .project-card.is-returned .project-image { animation: project-return 1100ms ease-out; }

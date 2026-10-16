@@ -7,6 +7,17 @@ document.querySelectorAll('video[autoplay]').forEach(video => {
   playback?.catch(() => { /* Keep the native play control available if autoplay is blocked. */ });
 });
 
+// Equal-height rows use real source dimensions as column weights, never as a crop.
+document.querySelectorAll('.media-row-equal-height img, .media-row-equal-height video').forEach(media => {
+  const syncRatio = () => {
+    const width = media.videoWidth || media.naturalWidth;
+    const height = media.videoHeight || media.naturalHeight;
+    if (width > 0 && height > 0) media.closest('figure').style.setProperty('--media-ratio', width / height);
+  };
+  media.addEventListener(media.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', syncRatio);
+  syncRatio();
+});
+
 document.querySelector('.menu-toggle')?.addEventListener('click', event => {
   const button = event.currentTarget;
   const open = button.getAttribute('aria-expanded') !== 'true';
@@ -106,7 +117,7 @@ document.querySelectorAll('[data-hero-carousel]').forEach(carousel => {
   let touching = false;
 
   function render() {
-    track.style.transform = `translateX(-${index * 100}%)`;
+    // Only the active slide contributes height; each photograph keeps its own proportions.
     slides.forEach((slide, i) => slide.setAttribute('aria-hidden', String(i !== index)));
     dots.forEach((dot, i) => i === index ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current'));
     if (status) status.textContent = `${index + 1} / ${slides.length}`;

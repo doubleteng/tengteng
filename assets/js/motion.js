@@ -145,10 +145,13 @@
   }
   function stopPreview() {
     if (!activePreview) return;
-    const { frame, media, timer } = activePreview;
+    const { frame, media, timer, observer, cover, fit } = activePreview;
     activePreview = null;
     clearTimeout(timer);
+    observer?.disconnect();
+    if (fit) cover?.removeEventListener('load', fit);
     frame.classList.remove('is-previewing');
+    ['--preview-width', '--preview-ratio', '--preview-space'].forEach(name => frame.style.removeProperty(name));
     if (media) {
       if (media.tagName === 'VIDEO') { media.pause(); media.removeAttribute('src'); media.load(); }
       else media.removeAttribute('src');
@@ -218,6 +221,7 @@
     const link = event.target.closest('a[href]');
     if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self') || !address(link.href)) return;
     pendingLink = link;
+    stopPreview();
     captureTransition(address(link.href));
     if (link.matches('.project-card .project-link') && !projectPage()) {
       const record = { from: here(), to: address(link.href), time: Date.now(), historyLength: history.length };
@@ -316,7 +320,9 @@
     function begin(frame) {
       if (!frame || activePreview?.frame === frame) return;
       stopPreview();
-      const preview = { frame, media: null, timer: null };
+      const cover = frame.querySelector('img');
+      const bounds = frame.getBoundingClientRect();
+      const preview = { frame, cover, media: null, timer: null, coverRatio: bounds.width / bounds.height };
       activePreview = preview;
       // A brief intent delay avoids downloading videos while the pointer passes across a grid.
       preview.timer = setTimeout(() => {
@@ -327,7 +333,45 @@
         preview.media = media;
         media.className = 'thumbnail-preview';
         media.setAttribute('aria-hidden', 'true');
-        const show = () => { if (activePreview === preview) frame.classList.add('is-previewing'); };
+        // Fit the preview within the cover's footprint, then shrink its container to
+        // the media's actual ratio. The remaining space is outside the frame, so
+        // neither letterboxing nor card/title movement is needed on hover.
+        const fit = () => {
+          if (activePreview !== preview) return;
+          const link = frame.closest('.project-link');
+          const availableWidth = link.getBoundingClientRect().width;
+          const coverRatio = cover?.naturalWidth && cover.naturalHeight
+            ? cover.naturalWidth / cover.naturalHeight : preview.coverRatio;
+          const width = media.videoWidth || media.naturalWidth;
+          const height = media.videoHeight || media.naturalHeight;
+          const ratio = width && height ? width / height : Number(frame.dataset.previewRatio) || 16 / 9;
+          if (!(availableWidth > 0 && coverRatio > 0 && ratio > 0)) return;
+          const availableHeight = availableWidth / coverRatio;
+          const fittedWidth = Math.min(availableWidth, availableHeight * ratio);
+          const fittedHeight = fittedWidth / ratio;
+          frame.style.setProperty('--preview-width', `${fittedWidth / availableWidth * 100}%`);
+          frame.style.setProperty('--preview-ratio', String(ratio));
+          frame.style.setProperty('--preview-space', `${Math.max(0, availableHeight - fittedHeight)}px`);
+          if (embed) {
+            // Keep the embedded player's viewport at least 200 x 200, scaling it
+            // as a whole instead of cropping its edges on small project cards.
+            const scale = Math.max(1, 200 / fittedWidth, 200 / fittedHeight);
+            media.style.setProperty('--embed-width', `${fittedWidth * scale}px`);
+            media.style.setProperty('--embed-height', `${fittedHeight * scale}px`);
+            media.style.setProperty('--embed-scale', String(1 / scale));
+          }
+        };
+        preview.fit = fit;
+        cover?.addEventListener('load', fit, { once: true });
+        const show = () => {
+          if (activePreview !== preview) return;
+          fit();
+          frame.classList.add('is-previewing');
+          if ('ResizeObserver' in window && !preview.observer) {
+            preview.observer = new ResizeObserver(fit);
+            preview.observer.observe(frame.closest('.project-link'));
+          }
+        };
         media.addEventListener('error', () => { if (activePreview === preview) stopPreview(); }, { once: true });
         if (embed) {
           media.title = 'Project video preview';
@@ -361,6 +405,7 @@
     document.addEventListener('keydown', event => { if (event.key === 'Escape') stopPreview(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) stopPreview(); });
     window.addEventListener('blur', stopPreview);
+    window.addEventListener('resize', () => activePreview?.fit?.(), { passive: true });
     window.addEventListener('scroll', () => { if (activePreview && !visible(activePreview.frame)) stopPreview(); }, { passive: true });
 
     if ('MutationObserver' in window) new MutationObserver(() => {

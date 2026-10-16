@@ -2,6 +2,7 @@
 {%- assign preview = site.data.preview_media[thumbnail_project.slug] -%}
 {%- assign preview_video = thumbnail_project.preview_video | default: preview.video -%}
 {%- assign preview_animation = thumbnail_project.preview_animation | default: preview.animation -%}
+{%- assign thumbnail_external_ratio = nil -%}
 {%- unless preview_video -%}
   {%- comment -%}Discover project videos automatically; curated lightweight previews still take priority.{%- endcomment -%}
   {%- assign thumbnail_empty = '' | split: ',' -%}
@@ -22,7 +23,7 @@
       {%- if thumbnail_url contains '.mp4' or thumbnail_url contains '.webm' -%}
         {%- if thumbnail_native == '' -%}{%- assign thumbnail_native = thumbnail_url -%}{%- endif -%}
       {%- elsif thumbnail_url contains 'youtu.be/' or thumbnail_url contains 'youtube.com/' or thumbnail_url contains 'youtube-nocookie.com/' or thumbnail_url contains 'vimeo.com/' -%}
-        {%- if thumbnail_external == '' -%}{%- assign thumbnail_external = thumbnail_url -%}{%- endif -%}
+        {%- if thumbnail_external == '' -%}{%- assign thumbnail_external = thumbnail_url -%}{%- assign thumbnail_external_ratio = thumbnail_clip.ratio -%}{%- endif -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
@@ -37,6 +38,6 @@
     {%- assign transition_cover = true -%}
   {%- endif -%}
 {%- endif -%}
-<div class="project-image"{% if thumbnail_project.cover_background %} style="background:{{ thumbnail_project.cover_background | escape }}"{% endif %}{% if preview_video %} data-preview-video="{{ preview_video | relative_url | escape }}"{% elsif preview_animation %} data-preview-animation="{{ preview_animation | relative_url | escape }}"{% endif %}>
+<div class="project-image"{% if preview_video %} data-preview-video="{{ preview_video | relative_url | escape }}"{% if thumbnail_project.preview_ratio or thumbnail_external_ratio %} data-preview-ratio="{{ thumbnail_project.preview_ratio | default: thumbnail_external_ratio | escape }}"{% endif %}{% elsif preview_animation %} data-preview-animation="{{ preview_animation | relative_url | escape }}"{% endif %}>
   <img src="{{ thumbnail_project.cover | relative_url }}" alt="{{ thumbnail_project.cover_alt | default: thumbnail_project.title | escape }}"{% if thumbnail_project.cover_fit == 'contain' %} style="object-fit:contain"{% endif %}{% if transition_cover %} data-transition-cover{% endif %} loading="lazy" decoding="async" width="720" height="480">
 </div>

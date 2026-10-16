@@ -6,8 +6,8 @@ published: true
 featured: false
 featured_order: 99
 permalink: /research/bespoke-paste-printer/
-cover: /assets/media/bespoke-paste-printer/printed-branching-structure.webp
-cover_alt: Multi-branched clay structure printed without support material or infill
+cover: /assets/media/bespoke-paste-printer/adaptive-extrusion-test.webp
+cover_alt: Nozzle depositing clay along the changing layer orientations of a nonplanar test print
 cover_fit: contain
 cover_background: '#ffffff'
 cover_preview_only: true

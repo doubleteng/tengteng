@@ -1,80 +1,89 @@
-/* Exactly one diagram plays at a time, in reading order, with native controls. */
+/* Native GIF images play one at a time; inactive diagrams show still frames. */
 (() => {
   'use strict';
   const root = document.querySelector('.materiality-framework');
   if (!root) return;
-  const videos = [...root.querySelectorAll('[data-framework-video]')];
+  const images = [...root.querySelectorAll('[data-framework-gif]')];
   const cards = [...root.querySelectorAll('.framework-step')];
+  const stills = images.map(image => image.getAttribute('src'));
   const toggle = root.querySelector('[data-sequence-toggle]');
   const status = root.querySelector('[data-sequence-status]');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const automaticPauses = new WeakSet();
+  const assets = new Map();
   let active = 0;
   let visible = false;
   let wantsPlayback = !reducedMotion.matches && !navigator.connection?.saveData;
-  function pause(video) {
-    if (video.paused) return;
-    automaticPauses.add(video);
-    video.pause();
-  }
+  let timer;
+  let objectUrl;
+  let request = 0;
   function update() {
-    cards.forEach((card, index) => card.classList.toggle('is-active', index === active));
-    videos.forEach((video, index) => { video.controls = index === active; });
+    cards.forEach((card, index) => card.classList.toggle('is-active', wantsPlayback && index === active));
     status.textContent = `${String(active + 1).padStart(2, '0')} / 03`;
-    toggle.textContent = wantsPlayback ? 'Pause sequence' : 'Play sequence';
+    toggle.textContent = wantsPlayback ? 'Stop sequence' : 'Play sequence';
+  }
+  function stop() {
+    request += 1;
+    clearTimeout(timer);
+    images.forEach((image, index) => {
+      image.onload = null;
+      image.onerror = null;
+      if (image.getAttribute('src') !== stills[index]) image.src = stills[index];
+    });
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+    objectUrl = null;
+  }
+  function asset(index) {
+    if (!assets.has(index)) {
+      assets.set(index, fetch(images[index].dataset.src).then(response => {
+        if (!response.ok) throw new Error('GIF could not be loaded');
+        return response.blob();
+      }).catch(error => { assets.delete(index); throw error; }));
+    }
+    return assets.get(index);
+  }
+  async function start(index) {
+    stop();
+    active = index;
+    update();
+    if (!wantsPlayback || !visible || document.hidden) return;
+    const token = request;
+    try {
+      const blob = await asset(index);
+      if (token !== request) return;
+      // A fresh object URL restarts the cached GIF without downloading it again.
+      objectUrl = URL.createObjectURL(blob);
+      const image = images[index];
+      image.onload = () => {
+        image.onload = null;
+        if (token !== request) return;
+        timer = setTimeout(() => start((active + 1) % images.length), Number(image.dataset.duration));
+      };
+      image.onerror = () => {
+        if (token !== request) return;
+        wantsPlayback = false;
+        stop();
+        update();
+      };
+      image.src = objectUrl;
+    } catch {
+      if (token !== request) return;
+      wantsPlayback = false;
+      stop();
+      update();
+    }
   }
   function sync() {
-    videos.forEach((video, index) => {
-      if (index !== active || !wantsPlayback || !visible || document.hidden) pause(video);
-    });
-    if (wantsPlayback && visible && !document.hidden) {
-      const requested = active;
-      videos[requested].play()?.catch(error => {
-        if (error.name === 'AbortError' || requested !== active || !visible || document.hidden) return;
-        wantsPlayback = false;
-        update();
-      });
-    }
+    if (!wantsPlayback || !visible || document.hidden) stop();
+    else if (!objectUrl) start(active);
     update();
   }
-  videos.forEach((video, index) => {
-    const select = () => {
-      if (index === active) return;
-      active = index;
-      if (video.ended) video.currentTime = 0;
-      wantsPlayback = true;
-      sync();
-    };
-    video.addEventListener('click', select);
-    video.addEventListener('keydown', event => {
-      if (index !== active && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); select(); }
-    });
-    video.defaultMuted = true;
-    video.muted = true;
-    video.addEventListener('play', () => {
-      active = index;
-      wantsPlayback = true;
-      videos.forEach(other => { if (other !== video) pause(other); });
-      update();
-    });
-    video.addEventListener('pause', () => {
-      if (automaticPauses.has(video)) automaticPauses.delete(video);
-      else if (index === active && !video.ended) { wantsPlayback = false; update(); }
-    });
-    video.addEventListener('ended', () => {
-      if (index !== active) return;
-      active = (active + 1) % videos.length;
-      videos[active].currentTime = 0;
-      sync();
-    });
+  root.querySelectorAll('[data-framework-select]').forEach((button, index) => {
+    button.addEventListener('click', () => { wantsPlayback = true; start(index); });
   });
   toggle.addEventListener('click', () => { wantsPlayback = !wantsPlayback; sync(); });
   root.querySelector('[data-sequence-restart]').addEventListener('click', () => {
-    videos.forEach(pause);
-    active = 0;
-    videos.forEach(video => { video.currentTime = 0; });
     wantsPlayback = true;
-    sync();
+    start(0);
   });
   root.querySelector('.framework-controls').hidden = false;
   if ('IntersectionObserver' in window) {

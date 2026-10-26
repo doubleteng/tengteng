@@ -15,7 +15,8 @@
 .framework-step.is-active{border-color:var(--ink)}
 .framework-step h3{font-size:13px;line-height:1.3;margin:0 0 8px;display:flex;gap:8px;min-height:17px}
 .framework-step h3 span{color:var(--gray);font-size:11px;font-variant-numeric:tabular-nums}
-.framework-media video{width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;background:#fff;border-radius:2px}
+.framework-animation{width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;background:#fff;border-radius:2px;border:0;padding:0;display:block;overflow:hidden;cursor:pointer}
+.framework-animation img{width:100%;height:100%;object-fit:contain}
 .framework-media figcaption{font-size:12px;line-height:1.45;color:var(--muted);margin-top:7px}
 .framework-questions{border-bottom:1px solid var(--line);padding:6px 0;margin-top:3px}
 .framework-questions summary{cursor:pointer;font-size:12px;line-height:1.4;width:fit-content}
@@ -24,7 +25,7 @@
 .framework-questions dt{font-size:14px;margin-bottom:5px}.framework-questions dd{font-size:13px;line-height:1.55;color:var(--muted);margin:0}
 .materiality-framework~.catalog-nav{padding:6px 0;margin-bottom:12px;border-top:0;gap:6px 18px;font-size:12px}
 .materiality-framework~.catalog-group .catalog-group-heading{margin-bottom:12px}
-@media(min-width:761px){.framework-media video{height:clamp(120px,20vh,180px);aspect-ratio:auto}}
+@media(min-width:761px){.framework-animation{height:clamp(120px,20vh,180px);aspect-ratio:auto}}
 @media(max-width:760px){.framework-heading-row{flex-wrap:wrap}.framework-intro{font-size:13px;line-height:1.45;margin-bottom:10px}.framework-sequence{gap:10px}.framework-step h3{font-size:11px;gap:4px;min-height:29px}.framework-step h3 span{font-size:10px}.framework-media figcaption{font-size:11px}.framework-controls{margin-bottom:3px}.framework-questions dl{grid-template-columns:1fr;gap:14px}.framework-questions summary span{margin-left:5px}.materiality-framework~.catalog-nav{margin-bottom:14px}}
 @media(max-width:440px){.framework-sequence{gap:7px}.framework-step h3{font-size:10px;min-height:39px}.framework-media figcaption{font-size:10px;line-height:1.35}.framework-questions summary span{display:block;margin:3px 0 0 16px}.framework-heading-row h2{font-size:20px}}
 .inline-links{display:flex;gap:24px;flex-wrap:wrap;align-items:center}

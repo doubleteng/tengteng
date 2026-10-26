@@ -9,9 +9,7 @@
 .framework-terms{font-size:13px;line-height:1.5;margin:0 0 16px}
 .framework-terms>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:8px;margin:5px 0}
 .framework-terms dt,.framework-terms dd{margin:0}.framework-terms dd{color:var(--muted)}
-.framework-controls{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.framework-controls button{border:1px solid var(--line);border-radius:3px;background:transparent;padding:4px 8px;font-size:11px;line-height:1.4}
-.framework-controls button:hover{background:var(--wash);border-color:var(--ink)}
+
 .framework-media{margin:0;min-width:0;width:100%}
 .framework-animation{width:100%;height:clamp(320px,48vh,430px);border:0;padding:0;background:var(--paper);display:block;cursor:zoom-in}
 .framework-animation img{width:100%;height:100%;object-fit:contain;background:var(--paper)}
@@ -20,7 +18,7 @@
 .framework-questions dt{font-size:13px;margin-bottom:3px}.framework-questions dd{font-size:12px;line-height:1.5;color:var(--muted);margin:0}
 .materiality-framework~.catalog-nav{padding:8px 0;margin-bottom:14px;gap:6px 18px;font-size:12px}
 .materiality-framework~.catalog-group .catalog-group-heading{margin-bottom:12px}
-@media(max-width:760px){.framework-overview{grid-template-columns:1fr;gap:8px}.framework-copy h2{font-size:22px;margin-bottom:8px}.framework-intro{font-size:13px;line-height:1.45;margin-bottom:10px;max-width:none}.framework-terms{display:none}.framework-controls{display:inline-flex;margin:0 14px 0 0}.framework-questions{display:inline-block;margin:0;vertical-align:middle}.framework-questions[open]{display:block;margin-top:12px}.framework-animation{height:auto;aspect-ratio:8/5;max-height:340px}.framework-animation img{display:block}.materiality-framework~.catalog-nav{margin-bottom:12px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:thin;gap:16px}}
+@media(max-width:760px){.framework-overview{grid-template-columns:1fr;gap:8px}.framework-copy h2{font-size:22px;margin-bottom:8px}.framework-intro{font-size:13px;line-height:1.45;margin-bottom:10px;max-width:none}.framework-terms{display:none}.framework-questions{display:inline-block;margin:0;vertical-align:middle}.framework-questions[open]{display:block;margin-top:12px}.framework-animation{height:auto;aspect-ratio:8/5;max-height:340px}.framework-animation img{display:block}.materiality-framework~.catalog-nav{margin-bottom:12px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:thin;gap:16px}}
 .inline-links{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
 .collaboration-note{padding:42px 0 0;max-width:760px}.collaboration-note h2{font-size:var(--text-section)}.collaboration-note p{color:var(--muted)}
 .research-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;border-block:1px solid var(--line);padding:24px 0}
@@ -52,7 +50,6 @@
 .research-publications-list .eyebrow{margin:0 0 7px}
 .publication:target{border-top-color:var(--accent)}
 @media(max-width:560px){.project-opening{margin-bottom:36px}.project-opening .gallery-two{grid-template-columns:1fr}}
-
 
 /* Compact orientation before any hero, gallery, or embedded workspace. */
 .project-brief{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;margin:0 0 28px;padding:20px 0;border-block:1px solid var(--line)}

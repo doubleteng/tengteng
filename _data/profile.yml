@@ -42,18 +42,6 @@ appointments:
 - name: Shanghai Institute of Visual Art
   role: Lecturer
   url: /work/siva/
-- name: Tongji University
-  role: Adjunct Instructor
-  url: /work/tongji/
-- name: Shanghai University
-  role: Adjunct Instructor
-  url: /work/shanghai-university/
-- name: Cornell University
-  role: Teaching Assistant
-  url: /work/cornell/
-- name: University of Washington
-  role: Teaching Assistant
-  url: /work/washington/
 experience:
 - name: Ju Square Development LLC
   role: Founder & Managing Director

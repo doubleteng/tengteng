@@ -20,3 +20,14 @@ DriveApp and SpreadsheetApp require Drive and Sheets scopes. The implementation 
 4. Test save, list and reload from https://teng-teng.org/teaching/egress/ using a test design.
 
 The popup bridge accepts messages only from https://teng-teng.org, verifies the source window and random session nonce, and correlates requests. The frontend discovers the popup's nested window identities using standard Window references, then pins the connected Google origin and source. Discovery messages contain only a nonce, never project data. Save/load payloads use an exact target origin. UserProperties and a user-scoped lock isolate storage. Filenames are IDs rather than untrusted titles; Sheets titles are escaped to prevent formula injection. Loading/updating a project verifies its Drive parent. Payloads are limited to 4 million JSON characters. Avoid large embedded image references when using cloud storage; download them as local project files instead.
+
+## Vision backend update
+
+Add `Vision.gs` beside `Code.gs`, or concatenate its contents after Code.gs in the editor. Do not do both. Update Bridge.html and the manifest, including `script.external_request`. Publish a new version of the existing deployment, preserving USER_ACCESSING and its URL.
+
+The Google connection page includes **AI plan recognition**. The signed-in user enters their Gemini API key there; the backend stores it in that user's UserProperties. The public app can ask only for configured status and recognition, never retrieve or change the key. API endpoint is fixed to Google, with no model tool execution. Payload max 6 million data-URL characters; incomplete or invalid model responses are rejected. No API credential has been supplied or included in this repository. The deployed source may be ready while recognition itself remains unavailable until configured.
+
+Model and request format checked against Google's official image-understanding and structured-output docs on 2026-10-30:
+- https://ai.google.dev/gemini-api/docs/image-understanding
+- https://ai.google.dev/gemini-api/docs/generate-content/structured-output
+- https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash

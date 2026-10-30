@@ -54,7 +54,7 @@ export class CloudConnection {
     if (!this.connected) return Promise.reject(Error('Connect Google before saving or opening cloud projects.'));
     return new Promise((resolve, reject) => {
       const requestId = crypto.randomUUID();
-      const timer = setTimeout(() => { this.pending.delete(requestId); reject(Error('Google Drive did not respond in time. Your local project is still saved.')); }, 60000);
+      const timer = setTimeout(() => { this.pending.delete(requestId); reject(Error(request.action==='recognizePlan'?'Recognition timed out. The drawing is unchanged.':'Google Drive did not respond in time. Your local project is still saved.')); }, request.action==='recognizePlan'?300000:60000);
       this.pending.set(requestId, { resolve, reject, timer });
       this.source.postMessage({ type: 'egress-cloud-request', nonce: this.nonce, requestId, request }, this.origin);
     });

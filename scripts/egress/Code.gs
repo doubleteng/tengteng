@@ -20,6 +20,8 @@ function storage_() {
 function id_(value) { if (typeof value !== 'string' || !/^[a-zA-Z0-9-]{6,80}$/.test(value)) throw Error('Invalid project ID.'); return value; }
 function text_(value) { const text = String(value || '').slice(0,150); return /^[=+@-]/.test(text) ? "'"+text : text; }
 function cloudCall(request) {
+  if(request&&request.action==='visionStatus')return visionStatus_();
+  if(request&&request.action==='recognizePlan')return recognizePlan_(request);
   if (!request || !['list','save','load'].includes(request.action)) throw Error('Unsupported cloud action.');
   const lock = LockService.getUserLock(); lock.waitLock(10000);
   try {

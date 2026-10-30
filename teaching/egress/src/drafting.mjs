@@ -88,7 +88,7 @@ export function alignmentTransform(source,target) {
 export function alignFloor(floor,transform) {
   const seen=new WeakSet(),move=q=>{if(seen.has(q))return;seen.add(q);Object.assign(q,transform.point(q));};
   floor.outline.forEach(move);
-  for(const key of ['walls','doors','rooms','stairs','obstacles','traces','cad'])for(const o of floor[key]||[]){
+  for(const key of ['walls','doors','rooms','stairs','obstacles','traces','cad','features','candidates'])for(const o of floor[key]||[]){
     if(o.points)o.points.forEach(move);if(o.a){move(o.a);move(o.b);}if(o.x!=null)move(o);
   }
   if(floor.image){move(floor.image);floor.image.rotation=(floor.image.rotation||0)+transform.angle;}

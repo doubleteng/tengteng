@@ -55,3 +55,15 @@ npm run dev
 The checked-in `index.html`, styles, source and browser modules are published directly; npm is only needed to develop or regenerate vendor files. The application has no frontend API secrets. `cloud-config.json` points to the deployed Apps Script web app. Backend source and deployment details are in `../../scripts/egress/`.
 
 The app is GPL-3.0; see LICENSE.txt and THIRD_PARTY.md. This license applies to this application directory, not the unrelated portfolio content.
+
+## Architectural image recognition (vision setup required)
+
+`AI · recognize rooms + circulation` sends the selected plan to the fixed Google Gemini endpoint through the account's Apps Script bridge. It returns typed room, corridor, lobby, outdoor, courtyard, void, projected context, furniture, stair, wall and opening proposals. The user reviews colored geometry over the original image and can relabel, exclude and reshape it. Calibration is required before applying an analysis model.
+
+Furniture is stored in `floor.features`; it never creates rooms, partition walls or occupant area. Optional `blocksMovement` affects route obstacles only. Indoor room polygons are supplied by semantic interpretation, not by furniture outlines. Openings remain in `floor.candidates` until a user confirms jamb position, clear width and exit status. AI stairs default to unprotected and unlinked. Other-floor gray geometry stays reference; courtyards/voids are removed from indoor area and routes.
+
+**Not enabled without credentials:** configure a Gemini API key inside the Google connection window. Keys are private per account in Apps Script UserProperties, never in GitHub, browser local storage, exported projects or bridge messages. This version does not provide a shared teacher-paid key. Backend source: `scripts/egress/Vision.gs`; default model `gemini-3.8-flash`, configurable. External-request OAuth authorization is required. The per-account limit is 20 requests/day. Google API quota/charges apply.
+
+`Trace image / PDF linework` is a separate manual aid, not architectural recognition. It preserves up to 2400 px for tracing instead of the old 1200 px downsample. It may contain furniture, lettering and stair treads. Raw linework must not be described as automatically recognized rooms.
+
+Validation: semantic contract tests cover furniture/room isolation, route-obstacle opt-in, unconfirmed-opening isolation, projected context, coordinate transforms, scale checks, malformed responses, private credentials and provider errors. These are implementation tests, **not recognition-accuracy benchmarks**. Real-image semantic accuracy remains unverified until a configured vision account is used.

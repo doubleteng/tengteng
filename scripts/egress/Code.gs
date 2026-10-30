@@ -1,39 +1,74 @@
-/** Egress + Site Lab cloud storage. Deploy: execute as USER_ACCESSING, access ANYONE. */
+/** Anonymous, instructor-funded vision service. No Drive/Sheets APIs or student credentials. */
 const APP_ORIGIN = 'https://teng-teng.org';
-const MAX_PROJECT_BYTES = 4000000;
 function doGet(e) {
-  const template = HtmlService.createTemplateFromFile('Bridge');
-  template.nonce = /^[a-zA-Z0-9-]{16,80}$/.test(e.parameter.nonce || '') ? e.parameter.nonce : '';
-  template.origin = APP_ORIGIN;
-  return template.evaluate().setTitle('Egress + Site Lab — Google Drive').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  const template=HtmlService.createTemplateFromFile('Bridge');
+  const nonce=e&&e.parameter&&e.parameter.nonce||'';
+  template.nonce=/^[a-zA-Z0-9-]{16,80}$/.test(nonce)?nonce:'';
+  template.origin=APP_ORIGIN;
+  template.token=template.nonce?createVisionSession_(template.nonce):'';
+  return template.evaluate().setTitle('Egress + Site Lab — recognition service').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
-function storage_() {
-  const props = PropertiesService.getUserProperties();
-  let folder;
-  try { if (props.getProperty('FOLDER_ID')) folder = DriveApp.getFolderById(props.getProperty('FOLDER_ID')); } catch (e) {}
-  if (!folder) { folder = DriveApp.createFolder('Egress + Site Lab'); props.setProperty('FOLDER_ID', folder.getId()); }
-  let sheet;
-  try { if (props.getProperty('INDEX_ID')) sheet = SpreadsheetApp.openById(props.getProperty('INDEX_ID')).getSheets()[0]; } catch(e) {}
-  if (!sheet) { const book = SpreadsheetApp.create('Egress + Site Lab — project index'); sheet = book.getSheets()[0]; sheet.appendRow(['Project ID','Name','Updated','File ID','Floors','Room occupants','Flagged checks','Review items']); DriveApp.getFileById(book.getId()).moveTo(folder); props.setProperty('INDEX_ID',book.getId()); }
-  return { folder: folder, sheet: sheet };
+/** Editor-only migration; underscore functions are unavailable to google.script.run. */
+function initializeInstructorVision_() {
+  const shared=PropertiesService.getScriptProperties(),old=PropertiesService.getUserProperties();
+  if(!shared.getProperty('VISION_API_KEY')){
+    const key=old.getProperty('VISION_API_KEY');
+    if(!key)throw Error('No saved instructor key. Configure VISION_API_KEY in Script Properties.');
+    shared.setProperties({VISION_API_KEY:key,VISION_MODEL:old.getProperty('VISION_MODEL')||'gemini-4-argon'});
+  }
+  if(!shared.getProperty('VISION_SESSION_SECRET'))shared.setProperty('VISION_SESSION_SECRET',Utilities.getUuid()+Utilities.getUuid());
+  if(!shared.getProperty('VISION_DAILY_LIMIT'))shared.setProperty('VISION_DAILY_LIMIT','120');
+  if(!shared.getProperty('VISION_MAX_CONCURRENT'))shared.setProperty('VISION_MAX_CONCURRENT','3');
+  console.log('Instructor vision ready: '+visionStatus_().model+'. No credentials returned.');
 }
-function id_(value) { if (typeof value !== 'string' || !/^[a-zA-Z0-9-]{6,80}$/.test(value)) throw Error('Invalid project ID.'); return value; }
-function text_(value) { const text = String(value || '').slice(0,150); return /^[=+@-]/.test(text) ? "'"+text : text; }
-function cloudCall(request) {
-  if(request&&request.action==='visionStatus')return visionStatus_();
-  if(request&&request.action==='recognizePlan')return recognizePlan_(request);
-  if (!request || !['list','save','load'].includes(request.action)) throw Error('Unsupported cloud action.');
-  const lock = LockService.getUserLock(); lock.waitLock(10000);
-  try {
-    const s = storage_(), rows=s.sheet.getDataRange().getValues();
-    if(request.action==='list') return {projects: rows.slice(1).map(r=>({id:String(r[0]),name:String(r[1]),updated:String(r[2])})),folderUrl:s.folder.getUrl(),sheetUrl:s.sheet.getParent().getUrl()};
-    const id=id_(request.id), row=rows.findIndex((r,i)=>i>0&&r[0]===id);
-    if(request.action==='load') { if(row<0) throw Error('Project not found in your Drive index.'); const f=DriveApp.getFileById(rows[row][3]); const parents=f.getParents(); let own=false;while(parents.hasNext()) if(parents.next().getId()===s.folder.getId())own=true;if(!own)throw Error('File is outside your project folder.');return{project:JSON.parse(f.getBlob().getDataAsString())}; }
-    const project=request.project;if(!project||project.schema!==1||project.id!==id||!Array.isArray(project.floors)||!project.site)throw Error('Invalid project.');
-    const body=JSON.stringify(project);if(body.length>MAX_PROJECT_BYTES)throw Error('Cloud projects are limited to 4 MB. Remove image references or save a local project file.');
-    let file;if(row>=0){file=DriveApp.getFileById(rows[row][3]);const parents=file.getParents();let own=false;while(parents.hasNext())if(parents.next().getId()===s.folder.getId())own=true;if(!own)throw Error('File is outside your project folder.');file.setContent(body);}else file=s.folder.createFile(id+'.egress.json',body,MimeType.PLAIN_TEXT);
-    const totals=request.summary||{},values=[id,text_(project.name),new Date().toISOString(),file.getId(),project.floors.length,Number(totals.occupants)||0,Number(totals.flags)||0,Number(totals.reviews)||0];
-    if(row>=0)s.sheet.getRange(row+1,1,1,values.length).setValues([values]);else s.sheet.appendRow(values);
-    return{saved:true,id:id,fileUrl:file.getUrl(),sheetUrl:s.sheet.getParent().getUrl(),updated:values[2]};
-  } finally {lock.releaseLock();}
+function visionSignature_(data){
+  const secret=PropertiesService.getScriptProperties().getProperty('VISION_SESSION_SECRET');
+  if(!secret)throw Error('The instructor recognition service is being configured. Please try again later.');
+  return Utilities.base64EncodeWebSafe(Utilities.computeHmacSha256Signature(data,secret)).replace(/=+$/,'');
+}
+function createVisionSession_(nonce){const data=nonce+'.'+(Date.now()+21600000);return data+'.'+visionSignature_(data);}
+function verifyVisionSession_(token){
+  if(typeof token!=='string'||token.length>180)throw Error('Recognition session expired. Close and reopen recognition.');
+  const parts=token.split('.');
+  if(parts.length!==3||!/^[a-zA-Z0-9-]{16,80}$/.test(parts[0])||!/^\d{13}$/.test(parts[1])||Number(parts[1])<Date.now()||Number(parts[1])>Date.now()+21600000)throw Error('Recognition session expired. Close and reopen recognition.');
+  const expected=visionSignature_(parts[0]+'.'+parts[1]);let difference=expected.length^parts[2].length;
+  for(let i=0;i<expected.length;i++)difference|=expected.charCodeAt(i)^(parts[2].charCodeAt(i)||0);
+  if(difference)throw Error('Invalid recognition session.');
+  return parts[0];
+}
+function validateVisionImage_(image){
+  if(typeof image!=='string'||image.length>6000000||!/^data:image\/(png|jpeg);base64,[A-Za-z0-9+/]+=*$/.test(image))throw Error('Use a PNG or JPEG plan under 4 MB for AI recognition.');
+}
+function reserveVisionRequest_(session){
+  const lock=LockService.getScriptLock();lock.waitLock(10000);
+  try{
+    const props=PropertiesService.getScriptProperties(),now=Date.now(),day=new Date(now).toISOString().slice(0,10);
+    let usage=JSON.parse(props.getProperty('VISION_SHARED_USAGE')||'{}');
+    if(usage.day!==day)usage={day:day,count:0};
+    const limit=Math.max(1,Math.min(1000,Number(props.getProperty('VISION_DAILY_LIMIT'))||120));
+    if(usage.count>=limit)throw Error('Today’s shared recognition allowance has been used. Your drawing is saved locally; contact your instructor.');
+    const active=JSON.parse(props.getProperty('VISION_ACTIVE')||'[]').filter(r=>now-r.started<420000);
+    const concurrent=Math.max(1,Math.min(10,Number(props.getProperty('VISION_MAX_CONCURRENT'))||3));
+    if(active.length>=concurrent)throw Error('Recognition is busy with other plans. Please try again in a minute.');
+    const cache=CacheService.getScriptCache(),sessionKey='vision-session-'+session,count=Number(cache.get(sessionKey))||0;
+    if(count>=12)throw Error('This recognition session has reached its allowance. Your drawing remains on this device.');
+    const id=Utilities.getUuid();active.push({id:id,started:now});usage.count=(Number(usage.count)||0)+1;
+    props.setProperties({VISION_SHARED_USAGE:JSON.stringify(usage),VISION_ACTIVE:JSON.stringify(active)});
+    cache.put(sessionKey,String(count+1),21600);return id;
+  }finally{lock.releaseLock();}
+}
+function releaseVisionRequest_(id){
+  const lock=LockService.getScriptLock();lock.waitLock(10000);
+  try{const props=PropertiesService.getScriptProperties();props.setProperty('VISION_ACTIVE',JSON.stringify(JSON.parse(props.getProperty('VISION_ACTIVE')||'[]').filter(r=>r.id!==id)));}
+  finally{lock.releaseLock();}
+}
+/** The only browser-callable operation. Caller cannot choose key, model, prompt or URL. */
+function visionCall(request){
+  if(!request||!['status','recognizePlan'].includes(request.action))throw Error('Unsupported recognition action.');
+  const session=verifyVisionSession_(request.token);
+  if(request.action==='status')return visionStatus_();
+  validateVisionImage_(request.image);
+  if(!visionStatus_().configured)throw Error('The instructor vision service is not configured. No student API key is needed.');
+  const id=reserveVisionRequest_(session);
+  try{return recognizePlan_({image:request.image});}finally{releaseVisionRequest_(id);}
 }

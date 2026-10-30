@@ -2,7 +2,7 @@
 
 Live app: https://teng-teng.org/teaching/egress/
 
-An architectural teaching environment for drawing and comparing floor plans, connected stairs, exit discharge and site circulation. All geometric analysis and CAD decoding run in browser workers. The frontend is published by the existing GitHub Pages site. Google Apps Script supplies optional private Drive storage and a Sheets project index.
+An architectural teaching environment for drawing and comparing floor plans, connected stairs, exit discharge and site circulation. All geometric analysis and CAD decoding run in browser workers. The frontend is published by the existing GitHub Pages site. Google Apps Script supplies a shared instructor-funded recognition service; students do not sign in or provide API keys.
 
 ## Student workflow
 
@@ -12,7 +12,7 @@ An architectural teaching environment for drawing and comparing floor plans, con
 4. Import DWG, DXF or Rhino 3DM; choose source layers, confirm units and optionally flatten nonplanar curves. Import editable CAD linework or assign selected linework as walls. Single-line walls require a user-entered thickness. Double-line straight faces have a conservative pairing preview with explicit review; ambiguous, curved or unmatched faces stay reference. Door symbols never create functional openings. Choose a PDF page and calibrate with two points on a known dimension before converting or tracing.
 5. Toggle object types, circulation types, floor views and original CAD layers independently. Visibility changes display only, never the analyzed model.
 6. Right-drag to pan; scroll to zoom at the pointer in single or multiple views. Osnap resolves End / Mid / Int / Perp / Near on visible model/CAD geometry. Grid snap is separate; Shift or F8 constrains Ortho, and Alt bypasses snapping. Draw walls as a continuous chain; Enter ends it. Drag doors, walls, rooms and route vertices. Dragging triggers throttled live analysis; attached room edges, floor corners and doors follow wall edits. Areas, occupant loads and egress paths update during the drag. Optional room program-area targets compare the changed area with the design brief. Play animates route connections; it does not calculate evacuation times. Store a baseline and compare travel distances and flagged checks.
-7. Download/open a `.egress.json` project, use local autosave, or choose Cloud → Connect Google for optional Google storage. Keep the Google connection window open while saving and loading. Export report opens a printable page with results, assumptions and references.
+7. Use **Save report PDF** and choose Save as PDF in the browser print window. Edit the recognized plan online; areas, loads, widths and routes recalculate after each change. Save PDFs as records of successive design iterations. No Google account, Drive connection or student API key is needed. Local autosave and optional `.egress.json` project downloads remain available.
 
 ## Analysis scope
 
@@ -40,7 +40,7 @@ Use 1:1 model-space plan curves on XY, explicit units, one floor per import, and
 
 Double-line pairing proposes only unique, nearly parallel straight faces on the same layer with substantial length overlap and a thickness inside the selected range. It is a reviewed conversion, not automatic wall semantics. Original CAD remains available for tracing and verification of corners, junctions and openings.
 
-Native DWG uses LibreDWG Web 0.8.2 and Rhino uses rhino3dm 8.17.0. Curves are tessellated. Supported linework includes lines, polylines, circles/arcs, ellipses, nested blocks and supported splines; unsupported entities are reported rather than fabricated. Meshes, surfaces and fit-only DWG splines are excluded. Maximum CAD file size 35 MB, 35,000 selected reference segments or 1,500 converted walls per import. Original CAD files are processed locally. Cloud saving sends the resulting project only on request.
+Native DWG uses LibreDWG Web 0.8.2 and Rhino uses rhino3dm 8.17.0. Curves are tessellated. Supported linework includes lines, polylines, circles/arcs, ellipses, nested blocks and supported splines; unsupported entities are reported rather than fabricated. Meshes, surfaces and fit-only DWG splines are excluded. Maximum CAD file size 35 MB, 35,000 selected reference segments or 1,500 converted walls per import. Original CAD files are processed locally. Projects stay on the device.
 
 ## Development and deployment
 
@@ -52,18 +52,28 @@ npm test
 npm run dev
 ```
 
-The checked-in `index.html`, styles, source and browser modules are published directly; npm is only needed to develop or regenerate vendor files. The application has no frontend API secrets. `cloud-config.json` points to the deployed Apps Script web app. Backend source and deployment details are in `../../scripts/egress/`.
+The checked-in `index.html`, styles, source and browser modules are published directly; npm is only needed to develop or regenerate vendor files. The application has no frontend API secrets. `vision-config.json` points to the anonymous instructor-funded recognition service. Backend source and deployment details are in `../../scripts/egress/`.
 
 The app is GPL-3.0; see LICENSE.txt and THIRD_PARTY.md. This license applies to this application directory, not the unrelated portfolio content.
 
 ## Architectural image recognition (vision setup required)
 
-`AI · recognize rooms + circulation` sends the selected plan to the fixed Google Gemini endpoint through the account's Apps Script bridge. It returns typed room, corridor, lobby, outdoor, courtyard, void, projected context, furniture, stair, wall and opening proposals. The user reviews colored geometry over the original image and can relabel, exclude and reshape it. Calibration is required before applying an analysis model.
+`AI · recognize rooms + circulation` sends the selected plan to the fixed Google Gemini endpoint through the shared instructor-funded service. It returns typed room, corridor, lobby, outdoor, courtyard, void, projected context, furniture, stair, wall and opening proposals. The user reviews colored geometry over the original image and can relabel, exclude and reshape it. Calibration is required before applying an analysis model.
 
 Furniture is stored in `floor.features`; it never creates rooms, partition walls or occupant area. Optional `blocksMovement` affects route obstacles only. Indoor room polygons are supplied by semantic interpretation, not by furniture outlines. Openings remain in `floor.candidates` until a user confirms jamb position, clear width and exit status. AI stairs default to unprotected and unlinked. Other-floor gray geometry stays reference; courtyards/voids are removed from indoor area and routes.
 
-**Not enabled without credentials:** configure a Gemini API key inside the Google connection window. Keys are private per account in Apps Script UserProperties, never in GitHub, browser local storage, exported projects or bridge messages. This version does not provide a shared teacher-paid key. Backend source: `scripts/egress/Vision.gs`; default model `gemini-3.8-flash`, configurable. External-request OAuth authorization is required. The per-account limit is 20 requests/day. Google API quota/charges apply.
+**Shared instructor service:** students need no Google account or personal key. The instructor's Gemini key is in Apps Script Script Properties, never in the frontend, repository, reports or project files. The public service is fixed to plan interpretation and has no Drive/Sheets operations. `scripts/egress/README.md` documents deployment and configurable request limits. The current instructor model is `gemini-4-argon`.
 
 `Trace image / PDF linework` is a separate manual aid, not architectural recognition. It preserves up to 2400 px for tracing instead of the old 1200 px downsample. It may contain furniture, lettering and stair treads. Raw linework must not be described as automatically recognized rooms.
 
 Validation: semantic contract tests cover furniture/room isolation, route-obstacle opt-in, unconfirmed-opening isolation, projected context, coordinate transforms, scale checks, malformed responses, private credentials and provider errors. These are implementation tests, **not recognition-accuracy benchmarks**. Real-image semantic accuracy remains unverified until a configured vision account is used.
+
+## Area, served occupants and capacity
+
+The report lists every room's area, selected net/gross basis, use factor and rounded design occupant load, including before exits have been modeled. A corridor carries served room loads and adds no independent occupant load. Uses and gross-area allocation require confirmation.
+
+Door and stair widths use entered clear dimensions. Corridor widths are proposed from perpendicular sections between opposing polygon boundary faces; narrow segments are not replaced by a bounding-box width. Enabled furniture/obstacles reduce the contiguous clear section. Tapered or ambiguous boundaries need a measured width.
+
+A geometry-based scenario allocates each room's people by reachable sample area, grouped by first door and nearest exit, and follows representative paths through shared doors and corridor sections. Shared components accumulate contributing room loads. The report gives served occupants, actual/estimated width, component minimum, load-based required width and shortfall, with a location in the live checks. This is not a code-approved exit allocation or crowd simulation; unsampled paths and route independence require review. Unreachable loads stay explicitly unassigned, not converted into a pass.
+
+Width-based capacity uses the documented 2021 IBC teaching subset: horizontal components 0.2 in/person, or 0.15 only with both selected qualifying sprinkler and voice/alarm assumptions; stairs 0.3 or 0.2 respectively. Component minima still govern (general doors 32 in; general corridors/stairs 44 in, 36 in when serving fewer than 50; Group E corridors serving 100+ use 72 in). Special occupancies and exceptions are outside this subset. Stairs are assessed by story, not by summing every upper floor. Shared multi-floor discharge/convergence remains an explicit review item.

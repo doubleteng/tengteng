@@ -1,26 +1,18 @@
-<!doctype html><html><head><base target="_top"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="font:15px/1.6 Arial;padding:32px;color:#254c3d"><h2>Egress + Site Lab</h2><p id="status">Google authorization is ready. Waiting for your design tab to connect…</p><p>Keep this window open while saving or opening projects. Return to your design tab to continue.</p><p>Projects are stored privately in your Google Drive. A Google Sheet keeps the project index.</p><details style="margin-top:24px;border-top:1px solid #cbd5cb;padding-top:15px"><summary>AI plan recognition</summary><p>Recognize rooms, corridors, enclosure and furniture with Google Gemini. Each account uses its own API quota. A maximum of 20 recognition requests per account per day is enforced by this app.</p><p>The API key is stored in this Apps Script account’s private UserProperties. It is never sent to the design page, public repository or project file. Uploaded plans are sent to Google Gemini only when you click Recognize this plan.</p><form id="vision-form"><label>Gemini API key<br><input type="password" id="vision-key" autocomplete="off" style="width:95%;padding:10px" placeholder="Paste your API key here"></label><br><label>Model<br><input id="vision-model" value="gemini-3.8-flash" style="width:95%;padding:10px"></label><br><button type="submit" style="margin-top:10px;padding:10px">Save private vision settings</button><button type="button" id="vision-remove" style="margin:10px;padding:10px">Remove saved key</button></form><p id="vision-status">No API key has been read by this page.</p></details><script>
-const nonce=<?!= JSON.stringify(nonce) ?>,origin=<?!= JSON.stringify(origin) ?>;
+<!doctype html><html><head><base target="_top"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="font:15px/1.6 Arial;padding:24px;color:#254c3d"><h2>Egress + Site Lab</h2><p id="status">Shared plan recognition. No student account or API key is required.</p><p><a href="https://teng-teng.org/teaching/egress/">Open the design lab</a></p><script>
+const nonce=<?!= JSON.stringify(nonce) ?>,origin=<?!= JSON.stringify(origin) ?>,token=<?!= JSON.stringify(token) ?>;
 let peer=null;
-function showVision(s){document.getElementById('vision-status').textContent=s.configured?'Vision configured: '+s.model+'. Return to the design page and start recognition.':'No vision API key configured.';document.getElementById('vision-model').value=s.model;}
-google.script.run.withSuccessHandler(showVision).withFailureHandler(function(){document.getElementById('vision-status').textContent='Vision setup is unavailable.';}).cloudCall({action:'visionStatus'});
-document.getElementById('vision-form').onsubmit=function(e){e.preventDefault();const field=document.getElementById('vision-key'),key=field.value.trim(),model=document.getElementById('vision-model').value.trim();field.value='';document.getElementById('vision-status').textContent='Verifying with Google and checking available models…';google.script.run.withSuccessHandler(showVision).withFailureHandler(function(e){document.getElementById('vision-status').textContent=e.message;}).saveVisionSettings(key,model);};
-document.getElementById('vision-remove').onclick=function(){google.script.run.withSuccessHandler(showVision).removeVisionSettings();};
 window.addEventListener('message',function(e){
-  const m=e.data;
-  if(e.origin!==origin||!nonce||!m||m.nonce!==nonce)return;
-  if(m.type==='egress-cloud-hello'){
-    if(peer&&peer!==e.source)return;
-    peer=e.source;
-    peer.postMessage({type:'egress-cloud-ready',nonce},origin);
-    document.getElementById('status').textContent='Connected to your design tab. You can now save and open Google Drive projects.';
-    return;
-  }
-  if(!peer||e.source!==peer||m.type!=='egress-cloud-request')return;
-  const requestId=m.requestId;
-  google.script.run.withSuccessHandler(function(result){
-    peer.postMessage({type:'egress-cloud-result',nonce,requestId,result},origin);
-  }).withFailureHandler(function(error){
-    peer.postMessage({type:'egress-cloud-result',nonce,requestId,error:error.message},origin);
-  }).cloudCall(m.request);
+ const m=e.data;if(e.origin!==origin||!nonce||!m||m.nonce!==nonce)return;
+ if(m.type==='egress-vision-hello'){
+  if(peer&&peer!==e.source)return;peer=e.source;
+  peer.postMessage({type:'egress-vision-ready',nonce},origin);
+  document.getElementById('status').textContent='Recognition is ready in your design page.';return;
+ }
+ if(!peer||e.source!==peer||m.type!=='egress-vision-request')return;
+ const request=m.request||{},requestId=m.requestId;
+ if(!['status','recognizePlan'].includes(request.action))return;
+ google.script.run.withSuccessHandler(function(result){peer.postMessage({type:'egress-vision-result',nonce,requestId,result},origin);})
+ .withFailureHandler(function(error){peer.postMessage({type:'egress-vision-result',nonce,requestId,error:error.message||'Recognition is unavailable. Please try again shortly.'},origin);})
+ .visionCall({action:request.action,image:request.image,token});
 });
 </script></body></html>

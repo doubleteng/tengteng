@@ -1,33 +1,23 @@
-# Egress + Site Lab — Apps Script
+# Instructor-funded plan recognition
 
-Deployed project: https://script.google.com/home/projects/1OdUpP6jJHMNdfs52rNbvoqtX4w7v9E-Jk5Wlul7qfYSh3JjEn7Wa1_Mr/edit
+Students use the public design lab without Google sign-in, a personal API key or Drive storage. The instructor's Gemini key lives only in Apps Script Script Properties. The browser sends a plan image when the student explicitly starts recognition; projects and PDF reports remain on the student's device.
 
-Web app: https://script.google.com/macros/s/AKfycbzPs2uGUfiirZrd5UVjxQgJdyk2cmKZBNTvvHbbIe64_4N9pJWtNu6cJq61E0vg7zU/exec
+## Deployment
 
-The deployment runs with **User accessing the web app**, available to **Anyone with a Google account**. Each student authorizes their own account; no student's files are saved in the teacher's Drive. The code creates an Egress + Site Lab folder and a Sheets project index privately for that user. The deployed code is mirrored in Code.gs, Bridge.html and appsscript.json.
+Use the existing Apps Script project, retaining old deployment versions only for rollback. Replace Code.gs with this directory's Code.gs followed by Vision.gs, replace Bridge.html, and apply appsscript.json. There must be no additional public functions, Drive/Sheets helpers, credential forms or old code files in the deployed version.
 
-## First use
+For migration, run `initializeInstructorVision_()` once from an editor-only temporary wrapper, then remove that wrapper before deployment. It copies the instructor's previously saved UserProperties key/model internally into Script Properties; it never returns the key. Alternatively the owner can configure Script Properties directly. Required properties: VISION_API_KEY, VISION_MODEL, VISION_SESSION_SECRET. Never paste any property values into source control or the frontend.
 
-Choose Cloud → Connect Google in the website. Review the Google authorization request in the separate connection window, then leave that window open and return to the design tab. This avoids dependence on third-party Google login cookies. The app has not undergone Google's OAuth verification and can show an unverified-app warning and Google user limits. For a class-wide rollout, complete the appropriate Google verification or Workspace institutional deployment. Do not describe the app as Google-verified. The owner has approved the initial Google authorization. Each other account must grant its own authorization.
+Create a new Web app deployment with **Execute as: Me** and **Who has access: Anyone** (including anonymous users). Only the external_request OAuth scope is needed. Point `teaching/egress/vision-config.json` to its /exec URL. The GitHub Pages site embeds the bridge automatically on recognition; no login popup is opened.
 
-DriveApp and SpreadsheetApp require Drive and Sheets scopes. The implementation restricts reads/writes to the current user's indexed projects in the application folder, and offers no delete or sharing operation. These code restrictions do not reduce the scope granted by Google's consent screen. Students may use local saving without Google authorization.
+Only `doGet` and `visionCall` are public. All administration and helpers end with an underscore, so google.script.run cannot call them. The server fixes the provider URL, prompt and model; callers cannot request arbitrary network calls, storage actions or credential changes. Parent/bridge messages pin the origin, frame identity, nonce and request ID. Session tokens are signed and expire after six hours.
 
-## Updating
+Default limits: 120 recognition attempts per UTC day across the entire service, three simultaneous requests, and 12 attempts per signed browser session. Global admission uses a short ScriptLock; the lock is released before calling Gemini. Failed requests count toward the daily cap. Leases expire after seven minutes if execution is interrupted. The per-session cache is a secondary throttle, not a claim of user identity; anonymous users can open new sessions, while the global cap remains enforced. The owner can set VISION_DAILY_LIMIT (1–1000) and VISION_MAX_CONCURRENT (1–10) privately. Gemini billing and provider quotas still apply.
 
-1. Open the linked Apps Script editor and replace Code.gs, Bridge.html and the manifest with this directory's files.
-2. Save; Deploy → Manage deployments → edit → New version → Deploy. Preserve **User accessing the web app**.
-3. Keep the existing deployment URL. If creating a new deployment, update `teaching/egress/cloud-config.json` and publish the frontend.
-4. Test save, list and reload from https://teng-teng.org/teaching/egress/ using a test design.
+The service stores only its private configuration and usage counters, not student plan images, projects or reports. Model output is validated again by the browser before any geometry is accepted. Doors and entrances remain proposals requiring confirmation.
 
-The popup bridge accepts messages only from https://teng-teng.org, verifies the source window and random session nonce, and correlates requests. The frontend discovers the popup's nested window identities using standard Window references, then pins the connected Google origin and source. Discovery messages contain only a nonce, never project data. Save/load payloads use an exact target origin. UserProperties and a user-scoped lock isolate storage. Filenames are IDs rather than untrusted titles; Sheets titles are escaped to prevent formula injection. Loading/updating a project verifies its Drive parent. Payloads are limited to 4 million JSON characters. Avoid large embedded image references when using cloud storage; download them as local project files instead.
+## Official references
 
-## Vision backend update
-
-Add `Vision.gs` beside `Code.gs`, or concatenate its contents after Code.gs in the editor. Do not do both. Update Bridge.html and the manifest, including `script.external_request`. Publish a new version of the existing deployment, preserving USER_ACCESSING and its URL.
-
-The Google connection page includes **AI plan recognition**. The signed-in user enters their Gemini API key there; the backend stores it in that user's UserProperties. The public app can ask only for configured status and recognition, never retrieve or change the key. API endpoint is fixed to Google, with no model tool execution. Payload max 6 million data-URL characters; incomplete or invalid model responses are rejected. No API credential has been supplied or included in this repository. The deployed source may be ready while recognition itself remains unavailable until configured.
-
-Model and request format checked against Google's official image-understanding and structured-output docs on 2026-10-30:
-- https://ai.google.dev/gemini-api/docs/image-understanding
-- https://ai.google.dev/gemini-api/docs/generate-content/structured-output
-- https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash
+- https://developers.google.com/apps-script/guides/web
+- https://developers.google.com/apps-script/guides/html/communication#private_functions
+- https://developers.google.com/apps-script/manifest/web-app-api-executable

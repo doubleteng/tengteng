@@ -1,0 +1,1 @@
+{"name":"egress-site-lab","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"vite --host 0.0.0.0","build":"node build.mjs","test":"node --test ../../tests/egress/*.test.mjs"},"dependencies":{"@mlightcad/libredwg-web":"0.8.2","dxf-parser":"1.1.2","rhino3dm":"8.17.0"},"devDependencies":{"esbuild":"0.25.12","vite":"6.4.1"}}

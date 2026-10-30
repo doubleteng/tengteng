@@ -1,0 +1,6 @@
+<!doctype html><html><head><base target="_top"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="font:14px Arial;padding:24px;color:#254c3d"><h2>Egress + Site Lab</h2><p>Google Drive connection ready. Return to your design tab.</p><p>Projects are stored privately in the Google account you authorize. The project index is a Google Sheet in the same folder.</p><script>
+const nonce=<?!= JSON.stringify(nonce) ?>,origin=<?!= JSON.stringify(origin) ?>;
+function ready(){if(nonce&&window.top!==window)window.top.postMessage({type:'egress-cloud-ready',nonce},origin);}
+window.addEventListener('message',function(e){if(e.origin!==origin||e.source!==window.top||!e.data||e.data.nonce!==nonce||e.data.type!=='egress-cloud-request')return;const id=e.data.requestId;google.script.run.withSuccessHandler(function(result){window.top.postMessage({type:'egress-cloud-result',nonce,requestId:id,result},origin);}).withFailureHandler(function(error){window.top.postMessage({type:'egress-cloud-result',nonce,requestId:id,error:error.message},origin);}).cloudCall(e.data.request);});
+ready();setInterval(ready,2500);
+</script></body></html>

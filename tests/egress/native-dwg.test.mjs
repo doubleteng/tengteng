@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import {LibreDwg,createModule} from '../../teaching/egress/vendor/libredwg/dist/libredwg-web.js';
+import {fromDwg} from '../../teaching/egress/src/cad-adapter.mjs';
+test('Actual binary DWG arcs decode through the deployed WASM',async()=>{const wasm=await createModule({wasmBinary:fs.readFileSync(new URL('../../teaching/egress/vendor/libredwg/wasm/libredwg-web.wasm',import.meta.url)),print:()=>{},printErr:()=>{}});const L=LibreDwg.createByWasmInstance(wasm);wasm.FS.writeFile('sample.dwg',fs.readFileSync(new URL('fixtures/arc.dwg',import.meta.url)));const read=wasm.dwg_read_file('sample.dwg');assert.ok(read.data);assert.ok(read.error<128);const {database}=L.convertEx(read.data),d=fromDwg(database);L.dwg_free(read.data);assert.ok(d.segments.length>10);assert.ok(d.layers.length>0);});

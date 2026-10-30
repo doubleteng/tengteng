@@ -1,6 +1,22 @@
-<!doctype html><html><head><base target="_top"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="font:14px Arial;padding:24px;color:#254c3d"><h2>Egress + Site Lab</h2><p>Google Drive connection ready. Return to your design tab.</p><p>Projects are stored privately in the Google account you authorize. The project index is a Google Sheet in the same folder.</p><script>
+<!doctype html><html><head><base target="_top"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="font:15px/1.6 Arial;padding:32px;color:#254c3d"><h2>Egress + Site Lab</h2><p id="status">Google authorization is ready. Waiting for your design tab to connect…</p><p>Keep this window open while saving or opening projects. Return to your design tab to continue.</p><p>Projects are stored privately in your Google Drive. A Google Sheet keeps the project index.</p><script>
 const nonce=<?!= JSON.stringify(nonce) ?>,origin=<?!= JSON.stringify(origin) ?>;
-function ready(){if(nonce&&window.top!==window)window.top.postMessage({type:'egress-cloud-ready',nonce},origin);}
-window.addEventListener('message',function(e){if(e.origin!==origin||e.source!==window.top||!e.data||e.data.nonce!==nonce||e.data.type!=='egress-cloud-request')return;const id=e.data.requestId;google.script.run.withSuccessHandler(function(result){window.top.postMessage({type:'egress-cloud-result',nonce,requestId:id,result},origin);}).withFailureHandler(function(error){window.top.postMessage({type:'egress-cloud-result',nonce,requestId:id,error:error.message},origin);}).cloudCall(e.data.request);});
-ready();setInterval(ready,2500);
+let peer=null;
+window.addEventListener('message',function(e){
+  const m=e.data;
+  if(e.origin!==origin||!nonce||!m||m.nonce!==nonce)return;
+  if(m.type==='egress-cloud-hello'){
+    if(peer&&peer!==e.source)return;
+    peer=e.source;
+    peer.postMessage({type:'egress-cloud-ready',nonce},origin);
+    document.getElementById('status').textContent='Connected to your design tab. You can now save and open Google Drive projects.';
+    return;
+  }
+  if(!peer||e.source!==peer||m.type!=='egress-cloud-request')return;
+  const requestId=m.requestId;
+  google.script.run.withSuccessHandler(function(result){
+    peer.postMessage({type:'egress-cloud-result',nonce,requestId,result},origin);
+  }).withFailureHandler(function(error){
+    peer.postMessage({type:'egress-cloud-result',nonce,requestId,error:error.message},origin);
+  }).cloudCall(m.request);
+});
 </script></body></html>

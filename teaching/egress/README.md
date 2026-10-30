@@ -12,7 +12,7 @@ An architectural teaching environment for drawing and comparing floor plans, con
 4. Import DWG, DXF or Rhino 3DM; choose source layers, confirm units and optionally flatten nonplanar curves. Import references or wall centerlines. Double-line walls and door symbols need analysis geometry traced over them. PDF page 1 and images can be calibrated with a known distance.
 5. Toggle object types, circulation types, floor views and original CAD layers independently. Visibility changes display only, never the analyzed model.
 6. Drag doors, walls, rooms and route vertices. Checks update after each edit. Play animates route connections; it does not calculate evacuation times. Store a baseline and compare travel distances and flagged checks.
-7. Download/open a `.egress.json` project, use local autosave, or authorize the optional Google storage. Export report opens a printable page with results, assumptions and references.
+7. Download/open a `.egress.json` project, use local autosave, or choose Cloud → Connect Google for optional Google storage. Keep the Google connection window open while saving and loading. Export report opens a printable page with results, assumptions and references.
 
 ## Analysis scope
 

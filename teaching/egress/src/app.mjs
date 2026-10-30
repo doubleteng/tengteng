@@ -1,7 +1,7 @@
 import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs';
 import {roomLoad,capacityDimension} from './capacity.mjs';
 import {validateInterpretation,materializeInterpretation,confirmOpening,semanticColors} from './semantic-plan.mjs';
-import {reviewInterpretation} from './recognition-ui.mjs';
+import {reviewInterpretation} from './recognition-ui.mjs?v=underlay-20261030';
 import {moveWall,enclosedRooms,roomsFromFaces} from './editable-plan.mjs';
 import {pdfLinework,referenceLinework} from './pdf-plan.mjs';
 import {floorOpenings,roomArea} from './openings.mjs';
@@ -42,10 +42,16 @@ function activeView(v){return mode==='site'?(v.mode==='ground'||v.mode==='site')
 function underlayIndex(fi=p.activeFloor){const f=p.floors[fi];if(underlays.has(f.id))return underlays.get(f.id);return p.floors.map((o,i)=>({o,i})).filter(x=>x.o.elevation<f.elevation).sort((a,b)=>b.o.elevation-a.o.elevation)[0]?.i??-1;}
 function setMode(m){mode=m;if(m==='site'&&groundIndex()>=0)p.activeFloor=groundIndex();selected=null;draft=[];alignSession=null;tool='select';renderPanels();renderChecks();}
 
+function setUnderlayVisible(visible){
+ vis.background=!!visible;$('#show-underlay').checked=vis.background;
+ const layer=$('[data-visible="background"]');if(layer)layer.checked=vis.background;
+}
+$('#show-underlay').onchange=e=>setUnderlayVisible(e.target.checked);
 function renderPanels(){
+ $('#show-underlay').checked=vis.background;
 $('#project-name').value=p.name;$('#units').value=p.units;$('#floor-select').innerHTML=p.floors.map((f,i)=>`<option value="${i}" ${i===p.activeFloor?'selected':''}>${esc(f.name)}</option>`).join('');$('#floor-select').disabled=mode==='site';$('#view-title').textContent=allFloors?'Linked floor plans':Math.abs(floor().elevation)<.001?floor().name+' + site':floor().name;$('#view-subtitle').textContent=mode==='site'?'Movement + discharge':'Plan + egress';$('#draw-mode').textContent=mode.toUpperCase();$$('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('#toolbox').innerHTML=tools[mode].map(([id,icon,label])=>`<button data-tool="${id}" class="${tool===id?'active':''}" title="${esc(hints[id])}"><span class="symbol">${icon}</span>${label}</button>`).join('');$$('[data-tool]').forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
 const list=entities().filter(e=>e.kind!=='wall'&&e.kind!=='cad');$('#model-count').textContent=list.length;$('#model-list').innerHTML=list.map(({kind,o})=>`<div class="model-row ${selected===o.id?'active':''}" data-object="${o.id}"><i class="model-dot" style="background:${kind==='door'?'#477e63':kind==='vehicle'?'#bd9558':'#9fb7a4'}"></i><span>${esc(o.name||({room:'Room',door:o.exit?'Exit':'Door',stair:'Stair',walkable:'Walkable site',obstacle:'Obstacle',siteobstacle:'Site obstacle',common:'Common path',dead:'Dead end'}[kind]||kind))}</span><small>${o.points?(kind==='room'?(roomArea(p,p.activeFloor,o)/(p.units==='ft'?SF:1)).toFixed(0)+' '+(p.units==='ft'?'sf':'m²'):fmt(length(o.points))):o.width?fmt(o.width):''}</small></div>`).join('')||'<div class="empty-state">Your design objects appear here.</div>';$$('[data-object]').forEach(b=>b.onclick=()=>{selected=b.dataset.object;tool='select';renderProperties();switchTab('properties');renderPanels();});
-$('#display-layers').innerHTML=Object.entries({furniture:'Furniture + columns',context:'Outdoors / voids / projected context',candidates:'Door / entrance candidates',site:'Site + ground-floor context',voids:'Multi-height spaces / slab openings',underlay:'Reference floor overlay',grid:'Grid',background:'Image / PDF',cad:'CAD reference',rooms:'Rooms + labels',walls:'Walls',doors:'Doors + exits',stairs:'Stairs',obstacles:'Obstacles',routes:'Common paths + dead ends',walkable:'Site walkable areas',pedestrian:'Pedestrian routes',accessible:'Accessible routes',vehicle:'Vehicle / service routes',paths:'Egress paths',targets:'Site destinations'}).map(([k,v])=>`<label class="layer-row"><input type="checkbox" data-visible="${k}" ${vis[k]?'checked':''}><span>${v}</span></label>`).join('');$$('[data-visible]').forEach(b=>b.onchange=()=>{vis[b.dataset.visible]=b.checked;selected=null;});
+$('#display-layers').innerHTML=Object.entries({furniture:'Furniture + columns',context:'Outdoors / voids / projected context',candidates:'Door / entrance candidates',site:'Site + ground-floor context',voids:'Multi-height spaces / slab openings',underlay:'Reference floor overlay',grid:'Grid',background:'Image / PDF underlay',cad:'CAD reference',rooms:'Rooms + labels',walls:'Walls',doors:'Doors + exits',stairs:'Stairs',obstacles:'Obstacles',routes:'Common paths + dead ends',walkable:'Site walkable areas',pedestrian:'Pedestrian routes',accessible:'Accessible routes',vehicle:'Vehicle / service routes',paths:'Egress paths',targets:'Site destinations'}).map(([k,v])=>`<label class="layer-row"><input type="checkbox" data-visible="${k}" ${vis[k]?'checked':''}><span>${v}</span></label>`).join('');$$('[data-visible]').forEach(b=>b.onchange=()=>{if(b.dataset.visible==='background'){setUnderlayVisible(b.checked);return;}vis[b.dataset.visible]=b.checked;selected=null;});
 $('#display-layers').insertAdjacentHTML('beforeend','<div class="floor-visibility">'+p.floors.map((f,i)=>`<label class="layer-row"><input type="checkbox" data-floor-show="${i}" ${f.visible!==false?'checked':''}><span>${esc(f.name)} · overview</span></label>`).join('')+'</div>');$$('[data-floor-show]').forEach(b=>b.onchange=()=>{p.floors[Number(b.dataset.floorShow)].visible=b.checked;saveLocal();});
 $('#layers').innerHTML=(target().layers||[]).map(l=>`<div class="layer-row"><input type="checkbox" data-layer="${esc(l.id)}" ${l.visible?'checked':''} aria-label="Show ${esc(l.name)}"><span title="${esc(l.name)}">${esc(l.name)}</span>${mode==='building'?`<button data-walls="${esc(l.id)}" title="Convert this layer's reference lines to editable walls">→ walls</button>`:''}</div>`).join('')||'<span style="font-size:9px;color:#9ba699">No CAD drawing imported.</span>';$$('[data-layer]').forEach(b=>b.onchange=()=>{target().layers.find(l=>l.id===b.dataset.layer).visible=b.checked;saveLocal();});$$('[data-walls]').forEach(b=>b.onclick=()=>cadToWalls(b.dataset.walls));
 $('#all-floors').classList.toggle('primary',allFloors);$('#play').textContent=playing?'Ⅱ Pause':'▶ Play';$('#hint').textContent=alignSession?alignmentHint():hints[tool];renderProperties();renderReferenceControls();}
@@ -202,7 +208,7 @@ async function traceReference(){
 function reviewRecognition(f,im){
  if(!im.interpretation)return;
  modal('Review architectural spaces','');
- reviewInterpretation({dialog:$('#modal'),image:im,result:im.interpretation,
+ reviewInterpretation({dialog:$('#modal'),image:im,result:im.interpretation,showUnderlay:vis.background,onUnderlayChange:setUnderlayVisible,
  onSave:result=>{remember();im.interpretation=result;change();},
  onCalibrate:()=>setTool('calibrate'),
  onApply:result=>{try{

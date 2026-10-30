@@ -16,15 +16,15 @@ export class VisionConnection{
   this.pending.clear();this.frame?.remove();this.frame=null;this.source=null;this.origin=null;this.candidates.clear();
  }
  connect(endpoint){
-  if(!validEndpoint(endpoint))return Promise.reject(Error('The instructor recognition service is unavailable. Please try again later.'));
+  if(!validEndpoint(endpoint))return Promise.reject(Error('Plan recognition is temporarily unavailable. Please try again later.'));
   if(this.connected&&Date.now()-this.started<18000000)return Promise.resolve();
   if(this.connecting)return this.connecting;
   this.disconnect();this.nonce=crypto.randomUUID();this.started=Date.now();
   this.connecting=new Promise((resolve,reject)=>{this.resolveConnect=resolve;this.rejectConnect=reject;});
-  const frame=this.host.document.createElement('iframe');frame.title='Shared plan recognition service';frame.hidden=true;frame.setAttribute('aria-hidden','true');frame.src=endpoint+'?nonce='+this.nonce;this.frame=frame;this.host.document.body.appendChild(frame);
+  const frame=this.host.document.createElement('iframe');frame.title='Plan recognition';frame.hidden=true;frame.setAttribute('aria-hidden','true');frame.src=endpoint+'?nonce='+this.nonce;this.frame=frame;this.host.document.body.appendChild(frame);
   const tick=()=>{if(!this.frame?.isConnected)return;this.candidates=discoverFrames(this.frame.contentWindow);for(const win of this.candidates){try{win.postMessage({type:'egress-vision-hello',nonce:this.nonce},'*');}catch{}}};
   this.timer=setInterval(tick,500);tick();
-  this.connectTimer=setTimeout(()=>{const reject=this.rejectConnect;this.rejectConnect=null;this.disconnect();reject?.(Error('The recognition service did not connect. Please retry; no Google login or API key is needed.'));},45000);
+  this.connectTimer=setTimeout(()=>{const reject=this.rejectConnect;this.rejectConnect=null;this.disconnect();reject?.(Error('Plan recognition did not connect. Please try again.'));},45000);
   return this.connecting;
  }
  receive(e){

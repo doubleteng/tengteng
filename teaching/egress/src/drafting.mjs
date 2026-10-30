@@ -1,4 +1,4 @@
-import {dist, project, edges, lerp, segDist} from './geometry.mjs';
+import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=rooms-20261030';
 
 export function zoomAt(camera, screen, viewport, factor) {
   const x=(screen.x-viewport.x-viewport.w/2)/camera.s;
@@ -34,23 +34,25 @@ export function snapGeometry(scope, visibility={}, excludeId=null) {
 
 export function objectSnap(raw, geometry, {tolerance=.2, enabled=true, grid=0, anchor=null, ortho=false}={}) {
   const constrained=ortho&&anchor?(Math.abs(raw.x-anchor.x)>=Math.abs(raw.y-anchor.y)?{x:raw.x,y:anchor.y}:{x:anchor.x,y:raw.y}):{...raw};
+  const query=ortho&&anchor?constrained:raw,axis=ortho&&anchor?(constrained.y===anchor.y?'horizontal':'vertical'):null;
   const candidates=[];
   const add=(point,kind,priority=0)=>{
-    if(ortho&&anchor&&Math.min(Math.abs(point.x-anchor.x),Math.abs(point.y-anchor.y))>1e-6)return;
-    const distance=dist(raw,point);if(distance<=tolerance)candidates.push({point:{x:point.x,y:point.y},kind,priority,distance});
+    if(ortho&&anchor&&(axis==='horizontal'?Math.abs(point.y-anchor.y):Math.abs(point.x-anchor.x))>1e-6)return;
+    const distance=dist(query,point);if(distance<=tolerance)candidates.push({point:{x:point.x,y:point.y},kind,priority,distance});
   };
   if(enabled){
     for(const point of geometry.points)add(point,point.kind||'Point');
     // Proximity filtering also bounds the cost of pairwise intersection tests.
     const nearby=[];
     for(const s of geometry.segments){
-      if(raw.x<Math.min(s.a.x,s.b.x)-tolerance||raw.x>Math.max(s.a.x,s.b.x)+tolerance||raw.y<Math.min(s.a.y,s.b.y)-tolerance||raw.y>Math.max(s.a.y,s.b.y)+tolerance)continue;
+      if(query.x<Math.min(s.a.x,s.b.x)-tolerance||query.x>Math.max(s.a.x,s.b.x)+tolerance||query.y<Math.min(s.a.y,s.b.y)-tolerance||query.y>Math.max(s.a.y,s.b.y)+tolerance)continue;
       add(s.a,'End');add(s.b,'End');add(lerp(s.a,s.b,.5),'Mid');
-      const q=project(raw,s.a,s.b);add(q,'Near',1);
+      const q=project(query,s.a,s.b);add(q,'Near',1);
+      if(axis){const den=axis==='horizontal'?s.b.y-s.a.y:s.b.x-s.a.x;if(Math.abs(den)>1e-10){const t=(axis==='horizontal'?anchor.y-s.a.y:anchor.x-s.a.x)/den;if(t>=0&&t<=1)add(lerp(s.a,s.b,t),'Int');}}
       if(anchor){const foot=project(anchor,s.a,s.b);if(foot.t>0&&foot.t<1)add(foot,'Perp');}
-      if(segDist(raw,s.a,s.b)<=tolerance)nearby.push(s);
+      if(segDist(query,s.a,s.b)<=tolerance)nearby.push(s);
     }
-    nearby.sort((a,b)=>segDist(raw,a.a,a.b)-segDist(raw,b.a,b.b));
+    nearby.sort((a,b)=>segDist(query,a.a,a.b)-segDist(query,b.a,b.b));
     const local=nearby.slice(0,64);
     for(let i=0;i<local.length;i++)for(let j=i+1;j<local.length;j++){const q=intersection(local[i].a,local[i].b,local[j].a,local[j].b);if(q)add(q,'Int');}
   }
@@ -87,9 +89,9 @@ export function alignmentTransform(source,target) {
 
 export function alignFloor(floor,transform) {
   const seen=new WeakSet(),move=q=>{if(seen.has(q))return;seen.add(q);Object.assign(q,transform.point(q));};
-  floor.outline.forEach(move);
+  floor.outline.forEach(move);for(const poly of floor.enclosures||[])poly.forEach(move);
   for(const key of ['walls','doors','rooms','stairs','obstacles','traces','cad','features','candidates'])for(const o of floor[key]||[]){
-    if(o.points)o.points.forEach(move);if(o.a){move(o.a);move(o.b);}if(o.x!=null)move(o);
+    if(o.points)o.points.forEach(move);for(const poly of [...o.holes||[],...o.autoHoles||[]])poly.forEach(move);if(o.a){move(o.a);move(o.b);}if(o.x!=null)move(o);
   }
   if(floor.image){move(floor.image);floor.image.rotation=(floor.image.rotation||0)+transform.angle;}
 }

@@ -1,5 +1,5 @@
-import {SF} from './geometry.mjs';
-import {functions} from './model.mjs';
+import {SF} from './geometry.mjs?v=rooms-20261030';
+import {functions} from './model.mjs?v=rooms-20261030';
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const occupantSource='https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf#page=8';

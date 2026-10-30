@@ -1,6 +1,6 @@
-import {excludedSpaces} from './semantic-plan.mjs';
-import {area,edges,inside} from './geometry.mjs';
-import {intersection} from './drafting.mjs';
+import {excludedSpaces} from './semantic-plan.mjs?v=rooms-20261030';
+import {area,edges,inside} from './geometry.mjs?v=rooms-20261030';
+import {intersection} from './drafting.mjs?v=rooms-20261030';
 
 export function floorOpenings(project,index,{includeBase=false}={}){
   const elevation=project.floors[index].elevation;
@@ -23,4 +23,4 @@ export function usableArea(polygon,holes=[]){
   function slice(x){const room=intervals(polygon,x),cuts=holes.flatMap(p=>intervals(p,x)).sort((a,b)=>a[0]-b[0]),merged=[];for(const cut of cuts){const last=merged.at(-1);if(last&&cut[0]<=last[1])last[1]=Math.max(last[1],cut[1]);else merged.push([...cut]);}let sum=0;for(const [a,b]of room){sum+=b-a;for(const [c,d]of merged)sum-=Math.max(0,Math.min(b,d)-Math.max(a,c));}return Math.max(0,sum);}
   let result=0;for(let i=1;i<breaks.length;i++){const a=breaks[i-1],w=breaks[i]-a;result+=w*(slice(a+w*.25)+slice(a+w*.75))/2;}return Math.max(0,result);
 }
-export function roomArea(project,index,room){return usableArea(room.points,[...floorOpenings(project,index),...excludedSpaces(project.floors[index])].map(o=>o.points));}
+export function roomArea(project,index,room){return usableArea(room.points,[...[...(room.holes||[]),...(room.autoHoles||[])].map(points=>({points})),...floorOpenings(project,index),...excludedSpaces(project.floors[index])].map(o=>o.points));}

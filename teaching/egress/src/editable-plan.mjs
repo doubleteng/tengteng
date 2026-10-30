@@ -1,5 +1,5 @@
-import {dist,project,segDist,edges,area,centroid,uid} from './geometry.mjs';
-import {intersection} from './drafting.mjs';
+import {dist,project,segDist,edges,area,centroid,inside,uid} from './geometry.mjs?v=rooms-20261030';
+import {intersection} from './drafting.mjs?v=rooms-20261030';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.
@@ -11,6 +11,7 @@ export function moveWall(floor,id,a,b,original){
   wall.a={...a};wall.b={...b};
   for(const before of original.walls){if(before.id===id)continue;const current=floor.walls.find(w=>w.id===before.id);if(!current)continue;for(const key of ['a','b'])if(dist(before[key],old.a)<.02||dist(before[key],old.b)<.02||segDist(before[key],old.a,old.b)<.01)current[key]=transform(before[key]);}
   const near=(q,tol)=>segDist(q,old.a,old.b)<tol;
+  if(original.enclosures)floor.enclosures=original.enclosures.map(poly=>poly.map(q=>near(q,.025)?transform(q):{...q}));
   floor.outline=original.outline.map(q=>near(q,.025)?transform(q):{...q});
   for(const before of original.rooms){const current=floor.rooms.find(r=>r.id===before.id);if(!current)continue;const tolerance=Math.max(.025,(old.thickness||.15)/2+.12),attached=new Set();for(let i=0;i<before.points.length;i++){const x=before.points[i],y=before.points[(i+1)%before.points.length];if(near(x,tolerance)&&near(y,tolerance)&&dist(x,y)>.05){attached.add(i);attached.add((i+1)%before.points.length);}}current.points=before.points.map((q,i)=>attached.has(i)?transform(q):{...q});}
   for(const d of floor.doors){const before=original.doors.find(o=>o.id===d.id),w=floor.walls.find(w=>w.id===d.wallId),ow=original.walls.find(w=>w.id===d.wallId);if(!before||!w||!ow)continue;const t=project(before,ow.a,ow.b).t;d.x=w.a.x+(w.b.x-w.a.x)*t;d.y=w.a.y+(w.b.y-w.a.y)*t;}
@@ -41,13 +42,34 @@ export function enclosedRooms(walls,{tolerance=.02,minArea=.5}={}){
     if(signed>=minArea)faces.push(points);else if(signed<=-minArea)outer.push(points.slice().reverse());
   }
   outer.sort((a,b)=>area(b)-area(a));
-  return {faces,outline:outer[0]||[],components:outer.length};
+  return {faces,outline:outer[0]||[],outlines:outer.filter(poly=>!outer.some(other=>other!==poly&&area(other)>area(poly)&&contained(poly,other))),components:outer.length};
 }
 
-export function roomsFromFaces(faces,previous=[]){
-  const used=new Set();return faces.map((points,i)=>{
-    const c=centroid(points);let before=null,dd=Infinity;for(const r of previous)if(!used.has(r.id)){const d=dist(c,centroid(r.points));if(d<dd){dd=d;before=r;}}
-    if(before)used.add(before.id);
-    return {...(before||{id:uid(),name:'Room '+(i+1),function:'business',group:'B',factor:150,basis:'gross'}),points:points.map(p=>({...p})),areaConfirmed:false,fromWalls:true};
-  });
+const contained=(poly,outer)=>poly.every(q=>inside(q,outer)||edges(outer).some(([a,b])=>segDist(q,a,b)<.002));
+export function roomsFromFaces(faces,previous=[],reservedNames=[]){
+ const used=new Set(),names=new Set([...previous.map(r=>r.name),...reservedNames]);
+ const nextName=()=>{let n=1;while(names.has('Room '+n))n++;names.add('Room '+n);return 'Room '+n;};
+ return faces.map(points=>{
+  const c=centroid(points);let before=null,dd=Infinity;
+  for(const r of previous)if(!used.has(r.id)&&(inside(c,r.points)||inside(centroid(r.points),points))){const d=dist(c,centroid(r.points));if(d<dd){dd=d;before=r;}}
+  if(before)used.add(before.id);
+  const holes=faces.filter(poly=>poly!==points&&area(poly)<area(points)-.001&&contained(poly,points)).map(poly=>poly.map(q=>({...q})));
+  const same=before&&Math.abs(area(before.points)-area(points))<.001&&contained(points,before.points)&&contained(before.points,points)&&JSON.stringify(before.holes||[])===JSON.stringify(holes);
+  return {...(before||{id:uid(),name:nextName(),function:'business',group:'B',factor:150,basis:'gross'}),points:points.map(q=>({...q})),holes,areaConfirmed:same?!!before.areaConfirmed:false,fromWalls:true};
+ });
+}
+// Rebuild after a topology edit, not after display or occupancy changes.
+export function syncEnclosedRooms(floor){
+ const result=enclosedRooms(floor.walls,{minArea:.05});
+ if(floor.recognition&&!floor.autoRooms){
+  const manual=floor.walls.filter(w=>!w.recognition);
+  const faces=result.faces.filter(poly=>area(poly)<area(floor.outline)-.001&&manual.some(w=>edges(poly).some(([a,b])=>segDist(w.a,a,b)<.002&&segDist(w.b,a,b)<.002)));
+  const additions=roomsFromFaces(faces,floor.rooms.filter(r=>r.autoClosed),floor.rooms.map(r=>r.name)).map(r=>({...r,autoClosed:true}));
+  const retained=floor.rooms.filter(r=>!r.autoClosed);for(const r of retained)r.autoHoles=additions.map(o=>o.points);
+  floor.rooms=[...retained,...additions];return result;
+ }
+ floor.rooms=roomsFromFaces(result.faces,floor.rooms);
+ floor.autoRooms=true;
+ if(floor.autoBoundary||!floor.outline.length){floor.autoBoundary=true;floor.enclosures=result.outlines.map(poly=>poly.map(q=>({...q})));floor.outline=floor.enclosures[0]||[];}
+ return result;
 }

@@ -1,7 +1,7 @@
-import {SF,IN,dist,inside,edges,segDist,route} from './geometry.mjs';
-import {roomArea,floorOpenings} from './openings.mjs';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs';
-import {functions} from './model.mjs';
+import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=rooms-20261030';
+import {roomArea,floorOpenings} from './openings.mjs?v=rooms-20261030';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=rooms-20261030';
+import {functions} from './model.mjs?v=rooms-20261030';
 export function roomLoad(p,fi,r){
  const a=roomArea(p,fi,r),factor=Number(r.factor)||functions[r.function]?.factor||150,circulation=r.role==='corridor';
  return{id:r.id,name:r.name,role:r.role||'room',area:a,factor,basis:r.basis||functions[r.function]?.basis||'gross',function:r.function,functionLabel:circulation?'Circulation (no additional occupants)':functions[r.function]?.name||'User-defined use',occupants:circulation?0:Math.ceil(a/SF/factor),areaConfirmed:!!r.areaConfirmed};
@@ -52,7 +52,7 @@ export function capacityScenario(p,fi,g,field,loads){
  const first=new Array(g.n);for(const i of indices){const prev=field.prev[i],a=g.point(i),b=prev>=0?g.point(prev):field.targets[field.owner[i]],hits=(buckets.get(i)||[]).map(portal=>({portal,t:intersection(a,b,portal.a,portal.b)})).filter(o=>o.t!==null).sort((a,b)=>a.t-b.t);first[i]=hits[0]?.portal.id||(prev>=0?first[prev]:b.id);}
  let unassigned=0;
  for(const load of loads){if(!load.occupants)continue;const r=f.rooms.find(r=>r.id===load.id),groups=new Map();let samples=0,reachable=0;
-  for(let i=0;i<g.n;i++){if(!g.good[i]||!inside(g.point(i),r.points))continue;samples++;if(!Number.isFinite(field.d[i]))continue;reachable++;const key=first[i]+'|'+field.owner[i];if(!groups.has(key))groups.set(key,{count:0,seed:i});const group=groups.get(key);group.count++;if(field.d[i]>field.d[group.seed])group.seed=i;}
+  for(let i=0;i<g.n;i++){if(!g.good[i]||!insideRoom(g.point(i),r))continue;samples++;if(!Number.isFinite(field.d[i]))continue;reachable++;const key=first[i]+'|'+field.owner[i];if(!groups.has(key))groups.set(key,{count:0,seed:i});const group=groups.get(key);group.count++;if(field.d[i]>field.d[group.seed])group.seed=i;}
   if(!samples||!reachable){unassigned+=load.occupants;continue;}
   const assigned=Math.round(load.occupants*reachable/samples),list=[...groups.values()].map(o=>({...o,exact:assigned*o.count/reachable}));list.forEach(o=>o.people=Math.floor(o.exact));let remainder=assigned-list.reduce((n,o)=>n+o.people,0);list.sort((a,b)=>(b.exact-b.people)-(a.exact-a.people));for(let i=0;i<remainder;i++)list[i%list.length].people++;
   for(const group of list){if(!group.people)continue;const points=route(g,field,group.seed),target=field.targets[field.owner[group.seed]],doors=new Set(portals.filter(o=>touches(points,o.a,o.b)).map(o=>o.id));if(f.doors.some(d=>d.id===target.id))doors.add(target.id);paths.push({room:load.id,name:load.name,people:group.people,points,doors:[...doors],target:target.id,group:r.group||p.settings.group});}

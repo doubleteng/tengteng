@@ -7,8 +7,26 @@ function visionStatus_() {
   return {available:true,configured:!!props.getProperty('VISION_API_KEY'),model:props.getProperty('VISION_MODEL')||'gemini-3.8-flash'};
 }
 function saveVisionSettings(key,model) {
-  if(typeof key!=='string'||!/^AIza[A-Za-z0-9_-]{20,100}$/.test(key))throw Error('Enter a valid Gemini API key.');
+  key=typeof key==='string'?key.trim():'';
+  // Key formats evolve. Validate transport safety, then let Google validate the
+  // credential; do not impose a historical AIza prefix or fixed key length.
+  if(key.length<10||key.length>4096||/[\s\x00-\x1f\x7f]/.test(key))throw Error('Paste the complete API key without spaces or line breaks.');
   if(typeof model!=='string'||!/^gemini-[a-z0-9.-]{3,80}$/.test(model))throw Error('Enter a valid Gemini model ID.');
+  let response;
+  try{response=UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000',{method:'get',headers:{'x-goog-api-key':key},muteHttpExceptions:true});}
+  catch(e){throw Error('Google could not be reached to verify this key. The saved key was not changed.');}
+  const code=response.getResponseCode();
+  if(code===400||code===401)throw Error('Google rejected this API credential. Copy the API key value from AI Studio, not its name, project ID or OAuth token.');
+  if(code===403)throw Error('Google denied this key access to the Gemini API. Check API restrictions and whether the Generative Language API is enabled for its project.');
+  if(code===429)throw Error('Google quota or rate limit prevented verification. The saved key was not changed.');
+  if(code<200||code>=300)throw Error('Google could not verify the key (HTTP '+code+'). The saved key was not changed.');
+  let body;try{body=JSON.parse(response.getContentText());}catch(e){throw Error('Google returned an unreadable response. The saved key was not changed.');}
+  const available=(body.models||[]).filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent')).map(m=>String(m.name||'').replace(/^models\//,''));
+  if(!available.includes(model)){
+    const preferred=['gemini-3.8-flash','gemini-3.1-pro-preview','gemini-3-flash-preview','gemini-2.5-pro','gemini-2.5-flash'];
+    model=preferred.find(m=>available.includes(m))||available.find(m=>/^gemini-/.test(m)&&/(pro|flash)/.test(m)&&!/(image|tts|audio|live|computer)/.test(m));
+    if(!model)throw Error('The key is valid, but Google lists no supported text-and-image Gemini generation model for this project.');
+  }
   PropertiesService.getUserProperties().setProperties({VISION_API_KEY:key,VISION_MODEL:model});
   return visionStatus_();
 }

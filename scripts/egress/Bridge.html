@@ -3,7 +3,7 @@ const nonce=<?!= JSON.stringify(nonce) ?>,origin=<?!= JSON.stringify(origin) ?>;
 let peer=null;
 function showVision(s){document.getElementById('vision-status').textContent=s.configured?'Vision configured: '+s.model+'. Return to the design page and start recognition.':'No vision API key configured.';document.getElementById('vision-model').value=s.model;}
 google.script.run.withSuccessHandler(showVision).withFailureHandler(function(){document.getElementById('vision-status').textContent='Vision setup is unavailable.';}).cloudCall({action:'visionStatus'});
-document.getElementById('vision-form').onsubmit=function(e){e.preventDefault();const field=document.getElementById('vision-key'),key=field.value.trim(),model=document.getElementById('vision-model').value.trim();field.value='';google.script.run.withSuccessHandler(showVision).withFailureHandler(function(e){document.getElementById('vision-status').textContent=e.message;}).saveVisionSettings(key,model);};
+document.getElementById('vision-form').onsubmit=function(e){e.preventDefault();const field=document.getElementById('vision-key'),key=field.value.trim(),model=document.getElementById('vision-model').value.trim();field.value='';document.getElementById('vision-status').textContent='Verifying with Google and checking available models…';google.script.run.withSuccessHandler(showVision).withFailureHandler(function(e){document.getElementById('vision-status').textContent=e.message;}).saveVisionSettings(key,model);};
 document.getElementById('vision-remove').onclick=function(){google.script.run.withSuccessHandler(showVision).removeVisionSettings();};
 window.addEventListener('message',function(e){
   const m=e.data;

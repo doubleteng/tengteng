@@ -150,3 +150,7 @@ edits, moving a wall, case switching, reload and restoration of the original pla
 
 
 Open or unverified upper-floor stairs now receive separate amber circulation paths. These paths end at the landing and never contribute to qualified exit travel, complete public-way routes or egress capacity. A shared floor notice names the stair and explains why exit analysis stops; disconnected room portions retain their own location markers. Reports distinguish these limited circulation distances from full egress routes.
+
+### Drawing workspace
+
+The studio interface keeps the plan central, with a compact tool rail and a collapsible inspector. Practice steps show one action at a time; editing help, finding evidence, IBC references and detailed route notes expand on request. The complete evidence remains in the PDF report. The Inspector control changes only the layout, and Show underlay changes only the reference-image display. Dimension fields accept hundredth-unit increments.

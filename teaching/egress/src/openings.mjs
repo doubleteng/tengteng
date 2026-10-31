@@ -1,4 +1,4 @@
-import {excludedSpaces} from './semantic-plan.mjs?v=wall-rooms-1';
+import {excludedSpaces} from './semantic-plan.mjs?v=recognition-graph-1';
 import {area,edges,inside} from './geometry.mjs?v=wall-rooms-1';
 import {intersection} from './drafting.mjs?v=wall-rooms-1';
 

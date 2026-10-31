@@ -1,4 +1,4 @@
-import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint} from './geometry.mjs?v=wall-rooms-1';
+import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom} from './geometry.mjs?v=wall-rooms-1';
 
 // Evidence is a geometric check against source pixels, not a wall classifier.
 // Light pencil and gray CAD strokes use local contrast. Uniform gray fills do not.
@@ -117,7 +117,7 @@ export function openingSpaces(floor,points){
  const c=lerp(a,b,.5),normal={x:-(b.y-a.y)/l,y:(b.x-a.x)/l},sides=[[],[]];
  for(let side=0;side<2;side++)for(const offset of [.06,.15,.3]){
   const q={x:c.x+normal.x*offset*(side?1:-1),y:c.y+normal.y*offset*(side?1:-1)};
-  const found=floor.rooms.filter(r=>inside(q,r.points));
+  const found=floor.rooms.filter(r=>insideRoom(q,r));
   if(found.length){sides[side]=found.map(r=>r.id);break;}
   if(floor.outline?.length>=3&&!inside(q,floor.outline)){sides[side]=['outside'];break;}
  }
@@ -133,10 +133,10 @@ export function auditImport(floor,{tolerance=.025,gapLimit=.25}={}){
  for(let i=0;i<rooms.length;i++){
   const r=rooms[i],boundary=edges(floor.outline||[]),outside=r.points.find(q=>boundary.length&&!inside(q,floor.outline)&&boundary.every(([a,b])=>segDist(q,a,b)>.025));
   if(outside)issue('room-outside',r.name+': extends outside the indoor boundary','Check whether this area is indoors, a terrace, a courtyard or another floor. Correct its type or the indoor boundary.',r.id,outside);
-  const strict=(q,poly)=>inside(q,poly)&&edges(poly).every(([a,b])=>segDist(q,a,b)>.025);
+  const strict=(q,room)=>insideRoom(q,room)&&[room.points,...(room.holes||[])].every(poly=>edges(poly).every(([a,b])=>segDist(q,a,b)>.025));
   for(let j=i+1;j<rooms.length;j++){
    const other=rooms[j],samples=poly=>[...poly,roomPoint({points:poly}),...edges(poly).map(([a,b])=>lerp(a,b,.5))];
-   const overlap=samples(r.points).find(q=>strict(q,other.points)&&inside(q,r.points))||samples(other.points).find(q=>strict(q,r.points)&&inside(q,other.points));
+   const overlap=samples(r.points).find(q=>strict(q,other)&&insideRoom(q,r))||samples(other.points).find(q=>strict(q,r)&&insideRoom(q,other));
    if(overlap)issue('room-overlap',r.name+' overlaps '+other.name,'These indoor areas can double-count people and confuse circulation. Adjust their shared boundary or remove the duplicate space.',r.id,overlap);
   }
  }

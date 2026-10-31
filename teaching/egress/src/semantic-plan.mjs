@@ -1,4 +1,4 @@
-import {openingHost,openingSpaces} from './import-quality.mjs?v=wall-rooms-1';
+import {openingHost,openingSpaces} from './import-quality.mjs?v=recognition-graph-1';
 import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=wall-rooms-1';
 import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=wall-rooms-1';
 
@@ -20,7 +20,7 @@ export function validateInterpretation(input){
   }
   const outline=Array.isArray(input.outline)?input.outline:[];
   if(outline.length>160||outline.some(q=>!Array.isArray(q)||q.length!==2||q.some(v=>!Number.isFinite(v)||v<0||v>1000)))throw Error('Invalid floor enclosure.');
-  return {version:1,summary:text(input.summary),outline,elements,warnings};
+  return {version:1,summary:text(input.summary),outline,elements,warnings,...(input.sourceRefinement?.version===1?{sourceRefinement:{version:1,sourceWidth:Number(input.sourceRefinement.sourceWidth)||0,sourceHeight:Number(input.sourceRefinement.sourceHeight)||0}}:{})};
 }
 export function imagePoint(image,q){const c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0),x=q[0]/1000*image.width,y=(1-q[1]/1000)*image.height;return{x:image.x+c*x-s*y,y:image.y+s*x+c*y};}
 export function featureObstacles(floor){return (floor.features||[]).filter(f=>f.blocksMovement===true&&['furniture','column'].includes(f.kind));}

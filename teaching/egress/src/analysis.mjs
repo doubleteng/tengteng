@@ -1,8 +1,8 @@
-import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=wall-rooms-1';
-import {stairCirculation} from './circulation.mjs?v=wall-rooms-1';
-import {roomLoad,analyzeCapacity} from './capacity.mjs?v=wall-rooms-1';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=wall-rooms-1';
-import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=wall-rooms-1';
+import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=recognition-graph-1';
+import {stairCirculation} from './circulation.mjs?v=recognition-graph-1';
+import {roomLoad,analyzeCapacity} from './capacity.mjs?v=recognition-graph-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=recognition-graph-1';
+import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=recognition-graph-1';
 import {stairAligned} from './drafting.mjs?v=wall-rooms-1';
 import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=wall-rooms-1';
 import {functions} from './model.mjs?v=wall-rooms-1';
@@ -11,7 +11,7 @@ export function limits(group,sprinkler,occupants=0){return{travel:(sprinkler?(gr
 export const requiredExits=n=>n>1000?4:n>500?3:n>49?2:1;
 export function analyze(p,floorIndex=0){const f=p.floors[floorIndex],checks=[],roomResults=f.rooms.map(r=>({...roomLoad(p,floorIndex,r),max:-1,unreachable:0,samples:0,routeState:'unresolved',routeReason:f.outline.length<3?'Define the floor boundary.':'Identify an exit and check its wall connection.',routePoint:roomPoint(r)})),routes=[],outdoor=[],issue=(status,title,detail,ref,point,category='building')=>checks.push({status,title,detail,ref,point,category});const fmt=x=>p.units==='ft'?`${(x/FT).toFixed(1)} ft`:`${x.toFixed(2)} m`;const voids=floorOpenings(p,floorIndex),regions=floorRegions(f);const total=roomResults.reduce((n,r)=>n+r.occupants,0);const exits=[...f.doors.filter(d=>d.exit),...(f.stairs||[]).filter(s=>s.protected&&f.elevation>0).map(s=>({...s,...s.points[0],exit:true,discharge:'stair',stair:true}))].filter(d=>!inOpening(p,floorIndex,d));let g,field,siteGrid,siteField;
 if(p.precedent)issue('review','Precedent study assumptions',p.precedent.note+' '+p.precedent.scale,'Study model');
-if(f.recognition)issue('review','Recognized spaces need geometry and use review','Rooms and corridors are semantic polygons; furniture does not divide them. Confirm wall positions, floor membership, dimensions and occupancy functions. Door / entrance candidates do not create passable connections.','Model input');
+if(f.recognition)issue('review','Recognized spaces need geometry and use review','Rooms and corridors come from closed wall enclosures; furniture does not divide them. Confirm wall positions, floor membership, dimensions and occupancy functions. Door / entrance candidates do not create passable connections.','Model input');
 if(f.recognition||f.imports?.length)for(const finding of auditImport(f).issues)issue('review',finding.title,finding.detail,'Import geometry',finding.point);
 for(const space of f.pendingSpaces||[])issue('review',space.name+': wall enclosure is open',space.reason,'Model input',space.point);
 for(const room of f.rooms)if(room.useNeedsConfirmation)issue('review',room.name+': confirm use of this connected space','Area comes from one closed wall enclosure. Separate labels do not create partitions or separate room areas. Choose the use and load factor for this space.','Model input',roomPoint(room));

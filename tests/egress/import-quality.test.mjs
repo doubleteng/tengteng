@@ -69,3 +69,9 @@ test('Room-first checks distinguish indoor extent, adjacent rooms and overlappin
  f.rooms[1].points=rect(9,0,6,10);assert.ok(auditImport(f).issues.some(i=>i.code==='room-outside'));
  f.outline=[];assert.ok(auditImport(f).issues.some(i=>i.code==='enclosure'));
 });
+
+test('A room surrounding an enclosed core does not overlap that core or own its side of a door',()=>{
+ const f={outline:rect(0,0,12,12),walls:[],doors:[],candidates:[],rooms:[{id:'hall',name:'Hall',role:'room',points:rect(0,0,12,12),holes:[rect(4,4,4,4)]},{id:'core',name:'Core',role:'room',points:rect(4,4,4,4)}]};
+ assert.equal(auditImport(f).issues.some(i=>i.code==='room-overlap'),false);
+ assert.deepEqual(new Set(openingSpaces(f,[{x:4,y:5},{x:4,y:6}]).labels),new Set(['Hall','Core']));
+});

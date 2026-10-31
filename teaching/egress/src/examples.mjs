@@ -43,7 +43,9 @@ function levelsCase(){
  }
  p.openings=[{id:'atrium',name:'Studio lightwell',baseFloorId:'level-0',throughFloorId:'level-1',points:rect(8,5,4,4)}];site(p,20,14);return p;
 }
-export const examples=[...precedentExamples,
+// Keep authorship and guide IDs for projects saved in earlier releases.
+// Historic models are not offered as IBC reference buildings.
+export const examples=[
  {id:'rooms',number:'01',title:'Rooms, doors + people',subtitle:'Start here · 6–8 min',tag:'INDOOR PLAN',description:'Read a room load, repair a narrow doorway, then move a wall and watch the plan recalculate.',skills:['Select + Properties','Live area / load','Wall editing'],build:roomsCase,steps:[
   {title:'Read the plan',text:'Wheel to zoom; hold the right mouse button to pan. Select Workshop to see its area, use and people. The table is furniture, not a room boundary.',action:'Select Workshop',target:'workshop',tab:'properties'},
   {title:'Confirm the room use',text:'Workshop is set to Assembly: tables + chairs. Compare the area-per-person calculation with the room area, then tick “I checked the area basis”. Try another use and watch the people count change.',action:'Review room inputs',target:'workshop',tab:'properties',goal:'room-input'},
@@ -66,7 +68,8 @@ export const examples=[...precedentExamples,
   {title:'Review the whole journey',text:'Check each floor and the site, then export the report. The stair protection is a teaching assumption. Shared discharge loads from multiple floors remain a review item; completing this exercise does not resolve that allocation.',action:'Review all plan checks',tab:'code',recap:true},
  ]},
 ];
-export const exampleById=id=>examples.find(e=>e.id===id);
+export const firstPractice=examples[0];
+export const exampleById=id=>examples.find(e=>e.id===id)||precedentExamples.find(e=>e.id===id);
 export function createExample(id){const e=exampleById(id);if(!e)throw Error('Unknown practice case.');const p=e.build();p.id=uid();p.name='Practice '+e.number+' · '+e.title;p.units='m';p.tutorial={id,step:0,collapsed:false};return p;}
 export function exampleGoals(p,a){
  const id=p.tutorial?.id,f=p.floors[0],ready=!!a,findDoor=id=>f.doors.find(d=>d.id===id),goals=[];

@@ -1,7 +1,7 @@
 import {studioIcon} from './studio-icons.mjs?v=studio-20261031';
-import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=studio-20261031';
-import {exampleById,createExample} from './examples.mjs?v=stair-review-20261031';
-import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=studio-20261031';
+import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=case-library-1';
+import {exampleById,createExample} from './examples.mjs?v=case-library-1';
+import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=case-library-1';
 import {analyzePlanCode} from './plan-code.mjs?v=stair-review-20261031';
 import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=studio-20261031';
 import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=studio-20261031';
@@ -42,7 +42,7 @@ async function storedProject(key){const d=await db();try{return await new Promis
 async function keepProject(key,value){const d=await db();try{await new Promise((resolve,reject)=>{const t=d.transaction('projects','readwrite');t.objectStore('projects').put(value,key);t.oncomplete=resolve;t.onerror=()=>reject(t.error);t.onabort=()=>reject(t.error);});}finally{d.close();}}
 async function restore(){let firstVisit=false;try{const v=await storedProject('last');if(v)p=validateProject(v);else{p=fresh();firstVisit=true;}exampleBackup=await storedProject('before-examples');}catch{if(!p.floors[0].outline.length){p=fresh();firstVisit=true;}}p.floors.forEach(f=>{f.stairs??=[];f.traces??=[];});for(const scope of [...p.floors,p.site])for(const line of scope.cad||[])line.id??=uid();p.activeFloor=Math.min(p.activeFloor||0,p.floors.length-1);if(exampleById(p.tutorial?.id))allFloors=['levels','savoye'].includes(p.tutorial.id);renderPanels();fit();runAnalysis();workflowStage=p.floors.some(f=>f.rooms.length)?2:0;renderWorkflowControls();if(p.tutorial)lessonAction(exampleById(p.tutorial.id)?.steps[p.tutorial.step||0]||{});else{let seen=false;try{seen=localStorage.getItem('egress-start-workflow-v1')==='seen';}catch{}if(firstVisit||!seen)showStart();}}
 function showExamples(){
- modal('Plans to explore',exampleGallery(p,!!exampleBackup));$('#modal').classList.add('examples-dialog');
+ modal('Drawing exercises',exampleGallery(p,!!exampleBackup));$('#modal').classList.add('examples-dialog');
  $$('[data-start-example]').forEach(b=>b.onclick=()=>startExample(b.dataset.startExample));
  if($('#continue-example'))$('#continue-example').onclick=()=>{$('#modal').close();p.tutorial.collapsed=false;renderLesson();saveLocal();};
  if($('#return-example-project'))$('#return-example-project').onclick=returnFromExample;
@@ -79,7 +79,7 @@ function focusObject(o){
 function showStart(){
  modal('Egress + Site',startScreen());$('#modal').classList.add('start-dialog');
  try{localStorage.setItem('egress-start-workflow-v1','seen');}catch{}
- $('#start-practice').onclick=()=>startExample('barcelona');
+ $('#start-practice').onclick=e=>startExample(e.currentTarget.dataset.case);
  $('#start-upload').onclick=()=>{$('#modal').close();setWorkflowStage(0);$('#drawing-input').click();};
  $('#start-draw').onclick=()=>{$('#modal').close();resetProject(fresh());setTool('wall');switchTab('properties');};
  $('#start-continue').onclick=()=>{$('#modal').close();if(p.tutorial)lessonAction(exampleById(p.tutorial.id)?.steps[p.tutorial.step||0]||{});else setWorkflowStage(workflowStage);};

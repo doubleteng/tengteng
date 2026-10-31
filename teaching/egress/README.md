@@ -99,28 +99,9 @@ Regression cases cover a 60-person room with two 30-person door allocations, mis
 
 ## Guided practice cases
 
-Open **Start here** for three entry points: the Barcelona Pavilion walkthrough, upload a drawing, or draw a new plan. **Examples** opens the full case library. The start screen appears once for new and upgraded installations; existing saved designs stay intact.
+**Start** offers a quick drawing exercise, upload or blank drawing. **Examples** opens three editable tool exercises. Historical precedents remain readable in saved projects, including their guide and PDF attribution, but are no longer offered to new students.
 
-The four-step workflow (Plan → Spaces + doors → Analyze + edit → Report) keeps the next action visible. Calibration precedes image recognition, proposed openings are reviewed before room use, and findings locate editable objects. Basic drawing tools stay visible; floor setup, additional tools and layers expand on demand. Case steps automatically select and frame their objects and open Edit, so students do not have to search for a target or another panel.
-Two architectural precedents lead the chooser, each with five guided steps:
-
-- **Barcelona Pavilion:** Mies van der Rohe + Lilly Reich; editable open-plan hall,
-  onyx screen, annex, pools and podium. Includes TomAlt's unmodified plan underlay,
-  CC BY-SA 3.0 attribution and the Fundació Mies van der Rohe source link.
-- **Villa Savoye:** Le Corbusier + Pierre Jeanneret; independent schematic study
-  based on the CMN visitor guide and Fondation Le Corbusier. Three aligned levels,
-  curved ground enclosure, living floor and outdoor roof garden. The open stair is
-  not marked protected; the ramp remains reference geometry, so no verified upper
-  egress route is invented. Terraces retain slabs, with the sky opening above.
-
-Both carry explicit nominal dimensions, source links, original architects, and a
-hypothetical gallery/visitor use scenario. Sources and assumptions appear in the
-PDF report. They are study interventions, not claims about as-built compliance.
-The original CMN plan is linked at its publisher, not republished as an asset.
-Open passages have no swing check; width capacity is flow-only until the passage
-component is classified. Furniture never partitions a semantic study room.
-
-Three smaller tool exercises are retained in the expandable **Basic tool exercises** section:
+For admissions criteria and the evidence still missing for two U.S. candidates, see [U.S. precedent records](US-PRECEDENTS.md). A prior permit, drawing, award or sustainability certification is not by itself an egress baseline. Exercises are not certified building examples.
 
 - **Rooms, doors + people:** confirm an assembly room's use and area basis, repair
   a narrow door and its swing, then move a shared wall to see both room loads change.

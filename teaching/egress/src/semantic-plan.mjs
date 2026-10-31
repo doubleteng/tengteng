@@ -1,5 +1,6 @@
-import {openingHost,openingSpaces} from './import-quality.mjs?v=import-integrity-1';
-import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=stair-review-20261031';
+import {openingHost,openingSpaces} from './import-quality.mjs?v=wall-rooms-1';
+import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=wall-rooms-1';
+import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=wall-rooms-1';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance'];
 export const semanticColors={room:'#507fa6',corridor:'#e5a42f',lobby:'#b78cde',exterior:'#7da971',courtyard:'#64a795',void:'#c66e71',projection:'#8b9199',furniture:'#99816b',column:'#8c7464',stair:'#9b72bc',window:'#62a9c0',wall:'#254f47',door:'#d97830',entrance:'#d34936'};
@@ -27,7 +28,7 @@ export function excludedSpaces(floor){return (floor.features||[]).filter(f=>['co
 
 // Explicit semantic polygons define rooms. Furniture is NEVER an input to the
 // room graph. Imported openings are candidates until individually confirmed.
-export function materializeInterpretation(result,image,{include=new Set(result.elements.map(e=>e.id)),defaultThickness=.15}={}){
+export function materializeInterpretation(result,image,{include=new Set(result.elements.map(e=>e.id)),defaultThickness=.15,deriveRooms=true}={}){
   if(!image.calibrated)throw Error('Calibrate a known dimension before creating the analysis model.');
   const batch=uid(),out={outline:result.outline.map(q=>imagePoint(image,q)),rooms:[],walls:[],doors:[],stairs:[],features:[],candidates:[],recognition:{batch,summary:result.summary,warnings:[...result.warnings],reviewed:false}};
   const selected=result.elements.filter(e=>include.has(e.id));
@@ -43,6 +44,7 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
   if(out.walls.length>1500)throw Error('This interpretation has more than 1,500 wall segments. Read a smaller floor region before analysis.');
   // The occupied outline limits routing but is not evidence of a physical wall.
   // Only explicit, reviewable wall elements become walls.
+  if(deriveRooms)enableWallRooms(out);
   return out;
 }
 export function confirmOpening(floor,candidate,{exit=false,width=null}={}){
@@ -54,5 +56,5 @@ export function confirmOpening(floor,candidate,{exit=false,width=null}={}){
   let wall=host.wall;
   if(host.gap){wall={id:uid(),...host.gap,openingHost:true,recognition:{...candidate.recognition,reviewed:true,evidence:'Confirmed opening between the original jambs.'}};floor.walls.push(wall);}
   const door={id:uid(),name:candidate.name||'Door',wallId:wall.id,x:host.center.x,y:host.center.y,width:clear,exit,discharge:exit&&floor.elevation===0?'site':'none',recognition:{...candidate.recognition,reviewed:true},sourceConnection:connection.labels};
-  floor.doors.push(door);floor.candidates=(floor.candidates||[]).filter(c=>c.id!==candidate.id);return door;
+  floor.doors.push(door);floor.candidates=(floor.candidates||[]).filter(c=>c.id!==candidate.id);if(floor.roomGeometry==='walls')syncEnclosedRooms(floor);return door;
 }

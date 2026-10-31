@@ -1,5 +1,5 @@
-import {dist,project,segDist,edges,area,centroid,inside,uid} from './geometry.mjs?v=stair-review-20261031';
-import {intersection} from './drafting.mjs?v=stair-review-20261031';
+import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=wall-rooms-1';
+import {intersection} from './drafting.mjs?v=wall-rooms-1';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.
@@ -15,6 +15,7 @@ export function moveWall(floor,id,a,b,original){
   floor.outline=original.outline.map(q=>near(q,.025)?transform(q):{...q});
   for(const before of original.rooms){const current=floor.rooms.find(r=>r.id===before.id);if(!current)continue;const tolerance=Math.max(.025,(old.thickness||.15)/2+.12),attached=new Set();for(let i=0;i<before.points.length;i++){const x=before.points[i],y=before.points[(i+1)%before.points.length];if(near(x,tolerance)&&near(y,tolerance)&&dist(x,y)>.05){attached.add(i);attached.add((i+1)%before.points.length);}}current.points=before.points.map((q,i)=>attached.has(i)?transform(q):{...q});}
   for(const d of floor.doors){const before=original.doors.find(o=>o.id===d.id),w=floor.walls.find(w=>w.id===d.wallId),ow=original.walls.find(w=>w.id===d.wallId);if(!before||!w||!ow)continue;const t=project(before,ow.a,ow.b).t;d.x=w.a.x+(w.b.x-w.a.x)*t;d.y=w.a.y+(w.b.y-w.a.y)*t;}
+  for(const c of floor.candidates||[]){const before=(original.candidates||[]).find(o=>o.id===c.id);if(before)c.points=before.points.map(q=>near(q,Math.max(.025,(old.thickness||.15)/2+.08))?transform(q):{...q});}
 }
 
 // Find enclosed faces of a straight wall-centerline graph. Gaps remain gaps;
@@ -58,10 +59,64 @@ export function roomsFromFaces(faces,previous=[],reservedNames=[]){
   return {...(before||{id:uid(),name:nextName(),function:'business',group:'B',factor:150,basis:'gross'}),points:points.map(q=>({...q})),holes,areaConfirmed:same?!!before.areaConfirmed:false,fromWalls:true};
  });
 }
+
+const roomFields=['id','name','function','group','factor','basis','role','targetArea','clearWidth','recognition','sourceNote'];
+const roomAttributes=r=>Object.fromEntries(roomFields.filter(k=>r[k]!==undefined).map(k=>[k,structuredClone(r[k])]));
+
+// Room polygons are a cache of wall-graph faces. Labels/use assignments are
+// points with metadata, never a second editable source of area geometry.
+export function enableWallRooms(floor){
+ if(floor.roomGeometry!=='walls'){
+  floor.spaceSeeds=(floor.rooms||[]).map(r=>({...roomAttributes(r),point:roomPoint(r)}));
+  floor.roomGeometry='walls';
+ }
+ return syncEnclosedRooms(floor);
+}
+
+export function assignRoomUse(floor,room){
+ if(floor.roomGeometry!=='walls')return;
+ const ids=new Set(room.seedIds||[]);
+ floor.spaceSeeds=(floor.spaceSeeds||[]).filter(s=>!ids.has(s.id)&&s.id!==room.id);
+ floor.spaceSeeds.push({...roomAttributes(room),point:roomPoint(room)});
+ room.seedIds=[room.id];room.useNeedsConfirmation=false;
+}
+
+function syncWallRooms(floor){
+ const previous=floor.rooms||[];
+ floor.spaceSeeds??=[];
+ // Carry edited room functions into the label records before regenerating.
+ for(const r of previous)if(r.seedIds?.length===1){const seed=floor.spaceSeeds.find(s=>s.id===r.seedIds[0]);if(seed){Object.assign(seed,roomAttributes(r));seed.point=roomPoint(r);}}
+ const portals=(floor.candidates||[]).filter(c=>c.points?.length>=2).map(c=>({id:'area-opening-'+c.id,a:c.points[0],b:c.points[1],areaPortal:true}));
+ const result=enclosedRooms([...floor.walls,...portals],{minArea:.05});
+ let cells=roomsFromFaces(result.faces,previous).map(r=>({...r,geometrySource:'walls',fromWalls:true}));
+ // Exterior/courtyard and floor-void polygons classify cells, not partitions.
+ cells=cells.filter(r=>!(floor.features||[]).some(f=>['exterior','courtyard','void'].includes(f.kind)&&r.points.every(q=>inside(q,f.points)||edges(f.points).some(([a,b])=>segDist(q,a,b)<.01))));
+ for(const seed of floor.spaceSeeds){const old=previous.find(r=>r.id===seed.id&&r.geometrySource==='walls'),cell=old&&cells.find(r=>r.id===old.id);if(cell)seed.point=roomPoint(cell);}
+ const assigned=new Set();
+ for(const cell of cells){
+  const seeds=floor.spaceSeeds.filter(s=>insideRoom(s.point,cell));
+  if(seeds.length){
+   for(const s of seeds)assigned.add(s.id);
+   const primary=seeds.find(s=>s.role!=='corridor'&&s.role!=='lobby')||seeds[0];
+   Object.assign(cell,roomAttributes(primary));cell.seedIds=seeds.map(s=>s.id);cell.useNeedsConfirmation=false;
+   if(seeds.length>1){cell.name=[...new Set(seeds.map(s=>s.name))].join(' / ').slice(0,180);cell.useNeedsConfirmation=true;cell.areaConfirmed=false;}
+  }else{cell.seedIds=[];cell.useNeedsConfirmation=true;}
+ }
+ floor.rooms=cells.sort((a,b)=>{
+  const order=r=>r.seedIds?.length?floor.spaceSeeds.findIndex(s=>s.id===r.seedIds[0]):100000;
+  return order(a)-order(b);
+ });
+ floor.pendingSpaces=floor.spaceSeeds.filter(s=>!assigned.has(s.id)).map(s=>({...s,reason:'No closed wall enclosure surrounds this space. Close the missing wall or add the actual opening; area and people are not counted yet.'}));
+ floor.autoRooms=true;
+ if(floor.autoBoundary||!floor.outline.length){floor.autoBoundary=true;floor.enclosures=result.outlines.map(poly=>poly.map(q=>({...q})));floor.outline=floor.enclosures[0]||[];}
+ return result;
+}
 // Rebuild after a topology edit, not after display or occupancy changes.
 export function syncEnclosedRooms(floor){
+ if(floor.roomGeometry==='walls')return syncWallRooms(floor);
+ if(floor.recognition&&!floor.semanticRooms)return enableWallRooms(floor);
  const result=enclosedRooms(floor.walls,{minArea:.05});
- if((floor.recognition||floor.semanticRooms)&&!floor.autoRooms){
+ if(floor.semanticRooms&&!floor.autoRooms){
   const manual=floor.walls.filter(w=>!w.recognition&&!w.semanticBase);
   const faces=result.faces.filter(poly=>area(poly)<area(floor.outline)-.001&&manual.some(w=>edges(poly).some(([a,b])=>segDist(w.a,a,b)<.002&&segDist(w.b,a,b)<.002)));
   const additions=roomsFromFaces(faces,floor.rooms.filter(r=>r.autoClosed),floor.rooms.map(r=>r.name)).map(r=>({...r,autoClosed:true}));

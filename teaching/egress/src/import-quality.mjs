@@ -1,4 +1,4 @@
-import {dist,project,segDist,edges,inside,crosses,lerp} from './geometry.mjs?v=stair-review-20261031';
+import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint} from './geometry.mjs?v=wall-rooms-1';
 
 // Evidence is a geometric check against source pixels, not a wall classifier.
 // Light pencil and gray CAD strokes use local contrast. Uniform gray fills do not.
@@ -129,6 +129,17 @@ export function openingSpaces(floor,points){
 export function auditImport(floor,{tolerance=.025,gapLimit=.25}={}){
  const issues=[],connections=[],walls=floor.walls||[],rooms=floor.rooms||[],candidates=floor.candidates||[];
  const issue=(code,title,detail,objectId,point)=>issues.push({code,title,detail,objectId,point});
+ if(!floor.outline||floor.outline.length<3)issue('enclosure','Indoor boundary is missing','Trace the occupied indoor extent of this floor. Keep the site and other-floor projections outside this boundary.','__outline',rooms[0]?.points[0]||{x:0,y:0});
+ for(let i=0;i<rooms.length;i++){
+  const r=rooms[i],boundary=edges(floor.outline||[]),outside=r.points.find(q=>boundary.length&&!inside(q,floor.outline)&&boundary.every(([a,b])=>segDist(q,a,b)>.025));
+  if(outside)issue('room-outside',r.name+': extends outside the indoor boundary','Check whether this area is indoors, a terrace, a courtyard or another floor. Correct its type or the indoor boundary.',r.id,outside);
+  const strict=(q,poly)=>inside(q,poly)&&edges(poly).every(([a,b])=>segDist(q,a,b)>.025);
+  for(let j=i+1;j<rooms.length;j++){
+   const other=rooms[j],samples=poly=>[...poly,roomPoint({points:poly}),...edges(poly).map(([a,b])=>lerp(a,b,.5))];
+   const overlap=samples(r.points).find(q=>strict(q,other.points)&&inside(q,r.points))||samples(other.points).find(q=>strict(q,r.points)&&inside(q,other.points));
+   if(overlap)issue('room-overlap',r.name+' overlaps '+other.name,'These indoor areas can double-count people and confuse circulation. Adjust their shared boundary or remove the duplicate space.',r.id,overlap);
+  }
+ }
  for(const w of walls){
   const evidence=w.recognition?.sourceCheck;
   if(evidence&&!w.recognition?.reviewed&&(evidence.coverage<.55||evidence.missingPixels>30))issue('source-wall','Wall is not supported along its full length','Compare the marked wall with the original. Correct it, remove it, or confirm the visible wall.',w.id,lerp(w.a,w.b,.5));

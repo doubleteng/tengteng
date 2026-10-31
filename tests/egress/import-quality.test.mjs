@@ -62,3 +62,10 @@ test('Only source-supported subpixel junction gaps join; visible door gaps remai
  assert.equal(joinSourceJunctions(r,image()).joined,0);
  r.elements.push({id:'opening',kind:'door',points:[[107/220*1000,500],[113/220*1000,500]]});assert.equal(joinSourceJunctions(r,im).joined,0);
 });
+test('Room-first checks distinguish indoor extent, adjacent rooms and overlapping spaces',()=>{
+ const f={outline:rect(0,0,10,10),rooms:[{id:'a',name:'A',role:'room',points:rect(0,0,5,10)},{id:'b',name:'B',role:'room',points:rect(5,0,5,10)}],walls:[],doors:[],candidates:[]};
+ assert.equal(auditImport(f).issues.some(i=>i.code==='room-overlap'),false);
+ f.rooms[1].points=rect(4,0,6,10);assert.ok(auditImport(f).issues.some(i=>i.code==='room-overlap'));
+ f.rooms[1].points=rect(9,0,6,10);assert.ok(auditImport(f).issues.some(i=>i.code==='room-outside'));
+ f.outline=[];assert.ok(auditImport(f).issues.some(i=>i.code==='enclosure'));
+});

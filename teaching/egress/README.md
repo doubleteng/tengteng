@@ -60,7 +60,7 @@ The app is GPL-3.0; see LICENSE.txt and THIRD_PARTY.md. This license applies to 
 
 `AI · recognize rooms + circulation` sends the selected plan to the fixed Google Gemini endpoint through the shared instructor-funded service. It returns typed room, corridor, lobby, outdoor, courtyard, void, projected context, furniture, stair, wall and opening proposals. The user reviews colored geometry over the original image and can relabel, exclude and reshape it. Calibration is required before applying an analysis model.
 
-Furniture is stored in `floor.features`; it never creates rooms, partition walls or occupant area. Optional `blocksMovement` affects route obstacles only. Indoor room polygons are supplied by semantic interpretation, not by furniture outlines. Openings remain in `floor.candidates` until a user confirms jamb position, clear width and exit status. AI stairs default to unprotected and unlinked. Other-floor gray geometry stays reference; courtyards/voids are removed from indoor area and routes.
+Furniture is stored in `floor.features`; it never creates rooms, partition walls or occupant area. Optional `blocksMovement` affects route obstacles only. Semantic room regions supply names and use labels. Closed wall faces, with door jamb portals, supply the editable model’s area geometry. Openings remain in `floor.candidates` until a user confirms jamb position, clear width and exit status. AI stairs default to unprotected and unlinked. Other-floor gray geometry stays reference; courtyards/voids are removed from indoor area and routes.
 
 **Shared instructor service:** students need no Google account or personal key. The instructor's Gemini key is in Apps Script Script Properties, never in the frontend, repository, reports or project files. The public service is fixed to plan interpretation and has no Drive/Sheets operations. `scripts/egress/README.md` documents deployment and configurable request limits. The current instructor model is `gemini-4-argon`.
 
@@ -123,7 +123,7 @@ design** restores it, including after a page reload. Current practice geometry a
 step are saved by the existing local autosave, and downloadable project files also
 retain the guide. A new visitor sees the case chooser; existing projects are kept.
 
-Validation: `node --test tests/egress/*.test.mjs` from the repository root (110 tests).
+Validation: `node --test tests/egress/*.test.mjs` from the repository root (119 tests).
 The example regression tests verify room connectivity, repairable door/court
 findings, shared-wall area updates, real crossing removal, stair continuity and
 upper-floor slab subtraction. Browser QA also covers guided selection/property
@@ -167,3 +167,34 @@ These checks are not a measured universal recognition-accuracy guarantee. Source
 strokes can still represent furniture/annotation; faint, occluded or ambiguous
 architecture may need local recognition or a correction. The original two uploaded
 plan sheets are used for private manual QA, not published as repository assets.
+
+
+The default recognition view now prioritizes indoor/outdoor extent, room layout and
+circulation connections. Furniture, wall details, windows and other-floor projections
+start hidden; source extraction and wall diagnostics live in Linework tools. Room
+names appear on the colored space diagram. Missing indoor boundaries, room portions
+outside that boundary and overlapping room areas receive located findings. Openings
+and stairs remain necessary connections for subsequent egress analysis.
+
+
+### One source for room area
+
+There is no room-polygon drawing or dragging tool. For new and imported designs,
+rooms are generated from closed wall faces and door jamb portals. Recognition
+regions become name/use seeds, not independent editable area polygons. Moving a
+shared wall changes both neighboring rooms, areas and occupant loads; removing a
+partition merges their area once. A merged space with conflicting labels requests
+a use assignment. An open enclosure retains its label as a located input finding,
+without retaining the old area or occupants. Door proposals can close area topology
+while remaining blocked for egress until confirmed.
+
+Saved ordinary designs migrate to wall-derived rooms on open. Authored precedent
+models retain their documented open-plan use allocations; their wall-bound edges
+move with the connected wall, and those areas cannot be independently dragged.
+Courtyards and multi-height openings remain separate floor-area exclusions.
+
+Regression coverage includes stale recognition regions, shared-wall area/load
+updates, door following, room merges, use reassignment, broken enclosures, jamb
+portals, seed metadata and floor alignment. Browser QA verified a 50/50 m² pair
+changing to 69.92/30.08 m² with updated loads, removing the partition to make one
+100 m² enclosure, and restoring both rooms with Undo.

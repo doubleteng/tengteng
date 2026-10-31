@@ -1,4 +1,4 @@
-import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=stair-review-20261031';
+import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=wall-rooms-1';
 
 export function zoomAt(camera, screen, viewport, factor) {
   const x=(screen.x-viewport.x-viewport.w/2)/camera.s;
@@ -88,6 +88,7 @@ export function alignmentTransform(source,target) {
 }
 
 export function alignFloor(floor,transform) {
+  for(const key of ['spaceSeeds','pendingSpaces'])for(const s of floor[key]||[])s.point=transform.point(s.point);
   const seen=new WeakSet(),move=q=>{if(seen.has(q))return;seen.add(q);Object.assign(q,transform.point(q));};
   floor.outline.forEach(move);for(const poly of floor.enclosures||[])poly.forEach(move);
   for(const key of ['walls','doors','rooms','stairs','obstacles','traces','cad','features','candidates'])for(const o of floor[key]||[]){

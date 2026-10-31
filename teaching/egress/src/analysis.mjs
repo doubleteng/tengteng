@@ -1,11 +1,11 @@
-import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=import-integrity-1';
-import {stairCirculation} from './circulation.mjs?v=import-integrity-1';
-import {roomLoad,analyzeCapacity} from './capacity.mjs?v=stair-review-20261031';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=import-integrity-1';
-import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=stair-review-20261031';
-import {stairAligned} from './drafting.mjs?v=stair-review-20261031';
-import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=stair-review-20261031';
-import {functions} from './model.mjs?v=stair-review-20261031';
+import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=wall-rooms-1';
+import {stairCirculation} from './circulation.mjs?v=wall-rooms-1';
+import {roomLoad,analyzeCapacity} from './capacity.mjs?v=wall-rooms-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=wall-rooms-1';
+import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=wall-rooms-1';
+import {stairAligned} from './drafting.mjs?v=wall-rooms-1';
+import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=wall-rooms-1';
+import {functions} from './model.mjs?v=wall-rooms-1';
 export const sources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export function limits(group,sprinkler,occupants=0){return{travel:(sprinkler?(group==='B'?300:250):200)*FT,common:(group==='B'&&(sprinkler||occupants<=30)?100:75)*FT,dead:(sprinkler&&['B','E','M'].includes(group)?50:20)*FT};}
 export const requiredExits=n=>n>1000?4:n>500?3:n>49?2:1;
@@ -13,6 +13,8 @@ export function analyze(p,floorIndex=0){const f=p.floors[floorIndex],checks=[],r
 if(p.precedent)issue('review','Precedent study assumptions',p.precedent.note+' '+p.precedent.scale,'Study model');
 if(f.recognition)issue('review','Recognized spaces need geometry and use review','Rooms and corridors are semantic polygons; furniture does not divide them. Confirm wall positions, floor membership, dimensions and occupancy functions. Door / entrance candidates do not create passable connections.','Model input');
 if(f.recognition||f.imports?.length)for(const finding of auditImport(f).issues)issue('review',finding.title,finding.detail,'Import geometry',finding.point);
+for(const space of f.pendingSpaces||[])issue('review',space.name+': wall enclosure is open',space.reason,'Model input',space.point);
+for(const room of f.rooms)if(room.useNeedsConfirmation)issue('review',room.name+': confirm use of this connected space','Area comes from one closed wall enclosure. Separate labels do not create partitions or separate room areas. Choose the use and load factor for this space.','Model input',roomPoint(room));
 if(f.candidates?.length)issue('review',f.candidates.length+' opening candidates await confirmation','Select each orange ? marker to confirm its wall location, measured clear width and whether it is an exit. Unconfirmed candidates are excluded from egress connections.','Model input');
 for(const [scope,label]of [[f,f.name],[p.site,'Site']])if(scope.image&&!scope.image.calibrated)issue('review',label+': reference scale not calibrated','Use two-point calibration before tracing or relying on distances.','Model input');
 for(const r of f.rooms)if(r.targetArea>0){const a=roomArea(p,floorIndex,r);issue(a<r.targetArea?'review':'pass',`${r.name}: program area target`,`${(a/SF).toFixed(0)} sf available / ${(r.targetArea/SF).toFixed(0)} sf requested by the design brief. This is a user-entered program target, not a code minimum.`, 'Design brief',r.points[0]);}
@@ -59,7 +61,7 @@ issue('review','Plan conditions to review','Confirm measured clearances, actual 
 const circulation=stairCirculation(p,floorIndex,roomResults,routes);for(const n of circulation.notices)issue('review',n.title,n.detail,'Model input',n.point);for(const r of roomResults.filter(r=>r.circulation&&r.circulation.state!=='connected')){const c=r.circulation;issue(c.state==='blocked'?'fail':'review',r.name+': '+(c.state==='partial'?'partly connected to stair':c.state==='blocked'?'no geometric route to stair':'no walkable circulation samples'),r.routeReason,'Model input',c.point);}
 const capacity=analyzeCapacity(p,floorIndex,g,field,roomResults);checks.push(...capacity.checks);
 return{capacity,checks,rooms:roomResults,routes,circulationRoutes:circulation.routes,circulationNotices:circulation.notices,outdoor,total,exits:exits.length,gridStep:g?.step,conflicts,grid:g,field,siteGrid,siteField,created:new Date().toISOString()};}
-import {splitWalls} from './geometry.mjs?v=stair-review-20261031';const geometryHelpers={splitWalls};
+import {splitWalls} from './geometry.mjs?v=wall-rooms-1';const geometryHelpers={splitWalls};
 export function probe(result,p,site=false){const g=site?result.siteGrid:result.grid,f=site?result.siteField:result.field;if(!g||!f)return null;const i=nearest(g,p,g.step*2);return i>=0&&Number.isFinite(f.d[i])?{points:[p,...route(g,f,i)],distance:dist(p,g.point(i))+f.d[i]}:null;}
 
 export function analyzeAll(p){

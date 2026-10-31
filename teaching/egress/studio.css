@@ -281,3 +281,5 @@ dialog::backdrop{background:#342e2547;backdrop-filter:none}
 .recognition-inspector #recognition-editor small{font-size:10px;color:#797b70}
 .recognition-inspector .candidate-actions{margin-top:12px;gap:6px}
 @media(max-width:850px){.recognition-dialog .recognition-layout{grid-template-columns:1fr}.recognition-footer{flex-wrap:wrap}.recognition-inspector{max-height:35vh;overflow:auto}}
+
+.source-tools{position:relative;font-size:11px}.source-tools>div{position:absolute;top:24px;left:0;z-index:3;width:220px;padding:12px;display:flex;gap:8px;flex-wrap:wrap;background:#faf8ef;border:1px solid #d5d9cb;box-shadow:0 8px 22px #203c2c20}.source-tools summary{cursor:pointer;padding:7px}.space-key{display:flex;flex-wrap:wrap;gap:9px;font-size:11px}.space-key span:first-child{color:#507fa6}.space-key span:nth-child(2){color:#b87c1e}.space-key span:last-child{color:#5b9258}

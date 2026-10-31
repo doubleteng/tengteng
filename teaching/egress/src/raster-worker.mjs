@@ -1,2 +1,2 @@
-import {rasterLinework} from './pdf-plan.mjs?v=examples-20261031';
+import {rasterLinework} from './pdf-plan.mjs?v=workflow-20261031';
 self.onmessage=e=>{try{self.postMessage({ok:true,linework:rasterLinework(e.data)});}catch(error){self.postMessage({ok:false,error:error.message});}};

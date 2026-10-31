@@ -99,7 +99,9 @@ Regression cases cover a 60-person room with two 30-person door allocations, mis
 
 ## Guided practice cases
 
-Open **Examples** in the top bar (also available under Help and the left panel).
+Open **Start here** for three entry points: the Barcelona Pavilion walkthrough, upload a drawing, or draw a new plan. **Examples** opens the full case library. The start screen appears once for new and upgraded installations; existing saved designs stay intact.
+
+The four-step workflow (Plan → Spaces + doors → Analyze + edit → Report) keeps the next action visible. Calibration precedes image recognition, proposed openings are reviewed before room use, and findings locate editable objects. Basic drawing tools stay visible; floor setup, additional tools and layers expand on demand. Case steps automatically select and frame their objects and open Edit, so students do not have to search for a target or another panel.
 Two architectural precedents lead the chooser, each with five guided steps:
 
 - **Barcelona Pavilion:** Mies van der Rohe + Lilly Reich; editable open-plan hall,
@@ -140,7 +142,7 @@ design** restores it, including after a page reload. Current practice geometry a
 step are saved by the existing local autosave, and downloadable project files also
 retain the guide. A new visitor sees the case chooser; existing projects are kept.
 
-Validation: `node --test tests/egress/*.test.mjs` from the repository root (89 tests).
+Validation: `node --test tests/egress/*.test.mjs` from the repository root (92 tests).
 The example regression tests verify room connectivity, repairable door/court
 findings, shared-wall area updates, real crossing removal, stair continuity and
 upper-floor slab subtraction. Browser QA also covers guided selection/property

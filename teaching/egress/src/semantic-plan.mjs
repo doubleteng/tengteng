@@ -1,4 +1,4 @@
-import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=examples-20261031';
+import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=workflow-20261031';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance'];
 export const semanticColors={room:'#507fa6',corridor:'#e5a42f',lobby:'#b78cde',exterior:'#7da971',courtyard:'#64a795',void:'#c66e71',projection:'#8b9199',furniture:'#99816b',column:'#8c7464',stair:'#9b72bc',window:'#62a9c0',wall:'#254f47',door:'#d97830',entrance:'#d34936'};

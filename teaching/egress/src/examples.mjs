@@ -1,9 +1,9 @@
-import {precedentExamples} from './precedents.mjs?v=examples-20261031';
-import {fresh,functions} from './model.mjs?v=examples-20261031';
-import {uid,edges,centroid,area} from './geometry.mjs?v=examples-20261031';
-import {syncEnclosedRooms} from './editable-plan.mjs?v=examples-20261031';
-import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=examples-20261031';
-import {roomArea} from './openings.mjs?v=examples-20261031';
+import {precedentExamples} from './precedents.mjs?v=workflow-20261031';
+import {fresh,functions} from './model.mjs?v=workflow-20261031';
+import {uid,edges,centroid,area} from './geometry.mjs?v=workflow-20261031';
+import {syncEnclosedRooms} from './editable-plan.mjs?v=workflow-20261031';
+import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=workflow-20261031';
+import {roomArea} from './openings.mjs?v=workflow-20261031';
 
 const rect=(x,y,w,h)=>[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}];
 function wall(f,id,a,b){const w={id,a:{x:a[0],y:a[1]},b:{x:b[0],y:b[1]},thickness:.15};f.walls.push(w);return w;}

@@ -1,6 +1,6 @@
-import {excludedSpaces} from './semantic-plan.mjs?v=examples-20261031';
-import {area,edges,inside} from './geometry.mjs?v=examples-20261031';
-import {intersection} from './drafting.mjs?v=examples-20261031';
+import {excludedSpaces} from './semantic-plan.mjs?v=workflow-20261031';
+import {area,edges,inside} from './geometry.mjs?v=workflow-20261031';
+import {intersection} from './drafting.mjs?v=workflow-20261031';
 
 export function floorOpenings(project,index,{includeBase=false}={}){
   const elevation=project.floors[index].elevation;

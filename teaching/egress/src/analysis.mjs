@@ -1,9 +1,9 @@
-import {roomLoad,analyzeCapacity} from './capacity.mjs?v=examples-20261031';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=examples-20261031';
-import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=examples-20261031';
-import {stairAligned} from './drafting.mjs?v=examples-20261031';
-import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=examples-20261031';
-import {functions} from './model.mjs?v=examples-20261031';
+import {roomLoad,analyzeCapacity} from './capacity.mjs?v=workflow-20261031';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=workflow-20261031';
+import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=workflow-20261031';
+import {stairAligned} from './drafting.mjs?v=workflow-20261031';
+import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=workflow-20261031';
+import {functions} from './model.mjs?v=workflow-20261031';
 export const sources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export function limits(group,sprinkler,occupants=0){return{travel:(sprinkler?(group==='B'?300:250):200)*FT,common:(group==='B'&&(sprinkler||occupants<=30)?100:75)*FT,dead:(sprinkler&&['B','E','M'].includes(group)?50:20)*FT};}
 export const requiredExits=n=>n>1000?4:n>500?3:n>49?2:1;
@@ -50,7 +50,7 @@ for(const r of p.site.routes){if(r.kind==='accessible'){const bad=r.width<36*IN;
 issue('review','Plan conditions to review','Confirm measured clearances, actual door operation, intervening-space conditions and route endpoints. Drawing geometry alone does not determine these conditions.','Scope');
 const capacity=analyzeCapacity(p,floorIndex,g,field,roomResults);checks.push(...capacity.checks);
 return{capacity,checks,rooms:roomResults,routes,outdoor,total,exits:exits.length,gridStep:g?.step,conflicts,grid:g,field,siteGrid,siteField,created:new Date().toISOString()};}
-import {splitWalls} from './geometry.mjs?v=examples-20261031';const geometryHelpers={splitWalls};
+import {splitWalls} from './geometry.mjs?v=workflow-20261031';const geometryHelpers={splitWalls};
 export function probe(result,p,site=false){const g=site?result.siteGrid:result.grid,f=site?result.siteField:result.field;if(!g||!f)return null;const i=nearest(g,p,g.step*2);return i>=0&&Number.isFinite(f.d[i])?{points:[p,...route(g,f,i)],distance:dist(p,g.point(i))+f.d[i]}:null;}
 
 export function analyzeAll(p){

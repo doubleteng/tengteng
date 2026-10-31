@@ -95,3 +95,53 @@ Door Properties now record swing relative to egress travel. The 50-person trigge
 Pedestrian and accessible site paths can be classified as approach, exit discharge or egress court. For discharge/court paths, select the actual ground-floor exits served and enter the narrowest clear width. Assigned exit loads are summed once; width is checked against a capacity lower bound and known upstream requirements (1005.3.2 / 1028.3). The 44-inch egress-court minimum applies only to explicitly classified courts in the supported A/B/E/M subset (1029.2), not to arbitrary site lines. Multiple-floor discharge, merges, gates and continuous clear width remain review items when not established. A walking-route width/slope check does not establish accessible means of egress.
 
 Regression cases cover a 60-person room with two 30-person door allocations, missing swing, ordinary paths versus egress courts, combined outdoor loads, missing exit assignments, sprinkler/voice factors, multi-floor limitations, linked common-path thresholds, site-check deduplication and report escaping.
+
+
+## Guided practice cases
+
+Open **Examples** in the top bar (also available under Help and the left panel).
+Two architectural precedents lead the chooser, each with five guided steps:
+
+- **Barcelona Pavilion:** Mies van der Rohe + Lilly Reich; editable open-plan hall,
+  onyx screen, annex, pools and podium. Includes TomAlt's unmodified plan underlay,
+  CC BY-SA 3.0 attribution and the Fundació Mies van der Rohe source link.
+- **Villa Savoye:** Le Corbusier + Pierre Jeanneret; independent schematic study
+  based on the CMN visitor guide and Fondation Le Corbusier. Three aligned levels,
+  curved ground enclosure, living floor and outdoor roof garden. The open stair is
+  not marked protected; the ramp remains reference geometry, so no verified upper
+  egress route is invented. Terraces retain slabs, with the sky opening above.
+
+Both carry explicit nominal dimensions, source links, original architects, and a
+hypothetical gallery/visitor use scenario. Sources and assumptions appear in the
+PDF report. They are study interventions, not claims about as-built compliance.
+The original CMN plan is linked at its publisher, not republished as an asset.
+Open passages have no swing check; width capacity is flow-only until the passage
+component is classified. Furniture never partitions a semantic study room.
+
+Three smaller tool exercises are retained in the expandable **Basic tool exercises** section:
+
+- **Rooms, doors + people:** confirm an assembly room's use and area basis, repair
+  a narrow door and its swing, then move a shared wall to see both room loads change.
+- **From exit to public way:** widen a ground-floor egress court, investigate a
+  pedestrian/vehicle crossing and move an exit shared by the building/site view.
+- **Floors, stairs + a lightwell:** compare a setback using shared XY coordinates,
+  repair a stair link and extend a double-height opening through the third floor.
+
+Guide actions locate the actual model objects and open their existing Properties.
+Practice goals read the current analysis; they are not a compliance score and do
+not become complete while analysis is pending. Removed objects cannot satisfy a
+goal. All cases remain fully editable, exportable and undoable.
+
+Before the first case replaces a non-practice project, the app stores that project
+under the separate IndexedDB `before-examples` key. It waits for the transaction
+before replacing the canvas; a storage failure leaves the current project intact.
+Switching or restarting cases does not overwrite that checkpoint. **Return to my
+design** restores it, including after a page reload. Current practice geometry and
+step are saved by the existing local autosave, and downloadable project files also
+retain the guide. A new visitor sees the case chooser; existing projects are kept.
+
+Validation: `node --test tests/egress/*.test.mjs` from the repository root (89 tests).
+The example regression tests verify room connectivity, repairable door/court
+findings, shared-wall area updates, real crossing removal, stair continuity and
+upper-floor slab subtraction. Browser QA also covers guided selection/property
+edits, moving a wall, case switching, reload and restoration of the original plan.

@@ -1,5 +1,5 @@
-import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=plan-code-20261031';
-import {roomLoad,capacityDimension} from './capacity.mjs?v=plan-code-20261031';
+import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=examples-20261031';
+import {roomLoad,capacityDimension} from './capacity.mjs?v=examples-20261031';
 
 export const planSources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export const planCategories=[
@@ -36,6 +36,7 @@ export function doorRooms(f,door){
  return f.rooms.filter(r=>r.role!=='corridor'&&edges(r.points).some(([a,b])=>segDist(door,a,b)<=tolerance));
 }
 export function doorSwingCheck(p,fi,d,analysis){
+ if(d.openingType==='passage')return {id:'swing:'+d.id,category:'doors',scope:'indoor',floor:fi,objectId:d.id,point:d,status:'review',title:(d.name||'Opening')+': open passage',ref:'Model input',detail:'No door leaf is modeled. Confirm this is an open passage; door swing is not evaluated. Identify the applicable circulation component and its minimum clear width separately.'};
  const f=p.floors[fi],rooms=doorRooms(f,d),loads=rooms.map(r=>roomLoad(p,fi,r));
  const row=analysis?.floors[fi]?.capacity?.rows.find(r=>r.id===d.id);
  // A room's total triggers the swing rule even when its flow splits among doors.

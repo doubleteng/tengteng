@@ -1,4 +1,4 @@
-import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=plan-code-20261031';
+import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=examples-20261031';
 
 export function zoomAt(camera, screen, viewport, factor) {
   const x=(screen.x-viewport.x-viewport.w/2)/camera.s;

@@ -1,4 +1,4 @@
-import {dist,lerp} from './geometry.mjs?v=plan-code-20261031';
+import {dist,lerp} from './geometry.mjs?v=examples-20261031';
 
 // Conservative proposals only: two straight, nearly parallel, substantially
 // overlapping faces on the same layer, with no competing mate. The UI requires

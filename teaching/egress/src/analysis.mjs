@@ -1,13 +1,14 @@
-import {roomLoad,analyzeCapacity} from './capacity.mjs?v=plan-code-20261031';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=plan-code-20261031';
-import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=plan-code-20261031';
-import {stairAligned} from './drafting.mjs?v=plan-code-20261031';
-import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=plan-code-20261031';
-import {functions} from './model.mjs?v=plan-code-20261031';
+import {roomLoad,analyzeCapacity} from './capacity.mjs?v=examples-20261031';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=examples-20261031';
+import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=examples-20261031';
+import {stairAligned} from './drafting.mjs?v=examples-20261031';
+import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=examples-20261031';
+import {functions} from './model.mjs?v=examples-20261031';
 export const sources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export function limits(group,sprinkler,occupants=0){return{travel:(sprinkler?(group==='B'?300:250):200)*FT,common:(group==='B'&&(sprinkler||occupants<=30)?100:75)*FT,dead:(sprinkler&&['B','E','M'].includes(group)?50:20)*FT};}
 export const requiredExits=n=>n>1000?4:n>500?3:n>49?2:1;
 export function analyze(p,floorIndex=0){const f=p.floors[floorIndex],checks=[],roomResults=f.rooms.map(r=>({...roomLoad(p,floorIndex,r),max:-1,unreachable:0,samples:0,routeState:'unresolved',routeReason:f.outline.length<3?'Define the floor boundary.':'Identify an exit and check its wall connection.',routePoint:roomPoint(r)})),routes=[],outdoor=[],issue=(status,title,detail,ref,point,category='building')=>checks.push({status,title,detail,ref,point,category});const fmt=x=>p.units==='ft'?`${(x/FT).toFixed(1)} ft`:`${x.toFixed(2)} m`;const voids=floorOpenings(p,floorIndex),regions=floorRegions(f);const total=roomResults.reduce((n,r)=>n+r.occupants,0);const exits=[...f.doors.filter(d=>d.exit),...(f.stairs||[]).filter(s=>s.protected&&f.elevation>0).map(s=>({...s,...s.points[0],exit:true,discharge:'stair',stair:true}))].filter(d=>!inOpening(p,floorIndex,d));let g,field,siteGrid,siteField;
+if(p.precedent)issue('review','Precedent study assumptions',p.precedent.note+' '+p.precedent.scale,'Study model');
 if(f.recognition)issue('review','Recognized spaces need geometry and use review','Rooms and corridors are semantic polygons; furniture does not divide them. Confirm wall positions, floor membership, dimensions and occupancy functions. Door / entrance candidates do not create passable connections.','Model input');
 if(f.candidates?.length)issue('review',f.candidates.length+' opening candidates await confirmation','Select each orange ? marker to confirm its wall location, measured clear width and whether it is an exit. Unconfirmed candidates are excluded from egress connections.','Model input');
 for(const [scope,label]of [[f,f.name],[p.site,'Site']])if(scope.image&&!scope.image.calibrated)issue('review',label+': reference scale not calibrated','Use two-point calibration before tracing or relying on distances.','Model input');
@@ -35,7 +36,7 @@ const commonExceeds=f.traces.some(t=>t.kind==='common'&&t.roomId===r.id&&length(
 const minimum=total>1000?4:total>500?3:2;issue(exits.length>=minimum?'pass':'review',`${exits.length} floor exit(s) / ${minimum} baseline`,`Floor load ${total}. A single-exit floor needs its own 1006.3 exception review; room allowances do not establish floor compliance.`,'IBC 1006.3',exits[0]);
 if(exits.some(d=>d.stair))issue('review','Protected stair assumptions','Travel distance stops at stair entrances marked as protected exits. Confirm the enclosure, opening protection and continuity.','IBC 1023');
 if(exits.length>=2){let diagonal=0;for(const a of regions.flat())for(const b of regions.flat())diagonal=Math.max(diagonal,dist(a,b));let pair=0;for(const a of exits)for(const b of exits)pair=Math.max(pair,dist(a,b));const required=diagonal/(p.settings.sprinkler?3:2);issue(pair>=required?'pass':'review','Exit separation',`${fmt(pair)} between the most remote exit center points; ${fmt(required)} required for the selected floor outline. Door-edge measurement and protected-corridor exceptions require review when this conservative center-point check is short.`,'IBC 1007.1.1',exits[0]);}
-for(const d of f.doors)issue(d.width<32*IN?'fail':'pass',`${d.name||'Door'}: general minimum clear width`,`${fmt(d.width)} clear opening; general minimum 32 in. Verify swing, hardware and encroachment separately.`,'IBC 1010.1.1',d);
+for(const d of f.doors.filter(d=>d.openingType!=='passage'))issue(d.width<32*IN?'fail':'pass',`${d.name||'Door'}: general minimum clear width`,`${fmt(d.width)} clear opening; general minimum 32 in. Verify swing, hardware and encroachment separately.`,'IBC 1010.1.1',d);
 const horizontalFactor=p.settings.sprinkler&&p.settings.voice ? .15 : .2,stairFactor=p.settings.sprinkler&&p.settings.voice ? .2 : .3;
 const availableLoad=exits.reduce((n,d)=>n+Math.floor(d.width/((d.stair?stairFactor:horizontalFactor)*IN)),0);issue(availableLoad<total?'fail':'review','Total floor exit capacity',`${availableLoad} occupants of width-based capacity / ${total} design occupants. Stair and horizontal components use their own factors; allocation, independence and component minima require review.`,'IBC 1005.3 / 1005.5',exits[0]);
 if(exits.length>=2){const remaining=Math.min(...exits.map(lost=>exits.filter(e=>e!==lost).reduce((n,d)=>n+Math.floor(d.width/((d.stair?stairFactor:horizontalFactor)*IN)),0)));issue(remaining<total*.5?'fail':'review','Exit capacity after losing one exit',`${remaining} occupants of remaining width-based capacity; at least ${Math.ceil(total*.5)} needed for the 50% distribution check. Route independence is not established by this aggregate.`,'IBC 1005.5',exits[0]);}
@@ -49,7 +50,7 @@ for(const r of p.site.routes){if(r.kind==='accessible'){const bad=r.width<36*IN;
 issue('review','Plan conditions to review','Confirm measured clearances, actual door operation, intervening-space conditions and route endpoints. Drawing geometry alone does not determine these conditions.','Scope');
 const capacity=analyzeCapacity(p,floorIndex,g,field,roomResults);checks.push(...capacity.checks);
 return{capacity,checks,rooms:roomResults,routes,outdoor,total,exits:exits.length,gridStep:g?.step,conflicts,grid:g,field,siteGrid,siteField,created:new Date().toISOString()};}
-import {splitWalls} from './geometry.mjs?v=plan-code-20261031';const geometryHelpers={splitWalls};
+import {splitWalls} from './geometry.mjs?v=examples-20261031';const geometryHelpers={splitWalls};
 export function probe(result,p,site=false){const g=site?result.siteGrid:result.grid,f=site?result.siteField:result.field;if(!g||!f)return null;const i=nearest(g,p,g.step*2);return i>=0&&Number.isFinite(f.d[i])?{points:[p,...route(g,f,i)],distance:dist(p,g.point(i))+f.d[i]}:null;}
 
 export function analyzeAll(p){

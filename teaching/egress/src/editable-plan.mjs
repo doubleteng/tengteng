@@ -1,5 +1,5 @@
-import {dist,project,segDist,edges,area,centroid,inside,uid} from './geometry.mjs?v=plan-code-20261031';
-import {intersection} from './drafting.mjs?v=plan-code-20261031';
+import {dist,project,segDist,edges,area,centroid,inside,uid} from './geometry.mjs?v=examples-20261031';
+import {intersection} from './drafting.mjs?v=examples-20261031';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.
@@ -61,8 +61,8 @@ export function roomsFromFaces(faces,previous=[],reservedNames=[]){
 // Rebuild after a topology edit, not after display or occupancy changes.
 export function syncEnclosedRooms(floor){
  const result=enclosedRooms(floor.walls,{minArea:.05});
- if(floor.recognition&&!floor.autoRooms){
-  const manual=floor.walls.filter(w=>!w.recognition);
+ if((floor.recognition||floor.semanticRooms)&&!floor.autoRooms){
+  const manual=floor.walls.filter(w=>!w.recognition&&!w.semanticBase);
   const faces=result.faces.filter(poly=>area(poly)<area(floor.outline)-.001&&manual.some(w=>edges(poly).some(([a,b])=>segDist(w.a,a,b)<.002&&segDist(w.b,a,b)<.002)));
   const additions=roomsFromFaces(faces,floor.rooms.filter(r=>r.autoClosed),floor.rooms.map(r=>r.name)).map(r=>({...r,autoClosed:true}));
   const retained=floor.rooms.filter(r=>!r.autoClosed);for(const r of retained)r.autoHoles=additions.map(o=>o.points);

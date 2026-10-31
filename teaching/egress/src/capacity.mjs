@@ -1,7 +1,7 @@
-import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=plan-code-20261031';
-import {roomArea,floorOpenings} from './openings.mjs?v=plan-code-20261031';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=plan-code-20261031';
-import {functions} from './model.mjs?v=plan-code-20261031';
+import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=examples-20261031';
+import {roomArea,floorOpenings} from './openings.mjs?v=examples-20261031';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=examples-20261031';
+import {functions} from './model.mjs?v=examples-20261031';
 export function roomLoad(p,fi,r){
  const a=roomArea(p,fi,r),factor=Number(r.factor)||functions[r.function]?.factor||150,circulation=r.role==='corridor';
  return{id:r.id,name:r.name,role:r.role||'room',area:a,factor,basis:r.basis||functions[r.function]?.basis||'gross',function:r.function,functionLabel:circulation?'Circulation (no additional occupants)':functions[r.function]?.name||'User-defined use',occupants:circulation?0:Math.ceil(a/SF/factor),areaConfirmed:!!r.areaConfirmed};
@@ -12,7 +12,7 @@ export function capacityDimension(x,units='m',up=false){
 }
 export function requiredComponentWidth(kind,load,settings,group='B'){
  const factor=kind==='stair'?(settings.sprinkler&&settings.voice ? .2 : .3):(settings.sprinkler&&settings.voice ? .15 : .2);
- const minimum=kind==='door'?32:kind==='corridor'&&group==='E'&&load>=100?72:load<50?36:44;
+ const minimum=kind==='passage'?0:kind==='door'?32:kind==='corridor'&&group==='E'&&load>=100?72:load<50?36:44;
  return{factor,minimum:minimum*IN,capacityWidth:load*factor*IN,required:Math.max(minimum,load*factor)*IN};
 }
 const mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
@@ -66,10 +66,11 @@ export function analyzeCapacity(p,fi,g,field,loads){
   const load=served.reduce((n,r)=>n+r.people,0),group=extra.group||o.group||p.settings.group,rule=requiredComponentWidth(kind,load,p.settings,group),known=!!g&&load>0,measured=Number.isFinite(width)&&width>0;
   const status=measured&&known&&width+1e-6<rule.required?'fail':'review';
   const sources=[...new Set(served.map(r=>r.name))],row={id:o.id,name:o.name||o.link||kind,kind,load,available:measured?width:null,...rule,shortfall:measured&&known?Math.max(0,rule.required-width):null,capacity:measured?Math.floor(width/(rule.factor*IN)):null,status,sources,point,allocationKnown:known,widthSource:extra.widthSource||'entered clear width',...extra};rows.push(row);
-  const detail=known?`${load} modeled occupants from ${sources.join(', ')||'the connected rooms'}. ${measured?fmt(width)+' available':'Clear width not measured'}; ${fmt(rule.required,true)} required = max(${fmt(rule.minimum,true)} component minimum, ${load} × ${rule.factor} in/person). ${row.shortfall>0?'Width shortfall '+fmt(row.shortfall,true)+'. Widen this component or revise the program and route allocation. ':''}${row.widthSource==='polygon estimate'?'Width is estimated from corridor boundary faces; confirm the actual clear dimension. ':''}Load allocation is a design scenario; confirm room use, area basis and exit alternatives.`:`No reliable served-load allocation yet. ${measured?fmt(width)+' entered/estimated width. ':''}Confirm doors, rooms and connected exits before evaluating capacity; no capacity pass is established.`;
-  checks.push({status,title:`${row.name}: ${kind} width / served load`,detail,ref:'IBC 1005.2–1005.3 / '+(kind==='door'?'1010.1.1':kind==='stair'?'1011.2':'1020'),point,category:'building'});
+  const detail=known?`${load} modeled occupants from ${sources.join(', ')||'the connected rooms'}. ${measured?fmt(width)+' available':'Clear width not measured'}; ${kind==='passage'?fmt(rule.required,true)+' flow-width estimate = '+load+' × '+rule.factor+' in/person; component minimum unverified.':fmt(rule.required,true)+' required = max('+fmt(rule.minimum,true)+' component minimum, '+load+' × '+rule.factor+' in/person).'} ${row.shortfall>0?'Width shortfall '+fmt(row.shortfall,true)+'. Widen this component or revise the program and route allocation. ':''}${row.widthSource==='polygon estimate'?'Width is estimated from corridor boundary faces; confirm the actual clear dimension. ':''}Load allocation is a design scenario; confirm room use, area basis and exit alternatives.`:`No reliable served-load allocation yet. ${measured?fmt(width)+' entered/estimated width. ':''}Confirm doors, rooms and connected exits before evaluating capacity; no capacity pass is established.`;
+  if(kind==='passage'){row.widthSource='flow-only estimate; component minimum unverified';row.note='This opening has no door leaf. Classify the passage to establish its component minimum.';}
+  checks.push({status,title:`${row.name}: ${kind} width / served load`,detail:kind==='passage'?detail+' Open passage: the flow estimate does not establish a component minimum; classify the space and confirm its required clear width.':detail,ref:'IBC 1005.2–1005.3 / '+(kind==='door'?'1010.1.1':kind==='stair'?'1011.2':kind==='passage'?'component identification required':'1020'),point,category:'building'});
  }
- for(const d of f.doors)record('door',d,scenario.paths.filter(r=>r.doors.includes(d.id)),d.width,d);
+ for(const d of f.doors)record(d.openingType==='passage'?'passage':'door',d,scenario.paths.filter(r=>r.doors.includes(d.id)),d.width,d);
  for(const s of f.stairs||[])record('stair',s,scenario.paths.filter(r=>r.target===s.id),s.width,s.points[0],{note:'Per-story allocation. Upper floors are not blindly summed for stair sizing; discharge and convergence require a separate check.'});
  const corridors=f.rooms.filter(r=>r.role==='corridor');
  for(const c of corridors){

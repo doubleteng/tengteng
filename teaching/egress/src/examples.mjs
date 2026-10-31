@@ -1,4 +1,4 @@
-import {usCaseStudies} from './us-case-studies.mjs?v=us-studies-1';
+import {usCaseStudies} from './us-case-studies.mjs?v=us-studies-2';
 import {precedentExamples} from './precedents.mjs?v=stair-review-20261031';
 import {fresh,functions} from './model.mjs?v=stair-review-20261031';
 import {uid,edges,centroid,area} from './geometry.mjs?v=stair-review-20261031';

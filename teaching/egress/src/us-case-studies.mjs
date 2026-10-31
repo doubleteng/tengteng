@@ -101,6 +101,8 @@ function kendedaProject() {
   floor.obstacles.push({id:'service-block',name:'Service rooms · outside study',points:box(401,503,517,584)});
   const porchInner = wall('porch-vestibule',490,383,528,383);
   const wetlandInner = wall('wetland-vestibule',188,407,188,448);
+  wall('porch-vestibule-return',490,357,490,383);
+  wall('wetland-vestibule-return',162,448,188,448);
   door('porch-inner','Porch vestibule',porchInner,510,383,6);
   door('wetland-inner','Wetland vestibule',wetlandInner,188,428,6);
   door('porch-exit','Porch exit',floor.id+'-edge-2',510,357,6,true);
@@ -181,9 +183,11 @@ function bullittProject() {
   wall(entry,'office-216-end',860,534,1142,534);
   space(entry,'office-216','Office 216',box(860,285,1142,534),'business');
   doorway(entry,'b-216-door','Office 216 door',north,point(1142,495),3.5);
-  const south = wall(entry,'office-218-side',723,682,1065,682);
+  wall(entry,'office-218-side',723,682,1065,682);
+  const southOfficeDoorWall=wall(entry,'office-218-return',1065,682,1065,730);
+  wall(entry,'mezzanine-guard',723,682,724,938);
   space(entry,'office-218','Office 218',polygon([[723,682],[1065,682],[1065,938],[724,938]]),'business');
-  doorway(entry,'b-218-door','Office 218 door',south,point(945,682),3.5);
+  doorway(entry,'b-218-door','Office 218 study door',southOfficeDoorWall,point(1065,705),3.5);
   space(entry,'b-lobby','Entry circulation',box(1144,443,1227,729),'business',
     {role:'corridor',clearWidth:6*FT});
   entry.features.push(

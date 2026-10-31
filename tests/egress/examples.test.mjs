@@ -90,5 +90,9 @@ test('Bullitt routes descend both intervening stories to the street datum and re
  const stair=a.floors[2].capacity.rows.find(r=>r.id==='bullitt-l4-stair-1');
  assert.equal(stair.status,'fail');assert.ok(Math.abs(stair.shortfall-6*.0254)<.001);
  assert.equal(exampleGoals(p,a)[0].met,true);
+ const entry=p.floors[0],officeDoor=a.floors[0].capacity.rows.find(r=>r.id==='b-218-door');
+ assert.equal(officeDoor.load,a.floors[0].rooms.find(r=>r.id==='office-218').occupants);
+ entry.doors=entry.doors.filter(d=>d.id!==officeDoor.id);
+ assert.equal(analyze(p).complete.find(r=>r.room==='office-218').complete,false);
  const references=precedentSourcesHtml(p);assert.match(references,/6237843/);assert.match(references,/assumes protected/);
 });

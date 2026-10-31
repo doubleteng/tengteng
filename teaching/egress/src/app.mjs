@@ -218,7 +218,7 @@ if(v.mode!=='site'&&analysis&&vis.paths){
  for(const n of analysis.floors[v.fi]?.circulationNotices||[]){const stair=f.stairs.find(s=>s.id===n.id),b=stair?bounds(stair.points):null;marker(n.point,v,'?','#a5742d');label('Stair not assigned as exit',b?{x:(b.minX+b.maxX)/2,y:b.minY-.65}:{x:n.point.x,y:n.point.y-.7},v,'#a5742d',10);}
 }
 
-if(hasSite&&vis.doors&&f.elevation===0)for(const d of f.doors.filter(d=>d.exit)){const connected=analysis?.floors[v.fi]?.outdoor.some(r=>r.exit===d.id),color=connected?'#267c64':'#bc8540';marker(d,v,'↗',color);if(s>10)label((d.name||'Exit')+(connected?' · to public way':' · check connection'),{x:d.x,y:d.y-1.1},v,color,9);}
+if(hasSite&&vis.doors&&f.elevation===0)for(const d of f.doors.filter(d=>d.exit)){const result=analysis?.floors[v.fi],connected=result?.outdoor.some(r=>r.exit===d.id),color=connected?'#267c64':'#bc8540',reason=!result?'Calculating site route':connected?'To public way':d.discharge!=='site'?'Exit not assigned to site':!p.site.walkable.length?'Walkable site area missing':!p.site.targets.some(t=>t.kind==='public')?'Public-way point missing':'No route to public way';marker(d,v,'↗',color);if(s>10)label((d.name||'Exit')+' · '+reason,{x:d.x,y:d.y-1.1},v,color,9);}
 
 if(probeRoute&&activeView(v)){line(probeRoute.points,v,'#d49735',3);label(fmt(probeRoute.distance),probeRoute.points[0],v,'#a97729',11);}
 if(activeView(v)){const sel=selection();if(sel){const pts=objPoints(sel.o);if(sel.o.points)polygon(pts,v,'#4c99851a','#418a72',1.5);else if(sel.o.a)line(pts,v,'#1b956c',5);for(const q of sel.kind==='room'&&(f.autoRooms||sel.o.autoClosed)?[]:pts){const z=w2s(q,v);ctx.fillStyle='white';ctx.strokeStyle='#37856a';ctx.lineWidth=1.5;ctx.fillRect(z.x-3,z.y-3,6,6);ctx.strokeRect(z.x-3,z.y-3,6,6);}}

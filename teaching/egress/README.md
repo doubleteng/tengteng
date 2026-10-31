@@ -85,3 +85,13 @@ The Checks panel links to a room-by-room load schedule and selected 2021 IBC Tab
 ### Per-room route coverage
 
 Every occupied room appears in the route inventory and report, including blocked or unresolved rooms. Reachable portions remain visible in amber when part of a room is disconnected; disconnected areas never receive an invented path. Rooms outside the floor boundary are identified explicitly. Confirmed doors cut coincident shared wall segments, while nearby parallel walls remain barriers.
+
+## Studio plan code checks: indoors + outdoors
+
+The **Code** tab groups the modeled plan checks by topic, with Indoor / Outdoor filters. Each result identifies a design revision, missing information, a review item or an individual check met. It links to the plan location and source. The PDF includes this schedule. Scope is studio floor-plan and site-plan analysis, not a whole-building compliance audit. No construction-type, height/area, structural, energy or plumbing workflow is added.
+
+Door Properties now record swing relative to egress travel. The 50-person trigger uses the whole served room/area, not the share allocated to each door (2021 IBC 1010.1.2.1). Common-path traces can be linked to a starting room; its current use/load determines the limit, and an excessive linked trace affects the doorway-count check (1006.2.1). Missing room traces remain explicit input gaps.
+
+Pedestrian and accessible site paths can be classified as approach, exit discharge or egress court. For discharge/court paths, select the actual ground-floor exits served and enter the narrowest clear width. Assigned exit loads are summed once; width is checked against a capacity lower bound and known upstream requirements (1005.3.2 / 1028.3). The 44-inch egress-court minimum applies only to explicitly classified courts in the supported A/B/E/M subset (1029.2), not to arbitrary site lines. Multiple-floor discharge, merges, gates and continuous clear width remain review items when not established. A walking-route width/slope check does not establish accessible means of egress.
+
+Regression cases cover a 60-person room with two 30-person door allocations, missing swing, ordinary paths versus egress courts, combined outdoor loads, missing exit assignments, sprinkler/voice factors, multi-floor limitations, linked common-path thresholds, site-check deduplication and report escaping.

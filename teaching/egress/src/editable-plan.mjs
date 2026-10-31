@@ -1,5 +1,5 @@
-import {dist,project,segDist,edges,area,centroid,inside,uid} from './geometry.mjs?v=rooms-20261030';
-import {intersection} from './drafting.mjs?v=rooms-20261030';
+import {dist,project,segDist,edges,area,centroid,inside,uid} from './geometry.mjs?v=plan-code-20261031';
+import {intersection} from './drafting.mjs?v=plan-code-20261031';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.

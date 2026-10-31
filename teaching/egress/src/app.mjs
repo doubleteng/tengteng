@@ -1,4 +1,4 @@
-import {hasDrawingContent,stageDrawingImport} from './drawing-import.mjs?v=import-destination-1';
+import {hasDrawingContent,stageDrawingImport,repairLegacyCaseImport} from './drawing-import.mjs?v=legacy-import-repair-1';
 import {attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions,openingSpaces} from './import-quality.mjs?v=wall-rooms-1';
 import {studioIcon} from './studio-icons.mjs?v=wall-rooms-1';
 import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=import-destination-1';
@@ -23,7 +23,7 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc
 let p=fresh(),mode='building',tool='select',selected=null,draft=[],cursor=null,cam={x:15,y:9,s:20},views=[],allFloors=false,playing=false,analysis=null,baseline=null,revision=0,analyzedRevision=-1,history=[],future=[],drag=null,space=false,filter='issues',dirty=false,analyzeTimer,saveTimer,probeRoute=null,highlight=null;
 let snapResult=null,pointerView=null,alignSession=null,traceRoomId=null;
 const cameras=new Map(),underlays=new Map();
-let lastDragUpdate=0,exampleBackup=null,importBackup=null,exampleSwitchBusy=false,workflowStage=0,moreToolsOpen=false,activeFinding=null;
+let lastDragUpdate=0,exampleBackup=null,importBackup=null,repairBackup=null,exampleSwitchBusy=false,workflowStage=0,moreToolsOpen=false,activeFinding=null;
 const vis={furniture:true,context:true,candidates:true,site:true,underlay:true,voids:true,grid:true,background:true,cad:true,rooms:true,walls:true,doors:true,stairs:true,obstacles:true,routes:true,pedestrian:true,accessible:true,vehicle:true,walkable:true,paths:true,targets:true};
 let worker=new Worker(new URL('./analysis-worker.mjs?v=wall-rooms-1',import.meta.url),{type:'module'}),busy=false,queued=false;
 const canvas=$('#plan'),ctx=canvas.getContext('2d'),wrap=$('#canvas-wrap');let W=1,H=1;
@@ -41,11 +41,31 @@ function undo(){if(!history.length)return;future.push(snapShot());p=validateProj
 async function db(){return new Promise((resolve,reject)=>{const r=indexedDB.open('egress-site-lab',1);r.onupgradeneeded=()=>r.result.createObjectStore('projects');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
 async function saveLocal(){try{const d=await db();await new Promise((resolve,reject)=>{const t=d.transaction('projects','readwrite');t.objectStore('projects').put(p,'last');t.oncomplete=resolve;t.onerror=()=>reject(t.error);});d.close();$('#save-status').textContent='Saved on this device';dirty=false;}catch{$('#save-status').textContent='Local save unavailable · download a project file';}}
 async function storedProject(key){const d=await db();try{return await new Promise((resolve,reject)=>{const r=d.transaction('projects').objectStore('projects').get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}finally{d.close();}}
-async function keepProject(key,value){const d=await db();try{await new Promise((resolve,reject)=>{const t=d.transaction('projects','readwrite');t.objectStore('projects').put(value,key);t.oncomplete=resolve;t.onerror=()=>reject(t.error);t.onabort=()=>reject(t.error);});}finally{d.close();}}
-async function restore(){let firstVisit=false;try{const v=await storedProject('last');if(v)p=validateProject(v);else{p=fresh();firstVisit=true;}exampleBackup=await storedProject('before-examples');importBackup=await storedProject('before-import');$('#restore-upload').hidden=!importBackup;}catch{if(!p.floors[0].outline.length){p=fresh();firstVisit=true;}}prepareWallRooms(p);p.floors.forEach(f=>{f.stairs??=[];f.traces??=[];});for(const scope of [...p.floors,p.site])for(const line of scope.cad||[])line.id??=uid();p.activeFloor=Math.min(p.activeFloor||0,p.floors.length-1);if(exampleById(p.tutorial?.id))allFloors=['levels','savoye','bullitt'].includes(p.tutorial.id);renderPanels();fit();runAnalysis();workflowStage=p.floors.some(f=>f.rooms.length)?2:0;renderWorkflowControls();
+async function keepProjects(entries){const d=await db();try{await new Promise((resolve,reject)=>{const t=d.transaction('projects','readwrite');for(const [key,value] of entries)t.objectStore('projects').put(value,key);t.oncomplete=resolve;t.onerror=()=>reject(t.error);t.onabort=()=>reject(t.error);});}finally{d.close();}}
+async function keepProject(key,value){return keepProjects([[key,value]]);}
+function clearCaseLink(){const url=new URL(location.href);url.searchParams.delete('case');window.history.replaceState(null,'',url);}
+async function restore(){
+ let firstVisit=false,repaired=false,repairError=false;
+ try{const v=await storedProject('last');if(v)p=validateProject(v);else{p=fresh();firstVisit=true;}}catch{p=fresh();firstVisit=true;}
+ try{
+  exampleBackup=await storedProject('before-examples');importBackup=await storedProject('before-import');repairBackup=await storedProject('before-import-repair');
+  const study=exampleById(p.tutorial?.id)||['kendeda','bullitt','barcelona','savoye'].map(exampleById).find(e=>e?.title===p.precedent?.title);
+  const next=repairLegacyCaseImport(p,study?createExample(study.id):null);
+  if(next){
+   // Backup and replacement succeed together, or neither is written.
+   await keepProjects([['before-import-repair',p],['last',next]]);
+   repairBackup=p;p=next;repaired=true;
+  }
+ }catch{repairError=true;}
+ $('#restore-upload').hidden=!importBackup;$('#restore-import-repair').hidden=!repairBackup;
+ if(p.importRepair)clearCaseLink();
+ prepareWallRooms(p);p.floors.forEach(f=>{f.stairs??=[];f.traces??=[];});for(const scope of [...p.floors,p.site])for(const line of scope.cad||[])line.id??=uid();p.activeFloor=Math.min(p.activeFloor||0,p.floors.length-1);if(exampleById(p.tutorial?.id))allFloors=['levels','savoye','bullitt'].includes(p.tutorial.id);renderPanels();fit();runAnalysis();workflowStage=p.floors.some(f=>f.rooms.length)?2:0;renderWorkflowControls();
+ if(repaired){vis.background=true;vis.underlay=false;toast('Example model removed. Your uploaded drawing is kept. The previous version is in File.');return;}
+ if(repairError)toast('Could not save the recovery backup. Your current design has been kept.');
  const linkedStudy=exampleById(new URLSearchParams(location.search).get('case'));
  if(linkedStudy?.buildingStudy && p.tutorial?.id!==linkedStudy.id){showExamples(linkedStudy);return;}
- if(p.tutorial)lessonAction(exampleById(p.tutorial.id)?.steps[p.tutorial.step||0]||{});else{let seen=false;try{seen=localStorage.getItem('egress-start-workflow-v1')==='seen';}catch{}if(firstVisit||!seen)showStart();}}
+ if(p.tutorial)lessonAction(exampleById(p.tutorial.id)?.steps[p.tutorial.step||0]||{});else{let seen=false;try{seen=localStorage.getItem('egress-start-workflow-v1')==='seen';}catch{}if(firstVisit||(!seen&&!p.importRepair))showStart();}
+}
 function showExamples(featured){
  const study=featured?.buildingStudy?featured:null;
  modal(study?study.title:'U.S. building studies',exampleGallery(p,!!exampleBackup,study));
@@ -329,9 +349,10 @@ async function commitDrawingImport(session,staged){
  importBackup=previous;$('#restore-upload').hidden=false;remember();p=staged.project;mode=staged.mode;
  selected=null;draft=[];tool='select';drag=null;alignSession=null;traceRoomId=null;activeFinding=null;playing=false;analysis=null;baseline=null;allFloors=false;workflowStage=0;cameras.clear();underlays.clear();vis.background=true;vis.underlay=false;
  if(session.destination==='new')for(const key of Object.keys(vis))vis[key]=true;
- if(session.destination!=='current'){const url=new URL(location.href);url.searchParams.delete('case');window.history.replaceState(null,'',url);}
+ if(session.destination!=='current')clearCaseLink();
 }
-$('#restore-upload').onclick=()=>{if(!importBackup)return;const fi=importBackup.activeFloor||0;resetProject(validateProject(structuredClone(importBackup)));p.activeFloor=Math.min(fi,p.floors.length-1);renderPanels();fit();saveLocal();toast('Restored the design from before the last upload.');};
+$('#restore-upload').onclick=()=>{if(!importBackup)return;const fi=importBackup.activeFloor||0,next=validateProject(structuredClone(importBackup));next.importWorkflowVersion=2;resetProject(next);p.activeFloor=Math.min(fi,p.floors.length-1);renderPanels();fit();saveLocal();toast('Restored the design from before the last upload.');};
+$('#restore-import-repair').onclick=()=>{if(!repairBackup)return;const next=validateProject(structuredClone(repairBackup));next.importWorkflowVersion=2;const fi=next.activeFloor||0;resetProject(next);p.activeFloor=Math.min(fi,p.floors.length-1);renderPanels();fit();saveLocal();toast('Restored the version saved before the import repair.');};
 $('#drawing-input').onchange=async e=>{
  const file=e.target.files[0];e.target.value='';if(!file)return;
  const ext=file.name.split('.').pop().toLowerCase();

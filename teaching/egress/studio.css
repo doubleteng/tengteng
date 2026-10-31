@@ -286,4 +286,4 @@ dialog::backdrop{background:#342e2547;backdrop-filter:none}
 
 .import-destinations{display:grid;gap:10px;margin:18px 0}.import-destinations button{text-align:left;padding:18px 20px;border:1px solid #d8d0c0;background:#faf8f1}.import-destinations button:hover{border-color:#925941;background:#f1eadf}.import-destinations strong{display:block;font-size:17px;font-weight:500;margin-bottom:5px}.import-destinations span{display:block;color:#786d5e;font-size:12px;line-height:1.5}
 
-#restore-upload[hidden]{display:none}
+#restore-upload[hidden],#restore-import-repair[hidden]{display:none}

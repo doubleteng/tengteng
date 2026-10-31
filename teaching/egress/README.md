@@ -142,8 +142,11 @@ design** restores it, including after a page reload. Current practice geometry a
 step are saved by the existing local autosave, and downloadable project files also
 retain the guide. A new visitor sees the case chooser; existing projects are kept.
 
-Validation: `node --test tests/egress/*.test.mjs` from the repository root (92 tests).
+Validation: `node --test tests/egress/*.test.mjs` from the repository root (96 tests).
 The example regression tests verify room connectivity, repairable door/court
 findings, shared-wall area updates, real crossing removal, stair continuity and
 upper-floor slab subtraction. Browser QA also covers guided selection/property
 edits, moving a wall, case switching, reload and restoration of the original plan.
+
+
+Open or unverified upper-floor stairs now receive separate amber circulation paths. These paths end at the landing and never contribute to qualified exit travel, complete public-way routes or egress capacity. A shared floor notice names the stair and explains why exit analysis stops; disconnected room portions retain their own location markers. Reports distinguish these limited circulation distances from full egress routes.

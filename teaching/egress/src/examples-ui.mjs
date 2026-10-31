@@ -1,4 +1,4 @@
-import {examples,exampleById,exampleGoals,exampleThumbnail} from './examples.mjs?v=workflow-20261031';
+import {examples,exampleById,exampleGoals,exampleThumbnail} from './examples.mjs?v=stair-review-20261031';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeURL=url=>{try{const u=new URL(url);return u.protocol==='https:'?esc(u.href):'#';}catch{return '#';}};
 export function precedentSourcesHtml(p){const q=p.precedent;if(!q)return '';return `<section class="precedent-note"><h3>${esc(q.title)} · study model</h3><p>${esc(q.architect)}<br>${esc(q.place)}</p><p>${esc(q.note)}</p><p><b>Dimensions:</b> ${esc(q.scale)}</p><p>${esc(q.changes)}</p><ul>${(q.sources||[]).map(s=>`<li><a href="${safeURL(s.url)}" target="_blank" rel="noopener">${esc(s.label)} ↗</a></li>`).join('')}</ul></section>`;}

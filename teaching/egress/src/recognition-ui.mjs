@@ -1,4 +1,4 @@
-import {semanticKinds,semanticColors,validateInterpretation} from './semantic-plan.mjs?v=workflow-20261031';
+import {semanticKinds,semanticColors,validateInterpretation} from './semantic-plan.mjs?v=stair-review-20261031';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={room:'Room',corridor:'Corridor',lobby:'Lobby',exterior:'Outdoors',courtyard:'Courtyard',void:'Floor void',projection:'Other-floor / context',furniture:'Furniture',column:'Column',stair:'Stair',window:'Window',wall:'Wall',door:'Door candidate',entrance:'Entrance candidate'};
 export function reviewInterpretation({dialog,image,result,onApply,onSave,onCalibrate,showUnderlay=true,onUnderlayChange=()=>{}}){

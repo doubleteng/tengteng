@@ -1,9 +1,10 @@
-import {roomLoad,analyzeCapacity} from './capacity.mjs?v=workflow-20261031';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=workflow-20261031';
-import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=workflow-20261031';
-import {stairAligned} from './drafting.mjs?v=workflow-20261031';
-import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=workflow-20261031';
-import {functions} from './model.mjs?v=workflow-20261031';
+import {stairCirculation} from './circulation.mjs?v=stair-review-20261031';
+import {roomLoad,analyzeCapacity} from './capacity.mjs?v=stair-review-20261031';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=stair-review-20261031';
+import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=stair-review-20261031';
+import {stairAligned} from './drafting.mjs?v=stair-review-20261031';
+import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=stair-review-20261031';
+import {functions} from './model.mjs?v=stair-review-20261031';
 export const sources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export function limits(group,sprinkler,occupants=0){return{travel:(sprinkler?(group==='B'?300:250):200)*FT,common:(group==='B'&&(sprinkler||occupants<=30)?100:75)*FT,dead:(sprinkler&&['B','E','M'].includes(group)?50:20)*FT};}
 export const requiredExits=n=>n>1000?4:n>500?3:n>49?2:1;
@@ -20,7 +21,7 @@ for(const r of f.rooms){
  load.outsideBoundary=!!outside;if(outside)load.routeReason='Room extends outside the floor boundary.';
  if(outside)issue('fail',r.name+': outside floor boundary','Part of this room is outside the floor boundary used for routing. Extend or correct the floor boundary to include the occupied floor; do not use the site outline as the floor boundary.','Model input',outside);
 }
-if(f.outline.length<3)issue('review','Define the floor boundary','Draw a closed floor boundary before analyzing the building.','Model input');else if(!exits.length)issue('fail','No exit has been identified','Place an exit on the floor boundary or identify a protected exit entrance.','IBC 1006');else{
+if(f.outline.length<3)issue('review','Define the floor boundary','Draw a closed floor boundary before analyzing the building.','Model input');else if(!exits.length){const unverified=(f.stairs||[]).some(s=>!s.protected&&f.elevation>0);issue(unverified?'review':'fail',unverified?'No exit stair is assigned on this floor':'No exit has been identified',unverified?'The stair is modeled as open or unverified. It is not used as an exit endpoint, so egress cannot be traced beyond this floor. Model an eligible exit route and connect it to the ground-floor discharge.':'Place an exit on the floor boundary or identify a protected exit entrance.',unverified?'Model input':'IBC 1006');}else{
 const doorIds=new Set(f.walls.map(w=>w.id));for(const d of f.doors)if(!doorIds.has(d.wallId))issue('review','Door is not connected to a wall',d.name+' must be snapped to a wall.','Model input',d);
 const {splitWalls}=geometryHelpers;const walls=splitWalls(f.walls,f.doors);g=makeGrid(regions,[...f.obstacles,...voids,...featureObstacles(f),...excludedSpaces(f)].map(o=>o.points),walls,p.settings.grid||.3);field=flood(g,exits);
 for(const r of f.rooms){if(r.role==='corridor')continue;const load=roomResults.find(o=>o.id===r.id),a=load.area,n=load.occupants,lim=limits(r.group||p.settings.group,p.settings.sprinkler,n);let worst=-1,max=-1,unreachable=0,samples=0;for(let i=0;i<g.n;i++){if(!g.good[i]||!insideRoom(g.point(i),r))continue;samples++;if(!Number.isFinite(field.d[i]))unreachable++;else if(field.d[i]>max){max=field.d[i];worst=i;}}
@@ -48,9 +49,10 @@ const publicTargets=p.site.targets.filter(t=>t.kind==='public');if(p.site.walkab
 const conflicts=[];for(const a of p.site.routes)for(const b of p.site.routes){if(a.kind==='vehicle'&&b.kind!=='vehicle')for(let i=1;i<a.points.length;i++)for(let j=1;j<b.points.length;j++)if(crosses(a.points[i-1],a.points[i],b.points[j-1],b.points[j])){conflicts.push([a.id,b.id]);issue('review','Pedestrian–vehicle crossing',`${b.name} crosses ${a.name}. Resolve crossing priority, visibility and protection in the site design.`,'Design review',b.points[j],'site');}}
 for(const r of p.site.routes){if(r.kind==='accessible'){const bad=r.width<36*IN;issue(bad?'review':'pass',`${r.name}: clear width ${fmt(r.width)}`,bad?'Below the general 36 in minimum. A short 32 in pinch-point exception needs separate review.':'General 36 in walking-route width met. This is not an exit-discharge capacity check.','ADA 403.5.1',r.points[0],'site');if(r.slope==null||r.crossSlope==null)issue('review',`${r.name}: grades missing`,'Enter running and cross slopes to check walking-surface criteria.','ADA 403.3',r.points[0],'site');else issue(r.slope>5?'review':r.crossSlope>100/48?'fail':'pass',`${r.name}: slope ${r.slope}% / cross slope ${r.crossSlope}%`,r.slope>5?'Running slope exceeds 5%: review as a ramp, including landings, rise, handrails and edge protection.':'Walking-surface limits: running slope 5%, cross slope 1:48. Values are user-entered, not inferred from a 2D plan.','ADA 403.3 / 405',r.points[0],'site');if(r.width<60*IN)issue('review',`${r.name}: passing spaces`,'Routes under 60 in wide need passing spaces at intervals no greater than 200 ft; turns and door clearances also require review.','ADA 403.5.3',r.points[0],'site');}}
 issue('review','Plan conditions to review','Confirm measured clearances, actual door operation, intervening-space conditions and route endpoints. Drawing geometry alone does not determine these conditions.','Scope');
+const circulation=stairCirculation(p,floorIndex,roomResults,routes);for(const n of circulation.notices)issue('review',n.title,n.detail,'Model input',n.point);for(const r of roomResults.filter(r=>r.circulation&&r.circulation.state!=='connected')){const c=r.circulation;issue(c.state==='blocked'?'fail':'review',r.name+': '+(c.state==='partial'?'partly connected to stair':c.state==='blocked'?'no geometric route to stair':'no walkable circulation samples'),r.routeReason,'Model input',c.point);}
 const capacity=analyzeCapacity(p,floorIndex,g,field,roomResults);checks.push(...capacity.checks);
-return{capacity,checks,rooms:roomResults,routes,outdoor,total,exits:exits.length,gridStep:g?.step,conflicts,grid:g,field,siteGrid,siteField,created:new Date().toISOString()};}
-import {splitWalls} from './geometry.mjs?v=workflow-20261031';const geometryHelpers={splitWalls};
+return{capacity,checks,rooms:roomResults,routes,circulationRoutes:circulation.routes,circulationNotices:circulation.notices,outdoor,total,exits:exits.length,gridStep:g?.step,conflicts,grid:g,field,siteGrid,siteField,created:new Date().toISOString()};}
+import {splitWalls} from './geometry.mjs?v=stair-review-20261031';const geometryHelpers={splitWalls};
 export function probe(result,p,site=false){const g=site?result.siteGrid:result.grid,f=site?result.siteField:result.field;if(!g||!f)return null;const i=nearest(g,p,g.step*2);return i>=0&&Number.isFinite(f.d[i])?{points:[p,...route(g,f,i)],distance:dist(p,g.point(i))+f.d[i]}:null;}
 
 export function analyzeAll(p){

@@ -1,7 +1,7 @@
-import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=workflow-20261031';
-import {roomArea,floorOpenings} from './openings.mjs?v=workflow-20261031';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=workflow-20261031';
-import {functions} from './model.mjs?v=workflow-20261031';
+import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=stair-review-20261031';
+import {roomArea,floorOpenings} from './openings.mjs?v=stair-review-20261031';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=stair-review-20261031';
+import {functions} from './model.mjs?v=stair-review-20261031';
 export function roomLoad(p,fi,r){
  const a=roomArea(p,fi,r),factor=Number(r.factor)||functions[r.function]?.factor||150,circulation=r.role==='corridor';
  return{id:r.id,name:r.name,role:r.role||'room',area:a,factor,basis:r.basis||functions[r.function]?.basis||'gross',function:r.function,functionLabel:circulation?'Circulation (no additional occupants)':functions[r.function]?.name||'User-defined use',occupants:circulation?0:Math.ceil(a/SF/factor),areaConfirmed:!!r.areaConfirmed};

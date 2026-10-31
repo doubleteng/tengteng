@@ -1,5 +1,5 @@
-import {fresh,functions} from './model.mjs?v=workflow-20261031';
-import {edges} from './geometry.mjs?v=workflow-20261031';
+import {fresh,functions} from './model.mjs?v=stair-review-20261031';
+import {edges} from './geometry.mjs?v=stair-review-20261031';
 const rect=(x,y,w,h)=>[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}];
 const room=(id,name,points,role='room')=>({id,name,points,role,function:'gallery',factor:30,basis:'net',group:'A',areaConfirmed:false});
 function walls(f,points,prefix){for(const [i,[a,b]] of edges(points).entries())f.walls.push({id:prefix+i,a:{...a},b:{...b},thickness:.15});}
@@ -82,6 +82,6 @@ export const precedentExamples=[
   {title:'Read room use and capacity',text:'The living room is selected. Change Space function below and read how its occupant load changes. This is a hypothetical gallery exercise. Confirm the area basis after reviewing it.',action:'Select the living room',floor:1,target:'living',field:'function',tab:'properties',goal:'precedent-input'},
   {title:'Edit the terrace opening',text:'The terrace opening is selected. Replace 2.80 with 3.20 in Clear width below, then press Tab. You can also drag the opening along its wall. This connects to the terrace, not directly to ground.',action:'Select living / garden opening',floor:1,target:'living-garden-door',tab:'properties',goal:'savoye-door'},
   {title:'Terrace or void?',text:'The sky opening is selected. Inspect Lowest occupied floor and Highest floor WITHOUT a slab below. The first-floor garden keeps its floor; the roof level has the opening.',action:'Inspect the sky opening',floor:1,target:'savoye-terrace-void',tab:'properties'},
-  {title:'Distinguish promenade from egress',text:'Open a stair finding below and click Locate + edit on plan. The historic open stair is not assumed to be a protected exit; upper-floor routes remain unresolved. Export the report to record these findings.',action:'Review multi-floor checks',tab:'code',recap:true},
+  {title:'Distinguish promenade from egress',text:'Open a stair finding below and click Locate + edit on plan. Amber routes stop at the historic open stair because it is not assigned as an exit in this model. Model an eligible exit route to assess onward egress. Export the report to record these findings.',action:'Review multi-floor checks',tab:'code',recap:true},
  ]},
 ];

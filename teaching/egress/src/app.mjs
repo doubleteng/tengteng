@@ -329,6 +329,7 @@ async function commitDrawingImport(session,staged){
  importBackup=previous;$('#restore-upload').hidden=false;remember();p=staged.project;mode=staged.mode;
  selected=null;draft=[];tool='select';drag=null;alignSession=null;traceRoomId=null;activeFinding=null;playing=false;analysis=null;baseline=null;allFloors=false;workflowStage=0;cameras.clear();underlays.clear();vis.background=true;vis.underlay=false;
  if(session.destination==='new')for(const key of Object.keys(vis))vis[key]=true;
+ if(session.destination!=='current'){const url=new URL(location.href);url.searchParams.delete('case');window.history.replaceState(null,'',url);}
 }
 $('#restore-upload').onclick=()=>{if(!importBackup)return;const fi=importBackup.activeFloor||0;resetProject(validateProject(structuredClone(importBackup)));p.activeFloor=Math.min(fi,p.floors.length-1);renderPanels();fit();saveLocal();toast('Restored the design from before the last upload.');};
 $('#drawing-input').onchange=async e=>{

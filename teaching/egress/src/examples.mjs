@@ -1,3 +1,4 @@
+import {usCaseStudies} from './us-case-studies.mjs?v=us-studies-1';
 import {precedentExamples} from './precedents.mjs?v=stair-review-20261031';
 import {fresh,functions} from './model.mjs?v=stair-review-20261031';
 import {uid,edges,centroid,area} from './geometry.mjs?v=stair-review-20261031';
@@ -45,7 +46,7 @@ function levelsCase(){
 }
 // Keep authorship and guide IDs for projects saved in earlier releases.
 // Historic models are not offered as IBC reference buildings.
-export const examples=[
+export const examples=[...usCaseStudies,
  {id:'rooms',number:'01',title:'Rooms, doors + people',subtitle:'Start here · 6–8 min',tag:'INDOOR PLAN',description:'Read a room load, repair a narrow doorway, then move a wall and watch the plan recalculate.',skills:['Select + Properties','Live area / load','Wall editing'],build:roomsCase,steps:[
   {title:'Read the plan',text:'Wheel to zoom; hold the right mouse button to pan. Select Workshop to see its area, use and people. The table is furniture, not a room boundary.',action:'Select Workshop',target:'workshop',tab:'properties'},
   {title:'Confirm the room use',text:'Workshop is set to Assembly: tables + chairs. Compare the area-per-person calculation with the room area, then tick “I checked the area basis”. Try another use and watch the people count change.',action:'Review room inputs',target:'workshop',tab:'properties',goal:'room-input'},
@@ -70,11 +71,23 @@ export const examples=[
 ];
 export const firstPractice=examples[0];
 export const exampleById=id=>examples.find(e=>e.id===id)||precedentExamples.find(e=>e.id===id);
-export function createExample(id){const e=exampleById(id);if(!e)throw Error('Unknown practice case.');const p=e.build();p.id=uid();p.name='Practice '+e.number+' · '+e.title;p.units='m';p.tutorial={id,step:0,collapsed:false};return p;}
+export function createExample(id){const e=exampleById(id);if(!e)throw Error('Unknown practice case.');const p=e.build();p.id=uid();p.name=e.buildingStudy?e.title+' · studio study':'Practice '+e.number+' · '+e.title;p.units=e.units||'m';p.tutorial={id,step:0,collapsed:false};return p;}
 export function exampleGoals(p,a){
  const id=p.tutorial?.id,f=p.floors[0],ready=!!a,findDoor=id=>f.doors.find(d=>d.id===id),goals=[];
  const add=(id,label,met,detail)=>goals.push({id,label,met:ready?!!met:null,detail:ready?detail:'Updating analysis…'});
- if(id==='barcelona'||id==='savoye'){
+ if(id==='kendeda'){
+  const room=a?.floors[0]?.rooms.find(r=>r.id==='auditorium');
+  add('k-seating','Audience in this layout',room?.function==='chairs',room ? room.occupants+' design occupants' : 'Select Auditorium 152.');
+  const row=a?.floors[0]?.capacity.rows.find(r=>r.id==='hall-middle');
+  add('k-door','Narrow-door test',row && row.available < 32*.0254 && row.status==='fail',
+    row ? (row.available/.0254).toFixed(1)+' in clear / '+(row.required/.0254).toFixed(1)+' in required in this scenario' : 'The middle door is missing.');
+  if(ready && row?.shortfall>0)goals.at(-1).finding='Door is '+(row.shortfall/.0254).toFixed(1)+' in too narrow.';
+ }else if(id==='bullitt'){
+  const row=a?.floors[2]?.capacity.rows.find(r=>r.id==='bullitt-l4-stair-1');
+  add('b-stair','Stair width test',row && row.available < 36*.0254 && row.status==='fail',
+    row ? (row.available/.0254).toFixed(1)+' in clear / '+(row.required/.0254).toFixed(1)+' in required in this scenario' : 'The upper landing is missing.');
+  if(ready && row?.shortfall>0)goals.at(-1).finding='Stair is '+(row.shortfall/.0254).toFixed(1)+' in too narrow.';
+ }else if(id==='barcelona'||id==='savoye'){
   const fi=id==='savoye'?1:0,r=p.floors[fi]?.rooms.find(r=>r.id===(id==='savoye'?'living':'pavilion-hall'));
   add('precedent-input','Scenario use / area reviewed',r?.areaConfirmed,r?`${roomArea(p,fi,r).toFixed(1)} m² · teaching dimensions`:'Study room was removed.');
   if(id==='barcelona'){
@@ -103,7 +116,7 @@ export function exampleGoals(p,a){
 
 // Thumbnails are drawn from the actual editable example geometry.
 export function exampleThumbnail(e){
- const p=e.build(),f=p.floors[e.id==='levels'?2:e.id==='savoye'?1:0],points=[...f.outline,...(['site','barcelona'].includes(e.id)?p.site.walkable.flatMap(o=>o.points):[])],xs=points.map(q=>q.x),ys=points.map(q=>q.y),minX=Math.min(...xs)-2,minY=Math.min(...ys)-2,w=Math.max(...xs)-minX+2,h=Math.max(...ys)-minY+2;
+ const p=e.build(),f=p.floors[e.thumbnailFloor??(e.id==='levels'?2:e.id==='savoye'?1:0)],points=[...f.outline,...(['site','barcelona'].includes(e.id)?p.site.walkable.flatMap(o=>o.points):[])],xs=points.map(q=>q.x),ys=points.map(q=>q.y),minX=Math.min(...xs)-2,minY=Math.min(...ys)-2,w=Math.max(...xs)-minX+2,h=Math.max(...ys)-minY+2;
  const poly=ps=>ps.map(q=>`${q.x},${-q.y}`).join(' ');
  return `<svg viewBox="${minX} ${-minY-h} ${w} ${h}" role="img" aria-label="${e.title}" class="example-thumbnail"><g stroke-linejoin="round">${['site','barcelona'].includes(e.id)?p.site.walkable.map(o=>`<polygon points="${poly(o.points)}" fill="#e2ebd5" stroke="#bbccab" stroke-width=".12"/>`).join(''):''}${f.rooms.map((r,i)=>`<polygon points="${poly(r.points)}" fill="${r.role==='terrace'?'#cfdfbb':r.role==='corridor'?'#ecdeb0':['#e3eadc','#f1e6d2','#dce7e4'][i%3]}"/>`).join('')}${p.site.obstacles.filter(o=>['large-pool','small-pool'].includes(o.id)).map(o=>`<polygon points="${poly(o.points)}" fill="#8eb7be"/>`).join('')}${f.walls.map(w=>`<path d="M${w.a.x} ${-w.a.y}L${w.b.x} ${-w.b.y}" stroke="#4e6858" stroke-width=".25"/>`).join('')}${f.doors.map(d=>`<circle cx="${d.x}" cy="${-d.y}" r=".35" fill="${d.width<.8?'#bb7152':'#fff'}" stroke="#487c60" stroke-width=".15"/>`).join('')}${(f.stairs||[]).map(s=>`<polygon points="${poly(s.points)}" fill="#a5bb9b" stroke="#637f5a" stroke-width=".2"/>`).join('')}${(p.openings||[]).map(o=>`<polygon points="${poly(o.points)}" fill="#faf8ef" stroke="#b38b4d" stroke-dasharray=".6 .4" stroke-width=".18"/>`).join('')}${e.id==='site'?p.site.routes.map(r=>`<polyline points="${poly(r.points)}" fill="none" stroke="${r.kind==='vehicle'?'#c48b54':'#4e97a4'}" stroke-width=".35" stroke-dasharray=".6 .4"/>`).join(''):''}</g></svg>`;
 }

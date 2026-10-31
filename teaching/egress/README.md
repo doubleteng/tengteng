@@ -99,9 +99,9 @@ Regression cases cover a 60-person room with two 30-person door allocations, mis
 
 ## Guided practice cases
 
-**Start** offers a quick drawing exercise, upload or blank drawing. **Examples** opens three editable tool exercises. Historical precedents remain readable in saved projects, including their guide and PDF attribution, but are no longer offered to new students.
+**Start** opens the Kendeda study, an upload or a blank drawing. **Examples** offers Kendeda Building and Bullitt Center plus three drawing exercises. The case links open a preview before replacing a saved project. Historical precedents remain readable in saved projects, including their guide and PDF attribution, but are no longer offered to new students.
 
-For admissions criteria and the evidence still missing for two U.S. candidates, see [U.S. precedent records](US-PRECEDENTS.md). A prior permit, drawing, award or sustainability certification is not by itself an egress baseline. Exercises are not certified building examples.
+For the U.S. models, their source drawings and the limits of the IBC comparison, see [U.S. precedent records](US-PRECEDENTS.md). A prior permit, drawing, award or sustainability certification is not by itself an egress baseline. Exercises are not certified building examples.
 
 - **Rooms, doors + people:** confirm an assembly room's use and area basis, repair
   a narrow door and its swing, then move a shared wall to see both room loads change.
@@ -123,7 +123,7 @@ design** restores it, including after a page reload. Current practice geometry a
 step are saved by the existing local autosave, and downloadable project files also
 retain the guide. A new visitor sees the case chooser; existing projects are kept.
 
-Validation: `node --test tests/egress/*.test.mjs` from the repository root (96 tests).
+Validation: `node --test tests/egress/*.test.mjs` from the repository root (98 tests).
 The example regression tests verify room connectivity, repairable door/court
 findings, shared-wall area updates, real crossing removal, stair continuity and
 upper-floor slab subtraction. Browser QA also covers guided selection/property

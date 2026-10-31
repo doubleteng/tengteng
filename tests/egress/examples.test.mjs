@@ -60,3 +60,35 @@ test('Precedent sources survive export and are escaped in the report',()=>{
  const p=JSON.parse(JSON.stringify(createExample('savoye')));const html=precedentSourcesHtml(p);assert.match(html,/Centre des monuments/);assert.match(html,/teaching assumptions/);
  p.precedent.title='<img src=x>';p.precedent.sources=[{label:'Bad',url:'javascript:alert(1)'}];const safe=precedentSourcesHtml(p);assert.match(safe,/&lt;img/);assert.ok(!safe.includes('javascript:'));
 });
+
+test('Kendeda uses the published auditorium dimensions and responds to a changed audience and door',()=>{
+ const p=createExample('kendeda'),f=p.floors[0],auditorium=f.rooms.find(r=>r.id==='auditorium');
+ const expectedSF=(71+(3+5/8)/12)*(52+(9+1/4)/12);
+ assert.ok(Math.abs(roomArea(p,0,auditorium)/(.3048**2)-expectedSF)<.001);
+ let a=analyze(p);
+ assert.ok(a.complete.length===6 && a.complete.every(r=>r.complete));
+ assert.equal(a.floors[0].rooms.find(r=>r.id===auditorium.id).occupants,251);
+ assert.ok(!a.floors[0].checks.some(c=>c.status==='fail'));
+ Object.assign(auditorium,{function:'chairs',factor:7});
+ const door=f.doors.find(d=>d.id==='hall-middle');
+ door.width=30*.0254;
+ a=analyze(p);
+ assert.equal(a.floors[0].rooms.find(r=>r.id===auditorium.id).occupants,538);
+ const row=a.floors[0].capacity.rows.find(r=>r.id===door.id);
+ assert.equal(row.status,'fail');assert.ok(Math.abs(row.shortfall-2*.0254)<.001);
+ assert.ok(exampleGoals(p,a).every(g=>g.met));
+});
+
+test('Bullitt routes descend both intervening stories to the street datum and react to a narrower stair',()=>{
+ const p=createExample('bullitt');let a=analyze(p);
+ const route=a.complete.find(r=>r.room==='office-420');
+ assert.ok(a.complete.length===4 && a.complete.every(r=>r.complete));
+ assert.deepEqual(route.segments.map(s=>s.floor),[2,'vertical',1,'vertical',0,'site']);
+ assert.ok(p.floors[0].features.some(o=>o.kind==='void'));
+ assert.ok(a.floors.every(f=>!f.checks.some(c=>c.status==='fail')));
+ p.floors[2].stairs[0].width=30*.0254;a=analyze(p);
+ const stair=a.floors[2].capacity.rows.find(r=>r.id==='bullitt-l4-stair-1');
+ assert.equal(stair.status,'fail');assert.ok(Math.abs(stair.shortfall-6*.0254)<.001);
+ assert.equal(exampleGoals(p,a)[0].met,true);
+ const references=precedentSourcesHtml(p);assert.match(references,/6237843/);assert.match(references,/assumes protected/);
+});

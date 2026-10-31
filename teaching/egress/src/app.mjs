@@ -1,7 +1,7 @@
 import {studioIcon} from './studio-icons.mjs?v=studio-20261031';
-import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=case-library-1';
-import {exampleById,createExample} from './examples.mjs?v=case-library-1';
-import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=case-library-1';
+import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=us-studies-1';
+import {exampleById,createExample} from './examples.mjs?v=us-studies-1';
+import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=us-studies-1';
 import {analyzePlanCode} from './plan-code.mjs?v=stair-review-20261031';
 import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=studio-20261031';
 import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=studio-20261031';
@@ -16,14 +16,14 @@ import {pairWallFaces} from './wall-import.mjs?v=stair-review-20261031';
 import {VisionConnection} from './vision.mjs?v=stair-review-20261031';
 import {FT,IN,SF,dist,area,inside,bounds,project,segDist,edges,centroid,roomPoint,insideRoom,floorRegions,length,uid,lerp} from './geometry.mjs?v=stair-review-20261031';
 import {fresh,functions,validateProject} from './model.mjs?v=stair-review-20261031';
-import {sources} from './analysis.mjs?v=stair-review-20261031';
+import {sources} from './analysis.mjs?v=us-studies-1';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let p=fresh(),mode='building',tool='select',selected=null,draft=[],cursor=null,cam={x:15,y:9,s:20},views=[],allFloors=false,playing=false,analysis=null,baseline=null,revision=0,analyzedRevision=-1,history=[],future=[],drag=null,space=false,filter='issues',dirty=false,analyzeTimer,saveTimer,probeRoute=null,highlight=null;
 let snapResult=null,pointerView=null,alignSession=null,traceRoomId=null;
 const cameras=new Map(),underlays=new Map();
 let lastDragUpdate=0,exampleBackup=null,exampleSwitchBusy=false,workflowStage=0,moreToolsOpen=false,activeFinding=null;
 const vis={furniture:true,context:true,candidates:true,site:true,underlay:true,voids:true,grid:true,background:true,cad:true,rooms:true,walls:true,doors:true,stairs:true,obstacles:true,routes:true,pedestrian:true,accessible:true,vehicle:true,walkable:true,paths:true,targets:true};
-let worker=new Worker(new URL('./analysis-worker.mjs?v=stair-review-20261031',import.meta.url),{type:'module'}),busy=false,queued=false;
+let worker=new Worker(new URL('./analysis-worker.mjs?v=us-studies-1',import.meta.url),{type:'module'}),busy=false,queued=false;
 const canvas=$('#plan'),ctx=canvas.getContext('2d'),wrap=$('#canvas-wrap');let W=1,H=1;
 const floor=()=>p.floors[p.activeFloor],target=()=>mode==='site'?p.site:floor(),meter=()=>p.units==='ft'?FT:1,unit=()=>p.units==='ft'?'ft':'m',fmt=v=>`${(v/meter()).toFixed(1)} ${unit()}`,nfmt=v=>(v/meter()).toFixed(2),capfmt=(v,up=false)=>capacityDimension(v,p.units,up);
 const tools={building:[['select','↖','Select'],['boundary','▱','Floor boundary'],['wall','╱','Wall'],['door','◜','Door'],['exit','⇥','Exit'],['stair','▤','Stair link'],['obstacle','▨','Obstacle'],['void','⬚','Multi-height space'],['common','⌁','Common path'],['dead','⊣','Dead end'],['probe','◎','Test a point'],['measure','↔','Measure']],site:[['select','↖','Select'],['walkable','▱','Walkable area'],['siteobstacle','▨','Site obstacle'],['public','⇥','Public way'],['assembly','⊕','Assembly point'],['pedestrian','↝','Pedestrian'],['accessible','♿','Accessible'],['vehicle','⇢','Vehicle'],['probe','◎','Test a point'],['measure','↔','Measure']]};
@@ -40,20 +40,25 @@ async function db(){return new Promise((resolve,reject)=>{const r=indexedDB.open
 async function saveLocal(){try{const d=await db();await new Promise((resolve,reject)=>{const t=d.transaction('projects','readwrite');t.objectStore('projects').put(p,'last');t.oncomplete=resolve;t.onerror=()=>reject(t.error);});d.close();$('#save-status').textContent='Saved on this device';dirty=false;}catch{$('#save-status').textContent='Local save unavailable · download a project file';}}
 async function storedProject(key){const d=await db();try{return await new Promise((resolve,reject)=>{const r=d.transaction('projects').objectStore('projects').get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}finally{d.close();}}
 async function keepProject(key,value){const d=await db();try{await new Promise((resolve,reject)=>{const t=d.transaction('projects','readwrite');t.objectStore('projects').put(value,key);t.oncomplete=resolve;t.onerror=()=>reject(t.error);t.onabort=()=>reject(t.error);});}finally{d.close();}}
-async function restore(){let firstVisit=false;try{const v=await storedProject('last');if(v)p=validateProject(v);else{p=fresh();firstVisit=true;}exampleBackup=await storedProject('before-examples');}catch{if(!p.floors[0].outline.length){p=fresh();firstVisit=true;}}p.floors.forEach(f=>{f.stairs??=[];f.traces??=[];});for(const scope of [...p.floors,p.site])for(const line of scope.cad||[])line.id??=uid();p.activeFloor=Math.min(p.activeFloor||0,p.floors.length-1);if(exampleById(p.tutorial?.id))allFloors=['levels','savoye'].includes(p.tutorial.id);renderPanels();fit();runAnalysis();workflowStage=p.floors.some(f=>f.rooms.length)?2:0;renderWorkflowControls();if(p.tutorial)lessonAction(exampleById(p.tutorial.id)?.steps[p.tutorial.step||0]||{});else{let seen=false;try{seen=localStorage.getItem('egress-start-workflow-v1')==='seen';}catch{}if(firstVisit||!seen)showStart();}}
-function showExamples(){
- modal('Drawing exercises',exampleGallery(p,!!exampleBackup));$('#modal').classList.add('examples-dialog');
+async function restore(){let firstVisit=false;try{const v=await storedProject('last');if(v)p=validateProject(v);else{p=fresh();firstVisit=true;}exampleBackup=await storedProject('before-examples');}catch{if(!p.floors[0].outline.length){p=fresh();firstVisit=true;}}p.floors.forEach(f=>{f.stairs??=[];f.traces??=[];});for(const scope of [...p.floors,p.site])for(const line of scope.cad||[])line.id??=uid();p.activeFloor=Math.min(p.activeFloor||0,p.floors.length-1);if(exampleById(p.tutorial?.id))allFloors=['levels','savoye','bullitt'].includes(p.tutorial.id);renderPanels();fit();runAnalysis();workflowStage=p.floors.some(f=>f.rooms.length)?2:0;renderWorkflowControls();
+ const linkedStudy=exampleById(new URLSearchParams(location.search).get('case'));
+ if(linkedStudy?.buildingStudy && p.tutorial?.id!==linkedStudy.id){showExamples(linkedStudy);return;}
+ if(p.tutorial)lessonAction(exampleById(p.tutorial.id)?.steps[p.tutorial.step||0]||{});else{let seen=false;try{seen=localStorage.getItem('egress-start-workflow-v1')==='seen';}catch{}if(firstVisit||!seen)showStart();}}
+function showExamples(featured){
+ const study=featured?.buildingStudy?featured:null;
+ modal(study?study.title:'U.S. building studies',exampleGallery(p,!!exampleBackup,study));
+ $('#modal').classList.add('examples-dialog');$('#modal').classList.toggle('single-case',!!study);
  $$('[data-start-example]').forEach(b=>b.onclick=()=>startExample(b.dataset.startExample));
  if($('#continue-example'))$('#continue-example').onclick=()=>{$('#modal').close();p.tutorial.collapsed=false;renderLesson();saveLocal();};
  if($('#return-example-project'))$('#return-example-project').onclick=returnFromExample;
  $('#examples-blank').onclick=()=>{$('#modal').close();resetProject(fresh());workflowStage=0;setTool('wall');switchTab('properties');};
 }
-$('#modal').addEventListener('close',()=>$('#modal').classList.remove('examples-dialog'));
+$('#modal').addEventListener('close',()=>$('#modal').classList.remove('examples-dialog','single-case'));
 async function startExample(id){
  if(exampleSwitchBusy)return;exampleSwitchBusy=true;
  try{const next=createExample(id);
   if(!exampleById(p.tutorial?.id)){const snapshot=structuredClone(p);await keepProject('before-examples',snapshot);exampleBackup=snapshot;}
-  $('#modal').close();allFloors=['levels','savoye'].includes(id);for(const k of Object.keys(vis))vis[k]=true;vis.background=false;resetProject(next);lessonAction(exampleById(id).steps[0]);
+  $('#modal').close();allFloors=['levels','savoye','bullitt'].includes(id);for(const k of Object.keys(vis))vis[k]=true;vis.background=false;resetProject(next);lessonAction(exampleById(id).steps[0]);
   toast('Drag the selected object. Next selects the next part of the plan.');
  }catch(e){toast('Could not keep your current design. Save a project file before opening a practice case. '+e.message);}finally{exampleSwitchBusy=false;}
 }
@@ -122,6 +127,7 @@ function setUnderlayVisible(visible){
 }
 $('#show-underlay').onchange=e=>setUnderlayVisible(e.target.checked);
 function renderPanels(){
+ $('.north').classList.toggle('hidden',!!p.precedent);
  document.body.classList.toggle('guided-practice',!!exampleById(p.tutorial?.id));renderLesson();renderWorkflowControls();renderRouteExplanation();
  const picked=selection();$('#selection-label').textContent=picked?''+(picked.o.name||({wall:'Wall · drag its middle',door:'Door · drag along the wall'}[picked.kind]||picked.kind)):'';$('#selection-label').classList.toggle('hidden',!picked);$('#show-underlay').checked=vis.background;const mandatorySnap=['wall','door','exit'].includes(tool);$('#snap').disabled=mandatorySnap;if(mandatorySnap)$('#snap').checked=true;
 $('#project-name').value=p.name;$('#units').value=p.units;$('#floor-select').innerHTML=p.floors.map((f,i)=>`<option value="${i}" ${i===p.activeFloor?'selected':''}>${esc(f.name)}</option>`).join('');$('#floor-select').disabled=mode==='site';$('#view-title').textContent=allFloors?'Linked floor plans':Math.abs(floor().elevation)<.001?floor().name+' + site':floor().name;$('#view-subtitle').textContent=mode==='site'?'Movement + discharge':'Plan + egress';$('#draw-mode').textContent=mode.toUpperCase();$$('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));const basic=mode==='building'?['select','wall','door','exit']:['select','walkable','pedestrian','public'];const toolButton=([id,icon,label])=>`<button data-tool="${id}" class="${tool===id?'active':''}" title="${esc(hints[id])}"><span class="symbol">${studioIcon(id)}</span>${label}</button>`;$('#toolbox').innerHTML=tools[mode].filter(t=>basic.includes(t[0])).map(toolButton).join('')+`<details id="more-tools" class="more-tools" ${moreToolsOpen||!basic.includes(tool)?'open':''}><summary>More tools</summary><div class="tool-grid">${tools[mode].filter(t=>!basic.includes(t[0])).map(toolButton).join('')}</div></details>`;$('#more-tools').ontoggle=e=>moreToolsOpen=e.target.open;$$('[data-tool]').forEach(b=>b.onclick=()=>{setTool(b.dataset.tool);if(!p.tutorial)switchTab('properties');});
@@ -157,7 +163,7 @@ if(kind==='furniture'){html+=`<label class="inline"><input data-prop="blocksMove
 if(kind==='context')html+='<p>Context is separate from room detection. Courtyards, exterior and voids are excluded from indoor area / routing; projected geometry is reference only.</p>';
 if(kind==='candidate')html+=`<p>Proposed ${esc(o.kind)}. Drag the two jamb points to correct the position. It does not connect spaces until confirmed.</p><label>Measured clear opening width (${unit()})<input id="candidate-width" type="number" min="0.01" value="${nfmt(dist(...o.points.slice(0,2)))}"></label><div class="candidate-actions"><button id="confirm-door">Confirm interior door / passage</button><button id="confirm-exit">Confirm exit to ${floor().elevation===0?'site':'vertical circulation'}</button></div>`;
 if(kind==='room'){
- html+=`<label>Space function<select data-prop="function">${Object.entries(functions).map(([k,v])=>`<option value="${k}" ${k===o.function?'selected':''}>${v.name}</option>`).join('')}</select></label>${loadCard(roomLoad(p,p.activeFloor,o))}<label class="inline"><input type="checkbox" data-prop="areaConfirmed" ${o.areaConfirmed?'checked':''}> I checked the area basis</label><button id="room-factor-reference">IBC area-per-person table ↗</button><details class="room-settings"><summary>Room type, area target + load settings</summary><label>Spatial type<select data-prop="role">${['room','corridor','lobby','terrace'].map(k=>`<option value="${k}" ${(o.role||'room')===k?'selected':''}>${k}</option>`).join('')}</select></label>`;
+ html+=`<label>Space function<select data-prop="function">${Object.entries(functions).map(([k,v])=>`<option value="${k}" ${k===o.function?'selected':''}>${v.name}</option>`).join('')}</select></label>${loadCard(roomLoad(p,p.activeFloor,o))}${o.sourceNote?'<p class="source-fact">'+esc(o.sourceNote)+'</p>':''}<label class="inline"><input type="checkbox" data-prop="areaConfirmed" ${o.areaConfirmed?'checked':''}> I checked the area basis</label><button id="room-factor-reference">IBC area-per-person table ↗</button><details class="room-settings"><summary>Room type, area target + load settings</summary><label>Spatial type<select data-prop="role">${['room','open use area','corridor','lobby','terrace'].map(k=>`<option value="${k}" ${(o.role||'room')===k?'selected':''}>${k}</option>`).join('')}</select></label>`;
  if(o.role==='corridor')html+=propertyInput(`Measured clear width (${unit()}, optional)`,'clearWidth',o.clearWidth>0?nfmt(o.clearWidth):'','number','min="0.01" step="0.01"')+'<p class="small">Leave blank for a boundary-based width estimate.</p>';
  html+=propertyInput(`Program area target (${p.units==='ft'?'sf':'m²'}, optional)`,'targetArea',o.targetArea==null?'':(o.targetArea/(p.units==='ft'?SF:1)).toFixed(1),'number','min="0" step="1"')+`<label>Occupancy classification<select data-prop="group">${['A','B','E','M'].map(v=>`<option ${o.group===v?'selected':''}>${v}</option>`).join('')}</select></label>`+propertyInput('Load factor (sf/person)','factor',o.factor,'number','min="1"')+`<label>Area basis<select data-prop="basis"><option ${o.basis==='net'?'selected':''}>net</option><option ${o.basis==='gross'?'selected':''}>gross</option></select></label><p class="small">${areaBasisNote}</p></details>`;
 }

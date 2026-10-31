@@ -260,3 +260,24 @@ dialog::backdrop{background:#342e2547;backdrop-filter:none}
 .study-scope{margin:-3px 0 9px}
 .practice-goal.width-finding{border-left:3px solid #a44429;color:#80371f;padding-left:9px}
 .practice-goal.width-finding span{display:block;margin-top:3px;font-size:11px}
+/* Source comparison keeps correction actions beside the drawing. */
+.recognition-dialog .recognition-lead{display:none}
+.recognition-dialog .recognition-layout{grid-template-columns:minmax(0,1fr) 270px;gap:18px}
+.recognition-toolbar{flex-wrap:wrap;align-items:center;gap:8px}
+.recognition-toolbar button{font-size:11px;padding:7px 10px}
+#recognition-hint{font-size:10px;color:#6d796b}
+#recognition-canvas{width:100%;height:auto;max-height:66vh;object-fit:contain;border:1px solid #d3d7cc;touch-action:none;cursor:crosshair}
+#recognition-quality>strong,#recognition-quality>small{display:block;margin-bottom:7px}
+#recognition-quality>small{font-size:10px;color:#7d8578}
+.import-issues{max-height:170px;overflow-y:auto;border-top:1px solid #d6d9cf;margin:10px 0}
+.import-issues button{width:100%;text-align:left;display:flex;gap:8px;font-size:11px;line-height:1.4;border:0;border-bottom:1px solid #e0e2d9;border-radius:0;padding:9px 2px;background:transparent}
+.import-issues button span{background:#d79a3b;color:white;border-radius:50%;min-width:17px;height:17px;text-align:center;font-size:9px}
+.import-problem{font-size:11px;line-height:1.55;border-left:2px solid #d79a3b;padding-left:10px}
+.import-connection{padding:10px;background:#eef2e8;border-radius:4px;font-size:12px;color:#345d4c}
+.recognition-footer{display:flex;gap:8px;align-items:center;border-top:1px solid #d6d9cf;padding-top:14px;margin-top:12px}
+.recognition-footer>span{font-size:11px;color:#7b7b69;margin-right:auto}
+.recognition-footer button{white-space:nowrap;font-size:12px}
+.recognition-notes,.recognition-layers{font-size:11px;color:#727c6d;margin-top:10px}
+.recognition-inspector #recognition-editor small{font-size:10px;color:#797b70}
+.recognition-inspector .candidate-actions{margin-top:12px;gap:6px}
+@media(max-width:850px){.recognition-dialog .recognition-layout{grid-template-columns:1fr}.recognition-footer{flex-wrap:wrap}.recognition-inspector{max-height:35vh;overflow:auto}}

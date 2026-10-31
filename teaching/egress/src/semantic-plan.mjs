@@ -1,3 +1,4 @@
+import {openingHost,openingSpaces} from './import-quality.mjs?v=import-integrity-1';
 import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=stair-review-20261031';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance'];
@@ -14,7 +15,7 @@ export function validateInterpretation(input){
     const line=['wall','door','entrance','window'].includes(item.kind);
     if(points.length<(line?2:3))throw Error('An element has incomplete geometry.');
     if(!line&&area(points.map(([x,y])=>({x,y})))<1){warnings.push(text(item.label)+': empty polygon omitted.');continue;}
-    elements.push({id:item.id,kind:item.kind,label:text(item.label||item.kind),points,confidence:['high','medium','low'].includes(item.confidence)?item.confidence:'low',evidence:text(item.evidence),confirmed:false});
+    elements.push({id:item.id,kind:item.kind,label:text(item.label||item.kind),points,confidence:['high','medium','low'].includes(item.confidence)?item.confidence:'low',evidence:text(item.evidence),confirmed:item.confirmed===true,...(item.sourceCheck&&Number.isFinite(item.sourceCheck.coverage)?{sourceCheck:{coverage:Math.max(0,Math.min(1,item.sourceCheck.coverage)),missingPixels:Math.max(0,Number(item.sourceCheck.missingPixels)||0),samples:Math.max(0,Number(item.sourceCheck.samples)||0)}}:{})});
   }
   const outline=Array.isArray(input.outline)?input.outline:[];
   if(outline.length>160||outline.some(q=>!Array.isArray(q)||q.length!==2||q.some(v=>!Number.isFinite(v)||v<0||v>1000)))throw Error('Invalid floor enclosure.');
@@ -30,7 +31,7 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
   if(!image.calibrated)throw Error('Calibrate a known dimension before creating the analysis model.');
   const batch=uid(),out={outline:result.outline.map(q=>imagePoint(image,q)),rooms:[],walls:[],doors:[],stairs:[],features:[],candidates:[],recognition:{batch,summary:result.summary,warnings:[...result.warnings],reviewed:false}};
   const selected=result.elements.filter(e=>include.has(e.id));
-  const common=e=>({id:uid(),name:e.label,recognition:{batch,sourceId:e.id,confidence:e.confidence,evidence:e.evidence,reviewed:e.confirmed===true}});
+  const common=e=>({id:uid(),name:e.label,recognition:{batch,sourceId:e.id,confidence:e.confidence,evidence:e.evidence,reviewed:e.confirmed===true,sourceCheck:e.sourceCheck}});
   for(const e of selected){
     const points=e.points.map(q=>imagePoint(image,q)),o=common(e);
     if(['room','corridor','lobby'].includes(e.kind)){out.rooms.push({...o,points,role:e.kind,function:'business',group:'B',factor:150,basis:'gross',areaConfirmed:false,fromWalls:true});}
@@ -39,22 +40,19 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
     else if(['door','entrance'].includes(e.kind))out.candidates.push({...o,kind:e.kind,points,confirmed:false});
     else out.features.push({...o,kind:e.kind,points,blocksMovement:false});
   }
-  // Continuous perimeter seals uncertain gaps until a student confirms an
-  // opening. Do not invent partition walls along an open-plan program boundary.
-  if(out.outline.length>=3)for(const [a,b] of edges(out.outline)){
-    const n=dist(a,b);if(n<.01)continue;
-    const spans=out.walls.filter(w=>segDist(w.a,a,b)<defaultThickness&&segDist(w.b,a,b)<defaultThickness).map(w=>[project(w.a,a,b).t,project(w.b,a,b).t].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]);
-    let cursor=0;const at=t=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t});
-    function fill(lo,hi){if((hi-lo)*n<.01)return;out.walls.push({id:uid(),a:at(lo),b:at(hi),thickness:defaultThickness,boundary:true,recognition:{batch,reviewed:false,evidence:'Proposed enclosure; confirm entrances before using egress results.'}});}
-    for(const [lo,hi] of spans){if(lo>cursor)fill(cursor,lo);cursor=Math.max(cursor,hi);}if(cursor<1)fill(cursor,1);
-  }
+  if(out.walls.length>1500)throw Error('This interpretation has more than 1,500 wall segments. Read a smaller floor region before analysis.');
+  // The occupied outline limits routing but is not evidence of a physical wall.
+  // Only explicit, reviewable wall elements become walls.
   return out;
 }
 export function confirmOpening(floor,candidate,{exit=false,width=null}={}){
   const [a,b]=candidate.points,center={x:(a.x+b.x)/2,y:(a.y+b.y)/2},clear=width??dist(a,b);
   if(!(clear>.05&&clear<20))throw Error('Enter the measured clear opening width.');
-  let best=null,d=Infinity;for(const w of floor.walls){const q=project(center,w.a,w.b),dd=dist(q,center);if(dd<d){d=dd;best={w,q};}}
-  if(!best||d>Math.max(.35,clear/2))throw Error('Move this candidate onto a wall, or draw the missing wall first.');
-  const door={id:uid(),name:candidate.name||'Door',wallId:best.w.id,x:best.q.x,y:best.q.y,width:clear,exit,discharge:exit&&floor.elevation===0?'site':'none',recognition:{...candidate.recognition,reviewed:true}};
+  const host=openingHost(floor.walls,candidate.points,clear);
+  if(host.error)throw Error(host.error);
+  const connection=openingSpaces(floor,candidate.points);
+  let wall=host.wall;
+  if(host.gap){wall={id:uid(),...host.gap,openingHost:true,recognition:{...candidate.recognition,reviewed:true,evidence:'Confirmed opening between the original jambs.'}};floor.walls.push(wall);}
+  const door={id:uid(),name:candidate.name||'Door',wallId:wall.id,x:host.center.x,y:host.center.y,width:clear,exit,discharge:exit&&floor.elevation===0?'site':'none',recognition:{...candidate.recognition,reviewed:true},sourceConnection:connection.labels};
   floor.doors.push(door);floor.candidates=(floor.candidates||[]).filter(c=>c.id!==candidate.id);return door;
 }

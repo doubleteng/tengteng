@@ -1,3 +1,4 @@
+import {strokeMask} from './import-quality.mjs?v=import-integrity-1';
 // PDF.js 5.6.205 operator-list linework adapter. Coordinates are normalized to
 // the rendered page so calibration and floor alignment affect pixels and lines
 // together. Text is deliberately excluded; linework still needs semantic review.
@@ -21,15 +22,16 @@ export function pdfLinework(operatorList,OPS,viewport){
       for(let k=1;k<=16;k++){const t=k/16,u=1-t,next=verb===2?{x:u**3*origin.x+3*u*u*t*control1.x+3*u*t*t*control2.x+t**3*end.x,y:u**3*origin.y+3*u*u*t*control1.y+3*u*t*t*control2.y+t**3*end.y}:{x:u*u*origin.x+2*u*t*control1.x+t*t*end.x,y:u*u*origin.y+2*u*t*control1.y+t*t*end.y};add(current,next);current=next;}
     }else{ignoredCurves++;break;}}
   }
-  return {segments,method:'PDF vector paths',warnings:['Review walls separately from dimensions, grids, hatches and door symbols. PDF clipping and fill semantics are not analysis boundaries.',...(ignoredCurves?['Some unsupported paths were omitted.']:[])]};
+  return {segments,method:'PDF vector paths',warnings:['Review walls separately from dimensions, grids, hatches and door symbols. PDF clipping and fill semantics are not analysis boundaries. Scanned content can coexist with these vectors; use source-stroke extraction for the whole page.',...(ignoredCurves?['Some unsupported paths were omitted.']:[]),...(segments.length>=35000?['Vector output reached the 35,000-segment limit; select a smaller plan region.']:[])]};
 }
 
 // Binary centerline vectorization for scanned sheets. Zhang-Suen thinning
 // preserves diagonal/curved strokes and junctions; polyline simplification keeps
 // the result editable. Semantic wall/door interpretation remains a review step.
 export function rasterLinework(imageData){
-  const {width:w,height:h,data}=imageData,n=w*h,mask=new Uint8Array(n);let active=[];
-  for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x,k=i*4;if(data[k+3]>128&&data[k]*.2126+data[k+1]*.7152+data[k+2]*.0722<150){mask[i]=1;active.push(i);}}
+  const {width:w,height:h}=imageData,n=w*h,mask=strokeMask(imageData).mask;let active=[];
+  // Pad the boundary logically: neighbor lookup must not wrap between rows.
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=y*w+x;if(!x||!y||x===w-1||y===h-1)mask[i]=0;else if(mask[i])active.push(i);}
   let changed=true,iterations=0;
   while(changed&&iterations++<80){changed=false;for(let phase=0;phase<2;phase++){
     const remove=[];for(const i of active){const a=mask[i-w],b=mask[i-w+1],c=mask[i+1],d=mask[i+w+1],e=mask[i+w],f=mask[i+w-1],g=mask[i-1],h=mask[i-w-1],sum=a+b+c+d+e+f+g+h;if(sum<2||sum>6)continue;
@@ -38,7 +40,7 @@ export function rasterLinework(imageData){
     }if(remove.length){changed=true;for(const i of remove)mask[i]=0;active=active.filter(i=>mask[i]);}
   }}
   const neighbors=i=>{const list=[];for(const step of [-w,1,w,-1])if(mask[i+step])list.push(i+step);for(const [step,a,b]of [[-w+1,-w,1],[w+1,w,1],[w-1,w,-1],[-w-1,-w,-1]])if(mask[i+step]&&!mask[i+a]&&!mask[i+b])list.push(i+step);return list;};
-  const visited=new Set(),segments=[],minimum=Math.max(10,Math.min(w,h)*.012),coord=i=>({x:i%w,y:Math.floor(i/w)}),key=(a,b)=>Math.min(a,b)*n+Math.max(a,b);
+  const visited=new Set(),segments=[],minimum=2,coord=i=>({x:i%w,y:Math.floor(i/w)}),key=(a,b)=>Math.min(a,b)*n+Math.max(a,b);
   const simplify=(points,epsilon=1.2)=>{if(points.length<3)return points;const keep=new Set([0,points.length-1]),stack=[[0,points.length-1]];while(stack.length){const [a,b]=stack.pop(),p=points[a],q=points[b],dx=q.x-p.x,dy=q.y-p.y,l=dx*dx+dy*dy;let max=epsilon*epsilon,index=-1;for(let i=a+1;i<b;i++){const r=points[i],t=l?Math.max(0,Math.min(1,((r.x-p.x)*dx+(r.y-p.y)*dy)/l)):0,d=(r.x-p.x-dx*t)**2+(r.y-p.y-dy*t)**2;if(d>max){max=d;index=i;}}if(index>=0){keep.add(index);stack.push([a,index],[index,b]);}}return [...keep].sort((a,b)=>a-b).map(i=>points[i]);};
   function walk(start,next){if(visited.has(key(start,next)))return;const path=[coord(start)];let previous=start,current=next,total=0;
     for(let limit=0;limit<=active.length;limit++){const k=key(previous,current);if(visited.has(k))break;visited.add(k);const q=coord(current),last=path.at(-1);total+=Math.hypot(q.x-last.x,q.y-last.y);path.push(q);const opts=neighbors(current).filter(i=>i!==previous);if(opts.length!==1||current===start)break;previous=current;current=opts[0];}
@@ -46,7 +48,7 @@ export function rasterLinework(imageData){
   }
   for(const i of active){const ns=neighbors(i);if(ns.length!==2)for(const j of ns)walk(i,j);}
   for(const i of active)for(const j of neighbors(i))walk(i,j);
-  return {segments,method:'Scanned centerline vectors',warnings:['Image vectors follow dark strokes, including angled and curved lines. Review scale, wall thickness, gaps, text and furniture before assigning walls. Recognition does not infer door or room meaning.',...(changed?['Thick dark regions exceeded the thinning limit; simplify or crop the source image.']:[]),...(segments.length>=35000?['Vector output reached the 35,000-segment limit. Use a simpler image.']:[])]};
+  return {segments,method:'Source stroke vectors',warnings:['Image vectors preserve short, gray, angled and curved strokes using local contrast. Review scale, wall thickness, gaps, text and furniture before assigning walls. Recognition does not infer door or room meaning.',...(changed?['Thick dark regions exceeded the thinning limit; simplify or crop the source image.']:[]),...(segments.length>=35000?['Vector output reached the 35,000-segment limit. Use a simpler image.']:[])]};
 }
 
 export function referenceLinework(image){

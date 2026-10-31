@@ -1,4 +1,4 @@
-import {excludedSpaces} from './semantic-plan.mjs?v=stair-review-20261031';
+import {excludedSpaces} from './semantic-plan.mjs?v=import-integrity-1';
 import {area,edges,inside} from './geometry.mjs?v=stair-review-20261031';
 import {intersection} from './drafting.mjs?v=stair-review-20261031';
 

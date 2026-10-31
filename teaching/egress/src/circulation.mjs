@@ -1,6 +1,7 @@
+import {pendingOpeningBarriers} from './import-quality.mjs?v=import-integrity-1';
 import {makeGrid,flood,route,insideRoom,floorRegions,splitWalls} from './geometry.mjs?v=stair-review-20261031';
 import {floorOpenings,inOpening} from './openings.mjs?v=stair-review-20261031';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=stair-review-20261031';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=import-integrity-1';
 
 // An open or unverified stair can be a circulation destination without being
 // accepted as an exit. These paths never enter the egress field or capacity sum.
@@ -10,7 +11,7 @@ export function stairCirculation(p,fi,roomResults,egressRoutes){
  if(!targets.length||f.outline.length<3)return {routes,notices};
  const candidates=f.rooms.filter(r=>r.role!=='corridor'&&!egressRoutes.some(x=>x.room===r.id&&x.completeCoverage));
  if(!candidates.length)return {routes,notices};
- const g=makeGrid(floorRegions(f),[...f.obstacles,...floorOpenings(p,fi),...featureObstacles(f),...excludedSpaces(f)].map(o=>o.points),splitWalls(f.walls,f.doors),p.settings.grid||.3),field=flood(g,targets);
+ const g=makeGrid(floorRegions(f),[...f.obstacles,...floorOpenings(p,fi),...featureObstacles(f),...excludedSpaces(f)].map(o=>o.points),[...splitWalls(f.walls,f.doors),...pendingOpeningBarriers(f)],p.settings.grid||.3),field=flood(g,targets);
  for(const r of candidates){
   const result=roomResults.find(x=>x.id===r.id);let samples=0,unreachable=0,worst=-1,distance=-1,unreachablePoint=null;
   for(let i=0;i<g.n;i++){if(!g.good[i]||!insideRoom(g.point(i),r))continue;samples++;if(!Number.isFinite(field.d[i])){unreachable++;unreachablePoint??=g.point(i);}else if(field.d[i]>distance){worst=i;distance=field.d[i];}}

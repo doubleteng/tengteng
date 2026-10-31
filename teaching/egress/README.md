@@ -123,7 +123,7 @@ design** restores it, including after a page reload. Current practice geometry a
 step are saved by the existing local autosave, and downloadable project files also
 retain the guide. A new visitor sees the case chooser; existing projects are kept.
 
-Validation: `node --test tests/egress/*.test.mjs` from the repository root (98 tests).
+Validation: `node --test tests/egress/*.test.mjs` from the repository root (110 tests).
 The example regression tests verify room connectivity, repairable door/court
 findings, shared-wall area updates, real crossing removal, stair continuity and
 upper-floor slab subtraction. Browser QA also covers guided selection/property
@@ -135,3 +135,35 @@ Open or unverified upper-floor stairs now receive separate amber circulation pat
 ### Drawing workspace
 
 The studio interface keeps the plan central, with a compact tool rail and a collapsible inspector. Practice steps show one action at a time; editing help, finding evidence, IBC references and detailed route notes expand on request. The complete evidence remains in the PDF report. The Inspector control changes only the layout, and Show underlay changes only the reference-image display. Dimension fields accept hundredth-unit increments.
+
+
+### Import integrity
+
+Recognition now separates source evidence, semantic objects and connectivity checks.
+It preserves original CAD vectors and PDF paths, offers whole-page stroke extraction
+for hybrid scanned/vector PDFs, and retains faint pencil lines and short stroke
+branches. The source image stays available for comparison. Native CAD coordinates
+are retained when preparing a semantic recognition image.
+
+A floor outline no longer creates physical perimeter walls. New image recognition
+can recover visible stroke runs along recognized architectural boundaries, excluding
+furniture polygons, and join small (at most three source pixels) junction gaps only
+where the source has ink. These remain reviewable proposals. No blank gap is closed
+solely to make a room or a route work.
+
+The review canvas supports adding/removing objects, editing the floor boundary,
+source-line picking, shared-corner movement, snapping, Shift ortho, local detail
+recognition, undo and original/object/source visibility. Detail recognition adds
+proposals without replacing surrounding geometry. The instructor service is unchanged.
+
+Import diagnostics locate unsupported wall spans, near-junction gaps, duplicate
+walls, room boundary omissions, self-crossing room polygons, unhosted openings and
+unclear room/door/corridor relationships. They are recomputed in the workspace and
+included in PDF results. Unconfirmed door candidates are explicit temporary routing
+barriers. Confirming a real jamb gap creates a portal host at the original gap,
+without snapping the door to an adjacent endpoint or widening a neighboring wall.
+
+These checks are not a measured universal recognition-accuracy guarantee. Source
+strokes can still represent furniture/annotation; faint, occluded or ambiguous
+architecture may need local recognition or a correction. The original two uploaded
+plan sheets are used for private manual QA, not published as repository assets.

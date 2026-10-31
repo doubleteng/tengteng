@@ -4,6 +4,7 @@ import {roomArea} from '../../teaching/egress/src/openings.mjs';
 import {fresh} from '../../teaching/egress/src/model.mjs';import {analyze} from '../../teaching/egress/src/analysis.mjs';
 const rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]],el=(id,kind,points)=>({id,kind,label:id,points,confidence:'medium',evidence:'Test interpretation, not a recognition accuracy fixture.'});
 const drawing={version:1,summary:'Test contract',outline:rect(0,0,1000,1000),warnings:[],elements:[el('open library','room',rect(0,0,1000,800)),el('circulation','corridor',rect(0,800,1000,200)),el('table','furniture',rect(200,200,200,100)),el('shelf','furniture',rect(500,200,20,400)),el('entry','entrance',[[0,820],[0,920]]),el('stair','stair',rect(800,600,150,150))]};
+drawing.elements.push(...[[[0,0],[1000,0]],[[1000,0],[1000,1000]],[[1000,1000],[0,1000]],[[0,1000],[0,0]]].map((points,i)=>el('wall-'+i,'wall',points)));
 const image={x:0,y:0,width:10,height:10,rotation:0,calibrated:true};
 test('Furniture never subdivides rooms or becomes wall geometry',()=>{
  const r=validateInterpretation(drawing),m=materializeInterpretation(r,image);assert.equal(m.rooms.length,2);assert.equal(m.rooms[1].role,'corridor');assert.equal(m.walls.length,4);assert.equal(m.features.length,2);assert.equal(m.features[0].blocksMovement,false);assert.equal(featureObstacles(m).length,0);

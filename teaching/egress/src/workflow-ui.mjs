@@ -5,7 +5,7 @@ export function startScreen(){return `<div class="start-desk"><figure class="sta
 export function workflowState(p,a,stage){
  const fi=p.activeFloor||0,f=p.floors[fi],rooms=p.floors.flatMap((f,fi)=>f.rooms.map(o=>({o,fi}))),candidates=p.floors.flatMap((f,fi)=>(f.candidates||[]).map(o=>({o,fi}))),unconfirmed=rooms.find(x=>x.o.role!=='corridor'&&!x.o.areaConfirmed);
  if(stage===0){
-  if(f.image&&!f.image.calibrated&&!p.precedent)return {title:'Set the drawing scale',text:'Click two ends of a known dimension on the plan, then enter its real length.',action:'Pick two scale points',command:'calibrate'};
+  if(f.image&&!f.image.calibrated&&!f.semanticRooms)return {title:'Set the drawing scale',text:'Click two ends of a known dimension on the plan, then enter its real length.',action:'Pick two scale points',command:'calibrate'};
   if(f.image&&!f.rooms.length)return {title:'Find rooms and openings',text:'Recognition proposes rooms, corridors and doors. Review the overlay before applying it.',action:'Recognize this plan',command:'recognize'};
   if(!f.rooms.length&&(f.cad||[]).length)return {title:'Turn drawing lines into walls',text:'Open Drawing setup below Upload plan. Choose the wall layer and single- or double-line walls.',action:'Open drawing setup',command:'setup'};
   if(!f.rooms.length)return {title:'Draw your first room',text:'Click Wall, then click each corner and return to the first corner. Hold Shift for straight horizontal or vertical walls. Press Esc to stop.',action:'Draw walls',command:'wall'};

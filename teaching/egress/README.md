@@ -123,7 +123,7 @@ design** restores it, including after a page reload. Current practice geometry a
 step are saved by the existing local autosave, and downloadable project files also
 retain the guide. A new visitor sees the case chooser; existing projects are kept.
 
-Validation: `node --test tests/egress/*.test.mjs` from the repository root (119 tests).
+Validation: `node --test tests/egress/*.test.mjs` from the repository root (125 tests).
 The example regression tests verify room connectivity, repairable door/court
 findings, shared-wall area updates, real crossing removal, stair continuity and
 upper-floor slab subtraction. Browser QA also covers guided selection/property
@@ -198,3 +198,19 @@ updates, door following, room merges, use reassignment, broken enclosures, jamb
 portals, seed metadata and floor alignment. Browser QA verified a 50/50 m² pair
 changing to 69.92/30.08 m² with updated loads, removing the partition to make one
 100 m² enclosure, and restoring both rooms with Undo.
+
+
+### Upload destination and recovery
+
+Uploading into a nonempty design offers New design, Add a floor, or the current
+floor/site. New design starts with a clean model and site. Add a floor preserves
+existing floors and shared coordinates. The current destination replaces only
+the image/PDF underlay, or adds CAD layers, while retaining analysis objects.
+These destinations apply to JPG/PNG/PDF and DWG/DXF/3DM alike.
+
+Decoding, page selection, calibration setup and CAD preview are staged without
+changing the project. Only successful placement commits the chosen destination.
+Cancellation and decoding errors preserve the current model. Before placement,
+the previous project is saved locally; File → Restore before last upload remains
+available after reload. Undo also restores the immediate prior project. No cloud
+account is involved.

@@ -1,8 +1,8 @@
-import {stairLanding} from './stairs.mjs?v=portal-network-1';
-import {pendingOpeningBarriers} from './import-quality.mjs?v=door-detection-1';
-import {makeGrid,flood,route,insideRoom,floorRegions,splitWalls} from './geometry.mjs?v=portal-network-1';
-import {floorOpenings,inOpening} from './openings.mjs?v=furniture-1';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=furniture-1';
+import {stairLanding} from './stairs.mjs?v=auto-enclosure-1';
+import {pendingOpeningBarriers} from './import-quality.mjs?v=auto-enclosure-1';
+import {makeGrid,flood,route,insideRoom,floorRegions,splitWalls} from './geometry.mjs?v=auto-enclosure-1';
+import {floorOpenings,inOpening} from './openings.mjs?v=auto-enclosure-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=auto-enclosure-1';
 
 // An open or unverified stair can be a circulation destination without being
 // accepted as an exit. These paths never enter the egress field or capacity sum.
@@ -10,7 +10,7 @@ export function stairCirculation(p,fi,roomResults,egressRoutes){
  const f=p.floors[fi],routes=[],notices=[];
  for(const s of f.stairs||[])if(!stairLanding(s))notices.push({id:s.id,name:s.name,point:s.points[0],rooms:0,partial:0,title:(s.name||'Stair')+': direction and landing unknown',detail:'The footprint does not establish the flight direction or current-floor entrance. Trace the path from the real landing using the drawing’s UP/DN arrow, then choose its destination floor. No route is connected to a guessed corner.'});
  const targets=(f.stairs||[]).filter(s=>!s.protected&&f.elevation>0&&stairLanding(s)&&!inOpening(p,fi,stairLanding(s))).map(s=>({...s,...stairLanding(s)}));
- if(!targets.length||f.outline.length<3)return {routes,notices};
+ if(!targets.length||!floorRegions(f).length)return {routes,notices};
  const candidates=f.rooms.filter(r=>r.role!=='corridor'&&!egressRoutes.some(x=>x.room===r.id&&x.completeCoverage));
  if(!candidates.length)return {routes,notices};
  const g=makeGrid(floorRegions(f),[...f.obstacles,...floorOpenings(p,fi),...featureObstacles(f),...excludedSpaces(f)].map(o=>o.points),[...splitWalls(f.walls,f.doors),...pendingOpeningBarriers(f)],p.settings.grid||.3),field=flood(g,targets);
@@ -22,7 +22,7 @@ export function stairCirculation(p,fi,roomResults,egressRoutes){
   if(target){
    routes.push({room:r.id,name:r.name,points:route(g,field,worst),distance,stair:target.id,stairName:target.link||target.name,provisional:true,partial:state!=='connected'});
    if(!result.outsideBoundary&&!egressRoutes.some(x=>x.room===r.id))result.routeReason=`${state==='partial'?'Part of this room is cut off from the stair; add or correct its wall opening. The reachable portion leads':'This room leads'} to ${target.link||target.name}. The route stops at this landing because the stair is not assigned as an exit in the model. No onward travel is included.`;
-  }else if(!egressRoutes.some(x=>x.room===r.id)&&!result.outsideBoundary)result.routeReason=samples?'No geometric route to the stair: check door openings and wall connections.':'No walkable samples: check the floor boundary, obstacles and grid size.';
+  }else if(!egressRoutes.some(x=>x.room===r.id)&&!result.outsideBoundary)result.routeReason=samples?'No geometric route to the stair: check door openings and wall connections.':'No walkable samples: check enclosure walls, obstacles and grid size.';
  }
  for(const target of targets){const served=routes.filter(r=>r.stair===target.id),partial=served.filter(r=>r.partial).length;
   notices.push({id:target.id,name:target.link||target.name,point:{x:target.x,y:target.y},rooms:served.length,partial,

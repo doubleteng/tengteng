@@ -10,7 +10,7 @@ const image=()=>{const width=220,height=160,data=new Uint8ClampedArray(width*hei
 const ink=(im,x,y,value=0)=>{const i=(y*im.width+x)*4;im.data[i]=im.data[i+1]=im.data[i+2]=value;};
 const result=()=>({version:1,summary:'',warnings:[],outline:[[0,0],[1000,0],[1000,1000],[0,1000]],elements:[]});
 test('A semantic outline never invents physical perimeter walls',()=>{
- const m=materializeInterpretation(result(),{x:0,y:0,width:10,height:10,calibrated:true});assert.equal(m.walls.length,0);assert.equal(m.outline.length,4);
+ const m=materializeInterpretation(result(),{x:0,y:0,width:10,height:10,calibrated:true});assert.equal(m.walls.length,0);assert.equal(m.outline.length,0);
 });
 test('Light gray and short source strokes survive vectorization',()=>{
  const im=image();for(let x=20;x<=195;x++)ink(im,x,30,195);for(let x=40;x<=47;x++)ink(im,x,90,80);

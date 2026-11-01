@@ -238,3 +238,7 @@ Recognition requests individual table, chair, cabinet and counter contours rathe
 Unresolved and legacy unreviewed furniture is not drawn as a filled block and cannot become a route obstacle. Its source symbols remain visible in the underlay. Selecting it shows a dashed proposal for correction; an explicit checked-outline action or a manual geometry edit can accept that contour. New fitted contours remain editable and only affect routes after obstacle opt-in. No furniture geometry subdivides architectural rooms.
 
 Detail reads retain sanitary fixtures and can replace a mistaken architectural doorway with a geometrically matching cubicle gate. Mixed-use cells caused by missing walls do not inherit a restroom label from one seed.
+
+### Automatic enclosure extent
+
+Wall-derived rooms and the routing extent use the same closed wall network. A recognition outline is only a source hint; it cannot clip rooms, survive an opened enclosure, or bridge detached buildings. No separate floor-boundary drawing is required. Courtyard/exterior classifications and multi-height slab openings remain separate exclusions. Legacy teaching precedents retain their documented study geometry.

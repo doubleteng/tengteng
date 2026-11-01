@@ -1,12 +1,12 @@
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=furniture-1';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=auto-enclosure-1';
 import {normalizeSanitaryElements,sanitaryKinds} from './sanitary-elements.mjs?v=door-detection-1';
-import {windowOverlaps} from './door-evidence.mjs?v=door-detection-1';
+import {windowOverlaps} from './door-evidence.mjs?v=auto-enclosure-1';
 import {doorAssembly} from './door-assembly.mjs?v=door-detection-1';
-import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates,doorPoints} from './opening-identity.mjs?v=door-detection-1';
-export {deduplicateOpenings} from './opening-identity.mjs?v=door-detection-1';
-import {openingHost,openingSpaces} from './import-quality.mjs?v=door-detection-1';
-import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=furniture-1';
-import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=portal-network-1';
+import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates,doorPoints} from './opening-identity.mjs?v=auto-enclosure-1';
+export {deduplicateOpenings} from './opening-identity.mjs?v=auto-enclosure-1';
+import {openingHost,openingSpaces} from './import-quality.mjs?v=auto-enclosure-1';
+import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=auto-enclosure-1';
+import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=auto-enclosure-1';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance',...sanitaryKinds];
 export const semanticColors={room:'#507fa6',corridor:'#e5a42f',lobby:'#b78cde',exterior:'#7da971',courtyard:'#64a795',void:'#c66e71',projection:'#8b9199',furniture:'#99816b',column:'#8c7464',stair:'#9b72bc',window:'#62a9c0',wall:'#254f47',door:'#d97830',entrance:'#d34936','toilet-compartment':'#9aaea7','toilet-partition':'#82978f','toilet-door':'#82978f','sanitary-fixture':'#9aaea7'};
@@ -63,7 +63,7 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
     else out.features.push({...o,kind:e.kind,points,sourceGeometry:e.sourceGeometry,blocksMovement:false});
   }
   if(out.walls.length>1500)throw Error('This interpretation has more than 1,500 wall segments. Read a smaller floor region before analysis.');
-  // The occupied outline limits routing but is not evidence of a physical wall.
+  // The source outline is a recognition hint, not an independent routing boundary.
   // Only explicit, reviewable wall elements become walls.
   out.candidates=deduplicateOpenings(out.walls,out.candidates);
   for(const c of out.candidates)c.windowConflict=c.openingEvidence?.windowConflict||(windowOverlaps(...c.points.slice(0,2),out.features.filter(o=>o.kind==='window'))?'Window symbol overlaps this opening.':'');

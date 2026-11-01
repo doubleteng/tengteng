@@ -1,5 +1,5 @@
-import {strokeMask} from './import-quality.mjs?v=door-detection-1';
-import {area,dist,crosses} from './geometry.mjs?v=portal-network-1';
+import {strokeMask} from './import-quality.mjs?v=auto-enclosure-1';
+import {area,dist,crosses} from './geometry.mjs?v=auto-enclosure-1';
 
 // Recognition supplies an object location, never a license to turn a group
 // of tables, chairs and aisles into one obstacle. Only an independently

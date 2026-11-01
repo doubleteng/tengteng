@@ -1,4 +1,4 @@
-import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom} from './geometry.mjs?v=portal-network-1';
+import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom,floorRegions} from './geometry.mjs?v=auto-enclosure-1';
 
 // Evidence is a geometric check against source pixels, not a wall classifier.
 // Light pencil and gray CAD strokes use local contrast. Uniform gray fills do not.
@@ -120,7 +120,8 @@ export function openingSpaces(floor,points){
   const q={x:c.x+normal.x*offset*(side?1:-1),y:c.y+normal.y*offset*(side?1:-1)};
   const found=floor.rooms.filter(r=>insideRoom(q,r));
   if(found.length){sides[side]=found.map(r=>r.id);break;}
-  if(floor.outline?.length>=3&&!inside(q,floor.outline)){sides[side]=['outside'];break;}
+  const regions=floorRegions(floor),outdoors=(floor.features||[]).some(f=>['exterior','courtyard'].includes(f.kind)&&inside(q,f.points));
+  if(outdoors||regions.length&&!regions.some(poly=>inside(q,poly))){sides[side]=['outside'];break;}
  }
  return {sides,labels:sides.map(ids=>ids.map(id=>id==='outside'?'Outdoors':floor.rooms.find(r=>r.id===id)?.name||id).join(' / ')||'Unassigned space')};
 }
@@ -128,11 +129,11 @@ export function openingSpaces(floor,points){
 // Never closes a gap or invents a partition. All findings have a location and
 // actionable reason. Connectivity is proposed until an opening is confirmed.
 export function auditImport(floor,{tolerance=.025,gapLimit=.25}={}){
- const issues=[],connections=[],walls=floor.walls||[],rooms=floor.rooms||[],candidates=floor.candidates||[];
+ const issues=[],connections=[],walls=floor.walls||[],rooms=floor.rooms||[],candidates=floor.candidates||[],regions=floorRegions(floor);
  const issue=(code,title,detail,objectId,point)=>issues.push({code,title,detail,objectId,point});
- if(!floor.outline||floor.outline.length<3)issue('enclosure','Indoor boundary is missing','Trace the occupied indoor extent of this floor. Keep the site and other-floor projections outside this boundary.','__outline',rooms[0]?.points[0]||{x:0,y:0});
+ if(!regions.length)issue('enclosure','No closed wall enclosure','Close the actual missing walls or locate their openings. Indoor extent is derived from the wall network; no separate boundary is needed.','__outline',rooms[0]?.points[0]||{x:0,y:0});
  for(let i=0;i<rooms.length;i++){
-  const r=rooms[i],boundary=edges(floor.outline||[]),outside=r.points.find(q=>boundary.length&&!inside(q,floor.outline)&&boundary.every(([a,b])=>segDist(q,a,b)>.025));
+  const r=rooms[i],outside=r.points.find(q=>regions.length&&!regions.some(poly=>inside(q,poly)||edges(poly).some(([a,b])=>segDist(q,a,b)<=.025)));
   if(outside)issue('room-outside',r.name+': extends outside the indoor boundary','Check whether this area is indoors, a terrace, a courtyard or another floor. Correct its type or the indoor boundary.',r.id,outside);
   const strict=(q,room)=>insideRoom(q,room)&&[room.points,...(room.holes||[])].every(poly=>edges(poly).every(([a,b])=>segDist(q,a,b)>.025));
   for(let j=i+1;j<rooms.length;j++){

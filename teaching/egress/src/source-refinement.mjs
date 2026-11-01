@@ -1,9 +1,9 @@
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=furniture-1';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=auto-enclosure-1';
 import {normalizeSanitaryElements} from './sanitary-elements.mjs?v=door-detection-1';
-import {normalizeWallNetwork} from './wall-network.mjs?v=door-detection-1';
-import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=door-detection-1';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=door-detection-1';
-import {dist,segDist,project,lerp,edges} from './geometry.mjs?v=portal-network-1';
+import {normalizeWallNetwork} from './wall-network.mjs?v=auto-enclosure-1';
+import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=auto-enclosure-1';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=auto-enclosure-1';
+import {dist,segDist,project,lerp,edges} from './geometry.mjs?v=auto-enclosure-1';
 
 export function refinementSignature(result){
  let hash=2166136261;

@@ -1,6 +1,6 @@
-import {openingHost} from './import-quality.mjs?v=door-detection-1';
-import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=portal-network-1';
-import {intersection} from './drafting.mjs?v=portal-network-1';
+import {openingHost} from './import-quality.mjs?v=auto-enclosure-1';
+import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=auto-enclosure-1';
+import {intersection} from './drafting.mjs?v=auto-enclosure-1';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.
@@ -109,7 +109,9 @@ function syncWallRooms(floor){
  });
  floor.pendingSpaces=floor.spaceSeeds.filter(s=>!assigned.has(s.id)).map(s=>({...s,reason:'No closed wall enclosure surrounds this space. Close the missing wall or add the actual opening; area and people are not counted yet.'}));
  floor.autoRooms=true;
- if(floor.autoBoundary||!floor.outline.length){floor.autoBoundary=true;floor.enclosures=result.outlines.map(poly=>poly.map(q=>({...q})));floor.outline=floor.enclosures[0]||[];}
+ // The routing extent is derived from the same walls as the rooms. A stale
+ // recognition outline must never clip a valid room or fill a missing wall.
+ floor.autoBoundary=true;floor.enclosures=result.outlines.map(poly=>poly.map(q=>({...q})));floor.outline=floor.enclosures[0]||[];
  return result;
 }
 // Rebuild after a topology edit, not after display or occupancy changes.
@@ -126,6 +128,8 @@ export function syncEnclosedRooms(floor){
  }
  floor.rooms=roomsFromFaces(result.faces,floor.rooms);
  floor.autoRooms=true;
- if(floor.autoBoundary||!floor.outline.length){floor.autoBoundary=true;floor.enclosures=result.outlines.map(poly=>poly.map(q=>({...q})));floor.outline=floor.enclosures[0]||[];}
+ // The routing extent is derived from the same walls as the rooms. A stale
+ // recognition outline must never clip a valid room or fill a missing wall.
+ floor.autoBoundary=true;floor.enclosures=result.outlines.map(poly=>poly.map(q=>({...q})));floor.outline=floor.enclosures[0]||[];
  return result;
 }

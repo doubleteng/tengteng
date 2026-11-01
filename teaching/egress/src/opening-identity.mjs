@@ -1,6 +1,6 @@
 import {mergeDoorAssembly} from './door-assembly.mjs?v=door-detection-1';
-import {dist,segDist} from './geometry.mjs?v=portal-network-1';
-import {openingHost} from './import-quality.mjs?v=door-detection-1';
+import {dist,segDist} from './geometry.mjs?v=auto-enclosure-1';
+import {openingHost} from './import-quality.mjs?v=auto-enclosure-1';
 
 const tolerance=.08;
 const axis=points=>{const [a,b]=points,l=dist(a,b);return {a,b,l,x:(b.x-a.x)/l,y:(b.y-a.y)/l};};

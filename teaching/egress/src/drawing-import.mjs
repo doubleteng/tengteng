@@ -1,4 +1,4 @@
-import {fresh} from './model.mjs?v=portal-network-1';
+import {fresh} from './model.mjs?v=auto-enclosure-1';
 
 export function hasDrawingContent(project){
  return !!project.openings?.length||[...project.floors,project.site].some(scope=>

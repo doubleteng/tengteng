@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-01",
+  "scope": "Synthetic plan in two presentations. This is not a universal architectural recognition accuracy claim.",
+  "tests": 283,
+  "doubleLine": {
+    "expectedIndoor": 6,
+    "actualIndoor": 6,
+    "uniqueIndoorMatches": 6,
+    "indoorAreaMatches": 6,
+    "indoorRoleMatches": 6,
+    "exteriorMatches": 2,
+    "exteriorCoverMatches": 2,
+    "expectedDoorways": 9,
+    "doorwayMatches": 9,
+    "sourceLocatedDoorways": 9,
+    "directionMatches": 9,
+    "extraDoorways": 0,
+    "extraExterior": 0,
+    "pendingExterior": 0,
+    "pendingSpaces": 0
+  },
+  "rotatedFaint": {
+    "expectedIndoor": 6,
+    "actualIndoor": 6,
+    "uniqueIndoorMatches": 6,
+    "indoorAreaMatches": 6,
+    "indoorRoleMatches": 6,
+    "exteriorMatches": 2,
+    "exteriorCoverMatches": 2,
+    "expectedDoorways": 9,
+    "doorwayMatches": 9,
+    "sourceLocatedDoorways": 9,
+    "directionMatches": 9,
+    "extraDoorways": 0,
+    "extraExterior": 0,
+    "pendingExterior": 0,
+    "pendingSpaces": 0
+  }
+}

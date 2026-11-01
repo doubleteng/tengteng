@@ -1,4 +1,4 @@
-import {dist} from './geometry.mjs?v=topology-rebuild-6';
+import {dist} from './geometry.mjs?v=topology-rebuild-7';
 
 export function readDoorSymbol(item){
  const out={};

@@ -1,5 +1,5 @@
-import {exampleThumbnail,firstPractice} from './examples.mjs?v=wall-faces-1';
-import {recognitionProblem} from './recognition-state.mjs?v=wall-faces-1';
+import {exampleThumbnail,firstPractice} from './examples.mjs?v=topology-rebuild-6';
+import {recognitionProblem} from './recognition-state.mjs?v=topology-rebuild-6';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const workflowSteps=['Plan','Rooms','Check','Report'];
 export function startScreen(){return `<div class="start-desk"><figure class="start-study">${exampleThumbnail(firstPractice)}<figcaption>${esc(firstPractice.title)}<small>${esc(firstPractice.subtitle)} · editable study</small></figcaption><p>Change the auditorium layout and follow the crowd to the porch.</p><button id="start-practice" data-case="${firstPractice.id}">Open this plan →</button></figure><div class="start-actions"><h3>Start with a plan</h3><button class="start-action" id="start-upload"><strong>Upload your drawing</strong><span>JPG · PDF · DWG · 3DM</span><b>↗</b></button><button class="start-action" id="start-draw"><strong>Draw from scratch</strong><span>Walls, doors and a site.</span><b>↗</b></button><button class="start-action" id="start-all-cases"><strong>Explore U.S. buildings</strong><span>Kendeda Building · Bullitt Center</span><b>↗</b></button></div></div><div class="start-footer"><button id="start-continue">Back to my drawing</button><span>Drawing → rooms → routes → report</span></div>`;}

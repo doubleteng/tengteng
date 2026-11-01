@@ -85,3 +85,8 @@ test('Only a full architecture reread replaces a pending outdoor guess; confirme
  assert.equal(merged.elements.some(e=>e.id==='guess'),false);assert.ok(merged.elements.some(e=>e.id==='reviewed'));
  assert.ok(mergeDetail(result,{...detail,elements:[]},{...region,focus:'architecture'}).result.elements.some(e=>e.id==='guess'));
 });
+test('A cropped vestibule label cannot reclassify a complete corridor in the same wall cell',()=>{
+ const boundary=rect(100,100,800,800),result={version:1,summary:'',warnings:[],outline:[],elements:[el('Corridor','corridor',boundary),{...el('Cropped vestibule','room',rect(600,100,300,800)),partial:true},...boundary.map((p,i)=>el('w'+i,'wall',[p,boundary[(i+1)%4]]))]};
+ let model=materializeInterpretation(result,image);assert.equal(model.rooms.length,1);assert.equal(model.rooms[0].role,'corridor');assert.equal(model.rooms[0].name,'Corridor');assert.equal(model.rooms[0].useNeedsConfirmation,false);
+ result.elements.push(el('divider','wall',[[600,100],[600,900]]));model=materializeInterpretation(result,image);assert.equal(model.rooms.length,2);assert.ok(model.rooms.some(r=>r.name==='Cropped vestibule'&&r.role==='room'));
+});

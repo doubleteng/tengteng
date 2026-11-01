@@ -73,3 +73,15 @@ of the already complete balcony is now discarded by spatial overlap.
   smaller rereads, never automatic wall generation.
 - A continuous window-frame counterexample cannot pass sliding-panel evidence.
 - Preview, application and reports use the same wall-derived room geometry.
+
+The automatic context repair was also exercised through the deployed service.
+After a failed attempt exposed an overly broad coverage guard, a focused
+architecture reread removed the false exterior area and retained all six rooms
+and nine doorway assemblies. The final exported double-line result has zero
+extra exterior areas, zero extra doorways and zero pending spaces or extents.
+The regression suite contains 283 passing tests.
+
+The final visual check also exposed a cropped vestibule label overwriting the
+complete corridor use. Complete labels now take precedence only within the same
+wall-derived cell; a partial label still names a newly recovered separate cell.
+Evaluation checks room/corridor roles as well as counts and areas.

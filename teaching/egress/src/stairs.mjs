@@ -1,4 +1,4 @@
-import {dist} from './geometry.mjs?v=auto-enclosure-1';
+import {dist} from './geometry.mjs?v=topology-rebuild-6';
 
 // A footprint's first vertex and bounding box say nothing about its flights.
 export function confirmedStairPath(stair){

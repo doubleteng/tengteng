@@ -1,10 +1,10 @@
-import {usCaseStudies} from './us-case-studies.mjs?v=topology-rebuild-6';
-import {precedentExamples} from './precedents.mjs?v=topology-rebuild-6';
-import {fresh,functions} from './model.mjs?v=topology-rebuild-6';
-import {uid,edges,centroid,area} from './geometry.mjs?v=topology-rebuild-6';
-import {syncEnclosedRooms} from './editable-plan.mjs?v=topology-rebuild-6';
-import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=topology-rebuild-6';
-import {roomArea} from './openings.mjs?v=topology-rebuild-6';
+import {usCaseStudies} from './us-case-studies.mjs?v=topology-rebuild-7';
+import {precedentExamples} from './precedents.mjs?v=topology-rebuild-7';
+import {fresh,functions} from './model.mjs?v=topology-rebuild-7';
+import {uid,edges,centroid,area} from './geometry.mjs?v=topology-rebuild-7';
+import {syncEnclosedRooms} from './editable-plan.mjs?v=topology-rebuild-7';
+import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=topology-rebuild-7';
+import {roomArea} from './openings.mjs?v=topology-rebuild-7';
 
 const rect=(x,y,w,h)=>[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}];
 function wall(f,id,a,b){const w={id,a:{x:a[0],y:a[1]},b:{x:b[0],y:b[1]},thickness:.15};f.walls.push(w);return w;}

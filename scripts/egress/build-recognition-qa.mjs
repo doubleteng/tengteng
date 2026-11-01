@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir,readdir} from 'node:fs/promises';
 import path from 'node:path';
 const root=path.resolve('teaching/egress'),out=path.join(root,'qa');
 await mkdir(out,{recursive:true});
-const tag='topology-rebuild-6';
+const tag='topology-rebuild-7';
 for(const name of await readdir(path.join(root,'src'))){
  if(!name.endsWith('.mjs'))continue;
  let contents=await readFile(path.join(root,'src',name),'utf8');
@@ -11,5 +11,5 @@ for(const name of await readdir(path.join(root,'src'))){
  await writeFile(path.join(out,name),contents);
 }
 let html=await readFile(path.join(root,'index.html'),'utf8');
-html=html.replace('./src/app.mjs?v=wall-faces-1','./qa/app.mjs?v='+tag).replace('<title>Egress + Site Lab — Teng Teng</title>','<title>Recognition validation — Egress + Site Lab</title>');
+html=html.replace(/\.\/src\/app\.mjs\?v=[a-zA-Z0-9_-]+/g,'./qa/app.mjs?v='+tag).replace('<title>Egress + Site Lab — Teng Teng</title>','<title>Recognition validation — Egress + Site Lab</title>');
 await writeFile(path.join(root,'recognition-qa.html'),html);

@@ -1,10 +1,10 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-1';
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=wall-faces-1';
-import {normalizeWallNetwork} from './wall-network.mjs?v=wall-faces-1';
-import {collapseWallFaces} from './wall-faces.mjs?v=wall-faces-1';
-import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=auto-enclosure-1';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=wall-faces-1';
-import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=auto-enclosure-1';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-6';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-6';
+import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-6';
+import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-6';
+import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-6';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-6';
+import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-6';
 
 export function refinementSignature(result){
  let hash=2166136261;

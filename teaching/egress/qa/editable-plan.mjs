@@ -1,7 +1,7 @@
-import {pendingOpeningBarriers} from './import-quality.mjs?v=topology-rebuild-6';
-import {excludedCell} from './architectural-elements.mjs?v=topology-rebuild-6';
-import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=topology-rebuild-6';
-import {intersection} from './drafting.mjs?v=topology-rebuild-6';
+import {pendingOpeningBarriers} from './import-quality.mjs?v=topology-rebuild-7';
+import {excludedCell} from './architectural-elements.mjs?v=topology-rebuild-7';
+import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=topology-rebuild-7';
+import {intersection} from './drafting.mjs?v=topology-rebuild-7';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.
@@ -99,9 +99,13 @@ function syncWallRooms(floor){
   const seeds=floor.spaceSeeds.filter(s=>insideRoom(s.point,cell));
   if(seeds.length){
    for(const s of seeds)assigned.add(s.id);
-   const primary=seeds.find(s=>s.role!=='corridor'&&s.role!=='lobby')||seeds[0];
-   delete cell.roomUse;Object.assign(cell,roomAttributes(primary));if(seeds.some(s=>s.roomUse!==primary.roomUse))delete cell.roomUse;cell.seedIds=seeds.map(s=>s.id);cell.useNeedsConfirmation=false;
-   if(seeds.length>1){cell.name=[...new Set(seeds.map(s=>s.name))].join(' / ').slice(0,180);cell.useNeedsConfirmation=true;cell.areaConfirmed=false;}
+   // A tile may call the visible end of a known corridor a vestibule/room.
+   // Complete labels take precedence within this SAME wall-derived cell.
+   // Partial labels still name newly recovered cells with no complete seed.
+   const complete=seeds.filter(s=>!s.recognition?.partial),labels=complete.length?complete:seeds;
+   const primary=labels.find(s=>s.role!=='corridor'&&s.role!=='lobby')||labels[0];
+   delete cell.roomUse;Object.assign(cell,roomAttributes(primary));if(labels.some(s=>s.roomUse!==primary.roomUse))delete cell.roomUse;cell.seedIds=seeds.map(s=>s.id);cell.useNeedsConfirmation=false;
+   if(labels.length>1){cell.name=[...new Set(labels.map(s=>s.name))].join(' / ').slice(0,180);cell.useNeedsConfirmation=true;cell.areaConfirmed=false;}
   }else{delete cell.roomUse;cell.seedIds=[];cell.useNeedsConfirmation=true;}
  }
  floor.rooms=cells.sort((a,b)=>{

@@ -41,6 +41,7 @@ const interior=spaces.filter(s=>s.expected!=='exterior'),exterior=spaces.filter(
 console.log(JSON.stringify({
  summary:{expectedIndoor:truth.indoorSpaces,actualIndoor:model.rooms.length,uniqueIndoorMatches:new Set(interior.map(s=>s.roomId).filter(Boolean)).size,
   indoorAreaMatches:interior.filter(s=>s.areaRelativeError!==null&&s.areaRelativeError<.06).length,
+  indoorRoleMatches:interior.filter(s=>s.role===s.expected).length,
   exteriorMatches:exterior.filter(s=>s.found>0&&!s.indoorOverlap).length,exteriorCoverMatches:exterior.filter(s=>s.coverCorrect).length,
   expectedDoorways:truth.doorways,doorwayMatches:doors.filter(d=>d.matched===1).length,sourceLocatedDoorways:doors.filter(d=>d.matched===1&&d.sourceLocated).length,
   directionMatches:doors.filter(d=>d.directionCorrect).length,extraDoorways:openings.filter(o=>!matchedIds.has(o.id)).length,

@@ -10,7 +10,11 @@ const sourcePoint=(p,image)=>{
 export function reconstructionQuality(result,image){
  const compiled=compileRecognition(result,image),model=compiled.model;
  const unhosted=(model.candidates||[]).filter(c=>!c.windowConflict&&openingHost(model.walls,c.points).error);
- const unopened=model.rooms.filter(r=>r.seedIds?.length&&!model.candidates.some(c=>!c.windowConflict&&c.points.some(p=>edges(r.points).some(([a,b])=>segDist(p,a,b)<.3)))&&!model.doors.some(d=>edges(r.points).some(([a,b])=>segDist(d,a,b)<.3)));
+ // A semantic doorway merely projected onto a solid wall is not evidence of
+ // an opening. Once fitted to pixels, only a located jamb gap can satisfy
+ // this check; otherwise a hallucinated door would improve the repair score.
+ const located=c=>!result.sourceRefinement||c.recognition?.reviewed||c.openingEvidence?.located===true;
+ const unopened=model.rooms.filter(r=>r.seedIds?.length&&!model.candidates.some(c=>located(c)&&!c.windowConflict&&c.points.some(p=>edges(r.points).some(([a,b])=>segDist(p,a,b)<.3)))&&!model.doors.some(d=>edges(r.points).some(([a,b])=>segDist(d,a,b)<.3)));
  const slivers=model.rooms.filter(r=>{
   if(r.seedIds?.length)return false;
   const a=area(r.points),perimeter=r.points.reduce((n,p,i)=>n+dist(p,r.points[(i+1)%r.points.length]),0);

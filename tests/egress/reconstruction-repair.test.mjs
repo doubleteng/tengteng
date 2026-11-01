@@ -30,3 +30,10 @@ test('Provider quota failure preserves geometry and ends retries',async()=>{
 test('Repair of a large hall targets the missing perimeter instead of only its centroid',()=>{const targets=reconstructionTargets(fixture(),image);assert.ok(targets.some(t=>t.core.left<=100&&t.core.right>=100&&t.priority>=5));});
 
 test('A closed room with no doorway triggers an opening inventory instead of being called complete',()=>{const r=fixture();r.elements.push(el('close','wall',[[100,900],[100,100]]));const q=reconstructionQuality(r,image);assert.equal(q.compiled.pending.length,0);assert.equal(q.unopened.length,1);assert.equal(q.complete,false);assert.ok(reconstructionTargets(r,image).some(t=>t.focus==='openings'));});
+
+test('A doorway guessed on a solid wall cannot improve a pixel-fitted reconstruction score',()=>{
+ const r=fixture();r.elements.push(el('close','wall',[[100,900],[100,100]]));r.sourceRefinement={version:8};
+ const before=reconstructionQuality(r,image);r.elements.push(el('guessed','door',[[400,100],[500,100]]));
+ const after=reconstructionQuality(r,image);assert.equal(after.unopened.length,1);assert.equal(after.score,before.score);
+ r.elements.at(-1).openingEvidence={located:true,autoDoor:false};assert.equal(reconstructionQuality(r,image).unopened.length,0);
+});

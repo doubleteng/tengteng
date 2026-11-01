@@ -82,7 +82,7 @@ export async function repairReconstruction(run,{image,read,fit,onProgress=()=>{}
    const region={...target,id:'repair-'+ledger.length},entry={key,region,state:'reading'};ledger.push(entry);calls++;
    await onProgress({run,entry,calls,quality});
    try{
-    const detail=await read(region);if(cancelled()){entry.state='cancelled';return {result:fitted,quality,cancelled:true};}
+    const detail=await read(region);entry.detail=detail;if(cancelled()){entry.state='cancelled';return {result:fitted,quality,cancelled:true};}
     const candidate=mergeDetail(run.result,detail,region).result;
     const proposed=await fit(candidate);if(cancelled()){entry.state='cancelled';return {result:fitted,quality,cancelled:true};}
     const next=reconstructionQuality(proposed,image);

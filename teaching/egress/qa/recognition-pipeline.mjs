@@ -58,6 +58,17 @@ export function mergeDetail(result,detail,region){
  const newer=mapped.filter(e=>e.kind==='wall').flatMap(segments),elements=[];
  for(const e of result.elements){
   if(e.confirmed){elements.push(e);continue;}
+  if(e.kind==='window'&&mapped.some(v=>['door','entrance','window'].includes(v.kind))){
+   // Reclassify glazing only inside the detail's ownership core. A fresh
+   // doorway must not inherit a coarse whole-façade window over its jambs;
+   // the rest of that window remains intact outside the inspected region.
+   for(let i=1;i<e.points.length;i++){
+    const a=e.points[i-1],b=e.points[i],range=clip(a,b,core),mix=t=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+    if(!range)elements.push({...e,id:e.id+'-window-'+i,points:[a,b]});
+    else {if(range[0]>.001)elements.push({...e,id:e.id+'-before-'+i,points:[a,mix(range[0])]});if(range[1]<.999)elements.push({...e,id:e.id+'-after-'+i,points:[mix(range[1]),b]});}
+   }
+   continue;
+  }
   if(['door','entrance'].includes(e.kind)&&e.points.every(within)&&windowOverlaps(...e.points.slice(0,2).map(point),mapped.filter(v=>v.kind==='toilet-door').map(v=>({...v,points:v.points.map(point)})),3))continue;
   if(e.kind==='wall'){
    // Replace only where the detail actually supplies a parallel wall. Keep

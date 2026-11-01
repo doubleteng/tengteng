@@ -1,9 +1,10 @@
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=whole-plan-1';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=wall-faces-1';
 import {normalizeSanitaryElements} from './sanitary-elements.mjs?v=door-detection-1';
-import {normalizeWallNetwork} from './wall-network.mjs?v=auto-enclosure-1';
+import {normalizeWallNetwork} from './wall-network.mjs?v=wall-faces-1';
+import {collapseWallFaces} from './wall-faces.mjs?v=wall-faces-1';
 import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=auto-enclosure-1';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=whole-plan-1';
-import {dist,segDist,project,lerp,edges} from './geometry.mjs?v=auto-enclosure-1';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=wall-faces-1';
+import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=auto-enclosure-1';
 
 export function refinementSignature(result){
  let hash=2166136261;
@@ -18,7 +19,7 @@ export function refinementSignature(result){
 export function refineSourceWalls(result,imageData){
  result={...result,elements:normalizeSanitaryElements(result.elements)};
  const previous=result.sourceRefinement;
- if(previous?.version===5&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
+ if(previous?.version===6&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
  const {width:w,height:h,mask}=strokeMask(imageData),unit=Math.max(w,h)/2000;
  const radius=Math.max(4,12*unit),inkRadius=Math.max(1,Math.round(1.5*unit));
  const px=q=>({x:q[0]*w/1000,y:q[1]*h/1000});
@@ -65,7 +66,7 @@ export function refineSourceWalls(result,imageData){
   }
   if(best.coverage<(e.hostHint?.72:.48)){if(e.kind==='wall')rejected.push(e.id);continue;}
   // Center solid thick strokes, including when the initial hint sat on a face.
-  const offsets=[],bands=[];const profileRadius=Math.max(8,24*unit);
+  const offsets=[],bands=[];let pairedProfiles=0;const profileRadius=Math.max(8,24*unit);
   for(let i=1;i<count;i++){
    const t=i/count,d=best.offset+best.slope*l*(t-.5),q={x:a.x+u.x*l*t+n.x*d,y:a.y+u.y*l*t+n.y*d};
    let nearest=null;for(let k=-inkRadius;k<=inkRadius;k++)if(at(q.x+n.x*k,q.y+n.y*k)&&(!nearest||Math.abs(k)<Math.abs(nearest.k)))nearest={k};
@@ -78,7 +79,7 @@ export function refineSourceWalls(result,imageData){
      const runs=[];let start=null;
      for(let k=-Math.floor(profileRadius);k<=profileRadius;k++){const ink=at(q.x+n.x*k,q.y+n.y*k);if(ink&&start===null)start=k;if(start!==null&&(!ink||k===Math.floor(profileRadius))){runs.push([start,k-(ink?0:1)]);start=null;}}
      const pair=runs.filter(([aa,bb])=>bb<lo-1||aa>hi+1).filter(([aa,bb])=>bb-aa<=Math.max(2,2*unit)&&Math.min(Math.abs(aa-hi),Math.abs(bb-lo))<=Math.max(7,18*unit)).sort((a,b)=>Math.min(Math.abs(a[0]-hi),Math.abs(a[1]-lo))-Math.min(Math.abs(b[0]-hi),Math.abs(b[1]-lo)))[0];
-     if(pair){lo=Math.min(lo,pair[0]);hi=Math.max(hi,pair[1]);}
+     if(pair){lo=Math.min(lo,pair[0]);hi=Math.max(hi,pair[1]);pairedProfiles++;}
     }
     offsets.push((lo+hi)/2);bands.push((hi-lo)/2+1);
    }
@@ -87,7 +88,7 @@ export function refineSourceWalls(result,imageData){
   const point=t=>{const d=best.offset+center+best.slope*(t-l/2);return{x:a.x+u.x*t+n.x*d,y:a.y+u.y*t+n.y*d};};
   const start=point(0),end=point(l),nl=dist(start,end),normal={x:-(end.y-start.y)/nl,y:(end.x-start.x)/nl};
   let runStart=null,last=null,gap=0;
-  const flush=()=>{if(runStart!==null&&last-runStart>=(e.hostHint?Math.max(3,4*unit):Math.max(8,12*unit)))walls.push({a:point(runStart),b:point(last),hint:e.id,label:e.kind==='wall'?e.label:'Wall at '+(e.label||'enclosure'),score:best.coverage,band,explicit:['wall','window'].includes(e.kind)});runStart=null;last=null;gap=0;};
+  const flush=()=>{if(runStart!==null&&last-runStart>=(e.hostHint?Math.max(3,4*unit):Math.max(8,12*unit)))walls.push({a:point(runStart),b:point(last),hint:e.id,label:e.kind==='wall'?e.label:'Wall at '+(e.label||'enclosure'),score:best.coverage,band,pairedFaces:pairedProfiles>=Math.max(4,offsets.length*.6),explicit:['wall','window'].includes(e.kind)});runStart=null;last=null;gap=0;};
   for(let t=0;t<=Math.ceil(l);t++){
    if(hit(point(t),normal,Math.max(inkRadius,Math.ceil(band)))){if(runStart===null)runStart=t;last=t;gap=0;}
    else if(++gap>Math.max(2,2*unit))flush();
@@ -99,7 +100,12 @@ export function refineSourceWalls(result,imageData){
  const source={width:w,height:h,mask};
  const supported=(a,b,band=inkRadius)=>{const l=dist(a,b);if(!l)return true;const n={x:-(b.y-a.y)/l,y:(b.x-a.x)/l},count=Math.max(4,Math.min(80,Math.ceil(l)));let hits=0;for(let i=0;i<=count;i++)if(hit(lerp(a,b,i/count),n,Math.ceil(band)))hits++;return hits/(count+1)>=.75;};
  const openings=kept.filter(e=>['door','entrance'].includes(e.kind)).map(e=>e.points.slice(0,2).map(px));
- const unique=normalizeWallNetwork(walls,{unit,supported,openingAt:(q,r)=>openings.some(([a,b])=>segDist(q,a,b)<r&&Math.min(dist(q,a),dist(q,b))>r)});
+ const occupied=result.elements.filter(e=>['room','corridor','lobby'].includes(e.kind)).map(e=>e.points.map(px));
+ const paired=collapseWallFaces(walls,{unit,faceEvidence:(a,b)=>{
+  const d=dist(a,b),n={x:(b.x-a.x)/d,y:(b.y-a.y)/d};if(!hit(a,n,1)||!hit(b,n,1))return false;
+  let white=0;for(const t of [.3,.4,.5,.6,.7])if(!at(lerp(a,b,t).x,lerp(a,b,t).y))white++;return white>=3;
+ },interiorAt:(q,gap)=>occupied.some(poly=>inside(q,poly)&&Math.min(...edges(poly).map(([a,b])=>segDist(q,a,b)))>gap*.4)});
+ const unique=normalizeWallNetwork(paired,{unit,supported,openingAt:(q,r)=>openings.some(([a,b])=>segDist(q,a,b)<r&&Math.min(dist(q,a),dist(q,b))>r)});
  // Reviewed walls are immutable anchors, never duplicated by recovered bands.
  const anchors=kept.filter(e=>e.kind==='wall').flatMap(e=>e.points.slice(1).map((q,i)=>[px(e.points[i]),px(q)]));
  for(let i=unique.length-1;i>=0;i--)if(anchors.some(([a,b])=>segDist(unique[i].a,a,b)<Math.max(2,3*unit)&&segDist(unique[i].b,a,b)<Math.max(2,3*unit)))unique.splice(i,1);
@@ -141,6 +147,6 @@ export function refineSourceWalls(result,imageData){
  // Whole-image and detail reads can describe the same opening. Keep one.
  for(let i=kept.length-1;i>=0;i--){const e=kept[i];if(e.confirmed||!['door','entrance'].includes(e.kind))continue;const a=px(e.points[0]),b=px(e.points[1]),c=lerp(a,b,.5);const duplicate=kept.findIndex((v,j)=>j<i&&!v.confirmed&&['door','entrance'].includes(v.kind)&&dist(c,lerp(...v.points.slice(0,2).map(px),.5))<Math.max(3,Math.min(dist(a,b)*.35,12*unit)));if(duplicate>=0){if(e.openingEvidence?.located&&!kept[duplicate].openingEvidence?.located)kept[duplicate]=e;kept.splice(i,1);}}
  const out=attachSourceEvidence(refineFurnitureGeometry({...result,elements:kept,warnings:[...result.warnings]},imageData),imageData);
- out.sourceRefinement={version:5,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
+ out.sourceRefinement={version:6,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
  return out;
 }

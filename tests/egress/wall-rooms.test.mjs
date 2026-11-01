@@ -32,8 +32,8 @@ test('Choosing the use of a merged enclosure persists through subsequent wall ed
 });
 test('An opened enclosure cannot retain its old polygon area or occupants',()=>{
  const p=fixture(),f=p.floors[0];enableWallRooms(f);f.walls=f.walls.filter(w=>w.id!=='edge-3');syncEnclosedRooms(f);
- assert.equal(f.rooms.length,1);assert.equal(f.rooms[0].id,'right');assert.equal(f.pendingSpaces.length,1);assert.equal(f.pendingSpaces[0].id,'left');assert.ok(analyze(p).checks.some(c=>c.title==='Studio: wall enclosure is open'));
- assert.equal(analyze(p).total,roomLoad(p,0,f.rooms[0]).occupants);
+ assert.equal(f.rooms.length,1);assert.equal(f.rooms[0].id,'right');assert.equal(f.pendingSpaces.length,1);assert.equal(f.pendingSpaces[0].id,'left');assert.equal(analyze(p).blocked,true);
+ assert.equal(analyze(p).total,null);assert.equal(analyze(p).routes.length,0);
 });
 test('Door jamb gaps can close area topology without creating an independent room polygon',()=>{
  const p=fixture(),f=p.floors[0];f.walls=f.walls.filter(w=>w.id!=='divider');f.walls.push({id:'bottom',a:{x:5,y:0},b:{x:5,y:4}},{id:'top',a:{x:5,y:6},b:{x:5,y:10}});f.candidates=[{id:'gap',points:[{x:5,y:4},{x:5,y:6}]}];enableWallRooms(f);assert.equal(f.rooms.length,2);assert.equal(f.walls.length,6);assert.equal(f.doors.length,0);

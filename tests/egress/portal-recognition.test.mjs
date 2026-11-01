@@ -25,7 +25,7 @@ function fixture({angle=0,swing=true,gray=20,double=false}={}){
  const result={version:1,summary:'',warnings:[],outline:rect(60,60,280,280).map(norm),elements:[el('room','room',rect(60,60,140,280)),el('hall','corridor',rect(200,60,140,280)),el('table','furniture',furniture),...segments.map((line,i)=>el('w'+i,'wall',line.map(([x,y])=>[x+1,y-.5])))]};
  return {imageData:{width,height,data},result,a:point(turn(a)),b:point(turn(b))};
 }
-for(const options of [{},{angle:.37},{angle:-.27,gray:185},{double:true}])test('Swing and jamb detection connects an interior door across '+JSON.stringify(options),()=>{
+for(const options of [{},{angle:.37},{angle:-.27,gray:185},{double:true},{double:true,angle:.37},{double:true,angle:-.27,gray:185}])test('Swing and jamb detection connects an interior door across '+JSON.stringify(options),()=>{
  const f=fixture(options),evidence=doorSwingEvidence(f.a,f.b,strokeMask(f.imageData),.2);assert.ok(evidence.score>=.55);
  const fitted=validateInterpretation(refineSourceWalls(f.result,f.imageData));
  const model=materializeInterpretation(fitted,{x:0,y:0,width:20,height:20,calibrated:true});
@@ -52,7 +52,7 @@ test('Duplicate reverse-direction wall hints collapse; disconnected parallel wal
  assert.equal(normalizeWallNetwork(input,{unit:1,supported:()=>true}).length,2);
 });
 test('Source refinement and door evidence survive saving without treating the geometry as user-confirmed',()=>{
- const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,5);
+ const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,6);
  assert.ok(r.elements.some(e=>e.openingEvidence?.autoDoor&&!e.confirmed));assert.ok(r.elements.some(e=>e.kind==='wall'&&e.sourceBand>0));
  assert.deepEqual(refineSourceWalls(r,f.imageData).elements,r.elements);
 });

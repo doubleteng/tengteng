@@ -1,4 +1,4 @@
-import {strokeMask} from './import-quality.mjs?v=whole-plan-1';
+import {strokeMask} from './import-quality.mjs?v=wall-faces-1';
 import {area,dist,crosses} from './geometry.mjs?v=auto-enclosure-1';
 
 // Recognition supplies an object location, never a license to turn a group

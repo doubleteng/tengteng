@@ -107,8 +107,13 @@ export function openingHost(walls,points,width=dist(...points.slice(0,2)),tolera
   const q=project(center,w.a,w.b),n=dist(w.a,w.b);return dist(q,center)<=tolerance&&q.t*n>=width/2-.005&&(1-q.t)*n>=width/2-.005;
  }).sort((x,y)=>segDist(center,x.a,x.b)-segDist(center,y.a,y.b));
  if(hosts.length){const best=hosts[0];if(hosts.some(w=>w!==best&&segDist(center,w.a,w.b)<tolerance&&Math.abs(segDist(center,w.a,w.b)-segDist(center,best.a,best.b))<.01&&segDist(w.a,best.a,best.b)>.015))return {error:'Opening lies between competing wall faces. Choose the wall centerline.'};return {wall:best,center:project(center,best.a,best.b)};}
- const ends=q=>parallel.flatMap(w=>['a','b'].filter(k=>dist(w[k],q)<=tolerance).map(k=>({w,q:w[k]})));
+ // Jamb endpoints belong to the wall axes. A short aperture can be skewed
+ // by a small source-fit offset even when both host walls are parallel.
+ const ends=q=>walls.flatMap(w=>['a','b'].filter(k=>dist(w[k],q)<=tolerance).map(k=>({w,q:w[k]})));
  const pairs=[];for(const left of ends(a))for(const right of ends(b))if(left.w!==right.w){
+  const l=dist(left.w.a,left.w.b),r=dist(right.w.a,right.w.b);if(l<.001||r<.001)continue;
+  const u={x:(left.w.b.x-left.w.a.x)/l,y:(left.w.b.y-left.w.a.y)/l},v={x:(right.w.b.x-right.w.a.x)/r,y:(right.w.b.y-right.w.a.y)/r};
+  if(Math.abs(u.x*v.y-u.y*v.x)>.12||Math.abs((right.q.x-left.q.x)*u.y-(right.q.y-left.q.y)*u.x)>tolerance)continue;
   // Both wall segments must extend away from the doorway, not into it.
   const mid=lerp(left.q,right.q,.5);
   if(segDist(mid,left.w.a,left.w.b)>span*.35&&segDist(mid,right.w.a,right.w.b)>span*.35)pairs.push({left,right});
@@ -184,4 +189,4 @@ export function auditImport(floor,{tolerance=.025,gapLimit=.25}={}){
  return {issues,connections,counts:{walls:walls.length,rooms:rooms.length,openings:candidates.length}};
 }
 
-export function pendingOpeningBarriers(floor){return (floor.candidates||[]).filter(c=>c.points?.length>=2&&!openingHost(floor.walls||[],c.points).error).map(c=>({a:c.points[0],b:c.points[1],thickness:.15,pendingOpening:true}));}
+export function pendingOpeningBarriers(floor){return (floor.candidates||[]).flatMap(c=>{if(c.points?.length<2)return[];const host=openingHost(floor.walls||[],c.points);return host.gap?[{...host.gap,id:'area-opening-'+c.id,pendingOpening:true}]:[];});}

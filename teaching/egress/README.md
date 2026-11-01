@@ -246,3 +246,9 @@ Wall-derived rooms and the routing extent use the same closed wall network. A re
 ### Whole-sheet recognition coverage
 
 Recognition now reads overlapping tiles across the entire source sheet, independently of the rooms detected in the overview. Tile results retain new rooms, circulation, stairs and sanitary fixtures. Wall segments are clipped to their owning core; unmatched existing and user-confirmed geometry are retained. Source fitting runs once after assembly, in a worker. Pale source lines are enhanced for model input and retained across dark-to-light junctions. Oversized truncated replies are split automatically; interrupted work saves each completed tile and resumes unfinished regions. The interface reports unread regions and suppresses a complete-total claim. A tile being read is not proof that all its geometry is correct. The instructor's daily and concurrent limits still apply.
+
+### Wall faces and failed reconstruction
+
+Opposite wall faces are paired using repeated source-pixel support before junction and room construction. Occupied space between the lines vetoes pairing; identified wall bands absorb duplicate short face fragments. Pairing preserves actual doorway gaps. Door portals use their host jamb endpoints, including small fit offsets between parallel host runs, rather than disconnected proposal coordinates.
+
+An incomplete recognized wall graph cannot be applied to the analysis model. Existing imported models with unread regions, open spaces or unsupported walls retain their geometry as drafts, but produce no occupant total, capacity schedule, route or PDF analysis. This does not certify the accuracy of accepted geometry. Real low-resolution plans can remain unresolved; synthetic topology tests are not an architectural-recognition accuracy benchmark.

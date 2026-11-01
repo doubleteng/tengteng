@@ -1,9 +1,9 @@
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=whole-plan-1';
-import {refineSourceWalls} from './source-refinement.mjs?v=whole-plan-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=whole-plan-1';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=wall-faces-1';
+import {refineSourceWalls} from './source-refinement.mjs?v=wall-faces-1';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=wall-faces-1';
 import {roomPoint,uid} from './geometry.mjs?v=auto-enclosure-1';
-import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=whole-plan-1';
-import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=whole-plan-1';
+import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=wall-faces-1';
+import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=wall-faces-1';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={room:'Room',corridor:'Corridor',lobby:'Lobby',exterior:'Outdoors',courtyard:'Courtyard',void:'Floor void',projection:'Other-floor / context',furniture:'Furniture',column:'Column',stair:'Stair footprint',window:'Window',wall:'Wall',door:'Door candidate',entrance:'Entrance candidate','toilet-compartment':'Toilet stall (fixture)','toilet-partition':'Toilet partition','toilet-door':'Toilet stall door','sanitary-fixture':'Sanitary fixture'};
 const lineKinds=['wall','window','door','entrance','toilet-partition','toilet-door'];
@@ -62,6 +62,8 @@ export function reviewInterpretation({dialog,image,result,elevation=null,onApply
   $('#recognition-quality').innerHTML=`<strong>${issues.length?issues.length+' geometry issues':'Wall graph closes'}</strong><small>${model.rooms.length} enclosed spaces · ${compiled.pending.length} missing enclosures · ${model.doors.filter(d=>!d.exit).length} detected doors · ${model.doors.filter(d=>d.exit).length} detected exits · ${model.candidates.filter(c=>c.suggestedExit).length} exit candidates · ${model.candidates.filter(c=>!c.suggestedExit).length} other openings</small><div class="import-issues">${issues.map((i,n)=>`<button data-issue="${n}"><span>${n+1}</span>${esc(i.title)}</button>`).join('')}</div>`;
   for(const b of dialog.querySelectorAll('[data-issue]'))b.onclick=()=>{highlight=Number(b.dataset.issue);const i=issues[highlight];choose(i.id);camera.x=i.q[0];camera.y=i.q[1];camera.s=Math.max(camera.s,fitScale*2);draw();};
   $('#recognition-state').textContent=r.coverage?.complete===false?(r.coverage.total-r.coverage.read)+' regions remain unread. Continue recognition to finish them.':compiled.pending.length?compiled.pending.length+' spaces have no closed boundary. This is an incomplete draft.':(r.coverage?r.coverage.read+'/'+r.coverage.total+' regions read. ':'')+'Preview and analysis use these same wall-derived spaces. Confirm the openings.';$('#recognition-apply').textContent=compiled.complete?'Use walls + spaces →':'Edit incomplete draft →';
+  $('#recognition-apply').disabled=!image.calibrated||!compiled.complete;
+  if(!compiled.complete)$('#recognition-apply').textContent='Reconstruction incomplete';
   list();if(selected&&current())choose(selected);draw();
  }
  function choose(id){selected=id;const e=current();if(!e)return;mode='select';draft=[];const connection=connections.find(c=>c.id===id),found=issues.filter(i=>i.id===id);
@@ -120,6 +122,6 @@ export function reviewInterpretation({dialog,image,result,elevation=null,onApply
  $('#recognition-fit').onclick=fit;$('#recognition-underlay').onchange=e=>{background=e.target.checked;onUnderlayChange(background);draw();};$('#recognition-geometry').onchange=e=>{overlay=e.target.checked;draw();};$('#recognition-source').onchange=e=>{showSource=e.target.checked;draw();};
  $('#recognition-undo').onclick=()=>{const last=history.pop();if(!last)return;r=last.r;excluded.clear();last.excluded.forEach(id=>excluded.add(id));selected=null;draft=[];check();$('#recognition-editor').textContent='Change undone.';};
  if(onTraceSource)$('#recognition-trace').onclick=async()=>{const b=$('#recognition-trace');b.disabled=true;b.textContent='Extracting…';try{const lines=await onTraceSource();sourceLines=lines.segments;showSource=true;$('#recognition-source').checked=true;draw();$('#recognition-state').textContent=sourceLines.length+' source segments. Pick only architectural wall strokes.';}catch(e){$('#recognition-state').textContent=e.message;}finally{b.disabled=false;b.textContent='Extract all strokes';}};
- $('#recognition-save').onclick=()=>{onSave(activeResult());dialog.close();};$('#recognition-calibrate').onclick=()=>{onSave(activeResult());dialog.close();onCalibrate();};$('#recognition-apply').onclick=()=>onApply(activeResult());if(onReread)$('#recognition-reread').onclick=onReread;
- bitmap.onload=()=>{const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);sourceData=c.getContext('2d').getImageData(0,0,c.width,c.height);if((r.sourceRefinement?.version||0)<5){remember();r=refineSourceWalls(r,sourceData);}check();fit();};check();fit();
+ $('#recognition-save').onclick=()=>{onSave(activeResult());dialog.close();};$('#recognition-calibrate').onclick=()=>{onSave(activeResult());dialog.close();onCalibrate();};$('#recognition-apply').onclick=()=>{if(image.calibrated&&compiled?.complete)onApply(activeResult());};if(onReread)$('#recognition-reread').onclick=onReread;
+ bitmap.onload=()=>{const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);sourceData=c.getContext('2d').getImageData(0,0,c.width,c.height);if((r.sourceRefinement?.version||0)<6){remember();r=refineSourceWalls(r,sourceData);}check();fit();};check();fit();
 }

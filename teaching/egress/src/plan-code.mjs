@@ -1,6 +1,6 @@
 import {nonSwingDoor,doorAssemblyLabel} from './door-assembly.mjs?v=door-detection-1';
 import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=auto-enclosure-1';
-import {roomLoad,capacityDimension} from './capacity.mjs?v=whole-plan-1';
+import {roomLoad,capacityDimension} from './capacity.mjs?v=wall-faces-1';
 
 export const planSources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export const planCategories=[
@@ -82,6 +82,7 @@ export function analyzePlanCode(p,analysis){
  const siteSeen=new Set();
  for(let fi=0;fi<p.floors.length;fi++){
   const f=p.floors[fi],a=analysis.floors[fi];if(!a)continue;
+  if(a.blocked){add({id:'recognition:'+fi,category:'inputs',scope:'indoor',floor:fi,status:'input',title:'Recognition geometry is incomplete',detail:a.problem.message+'. No area, occupant or egress conclusions are available.',ref:'Model input'});continue;}
   for(const [i,c] of a.checks.entries()){
    if(['Unmodeled life-safety conditions','Plan conditions to review'].includes(c.title)||c.ref==='Design brief'||/: confirm (net|gross) area$/.test(c.title))continue;
    const cat=category(c),scope=planCategories.find(o=>o.id===cat).scope;

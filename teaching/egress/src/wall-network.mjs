@@ -27,7 +27,7 @@ export function normalizeWallNetwork(input,{unit=1,supported=()=>false,openingAt
   const v=axis(s),duplicate=dominant.some(t=>{
    const u=axis(t);if(angle(u,v)>.16)return false;
    const normal={x:-u.y,y:u.x},ts=[dot(sub(s.a,t.a),u),dot(sub(s.b,t.a),u)],lo=Math.min(...ts),hi=Math.max(...ts);
-   const band=Math.max(eps,Math.min(s.band||eps,t.band||eps));
+   const band=Math.max(eps,t.pairedFaces?t.band||eps:Math.min(s.band||eps,t.band||eps));
    if(lo< -eps||hi>u.l+eps||Math.max(Math.abs(dot(sub(s.a,t.a),normal)),Math.abs(dot(sub(s.b,t.a),normal)))>band)return false;
    const same=supported(at(t.a,u,Math.max(0,lo)),at(t.a,u,Math.min(u.l,hi)),band);if(same)t.explicit||=s.explicit;return same;
   });
@@ -48,7 +48,7 @@ export function normalizeWallNetwork(input,{unit=1,supported=()=>false,openingAt
     // A parallel corridor boundary must not collapse into the opposite wall.
     if(off>eps&&!supported(lerp(s.a,t.a,.5),lerp(s.b,t.b,.5),off/2+eps))continue;
     const origin={...t.a};t.a=at(origin,u,Math.min(0,lo));t.b=at(origin,u,Math.max(u.l,hi));
-    t.explicit||=s.explicit;t.band=Math.max(t.band||0,s.band||0);consumed=true;break;
+    t.explicit||=s.explicit;t.pairedFaces||=s.pairedFaces;t.band=Math.max(t.band||0,s.band||0);consumed=true;break;
    }if(!consumed)out.push(s);
   }lines=out;
  }

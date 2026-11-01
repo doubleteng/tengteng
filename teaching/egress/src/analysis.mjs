@@ -1,16 +1,19 @@
 import {stairLanding,stairCanDescend,stairConnectionProblem} from './stairs.mjs?v=auto-enclosure-1';
-import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=whole-plan-1';
-import {stairCirculation} from './circulation.mjs?v=whole-plan-1';
-import {roomLoad,analyzeCapacity} from './capacity.mjs?v=whole-plan-1';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=whole-plan-1';
-import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=whole-plan-1';
+import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=wall-faces-1';
+import {stairCirculation} from './circulation.mjs?v=wall-faces-1';
+import {roomLoad,analyzeCapacity} from './capacity.mjs?v=wall-faces-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=wall-faces-1';
+import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=wall-faces-1';
 import {stairAligned} from './drafting.mjs?v=auto-enclosure-1';
 import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=auto-enclosure-1';
 import {functions} from './model.mjs?v=auto-enclosure-1';
+import {recognitionProblem} from './recognition-state.mjs?v=wall-faces-1';
 export const sources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export function limits(group,sprinkler,occupants=0){return{travel:(sprinkler?(group==='B'?300:250):200)*FT,common:(group==='B'&&(sprinkler||occupants<=30)?100:75)*FT,dead:(sprinkler&&['B','E','M'].includes(group)?50:20)*FT};}
 export const requiredExits=n=>n>1000?4:n>500?3:n>49?2:1;
-export function analyze(p,floorIndex=0){const f=p.floors[floorIndex],checks=[],roomResults=f.rooms.map(r=>({...roomLoad(p,floorIndex,r),max:-1,unreachable:0,samples:0,routeState:'unresolved',routeReason:!floorRegions(f).length?'Close the missing enclosure walls.':'Identify an exit and check its wall connection.',routePoint:roomPoint(r)})),routes=[],outdoor=[],issue=(status,title,detail,ref,point,category='building')=>checks.push({status,title,detail,ref,point,category});const fmt=x=>p.units==='ft'?`${(x/FT).toFixed(1)} ft`:`${x.toFixed(2)} m`;const voids=floorOpenings(p,floorIndex),regions=floorRegions(f);const total=roomResults.reduce((n,r)=>n+r.occupants,0);const exits=[...f.doors.filter(d=>d.exit),...(f.stairs||[]).filter(s=>s.protected&&f.elevation>0&&stairCanDescend(s)).map(s=>({...s,...stairLanding(s),exit:true,discharge:'stair',stair:true}))].filter(d=>!inOpening(p,floorIndex,d));let g,field,siteGrid,siteField;
+export function analyze(p,floorIndex=0){const f=p.floors[floorIndex],problem=recognitionProblem(f);
+if(problem)return {blocked:true,problem,capacity:{rows:[],method:'Recognition geometry is incomplete.'},checks:[{status:'review',title:'Recognition geometry is incomplete',detail:problem.message+'. Area, occupancy, exit counts and routes are withheld.',ref:'Model input',category:'building'}],rooms:[],routes:[],circulationRoutes:[],circulationNotices:[],outdoor:[],total:null,exits:null,conflicts:[],created:new Date().toISOString()};
+const checks=[],roomResults=f.rooms.map(r=>({...roomLoad(p,floorIndex,r),max:-1,unreachable:0,samples:0,routeState:'unresolved',routeReason:!floorRegions(f).length?'Close the missing enclosure walls.':'Identify an exit and check its wall connection.',routePoint:roomPoint(r)})),routes=[],outdoor=[],issue=(status,title,detail,ref,point,category='building')=>checks.push({status,title,detail,ref,point,category});const fmt=x=>p.units==='ft'?`${(x/FT).toFixed(1)} ft`:`${x.toFixed(2)} m`;const voids=floorOpenings(p,floorIndex),regions=floorRegions(f);const total=roomResults.reduce((n,r)=>n+r.occupants,0);const exits=[...f.doors.filter(d=>d.exit),...(f.stairs||[]).filter(s=>s.protected&&f.elevation>0&&stairCanDescend(s)).map(s=>({...s,...stairLanding(s),exit:true,discharge:'stair',stair:true}))].filter(d=>!inOpening(p,floorIndex,d));let g,field,siteGrid,siteField;
 if(p.precedent)issue('review','Precedent study assumptions',p.precedent.note+' '+p.precedent.scale,'Study model');
 if(f.recognition?.coverage?.complete===false)issue('review','Recognition is incomplete',(f.recognition.coverage.total-f.recognition.coverage.read)+' image regions remain unread. Continue recognition before relying on totals or route coverage.','Model input');
 if(f.recognition)issue('review','Recognized spaces need geometry and use review','Rooms and corridors come from closed wall enclosures; furniture does not divide them. Confirm wall positions, floor membership, dimensions and occupancy functions. Door / entrance candidates do not create passable connections.','Model input');

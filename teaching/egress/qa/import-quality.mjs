@@ -1,4 +1,4 @@
-import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom,floorRegions} from './geometry.mjs?v=topology-rebuild-7';
+import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom,floorRegions} from './geometry.mjs?v=recognition-speed-1';
 
 // Evidence is a geometric check against source pixels, not a wall classifier.
 // Light pencil and gray CAD strokes use local contrast. Uniform gray fills do not.
@@ -38,8 +38,8 @@ export function wallEvidence(element,source,openings=[]){
  return {coverage:total?supported/total:1,missingPixels:longest,samples:total};
 }
 
-export function attachSourceEvidence(result,imageData){
- const source=strokeMask(imageData),openings=result.elements.filter(e=>['door','entrance'].includes(e.kind));
+export function attachSourceEvidence(result,imageData,source=strokeMask(imageData)){
+ const openings=result.elements.filter(e=>['door','entrance'].includes(e.kind));
  return {...result,elements:result.elements.map(e=>e.kind==='wall'?{...e,sourceCheck:wallEvidence(e,source,openings)}:e)};
 }
 

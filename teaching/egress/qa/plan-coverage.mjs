@@ -1,5 +1,6 @@
-import {strokeMask} from './import-quality.mjs?v=topology-rebuild-7';
-import {inside,segDist} from './geometry.mjs?v=topology-rebuild-7';
+import {strokeMask} from './import-quality.mjs?v=recognition-speed-1';
+import {inside,segDist} from './geometry.mjs?v=recognition-speed-1';
+import {ReadAhead,serviceUnavailable,smallerRegionNeeded,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-1';
 // Tile the sheet, not the rooms already found by a first model response.
 // Each core owns its geometry; overlapping margins provide reading context.
 export function coverageRegions(width,height,{tilePixels=1100,maxAxis=6}={}){
@@ -59,22 +60,45 @@ function splitRegion(region){
 
 // Checkpoints contain the full accumulated result and per-tile state. A failed
 // region never deletes completed work or prevents later regions being read.
-export async function readCoverage(run,{read,merge,onProgress=()=>{},cancelled=()=>false}){
- for(let index=0;index<run.regions.length;index++){
-  const region=run.regions[index];
-  if(region.state==='read')continue;
+export async function readCoverage(run,{read,merge,onProgress=()=>{},cancelled=()=>false,concurrency=1}){
+ const progress=serialProgress(onProgress);
+ const request=async region=>{
+  if(region.response)return region.response;
   for(let attempt=0;attempt<2;attempt++){
-   if(cancelled())return run;
-   region.state='reading';region.attempts=(region.attempts||0)+1;delete region.error;await onProgress(run,region);
-   try{
-    const detail=await read(region);if(cancelled()){region.state='pending';return run;}
-    const merged=merge(run.result,detail,region);run.result=merged.result;region.state='read';delete region.error;await onProgress(run,region);break;
-   }catch(error){
-    region.state='failed';region.error=error.message||String(error);await onProgress(run,region);
-    if(/quota|allowance|configured|access|session|429|busy|connect/i.test(region.error))return run;
+   if(cancelled())return null;
+   region.state='reading';region.attempts=(region.attempts||0)+1;delete region.error;await progress(run,region);
+   const started=Date.now();
+   try{const detail=await read(region);region.durationMs=(region.durationMs||0)+Date.now()-started;region.response=detail;await progress(run,region);return detail;}
+   catch(error){
+    region.durationMs=(region.durationMs||0)+Date.now()-started;region.state='failed';region.error=error.message||String(error);await progress(run,region);
+    if(attempt===1||serviceUnavailable(error)||smallerRegionNeeded(error))throw error;
    }
   }
-  if(region.state==='failed'&&/truncated|no architectural walls|unresolved structure/i.test(region.error)&&(region.depth||0)<2&&run.regions.length<64){run.regions.splice(index,1,...splitRegion(region));index--;await onProgress(run,region);}
+ };
+ const pool=new ReadAhead(request,{concurrency,cancelled});
+ try{
+  for(let index=0;index<run.regions.length;index++){
+   const region=run.regions[index];if(region.state==='read')continue;if(cancelled())break;
+   pool.prime(run.regions.slice(index).filter(r=>r.state!=='read'));
+   let reply=await pool.take(region);if(!reply)break;
+   // If only one shared slot is available, finish admitted work and fall back
+   // to serial reads once; never increase the instructor's service limits.
+   if(busyService(reply.error)&&pool.limit>1&&!cancelled()){
+    pool.limit=1;await pool.settle();try{reply={value:await request(region)};pool.paused=false;}catch(error){reply={error};}
+   }
+   if(cancelled())break;
+   if(reply.error){
+    if(serviceUnavailable(reply.error))break;
+    if(smallerRegionNeeded(reply.error)&&(region.depth||0)<2&&run.regions.length<64){run.regions.splice(index,1,...splitRegion(region));index--;await progress(run,region);}
+    continue;
+   }
+   if(!reply.value)break;
+   run.result=merge(run.result,reply.value,region).result;region.state='read';delete region.response;delete region.error;await progress(run,region);
+  }
+ }finally{
+  await pool.close();
+  for(const region of run.regions)if(region.state==='reading')region.state='pending';
+  await progress(run,null);
  }
  return run;
 }

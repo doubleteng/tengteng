@@ -1,4 +1,4 @@
-import {dist,lerp,project} from './geometry.mjs?v=topology-rebuild-7';
+import {dist,lerp,project} from './geometry.mjs?v=recognition-speed-1';
 
 // Opposite faces of one drawn wall are paired before junctions or room faces
 // are built. The pixel evidence and occupied-space veto are both mandatory.

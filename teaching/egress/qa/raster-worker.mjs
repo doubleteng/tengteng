@@ -1,2 +1,2 @@
-import {rasterLinework} from './pdf-plan.mjs?v=topology-rebuild-7';
+import {rasterLinework} from './pdf-plan.mjs?v=recognition-speed-1';
 self.onmessage=e=>{try{self.postMessage({ok:true,linework:rasterLinework(e.data)});}catch(error){self.postMessage({ok:false,error:error.message});}};

@@ -1,4 +1,4 @@
-import {dist,lerp,segDist} from './geometry.mjs?v=topology-rebuild-5';
+import {dist,lerp,segDist} from './geometry.mjs?v=topology-rebuild-6';
 
 const axis=s=>{const l=dist(s.a,s.b);return{x:(s.b.x-s.a.x)/l,y:(s.b.y-s.a.y)/l,l};};
 const dot=(a,b)=>a.x*b.x+a.y*b.y;

@@ -1,7 +1,7 @@
-import {pendingOpeningBarriers} from './import-quality.mjs?v=topology-rebuild-5';
-import {excludedCell} from './architectural-elements.mjs?v=topology-rebuild-5';
-import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=topology-rebuild-5';
-import {intersection} from './drafting.mjs?v=topology-rebuild-5';
+import {pendingOpeningBarriers} from './import-quality.mjs?v=topology-rebuild-6';
+import {excludedCell} from './architectural-elements.mjs?v=topology-rebuild-6';
+import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=topology-rebuild-6';
+import {intersection} from './drafting.mjs?v=topology-rebuild-6';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.

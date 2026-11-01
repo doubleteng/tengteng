@@ -1,6 +1,6 @@
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-5';
-import {openingHost} from './import-quality.mjs?v=topology-rebuild-5';
-import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=topology-rebuild-5';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-6';
+import {openingHost} from './import-quality.mjs?v=topology-rebuild-6';
+import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=topology-rebuild-6';
 
 const sourcePoint=(p,image)=>{
  const dx=p.x-(image.x||0),dy=p.y-(image.y||0),c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0);

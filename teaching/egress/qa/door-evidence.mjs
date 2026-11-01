@@ -1,4 +1,4 @@
-import {dist,lerp} from './geometry.mjs?v=topology-rebuild-5';
+import {dist,lerp} from './geometry.mjs?v=topology-rebuild-6';
 
 export function windowOverlaps(a,b,windows,tolerance=.12){
  const length=dist(a,b);if(!length)return null;

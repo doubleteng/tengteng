@@ -1,10 +1,10 @@
-import {elapsedLabel} from './recognition-timing.mjs?v=recognition-speed-1';
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-1';
-import {refineSourceWalls} from './source-refinement.mjs?v=recognition-speed-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=recognition-speed-1';
-import {roomPoint,uid} from './geometry.mjs?v=recognition-speed-1';
-import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=recognition-speed-1';
-import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=recognition-speed-1';
+import {elapsedLabel} from './recognition-timing.mjs?v=recognition-speed-2';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-2';
+import {refineSourceWalls} from './source-refinement.mjs?v=recognition-speed-2';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=recognition-speed-2';
+import {roomPoint,uid} from './geometry.mjs?v=recognition-speed-2';
+import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=recognition-speed-2';
+import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=recognition-speed-2';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={room:'Room',corridor:'Corridor',lobby:'Lobby',exterior:'Outdoors',courtyard:'Courtyard',void:'Floor void',projection:'Other-floor / context',furniture:'Furniture',column:'Column',stair:'Stair footprint',window:'Window',wall:'Wall',door:'Door candidate',entrance:'Entrance candidate','toilet-compartment':'Toilet stall (fixture)','toilet-partition':'Toilet partition','toilet-door':'Toilet stall door','sanitary-fixture':'Sanitary fixture','reference-line':'Non-enclosure detail'};
 const lineKinds=['wall','window','door','entrance','toilet-partition','toilet-door','reference-line'];

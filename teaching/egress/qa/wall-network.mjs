@@ -1,4 +1,4 @@
-import {dist,lerp,segDist} from './geometry.mjs?v=recognition-speed-1';
+import {dist,lerp,segDist} from './geometry.mjs?v=recognition-speed-2';
 
 const axis=s=>{const l=dist(s.a,s.b);return{x:(s.b.x-s.a.x)/l,y:(s.b.y-s.a.y)/l,l};};
 const dot=(a,b)=>a.x*b.x+a.y*b.y;

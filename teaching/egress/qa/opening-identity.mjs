@@ -1,6 +1,6 @@
-import {mergeDoorAssembly} from './door-assembly.mjs?v=recognition-speed-1';
-import {dist,segDist} from './geometry.mjs?v=recognition-speed-1';
-import {openingHost} from './import-quality.mjs?v=recognition-speed-1';
+import {mergeDoorAssembly} from './door-assembly.mjs?v=recognition-speed-2';
+import {dist,segDist} from './geometry.mjs?v=recognition-speed-2';
+import {openingHost} from './import-quality.mjs?v=recognition-speed-2';
 
 const tolerance=.08;
 const axis=points=>{const [a,b]=points,l=dist(a,b);return {a,b,l,x:(b.x-a.x)/l,y:(b.y-a.y)/l};};

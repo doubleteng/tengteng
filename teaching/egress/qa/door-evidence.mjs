@@ -1,4 +1,4 @@
-import {dist,lerp} from './geometry.mjs?v=recognition-speed-1';
+import {dist,lerp} from './geometry.mjs?v=recognition-speed-2';
 
 export function windowOverlaps(a,b,windows,tolerance=.12){
  const length=dist(a,b);if(!length)return null;

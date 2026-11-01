@@ -1,5 +1,5 @@
-import { fresh, functions } from './model.mjs?v=topology-rebuild-6';
-import { edges, FT } from './geometry.mjs?v=topology-rebuild-6';
+import { fresh, functions } from './model.mjs?v=recognition-speed-2';
+import { edges, FT } from './geometry.mjs?v=recognition-speed-2';
 
 // Independent teaching diagrams. Drawing coordinates are registered to one XY
 // datum per building; analysis and editing always use the app's metre units.

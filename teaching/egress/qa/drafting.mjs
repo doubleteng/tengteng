@@ -1,4 +1,4 @@
-import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=recognition-speed-1';
+import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=recognition-speed-2';
 
 export function zoomAt(camera, screen, viewport, factor) {
   const x=(screen.x-viewport.x-viewport.w/2)/camera.s;

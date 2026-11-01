@@ -1,5 +1,5 @@
-import {strokeMask} from './import-quality.mjs?v=topology-rebuild-6';
-import {area,dist,crosses} from './geometry.mjs?v=topology-rebuild-6';
+import {strokeMask} from './import-quality.mjs?v=recognition-speed-2';
+import {area,dist,crosses} from './geometry.mjs?v=recognition-speed-2';
 
 // Recognition supplies an object location, never a license to turn a group
 // of tables, chairs and aisles into one obstacle. Only an independently
@@ -7,8 +7,8 @@ import {area,dist,crosses} from './geometry.mjs?v=topology-rebuild-6';
 export function usableFurnitureGeometry(e){
  return e.kind!=='furniture'||e.confirmed===true||e.recognition?.reviewed===true||e.sourceGeometry?.status==='fitted'||!e.recognition&&!e.confidence&&!e.sourceGeometry;
 }
-export function refineFurnitureGeometry(result,imageData){
- const source=strokeMask(imageData),{width:w,height:h,mask}=source,unit=Math.max(w,h)/2000;
+export function refineFurnitureGeometry(result,imageData,source=strokeMask(imageData)){
+ const {width:w,height:h,mask}=source,unit=Math.max(w,h)/2000;
  const radius=Math.max(3,Math.min(16,8*unit)),tolerance=Math.max(.75,Math.min(1.5,unit));
  const hit=q=>{for(let x=-Math.ceil(tolerance);x<=tolerance;x++)for(let y=-Math.ceil(tolerance);y<=tolerance;y++){if(x*x+y*y>tolerance*tolerance+.1)continue;const xx=Math.round(q.x+x),yy=Math.round(q.y+y);if(xx>=0&&yy>=0&&xx<w&&yy<h&&mask[yy*w+xx])return true;}return false;};
  const measure=(a,b)=>{const l=dist(a,b),count=Math.max(12,Math.min(160,Math.ceil(l*1.5)));let hits=0,gap=0,longest=0;for(let i=0;i<count;i++){const t=.04+.92*i/(count-1),q={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t};if(hit(q)){hits++;gap=0;}else longest=Math.max(longest,++gap);}return{coverage:hits/count,gapFraction:longest/count};};

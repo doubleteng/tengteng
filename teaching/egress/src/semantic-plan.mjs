@@ -1,14 +1,14 @@
-import {readDoorSymbol,hostedDoorSymbol} from './door-symbol.mjs?v=topology-rebuild-6';
-import {normalizeArchitecturalElements,architecturalAttributes} from './architectural-elements.mjs?v=topology-rebuild-6';
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-6';
-import {sanitaryKinds} from './sanitary-elements.mjs?v=topology-rebuild-6';
-import {windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-6';
-import {doorAssembly} from './door-assembly.mjs?v=topology-rebuild-6';
-import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates,doorPoints} from './opening-identity.mjs?v=topology-rebuild-6';
-export {deduplicateOpenings} from './opening-identity.mjs?v=topology-rebuild-6';
-import {openingHost,openingSpaces} from './import-quality.mjs?v=topology-rebuild-6';
-import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=topology-rebuild-6';
-import {area,dist,edges,inside,project,roomPoint,segDist,uid} from './geometry.mjs?v=topology-rebuild-6';
+import {readDoorSymbol,hostedDoorSymbol} from './door-symbol.mjs?v=recognition-speed-2';
+import {normalizeArchitecturalElements,architecturalAttributes} from './architectural-elements.mjs?v=recognition-speed-2';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-2';
+import {sanitaryKinds} from './sanitary-elements.mjs?v=recognition-speed-2';
+import {windowOverlaps} from './door-evidence.mjs?v=recognition-speed-2';
+import {doorAssembly} from './door-assembly.mjs?v=recognition-speed-2';
+import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates,doorPoints} from './opening-identity.mjs?v=recognition-speed-2';
+export {deduplicateOpenings} from './opening-identity.mjs?v=recognition-speed-2';
+import {openingHost,openingSpaces} from './import-quality.mjs?v=recognition-speed-2';
+import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=recognition-speed-2';
+import {area,dist,edges,inside,project,roomPoint,segDist,uid} from './geometry.mjs?v=recognition-speed-2';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance','reference-line',...sanitaryKinds];
 export const semanticColors={room:'#507fa6',corridor:'#e5a42f',lobby:'#b78cde',exterior:'#7da971',courtyard:'#64a795',void:'#c66e71',projection:'#8b9199',furniture:'#99816b',column:'#8c7464',stair:'#9b72bc',window:'#62a9c0',wall:'#254f47',door:'#d97830',entrance:'#d34936','toilet-compartment':'#9aaea7','toilet-partition':'#82978f','toilet-door':'#82978f','sanitary-fixture':'#9aaea7','reference-line':'#9aaea7'};

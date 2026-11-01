@@ -1,6 +1,6 @@
-import {strokeMask} from './import-quality.mjs?v=recognition-speed-1';
-import {inside,segDist} from './geometry.mjs?v=recognition-speed-1';
-import {ReadAhead,serviceUnavailable,smallerRegionNeeded,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-1';
+import {strokeMask} from './import-quality.mjs?v=recognition-speed-2';
+import {inside,segDist} from './geometry.mjs?v=recognition-speed-2';
+import {ReadAhead,serviceUnavailable,smallerRegionNeeded,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-2';
 // Tile the sheet, not the rooms already found by a first model response.
 // Each core owns its geometry; overlapping margins provide reading context.
 export function coverageRegions(width,height,{tilePixels=1100,maxAxis=6}={}){

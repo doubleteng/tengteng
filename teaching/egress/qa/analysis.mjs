@@ -1,13 +1,13 @@
-import {stairLanding,stairCanDescend,stairConnectionProblem} from './stairs.mjs?v=topology-rebuild-2';
-import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=topology-rebuild-2';
-import {stairCirculation} from './circulation.mjs?v=topology-rebuild-2';
-import {roomLoad,analyzeCapacity} from './capacity.mjs?v=topology-rebuild-2';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-2';
-import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=topology-rebuild-2';
-import {stairAligned} from './drafting.mjs?v=topology-rebuild-2';
-import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=topology-rebuild-2';
-import {functions} from './model.mjs?v=topology-rebuild-2';
-import {recognitionProblem} from './recognition-state.mjs?v=topology-rebuild-2';
+import {stairLanding,stairCanDescend,stairConnectionProblem} from './stairs.mjs?v=topology-rebuild-3';
+import {pendingOpeningBarriers,auditImport} from './import-quality.mjs?v=topology-rebuild-3';
+import {stairCirculation} from './circulation.mjs?v=topology-rebuild-3';
+import {roomLoad,analyzeCapacity} from './capacity.mjs?v=topology-rebuild-3';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-3';
+import {floorOpenings,roomArea,inOpening} from './openings.mjs?v=topology-rebuild-3';
+import {stairAligned} from './drafting.mjs?v=topology-rebuild-3';
+import {FT,IN,SF,area,dist,inside,edges,centroid,roomPoint,insideRoom,floorRegions,segDist,crosses,length,makeGrid,flood,route,nearest} from './geometry.mjs?v=topology-rebuild-3';
+import {functions} from './model.mjs?v=topology-rebuild-3';
+import {recognitionProblem} from './recognition-state.mjs?v=topology-rebuild-3';
 export const sources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export function limits(group,sprinkler,occupants=0){return{travel:(sprinkler?(group==='B'?300:250):200)*FT,common:(group==='B'&&(sprinkler||occupants<=30)?100:75)*FT,dead:(sprinkler&&['B','E','M'].includes(group)?50:20)*FT};}
 export const requiredExits=n=>n>1000?4:n>500?3:n>49?2:1;
@@ -66,7 +66,7 @@ issue('review','Plan conditions to review','Confirm measured clearances, actual 
 const circulation=stairCirculation(p,floorIndex,roomResults,routes);for(const n of circulation.notices)issue('review',n.title,n.detail,'Model input',n.point);for(const r of roomResults.filter(r=>r.circulation&&r.circulation.state!=='connected')){const c=r.circulation;issue(c.state==='blocked'?'fail':'review',r.name+': '+(c.state==='partial'?'partly connected to stair':c.state==='blocked'?'no geometric route to stair':'no walkable circulation samples'),r.routeReason,'Model input',c.point);}
 const capacity=analyzeCapacity(p,floorIndex,g,field,roomResults);checks.push(...capacity.checks);
 return{capacity,checks,rooms:roomResults,routes,circulationRoutes:circulation.routes,circulationNotices:circulation.notices,outdoor,total,exits:exits.length,gridStep:g?.step,conflicts,grid:g,field,siteGrid,siteField,created:new Date().toISOString()};}
-import {splitWalls} from './geometry.mjs?v=topology-rebuild-2';const geometryHelpers={splitWalls};
+import {splitWalls} from './geometry.mjs?v=topology-rebuild-3';const geometryHelpers={splitWalls};
 export function probe(result,p,site=false){const g=site?result.siteGrid:result.grid,f=site?result.siteField:result.field;if(!g||!f)return null;const i=nearest(g,p,g.step*2);return i>=0&&Number.isFinite(f.d[i])?{points:[p,...route(g,f,i)],distance:dist(p,g.point(i))+f.d[i]}:null;}
 
 export function analyzeAll(p){

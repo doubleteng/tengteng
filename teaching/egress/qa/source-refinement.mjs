@@ -1,14 +1,14 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-2';
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-2';
-import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-2';
-import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-2';
-import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-2';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-2';
-import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-2';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-3';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-3';
+import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-3';
+import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-3';
+import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-3';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-3';
+import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-3';
 
 export function refinementSignature(result){
  let hash=2166136261;
- const value=JSON.stringify([result.outline,result.elements.map(e=>[e.id,e.kind,e.confirmed===true,e.points])]);
+ const value=JSON.stringify([result.outline,result.elements.map(e=>[e.id,e.kind,e.confirmed===true,e.points,e.partial===true,e.boundaryRole,e.spaceLocation,e.outdoorType,e.roofState,e.roomUse,e.doorType,e.hinge,e.swingPoint,e.swingAngle])]);
  for(let i=0;i<value.length;i++)hash=Math.imul(hash^value.charCodeAt(i),16777619);
  return (hash>>>0).toString(16);
 }
@@ -19,7 +19,7 @@ export function refinementSignature(result){
 export function refineSourceWalls(result,imageData){
  result={...result,elements:normalizeArchitecturalElements(result.elements)};
  const previous=result.sourceRefinement;
- if(previous?.version===8&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
+ if(previous?.version===9&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
  const {width:w,height:h,mask}=strokeMask(imageData),unit=Math.max(w,h)/2000;
  const radius=Math.max(4,12*unit),inkRadius=Math.max(1,Math.round(1.5*unit));
  const px=q=>({x:q[0]*w/1000,y:q[1]*h/1000});
@@ -107,11 +107,20 @@ export function refineSourceWalls(result,imageData){
  const supported=(a,b,band=inkRadius)=>{const l=dist(a,b);if(!l)return true;const n={x:-(b.y-a.y)/l,y:(b.x-a.x)/l},count=Math.max(4,Math.min(80,Math.ceil(l)));let hits=0;for(let i=0;i<=count;i++)if(hit(lerp(a,b,i/count),n,Math.ceil(band)))hits++;return hits/(count+1)>=.75;};
  const openings=kept.filter(e=>['door','entrance'].includes(e.kind)).map(e=>e.points.slice(0,2).map(px));
  const occupied=result.elements.filter(e=>['room','corridor','lobby'].includes(e.kind)).map(e=>e.points.map(px));
+ const interiorAt=(q,gap)=>occupied.some(poly=>inside(q,poly)&&Math.min(...edges(poly).map(([a,b])=>segDist(q,a,b)))>gap*.4);
  const paired=collapseWallFaces(walls,{unit,faceEvidence:(a,b)=>{
   const d=dist(a,b),n={x:(b.x-a.x)/d,y:(b.y-a.y)/d};if(!hit(a,n,1)||!hit(b,n,1))return false;
   let white=0;for(const t of [.3,.4,.5,.6,.7])if(!at(lerp(a,b,t).x,lerp(a,b,t).y))white++;return white>=3;
- },interiorAt:(q,gap)=>occupied.some(poly=>inside(q,poly)&&Math.min(...edges(poly).map(([a,b])=>segDist(q,a,b)))>gap*.4)});
- const unique=normalizeWallNetwork(paired,{unit,supported,openingAt:(q,r)=>openings.some(([a,b])=>segDist(q,a,b)<r&&Math.min(dist(q,a),dist(q,b))>r)});
+ },interiorAt});
+ const occupiedBetween=(q,gap,a,b)=>{
+  if(!a||!b||gap<1||at(q.x,q.y))return false;
+  const pad=Math.max(2,3*unit),u={x:(b.x-a.x)/gap,y:(b.y-a.y)/gap};
+  const outsideA={x:a.x-u.x*pad,y:a.y-u.y*pad},outsideB={x:b.x+u.x*pad,y:b.y+u.y*pad};
+  // Both sides must bound the SAME occupied strip. A rough room polygon
+  // merely extending into a thick wall cannot veto duplicate-axis cleanup.
+  return occupied.some(poly=>inside(q,poly)&&!inside(outsideA,poly)&&!inside(outsideB,poly));
+ };
+ const unique=normalizeWallNetwork(paired,{unit,supported,interiorAt:occupiedBetween,openingAt:(q,r)=>openings.some(([a,b])=>segDist(q,a,b)<r&&Math.min(dist(q,a),dist(q,b))>r)});
  // Reviewed walls are immutable anchors, never duplicated by recovered bands.
  const anchors=kept.filter(e=>e.kind==='wall').flatMap(e=>e.points.slice(1).map((q,i)=>[px(e.points[i]),px(q)]));
  for(let i=unique.length-1;i>=0;i--)if(anchors.some(([a,b])=>segDist(unique[i].a,a,b)<Math.max(2,3*unit)&&segDist(unique[i].b,a,b)<Math.max(2,3*unit)))unique.splice(i,1);
@@ -177,6 +186,6 @@ export function refineSourceWalls(result,imageData){
  // Whole-image and detail reads can describe the same opening. Keep one.
  for(let i=kept.length-1;i>=0;i--){const e=kept[i];if(e.confirmed||!['door','entrance'].includes(e.kind))continue;const a=px(e.points[0]),b=px(e.points[1]),c=lerp(a,b,.5);const duplicate=kept.findIndex((v,j)=>j<i&&!v.confirmed&&['door','entrance'].includes(v.kind)&&dist(c,lerp(...v.points.slice(0,2).map(px),.5))<Math.max(3,Math.min(dist(a,b)*.35,12*unit)));if(duplicate>=0){if(e.openingEvidence?.located&&!kept[duplicate].openingEvidence?.located)kept[duplicate]=e;kept.splice(i,1);}}
  const out=attachSourceEvidence(refineFurnitureGeometry({...result,elements:kept,warnings:[...result.warnings]},imageData),imageData);
- out.sourceRefinement={version:8,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
+ out.sourceRefinement={version:9,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
  return out;
 }

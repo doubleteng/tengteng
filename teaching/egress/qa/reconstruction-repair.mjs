@@ -1,6 +1,6 @@
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-2';
-import {openingHost} from './import-quality.mjs?v=topology-rebuild-2';
-import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=topology-rebuild-2';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-3';
+import {openingHost} from './import-quality.mjs?v=topology-rebuild-3';
+import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=topology-rebuild-3';
 
 const sourcePoint=(p,image)=>{
  const dx=p.x-(image.x||0),dy=p.y-(image.y||0),c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0);
@@ -10,7 +10,11 @@ const sourcePoint=(p,image)=>{
 export function reconstructionQuality(result,image){
  const compiled=compileRecognition(result,image),model=compiled.model;
  const unhosted=(model.candidates||[]).filter(c=>!c.windowConflict&&openingHost(model.walls,c.points).error);
- const unopened=model.rooms.filter(r=>r.seedIds?.length&&!model.candidates.some(c=>!c.windowConflict&&c.points.some(p=>edges(r.points).some(([a,b])=>segDist(p,a,b)<.3)))&&!model.doors.some(d=>edges(r.points).some(([a,b])=>segDist(d,a,b)<.3)));
+ // A semantic doorway merely projected onto a solid wall is not evidence of
+ // an opening. Once fitted to pixels, only a located jamb gap can satisfy
+ // this check; otherwise a hallucinated door would improve the repair score.
+ const located=c=>!result.sourceRefinement||c.recognition?.reviewed||c.openingEvidence?.located===true;
+ const unopened=model.rooms.filter(r=>r.seedIds?.length&&!model.candidates.some(c=>located(c)&&!c.windowConflict&&c.points.some(p=>edges(r.points).some(([a,b])=>segDist(p,a,b)<.3)))&&!model.doors.some(d=>edges(r.points).some(([a,b])=>segDist(d,a,b)<.3)));
  const slivers=model.rooms.filter(r=>{
   if(r.seedIds?.length)return false;
   const a=area(r.points),perimeter=r.points.reduce((n,p,i)=>n+dist(p,r.points[(i+1)%r.points.length]),0);
@@ -53,7 +57,17 @@ export function reconstructionTargets(result,image,{limit=8}={}){
  }
  for(const c of quality.unhosted){const p=sourcePoint({x:(c.points[0].x+c.points[1].x)/2,y:(c.points[0].y+c.points[1].y)/2},image);add(p,220,220,2);}
  for(const w of quality.compiled.unmatchedWalls)add(sourcePoint({x:(w.a.x+w.b.x)/2,y:(w.a.y+w.b.y)/2},image),220,220,4);
- for(const r of quality.unopened){const ps=r.points.map(p=>sourcePoint(p,image)),xs=ps.map(p=>p[0]),ys=ps.map(p=>p[1]);add(sourcePoint(roomPoint(r),image),Math.max(...xs)-Math.min(...xs)+90,Math.max(...ys)-Math.min(...ys)+90,2,'openings');}
+ for(const r of quality.unopened){
+  const ps=r.points.map(p=>sourcePoint(p,image)),xs=ps.map(p=>p[0]),ys=ps.map(p=>p[1]),width=Math.max(...xs)-Math.min(...xs),height=Math.max(...ys)-Math.min(...ys);
+  if(width>440||height>440){
+   // The center of a large hall does not contain its doors. Inspect every
+   // perimeter neighborhood and let the saved ledger continue across batches.
+   for(let i=0;i<ps.length;i++){
+    const a=ps[i],b=ps[(i+1)%ps.length],count=Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/240));
+    for(let j=0;j<count;j++){const t=(j+.5)/count;add([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t],280,280,2,'openings');}
+   }
+  }else add(sourcePoint(roomPoint(r),image),width+90,height+90,2,'openings');
+ }
  for(const r of quality.slivers)add(sourcePoint(roomPoint(r),image),180,180,1);
  return targets.sort((a,b)=>b.priority-a.priority).slice(0,limit).map((t,i)=>({...t,id:'repair-'+i}));
 }
@@ -63,6 +77,20 @@ export function improvesReconstruction(before,after){
  // A new response cannot earn a lower failure count by erasing a previously
  // enclosed space or degrading its connectivity.
  if(before.covered.some(point=>!after.model.rooms.some(r=>insideRoom(point,r))))return false;
+ // Preserving seed points is not enough: two previously separate rooms can
+ // still swallow each other's points after an accidental divider deletion.
+ // Reject that merge, and reject newly created cells without a semantic seed.
+ const unseeded=q=>q.model.rooms.filter(r=>!r.seedIds?.length).length;
+ if(unseeded(after)>unseeded(before))return false;
+ const owners=new Map();
+ for(let i=0;i<before.model.rooms.length;i++){
+  const room=before.model.rooms[i],seeds=before.model.spaceSeeds.filter(s=>insideRoom(s.point,room));
+  const witnesses=seeds.length?seeds.map(s=>s.point):[roomPoint(room)];
+  for(const point of witnesses){
+   const index=after.model.rooms.findIndex(r=>insideRoom(point,r));if(index<0)continue;
+   if(owners.has(index)&&owners.get(index)!==i)return false;owners.set(index,i);
+  }
+ }
  if(after.slivers.length>before.slivers.length)return false;
  return after.score<before.score;
 }
@@ -71,24 +99,32 @@ export function improvesReconstruction(before,after){
 // replace the best saved model, and a provider failure never destroys progress.
 export async function repairReconstruction(run,{image,read,fit,onProgress=()=>{},cancelled=()=>false,maxCalls=12}){
  let fitted=await fit(run.result),quality=reconstructionQuality(fitted,image);
- const ledger=run.repairs??=[],attempted=new Set();let calls=0;
+ const ledger=run.repairs??=[],keyFor=t=>'v2:'+t.focus+':'+[t.x,t.y,t.width,t.height].map(n=>Math.round(n/5)*5).join(':'),attempted=new Set(ledger.filter(e=>['accepted','rejected'].includes(e.state)&&e.key?.startsWith('v2:')).map(e=>e.key));let calls=0;
  if(run.regions?.some(r=>r.state!=='read'))return {result:fitted,quality,incompleteCoverage:true};
  for(let round=0;round<3&&!quality.complete&&calls<maxCalls;round++){
-  const targets=reconstructionTargets(fitted,image,{limit:8});let accepted=0;
+  const targets=reconstructionTargets(fitted,image,{limit:Infinity}).filter(t=>!attempted.has(keyFor(t))).slice(0,8);
+  if(!targets.length)break;
   for(const target of targets){
    if(cancelled()||calls>=maxCalls)return {result:fitted,quality,cancelled:cancelled()};
-   const key=target.focus+':'+[target.x,target.y,target.width,target.height].map(n=>Math.round(n/5)*5).join(':');
+   const key=keyFor(target);
    if(attempted.has(key))continue;attempted.add(key);
    const region={...target,id:'repair-'+ledger.length},entry={key,region,state:'reading'};ledger.push(entry);calls++;
    await onProgress({run,entry,calls,quality});
    try{
     const detail=await read(region);entry.detail=detail;if(cancelled()){entry.state='cancelled';return {result:fitted,quality,cancelled:true};}
-    const candidate=mergeDetail(run.result,detail,region).result;
-    const proposed=await fit(candidate);if(cancelled()){entry.state='cancelled';return {result:fitted,quality,cancelled:true};}
-    const next=reconstructionQuality(proposed,image);
-    entry.before=quality.score;entry.after=next.score;
-    if(improvesReconstruction(quality,next)){run.result=candidate;fitted=proposed;quality=next;entry.state='accepted';accepted++;}
-    else entry.state='rejected';
+    // Opening inventory has no mandate to redraw all partitions in a tile.
+    // Try its portals first. Source fitting can recover real short jamb walls
+    // from those positions. Only consider the complete returned wall set when
+    // that smaller update cannot improve the model, under the same safeguards.
+    const portals=detail.elements.filter(e=>['door','entrance','window','toilet-door'].includes(e.kind));
+    const variants=region.focus==='openings'&&portals.length&&portals.length<detail.elements.length?[{detail:{...detail,elements:portals},strategy:'openings-only'},{detail,strategy:'with-host-walls'}]:[{detail,strategy:'full-detail'}];
+    entry.before=quality.score;entry.state='rejected';entry.proposals=[];
+    for(const variant of variants){
+     const candidate=mergeDetail(run.result,variant.detail,region).result;
+     const proposed=await fit(candidate);if(cancelled()){entry.state='cancelled';return {result:fitted,quality,cancelled:true};}
+     const next=reconstructionQuality(proposed,image);entry.after=next.score;entry.proposals.push({strategy:variant.strategy,score:next.score});
+     if(improvesReconstruction(quality,next)){run.result=candidate;fitted=proposed;quality=next;entry.state='accepted';entry.strategy=variant.strategy;break;}
+    }
    }catch(error){
     entry.state='failed';entry.error=String(error.message||error).slice(0,220);
     if(/quota|allowance|access|session|429|busy|connect/i.test(entry.error)){await onProgress({run,entry,calls,quality});return {result:fitted,quality,error:entry.error};}
@@ -96,7 +132,6 @@ export async function repairReconstruction(run,{image,read,fit,onProgress=()=>{}
    await onProgress({run,entry,calls,quality});
    if(quality.complete)break;
   }
-  if(!accepted)break;
  }
  return {result:fitted,quality};
 }

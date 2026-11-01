@@ -1,14 +1,14 @@
-import {readDoorSymbol,hostedDoorSymbol} from './door-symbol.mjs?v=topology-rebuild-2';
-import {normalizeArchitecturalElements,architecturalAttributes} from './architectural-elements.mjs?v=topology-rebuild-2';
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-2';
-import {sanitaryKinds} from './sanitary-elements.mjs?v=topology-rebuild-2';
-import {windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-2';
-import {doorAssembly} from './door-assembly.mjs?v=topology-rebuild-2';
-import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates,doorPoints} from './opening-identity.mjs?v=topology-rebuild-2';
-export {deduplicateOpenings} from './opening-identity.mjs?v=topology-rebuild-2';
-import {openingHost,openingSpaces} from './import-quality.mjs?v=topology-rebuild-2';
-import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=topology-rebuild-2';
-import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=topology-rebuild-2';
+import {readDoorSymbol,hostedDoorSymbol} from './door-symbol.mjs?v=topology-rebuild-3';
+import {normalizeArchitecturalElements,architecturalAttributes} from './architectural-elements.mjs?v=topology-rebuild-3';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-3';
+import {sanitaryKinds} from './sanitary-elements.mjs?v=topology-rebuild-3';
+import {windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-3';
+import {doorAssembly} from './door-assembly.mjs?v=topology-rebuild-3';
+import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates,doorPoints} from './opening-identity.mjs?v=topology-rebuild-3';
+export {deduplicateOpenings} from './opening-identity.mjs?v=topology-rebuild-3';
+import {openingHost,openingSpaces} from './import-quality.mjs?v=topology-rebuild-3';
+import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=topology-rebuild-3';
+import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=topology-rebuild-3';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance','reference-line',...sanitaryKinds];
 export const semanticColors={room:'#507fa6',corridor:'#e5a42f',lobby:'#b78cde',exterior:'#7da971',courtyard:'#64a795',void:'#c66e71',projection:'#8b9199',furniture:'#99816b',column:'#8c7464',stair:'#9b72bc',window:'#62a9c0',wall:'#254f47',door:'#d97830',entrance:'#d34936','toilet-compartment':'#9aaea7','toilet-partition':'#82978f','toilet-door':'#82978f','sanitary-fixture':'#9aaea7','reference-line':'#9aaea7'};
@@ -28,7 +28,7 @@ export function validateInterpretation(input){
   }
   const outline=Array.isArray(input.outline)?input.outline:[];
   if(outline.length>160||outline.some(q=>!Array.isArray(q)||q.length!==2||q.some(v=>!Number.isFinite(v)||v<0||v>1000)))throw Error('Invalid floor enclosure.');
-  return {version:1,summary:text(input.summary),outline,elements:normalizeArchitecturalElements(elements),warnings,...(input.coverage?.version===1?{coverage:{version:1,total:Math.max(0,Number(input.coverage.total)||0),read:Math.max(0,Number(input.coverage.read)||0),complete:input.coverage.complete===true,regions:(input.coverage.regions||[]).slice(0,64).filter(r=>[r.x,r.y,r.width,r.height].every(Number.isFinite)).map(r=>({id:text(r.id),x:r.x,y:r.y,width:r.width,height:r.height,state:['read','failed','pending','reading'].includes(r.state)?r.state:'pending',error:text(r.error)}))}}:{}),...([1,2,3,4,5,6,7,8].includes(input.sourceRefinement?.version)?{sourceRefinement:{version:input.sourceRefinement.version,signature:String(input.sourceRefinement.signature||'').slice(0,16),sourceWidth:Number(input.sourceRefinement.sourceWidth)||0,sourceHeight:Number(input.sourceRefinement.sourceHeight)||0}}:{})};
+  return {version:1,summary:text(input.summary),outline,elements:normalizeArchitecturalElements(elements),warnings,...(input.coverage?.version===1?{coverage:{version:1,total:Math.max(0,Number(input.coverage.total)||0),read:Math.max(0,Number(input.coverage.read)||0),complete:input.coverage.complete===true,regions:(input.coverage.regions||[]).slice(0,64).filter(r=>[r.x,r.y,r.width,r.height].every(Number.isFinite)).map(r=>({id:text(r.id),x:r.x,y:r.y,width:r.width,height:r.height,state:['read','failed','pending','reading'].includes(r.state)?r.state:'pending',error:text(r.error)}))}}:{}),...([1,2,3,4,5,6,7,8,9].includes(input.sourceRefinement?.version)?{sourceRefinement:{version:input.sourceRefinement.version,signature:String(input.sourceRefinement.signature||'').slice(0,16),sourceWidth:Number(input.sourceRefinement.sourceWidth)||0,sourceHeight:Number(input.sourceRefinement.sourceHeight)||0}}:{})};
 }
 export function imagePoint(image,q){const c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0),x=q[0]/1000*image.width,y=(1-q[1]/1000)*image.height;return{x:image.x+c*x-s*y,y:image.y+s*x+c*y};}
 export function featureObstacles(floor){return (floor.features||[]).filter(f=>f.blocksMovement===true&&['furniture','column'].includes(f.kind)&&usableFurnitureGeometry(f));}

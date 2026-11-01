@@ -1,4 +1,4 @@
-import {dist,lerp,project} from './geometry.mjs?v=topology-rebuild-2';
+import {dist,lerp,project} from './geometry.mjs?v=topology-rebuild-3';
 
 // Opposite faces of one drawn wall are paired before junctions or room faces
 // are built. The pixel evidence and occupied-space veto are both mandatory.
@@ -8,11 +8,14 @@ export function collapseWallFaces(input,{unit=1,faceEvidence=()=>false,interiorA
  const at=(p,u,d)=>({x:p.x+u.x*d,y:p.y+u.y*d});
  const maxGap=Math.max(4,16*unit),minGap=Math.max(1.2,1.5*unit);
  for(let i=0;i<lines.length;i++)for(let j=i+1;j<lines.length;j++){
-  const s=lines[i],t=lines[j],u=axis(s),v=axis(t);if(!u.length||!v.length||Math.min(u.length,v.length)/Math.max(u.length,v.length)<.45)continue;
+  const s=lines[i],t=lines[j],u=axis(s),v=axis(t);if(!u.length||!v.length)continue;
   if(Math.abs(u.x*v.y-u.y*v.x)>.045)continue;
   const n={x:-u.y,y:u.x},dot=p=>(p.x-s.a.x)*u.x+(p.y-s.a.y)*u.y,normal=p=>(p.x-s.a.x)*n.x+(p.y-s.a.y)*n.y;
   const ta=dot(t.a),tb=dot(t.b),lo=Math.max(0,Math.min(ta,tb)),hi=Math.min(u.length,Math.max(ta,tb));
-  if(hi-lo<Math.min(u.length,v.length)*.75)continue;
+  // Openings, returns and drawing joins often split only one face. A short
+  // face can still establish the same wall band along a continuous long face;
+  // comparing their total lengths leaves those fragments as extra walls.
+  if(hi-lo<Math.max(8,12*unit,Math.min(u.length,v.length)*.75))continue;
   const da=normal(t.a),db=normal(t.b),gap=Math.abs((da+db)/2);
   if(da*db<=0||gap<minGap||gap>maxGap||Math.abs(da-db)>Math.max(1.5,4*unit))continue;
   // Already centered, broad wall bands do not supply another wall face.

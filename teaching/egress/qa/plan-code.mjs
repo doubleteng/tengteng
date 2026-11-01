@@ -1,6 +1,6 @@
-import {nonSwingDoor,doorAssemblyLabel} from './door-assembly.mjs?v=topology-rebuild-2';
-import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=topology-rebuild-2';
-import {roomLoad,capacityDimension} from './capacity.mjs?v=topology-rebuild-2';
+import {nonSwingDoor,doorAssemblyLabel} from './door-assembly.mjs?v=topology-rebuild-3';
+import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=topology-rebuild-3';
+import {roomLoad,capacityDimension} from './capacity.mjs?v=topology-rebuild-3';
 
 export const planSources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export const planCategories=[

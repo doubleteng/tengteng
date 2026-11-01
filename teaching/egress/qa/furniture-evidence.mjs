@@ -1,5 +1,5 @@
-import {strokeMask} from './import-quality.mjs?v=topology-rebuild-2';
-import {area,dist,crosses} from './geometry.mjs?v=topology-rebuild-2';
+import {strokeMask} from './import-quality.mjs?v=topology-rebuild-3';
+import {area,dist,crosses} from './geometry.mjs?v=topology-rebuild-3';
 
 // Recognition supplies an object location, never a license to turn a group
 // of tables, chairs and aisles into one obstacle. Only an independently

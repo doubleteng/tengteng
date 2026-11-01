@@ -1,4 +1,4 @@
-import {materializeInterpretation} from './semantic-plan.mjs?v=opening-identity-1';
+import {materializeInterpretation} from './semantic-plan.mjs?v=door-detection-1';
 import {roomPoint} from './geometry.mjs?v=portal-network-1';
 
 const spaceKinds=['room','corridor','lobby'];
@@ -7,8 +7,8 @@ const midpoint=e=>{const p=roomPoint({points:e.points.map(([x,y])=>({x,y}))});re
 
 // The review and application both compile this exact wall graph. Semantic
 // polygons remain label hints, never an alternative source of usable area.
-export function compileRecognition(result,image){
- const model=materializeInterpretation(result,{...image,calibrated:true});
+export function compileRecognition(result,image,{elevation=null}={}){
+ const model=materializeInterpretation(result,{...image,calibrated:true},{elevation});
  const expected=result.elements.filter(e=>spaceKinds.includes(e.kind));
  const pending=model.pendingSpaces||[];
  const unmatchedWalls=model.walls.filter(w=>!w.recognition?.reviewed&&w.recognition?.sourceCheck&&(w.recognition.sourceCheck.coverage<.55||w.recognition.sourceCheck.missingPixels>30));

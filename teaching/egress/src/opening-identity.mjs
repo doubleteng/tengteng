@@ -1,5 +1,6 @@
+import {mergeDoorAssembly} from './door-assembly.mjs?v=door-detection-1';
 import {dist,segDist} from './geometry.mjs?v=portal-network-1';
-import {openingHost} from './import-quality.mjs?v=portal-network-1';
+import {openingHost} from './import-quality.mjs?v=door-detection-1';
 
 const tolerance=.08;
 const axis=points=>{const [a,b]=points,l=dist(a,b);return {a,b,l,x:(b.x-a.x)/l,y:(b.y-a.y)/l};};
@@ -64,6 +65,7 @@ export function deduplicateOpenings(walls,candidates){
  return groups.sort((a,b)=>Math.min(...a.items.map(d=>d.index))-Math.min(...b.items.map(d=>d.index))).map(({anchor,items})=>{
   if(items.length===1)return anchor.c;
   const c=structuredClone(anchor.c),merged=items.map(d=>d.c);
+  Object.assign(c,mergeDoorAssembly(merged,c));
   c.mergedCandidateIds=[...new Set(merged.flatMap(ids))].filter(id=>id!==c.id);
   c.recognition={...c.recognition,sourceIds:[...new Set(merged.flatMap(sourceIds))]};
   if(merged.some(v=>v.suggestedExit||v.kind==='entrance')){c.kind='entrance';c.suggestedExit=merged.some(v=>v.suggestedExit);}
@@ -93,5 +95,6 @@ export function reconcileOpeningCandidates(floor){
  if(!floor.candidates?.length)return false;
  const before=JSON.stringify(floor.candidates);
  floor.candidates=deduplicateOpenings(floor.walls||[],floor.candidates).filter(c=>!matchingDoor(floor,c));
+ for(const c of floor.candidates)c.located=!openingHost(floor.walls||[],c.points).error;
  return JSON.stringify(floor.candidates)!==before;
 }

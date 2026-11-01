@@ -1,14 +1,14 @@
-import {refineSourceWalls} from './source-refinement.mjs?v=portal-network-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=opening-identity-1';
+import {refineSourceWalls} from './source-refinement.mjs?v=door-detection-1';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=door-detection-1';
 import {roomPoint,uid} from './geometry.mjs?v=portal-network-1';
-import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=opening-identity-1';
-import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=portal-network-1';
+import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=door-detection-1';
+import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=door-detection-1';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const labels={room:'Room',corridor:'Corridor',lobby:'Lobby',exterior:'Outdoors',courtyard:'Courtyard',void:'Floor void',projection:'Other-floor / context',furniture:'Furniture',column:'Column',stair:'Stair footprint',window:'Window',wall:'Wall',door:'Door candidate',entrance:'Entrance candidate'};
-const lineKinds=['wall','window','door','entrance'];
-export function reviewInterpretation({dialog,image,result,onApply,onSave,onCalibrate,showUnderlay=true,onUnderlayChange=()=>{},onReadRegion,onTraceSource,onReread}){
+const labels={room:'Room',corridor:'Corridor',lobby:'Lobby',exterior:'Outdoors',courtyard:'Courtyard',void:'Floor void',projection:'Other-floor / context',furniture:'Furniture',column:'Column',stair:'Stair footprint',window:'Window',wall:'Wall',door:'Door candidate',entrance:'Entrance candidate','toilet-compartment':'Toilet stall (fixture)','toilet-partition':'Toilet partition','toilet-door':'Toilet stall door','sanitary-fixture':'Sanitary fixture'};
+const lineKinds=['wall','window','door','entrance','toilet-partition','toilet-door'];
+export function reviewInterpretation({dialog,image,result,elevation=null,onApply,onSave,onCalibrate,showUnderlay=true,onUnderlayChange=()=>{},onReadRegion,onTraceSource,onReread}){
  const $=s=>dialog.querySelector(s);let r=validateInterpretation(result),selected=null,drag=null,pan=null,camera={x:500,y:500,s:1},fitScale=1,mode='select',draft=[],sourceLines=image.linework?.segments||[],issues=[],connections=[],history=[];
- const hidden=new Set(['furniture','column','window','projection']),excluded=new Set(),iw=image.pixelWidth||1000,ih=image.pixelHeight||1000,ratio=ih/iw;
+ const hidden=new Set(['furniture','column','window','projection','toilet-compartment','toilet-partition','toilet-door','sanitary-fixture']),excluded=new Set(),iw=image.pixelWidth||1000,ih=image.pixelHeight||1000,ratio=ih/iw;
  let sourceData=null,background=showUnderlay,overlay=true,showSource=false,highlight=null,detailChecks=false,compiled=null,compiledElements=[],compiledOpenings=[];
  dialog.classList.add('recognition-dialog');dialog.addEventListener('close',()=>dialog.classList.remove('recognition-dialog'),{once:true});
  $('#modal-title').textContent='Rooms & outdoors';
@@ -39,10 +39,10 @@ export function reviewInterpretation({dialog,image,result,onApply,onSave,onCalib
  function check(){
   if(sourceData){const checked=attachSourceEvidence(r,sourceData);r.elements.forEach((e,i)=>{if(checked.elements[i].sourceCheck)e.sourceCheck=checked.elements[i].sourceCheck;});}
   const testImage={...image,x:0,y:0,rotation:0,width:image.width||10,height:image.height||10,calibrated:true};
-  compiled=compileRecognition(activeResult(),testImage);const model=compiled.model,map=new Map([...model.walls,...model.rooms,...model.doors,...model.candidates,...compiled.pending].map(o=>[o.id,o.recognition?.sourceId]));
+  compiled=compileRecognition(activeResult(),testImage,{elevation});const model=compiled.model,map=new Map([...model.walls,...model.rooms,...model.doors,...model.candidates,...compiled.pending].map(o=>[o.id,o.recognition?.sourceId]));
   compiledElements=model.rooms.map(room=>({id:room.recognition?.sourceId||room.id,kind:room.role||'room',label:room.name,points:room.points.map(q=>[q.x/testImage.width*1000,(1-q.y/testImage.height)*1000]),holes:(room.holes||[]).map(poly=>poly.map(q=>[q.x/testImage.width*1000,(1-q.y/testImage.height)*1000]))}));
   const toImage=q=>[q.x/testImage.width*1000,(1-q.y/testImage.height)*1000];
-  compiledOpenings=[...model.candidates.map(c=>({id:c.recognition.sourceId,kind:c.kind,points:c.points.map(toImage)})),...model.doors.map(d=>{const w=model.walls.find(w=>w.id===d.wallId),length=Math.hypot(w.b.x-w.a.x,w.b.y-w.a.y),dx=(w.b.x-w.a.x)/length*d.width/2,dy=(w.b.y-w.a.y)/length*d.width/2;return {id:d.recognition.sourceId,kind:'door',points:[toImage({x:d.x-dx,y:d.y-dy}),toImage({x:d.x+dx,y:d.y+dy})]};})];
+  compiledOpenings=[...model.candidates.map(c=>({id:c.recognition.sourceId,kind:c.kind,points:c.points.map(toImage)})),...model.doors.map(d=>{const w=model.walls.find(w=>w.id===d.wallId),length=Math.hypot(w.b.x-w.a.x,w.b.y-w.a.y),dx=(w.b.x-w.a.x)/length*d.width/2,dy=(w.b.y-w.a.y)/length*d.width/2;return {id:d.recognition.sourceId,kind:d.exit?'entrance':'door',points:[toImage({x:d.x-dx,y:d.y-dy}),toImage({x:d.x+dx,y:d.y+dy})]};})];
   // Keep one editable source object for one compiled opening. Otherwise a
   // hidden leaf proposal can reappear as a second door after dragging it.
   const mergedIds=new Set();
@@ -52,12 +52,13 @@ export function reviewInterpretation({dialog,image,result,onApply,onSave,onCalib
    const drawing=compiledOpenings.find(v=>v.id===id);
    e.mergedSourceIds=[...new Set([...(e.mergedSourceIds||[]),...ids])];
    if(drawing){e.points=drawing.points;e.kind=drawing.kind;}
+   if(o.doorType){e.doorType=o.doorType;e.leafCount=o.leafCount;}
    for(const other of ids)if(other!==id)mergedIds.add(other);
   }
   if(mergedIds.size)r.elements=r.elements.filter(e=>!mergedIds.has(e.id));
-  const audit=auditImport(model);for(const space of compiled.pending)audit.issues.unshift({code:'unclosed-space',title:space.name+': missing wall enclosure',detail:'The wall graph does not enclose this space. It will not contribute area or occupants. Fit the visible walls or read this region again.',objectId:space.id,point:space.point});connections=[...audit.connections,...model.doors.map(d=>({id:d.id,labels:d.sourceConnection,detected:true,hosted:true}))].map(c=>({...c,id:map.get(c.id)}));
-  issues=audit.issues.filter(i=>detailChecks||['unclosed-space','enclosure','room-outside','room-overlap','room-crossing','room-opening','opening-spaces','opening-host'].includes(i.code)).map(i=>({...i,detail:!image.calibrated&&i.code==='wall-gap'?'Wall endpoints do not meet. Check the original junction and set the drawing scale.':i.detail,id:i.objectId==='__outline'?'__outline':map.get(i.objectId),q:[i.point.x/testImage.width*1000,(1-i.point.y/testImage.height)*1000]}));
-  $('#recognition-quality').innerHTML=`<strong>${issues.length?issues.length+' geometry issues':'Wall graph closes'}</strong><small>${model.rooms.length} enclosed spaces · ${compiled.pending.length} missing enclosures · ${model.doors.length} detected doors · ${model.candidates.filter(c=>c.suggestedExit).length} exit candidates · ${model.candidates.filter(c=>!c.suggestedExit).length} other openings</small><div class="import-issues">${issues.map((i,n)=>`<button data-issue="${n}"><span>${n+1}</span>${esc(i.title)}</button>`).join('')}</div>`;
+  const audit=auditImport(model);for(const space of compiled.pending)audit.issues.unshift({code:'unclosed-space',title:space.name+': missing wall enclosure',detail:'The wall graph does not enclose this space. It will not contribute area or occupants. Fit the visible walls or read this region again.',objectId:space.id,point:space.point});connections=[...audit.connections,...model.doors.map(d=>({id:d.id,labels:d.sourceConnection,detected:true,exit:d.exit,hosted:true}))].map(c=>({...c,id:map.get(c.id)}));
+  issues=audit.issues.filter(i=>detailChecks||['unclosed-space','enclosure','room-outside','room-overlap','room-crossing','room-opening','opening-spaces','opening-host','window-conflict'].includes(i.code)).map(i=>({...i,detail:!image.calibrated&&i.code==='wall-gap'?'Wall endpoints do not meet. Check the original junction and set the drawing scale.':i.detail,id:i.objectId==='__outline'?'__outline':map.get(i.objectId),q:[i.point.x/testImage.width*1000,(1-i.point.y/testImage.height)*1000]}));
+  $('#recognition-quality').innerHTML=`<strong>${issues.length?issues.length+' geometry issues':'Wall graph closes'}</strong><small>${model.rooms.length} enclosed spaces · ${compiled.pending.length} missing enclosures · ${model.doors.filter(d=>!d.exit).length} detected doors · ${model.doors.filter(d=>d.exit).length} detected exits · ${model.candidates.filter(c=>c.suggestedExit).length} exit candidates · ${model.candidates.filter(c=>!c.suggestedExit).length} other openings</small><div class="import-issues">${issues.map((i,n)=>`<button data-issue="${n}"><span>${n+1}</span>${esc(i.title)}</button>`).join('')}</div>`;
   for(const b of dialog.querySelectorAll('[data-issue]'))b.onclick=()=>{highlight=Number(b.dataset.issue);const i=issues[highlight];choose(i.id);camera.x=i.q[0];camera.y=i.q[1];camera.s=Math.max(camera.s,fitScale*2);draw();};
   $('#recognition-state').textContent=compiled.pending.length?compiled.pending.length+' spaces have no closed boundary. This is an incomplete draft.':'Preview and analysis use these same wall-derived spaces. Confirm the openings.';$('#recognition-apply').textContent=compiled.complete?'Use walls + spaces →':'Edit incomplete draft →';
   list();if(selected&&current())choose(selected);draw();
@@ -119,5 +120,5 @@ export function reviewInterpretation({dialog,image,result,onApply,onSave,onCalib
  $('#recognition-undo').onclick=()=>{const last=history.pop();if(!last)return;r=last.r;excluded.clear();last.excluded.forEach(id=>excluded.add(id));selected=null;draft=[];check();$('#recognition-editor').textContent='Change undone.';};
  if(onTraceSource)$('#recognition-trace').onclick=async()=>{const b=$('#recognition-trace');b.disabled=true;b.textContent='Extracting…';try{const lines=await onTraceSource();sourceLines=lines.segments;showSource=true;$('#recognition-source').checked=true;draw();$('#recognition-state').textContent=sourceLines.length+' source segments. Pick only architectural wall strokes.';}catch(e){$('#recognition-state').textContent=e.message;}finally{b.disabled=false;b.textContent='Extract all strokes';}};
  $('#recognition-save').onclick=()=>{onSave(activeResult());dialog.close();};$('#recognition-calibrate').onclick=()=>{onSave(activeResult());dialog.close();onCalibrate();};$('#recognition-apply').onclick=()=>onApply(activeResult());if(onReread)$('#recognition-reread').onclick=onReread;
- bitmap.onload=()=>{const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);sourceData=c.getContext('2d').getImageData(0,0,c.width,c.height);if((r.sourceRefinement?.version||0)<2){remember();r=refineSourceWalls(r,sourceData);}check();fit();};check();fit();
+ bitmap.onload=()=>{const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);sourceData=c.getContext('2d').getImageData(0,0,c.width,c.height);if((r.sourceRefinement?.version||0)<3){remember();r=refineSourceWalls(r,sourceData);}check();fit();};check();fit();
 }

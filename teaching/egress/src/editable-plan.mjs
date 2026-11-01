@@ -1,4 +1,4 @@
-import {openingHost} from './import-quality.mjs?v=portal-network-1';
+import {openingHost} from './import-quality.mjs?v=door-detection-1';
 import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=portal-network-1';
 import {intersection} from './drafting.mjs?v=portal-network-1';
 
@@ -61,7 +61,7 @@ export function roomsFromFaces(faces,previous=[],reservedNames=[]){
  });
 }
 
-const roomFields=['id','name','function','group','factor','basis','role','targetArea','clearWidth','recognition','sourceNote'];
+const roomFields=['id','name','function','group','factor','basis','role','targetArea','clearWidth','recognition','sourceNote','roomUse'];
 const roomAttributes=r=>Object.fromEntries(roomFields.filter(k=>r[k]!==undefined).map(k=>[k,structuredClone(r[k])]));
 
 // Room polygons are a cache of wall-graph faces. Labels/use assignments are

@@ -19,6 +19,21 @@ export function normalizeWallNetwork(input,{unit=1,supported=()=>false,openingAt
    const a=at(mid,v,-u.l/2),b=at(mid,v,u.l/2);if(supported(a,b,Math.max(eps,s.band||0))){s.a=a;s.b=b;}
   }else groups.push({u});
  }
+ // Different room hints can fit slightly different axes inside the very
+ // same thick wall. Remove contained duplicates before they form sliver faces.
+ // A genuine folded continuation extends beyond the first run and survives.
+ const dominant=[];
+ for(const s of [...lines].sort((a,b)=>dist(b.a,b.b)-dist(a.a,a.b))){
+  const v=axis(s),duplicate=dominant.some(t=>{
+   const u=axis(t);if(angle(u,v)>.16)return false;
+   const normal={x:-u.y,y:u.x},ts=[dot(sub(s.a,t.a),u),dot(sub(s.b,t.a),u)],lo=Math.min(...ts),hi=Math.max(...ts);
+   const band=Math.max(eps,Math.min(s.band||eps,t.band||eps));
+   if(lo< -eps||hi>u.l+eps||Math.max(Math.abs(dot(sub(s.a,t.a),normal)),Math.abs(dot(sub(s.b,t.a),normal)))>band)return false;
+   const same=supported(at(t.a,u,Math.max(0,lo)),at(t.a,u,Math.min(u.l,hi)),band);if(same)t.explicit||=s.explicit;return same;
+  });
+  if(!duplicate)dominant.push(s);
+ }
+ lines=dominant;
  // Merge to one axis before connecting junctions, then merge once again.
  function collapse(){
   const out=[];
@@ -38,6 +53,20 @@ export function normalizeWallNetwork(input,{unit=1,supported=()=>false,openingAt
   }lines=out;
  }
  collapse();
+ // All fragments at one ink-supported corner share one junction. Sequential
+ // pairwise snaps alone can leave a tiny triangle among three near endpoints.
+ const longest=[...lines].sort((a,b)=>dist(b.a,b.b)-dist(a.a,a.b));
+ for(let i=0;i<longest.length;i++)for(let j=i+1;j<longest.length;j++){
+  const s=longest[i],t=longest[j],u=axis(s),v=axis(t);if(angle(u,v)<.2)continue;
+  const q=intersection(s,t);if(!q)continue;
+  const radius=Math.min(join,Math.max(eps,s.band||0,t.band||0));
+  if(Math.min(dist(q,s.a),dist(q,s.b))>radius||Math.min(dist(q,t.a),dist(q,t.b))>radius||openingAt(q,eps))continue;
+  for(const wall of lines)for(const key of ['a','b']){
+   const p=wall[key],d=dist(p,q);if(d<=.001||d>radius||openingAt(lerp(p,q,.5),eps))continue;
+   if(supported(p,q,Math.max(eps,wall.band||0)))wall[key]={...q};
+  }
+ }
+ lines=lines.filter(s=>dist(s.a,s.b)>eps);collapse();
  // Extend / trim both sides of L junctions together, or snap a T onto its
  // through wall. The support check sees the wall band, including hollow walls.
  for(let pass=0;pass<2;pass++)for(let i=0;i<lines.length;i++)for(let j=i+1;j<lines.length;j++){

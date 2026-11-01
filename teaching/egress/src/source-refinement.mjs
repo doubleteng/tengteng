@@ -1,6 +1,7 @@
-import {normalizeWallNetwork} from './wall-network.mjs?v=portal-network-1';
-import {doorSwingEvidence} from './door-evidence.mjs?v=portal-network-1';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=portal-network-1';
+import {normalizeSanitaryElements} from './sanitary-elements.mjs?v=door-detection-1';
+import {normalizeWallNetwork} from './wall-network.mjs?v=door-detection-1';
+import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=door-detection-1';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=door-detection-1';
 import {dist,segDist,project,lerp,edges} from './geometry.mjs?v=portal-network-1';
 
 export function refinementSignature(result){
@@ -14,8 +15,9 @@ export function refinementSignature(result){
 // Furniture and drawing annotations never supply boundary search bands.
 // Distances below are relative to source resolution, not a particular plan.
 export function refineSourceWalls(result,imageData){
+ result={...result,elements:normalizeSanitaryElements(result.elements)};
  const previous=result.sourceRefinement;
- if(previous?.version===2&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
+ if(previous?.version===3&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
  const {width:w,height:h,mask}=strokeMask(imageData),unit=Math.max(w,h)/2000;
  const radius=Math.max(4,12*unit),inkRadius=Math.max(1,Math.round(1.5*unit));
  const px=q=>({x:q[0]*w/1000,y:q[1]*h/1000});
@@ -29,9 +31,24 @@ export function refineSourceWalls(result,imageData){
   for(const [a,b] of pairs)if(dist(a,b)>Math.max(8,10*unit))hints.push({a,b,e});
  }
  if(result.outline.length)for(const [a,b] of edges(result.outline.map(px)))hints.push({a,b,e:{id:'outline',label:'Exterior enclosure'}});
+ // A door proposal also locates the short wall returns above/below its jambs.
+ // These are search bands only: require source ink and an existing wall
+ // intersection outside the aperture. Never draw a wall through the door.
+ const anchorsForDoors=[...hints].filter(h=>h.e.kind==='wall'||h.e.id==='outline');
+ for(const e of result.elements.filter(e=>['door','entrance'].includes(e.kind))){
+  const [a,b]=e.points.slice(0,2).map(px),l=dist(a,b);if(l<5)continue;
+  const u={x:(b.x-a.x)/l,y:(b.y-a.y)/l},reach=Math.max(radius*3,l*.8),intersections=[];
+  for(const h of anchorsForDoors){
+   const dx=h.b.x-h.a.x,dy=h.b.y-h.a.y,den=u.x*dy-u.y*dx;if(Math.abs(den)<.2*dist(h.a,h.b))continue;
+   const t=((h.a.x-a.x)*dy-(h.a.y-a.y)*dx)/den,q={x:a.x+u.x*t,y:a.y+u.y*t};
+   if(segDist(q,h.a,h.b)<=Math.max(2,3*unit))intersections.push(t);
+  }
+  const before=intersections.filter(t=>t< -2&&t>=-reach).sort((a,b)=>b-a)[0],after=intersections.filter(t=>t>l+2&&t<=l+reach).sort((a,b)=>a-b)[0];
+  for(const [start,end] of [[before,0],[l,after]])if(Number.isFinite(start)&&Number.isFinite(end))hints.push({a:{x:a.x+u.x*start,y:a.y+u.y*start},b:{x:a.x+u.x*end,y:a.y+u.y*end},e:{id:'door-host-'+e.id,kind:'wall',label:'Wall at '+(e.label||'door'),hostHint:true}});
+ }
  const walls=[],rejected=[];
  for(const hint of hints){
-  const {a,b,e}=hint,l=dist(a,b);if(l<8)continue;
+  const {a,b,e}=hint,l=dist(a,b);if(l<(e.hostHint?3:8))continue;
   const u={x:(b.x-a.x)/l,y:(b.y-a.y)/l},n={x:-u.y,y:u.x};
   const count=Math.min(180,Math.max(10,Math.ceil(l/(2*unit||1))));
   let best=null;
@@ -45,7 +62,7 @@ export function refineSourceWalls(result,imageData){
    const coverage=hits/(count-1),score=coverage-Math.abs(offset)/radius*.025-Math.abs(slope)*.15;
    if(!best||score>best.score)best={offset,slope,score,coverage};
   }
-  if(best.coverage<.48){if(e.kind==='wall')rejected.push(e.id);continue;}
+  if(best.coverage<(e.hostHint?.72:.48)){if(e.kind==='wall')rejected.push(e.id);continue;}
   // Center solid thick strokes, including when the initial hint sat on a face.
   const offsets=[],bands=[];const profileRadius=Math.max(8,24*unit);
   for(let i=1;i<count;i++){
@@ -69,7 +86,7 @@ export function refineSourceWalls(result,imageData){
   const point=t=>{const d=best.offset+center+best.slope*(t-l/2);return{x:a.x+u.x*t+n.x*d,y:a.y+u.y*t+n.y*d};};
   const start=point(0),end=point(l),nl=dist(start,end),normal={x:-(end.y-start.y)/nl,y:(end.x-start.x)/nl};
   let runStart=null,last=null,gap=0;
-  const flush=()=>{if(runStart!==null&&last-runStart>=Math.max(8,12*unit))walls.push({a:point(runStart),b:point(last),hint:e.id,label:e.kind==='wall'?e.label:'Wall at '+(e.label||'enclosure'),score:best.coverage,band,explicit:['wall','window'].includes(e.kind)||e.id==='outline'});runStart=null;last=null;gap=0;};
+  const flush=()=>{if(runStart!==null&&last-runStart>=(e.hostHint?Math.max(3,4*unit):Math.max(8,12*unit)))walls.push({a:point(runStart),b:point(last),hint:e.id,label:e.kind==='wall'?e.label:'Wall at '+(e.label||'enclosure'),score:best.coverage,band,explicit:['wall','window'].includes(e.kind)||e.id==='outline'});runStart=null;last=null;gap=0;};
   for(let t=0;t<=Math.ceil(l);t++){
    if(hit(point(t),normal,Math.max(inkRadius,Math.ceil(band)))){if(runStart===null)runStart=t;last=t;gap=0;}
    else if(++gap>Math.max(2,2*unit))flush();
@@ -94,11 +111,12 @@ export function refineSourceWalls(result,imageData){
    if(l<Math.max(3,4*unit)||l>Math.max(12,55*unit,Math.min(w,h)*.12)||Math.abs((b.x-a.x)*u.y-(b.y-a.y)*u.x)>Math.max(2,3*unit))continue;
    if(segDist(center,s.a,s.b)<l*.4||segDist(center,t.a,t.b)<l*.4)continue;
    if(unique.some(v=>v!==s&&v!==t&&segDist(center,v.a,v.b)<3*unit))continue;
-   const supportedBoundary=hints.some(v=>segDist(a,v.a,v.b)<radius&&segDist(b,v.a,v.b)<radius);
+   const supportedBoundary=hints.some(v=>segDist(a,v.a,v.b)<radius&&segDist(b,v.a,v.b)<radius)||openings.some(([u,v])=>segDist(a,u,v)<radius&&segDist(b,u,v)<radius);
    if(!supportedBoundary)continue;
    if(supported(a,b,Math.max(1,Math.min(s.band||1,t.band||1)*.5)))continue;
    if(gaps.some(g=>dist(g.center,center)<Math.max(2,3*unit)))continue;
-   gaps.push({a,b,center,evidence:doorSwingEvidence(a,b,source,unit)});
+   const evidence=doorSwingEvidence(a,b,source,unit),window=windowOverlaps(a,b,kept.filter(e=>e.kind==='window').map(e=>({...e,points:e.points.map(px)})),Math.max(3,4*unit)),glazing=glazingBarrierEvidence(a,b,source,unit);
+   gaps.push({a,b,center,evidence,windowConflict:window?'Window symbol overlaps this opening.':glazing.score>=.8?'Continuous frame / glazing lines cross this opening.':''});
   }
  }
  // Match proposals to measured jambs. Only source-supported swing evidence
@@ -107,7 +125,7 @@ export function refineSourceWalls(result,imageData){
   delete e.openingEvidence;
   const a=px(e.points[0]),b=px(e.points[1]),l=dist(a,b);if(!l)continue;
   const center=lerp(a,b,.5),gap=gaps.filter(g=>dist(center,g.center)<Math.max(radius,l*.6)&&segDist(g.center,a,b)<radius).sort((a,b)=>dist(a.center,center)-dist(b.center,center))[0];
-  if(gap){e.points=[norm(gap.a),norm(gap.b)];e.openingEvidence={located:true,swingScore:gap.evidence.score,method:gap.evidence.score>=.55?'swing-and-jambs':'jambs',autoDoor:gap.evidence.score>=.55&&e.kind==='door'};gap.claimed=true;continue;}
+  if(gap){e.points=[norm(gap.a),norm(gap.b)];e.openingEvidence={located:true,swingScore:gap.evidence.score,method:gap.evidence.score>=.55?'swing-and-jambs':'jambs',autoDoor:gap.evidence.score>=.55&&!gap.windowConflict,windowConflict:gap.windowConflict,swingPoint:gap.evidence.swingPoint?norm(gap.evidence.swingPoint):null};if(gap.evidence.score>=.55){e.doorType=gap.evidence.doorType;e.leafCount=gap.evidence.leafCount;}gap.claimed=true;continue;}
   const hosts=unique.filter(s=>{
    const sl=dist(s.a,s.b),cross=Math.abs((b.x-a.x)*(s.b.y-s.a.y)-(b.y-a.y)*(s.b.x-s.a.x))/(l*sl);
    return cross<.15&&segDist(center,s.a,s.b)<Math.max(radius,l*.6);
@@ -115,13 +133,13 @@ export function refineSourceWalls(result,imageData){
   if(hosts.length){const s=hosts[0],sl=dist(s.a,s.b),u={x:(s.b.x-s.a.x)/sl,y:(s.b.y-s.a.y)/sl},d=(center.x-s.a.x)*u.x+(center.y-s.a.y)*u.y,q={x:s.a.x+u.x*d,y:s.a.y+u.y*d};e.points=[norm({x:q.x-u.x*l/2,y:q.y-u.y*l/2}),norm({x:q.x+u.x*l/2,y:q.y+u.y*l/2})];}
  }
  let serial=0;const ids=new Set(kept.map(e=>e.id)),newId=()=>{let id;do{id='fitted-wall-'+serial++;}while(ids.has(id));ids.add(id);return id;};
- for(const gap of gaps)if(gap.evidence.score>=.55&&!gap.claimed&&!kept.some(e=>['door','entrance'].includes(e.kind)&&segDist(gap.center,...e.points.slice(0,2).map(px))<Math.max(3,4*unit))){
-  kept.push({id:newId(),kind:'door',label:'Detected door',points:[norm(gap.a),norm(gap.b)],confidence:'high',evidence:'Door swing and two aligned wall jambs detected in the source drawing.',openingEvidence:{located:true,swingScore:gap.evidence.score,method:'swing-and-jambs',autoDoor:true},confirmed:false});
+ for(const gap of gaps)if(gap.evidence.score>=.55&&!gap.windowConflict&&!gap.claimed&&!kept.some(e=>['door','entrance'].includes(e.kind)&&segDist(gap.center,...e.points.slice(0,2).map(px))<Math.max(3,4*unit))){
+  kept.push({id:newId(),kind:'door',label:'Detected door',points:[norm(gap.a),norm(gap.b)],confidence:'high',doorType:gap.evidence.doorType,leafCount:gap.evidence.leafCount,evidence:'Door swing and two aligned wall jambs detected in the source drawing.',openingEvidence:{located:true,swingScore:gap.evidence.score,method:'swing-and-jambs',autoDoor:true,swingPoint:gap.evidence.swingPoint?norm(gap.evidence.swingPoint):null},confirmed:false});
  }
  for(const s of unique)kept.push({id:newId(),kind:'wall',label:s.label||'Source wall',points:[norm(s.a),norm(s.b)],sourceBand:Math.min(40,s.band||inkRadius),confidence:'medium',evidence:'Wall position fitted to source strokes within an architectural boundary band. Openings require confirmation.',confirmed:false});
  // Whole-image and detail reads can describe the same opening. Keep one.
  for(let i=kept.length-1;i>=0;i--){const e=kept[i];if(e.confirmed||!['door','entrance'].includes(e.kind))continue;const a=px(e.points[0]),b=px(e.points[1]),c=lerp(a,b,.5);const duplicate=kept.findIndex((v,j)=>j<i&&!v.confirmed&&['door','entrance'].includes(v.kind)&&dist(c,lerp(...v.points.slice(0,2).map(px),.5))<Math.max(3,Math.min(dist(a,b)*.35,12*unit)));if(duplicate>=0){if(e.openingEvidence?.located&&!kept[duplicate].openingEvidence?.located)kept[duplicate]=e;kept.splice(i,1);}}
  const out=attachSourceEvidence({...result,elements:kept,warnings:[...result.warnings]},imageData);
- out.sourceRefinement={version:2,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
+ out.sourceRefinement={version:3,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
  return out;
 }

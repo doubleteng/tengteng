@@ -214,3 +214,18 @@ Cancellation and decoding errors preserve the current model. Before placement,
 the previous project is saved locally; File → Restore before last upload remains
 available after reload. Undo also restores the immediate prior project. No cloud
 account is involved.
+
+## Door assemblies
+
+One physical doorway is one model object, one portal and one report row. Single and double swing, sliding and folding configurations share that identity. `doorType` and `leafCount` are attributes; neither multiplies `width`, capacity, doorway count or exit choices. Width remains the whole usable clear opening entered by the user. The inspector records the type for both pending openings and confirmed doors; project save/load and the PDF doorway schedule retain it. Source candidates sharing verified jambs are consolidated before confirmation. Distinct doorways separated by solid wall remain separate. Paired half-swing arcs can propose a double-swing assembly; unresolved types remain unidentified. Model-proposed type and leaf count remain editable. Sliding/folding/other types request their applicable egress-operation conditions instead of evaluating them with the hinged swing-direction check (IBC 2021 1010.1.2; ICC Means of Egress training, slides 109–111).
+
+
+## Door evidence, host walls and restroom fixtures
+
+Source refinement version 3 recovers short jamb returns only where source strokes support a connection to an existing wall. A door without a host remains disconnected and displays Missing wall. Contained duplicate axes inside a thick wall collapse before face extraction; nearby ink-supported corner endpoints share a junction. Separate parallel walls and real openings are retained.
+
+Window features and continuous frame/glazing rails veto automatic door promotion. A ground-floor opening with a unique wall host, distinct indoor/outdoor sides, and an outward source-supported swing can become a detected exit. Its exit role and clear width remain explicitly unconfirmed. Other exterior openings remain proposals with a specific reason. Automatically detected, unreviewed legacy doors overlapping an explicit window feature are disconnected on load; manually confirmed choices are retained.
+
+A complete restroom is a room with roomUse=restroom. Toilet compartments, partitions, stall doors and sanitary fixtures have separate feature types and do not enter the wall-derived room graph or doorway/exit counts. The main restroom entrance remains a door; genuinely separate private/accessible WC rooms remain distinct rooms. Explicitly labelled legacy stall proposals are normalized. Mentioning stalls in a whole restroom's description never removes the restroom. Sanitary geometry remains editable and uses the furniture/fixtures visibility layer.
+
+The Apps Script Vision.gs schema and recognition instructions must be deployed together with the frontend to request these classifications from Gemini. Synthetic contract/regression tests validate topology and counting behavior, not accuracy across arbitrary real drawings.

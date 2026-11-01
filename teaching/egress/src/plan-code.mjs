@@ -1,3 +1,4 @@
+import {nonSwingDoor,doorAssemblyLabel} from './door-assembly.mjs?v=door-detection-1';
 import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=portal-network-1';
 import {roomLoad,capacityDimension} from './capacity.mjs?v=portal-network-1';
 
@@ -37,6 +38,7 @@ export function doorRooms(f,door){
 }
 export function doorSwingCheck(p,fi,d,analysis){
  if(d.openingType==='passage')return {id:'swing:'+d.id,category:'doors',scope:'indoor',floor:fi,objectId:d.id,point:d,status:'review',title:(d.name||'Opening')+': open passage',ref:'Model input',detail:'No door leaf is modeled. Confirm this is an open passage; door swing is not evaluated. Identify the applicable circulation component and its minimum clear width separately.'};
+ if(nonSwingDoor(d))return {id:'swing:'+d.id,category:'doors',scope:'indoor',floor:fi,objectId:d.id,point:d,status:'input',title:(d.name||'Door')+': confirm egress operation',ref:'IBC 1010.1.2',measured:doorAssemblyLabel(d)+' · 1 doorway',required:'Identify the applicable door-type provision and operating conditions',detail:'This assembly is counted once. A hinged-door swing-direction check does not establish whether this door type is permitted. Confirm manual/powered operation, release hardware and the applicable egress-door provision; changing the type alone cannot establish a pass.'};
  const f=p.floors[fi],rooms=doorRooms(f,d),loads=rooms.map(r=>roomLoad(p,fi,r));
  const row=analysis?.floors[fi]?.capacity?.rows.find(r=>r.id===d.id);
  // A room's total triggers the swing rule even when its flow splits among doors.
@@ -97,7 +99,7 @@ export function analyzePlanCode(p,analysis){
     title:r.name+': area → design occupants',measured:`${(load.area/SF).toFixed(0)} sf / ${load.area.toFixed(1)} m²`,required:`${load.factor} sf/person · ${load.basis}`,ref:'IBC Table 1004.5',
     detail:`${load.functionLabel}: ${load.occupants} design occupants. ${r.areaConfirmed?'Use and area basis confirmed.':'Confirm the room use, scale and net/gross area basis in Properties.'}`});
   }
-  for(const d of f.doors)add(doorSwingCheck(p,fi,d,analysis));
+  for(const d of f.doors){add(doorSwingCheck(p,fi,d,analysis));if(d.exit&&d.exitConfirmed===false)add({id:'exit-role:'+d.id,category:'exits',scope:'indoor',floor:fi,objectId:d.id,point:d,status:'input',title:(d.name||'Exit')+': confirm exterior discharge',ref:'Model input',measured:'Outward swing + indoor/outdoor connection detected',required:'Confirm this doorway serves the exit route',detail:'The drawing supplies a ground-floor exterior door opening outward. It is used as a proposed exit in this design model. Check its destination and operating conditions, then select Confirm detected exit. A door symbol alone does not establish code compliance.'});}
   for(const r of f.rooms.filter(r=>r.role!=='corridor'))if(!f.traces.some(t=>t.kind==='common'&&t.roomId===r.id))add({id:'common:'+r.id,category:'travel',scope:'indoor',floor:fi,roomId:r.id,point:roomPoint(r),status:'input',title:r.name+': common path not assessed',ref:'IBC 1006.2.1',action:'common',detail:'Trace from the remote point to the first genuine choice of separate exit routes. This trace will be linked to the room; its occupant load and occupancy set the limit.'});
   for(const [kind,label,ref] of [['dead','Dead-end corridor','IBC 1020.5']]){
    if(f.rooms.length&&!f.traces.some(t=>t.kind===kind))add({id:kind+':'+f.id,category:'travel',scope:'indoor',floor:fi,status:'input',title:f.name+': '+label+' not assessed',ref,action:kind,detail:kind==='common'?'Trace from the remote point to the first genuine choice of separate exit routes. A shortest path to one exit does not establish the common path.':'Identify dead-end branches in the corridor layout. Trace any that exist; the absence of a trace does not mean no dead ends exist.'});

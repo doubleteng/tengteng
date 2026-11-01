@@ -157,6 +157,7 @@ export function auditImport(floor,{tolerance=.025,gapLimit=.25}={}){
   }
  }
  for(const c of candidates){
+  if(c.windowConflict){issue('window-conflict',(c.name||'Opening')+': overlaps window evidence',c.windowConflict+' Correct the window / door classification. It is excluded from door and exit connections.',c.id,lerp(...c.points.slice(0,2),.5));continue;}
   const host=openingHost(walls,c.points),spaces=openingSpaces(floor,c.points);connections.push({id:c.id,...spaces,hosted:!host.error});
   if(host.error)issue('opening-host',c.name+': no matching wall',host.error,c.id,lerp(...c.points.slice(0,2),.5));
   if(spaces.sides.some(s=>!s.length)||spaces.sides[0].some(id=>spaces.sides[1].includes(id)))issue('opening-spaces',c.name+': space connection is unclear',spaces.labels.join(' ↔ ')+'. Correct the room boundary or the jamb position.',c.id,lerp(...c.points.slice(0,2),.5));

@@ -1,9 +1,9 @@
-import {usCaseStudies} from './us-case-studies.mjs?v=portal-network-1';
-import {precedentExamples} from './precedents.mjs?v=portal-network-1';
+import {usCaseStudies} from './us-case-studies.mjs?v=door-detection-1';
+import {precedentExamples} from './precedents.mjs?v=door-detection-1';
 import {fresh,functions} from './model.mjs?v=portal-network-1';
 import {uid,edges,centroid,area} from './geometry.mjs?v=portal-network-1';
-import {syncEnclosedRooms} from './editable-plan.mjs?v=portal-network-1';
-import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=portal-network-1';
+import {syncEnclosedRooms} from './editable-plan.mjs?v=door-detection-1';
+import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=door-detection-1';
 import {roomArea} from './openings.mjs?v=portal-network-1';
 
 const rect=(x,y,w,h)=>[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}];

@@ -1,6 +1,7 @@
 import {doorSymbolLines} from './door-symbol.mjs?v=recognition-speed-2';
 import {repairReconstruction} from './reconstruction-repair.mjs?v=recognition-speed-2';
 import {recognitionTiming,elapsedLabel} from './recognition-timing.mjs?v=recognition-speed-2';
+import {hasRecognitionObjects,recognitionServiceError,readRecognitionOverview,requireRecognitionGeometry,recognitionFailure} from './recognition-errors.mjs?v=recognition-error-1';
 import {outdoorDescription} from './architectural-elements.mjs?v=recognition-speed-2';
 import {recognitionProblem} from './recognition-state.mjs?v=recognition-speed-2';
 import {coverageRegions,coverageContext,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=recognition-speed-3';
@@ -389,8 +390,17 @@ async function traceReference(){
  const im=target().image;if(!im)return;
  try{if(!im.linework){const bitmap=new Image();bitmap.src=im.src;await bitmap.decode();const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);im.linework=await vectorizeScan(c);saveLocal();}modal('Raw image / PDF linework','');showCadImport(referenceLinework(im),im.name);$('#modal-title').textContent='Raw linework · manual classification';$('#modal-content').insertAdjacentHTML('afterbegin','<p class="callout"><b>Original source lines.</b> Furniture, text and stair treads may also produce lines. Use AI recognition for room / corridor semantics. Assign only reviewed wall lines to analysis.</p>');if(im.linework.method==='PDF vector paths'){$('#modal-content').insertAdjacentHTML('afterbegin','<button id="trace-scan-content">Include scanned content · extract page strokes</button>');$('#trace-scan-content').onclick=async()=>{try{const bitmap=new Image();bitmap.src=im.src;await bitmap.decode();const c=document.createElement('canvas'),k=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*k);c.height=Math.round(bitmap.height*k);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);im.strokeLinework=await vectorizeScan(c);saveLocal();showCadImport(referenceLinework({...im,linework:im.strokeLinework}),im.name+' · page strokes');}catch(e){toast(e.message);}};}}catch(e){toast(e.message);}
 }
-function reviewRecognition(f,im){
+function showRecognitionFailure(f,im,error){
+ const failure=recognitionFailure(im,error);
+ $('#modal').classList.remove('recognition-dialog');
+ modal(failure.title,`<p class="callout" role="alert">${esc(failure.message)}</p><p>${esc(failure.saved)}</p><button id="recognition-retry" class="primary">Try recognition again</button>${failure.hasDraft?' <button id="recognition-saved-draft">View saved draft</button>':''}<details><summary>Request details</summary><p>${esc(failure.raw)}</p></details>`);
+ $('#recognition-retry').onclick=()=>recognizeReference(true);
+ if(failure.hasDraft)$('#recognition-saved-draft').onclick=()=>reviewRecognition(f,im,true);
+}
+function reviewRecognition(f,im,allowFailedPreview=false){
  if(!im.interpretation)return;
+ const failure=recognitionServiceError(im.recognitionRun);
+ if(!hasRecognitionObjects(im.interpretation)||failure&&!allowFailedPreview)return showRecognitionFailure(f,im,failure);
  modal('Rooms & outdoors','');
  reviewInterpretation({dialog:$('#modal'),image:im,result:im.interpretation,elevation:f.elevation,onReread:()=>recognizeReference(true),showUnderlay:vis.background,onUnderlayChange:setUnderlayVisible,
  onTraceSource:async()=>{if(im.strokeLinework)return im.strokeLinework;const bitmap=new Image();bitmap.src=im.src;await bitmap.decode();const c=document.createElement('canvas'),k=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*k);c.height=Math.round(bitmap.height*k);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);im.strokeLinework=await vectorizeScan(c);saveLocal();return im.strokeLinework;},
@@ -421,6 +431,7 @@ async function fitRecognizedSource(result,pixels){
 async function recognizeReference(reread=false){
  const f=floor(),im=f.image;if(!im)return;
  if(im.interpretation&&!reread)return reviewRecognition(f,im);
+ if(im.recognitionRun?.failure&&!reread)return showRecognitionFailure(f,im);
  try{
   modal('Preparing plan recognition','<p>Preparing your plan…</p>');
   const config=await visionConfig;await vision.connect(config.endpoint);
@@ -433,28 +444,29 @@ async function recognizeReference(reread=false){
    try{const bitmap=new Image();bitmap.src=im.src;await bitmap.decode();const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);const image=c.toDataURL('image/jpeg',.9);
     let run=im.recognitionRun;const resume=run?.version===3&&!run.finished&&(!run.model||run.model===status.model);
     if(!resume)run={version:3,model:status.model,result:{version:1,summary:'Whole-sheet tiled recognition',outline:[],elements:[],warnings:[]},regions:coverageRegions(bitmap.width,bitmap.height)};
-    im.recognitionRun=run;timing=recognitionTiming(run);
+    delete run.failure;im.recognitionRun=run;timing=recognitionTiming(run);
     $('#vision-elapsed')?.remove();const elapsed=document.createElement('p');elapsed.id='vision-elapsed';elapsed.className='small';elapsed.setAttribute('role','status');button.after(elapsed);
     const updateElapsed=()=>{elapsed.textContent=elapsedLabel(timing.elapsed())+' elapsed';};updateElapsed();clock=setInterval(updateElapsed,1000);
     const stopped=()=>!button.isConnected||!$('#modal').open||!p.floors.includes(f)||f.image!==im;
     const read=region=>timing.measure('model',()=>readPlanRegion(bitmap,region,coverageContext(run.result,region)));
     let result={interpretation:run.result,model:status.model},overview=false;
-    if(!resume){try{result=await timing.measure('model',()=>vision.request({action:'recognizePlan',image}));run.result=validateInterpretation(result.interpretation);overview=true;}catch(error){run.result.warnings.push('Overview unavailable; continuing with individual regions: '+error.message);}}
+    if(!resume){const reply=await readRecognitionOverview(run,async()=>{const reply=await timing.measure('model',()=>vision.request({action:'recognizePlan',image}));run.result=validateInterpretation(reply.interpretation);return reply;});if(reply){result=reply;overview=true;}}
     if(stopped())return;
     const pixels=c.getContext('2d').getImageData(0,0,c.width,c.height);
     // A small sheet with one whole-image tile already has exactly this source
     // view. Reuse it only after the same omitted-structure check succeeds.
     if(overview&&run.regions.length===1&&!hasUnresolvedStructure(run.result,pixels))run.regions[0].state='read';
     await timing.measure('coverage',()=>readCoverage(run,{read,merge:mergeDetail,concurrency:2,cancelled:stopped,onProgress:async(current,region)=>{if(stopped())return;button.textContent='Reading plan · '+current.regions.filter(r=>r.state==='read').length+' / '+current.regions.length+' regions'+(region?.attempts>1?' · retrying':'')+'…';im.recognitionRun=current;await saveLocal();}}));
-    if(!button.isConnected||!p.floors.includes(f)||f.image!==im)return;
+    if(stopped())return;
+    requireRecognitionGeometry(run);
     button.textContent='Joining wall geometry and checking rooms…';
     const reconstruction=await timing.measure('reconstruction',()=>repairReconstruction(run,{image:im,fit:result=>timing.measure('geometry',()=>fitRecognizedSource(result,pixels)),read,concurrency:2,cancelled:stopped,onProgress:async({calls,entry,quality})=>{if(stopped())return;button.textContent='Checking walls + openings · detail '+calls+' · '+(quality.compiled.pending.length?quality.compiled.pending.length+' spaces to enclose':quality.unopened.length?quality.unopened.length+' rooms without openings':quality.unhosted.length+' openings to connect')+'…';im.recognitionRun=run;await saveLocal();}}));
     if(stopped())return;let interpretation=reconstruction.result;interpretation.coverage=coverageSummary(run.regions);
-    if(reconstruction.error)interpretation.warnings.push('Automatic reconstruction paused: '+reconstruction.error);
+    if(reconstruction.error){interpretation.warnings.push('Automatic reconstruction paused: '+reconstruction.error);run.failure={message:reconstruction.error,at:new Date().toISOString()};}
     if(!interpretation.coverage.complete)interpretation.warnings.push((run.regions.length-interpretation.coverage.read)+' regions could not be read. Continue recognition to finish them; completed regions are saved.');
     interpretation=validateInterpretation(interpretation);remember();im.interpretation=interpretation;im.recognitionPipeline=3;run.finished=interpretation.coverage.complete&&reconstruction.quality.complete;im.recognitionModel=result.model;im.pixelWidth=bitmap.width;im.pixelHeight=bitmap.height;timing.finish();await saveLocal();if(p.floors.includes(f)&&f.image===im)reviewRecognition(f,im);
-   }catch(e){if(button.isConnected){button.disabled=false;button.textContent='Try recognition again';$('#modal-content').insertAdjacentHTML('beforeend',`<p class="callout">${esc(e.message)}</p>`);}else toast(e.message);}
-   finally{clearInterval(clock);timing?.finish();}
+   }catch(e){if(im.recognitionRun){im.recognitionRun.failure={message:e.message||String(e),at:new Date().toISOString()};im.recognitionRun.finished=false;}if(button.isConnected&&$('#modal').open&&p.floors.includes(f)&&f.image===im)showRecognitionFailure(f,im,e);else toast(e.message);}
+   finally{clearInterval(clock);timing?.finish();if(p.floors.includes(f)&&f.image===im)await saveLocal();}
   };
  }catch(e){$('#modal-content').innerHTML=`<p class="callout">${esc(e.message)}</p>`;}
 }

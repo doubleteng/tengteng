@@ -1,4 +1,4 @@
-import {planCategories,codeStatus} from './plan-code.mjs?v=door-detection-1';
+import {planCategories,codeStatus} from './plan-code.mjs?v=furniture-1';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const countText=checks=>{const n=s=>checks.filter(c=>c.status===s).length;return [n('fail')&&n('fail')+' revise',n('input')&&n('input')+' missing',n('review')&&n('review')+' review',n('pass')&&n('pass')+' met'].filter(Boolean).join(' · ');};
 let scope='all',showMet=false,openCategories=new Set();

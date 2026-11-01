@@ -1,6 +1,6 @@
 import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=portal-network-1';
-import {roomArea,floorOpenings} from './openings.mjs?v=portal-network-1';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=portal-network-1';
+import {roomArea,floorOpenings} from './openings.mjs?v=furniture-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=furniture-1';
 import {functions} from './model.mjs?v=portal-network-1';
 export function roomLoad(p,fi,r){
  const a=roomArea(p,fi,r),factor=Number(r.factor)||functions[r.function]?.factor||150,circulation=r.role==='corridor';

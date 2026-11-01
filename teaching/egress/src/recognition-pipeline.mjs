@@ -1,5 +1,7 @@
-import {materializeInterpretation} from './semantic-plan.mjs?v=door-detection-1';
+import {materializeInterpretation} from './semantic-plan.mjs?v=furniture-1';
 import {roomPoint} from './geometry.mjs?v=portal-network-1';
+import {sanitaryKinds} from './sanitary-elements.mjs?v=door-detection-1';
+import {windowOverlaps} from './door-evidence.mjs?v=door-detection-1';
 
 const spaceKinds=['room','corridor','lobby'];
 const box=points=>({left:Math.min(...points.map(p=>p[0])),top:Math.min(...points.map(p=>p[1])),right:Math.max(...points.map(p=>p[0])),bottom:Math.max(...points.map(p=>p[1]))});
@@ -42,7 +44,7 @@ function clip(a,b,r){
 }
 
 export function mergeDetail(result,detail,region){
- const mapped=detail.elements.filter(e=>['wall','window','door','entrance'].includes(e.kind)).map(e=>({...e,id:'detail-'+region.id+'-'+e.id,confirmed:false,points:e.points.map(([x,y])=>[region.x+x/1000*region.width,region.y+y/1000*region.height])}));
+ const mapped=detail.elements.filter(e=>['wall','window','door','entrance',...sanitaryKinds].includes(e.kind)).map(e=>({...e,id:'detail-'+region.id+'-'+e.id,confirmed:false,points:e.points.map(([x,y])=>[region.x+x/1000*region.width,region.y+y/1000*region.height])}));
  const walls=mapped.filter(e=>e.kind==='wall');
  if(!walls.length)return {result,accepted:false};
  const core=region.core,within=p=>p[0]>=core.left&&p[0]<=core.right&&p[1]>=core.top&&p[1]<=core.bottom;
@@ -53,6 +55,9 @@ export function mergeDetail(result,detail,region){
  const elements=[];
  for(const e of result.elements){
   if(e.confirmed){elements.push(e);continue;}
+  // A detail read can resolve an apparent architectural door into a cubicle
+  // gate. Keep the fixture classification instead of leaving a second door.
+  if(['door','entrance'].includes(e.kind)&&e.points.every(within)&&windowOverlaps(...e.points.slice(0,2).map(([x,y])=>({x,y})),useful.filter(v=>v.kind==='toilet-door').map(v=>({...v,points:v.points.map(([x,y])=>({x,y}))})),3))continue;
   if(e.kind==='wall'){
    for(let i=1;i<e.points.length;i++){
     const a=e.points[i-1],b=e.points[i],range=clip(a,b,core),mix=t=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
@@ -60,7 +65,7 @@ export function mergeDetail(result,detail,region){
     else{if(range[0]>.001)elements.push({...e,id:e.id+'-before-'+i,points:[a,mix(range[0])]});if(range[1]<.999)elements.push({...e,id:e.id+'-after-'+i,points:[mix(range[1]),b]});}
    }
   }
-  else if(['door','entrance','window'].includes(e.kind)&&e.points.every(within)&&useful.some(r=>r.kind===e.kind&&Math.hypot(midpoint(r)[0]-midpoint(e)[0],midpoint(r)[1]-midpoint(e)[1])<15))continue;
+  else if(['door','entrance','window',...sanitaryKinds].includes(e.kind)&&e.points.every(within)&&useful.some(r=>r.kind===e.kind&&Math.hypot(midpoint(r)[0]-midpoint(e)[0],midpoint(r)[1]-midpoint(e)[1])<15))continue;
   else elements.push(e);
  }
  for(const e of useful){

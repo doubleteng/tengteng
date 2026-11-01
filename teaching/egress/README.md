@@ -222,10 +222,19 @@ One physical doorway is one model object, one portal and one report row. Single 
 
 ## Door evidence, host walls and restroom fixtures
 
-Source refinement version 3 recovers short jamb returns only where source strokes support a connection to an existing wall. A door without a host remains disconnected and displays Missing wall. Contained duplicate axes inside a thick wall collapse before face extraction; nearby ink-supported corner endpoints share a junction. Separate parallel walls and real openings are retained.
+Source refinement version 4 recovers short jamb returns only where source strokes support a connection to an existing wall. A door without a host remains disconnected and displays Missing wall. Contained duplicate axes inside a thick wall collapse before face extraction; nearby ink-supported corner endpoints share a junction. Separate parallel walls and real openings are retained.
 
 Window features and continuous frame/glazing rails veto automatic door promotion. A ground-floor opening with a unique wall host, distinct indoor/outdoor sides, and an outward source-supported swing can become a detected exit. Its exit role and clear width remain explicitly unconfirmed. Other exterior openings remain proposals with a specific reason. Automatically detected, unreviewed legacy doors overlapping an explicit window feature are disconnected on load; manually confirmed choices are retained.
 
 A complete restroom is a room with roomUse=restroom. Toilet compartments, partitions, stall doors and sanitary fixtures have separate feature types and do not enter the wall-derived room graph or doorway/exit counts. The main restroom entrance remains a door; genuinely separate private/accessible WC rooms remain distinct rooms. Explicitly labelled legacy stall proposals are normalized. Mentioning stalls in a whole restroom's description never removes the restroom. Sanitary geometry remains editable and uses the furniture/fixtures visibility layer.
 
 The Apps Script Vision.gs schema and recognition instructions must be deployed together with the frontend to request these classifications from Gemini. Synthetic contract/regression tests validate topology and counting behavior, not accuracy across arbitrary real drawings.
+
+
+## Furniture contours
+
+Recognition requests individual table, chair, cabinet and counter contours rather than a box around a dining/seating group. Source refinement fits each proposed contour near visible strokes; each edge needs distributed support, bounded displacement and a consistent closed polygon. Unsupported group boxes and displaced outlines remain unresolved. This evidence is a boundary check, not a semantic-accuracy score.
+
+Unresolved and legacy unreviewed furniture is not drawn as a filled block and cannot become a route obstacle. Its source symbols remain visible in the underlay. Selecting it shows a dashed proposal for correction; an explicit checked-outline action or a manual geometry edit can accept that contour. New fitted contours remain editable and only affect routes after obstacle opt-in. No furniture geometry subdivides architectural rooms.
+
+Detail reads retain sanitary fixtures and can replace a mistaken architectural doorway with a geometrically matching cubicle gate. Mixed-use cells caused by missing walls do not inherit a restroom label from one seed.

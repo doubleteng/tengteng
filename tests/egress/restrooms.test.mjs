@@ -6,6 +6,7 @@ import {validateInterpretation,materializeInterpretation,confirmOpening} from '.
 import {normalizeSanitaryElements} from '../../teaching/egress/src/sanitary-elements.mjs';
 import {syncEnclosedRooms} from '../../teaching/egress/src/editable-plan.mjs';
 import {area} from '../../teaching/egress/src/geometry.mjs';
+import {mergeDetail} from '../../teaching/egress/src/recognition-pipeline.mjs';
 const rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
 const el=(id,kind,points,label=id)=>({id,kind,points,label,confidence:'high',evidence:'Synthetic contract fixture.'});
 function fixture(){
@@ -32,6 +33,10 @@ test('Mentioning cubicles in whole-restroom evidence does not erase that restroo
  const e=el('wc','room',rect(0,0,100,100),'Restroom');e.evidence='A restroom with toilet stalls and basins.';
  const result=normalizeSanitaryElements([e])[0];assert.equal(result.kind,'room');assert.equal(result.roomUse,'restroom');
 });
+test('A missing restroom enclosure cannot relabel the whole connected lobby as a restroom',()=>{
+ const f=fixture();f.elements=f.elements.filter(e=>e.id!=='divider');const m=materializeInterpretation(validateInterpretation(f),image);
+ assert.equal(m.rooms.length,1);assert.equal(m.rooms[0].roomUse,undefined);assert.equal(m.rooms[0].useNeedsConfirmation,true);
+});
 test('Separate full-height private WC rooms and their entrance doors remain distinct',()=>{
  const f=fixture();f.elements=f.elements.filter(e=>!['toilet-compartment','toilet-partition','toilet-door','sanitary-fixture'].includes(e.kind));
  f.elements=f.elements.filter(e=>e.id!=='wc');f.elements.push(el('private-divider','wall',[[500,0],[500,700]]),el('wcA','room',rect(0,0,500,700),'Accessible WC'),el('wcB','room',rect(500,0,500,700),'Private toilet'),el('entryB','door',[[700,700],[800,700]],'Private WC entrance'));
@@ -41,4 +46,13 @@ test('Restroom types survive serialized interpretation and match the provider sc
  const f=validateInterpretation(JSON.parse(JSON.stringify(validateInterpretation(fixture()))));assert.equal(f.elements.filter(e=>e.kind==='toilet-door').length,3);
  const ctx={};vm.createContext(ctx);vm.runInContext(readFileSync(new URL('../../scripts/egress/Vision.gs',import.meta.url),'utf8'),ctx);
  const schema=ctx.visionSchema_().properties.elements.items.properties;for(const kind of ['toilet-compartment','toilet-partition','toilet-door','sanitary-fixture'])assert.ok(schema.kind.enum.includes(kind));assert.ok(schema.roomUse.enum.includes('restroom'));
+});
+test('A detail read replaces a mistaken cubicle doorway with a fixture and keeps main entrances',()=>{
+ const whole=fixture(),detail=validateInterpretation(fixture());whole.elements=whole.elements.filter(e=>!['toilet-compartment','toilet-partition','toilet-door','sanitary-fixture'].includes(e.kind));whole.elements.push(el('wrong-gate','door',[[80,300],[180,300]],'Opening'));
+ const region={id:1,x:0,y:0,width:1000,height:1000,core:{left:0,top:0,right:1000,bottom:1000}};
+ // Detail walls on the crop border are intentionally ignored; retain the
+ // previously confirmed perimeter as immutable anchors in this fixture.
+ whole.elements.filter(e=>/^w\d/.test(e.id)).forEach(e=>e.confirmed=true);
+ const merged=mergeDetail(whole,detail,region).result,m=materializeInterpretation(validateInterpretation(merged),image);
+ assert.equal(m.features.filter(e=>e.kind==='toilet-door').length,3);assert.equal(m.candidates.length,1);assert.equal(m.rooms.length,2);assert.equal(m.walls.length,5);
 });

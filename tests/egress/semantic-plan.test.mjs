@@ -9,14 +9,14 @@ drawing.elements.push(el('partition','wall',[[0,800],[1000,800]]),el('internal o
 const image={x:0,y:0,width:10,height:10,rotation:0,calibrated:true};
 test('Furniture never subdivides rooms or becomes wall geometry',()=>{
  const r=validateInterpretation(drawing),m=materializeInterpretation(r,image);assert.equal(m.rooms.length,2);assert.equal(m.rooms[1].role,'corridor');assert.equal(m.walls.length,5);assert.equal(m.features.length,2);assert.equal(m.features[0].blocksMovement,false);assert.equal(featureObstacles(m).length,0);
- const p=fresh();Object.assign(p.floors[0],m);const before=roomArea(p,0,m.rooms[0]);m.features.forEach(f=>f.blocksMovement=true);assert.equal(featureObstacles(m).length,2);assert.equal(roomArea(p,0,m.rooms[0]),before);assert.equal(before,80);
+ const p=fresh();Object.assign(p.floors[0],m);const before=roomArea(p,0,m.rooms[0]);m.features.forEach(f=>{f.blocksMovement=true;f.recognition.reviewed=true;});assert.equal(featureObstacles(m).length,2);assert.equal(roomArea(p,0,m.rooms[0]),before);assert.equal(before,80);
 });
 test('Recognized opening proposals do not provide exits until explicitly confirmed',()=>{
  const p=fresh(),m=materializeInterpretation(validateInterpretation(drawing),image);Object.assign(p.floors[0],m);assert.equal(m.doors.length,0);assert.equal(m.candidates.length,2);assert.equal(analyze(p).exits,0);assert.ok(analyze(p).checks.some(c=>c.title.includes('await confirmation')));
  const d=confirmOpening(p.floors[0],m.candidates[0],{exit:true,width:1});assert.equal(d.wallId,m.walls[3].id);assert.equal(p.floors[0].candidates.length,1);assert.equal(d.discharge,'site');assert.equal(analyze(p).exits,1);assert.equal(m.stairs[0].protected,false);
 });
 test('Recognized furniture changes routes only after obstacle opt-in',()=>{
- const p=fresh(),m=materializeInterpretation(validateInterpretation(drawing),image);Object.assign(p.floors[0],m);confirmOpening(p.floors[0],m.candidates[0],{exit:true,width:1});const a=analyze(p);m.features.forEach(f=>f.blocksMovement=true);const b=analyze(p);assert.equal(a.total,b.total);assert.ok(a.grid.good.reduce((a,b)=>a+b,0)>b.grid.good.reduce((a,b)=>a+b,0));
+ const p=fresh(),m=materializeInterpretation(validateInterpretation(drawing),image);Object.assign(p.floors[0],m);confirmOpening(p.floors[0],m.candidates[0],{exit:true,width:1});const a=analyze(p);m.features.forEach(f=>{f.blocksMovement=true;f.recognition.reviewed=true;});const b=analyze(p);assert.equal(a.total,b.total);assert.ok(a.grid.good.reduce((a,b)=>a+b,0)>b.grid.good.reduce((a,b)=>a+b,0));
 });
 test('Courtyards and voids subtract occupied area; gray projection does not',()=>{
  const p=fresh(),copy=structuredClone(drawing);copy.elements.push(el('court','courtyard',rect(0,0,100,100)),el('underlay','projection',rect(100,100,800,700)));Object.assign(p.floors[0],materializeInterpretation(validateInterpretation(copy),image));assert.equal(roomArea(p,0,p.floors[0].rooms[0]),79);

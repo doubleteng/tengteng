@@ -2,9 +2,9 @@ import {usCaseStudies} from './us-case-studies.mjs?v=door-detection-1';
 import {precedentExamples} from './precedents.mjs?v=door-detection-1';
 import {fresh,functions} from './model.mjs?v=portal-network-1';
 import {uid,edges,centroid,area} from './geometry.mjs?v=portal-network-1';
-import {syncEnclosedRooms} from './editable-plan.mjs?v=door-detection-1';
-import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=door-detection-1';
-import {roomArea} from './openings.mjs?v=portal-network-1';
+import {syncEnclosedRooms} from './editable-plan.mjs?v=furniture-1';
+import {doorSwingCheck,siteWidthChecks} from './plan-code.mjs?v=furniture-1';
+import {roomArea} from './openings.mjs?v=furniture-1';
 
 const rect=(x,y,w,h)=>[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}];
 function wall(f,id,a,b){const w={id,a:{x:a[0],y:a[1]},b:{x:b[0],y:b[1]},thickness:.15};f.walls.push(w);return w;}

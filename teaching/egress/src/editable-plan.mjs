@@ -99,9 +99,9 @@ function syncWallRooms(floor){
   if(seeds.length){
    for(const s of seeds)assigned.add(s.id);
    const primary=seeds.find(s=>s.role!=='corridor'&&s.role!=='lobby')||seeds[0];
-   Object.assign(cell,roomAttributes(primary));cell.seedIds=seeds.map(s=>s.id);cell.useNeedsConfirmation=false;
+   delete cell.roomUse;Object.assign(cell,roomAttributes(primary));if(seeds.some(s=>s.roomUse!==primary.roomUse))delete cell.roomUse;cell.seedIds=seeds.map(s=>s.id);cell.useNeedsConfirmation=false;
    if(seeds.length>1){cell.name=[...new Set(seeds.map(s=>s.name))].join(' / ').slice(0,180);cell.useNeedsConfirmation=true;cell.areaConfirmed=false;}
-  }else{cell.seedIds=[];cell.useNeedsConfirmation=true;}
+  }else{delete cell.roomUse;cell.seedIds=[];cell.useNeedsConfirmation=true;}
  }
  floor.rooms=cells.sort((a,b)=>{
   const order=r=>r.seedIds?.length?floor.spaceSeeds.findIndex(s=>s.id===r.seedIds[0]):100000;

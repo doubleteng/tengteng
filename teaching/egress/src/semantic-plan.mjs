@@ -1,10 +1,11 @@
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=furniture-1';
 import {normalizeSanitaryElements,sanitaryKinds} from './sanitary-elements.mjs?v=door-detection-1';
 import {windowOverlaps} from './door-evidence.mjs?v=door-detection-1';
 import {doorAssembly} from './door-assembly.mjs?v=door-detection-1';
 import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates,doorPoints} from './opening-identity.mjs?v=door-detection-1';
 export {deduplicateOpenings} from './opening-identity.mjs?v=door-detection-1';
 import {openingHost,openingSpaces} from './import-quality.mjs?v=door-detection-1';
-import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=door-detection-1';
+import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=furniture-1';
 import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=portal-network-1';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance',...sanitaryKinds];
@@ -21,14 +22,14 @@ export function validateInterpretation(input){
     const line=['wall','door','entrance','window','toilet-partition','toilet-door'].includes(item.kind);
     if(points.length<(line?2:3))throw Error('An element has incomplete geometry.');
     if(!line&&area(points.map(([x,y])=>({x,y})))<1){warnings.push(text(item.label)+': empty polygon omitted.');continue;}
-    elements.push({id:item.id,kind:item.kind,label:text(item.label||item.kind),points,confidence:['high','medium','low'].includes(item.confidence)?item.confidence:'low',evidence:text(item.evidence),confirmed:item.confirmed===true,...(item.roomUse==='restroom'?{roomUse:'restroom'}:{}),...(['door','entrance'].includes(item.kind)?doorAssembly(item):{}),...(Array.isArray(item.mergedSourceIds)?{mergedSourceIds:[...new Set(item.mergedSourceIds.filter(x=>typeof x==='string').map(text))].slice(0,200)}:{}),...(Number.isFinite(item.sourceBand)?{sourceBand:Math.max(0,Math.min(40,item.sourceBand))}:{}),...(item.openingEvidence?.located===true?{openingEvidence:{located:true,method:item.openingEvidence.method==='swing-and-jambs'?'swing-and-jambs':'jambs',swingScore:Math.max(0,Math.min(1,Number(item.openingEvidence.swingScore)||0)),autoDoor:item.openingEvidence.autoDoor===true,windowConflict:text(item.openingEvidence.windowConflict),...(Array.isArray(item.openingEvidence.swingPoint)&&item.openingEvidence.swingPoint.length===2&&item.openingEvidence.swingPoint.every(v=>Number.isFinite(v)&&v>=0&&v<=1000)?{swingPoint:[...item.openingEvidence.swingPoint]}:{})}}:{}),...(item.sourceCheck&&Number.isFinite(item.sourceCheck.coverage)?{sourceCheck:{coverage:Math.max(0,Math.min(1,item.sourceCheck.coverage)),missingPixels:Math.max(0,Number(item.sourceCheck.missingPixels)||0),samples:Math.max(0,Number(item.sourceCheck.samples)||0)}}:{})});
+    elements.push({id:item.id,kind:item.kind,label:text(item.label||item.kind),points,confidence:['high','medium','low'].includes(item.confidence)?item.confidence:'low',evidence:text(item.evidence),confirmed:item.confirmed===true,...(item.sourceGeometry?.version===1&&['fitted','unresolved'].includes(item.sourceGeometry.status)?{sourceGeometry:{version:1,status:item.sourceGeometry.status,coverage:Math.max(0,Math.min(1,Number(item.sourceGeometry.coverage)||0)),note:text(item.sourceGeometry.note)}}:{}),...(item.roomUse==='restroom'?{roomUse:'restroom'}:{}),...(['door','entrance'].includes(item.kind)?doorAssembly(item):{}),...(Array.isArray(item.mergedSourceIds)?{mergedSourceIds:[...new Set(item.mergedSourceIds.filter(x=>typeof x==='string').map(text))].slice(0,200)}:{}),...(Number.isFinite(item.sourceBand)?{sourceBand:Math.max(0,Math.min(40,item.sourceBand))}:{}),...(item.openingEvidence?.located===true?{openingEvidence:{located:true,method:item.openingEvidence.method==='swing-and-jambs'?'swing-and-jambs':'jambs',swingScore:Math.max(0,Math.min(1,Number(item.openingEvidence.swingScore)||0)),autoDoor:item.openingEvidence.autoDoor===true,windowConflict:text(item.openingEvidence.windowConflict),...(Array.isArray(item.openingEvidence.swingPoint)&&item.openingEvidence.swingPoint.length===2&&item.openingEvidence.swingPoint.every(v=>Number.isFinite(v)&&v>=0&&v<=1000)?{swingPoint:[...item.openingEvidence.swingPoint]}:{})}}:{}),...(item.sourceCheck&&Number.isFinite(item.sourceCheck.coverage)?{sourceCheck:{coverage:Math.max(0,Math.min(1,item.sourceCheck.coverage)),missingPixels:Math.max(0,Number(item.sourceCheck.missingPixels)||0),samples:Math.max(0,Number(item.sourceCheck.samples)||0)}}:{})});
   }
   const outline=Array.isArray(input.outline)?input.outline:[];
   if(outline.length>160||outline.some(q=>!Array.isArray(q)||q.length!==2||q.some(v=>!Number.isFinite(v)||v<0||v>1000)))throw Error('Invalid floor enclosure.');
-  return {version:1,summary:text(input.summary),outline,elements:normalizeSanitaryElements(elements),warnings,...([1,2,3].includes(input.sourceRefinement?.version)?{sourceRefinement:{version:input.sourceRefinement.version,signature:String(input.sourceRefinement.signature||'').slice(0,16),sourceWidth:Number(input.sourceRefinement.sourceWidth)||0,sourceHeight:Number(input.sourceRefinement.sourceHeight)||0}}:{})};
+  return {version:1,summary:text(input.summary),outline,elements:normalizeSanitaryElements(elements),warnings,...([1,2,3,4].includes(input.sourceRefinement?.version)?{sourceRefinement:{version:input.sourceRefinement.version,signature:String(input.sourceRefinement.signature||'').slice(0,16),sourceWidth:Number(input.sourceRefinement.sourceWidth)||0,sourceHeight:Number(input.sourceRefinement.sourceHeight)||0}}:{})};
 }
 export function imagePoint(image,q){const c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0),x=q[0]/1000*image.width,y=(1-q[1]/1000)*image.height;return{x:image.x+c*x-s*y,y:image.y+s*x+c*y};}
-export function featureObstacles(floor){return (floor.features||[]).filter(f=>f.blocksMovement===true&&['furniture','column'].includes(f.kind));}
+export function featureObstacles(floor){return (floor.features||[]).filter(f=>f.blocksMovement===true&&['furniture','column'].includes(f.kind)&&usableFurnitureGeometry(f));}
 export function excludedSpaces(floor){return (floor.features||[]).filter(f=>['courtyard','void','exterior'].includes(f.kind));}
 
 // Correct old automatically detected objects when explicit window evidence is
@@ -59,7 +60,7 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
     else if(e.kind==='wall'){for(let i=1;i<points.length;i++)if(dist(points[i-1],points[i])>.01)out.walls.push({...o,id:uid(),a:points[i-1],b:points[i],thickness:defaultThickness});}
     else if(e.kind==='stair')out.stairs.push({...o,points,link:'Unlinked '+e.label,width:1.2,travelLength:null,protected:false,direction:'unknown',navigationConfirmed:false,navigationVersion:1,flightPath:[],destinationFloorId:null});
     else if(['door','entrance'].includes(e.kind))out.candidates.push({...o,...doorAssembly(e),kind:e.kind,points,openingEvidence:e.openingEvidence,swingPoint:e.openingEvidence?.swingPoint?imagePoint(image,e.openingEvidence.swingPoint):null,confirmed:false});
-    else out.features.push({...o,kind:e.kind,points,blocksMovement:false});
+    else out.features.push({...o,kind:e.kind,points,sourceGeometry:e.sourceGeometry,blocksMovement:false});
   }
   if(out.walls.length>1500)throw Error('This interpretation has more than 1,500 wall segments. Read a smaller floor region before analysis.');
   // The occupied outline limits routing but is not evidence of a physical wall.

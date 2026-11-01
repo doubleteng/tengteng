@@ -67,6 +67,20 @@ export function improvesReconstruction(before,after){
  // A new response cannot earn a lower failure count by erasing a previously
  // enclosed space or degrading its connectivity.
  if(before.covered.some(point=>!after.model.rooms.some(r=>insideRoom(point,r))))return false;
+ // Preserving seed points is not enough: two previously separate rooms can
+ // still swallow each other's points after an accidental divider deletion.
+ // Reject that merge, and reject newly created cells without a semantic seed.
+ const unseeded=q=>q.model.rooms.filter(r=>!r.seedIds?.length).length;
+ if(unseeded(after)>unseeded(before))return false;
+ const owners=new Map();
+ for(let i=0;i<before.model.rooms.length;i++){
+  const room=before.model.rooms[i],seeds=before.model.spaceSeeds.filter(s=>insideRoom(s.point,room));
+  const witnesses=seeds.length?seeds.map(s=>s.point):[roomPoint(room)];
+  for(const point of witnesses){
+   const index=after.model.rooms.findIndex(r=>insideRoom(point,r));if(index<0)continue;
+   if(owners.has(index)&&owners.get(index)!==i)return false;owners.set(index,i);
+  }
+ }
  if(after.slivers.length>before.slivers.length)return false;
  return after.score<before.score;
 }

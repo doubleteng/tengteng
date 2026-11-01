@@ -1,42 +1,42 @@
-import {doorSymbolLines} from './door-symbol.mjs?v=topology-rebuild-1';
-import {repairReconstruction} from './reconstruction-repair.mjs?v=topology-rebuild-1';
-import {outdoorDescription} from './architectural-elements.mjs?v=topology-rebuild-1';
-import {recognitionProblem} from './recognition-state.mjs?v=wall-faces-1';
-import {coverageRegions,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=wall-faces-1';
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=wall-faces-1';
-import {doorAssemblyFields,doorScheduleReport,nonSwingDoor} from './door-assembly.mjs?v=door-detection-1';
-import {reconcileOpeningCandidates} from './opening-identity.mjs?v=wall-faces-1';
-import {confirmedStairPath,stairLanding} from './stairs.mjs?v=auto-enclosure-1';
-import {refineSourceWalls} from './source-refinement.mjs?v=wall-faces-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=wall-faces-1';
-import {hasDrawingContent,stageDrawingImport,repairLegacyCaseImport} from './drawing-import.mjs?v=auto-enclosure-1';
-import {attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions,openingSpaces} from './import-quality.mjs?v=wall-faces-1';
-import {studioIcon} from './studio-icons.mjs?v=portal-network-1';
-import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=wall-faces-1';
-import {exampleById,createExample} from './examples.mjs?v=wall-faces-1';
-import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=wall-faces-1';
-import {analyzePlanCode} from './plan-code.mjs?v=wall-faces-1';
-import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=wall-faces-1';
-import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=auto-enclosure-1';
-import {roomLoad,capacityDimension} from './capacity.mjs?v=wall-faces-1';
-import {validateInterpretation,materializeInterpretation,confirmOpening,semanticColors,reconcileDetectedWindows} from './semantic-plan.mjs?v=wall-faces-1';
-import {reviewInterpretation} from './recognition-ui.mjs?v=wall-faces-1';
-import {moveWall,enclosedRooms,roomsFromFaces,syncEnclosedRooms,enableWallRooms,assignRoomUse} from './editable-plan.mjs?v=wall-faces-1';
-import {pdfLinework,referenceLinework} from './pdf-plan.mjs?v=wall-faces-1';
-import {floorOpenings,roomArea} from './openings.mjs?v=wall-faces-1';
-import {zoomAt,objectSnap,snapGeometry,calibrateImage,alignmentTransform,alignFloor} from './drafting.mjs?v=auto-enclosure-1';
-import {pairWallFaces} from './wall-import.mjs?v=auto-enclosure-1';
-import {VisionConnection} from './vision.mjs?v=portal-network-1';
-import {FT,IN,SF,dist,area,inside,bounds,project,segDist,edges,centroid,roomPoint,insideRoom,floorRegions,length,uid,lerp} from './geometry.mjs?v=auto-enclosure-1';
-import {fresh,functions,validateProject} from './model.mjs?v=auto-enclosure-1';
-import {sources} from './analysis.mjs?v=wall-faces-1';
+import {doorSymbolLines} from './door-symbol.mjs?v=topology-rebuild-2';
+import {repairReconstruction} from './reconstruction-repair.mjs?v=topology-rebuild-2';
+import {outdoorDescription} from './architectural-elements.mjs?v=topology-rebuild-2';
+import {recognitionProblem} from './recognition-state.mjs?v=topology-rebuild-2';
+import {coverageRegions,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=topology-rebuild-2';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-2';
+import {doorAssemblyFields,doorScheduleReport,nonSwingDoor} from './door-assembly.mjs?v=topology-rebuild-2';
+import {reconcileOpeningCandidates} from './opening-identity.mjs?v=topology-rebuild-2';
+import {confirmedStairPath,stairLanding} from './stairs.mjs?v=topology-rebuild-2';
+import {refineSourceWalls} from './source-refinement.mjs?v=topology-rebuild-2';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-2';
+import {hasDrawingContent,stageDrawingImport,repairLegacyCaseImport} from './drawing-import.mjs?v=topology-rebuild-2';
+import {attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions,openingSpaces} from './import-quality.mjs?v=topology-rebuild-2';
+import {studioIcon} from './studio-icons.mjs?v=topology-rebuild-2';
+import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=topology-rebuild-2';
+import {exampleById,createExample} from './examples.mjs?v=topology-rebuild-2';
+import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=topology-rebuild-2';
+import {analyzePlanCode} from './plan-code.mjs?v=topology-rebuild-2';
+import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=topology-rebuild-2';
+import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=topology-rebuild-2';
+import {roomLoad,capacityDimension} from './capacity.mjs?v=topology-rebuild-2';
+import {validateInterpretation,materializeInterpretation,confirmOpening,semanticColors,reconcileDetectedWindows} from './semantic-plan.mjs?v=topology-rebuild-2';
+import {reviewInterpretation} from './recognition-ui.mjs?v=topology-rebuild-2';
+import {moveWall,enclosedRooms,roomsFromFaces,syncEnclosedRooms,enableWallRooms,assignRoomUse} from './editable-plan.mjs?v=topology-rebuild-2';
+import {pdfLinework,referenceLinework} from './pdf-plan.mjs?v=topology-rebuild-2';
+import {floorOpenings,roomArea} from './openings.mjs?v=topology-rebuild-2';
+import {zoomAt,objectSnap,snapGeometry,calibrateImage,alignmentTransform,alignFloor} from './drafting.mjs?v=topology-rebuild-2';
+import {pairWallFaces} from './wall-import.mjs?v=topology-rebuild-2';
+import {VisionConnection} from './vision.mjs?v=topology-rebuild-2';
+import {FT,IN,SF,dist,area,inside,bounds,project,segDist,edges,centroid,roomPoint,insideRoom,floorRegions,length,uid,lerp} from './geometry.mjs?v=topology-rebuild-2';
+import {fresh,functions,validateProject} from './model.mjs?v=topology-rebuild-2';
+import {sources} from './analysis.mjs?v=topology-rebuild-2';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let p=fresh(),mode='building',tool='select',selected=null,draft=[],cursor=null,cam={x:15,y:9,s:20},views=[],allFloors=false,playing=false,analysis=null,baseline=null,revision=0,analyzedRevision=-1,history=[],future=[],drag=null,space=false,filter='issues',dirty=false,analyzeTimer,saveTimer,probeRoute=null,highlight=null;
 let snapResult=null,pointerView=null,alignSession=null,traceRoomId=null,stairTrace=null;
 const cameras=new Map(),underlays=new Map();
 let lastDragUpdate=0,exampleBackup=null,importBackup=null,repairBackup=null,exampleSwitchBusy=false,workflowStage=0,moreToolsOpen=false,activeFinding=null;
 const vis={furniture:true,context:true,candidates:true,site:true,underlay:true,voids:true,grid:true,background:true,cad:true,rooms:true,walls:true,doors:true,stairs:true,obstacles:true,routes:true,pedestrian:true,accessible:true,vehicle:true,walkable:true,paths:true,targets:true};
-let worker=new Worker(new URL('./analysis-worker.mjs?v=wall-faces-1',import.meta.url),{type:'module'}),busy=false,queued=false;
+let worker=new Worker(new URL('./analysis-worker.mjs?v=topology-rebuild-2',import.meta.url),{type:'module'}),busy=false,queued=false;
 const canvas=$('#plan'),ctx=canvas.getContext('2d'),wrap=$('#canvas-wrap');let W=1,H=1;
 const floor=()=>p.floors[p.activeFloor],target=()=>mode==='site'?p.site:floor(),meter=()=>p.units==='ft'?FT:1,unit=()=>p.units==='ft'?'ft':'m',fmt=v=>`${(v/meter()).toFixed(1)} ${unit()}`,nfmt=v=>(v/meter()).toFixed(2),capfmt=(v,up=false)=>capacityDimension(v,p.units,up);
 const tools={building:[['select','↖','Select'],['wall','╱','Wall'],['door','◜','Door'],['exit','⇥','Exit'],['stair','▤','Stair link'],['obstacle','▨','Obstacle'],['void','⬚','Multi-height space'],['common','⌁','Common path'],['dead','⊣','Dead end'],['probe','◎','Test a point'],['measure','↔','Measure']],site:[['select','↖','Select'],['walkable','▱','Walkable area'],['siteobstacle','▨','Site obstacle'],['public','⇥','Public way'],['assembly','⊕','Assembly point'],['pedestrian','↝','Pedestrian'],['accessible','♿','Accessible'],['vehicle','⇢','Vehicle'],['probe','◎','Test a point'],['measure','↔','Measure']]};
@@ -375,7 +375,7 @@ $('#drawing-input').onchange=async e=>{
  const session=await chooseDrawingDestination(file);if(!session)return;
  if(['png','jpg','jpeg','pdf'].includes(ext)){modal('Reading drawing','<p>Preparing the drawing…</p>');$('#modal').addEventListener('close',()=>session.cancelled=true,{once:true});await importReference(file,ext,session);return;}
  modal('Reading '+ext.toUpperCase(),'<p>Decoding the drawing…</p>');
- const cadWorker=new Worker(new URL('./cad-worker.mjs?v=portal-network-1',import.meta.url),{type:'module'}),dialog=$('#modal');
+ const cadWorker=new Worker(new URL('./cad-worker.mjs?v=topology-rebuild-2',import.meta.url),{type:'module'}),dialog=$('#modal');
  let cancelled=false;
  const stop=()=>{cancelled=true;clearTimeout(timer);cadWorker.terminate();dialog.removeEventListener('close',stop);};
  const timer=setTimeout(()=>{stop();$('#modal-content').innerHTML='<p>The drawing took too long to decode. Export a smaller 2D model-space drawing with only the needed layers.</p>';},60000);
@@ -411,10 +411,10 @@ function recognizeCad(){
 }
 async function readPlanRegion(bitmap,region){
  const c=document.createElement('canvas'),w=region.width/1000*bitmap.width,h=region.height/1000*bitmap.height,k=Math.min(2,2400/Math.max(w,h));c.width=Math.round(w*k);c.height=Math.round(h*k);const ctx=c.getContext('2d');ctx.drawImage(bitmap,region.x/1000*bitmap.width,region.y/1000*bitmap.height,w,h,0,0,c.width,c.height);const original=ctx.getImageData(0,0,c.width,c.height),enhanced=enhancePlanContrast(original);ctx.putImageData(new ImageData(enhanced.data,c.width,c.height),0,0);
- const reply=await vision.request({action:'recognizePlan',image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(hasUnresolvedStructure(detail,original))throw Error('No architectural walls were resolved despite visible long source lines. Retrying smaller regions.');return detail;
+ const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(region.focus!=='openings'&&hasUnresolvedStructure(detail,original))throw Error('No architectural walls were resolved despite visible long source lines. Retrying smaller regions.');return detail;
 }
 async function fitRecognizedSource(result,pixels){
- const worker=new Worker(new URL('./source-worker.mjs?v=wall-faces-1',import.meta.url),{type:'module'});
+ const worker=new Worker(new URL('./source-worker.mjs?v=topology-rebuild-2',import.meta.url),{type:'module'});
  return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Source fitting took too long. Completed recognition regions are saved; continue recognition to retry.'));},120000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.result):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({result,imageData:{width:pixels.width,height:pixels.height,data:pixels.data}});});
 }
 async function recognizeReference(reread=false){
@@ -425,7 +425,7 @@ async function recognizeReference(reread=false){
   const config=await visionConfig;await vision.connect(config.endpoint);
   const status=await vision.request({action:'status'});
   if(!status.configured){$('#modal-content').innerHTML='<p class="callout">Plan recognition is temporarily unavailable. Please try again later.</p>';return;}
-  $('#modal-title').textContent='Recognize architectural spaces';$('#modal-content').innerHTML=`<p>Recognize rooms, corridors, indoor / outdoor enclosure, stairs and furniture.</p><p>Review and edit the recognized spaces, then confirm door and entrance locations.</p><p class="small">This plan image is sent to Google Gemini for recognition.</p><button class="primary" id="vision-start">${im.recognitionRun?.version===3&&!im.recognitionRun.finished?'Continue recognition':'Recognize this plan'}</button>`;
+  $('#modal-title').textContent='Recognize architectural spaces';$('#modal-content').innerHTML=`<p>Recognize walls, rooms, doors and indoor / outdoor spaces.</p><p>Review and edit the recognized spaces, then confirm door and entrance locations.</p><p class="small">This plan image is sent to Google Gemini for recognition.</p><button class="primary" id="vision-start">${im.recognitionRun?.version===3&&!im.recognitionRun.finished?'Continue recognition':'Recognize this plan'}</button>`;
   $('#vision-start').onclick=async()=>{
    const button=$('#vision-start');button.disabled=true;button.textContent='Reading rooms, circulation and enclosure…';
    try{const bitmap=new Image();bitmap.src=im.src;await bitmap.decode();const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);const image=c.toDataURL('image/jpeg',.9);let result={interpretation:{version:1,summary:'Whole-sheet tiled recognition',outline:[],elements:[],warnings:[]},model:status.model};if(im.recognitionRun?.version===3&&!im.recognitionRun.finished)result.interpretation=im.recognitionRun.result;else{try{result=await vision.request({action:'recognizePlan',image});}catch(error){result.interpretation.warnings.push('Overview unavailable; continuing with individual regions: '+error.message);}}
@@ -436,16 +436,17 @@ async function recognizeReference(reread=false){
     if(!button.isConnected||!p.floors.includes(f)||f.image!==im)return;
     button.textContent='Joining wall geometry and checking rooms…';
     const stopped=()=>!button.isConnected||!p.floors.includes(f)||f.image!==im;
-    const reconstruction=await repairReconstruction(run,{image:im,fit:result=>fitRecognizedSource(result,pixels),read:region=>readPlanRegion(bitmap,region),cancelled:stopped,onProgress:async({calls,entry,quality})=>{if(stopped())return;button.textContent='Reconstructing walls + openings · detail '+calls+' · '+quality.compiled.pending.length+' spaces remaining…';im.recognitionRun=run;await saveLocal();}});
+    const reconstruction=await repairReconstruction(run,{image:im,fit:result=>fitRecognizedSource(result,pixels),read:region=>readPlanRegion(bitmap,region),cancelled:stopped,onProgress:async({calls,entry,quality})=>{if(stopped())return;button.textContent='Reconstructing walls + openings · detail '+calls+' · '+(quality.compiled.pending.length?quality.compiled.pending.length+' spaces to enclose':quality.unopened.length?quality.unopened.length+' rooms without openings':quality.unhosted.length+' openings to connect')+'…';im.recognitionRun=run;await saveLocal();}});
     if(stopped())return;let interpretation=reconstruction.result;interpretation.coverage=coverageSummary(run.regions);
+    if(reconstruction.error)interpretation.warnings.push('Automatic reconstruction paused: '+reconstruction.error);
     if(!interpretation.coverage.complete)interpretation.warnings.push((run.regions.length-interpretation.coverage.read)+' regions could not be read. Continue recognition to finish them; completed regions are saved.');
-    interpretation=validateInterpretation(interpretation);remember();im.interpretation=interpretation;im.recognitionPipeline=3;run.finished=interpretation.coverage.complete;im.recognitionModel=result.model;im.pixelWidth=bitmap.width;im.pixelHeight=bitmap.height;await saveLocal();if(p.floors.includes(f)&&f.image===im)reviewRecognition(f,im);
+    interpretation=validateInterpretation(interpretation);remember();im.interpretation=interpretation;im.recognitionPipeline=3;run.finished=interpretation.coverage.complete&&reconstruction.quality.complete;im.recognitionModel=result.model;im.pixelWidth=bitmap.width;im.pixelHeight=bitmap.height;await saveLocal();if(p.floors.includes(f)&&f.image===im)reviewRecognition(f,im);
    }catch(e){if(button.isConnected){button.disabled=false;button.textContent='Try recognition again';$('#modal-content').insertAdjacentHTML('beforeend',`<p class="callout">${esc(e.message)}</p>`);}else toast(e.message);}
   };
  }catch(e){$('#modal-content').innerHTML=`<p class="callout">${esc(e.message)}</p>`;}
 }
 
-async function vectorizeScan(c){const source=c.getContext('2d').getImageData(0,0,c.width,c.height),worker=new Worker(new URL('./raster-worker.mjs?v=wall-faces-1',import.meta.url),{type:'module'});toast('Converting image strokes into editable vectors…');return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Image vectorization timed out. Crop or simplify the plan image.'));},45000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.linework):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({width:source.width,height:source.height,data:source.data},[source.data.buffer]);});}
+async function vectorizeScan(c){const source=c.getContext('2d').getImageData(0,0,c.width,c.height),worker=new Worker(new URL('./raster-worker.mjs?v=topology-rebuild-2',import.meta.url),{type:'module'});toast('Converting image strokes into editable vectors…');return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Image vectorization timed out. Crop or simplify the plan image.'));},45000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.linework):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({width:source.width,height:source.height,data:source.data},[source.data.buffer]);});}
 async function importReference(file,ext,session){
  try{
   const staged=stageDrawingImport(p,session),scope=staged.scope;let src,width,height,pageNumber=1,linework;

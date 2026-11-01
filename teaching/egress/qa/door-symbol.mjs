@@ -1,4 +1,4 @@
-import {dist} from './geometry.mjs?v=auto-enclosure-1';
+import {dist} from './geometry.mjs?v=topology-rebuild-2';
 
 export function readDoorSymbol(item){
  const out={};
@@ -11,6 +11,7 @@ export function readDoorSymbol(item){
 // Store the observed symbol relative to its host, so moving or rotating a wall
 // moves the leaf and swing with it. The travel direction is a separate value.
 export function hostedDoorSymbol(candidate,wall){
+ if(['sliding','folding'].includes(candidate.doorType))return null;
  if(!candidate.swingPoint||!candidate.openingEvidence)return null;
  const evidence=candidate.openingEvidence,hinge=evidence.hinge;
  if(!['start','end','both'].includes(hinge))return null;

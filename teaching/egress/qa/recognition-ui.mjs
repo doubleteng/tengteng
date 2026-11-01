@@ -1,9 +1,9 @@
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=wall-faces-1';
-import {refineSourceWalls} from './source-refinement.mjs?v=wall-faces-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=wall-faces-1';
-import {roomPoint,uid} from './geometry.mjs?v=auto-enclosure-1';
-import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=wall-faces-1';
-import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=wall-faces-1';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-2';
+import {refineSourceWalls} from './source-refinement.mjs?v=topology-rebuild-2';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-2';
+import {roomPoint,uid} from './geometry.mjs?v=topology-rebuild-2';
+import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=topology-rebuild-2';
+import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=topology-rebuild-2';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={room:'Room',corridor:'Corridor',lobby:'Lobby',exterior:'Outdoors',courtyard:'Courtyard',void:'Floor void',projection:'Other-floor / context',furniture:'Furniture',column:'Column',stair:'Stair footprint',window:'Window',wall:'Wall',door:'Door candidate',entrance:'Entrance candidate','toilet-compartment':'Toilet stall (fixture)','toilet-partition':'Toilet partition','toilet-door':'Toilet stall door','sanitary-fixture':'Sanitary fixture','reference-line':'Non-enclosure detail'};
 const lineKinds=['wall','window','door','entrance','toilet-partition','toilet-door','reference-line'];
@@ -123,5 +123,5 @@ export function reviewInterpretation({dialog,image,result,elevation=null,onApply
  $('#recognition-undo').onclick=()=>{const last=history.pop();if(!last)return;r=last.r;excluded.clear();last.excluded.forEach(id=>excluded.add(id));selected=null;draft=[];check();$('#recognition-editor').textContent='Change undone.';};
  if(onTraceSource)$('#recognition-trace').onclick=async()=>{const b=$('#recognition-trace');b.disabled=true;b.textContent='Extracting…';try{const lines=await onTraceSource();sourceLines=lines.segments;showSource=true;$('#recognition-source').checked=true;draw();$('#recognition-state').textContent=sourceLines.length+' source segments. Pick only architectural wall strokes.';}catch(e){$('#recognition-state').textContent=e.message;}finally{b.disabled=false;b.textContent='Extract all strokes';}};
  $('#recognition-save').onclick=()=>{onSave(activeResult());dialog.close();};$('#recognition-calibrate').onclick=()=>{onSave(activeResult());dialog.close();onCalibrate();};$('#recognition-apply').onclick=()=>{if(image.calibrated&&compiled?.complete)onApply(activeResult());};if(onReread)$('#recognition-reread').onclick=onReread;
- bitmap.onload=()=>{const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);sourceData=c.getContext('2d').getImageData(0,0,c.width,c.height);if((r.sourceRefinement?.version||0)<7){remember();r=refineSourceWalls(r,sourceData);}check();fit();};check();fit();
+ bitmap.onload=()=>{const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);sourceData=c.getContext('2d').getImageData(0,0,c.width,c.height);if((r.sourceRefinement?.version||0)<8){remember();r=refineSourceWalls(r,sourceData);}check();fit();};check();fit();
 }

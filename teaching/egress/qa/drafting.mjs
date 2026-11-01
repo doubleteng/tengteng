@@ -1,4 +1,4 @@
-import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=auto-enclosure-1';
+import {dist, project, edges, lerp, segDist} from './geometry.mjs?v=topology-rebuild-2';
 
 export function zoomAt(camera, screen, viewport, factor) {
   const x=(screen.x-viewport.x-viewport.w/2)/camera.s;

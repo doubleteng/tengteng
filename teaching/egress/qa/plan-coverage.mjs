@@ -1,4 +1,4 @@
-import {strokeMask} from './import-quality.mjs?v=wall-faces-1';
+import {strokeMask} from './import-quality.mjs?v=topology-rebuild-2';
 // Tile the sheet, not the rooms already found by a first model response.
 // Each core owns its geometry; overlapping margins provide reading context.
 export function coverageRegions(width,height,{tilePixels=1100,maxAxis=6}={}){

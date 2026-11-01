@@ -1,8 +1,8 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-2';
-import {materializeInterpretation} from './semantic-plan.mjs?v=topology-rebuild-2';
-import {roomPoint,inside,area,segDist,dist} from './geometry.mjs?v=topology-rebuild-2';
-import {sanitaryKinds} from './sanitary-elements.mjs?v=topology-rebuild-2';
-import {windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-2';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-4';
+import {materializeInterpretation} from './semantic-plan.mjs?v=topology-rebuild-4';
+import {roomPoint,inside,area,segDist,dist} from './geometry.mjs?v=topology-rebuild-4';
+import {sanitaryKinds} from './sanitary-elements.mjs?v=topology-rebuild-4';
+import {windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-4';
 
 const spaceKinds=['room','corridor','lobby'];
 const midpoint=e=>{const p=roomPoint({points:e.points.map(([x,y])=>({x,y}))});return [p.x,p.y];};
@@ -58,14 +58,24 @@ export function mergeDetail(result,detail,region){
  const newer=mapped.filter(e=>e.kind==='wall').flatMap(segments),elements=[];
  for(const e of result.elements){
   if(e.confirmed){elements.push(e);continue;}
-  if(e.kind==='window'&&mapped.some(v=>['door','entrance','window'].includes(v.kind))){
-   // Reclassify glazing only inside the detail's ownership core. A fresh
-   // doorway must not inherit a coarse whole-façade window over its jambs;
-   // the rest of that window remains intact outside the inspected region.
+  if(e.kind==='window'){
+   // A local reread may correct one span of coarse glazing. It cannot erase
+   // every window in the crop merely by returning an unrelated doorway.
+   // An unknown gap is insufficient to override explicit window evidence.
+   const replacements=mapped.filter(v=>v.kind==='window'||['door','entrance'].includes(v.kind)&&v.confidence==='high'&&['single','double','sliding','folding'].includes(v.doorType));
    for(let i=1;i<e.points.length;i++){
-    const a=e.points[i-1],b=e.points[i],range=clip(a,b,core),mix=t=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
-    if(!range)elements.push({...e,id:e.id+'-window-'+i,points:[a,b]});
-    else {if(range[0]>.001)elements.push({...e,id:e.id+'-before-'+i,points:[a,mix(range[0])]});if(range[1]<.999)elements.push({...e,id:e.id+'-after-'+i,points:[mix(range[1]),b]});}
+    const a=e.points[i-1],b=e.points[i],range=clip(a,b,core),dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy),mix=t=>[a[0]+dx*t,a[1]+dy*t],cuts=[];
+    if(range&&length)for(const v of replacements)for(let k=1;k<v.points.length;k++){
+     const c=v.points[k-1],d=v.points[k],vl=Math.hypot(d[0]-c[0],d[1]-c[1]);
+     if(!vl||Math.abs(dx*(d[1]-c[1])-dy*(d[0]-c[0]))/length/vl>.1)continue;
+     const offset=p=>Math.abs((p[0]-a[0])*dy-(p[1]-a[1])*dx)/length;
+     if(Math.max(offset(c),offset(d))>3)continue;
+     const along=p=>((p[0]-a[0])*dx+(p[1]-a[1])*dy)/(length*length),ts=[along(c),along(d)],lo=Math.max(range[0],Math.min(...ts)),hi=Math.min(range[1],Math.max(...ts));
+     if(hi>lo)cuts.push([lo,hi]);
+    }
+    if(!cuts.length){elements.push(e.points.length===2?e:{...e,id:e.id+'-window-'+i,points:[a,b]});continue;}
+    let cursor=0,part=0;for(const [lo,hi] of cuts.sort((a,b)=>a[0]-b[0])){if(lo>cursor+.001)elements.push({...e,id:e.id+'-span-'+i+'-'+part++,points:[mix(cursor),mix(lo)]});cursor=Math.max(cursor,hi);}
+    if(cursor<.999)elements.push({...e,id:e.id+'-span-'+i+'-'+part,points:[mix(cursor),b]});
    }
    continue;
   }

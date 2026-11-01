@@ -1,6 +1,6 @@
-import {mergeDoorAssembly} from './door-assembly.mjs?v=topology-rebuild-2';
-import {dist,segDist} from './geometry.mjs?v=topology-rebuild-2';
-import {openingHost} from './import-quality.mjs?v=topology-rebuild-2';
+import {mergeDoorAssembly} from './door-assembly.mjs?v=topology-rebuild-4';
+import {dist,segDist} from './geometry.mjs?v=topology-rebuild-4';
+import {openingHost} from './import-quality.mjs?v=topology-rebuild-4';
 
 const tolerance=.08;
 const axis=points=>{const [a,b]=points,l=dist(a,b);return {a,b,l,x:(b.x-a.x)/l,y:(b.y-a.y)/l};};

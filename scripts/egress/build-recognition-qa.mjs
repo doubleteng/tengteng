@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir,readdir} from 'node:fs/promises';
 import path from 'node:path';
 const root=path.resolve('teaching/egress'),out=path.join(root,'qa');
 await mkdir(out,{recursive:true});
-const tag='topology-rebuild-2';
+const tag='topology-rebuild-4';
 for(const name of await readdir(path.join(root,'src'))){
  if(!name.endsWith('.mjs'))continue;
  let contents=await readFile(path.join(root,'src',name),'utf8');

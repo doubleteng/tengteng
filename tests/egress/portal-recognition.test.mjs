@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {refineSourceWalls} from '../../teaching/egress/src/source-refinement.mjs';
-import {doorSwingEvidence} from '../../teaching/egress/src/door-evidence.mjs';
+import {doorSwingEvidence,slidingPanelEvidence} from '../../teaching/egress/src/door-evidence.mjs';
 import {normalizeWallNetwork} from '../../teaching/egress/src/wall-network.mjs';
 import {strokeMask,pendingOpeningBarriers} from '../../teaching/egress/src/import-quality.mjs';
 import {validateInterpretation,materializeInterpretation} from '../../teaching/egress/src/semantic-plan.mjs';
@@ -56,7 +56,7 @@ test('Duplicate reverse-direction wall hints collapse; disconnected parallel wal
  assert.equal(normalizeWallNetwork(input,{unit:1,supported:()=>true}).length,2);
 });
 test('Source refinement and door evidence survive saving without treating the geometry as user-confirmed',()=>{
- const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,8);
+ const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,10);
  assert.ok(r.elements.some(e=>e.openingEvidence?.autoDoor&&!e.confirmed));assert.ok(r.elements.some(e=>e.kind==='wall'&&e.sourceBand>0));
  assert.deepEqual(refineSourceWalls(r,f.imageData).elements,r.elements);
 });
@@ -64,3 +64,23 @@ test('Source refinement and door evidence survive saving without treating the ge
 for(const swingAngle of [45,60,90,120])test('Read the actual '+swingAngle+' degree door leaf instead of drawing a generic quarter circle',()=>{const f=fixture({swingAngle}),e=doorSwingEvidence(f.a,f.b,strokeMask(f.imageData),.2);assert.ok(e.score>=.55);assert.equal(e.swingAngle,swingAngle);});
 
 for(const angle of [0,.37])test('A source door against a perpendicular wall preserves two room enclosures at '+angle,()=>{const f=fixture({corner:true,angle}),r=refineSourceWalls(f.result,f.imageData),m=materializeInterpretation(r,{x:0,y:0,width:20,height:20,calibrated:true});assert.equal(m.pendingSpaces.length,0);assert.equal(m.rooms.length,2);assert.equal(m.doors.length,1);assert.ok(m.walls.find(w=>w.id===m.doors[0].wallId));});
+
+function slidingFixture({angle=0,gray=20,window=false}={}){
+ const f=fixture({angle,gray,swing:false}),c=Math.cos(angle),s=Math.sin(angle),turn=([x,y])=>[200+(x-200)*c-(y-200)*s,200+(x-200)*s+(y-200)*c];
+ const draw=(x,start,end)=>{for(let y=start;y<=end;y+=.2){const [xx,yy]=turn([x,y]).map(Math.round),i=(yy*400+xx)*4;f.imageData.data[i]=f.imageData.data[i+1]=f.imageData.data[i+2]=gray;}};
+ draw(200,170,window?200:185);draw(204,window?170:185,200);
+ f.result.elements.push({id:'slider',kind:'door',label:'Sliding door',doorType:'sliding',confidence:'high',points:[f.a,f.b].map(p=>[p.x/400*1000,p.y/400*1000])});
+ return f;
+}
+for(const options of [{},{angle:.37},{angle:-.2,gray:185}])test('Staggered sliding panels locate one assembly without a false swing '+JSON.stringify(options),()=>{
+ const f=slidingFixture(options),e=slidingPanelEvidence(f.a,f.b,strokeMask(f.imageData),.2);assert.ok(e.score>=.82);
+ const r=validateInterpretation(refineSourceWalls(f.result,f.imageData)),door=r.elements.find(e=>e.id==='slider');
+ assert.equal(door.openingEvidence?.located,true);assert.equal(door.openingEvidence?.method,'panel-track');assert.equal(door.openingEvidence.autoDoor,false);
+ const model=materializeInterpretation(r,{x:0,y:0,width:20,height:20,calibrated:true});assert.equal(model.rooms.length,2);assert.equal(model.doors.length,0);assert.equal(model.candidates.length,1);assert.equal(model.candidates[0].doorType,'sliding');
+});
+test('Continuous window rails cannot satisfy sliding-panel evidence even when the semantic label is wrong',()=>{
+ const f=slidingFixture({window:true});assert.equal(slidingPanelEvidence(f.a,f.b,strokeMask(f.imageData),.2).score,0);
+ const r=validateInterpretation(refineSourceWalls(f.result,f.imageData)),door=r.elements.find(e=>e.id==='slider');
+ assert.match(door.openingEvidence?.windowConflict||'',/Continuous/);
+ const model=materializeInterpretation(r,{x:0,y:0,width:20,height:20,calibrated:true});assert.equal(model.doors.length,0);assert.ok(model.candidates[0].windowConflict);
+});

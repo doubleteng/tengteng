@@ -1,14 +1,14 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-2';
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-2';
-import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-2';
-import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-2';
-import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-2';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-2';
-import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-2';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-4';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-4';
+import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-4';
+import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-4';
+import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-4';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-4';
+import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-4';
 
 export function refinementSignature(result){
  let hash=2166136261;
- const value=JSON.stringify([result.outline,result.elements.map(e=>[e.id,e.kind,e.confirmed===true,e.points])]);
+ const value=JSON.stringify([result.outline,result.elements.map(e=>[e.id,e.kind,e.confirmed===true,e.points,e.partial===true,e.boundaryRole,e.spaceLocation,e.outdoorType,e.roofState,e.roomUse,e.doorType,e.hinge,e.swingPoint,e.swingAngle])]);
  for(let i=0;i<value.length;i++)hash=Math.imul(hash^value.charCodeAt(i),16777619);
  return (hash>>>0).toString(16);
 }
@@ -19,7 +19,7 @@ export function refinementSignature(result){
 export function refineSourceWalls(result,imageData){
  result={...result,elements:normalizeArchitecturalElements(result.elements)};
  const previous=result.sourceRefinement;
- if(previous?.version===8&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
+ if(previous?.version===10&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
  const {width:w,height:h,mask}=strokeMask(imageData),unit=Math.max(w,h)/2000;
  const radius=Math.max(4,12*unit),inkRadius=Math.max(1,Math.round(1.5*unit));
  const px=q=>({x:q[0]*w/1000,y:q[1]*h/1000});
@@ -107,11 +107,20 @@ export function refineSourceWalls(result,imageData){
  const supported=(a,b,band=inkRadius)=>{const l=dist(a,b);if(!l)return true;const n={x:-(b.y-a.y)/l,y:(b.x-a.x)/l},count=Math.max(4,Math.min(80,Math.ceil(l)));let hits=0;for(let i=0;i<=count;i++)if(hit(lerp(a,b,i/count),n,Math.ceil(band)))hits++;return hits/(count+1)>=.75;};
  const openings=kept.filter(e=>['door','entrance'].includes(e.kind)).map(e=>e.points.slice(0,2).map(px));
  const occupied=result.elements.filter(e=>['room','corridor','lobby'].includes(e.kind)).map(e=>e.points.map(px));
+ const interiorAt=(q,gap)=>occupied.some(poly=>inside(q,poly)&&Math.min(...edges(poly).map(([a,b])=>segDist(q,a,b)))>gap*.4);
  const paired=collapseWallFaces(walls,{unit,faceEvidence:(a,b)=>{
   const d=dist(a,b),n={x:(b.x-a.x)/d,y:(b.y-a.y)/d};if(!hit(a,n,1)||!hit(b,n,1))return false;
   let white=0;for(const t of [.3,.4,.5,.6,.7])if(!at(lerp(a,b,t).x,lerp(a,b,t).y))white++;return white>=3;
- },interiorAt:(q,gap)=>occupied.some(poly=>inside(q,poly)&&Math.min(...edges(poly).map(([a,b])=>segDist(q,a,b)))>gap*.4)});
- const unique=normalizeWallNetwork(paired,{unit,supported,openingAt:(q,r)=>openings.some(([a,b])=>segDist(q,a,b)<r&&Math.min(dist(q,a),dist(q,b))>r)});
+ },interiorAt});
+ const occupiedBetween=(q,gap,a,b)=>{
+  if(!a||!b||gap<1||at(q.x,q.y))return false;
+  const pad=Math.max(2,3*unit),u={x:(b.x-a.x)/gap,y:(b.y-a.y)/gap};
+  const outsideA={x:a.x-u.x*pad,y:a.y-u.y*pad},outsideB={x:b.x+u.x*pad,y:b.y+u.y*pad};
+  // Both sides must bound the SAME occupied strip. A rough room polygon
+  // merely extending into a thick wall cannot veto duplicate-axis cleanup.
+  return occupied.some(poly=>inside(q,poly)&&!inside(outsideA,poly)&&!inside(outsideB,poly));
+ };
+ const unique=normalizeWallNetwork(paired,{unit,supported,interiorAt:occupiedBetween,openingAt:(q,r)=>openings.some(([a,b])=>segDist(q,a,b)<r&&Math.min(dist(q,a),dist(q,b))>r)});
  // Reviewed walls are immutable anchors, never duplicated by recovered bands.
  const anchors=kept.filter(e=>e.kind==='wall').flatMap(e=>e.points.slice(1).map((q,i)=>[px(e.points[i]),px(q)]));
  for(let i=unique.length-1;i>=0;i--)if(anchors.some(([a,b])=>segDist(unique[i].a,a,b)<Math.max(2,3*unit)&&segDist(unique[i].b,a,b)<Math.max(2,3*unit)))unique.splice(i,1);
@@ -160,13 +169,53 @@ export function refineSourceWalls(result,imageData){
  for(const e of kept.filter(e=>!e.confirmed&&['door','entrance'].includes(e.kind))){
   delete e.openingEvidence;
   const a=px(e.points[0]),b=px(e.points[1]),l=dist(a,b);if(!l)continue;
+  // Sliding leaves can occupy half of their aperture. Resolve that assembly
+  // before gap matching, which would otherwise shrink it to a half-door and
+  // sometimes mistake its short panel return for a swing arc.
+  if(e.doorType==='sliding'&&e.confidence==='high'){
+   const windows=kept.filter(v=>v.kind==='window').map(v=>({...v,points:v.points.map(px)}));
+   const hosts=unique.filter(s=>{
+    const sl=dist(s.a,s.b),cross=Math.abs((b.x-a.x)*(s.b.y-s.a.y)-(b.y-a.y)*(s.b.x-s.a.x))/(l*sl);
+    return cross<.1&&Math.min(segDist(a,s.a,s.b),segDist(b,s.a,s.b))<radius;
+   }).sort((s,t)=>dist(t.a,t.b)-dist(s.a,s.b));
+   for(const host of hosts){
+    const sl=dist(host.a,host.b),u={x:(host.b.x-host.a.x)/sl,y:(host.b.y-host.a.y)/sl};
+    const onto=p=>{const d=(p.x-host.a.x)*u.x+(p.y-host.a.y)*u.y;return{x:host.a.x+u.x*d,y:host.a.y+u.y*d};},aa=onto(a),bb=onto(b);
+    if(Math.max(dist(a,aa),dist(b,bb))>radius||windowOverlaps(aa,bb,windows,Math.max(3,4*unit))||slidingPanelEvidence(aa,bb,source,unit).score<.82)continue;
+    e.points=[norm(aa),norm(bb)];e.hinge='unknown';e.swingPoint=null;
+    e.openingEvidence={located:true,method:'panel-track',swingScore:0,autoDoor:false};
+    for(const g of gaps)if(segDist(g.center,aa,bb)<Math.max(3,4*unit))g.claimed=true;
+    // Panel rails were visible ink inside the wall search band, but are not
+    // fixed partition segments. Cut only this measured assembly from those
+    // parallel runs; its jamb-to-jamb barrier retains the room enclosure.
+    const length=dist(aa,bb),axis={x:(bb.x-aa.x)/length,y:(bb.y-aa.y)/length},along=p=>(p.x-aa.x)*axis.x+(p.y-aa.y)*axis.y;
+    const lateral=p=>Math.abs((p.x-aa.x)*axis.y-(p.y-aa.y)*axis.x),band=Math.max(2,Math.min(12*unit,length*.16),host.band||0);
+    for(let i=unique.length-1;i>=0;i--){
+     const s=unique[i],sl=dist(s.a,s.b);if(Math.abs((s.b.x-s.a.x)*axis.y-(s.b.y-s.a.y)*axis.x)/sl>.1||Math.max(lateral(s.a),lateral(s.b))>band)continue;
+     let p=s.a,q=s.b;if(along(p)>along(q))[p,q]=[q,p];const start=along(p),end=along(q);
+     if(end<=0||start>=length)continue;
+     const pieces=[],at=t=>lerp(p,q,(t-start)/(end-start));
+     if(start<0)pieces.push({...s,a:p,b:at(0)});if(end>length)pieces.push({...s,a:at(length),b:q});
+     unique.splice(i,1,...pieces.filter(v=>dist(v.a,v.b)>=Math.max(2,3*unit)));
+    }
+    break;
+   }
+   if(e.openingEvidence)continue;
+  }
   const center=lerp(a,b,.5),gap=gaps.filter(g=>{const gl=dist(g.a,g.b),parallel=Math.abs((b.x-a.x)*(g.b.y-g.a.y)-(b.y-a.y)*(g.b.x-g.a.x))/(l*gl);return gl>=l*.4&&gl<=l*2.5&&parallel<.25&&dist(center,g.center)<Math.max(radius*2.5,l*.8)&&segDist(g.center,a,b)<Math.max(radius*1.5,l*.3);}).sort((a,b)=>dist(a.center,center)-dist(b.center,center))[0];
   if(gap){const symbolHinge=e.hinge==='both'?'both':['start','end'].includes(e.hinge)?(dist(e.hinge==='start'?a:b,gap.a)<=dist(e.hinge==='start'?a:b,gap.b)?'start':'end'):'unknown';e.points=[norm(gap.a),norm(gap.b)];e.openingEvidence={located:true,swingScore:gap.evidence.score,method:gap.evidence.score>=.55?'swing-and-jambs':'jambs',hinge:gap.evidence.score>=.55?(gap.evidence.leafCount===2?'both':gap.evidence.hinge===0?'start':gap.evidence.hinge===1?'end':'unknown'):symbolHinge,swingAngle:gap.evidence.score>=.55?(gap.evidence.swingAngle||90):(e.swingAngle||90),autoDoor:gap.evidence.score>=.55&&!gap.windowConflict,windowConflict:gap.windowConflict,swingPoint:gap.evidence.swingPoint?norm(gap.evidence.swingPoint):e.swingPoint||null};if(gap.evidence.score>=.55){e.doorType=gap.evidence.doorType;e.leafCount=gap.evidence.leafCount;}gap.claimed=true;continue;}
   const hosts=unique.filter(s=>{
    const sl=dist(s.a,s.b),cross=Math.abs((b.x-a.x)*(s.b.y-s.a.y)-(b.y-a.y)*(s.b.x-s.a.x))/(l*sl);
    return cross<.15&&segDist(center,s.a,s.b)<Math.max(radius,l*.6);
   }).sort((s,t)=>segDist(center,s.a,s.b)-segDist(center,t.a,t.b));
-  if(hosts.length){const s=hosts[0],sl=dist(s.a,s.b),u={x:(s.b.x-s.a.x)/sl,y:(s.b.y-s.a.y)/sl},d=(center.x-s.a.x)*u.x+(center.y-s.a.y)*u.y,q={x:s.a.x+u.x*d,y:s.a.y+u.y*d};e.points=[norm({x:q.x-u.x*l/2,y:q.y-u.y*l/2}),norm({x:q.x+u.x*l/2,y:q.y+u.y*l/2})];}
+  if(hosts.length){const s=hosts[0],sl=dist(s.a,s.b),u={x:(s.b.x-s.a.x)/sl,y:(s.b.y-s.a.y)/sl},d=(center.x-s.a.x)*u.x+(center.y-s.a.y)*u.y,q={x:s.a.x+u.x*d,y:s.a.y+u.y*d};e.points=[norm({x:q.x-u.x*l/2,y:q.y-u.y*l/2}),norm({x:q.x+u.x*l/2,y:q.y+u.y*l/2})];
+   const ps=e.points.map(px),windows=kept.filter(v=>v.kind==='window').map(v=>({...v,points:v.points.map(px)}));
+   if(glazingBarrierEvidence(...ps,source,unit).score>=.8){
+    e.openingEvidence={located:true,method:'jambs',swingScore:0,autoDoor:false,windowConflict:'Continuous wall or glazing rails cross this proposed opening.'};
+   }else if(e.doorType==='sliding'&&e.confidence==='high'&&!windowOverlaps(...ps,windows,Math.max(3,4*unit))&&slidingPanelEvidence(...ps,source,unit).score>=.82){
+    e.openingEvidence={located:true,method:'panel-track',swingScore:0,autoDoor:false};
+   }
+  }
  }
  let serial=0;const ids=new Set(kept.map(e=>e.id)),newId=()=>{let id;do{id='fitted-wall-'+serial++;}while(ids.has(id));ids.add(id);return id;};
  for(const gap of gaps)if(!gap.windowConflict&&!gap.claimed&&!kept.some(e=>['door','entrance'].includes(e.kind)&&segDist(gap.center,...e.points.slice(0,2).map(px))<Math.max(3,4*unit))){
@@ -177,6 +226,6 @@ export function refineSourceWalls(result,imageData){
  // Whole-image and detail reads can describe the same opening. Keep one.
  for(let i=kept.length-1;i>=0;i--){const e=kept[i];if(e.confirmed||!['door','entrance'].includes(e.kind))continue;const a=px(e.points[0]),b=px(e.points[1]),c=lerp(a,b,.5);const duplicate=kept.findIndex((v,j)=>j<i&&!v.confirmed&&['door','entrance'].includes(v.kind)&&dist(c,lerp(...v.points.slice(0,2).map(px),.5))<Math.max(3,Math.min(dist(a,b)*.35,12*unit)));if(duplicate>=0){if(e.openingEvidence?.located&&!kept[duplicate].openingEvidence?.located)kept[duplicate]=e;kept.splice(i,1);}}
  const out=attachSourceEvidence(refineFurnitureGeometry({...result,elements:kept,warnings:[...result.warnings]},imageData),imageData);
- out.sourceRefinement={version:8,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
+ out.sourceRefinement={version:10,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
  return out;
 }

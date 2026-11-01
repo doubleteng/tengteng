@@ -9,7 +9,7 @@ const intersection=(s,t)=>{const u=sub(s.b,s.a),v=sub(t.b,t.a),d=u.x*v.y-u.y*v.x
 
 // Work in source pixels. A physical wall has one axis even when several
 // room boundaries, drawing faces and detail reads refer to it.
-export function normalizeWallNetwork(input,{unit=1,supported=()=>false,openingAt=()=>false}={}){
+export function normalizeWallNetwork(input,{unit=1,supported=()=>false,openingAt=()=>false,interiorAt=()=>false}={}){
  const eps=Math.max(.6,1.5*unit),join=Math.max(3,10*unit),parallel=.055;
  let lines=input.filter(s=>dist(s.a,s.b)>eps).map(s=>({...s,a:{...s.a},b:{...s.b}}));
  const groups=[];
@@ -46,6 +46,16 @@ export function normalizeWallNetwork(input,{unit=1,supported=()=>false,openingAt
     if(off>tolerance||lo>u.l+eps||hi< -eps)continue;
     const overlap=Math.min(hi,u.l)-Math.max(lo,0);if(overlap< -eps)continue;
     // A parallel corridor boundary must not collapse into the opposite wall.
+    // The pixel support band alone is insufficient: it can reach both walls
+    // across the corridor and therefore appear to support their midpoint.
+    if(off>eps){
+     const ss=sub(s.b,s.a),sl=dot(ss,ss);let occupied=0;
+     for(const f of [.2,.5,.8]){
+      const q=at(t.a,u,Math.max(0,lo)+Math.max(0,overlap)*f),d=Math.max(0,Math.min(1,dot(sub(q,s.a),ss)/sl)),p=at(s.a,ss,d);
+      if(interiorAt(lerp(p,q,.5),dist(p,q),p,q))occupied++;
+     }
+     if(occupied>=2)continue;
+    }
     if(off>eps&&!supported(lerp(s.a,t.a,.5),lerp(s.b,t.b,.5),off/2+eps))continue;
     const origin={...t.a};t.a=at(origin,u,Math.min(0,lo));t.b=at(origin,u,Math.max(u.l,hi));
     t.explicit||=s.explicit;t.pairedFaces||=s.pairedFaces;t.band=Math.max(t.band||0,s.band||0);consumed=true;break;

@@ -53,3 +53,39 @@ test('An opening repair cannot introduce a new unlabelled enclosed cell',()=>{
  assert.equal(before.model.rooms.length,1);assert.equal(after.model.rooms.length,2);assert.ok(after.score<before.score);
  assert.equal(improvesReconstruction(before,after),false);
 });
+test('Opening inventory salvages a real doorway without importing unrelated partition changes',async()=>{
+ const outline=rect(300,300,400,400),result={version:1,outline,warnings:[],elements:[el('room','room',outline),...outline.map((p,i)=>el('w'+i,'wall',[p,outline[(i+1)%4]]))]},run={result};
+ const output=await repairReconstruction(run,{image,fit:r=>r,read:async region=>{
+  const map=([x,y])=>[(x-region.x)/region.width*1000,(y-region.y)/region.height*1000];
+  return {version:1,outline:[],warnings:[],elements:[el('door','door',[[480,300],[520,300]].map(map)),el('unwanted-divider','wall',[[600,300],[600,700]].map(map))]};
+ }});
+ assert.equal(output.quality.model.rooms.length,1);assert.equal(output.quality.unopened.length,0);
+ assert.equal(run.repairs[0].strategy,'openings-only');assert.equal(run.result.elements.some(e=>e.id.includes('unwanted-divider')),false);
+});
+test('Missing doorways in a large hall are sought along its perimeter, not its empty center',()=>{
+ const result=fixture();result.elements.push(el('close','wall',[[100,900],[100,100]]));
+ const targets=reconstructionTargets(result,image,{limit:64}).filter(t=>t.focus==='openings');
+ assert.ok(targets.some(t=>t.core.top<=100&&t.core.bottom>=100));
+ assert.ok(targets.some(t=>t.core.top<=900&&t.core.bottom>=900));
+ assert.ok(targets.some(t=>t.core.left<=100&&t.core.right>=100));
+ assert.ok(targets.some(t=>t.core.left<=900&&t.core.right>=900));
+ assert.ok(targets.every(t=>Math.abs(t.cx-500)>200||Math.abs(t.cy-500)>200));
+});
+test('Resuming an incomplete repair reads unvisited regions instead of repeating the first batch',async()=>{
+ const result=fixture();result.elements.push(el('close','wall',[[100,900],[100,100]]));const run={result},read=async()=>({version:1,outline:[],warnings:[],elements:[]});
+ await repairReconstruction(run,{image,fit:r=>r,read,maxCalls:2});
+ await repairReconstruction(run,{image,fit:r=>r,read,maxCalls:2});
+ assert.equal(run.repairs.length,4);assert.equal(new Set(run.repairs.map(e=>e.key)).size,4);
+ assert.ok(run.repairs.every(e=>e.state==='rejected'));
+});
+
+test('Clipped exterior proposals trigger automatic surrounding-context recognition',async()=>{
+ const result=fixture();result.elements.push(el('close','wall',[[100,900],[100,100]]),el('entry','door',[[400,100],[500,100]]),{...el('partial-site','exterior',rect(910,400,70,200)),partial:true});
+ const before=reconstructionQuality(result,image);assert.equal(before.compiled.pendingFeatures.length,1);assert.equal(before.complete,false);
+ const run={result};const output=await repairReconstruction(run,{image,fit:r=>r,read:async region=>{
+  assert.equal(region.focus,'architecture');
+  const map=([x,y])=>[(x-region.x)/region.width*1000,(y-region.y)/region.height*1000];
+  return {...result,elements:[el('context','wall',[[900,400],[900,600]].map(map))]};
+ }});
+ assert.equal(output.quality.compiled.pendingFeatures.length,0);assert.equal(output.quality.model.rooms.length,1);assert.equal(run.repairs[0].state,'accepted');
+});

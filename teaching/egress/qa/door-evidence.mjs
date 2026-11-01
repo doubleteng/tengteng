@@ -1,4 +1,4 @@
-import {dist,lerp} from './geometry.mjs?v=topology-rebuild-2';
+import {dist,lerp} from './geometry.mjs?v=topology-rebuild-4';
 
 export function windowOverlaps(a,b,windows,tolerance=.12){
  const length=dist(a,b);if(!length)return null;
@@ -18,6 +18,30 @@ export function glazingBarrierEvidence(a,b,{width,height,mask},unit=1){
  }
  if(start!==null)runs.push([start,Math.ceil(limit)]);
  return {score:runs.some((r,i)=>runs.slice(i+1).some(s=>s[0]-r[1]>=Math.max(2,2*unit)))?best:0};
+}
+
+// A partly open sliding assembly has staggered panel rails, not an empty
+// aperture or a swing arc. Use only alongside an explicit sliding-door
+// classification; these pixels alone cannot establish a traversable doorway.
+export function slidingPanelEvidence(a,b,{width,height,mask},unit=1){
+ const span=dist(a,b);if(span<12)return {score:0};
+ const ux=(b.x-a.x)/span,uy=(b.y-a.y)/span,count=48,limit=Math.max(4,Math.min(12*unit,span*.16)),rows=[];
+ for(let offset=-Math.ceil(limit);offset<=Math.ceil(limit);offset++){
+  const bits=[];
+  for(let i=0;i<count;i++){
+   const t=.08+.84*i/(count-1),x=Math.round(a.x+(b.x-a.x)*t-uy*offset),y=Math.round(a.y+(b.y-a.y)*t+ux*offset);
+   bits.push(x>=0&&y>=0&&x<width&&y<height&&mask[y*width+x]?1:0);
+  }
+  const hits=bits.reduce((s,v)=>s+v,0);if(hits/count>=.85)return {score:0};
+  if(hits/count>=.25&&hits/count<=.75)rows.push({offset,bits,hits,mean:bits.reduce((s,v,i)=>s+v*i,0)/hits});
+ }
+ let score=0;
+ for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++){
+  const a=rows[i],b=rows[j];if(b.offset-a.offset<Math.max(2,2*unit)||Math.abs(a.mean-b.mean)<count*.24)continue;
+  const union=a.bits.filter((v,i)=>v||b.bits[i]).length/count,overlap=a.bits.filter((v,i)=>v&&b.bits[i]).length/count;
+  if(union>=.82&&overlap<.35)score=Math.max(score,union);
+ }
+ return {score};
 }
 
 // Test a real jamb gap for the observed leaf angle, on either side and hinge.

@@ -24,6 +24,22 @@ test('Whole-sheet context prevents repeated furniture reads but cannot hide a ge
  draw(320,30,322,180);assert.equal(hasUnresolvedStructure(detail,pixels,coverageContext(overview,region)),true);
  assert.deepEqual(coverageContext(overview,{x:250,y:250,width:500,height:500})[0].points[0],[-400,-500]);
 });
+test('A recognized outward door arc is not an omitted wing; a separate wing remains detectable',()=>{
+ const pixels={width:400,height:300,data:new Uint8ClampedArray(400*300*4).fill(255)},dot=(x,y)=>{const k=(Math.round(y)*400+Math.round(x))*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=40;};
+ for(let t=0;t<Math.PI/2;t+=.002)dot(150-Math.sin(t)*70,80+Math.cos(t)*70);
+ const door={...el('door','entrance',[[375,267],[375,500]]),doorType:'single',hinge:'start',swingPoint:[200,267]},detail={...empty(),elements:[el('host','wall',[[375,0],[375,267]])]};
+ assert.equal(hasUnresolvedStructure(detail,pixels),true);detail.elements.push(door);assert.equal(hasUnresolvedStructure(detail,pixels),false);
+ for(let y=30;y<250;y++)dot(330,y);assert.equal(hasUnresolvedStructure(detail,pixels),true);
+ const local=coverageContext({elements:[door]},{x:100,y:100,width:500,height:500})[0];assert.deepEqual(local.swingPoint,[200,334]);
+});
+test('A slightly offset outdoor perimeter is known boundary ink, not another building wing',()=>{
+ const pixels={width:400,height:200,data:new Uint8ClampedArray(400*200*4).fill(255)};
+ for(let x=80;x<350;x++){const k=(48*400+x)*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=40;}
+ const detail={...empty(),elements:[el('host','wall',[[200,250],[200,750]]),el('balcony','exterior',[[200,250],[875,250],[875,750],[200,750]])]};
+ assert.equal(hasUnresolvedStructure(detail,pixels),false);
+ for(let y=20;y<180;y++){const k=(y*400+30)*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=40;}
+ assert.equal(hasUnresolvedStructure(detail,pixels),true);
+});
 
 test('Two regions read concurrently but out-of-order replies merge in source order',async()=>{
  const state=run(),waiting=new Map(),started=[];

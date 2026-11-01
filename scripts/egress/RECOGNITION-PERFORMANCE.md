@@ -42,7 +42,7 @@ run took 327 ms serially and 162 ms with two requests, with identical merge
 order and eight calls in both cases. This isolates scheduling; it is not a
 Gemini speed guarantee or a measurement of a student's ten-minute upload.
 
-295 regression tests pass, including out-of-order completion, deterministic
+297 regression tests pass, including out-of-order completion, deterministic
 splitting, cancellation/resume, quota handling, serial fallback, repair budgets,
 and stopping after an early successful repair. Source geometry safeguards remain
 covered by the recognition regression suite.
@@ -53,3 +53,10 @@ revised check maps complete, non-low-confidence context into crop coordinates.
 A detail still needs its own architectural wall evidence, and source components
 outside both interpretations still trigger subdivision. Geometry acceptance
 checks and unread-region reporting remain unchanged.
+
+Source-pixel diagnosis isolated two additional false coverage alarms: outward
+door swing arcs extend beyond indoor polygons, and exterior perimeter strokes
+can sit a few pixels outside a model polygon. Known polygon edges now receive
+the same narrow tolerance as known walls. Visible door arcs/leaves are excluded
+using their recognized jambs and swing side; the surrounding area is not masked.
+Tests keep a separate omitted wing detectable next to those symbols.

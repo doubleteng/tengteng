@@ -1,5 +1,5 @@
 import {strokeMask} from './import-quality.mjs?v=recognition-speed-2';
-import {inside,segDist} from './geometry.mjs?v=recognition-speed-2';
+import {inside,segDist,edges,dist} from './geometry.mjs?v=recognition-speed-2';
 import {ReadAhead,serviceUnavailable,smallerRegionNeeded,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-2';
 // Tile the sheet, not the rooms already found by a first model response.
 // Each core owns its geometry; overlapping margins provide reading context.
@@ -29,11 +29,12 @@ export function enhancePlanContrast(image){
 export function coverageContext(result,region){
  // Coordinates may extend beyond this crop. Retaining the actual polygon
  // avoids treating a crop edge as an architectural enclosure.
- return (result?.elements||[]).filter(e=>!e.partial&&e.confidence!=='low').map(e=>({...e,points:e.points.map(([x,y])=>[(x-region.x)/region.width*1000,(y-region.y)/region.height*1000])}));
+ const local=([x,y])=>[(x-region.x)/region.width*1000,(y-region.y)/region.height*1000];
+ return (result?.elements||[]).filter(e=>!e.partial&&e.confidence!=='low').map(e=>({...e,points:e.points.map(local),...(Array.isArray(e.swingPoint)?{swingPoint:local(e.swingPoint)}:{})}));
 }
 export function hasUnresolvedStructure(detail,image,context=[]){
  const {width:w,height:h,mask}=strokeMask(image),minimum=Math.max(28,Math.min(w,h)*.10),cell=8,cols=Math.ceil(w/cell),rows=Math.ceil(h/cell),known=new Uint8Array(cols*rows);
- const hasWalls=detail.elements.some(e=>e.kind==='wall'),lines=[],polygons=[];
+ const hasWalls=detail.elements.some(e=>e.kind==='wall'),lines=[],polygons=[],swings=[];
  // The overview has already read complete rooms/fixtures that a detail may
  // only partly see. Their source context prevents rereading the same furniture
  // as an omitted wing. New wings outside both reads still trigger subdivision.
@@ -42,11 +43,20 @@ export function hasUnresolvedStructure(detail,image,context=[]){
   const ps=e.points.map(([x,y])=>({x:x*w/1000,y:y*h/1000}));
   if(['wall','window','door','entrance','toilet-partition','toilet-door'].includes(e.kind))ps.slice(1).forEach((p,i)=>lines.push([ps[i],p]));
   else if(ps.length>=3&&(hasWalls||!['room','corridor','lobby'].includes(e.kind)))polygons.push(ps);
+  // A recognized swing is non-wall ink outside the indoor polygon. Mask its
+  // visible arc/leaf, not the whole doorway neighborhood: an adjacent omitted
+  // room or wing must still remain visible to the coverage alarm.
+  if(['door','entrance'].includes(e.kind)&&Array.isArray(e.swingPoint)&&e.doorType!=='sliding'&&ps.length>=2){
+   const [a,b]=ps,swing={x:e.swingPoint[0]*w/1000,y:e.swingPoint[1]*h/1000},radius=dist(a,b)/(e.hinge==='both'||e.doorType==='double'?2:1),side=(b.x-a.x)*(swing.y-a.y)-(b.y-a.y)*(swing.x-a.x);
+   const hinges=e.hinge==='start'?[a]:e.hinge==='end'?[b]:[a,b];
+   for(const hinge of hinges){const length=dist(hinge,swing);if(length>0)lines.push([hinge,{x:hinge.x+(swing.x-hinge.x)*radius/length,y:hinge.y+(swing.y-hinge.y)*radius/length}]);swings.push({a,b,hinge,radius,side});}
+  }
  }
  const tolerance=Math.max(cell*1.5,Math.max(w,h)*.012);
+ const knownEdges=[...lines,...polygons.flatMap(edges)];
  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
   const p={x:(x+.5)*cell,y:(y+.5)*cell};
-  known[y*cols+x]=polygons.some(poly=>inside(p,poly))||lines.some(([a,b])=>segDist(p,a,b)<tolerance)?1:0;
+  known[y*cols+x]=polygons.some(poly=>inside(p,poly))||knownEdges.some(([a,b])=>segDist(p,a,b)<tolerance)||swings.some(s=>Math.abs(dist(p,s.hinge)-s.radius)<tolerance&&s.side*((s.b.x-s.a.x)*(p.y-s.a.y)-(s.b.y-s.a.y)*(p.x-s.a.x))>=0)?1:0;
  }
  const unseen=new Uint8Array(w*h);for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(mask[y*w+x]&&!known[Math.floor(y/cell)*cols+Math.floor(x/cell)])unseen[y*w+x]=1;
  const queue=new Int32Array(w*h);

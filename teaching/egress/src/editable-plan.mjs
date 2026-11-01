@@ -1,4 +1,4 @@
-import {openingHost} from './import-quality.mjs?v=auto-enclosure-1';
+import {openingHost} from './import-quality.mjs?v=whole-plan-1';
 import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=auto-enclosure-1';
 import {intersection} from './drafting.mjs?v=auto-enclosure-1';
 

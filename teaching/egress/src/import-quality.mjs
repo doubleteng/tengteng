@@ -12,7 +12,11 @@ export function strokeMask({width:w,height:h,data}){
  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
   const x0=Math.max(0,x-r),y0=Math.max(0,y-r),x1=Math.min(w,x+r+1),y1=Math.min(h,y+r+1),i=y*w+x;
   const mean=(sum[y1*(w+1)+x1]-sum[y0*(w+1)+x1]-sum[y1*(w+1)+x0]+sum[y0*(w+1)+x0])/((x1-x0)*(y1-y0));
-  mask[i]=gray[i]<100||(gray[i]<248&&mean-gray[i]>7)?1:0;
+  // A dark adjoining wall must not suppress a continuous pale stroke.
+  // Estimate the local paper background from the lightest quadrant.
+  const average=(a,b,c,d)=>(c>a&&d>b)?(sum[d*(w+1)+c]-sum[b*(w+1)+c]-sum[d*(w+1)+a]+sum[b*(w+1)+a])/((c-a)*(d-b)):mean;
+  const background=Math.max(mean,average(x0,y0,x,y),average(x,y0,x1,y),average(x0,y,x,y1),average(x,y,x1,y1));
+  mask[i]=gray[i]<100||(gray[i]<248&&background-gray[i]>7)?1:0;
  }
  return {width:w,height:h,mask};
 }

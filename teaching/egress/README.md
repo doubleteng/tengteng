@@ -242,3 +242,7 @@ Detail reads retain sanitary fixtures and can replace a mistaken architectural d
 ### Automatic enclosure extent
 
 Wall-derived rooms and the routing extent use the same closed wall network. A recognition outline is only a source hint; it cannot clip rooms, survive an opened enclosure, or bridge detached buildings. No separate floor-boundary drawing is required. Courtyard/exterior classifications and multi-height slab openings remain separate exclusions. Legacy teaching precedents retain their documented study geometry.
+
+### Whole-sheet recognition coverage
+
+Recognition now reads overlapping tiles across the entire source sheet, independently of the rooms detected in the overview. Tile results retain new rooms, circulation, stairs and sanitary fixtures. Wall segments are clipped to their owning core; unmatched existing and user-confirmed geometry are retained. Source fitting runs once after assembly, in a worker. Pale source lines are enhanced for model input and retained across dark-to-light junctions. Oversized truncated replies are split automatically; interrupted work saves each completed tile and resumes unfinished regions. The interface reports unread regions and suppresses a complete-total claim. A tile being read is not proof that all its geometry is correct. The instructor's daily and concurrent limits still apply.

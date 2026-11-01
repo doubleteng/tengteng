@@ -52,7 +52,7 @@ test('Duplicate reverse-direction wall hints collapse; disconnected parallel wal
  assert.equal(normalizeWallNetwork(input,{unit:1,supported:()=>true}).length,2);
 });
 test('Source refinement and door evidence survive saving without treating the geometry as user-confirmed',()=>{
- const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,4);
+ const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,5);
  assert.ok(r.elements.some(e=>e.openingEvidence?.autoDoor&&!e.confirmed));assert.ok(r.elements.some(e=>e.kind==='wall'&&e.sourceBand>0));
  assert.deepEqual(refineSourceWalls(r,f.imageData).elements,r.elements);
 });

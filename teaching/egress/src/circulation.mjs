@@ -1,8 +1,8 @@
 import {stairLanding} from './stairs.mjs?v=auto-enclosure-1';
-import {pendingOpeningBarriers} from './import-quality.mjs?v=auto-enclosure-1';
+import {pendingOpeningBarriers} from './import-quality.mjs?v=whole-plan-1';
 import {makeGrid,flood,route,insideRoom,floorRegions,splitWalls} from './geometry.mjs?v=auto-enclosure-1';
-import {floorOpenings,inOpening} from './openings.mjs?v=auto-enclosure-1';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=auto-enclosure-1';
+import {floorOpenings,inOpening} from './openings.mjs?v=whole-plan-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=whole-plan-1';
 
 // An open or unverified stair can be a circulation destination without being
 // accepted as an exit. These paths never enter the egress field or capacity sum.

@@ -29,3 +29,5 @@ test('Recognition connects inside the page; spoofed origin/window cannot capture
 test('Student interface contains no cloud login or key setup; PDF report remains local',()=>{
  const app=fs.readFileSync(new URL('../../teaching/egress/src/app.mjs',import.meta.url),'utf8'),html=fs.readFileSync(new URL('../../teaching/egress/index.html',import.meta.url),'utf8'),bridge=fs.readFileSync(new URL('../../scripts/egress/Bridge.html',import.meta.url),'utf8');assert.doesNotMatch(app,/cloud\.request|cloud-btn|Connect Google|saveVisionSettings/);assert.doesNotMatch(html,/cloud-btn/);assert.doesNotMatch(bridge,/type="password"|<form|saveVisionSettings/);assert.match(html,/id="report-btn">Export PDF/);assert.match(app,/window.print\(\)/);assert.match(app,/Design revision priorities/);
 });
+
+test('A large sheet can read more than twelve tiles while preserving session and daily caps',()=>{const b=backend();for(let i=0;i<48;i++)b.context.visionCall({action:'recognizePlan',token:b.token,image});assert.equal(b.calls.length,48);assert.throws(()=>b.context.visionCall({action:'recognizePlan',token:b.token,image}),/session.*allowance/);assert.equal(b.calls.length,48);});

@@ -1,6 +1,6 @@
 import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=auto-enclosure-1';
-import {roomArea,floorOpenings} from './openings.mjs?v=auto-enclosure-1';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=auto-enclosure-1';
+import {roomArea,floorOpenings} from './openings.mjs?v=whole-plan-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=whole-plan-1';
 import {functions} from './model.mjs?v=auto-enclosure-1';
 export function roomLoad(p,fi,r){
  const a=roomArea(p,fi,r),factor=Number(r.factor)||functions[r.function]?.factor||150,circulation=r.role==='corridor';

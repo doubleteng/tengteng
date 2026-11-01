@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {refineSourceWalls} from '../../teaching/egress/src/source-refinement.mjs';
-import {compileRecognition,detailRegions,mergeDetail} from '../../teaching/egress/src/recognition-pipeline.mjs';
+import {compileRecognition,mergeDetail} from '../../teaching/egress/src/recognition-pipeline.mjs';
 import {materializeInterpretation} from '../../teaching/egress/src/semantic-plan.mjs';
 import {area,segDist} from '../../teaching/egress/src/geometry.mjs';
 const el=(id,kind,points)=>({id,kind,label:id,points,confidence:'medium',evidence:'Synthetic contract fixture'});
@@ -42,11 +42,6 @@ test('Overlapping AI room and corridor suggestions resolve to non-overlapping wa
  const compiled=compileRecognition(refineSourceWalls(f.result,f.imageData),image);
  assert.equal(compiled.model.rooms.length,2);assert.equal(compiled.pending.length,0);
  const sum=compiled.model.rooms.reduce((n,r)=>n+area(r.points),0);assert.ok(Math.abs(sum-(160/240*10)**2)<1);
-});
-test('Detail regions are computed from geometry across different layouts, without building-specific coordinates',()=>{
- const base={version:1,summary:'',warnings:[],outline:rect(0,0,1000,1000),elements:Array.from({length:9},(_,i)=>el('room'+i,'room',rect(50+i%3*300,60+Math.floor(i/3)*300,200,200)))};
- const regions=detailRegions(base);assert.equal(regions.length,3);assert.equal(new Set(regions.flatMap(r=>r.spaceIds)).size,9);assert.ok(regions.every(r=>r.x>=0&&r.y>=0&&r.x+r.width<=1000&&r.y+r.height<=1000));
- const shifted=structuredClone(base);shifted.elements.forEach(e=>e.points.forEach(p=>p[0]+=10));assert.notDeepEqual(detailRegions(shifted),regions);
 });
 test('Detail replacement preserves outside and confirmed geometry without duplicating a replaced wall',()=>{
  const r={version:1,summary:'',warnings:[],outline:rect(0,0,1000,1000),elements:[el('long','wall',[[0,500],[1000,500]]),{...el('checked','wall',[[450,200],[450,800]]),confirmed:true},el('far','wall',[[0,0],[50,0]])]};

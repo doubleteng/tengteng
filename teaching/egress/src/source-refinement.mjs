@@ -1,8 +1,8 @@
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=auto-enclosure-1';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=whole-plan-1';
 import {normalizeSanitaryElements} from './sanitary-elements.mjs?v=door-detection-1';
 import {normalizeWallNetwork} from './wall-network.mjs?v=auto-enclosure-1';
 import {doorSwingEvidence,glazingBarrierEvidence,windowOverlaps} from './door-evidence.mjs?v=auto-enclosure-1';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=auto-enclosure-1';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=whole-plan-1';
 import {dist,segDist,project,lerp,edges} from './geometry.mjs?v=auto-enclosure-1';
 
 export function refinementSignature(result){
@@ -18,7 +18,7 @@ export function refinementSignature(result){
 export function refineSourceWalls(result,imageData){
  result={...result,elements:normalizeSanitaryElements(result.elements)};
  const previous=result.sourceRefinement;
- if(previous?.version===4&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
+ if(previous?.version===5&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
  const {width:w,height:h,mask}=strokeMask(imageData),unit=Math.max(w,h)/2000;
  const radius=Math.max(4,12*unit),inkRadius=Math.max(1,Math.round(1.5*unit));
  const px=q=>({x:q[0]*w/1000,y:q[1]*h/1000});
@@ -27,7 +27,7 @@ export function refineSourceWalls(result,imageData){
  const hit=(p,n,r=inkRadius)=>{for(let k=-r;k<=r;k++)if(at(p.x+n.x*k,p.y+n.y*k))return true;return false;};
  const hints=[];
  for(const e of result.elements){
-  if(e.confirmed||!['wall','window','room','corridor','lobby'].includes(e.kind))continue;
+  if(e.confirmed||e.partial||!['wall','window','room','corridor','lobby'].includes(e.kind))continue;
   const ps=e.points.map(px),pairs=['wall','window'].includes(e.kind)?ps.slice(1).map((b,i)=>[ps[i],b]):edges(ps);
   for(const [a,b] of pairs)if(dist(a,b)>Math.max(8,10*unit))hints.push({a,b,e});
  }
@@ -87,7 +87,7 @@ export function refineSourceWalls(result,imageData){
   const point=t=>{const d=best.offset+center+best.slope*(t-l/2);return{x:a.x+u.x*t+n.x*d,y:a.y+u.y*t+n.y*d};};
   const start=point(0),end=point(l),nl=dist(start,end),normal={x:-(end.y-start.y)/nl,y:(end.x-start.x)/nl};
   let runStart=null,last=null,gap=0;
-  const flush=()=>{if(runStart!==null&&last-runStart>=(e.hostHint?Math.max(3,4*unit):Math.max(8,12*unit)))walls.push({a:point(runStart),b:point(last),hint:e.id,label:e.kind==='wall'?e.label:'Wall at '+(e.label||'enclosure'),score:best.coverage,band,explicit:['wall','window'].includes(e.kind)||e.id==='outline'});runStart=null;last=null;gap=0;};
+  const flush=()=>{if(runStart!==null&&last-runStart>=(e.hostHint?Math.max(3,4*unit):Math.max(8,12*unit)))walls.push({a:point(runStart),b:point(last),hint:e.id,label:e.kind==='wall'?e.label:'Wall at '+(e.label||'enclosure'),score:best.coverage,band,explicit:['wall','window'].includes(e.kind)});runStart=null;last=null;gap=0;};
   for(let t=0;t<=Math.ceil(l);t++){
    if(hit(point(t),normal,Math.max(inkRadius,Math.ceil(band)))){if(runStart===null)runStart=t;last=t;gap=0;}
    else if(++gap>Math.max(2,2*unit))flush();
@@ -141,6 +141,6 @@ export function refineSourceWalls(result,imageData){
  // Whole-image and detail reads can describe the same opening. Keep one.
  for(let i=kept.length-1;i>=0;i--){const e=kept[i];if(e.confirmed||!['door','entrance'].includes(e.kind))continue;const a=px(e.points[0]),b=px(e.points[1]),c=lerp(a,b,.5);const duplicate=kept.findIndex((v,j)=>j<i&&!v.confirmed&&['door','entrance'].includes(v.kind)&&dist(c,lerp(...v.points.slice(0,2).map(px),.5))<Math.max(3,Math.min(dist(a,b)*.35,12*unit)));if(duplicate>=0){if(e.openingEvidence?.located&&!kept[duplicate].openingEvidence?.located)kept[duplicate]=e;kept.splice(i,1);}}
  const out=attachSourceEvidence(refineFurnitureGeometry({...result,elements:kept,warnings:[...result.warnings]},imageData),imageData);
- out.sourceRefinement={version:4,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
+ out.sourceRefinement={version:5,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
  return out;
 }

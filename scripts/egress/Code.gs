@@ -51,7 +51,7 @@ function reserveVisionRequest_(session){
     const concurrent=Math.max(1,Math.min(10,Number(props.getProperty('VISION_MAX_CONCURRENT'))||3));
     if(active.length>=concurrent)throw Error('Recognition is busy with other plans. Please try again in a minute.');
     const cache=CacheService.getScriptCache(),sessionKey='vision-session-'+session,count=Number(cache.get(sessionKey))||0;
-    if(count>=12)throw Error('This recognition session has reached its allowance. Your drawing remains on this device.');
+    if(count>=48)throw Error('This recognition session has reached its allowance. Your drawing remains on this device.');
     const id=Utilities.getUuid();active.push({id:id,started:now});usage.count=(Number(usage.count)||0)+1;
     props.setProperties({VISION_SHARED_USAGE:JSON.stringify(usage),VISION_ACTIVE:JSON.stringify(active)});
     cache.put(sessionKey,String(count+1),21600);return id;

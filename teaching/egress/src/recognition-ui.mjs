@@ -1,7 +1,7 @@
 import {refineSourceWalls} from './source-refinement.mjs?v=portal-network-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=portal-network-1';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=opening-identity-1';
 import {roomPoint,uid} from './geometry.mjs?v=portal-network-1';
-import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=portal-network-1';
+import {semanticKinds,semanticColors,validateInterpretation,materializeInterpretation} from './semantic-plan.mjs?v=opening-identity-1';
 import {auditImport,attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions} from './import-quality.mjs?v=portal-network-1';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={room:'Room',corridor:'Corridor',lobby:'Lobby',exterior:'Outdoors',courtyard:'Courtyard',void:'Floor void',projection:'Other-floor / context',furniture:'Furniture',column:'Column',stair:'Stair footprint',window:'Window',wall:'Wall',door:'Door candidate',entrance:'Entrance candidate'};
@@ -43,6 +43,18 @@ export function reviewInterpretation({dialog,image,result,onApply,onSave,onCalib
   compiledElements=model.rooms.map(room=>({id:room.recognition?.sourceId||room.id,kind:room.role||'room',label:room.name,points:room.points.map(q=>[q.x/testImage.width*1000,(1-q.y/testImage.height)*1000]),holes:(room.holes||[]).map(poly=>poly.map(q=>[q.x/testImage.width*1000,(1-q.y/testImage.height)*1000]))}));
   const toImage=q=>[q.x/testImage.width*1000,(1-q.y/testImage.height)*1000];
   compiledOpenings=[...model.candidates.map(c=>({id:c.recognition.sourceId,kind:c.kind,points:c.points.map(toImage)})),...model.doors.map(d=>{const w=model.walls.find(w=>w.id===d.wallId),length=Math.hypot(w.b.x-w.a.x,w.b.y-w.a.y),dx=(w.b.x-w.a.x)/length*d.width/2,dy=(w.b.y-w.a.y)/length*d.width/2;return {id:d.recognition.sourceId,kind:'door',points:[toImage({x:d.x-dx,y:d.y-dy}),toImage({x:d.x+dx,y:d.y+dy})]};})];
+  // Keep one editable source object for one compiled opening. Otherwise a
+  // hidden leaf proposal can reappear as a second door after dragging it.
+  const mergedIds=new Set();
+  for(const o of [...model.candidates,...model.doors]){
+   const id=o.recognition?.sourceId,ids=o.recognition?.sourceIds||[],e=r.elements.find(e=>e.id===id);
+   if(!e||ids.length<2||!ids.some(other=>other!==id&&r.elements.some(e=>e.id===other)))continue;
+   const drawing=compiledOpenings.find(v=>v.id===id);
+   e.mergedSourceIds=[...new Set([...(e.mergedSourceIds||[]),...ids])];
+   if(drawing){e.points=drawing.points;e.kind=drawing.kind;}
+   for(const other of ids)if(other!==id)mergedIds.add(other);
+  }
+  if(mergedIds.size)r.elements=r.elements.filter(e=>!mergedIds.has(e.id));
   const audit=auditImport(model);for(const space of compiled.pending)audit.issues.unshift({code:'unclosed-space',title:space.name+': missing wall enclosure',detail:'The wall graph does not enclose this space. It will not contribute area or occupants. Fit the visible walls or read this region again.',objectId:space.id,point:space.point});connections=[...audit.connections,...model.doors.map(d=>({id:d.id,labels:d.sourceConnection,detected:true,hosted:true}))].map(c=>({...c,id:map.get(c.id)}));
   issues=audit.issues.filter(i=>detailChecks||['unclosed-space','enclosure','room-outside','room-overlap','room-crossing','room-opening','opening-spaces','opening-host'].includes(i.code)).map(i=>({...i,detail:!image.calibrated&&i.code==='wall-gap'?'Wall endpoints do not meet. Check the original junction and set the drawing scale.':i.detail,id:i.objectId==='__outline'?'__outline':map.get(i.objectId),q:[i.point.x/testImage.width*1000,(1-i.point.y/testImage.height)*1000]}));
   $('#recognition-quality').innerHTML=`<strong>${issues.length?issues.length+' geometry issues':'Wall graph closes'}</strong><small>${model.rooms.length} enclosed spaces · ${compiled.pending.length} missing enclosures · ${model.doors.length} detected doors · ${model.candidates.filter(c=>c.suggestedExit).length} exit candidates · ${model.candidates.filter(c=>!c.suggestedExit).length} other openings</small><div class="import-issues">${issues.map((i,n)=>`<button data-issue="${n}"><span>${n+1}</span>${esc(i.title)}</button>`).join('')}</div>`;

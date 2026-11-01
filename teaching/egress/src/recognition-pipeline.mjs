@@ -1,4 +1,4 @@
-import {materializeInterpretation} from './semantic-plan.mjs?v=portal-network-1';
+import {materializeInterpretation} from './semantic-plan.mjs?v=opening-identity-1';
 import {roomPoint} from './geometry.mjs?v=portal-network-1';
 
 const spaceKinds=['room','corridor','lobby'];

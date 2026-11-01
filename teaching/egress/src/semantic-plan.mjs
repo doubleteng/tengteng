@@ -1,3 +1,5 @@
+import {deduplicateOpenings,matchingDoor,reconcileOpeningCandidates} from './opening-identity.mjs?v=opening-identity-1';
+export {deduplicateOpenings} from './opening-identity.mjs?v=opening-identity-1';
 import {openingHost,openingSpaces} from './import-quality.mjs?v=portal-network-1';
 import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=portal-network-1';
 import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=portal-network-1';
@@ -16,7 +18,7 @@ export function validateInterpretation(input){
     const line=['wall','door','entrance','window'].includes(item.kind);
     if(points.length<(line?2:3))throw Error('An element has incomplete geometry.');
     if(!line&&area(points.map(([x,y])=>({x,y})))<1){warnings.push(text(item.label)+': empty polygon omitted.');continue;}
-    elements.push({id:item.id,kind:item.kind,label:text(item.label||item.kind),points,confidence:['high','medium','low'].includes(item.confidence)?item.confidence:'low',evidence:text(item.evidence),confirmed:item.confirmed===true,...(Number.isFinite(item.sourceBand)?{sourceBand:Math.max(0,Math.min(40,item.sourceBand))}:{}),...(item.openingEvidence?.located===true?{openingEvidence:{located:true,method:item.openingEvidence.method==='swing-and-jambs'?'swing-and-jambs':'jambs',swingScore:Math.max(0,Math.min(1,Number(item.openingEvidence.swingScore)||0)),autoDoor:item.openingEvidence.autoDoor===true}}:{}),...(item.sourceCheck&&Number.isFinite(item.sourceCheck.coverage)?{sourceCheck:{coverage:Math.max(0,Math.min(1,item.sourceCheck.coverage)),missingPixels:Math.max(0,Number(item.sourceCheck.missingPixels)||0),samples:Math.max(0,Number(item.sourceCheck.samples)||0)}}:{})});
+    elements.push({id:item.id,kind:item.kind,label:text(item.label||item.kind),points,confidence:['high','medium','low'].includes(item.confidence)?item.confidence:'low',evidence:text(item.evidence),confirmed:item.confirmed===true,...(Array.isArray(item.mergedSourceIds)?{mergedSourceIds:[...new Set(item.mergedSourceIds.filter(x=>typeof x==='string').map(text))].slice(0,200)}:{}),...(Number.isFinite(item.sourceBand)?{sourceBand:Math.max(0,Math.min(40,item.sourceBand))}:{}),...(item.openingEvidence?.located===true?{openingEvidence:{located:true,method:item.openingEvidence.method==='swing-and-jambs'?'swing-and-jambs':'jambs',swingScore:Math.max(0,Math.min(1,Number(item.openingEvidence.swingScore)||0)),autoDoor:item.openingEvidence.autoDoor===true}}:{}),...(item.sourceCheck&&Number.isFinite(item.sourceCheck.coverage)?{sourceCheck:{coverage:Math.max(0,Math.min(1,item.sourceCheck.coverage)),missingPixels:Math.max(0,Number(item.sourceCheck.missingPixels)||0),samples:Math.max(0,Number(item.sourceCheck.samples)||0)}}:{})});
   }
   const outline=Array.isArray(input.outline)?input.outline:[];
   if(outline.length>160||outline.some(q=>!Array.isArray(q)||q.length!==2||q.some(v=>!Number.isFinite(v)||v<0||v>1000)))throw Error('Invalid floor enclosure.');
@@ -33,7 +35,7 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
   if(!image.calibrated)throw Error('Calibrate a known dimension before creating the analysis model.');
   const batch=uid(),out={outline:result.outline.map(q=>imagePoint(image,q)),rooms:[],walls:[],doors:[],stairs:[],features:[],candidates:[],recognition:{batch,summary:result.summary,warnings:[...result.warnings],reviewed:false}};
   const selected=result.elements.filter(e=>include.has(e.id));
-  const common=e=>({id:uid(),name:e.label,recognition:{batch,sourceId:e.id,confidence:e.confidence,evidence:e.evidence,reviewed:e.confirmed===true,sourceCheck:e.sourceCheck}});
+  const common=e=>({id:uid(),name:e.label,recognition:{batch,sourceId:e.id,sourceIds:e.mergedSourceIds,confidence:e.confidence,evidence:e.evidence,reviewed:e.confirmed===true,sourceCheck:e.sourceCheck}});
   for(const e of selected){
     const points=e.points.map(q=>imagePoint(image,q)),o=common(e);
     if(['room','corridor','lobby'].includes(e.kind)){out.rooms.push({...o,points,role:e.kind,function:'business',group:'B',factor:150,basis:'gross',areaConfirmed:false,fromWalls:true});}
@@ -50,24 +52,10 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
   return out;
 }
 
-export function deduplicateOpenings(walls,candidates){
- const kept=[];
- for(const c of candidates){
-  const host=openingHost(walls,c.points);if(host.error){kept.push(c);continue;}
-  const [a,b]=c.points,l=dist(a,b),u={x:(b.x-a.x)/l,y:(b.y-a.y)/l};
-  const duplicate=kept.findIndex(v=>{
-   if(openingHost(walls,v.points).error)return false;
-   const [x,y]=v.points,n=dist(x,y);if(!n||Math.abs((y.x-x.x)/n*u.y-(y.y-x.y)/n*u.x)>.05)return false;
-   if(Math.abs((x.x-a.x)*u.y-(x.y-a.y)*u.x)>.08)return false;
-   const t=p=>(p.x-a.x)*u.x+(p.y-a.y)*u.y,lo=Math.min(t(x),t(y)),hi=Math.max(t(x),t(y));
-   return Math.min(l,hi)-Math.max(0,lo)>=Math.min(l,n)*.65&&Math.abs((lo+hi-l)/2)<Math.max(l,n)*.3;
-  });
-  if(duplicate<0)kept.push(c);
-  else if((c.openingEvidence?.swingScore||0)>(kept[duplicate].openingEvidence?.swingScore||0))kept[duplicate]=c;
- }
- return kept;
-}
 export function confirmOpening(floor,candidate,{exit=false,width=null,reviewed=true}={}){
+  const existing=matchingDoor(floor,candidate);if(existing)return existing;
+  const merged=deduplicateOpenings(floor.walls,[candidate,...(floor.candidates||[]).filter(c=>c.id!==candidate.id)]);
+  candidate=merged.find(c=>c.id===candidate.id||c.mergedCandidateIds?.includes(candidate.id))||candidate;
   const [a,b]=candidate.points,center={x:(a.x+b.x)/2,y:(a.y+b.y)/2},clear=width??dist(a,b);
   if(!(clear>.05&&clear<20))throw Error('Enter the measured clear opening width.');
   const host=openingHost(floor.walls,candidate.points,clear);
@@ -76,7 +64,7 @@ export function confirmOpening(floor,candidate,{exit=false,width=null,reviewed=t
   let wall=host.wall;
   if(host.gap){wall={id:uid(),...host.gap,openingHost:true,recognition:{...candidate.recognition,reviewed,evidence:(reviewed?'Confirmed':'Detected')+' opening between the source jambs.'}};floor.walls.push(wall);}
   const door={id:uid(),name:candidate.name||'Door',wallId:wall.id,x:host.center.x,y:host.center.y,width:clear,exit,discharge:exit&&floor.elevation===0?'site':'none',recognition:{...candidate.recognition,reviewed},sourceConnection:connection.labels};
-  floor.doors.push(door);floor.candidates=(floor.candidates||[]).filter(c=>c.id!==candidate.id);if(floor.roomGeometry==='walls')syncEnclosedRooms(floor);return door;
+  floor.doors.push(door);floor.candidates=merged.filter(c=>c.id!==candidate.id);reconcileOpeningCandidates(floor);if(floor.roomGeometry==='walls')syncEnclosedRooms(floor);return door;
 }
 
 // A swing alone is not a connection: require a unique host and two distinct

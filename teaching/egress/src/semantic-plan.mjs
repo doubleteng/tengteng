@@ -1,5 +1,5 @@
 import {openingHost,openingSpaces} from './import-quality.mjs?v=recognition-graph-1';
-import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=wall-rooms-1';
+import {enableWallRooms,syncEnclosedRooms} from './editable-plan.mjs?v=stair-evidence-1';
 import {area,dist,edges,inside,project,segDist,uid} from './geometry.mjs?v=wall-rooms-1';
 
 export const semanticKinds=['room','corridor','lobby','exterior','courtyard','void','projection','furniture','column','stair','window','wall','door','entrance'];
@@ -26,7 +26,7 @@ export function imagePoint(image,q){const c=Math.cos(image.rotation||0),s=Math.s
 export function featureObstacles(floor){return (floor.features||[]).filter(f=>f.blocksMovement===true&&['furniture','column'].includes(f.kind));}
 export function excludedSpaces(floor){return (floor.features||[]).filter(f=>['courtyard','void','exterior'].includes(f.kind));}
 
-// Explicit semantic polygons define rooms. Furniture is NEVER an input to the
+// Semantic polygons supply labels; closed walls define rooms. Furniture is NEVER an input to the
 // room graph. Imported openings are candidates until individually confirmed.
 export function materializeInterpretation(result,image,{include=new Set(result.elements.map(e=>e.id)),defaultThickness=.15,deriveRooms=true}={}){
   if(!image.calibrated)throw Error('Calibrate a known dimension before creating the analysis model.');
@@ -37,7 +37,7 @@ export function materializeInterpretation(result,image,{include=new Set(result.e
     const points=e.points.map(q=>imagePoint(image,q)),o=common(e);
     if(['room','corridor','lobby'].includes(e.kind)){out.rooms.push({...o,points,role:e.kind,function:'business',group:'B',factor:150,basis:'gross',areaConfirmed:false,fromWalls:true});}
     else if(e.kind==='wall'){for(let i=1;i<points.length;i++)if(dist(points[i-1],points[i])>.01)out.walls.push({...o,id:uid(),a:points[i-1],b:points[i],thickness:defaultThickness});}
-    else if(e.kind==='stair')out.stairs.push({...o,points,link:'Unlinked '+e.label,width:1.2,travelLength:7,protected:false});
+    else if(e.kind==='stair')out.stairs.push({...o,points,link:'Unlinked '+e.label,width:1.2,travelLength:null,protected:false,direction:'unknown',navigationConfirmed:false,navigationVersion:1,flightPath:[],destinationFloorId:null});
     else if(['door','entrance'].includes(e.kind))out.candidates.push({...o,kind:e.kind,points,confirmed:false});
     else out.features.push({...o,kind:e.kind,points,blocksMovement:false});
   }

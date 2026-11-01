@@ -1,5 +1,5 @@
 import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=wall-rooms-1';
-import {intersection} from './drafting.mjs?v=wall-rooms-1';
+import {intersection} from './drafting.mjs?v=stair-evidence-1';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.

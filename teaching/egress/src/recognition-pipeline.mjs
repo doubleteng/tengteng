@@ -1,4 +1,4 @@
-import {materializeInterpretation} from './semantic-plan.mjs?v=recognition-graph-1';
+import {materializeInterpretation} from './semantic-plan.mjs?v=stair-evidence-1';
 import {roomPoint} from './geometry.mjs?v=wall-rooms-1';
 
 const spaceKinds=['room','corridor','lobby'];

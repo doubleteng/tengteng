@@ -1,13 +1,15 @@
+import {stairLanding} from './stairs.mjs?v=stair-evidence-1';
 import {pendingOpeningBarriers} from './import-quality.mjs?v=recognition-graph-1';
 import {makeGrid,flood,route,insideRoom,floorRegions,splitWalls} from './geometry.mjs?v=wall-rooms-1';
-import {floorOpenings,inOpening} from './openings.mjs?v=recognition-graph-1';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=recognition-graph-1';
+import {floorOpenings,inOpening} from './openings.mjs?v=stair-evidence-1';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=stair-evidence-1';
 
 // An open or unverified stair can be a circulation destination without being
 // accepted as an exit. These paths never enter the egress field or capacity sum.
 export function stairCirculation(p,fi,roomResults,egressRoutes){
  const f=p.floors[fi],routes=[],notices=[];
- const targets=(f.stairs||[]).filter(s=>!s.protected&&f.elevation>0&&s.points?.length&&!inOpening(p,fi,s.points[0])).map(s=>({...s,...s.points[0]}));
+ for(const s of f.stairs||[])if(!stairLanding(s))notices.push({id:s.id,name:s.name,point:s.points[0],rooms:0,partial:0,title:(s.name||'Stair')+': direction and landing unknown',detail:'The footprint does not establish the flight direction or current-floor entrance. Trace the path from the real landing using the drawing’s UP/DN arrow, then choose its destination floor. No route is connected to a guessed corner.'});
+ const targets=(f.stairs||[]).filter(s=>!s.protected&&f.elevation>0&&stairLanding(s)&&!inOpening(p,fi,stairLanding(s))).map(s=>({...s,...stairLanding(s)}));
  if(!targets.length||f.outline.length<3)return {routes,notices};
  const candidates=f.rooms.filter(r=>r.role!=='corridor'&&!egressRoutes.some(x=>x.room===r.id&&x.completeCoverage));
  if(!candidates.length)return {routes,notices};

@@ -49,3 +49,10 @@ test('Detail replacement preserves outside and confirmed geometry without duplic
  const before=structuredClone(r),merged=mergeDetail(r,detail,region);assert.deepEqual(r,before);assert.equal(merged.accepted,true);assert.ok(merged.result.elements.some(e=>e.id==='checked'&&e.confirmed));assert.ok(merged.result.elements.some(e=>e.id.startsWith('far')));assert.equal(merged.result.elements.filter(e=>e.id==='long').length,0);
  assert.equal(mergeDetail(r,{...detail,elements:[]},region).accepted,false);
 });
+test('A detail opening replaces coarse glazing only within its inspected core',()=>{
+ const r={version:1,summary:'',warnings:[],outline:[],elements:[el('glazing','window',[[0,500],[1000,500]])]},region={id:'opening',x:400,y:400,width:200,height:200,core:{left:400,top:400,right:600,bottom:600}};
+ const detail={version:1,summary:'',warnings:[],outline:[],elements:[el('door','door',[[200,500],[800,500]])]};
+ const m=mergeDetail(r,detail,region).result;
+ assert.deepEqual(m.elements.filter(e=>e.kind==='window').map(e=>e.points),[[[0,500],[400,500]],[[600,500],[1000,500]]]);
+ assert.equal(m.elements.filter(e=>e.kind==='door').length,1);
+});

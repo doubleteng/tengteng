@@ -1,4 +1,5 @@
 import {pendingOpeningBarriers} from './import-quality.mjs?v=wall-faces-1';
+import {excludedCell} from './architectural-elements.mjs?v=topology-rebuild-1';
 import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=auto-enclosure-1';
 import {intersection} from './drafting.mjs?v=auto-enclosure-1';
 
@@ -91,7 +92,7 @@ function syncWallRooms(floor){
  const result=enclosedRooms([...floor.walls,...portals],{minArea:.05});
  let cells=roomsFromFaces(result.faces,previous).map(r=>({...r,geometrySource:'walls',fromWalls:true}));
  // Exterior/courtyard and floor-void polygons classify cells, not partitions.
- cells=cells.filter(r=>!(floor.features||[]).some(f=>['exterior','courtyard','void'].includes(f.kind)&&r.points.every(q=>inside(q,f.points)||edges(f.points).some(([a,b])=>segDist(q,a,b)<.01))));
+ cells=cells.filter(r=>!excludedCell(r,floor.features||[]));
  for(const seed of floor.spaceSeeds){const old=previous.find(r=>r.id===seed.id&&r.geometrySource==='walls'),cell=old&&cells.find(r=>r.id===old.id);if(cell)seed.point=roomPoint(cell);}
  const assigned=new Set();
  for(const cell of cells){

@@ -42,7 +42,7 @@ export class VisionConnection{
   return new Promise((resolve,reject)=>{
    const requestId=crypto.randomUUID(),timer=setTimeout(()=>{this.pending.delete(requestId);reject(Error('Recognition timed out. Your drawing is unchanged. Please try again.'));},request.action==='recognizePlan'?300000:30000);
    this.pending.set(requestId,{resolve,reject,timer});
-   this.source.postMessage({type:'egress-vision-request',nonce:this.nonce,requestId,request:{action:request.action,image:request.image}},this.origin);
+   this.source.postMessage({type:'egress-vision-request',nonce:this.nonce,requestId,request:{action:request.action,image:request.image,focus:request.focus==='openings'?'openings':'architecture'}},this.origin);
   });
  }
 }

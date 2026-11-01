@@ -60,3 +60,30 @@ can sit a few pixels outside a model polygon. Known polygon edges now receive
 the same narrow tolerance as known walls. Visible door arcs/leaves are excluded
 using their recognized jambs and swing side; the surrounding area is not masked.
 Tests keep a separate omitted wing detectable next to those symbols.
+
+## Live service validation (2026-11-01)
+
+The same 1400 × 840 synthetic double-line PNG was imported fresh for each run.
+The first parallel probe took 346.15 s and made 20 model requests. Coverage
+false alarms left seven of eleven subdivided regions unread; this was not the
+old production serial baseline.
+
+The final candidate reached a resumable draft in 121.67 s with six model calls
+and peak concurrency two. Three of four regions were read once without
+subdivision. The fourth region stopped at the existing shared daily allowance.
+The limit was not increased. This is **not a completed end-to-end latency
+measurement**, so it does not establish a speedup percentage or a promise for
+a student's ten-minute drawing.
+
+The actual UI export matches all six indoor spaces and their roles/areas, both
+outdoor spaces and roof states, and all nine doorway assemblies and directions,
+with no extra doorways or pending spaces. The coverage gate still correctly
+prevents applying the incomplete draft. The saved run retains completed regions
+for continuation after allowance renewal. Model-failure counters include local
+response validation as well as provider errors.
+
+Machine-readable timings and counts are in
+`tests/egress/evidence/recognition-speed.json`; the actual UI screenshot is
+`tests/egress/evidence/recognition-speed.jpg`. No student plan or API key is
+included. A completed fresh real-service timing remains to be measured after
+the current allowance resets.

@@ -3,7 +3,7 @@ import {repairReconstruction} from './reconstruction-repair.mjs?v=recognition-sp
 import {recognitionTiming,elapsedLabel} from './recognition-timing.mjs?v=recognition-speed-2';
 import {outdoorDescription} from './architectural-elements.mjs?v=recognition-speed-2';
 import {recognitionProblem} from './recognition-state.mjs?v=recognition-speed-2';
-import {coverageRegions,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=recognition-speed-2';
+import {coverageRegions,coverageContext,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=recognition-speed-2';
 import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-2';
 import {doorAssemblyFields,doorScheduleReport,nonSwingDoor} from './door-assembly.mjs?v=recognition-speed-2';
 import {reconcileOpeningCandidates} from './opening-identity.mjs?v=recognition-speed-2';
@@ -410,9 +410,9 @@ function recognizeCad(){
  const run=()=>{const b=bounds(lines.flatMap(s=>[s.a,s.b])),pad=Math.max(b.maxX-b.minX,b.maxY-b.minY)*.02,w=b.maxX-b.minX+pad*2,h=b.maxY-b.minY+pad*2;if(!(w>0&&h>0))return toast('Select a two-dimensional plan.');const c=document.createElement('canvas'),k=2400/Math.max(w,h);c.width=Math.ceil(w*k);c.height=Math.ceil(h*k);const ctx=c.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#202c26';ctx.lineWidth=1.4;ctx.beginPath();for(const s of lines){ctx.moveTo((s.a.x-b.minX+pad)*k,(b.maxY+pad-s.a.y)*k);ctx.lineTo((s.b.x-b.minX+pad)*k,(b.maxY+pad-s.b.y)*k);}ctx.stroke();remember();f.image={src:c.toDataURL('image/png'),name:'Selected CAD layers',x:b.minX-pad,y:b.minY-pad,width:w,height:h,rotation:0,calibrated:true,pixelWidth:c.width,pixelHeight:c.height,calibration:{method:'CAD source units'},linework:{method:'Original CAD vectors',warnings:[],segments:lines.map(s=>({a:{x:(s.a.x-b.minX+pad)/w,y:(s.a.y-b.minY+pad)/h},b:{x:(s.b.x-b.minX+pad)/w,y:(s.b.y-b.minY+pad)/h}}))}};change();recognizeReference();};
  if(f.image){modal('Use the visible CAD layers', '<p>The current image reference will be replaced by a view of the visible CAD layers. Original CAD coordinates remain available. Undo restores the image.</p><button id="cad-recognition-start" class="primary">Use these CAD layers</button>');$('#cad-recognition-start').onclick=run;}else run();
 }
-async function readPlanRegion(bitmap,region){
+async function readPlanRegion(bitmap,region,context=[]){
  const c=document.createElement('canvas'),w=region.width/1000*bitmap.width,h=region.height/1000*bitmap.height,k=Math.min(2,2400/Math.max(w,h));c.width=Math.round(w*k);c.height=Math.round(h*k);const ctx=c.getContext('2d');ctx.drawImage(bitmap,region.x/1000*bitmap.width,region.y/1000*bitmap.height,w,h,0,0,c.width,c.height);const original=ctx.getImageData(0,0,c.width,c.height),enhanced=enhancePlanContrast(original);ctx.putImageData(new ImageData(enhanced.data,c.width,c.height),0,0);
- const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(!region.focus&&hasUnresolvedStructure(detail,original))throw Error('Unresolved structure remains outside the recognized areas. Retrying smaller regions.');return detail;
+ const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(!region.focus&&hasUnresolvedStructure(detail,original,context))throw Error('Unresolved structure remains outside the recognized areas. Retrying smaller regions.');return detail;
 }
 async function fitRecognizedSource(result,pixels){
  const worker=new Worker(new URL('./source-worker.mjs?v=recognition-speed-2',import.meta.url),{type:'module'});
@@ -437,7 +437,7 @@ async function recognizeReference(reread=false){
     $('#vision-elapsed')?.remove();const elapsed=document.createElement('p');elapsed.id='vision-elapsed';elapsed.className='small';elapsed.setAttribute('role','status');button.after(elapsed);
     const updateElapsed=()=>{elapsed.textContent=elapsedLabel(timing.elapsed())+' elapsed';};updateElapsed();clock=setInterval(updateElapsed,1000);
     const stopped=()=>!button.isConnected||!$('#modal').open||!p.floors.includes(f)||f.image!==im;
-    const read=region=>timing.measure('model',()=>readPlanRegion(bitmap,region));
+    const read=region=>timing.measure('model',()=>readPlanRegion(bitmap,region,coverageContext(run.result,region)));
     let result={interpretation:run.result,model:status.model},overview=false;
     if(!resume){try{result=await timing.measure('model',()=>vision.request({action:'recognizePlan',image}));run.result=validateInterpretation(result.interpretation);overview=true;}catch(error){run.result.warnings.push('Overview unavailable; continuing with individual regions: '+error.message);}}
     if(stopped())return;

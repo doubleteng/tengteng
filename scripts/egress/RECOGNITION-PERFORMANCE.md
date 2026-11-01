@@ -42,7 +42,14 @@ run took 327 ms serially and 162 ms with two requests, with identical merge
 order and eight calls in both cases. This isolates scheduling; it is not a
 Gemini speed guarantee or a measurement of a student's ten-minute upload.
 
-294 regression tests pass, including out-of-order completion, deterministic
+295 regression tests pass, including out-of-order completion, deterministic
 splitting, cancellation/resume, quota handling, serial fallback, repair budgets,
 and stopping after an early successful repair. Source geometry safeguards remain
 covered by the recognition regression suite.
+
+The first live parallel test exposed a repeated-read trigger: crop coverage
+checks discarded already recognized whole-sheet room/fixture context. The
+revised check maps complete, non-low-confidence context into crop coordinates.
+A detail still needs its own architectural wall evidence, and source components
+outside both interpretations still trigger subdivision. Geometry acceptance
+checks and unread-region reporting remain unchanged.

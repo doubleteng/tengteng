@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readCoverage,coverageRegions} from '../../teaching/egress/src/plan-coverage.mjs';
+import {readCoverage,coverageRegions,coverageContext,hasUnresolvedStructure} from '../../teaching/egress/src/plan-coverage.mjs';
 import {mergeDetail} from '../../teaching/egress/src/recognition-pipeline.mjs';
 import {repairReconstruction} from '../../teaching/egress/src/reconstruction-repair.mjs';
 import {recognitionTiming,elapsedLabel} from '../../teaching/egress/src/recognition-timing.mjs';
@@ -12,6 +12,18 @@ const empty=()=>({version:1,summary:'fixture',outline:[],elements:[],warnings:[]
 const el=(id,kind,points)=>({id,kind,points,label:id,confidence:'high'});
 const run=()=>({result:empty(),regions:coverageRegions(4400,500)});
 const merge=(result,detail,region)=>({result:{...result,elements:[...result.elements,region.id]}});
+
+test('Whole-sheet context prevents repeated furniture reads but cannot hide a genuinely omitted wing',()=>{
+ const pixels={width:400,height:200,data:new Uint8ClampedArray(400*200*4).fill(255)};
+ const draw=(x0,y0,x1,y1)=>{for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const k=(y*400+x)*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=30;}};
+ draw(40,50,180,52);draw(40,50,42,150);draw(178,50,180,150);draw(40,148,180,150);
+ const detail={...empty(),elements:[el('wall','wall',[[50,0],[50,1000]])]},overview={...empty(),elements:[el('known-room','room',[[50,0],[600,0],[600,1000],[50,1000]])]},region={x:0,y:0,width:1000,height:1000};
+ assert.equal(hasUnresolvedStructure(detail,pixels),true);
+ assert.equal(hasUnresolvedStructure(detail,pixels,coverageContext(overview,region)),false);
+ assert.equal(hasUnresolvedStructure(empty(),pixels,coverageContext(overview,region)),true,'An empty tile response cannot use the overview to certify its own walls');
+ draw(320,30,322,180);assert.equal(hasUnresolvedStructure(detail,pixels,coverageContext(overview,region)),true);
+ assert.deepEqual(coverageContext(overview,{x:250,y:250,width:500,height:500})[0].points[0],[-400,-500]);
+});
 
 test('Two regions read concurrently but out-of-order replies merge in source order',async()=>{
  const state=run(),waiting=new Map(),started=[];

@@ -1,5 +1,5 @@
-import {fresh,functions} from './model.mjs?v=topology-rebuild-6';
-import {edges} from './geometry.mjs?v=topology-rebuild-6';
+import {fresh,functions} from './model.mjs?v=recognition-speed-2';
+import {edges} from './geometry.mjs?v=recognition-speed-2';
 const rect=(x,y,w,h)=>[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}];
 const room=(id,name,points,role='room')=>({id,name,points,role,function:'gallery',factor:30,basis:'net',group:'A',areaConfirmed:false});
 function walls(f,points,prefix){for(const [i,[a,b]] of edges(points).entries())f.walls.push({id:prefix+i,a:{...a},b:{...b},thickness:.15});}

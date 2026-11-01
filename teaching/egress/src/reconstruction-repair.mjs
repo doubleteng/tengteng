@@ -1,6 +1,7 @@
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-6';
-import {openingHost} from './import-quality.mjs?v=topology-rebuild-6';
-import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=topology-rebuild-6';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=recognition-speed-2';
+import {openingHost} from './import-quality.mjs?v=recognition-speed-2';
+import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=recognition-speed-2';
+import {ReadAhead,serviceUnavailable,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-2';
 
 const sourcePoint=(p,image)=>{
  const dx=p.x-(image.x||0),dy=p.y-(image.y||0),c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0);
@@ -27,8 +28,8 @@ export function reconstructionQuality(result,image){
 
 // Read complete neighborhoods around actual graph failures. Crop ownership
 // still belongs to the core; the larger image carries adjacent jambs and rooms.
-export function reconstructionTargets(result,image,{limit=8}={}){
- const quality=reconstructionQuality(result,image),targets=[];
+export function reconstructionTargets(result,image,{limit=8,quality=reconstructionQuality(result,image)}={}){
+ const targets=[];
  const point=p=>({x:p[0],y:p[1]});
  const boundaries=result.elements.filter(e=>['wall','door','entrance'].includes(e.kind)).flatMap(e=>e.points.slice(1).map((b,i)=>[point(e.points[i]),point(b)]));
  const add=(point,width,height,priority,focus='architecture')=>{
@@ -101,21 +102,38 @@ export function improvesReconstruction(before,after){
 
 // The caller owns persistence and cancellation. Rejected responses never
 // replace the best saved model, and a provider failure never destroys progress.
-export async function repairReconstruction(run,{image,read,fit,onProgress=()=>{},cancelled=()=>false,maxCalls=12}){
+export async function repairReconstruction(run,{image,read,fit,onProgress=()=>{},cancelled=()=>false,maxCalls=12,concurrency=1}){
  let fitted=await fit(run.result),quality=reconstructionQuality(fitted,image);
  const ledger=run.repairs??=[],keyFor=t=>'v2:'+t.focus+':'+[t.x,t.y,t.width,t.height].map(n=>Math.round(n/5)*5).join(':'),attempted=new Set(ledger.filter(e=>['accepted','rejected'].includes(e.state)&&e.key?.startsWith('v2:')).map(e=>e.key));let calls=0;
+ const progress=serialProgress(onProgress);
  if(run.regions?.some(r=>r.state!=='read'))return {result:fitted,quality,incompleteCoverage:true};
  for(let round=0;round<3&&!quality.complete&&calls<maxCalls;round++){
-  const targets=reconstructionTargets(fitted,image,{limit:Infinity}).filter(t=>!attempted.has(keyFor(t))).slice(0,8);
+  const unique=new Set(attempted),targets=reconstructionTargets(fitted,image,{limit:Infinity,quality}).filter(t=>{const key=keyFor(t);if(unique.has(key))return false;unique.add(key);return true;}).slice(0,Math.min(8,maxCalls-calls));
   if(!targets.length)break;
-  for(const target of targets){
-   if(cancelled()||calls>=maxCalls)return {result:fitted,quality,cancelled:cancelled()};
-   const key=keyFor(target);
-   if(attempted.has(key))continue;attempted.add(key);
-   const region={...target,id:'repair-'+ledger.length},entry={key,region,state:'reading'};ledger.push(entry);calls++;
-   await onProgress({run,entry,calls,quality});
+  const entries=new Map();
+  const request=async target=>{
+   const key=keyFor(target),saved=ledger.find(e=>e.key===key&&e.detail&&['ready','cancelled'].includes(e.state));
+   const entry=saved||{key,region:{...target,id:'repair-'+ledger.length},state:'reading'};entries.set(target,entry);
+   if(saved)return saved.detail;
+   if(calls>=maxCalls){entry.state='pending';throw Error('Detail request budget reached. Completed details are saved.');}
+   ledger.push(entry);calls++;await progress({run,entry,calls,quality});const started=Date.now();
+   try{entry.detail=await read(entry.region);entry.state='ready';return entry.detail;}
+   catch(error){entry.state='failed';entry.error=String(error.message||error).slice(0,220);throw error;}
+   finally{entry.durationMs=Date.now()-started;await progress({run,entry,calls,quality});}
+  };
+  const pool=new ReadAhead(request,{concurrency,cancelled});
+  try{for(let index=0;index<targets.length;index++){
+   const target=targets[index];if(cancelled())return {result:fitted,quality,cancelled:true};
+   pool.prime(targets.slice(index));let reply=await pool.take(target);if(!reply)break;
+   if(busyService(reply.error)&&pool.limit>1&&calls<maxCalls&&!cancelled()){
+    pool.limit=1;concurrency=1;await pool.settle();try{reply={value:await request(target)};pool.paused=false;}catch(error){reply={error};}
+   }
+   const entry=entries.get(target),region=entry.region;
+   if(cancelled())return {result:fitted,quality,cancelled:true};
+   attempted.add(entry.key);
    try{
-    const detail=await read(region);entry.detail=detail;if(cancelled()){entry.state='cancelled';return {result:fitted,quality,cancelled:true};}
+    if(reply.error)throw reply.error;
+    const detail=reply.value;
     // Opening inventory has no mandate to redraw all partitions in a tile.
     // Try its portals first. Source fitting can recover real short jamb walls
     // from those positions. Only consider the complete returned wall set when
@@ -131,11 +149,11 @@ export async function repairReconstruction(run,{image,read,fit,onProgress=()=>{}
     }
    }catch(error){
     entry.state='failed';entry.error=String(error.message||error).slice(0,220);
-    if(/quota|allowance|access|session|429|busy|connect/i.test(entry.error)){await onProgress({run,entry,calls,quality});return {result:fitted,quality,error:entry.error};}
+    if(serviceUnavailable(entry.error)||/request budget/.test(entry.error)){await progress({run,entry,calls,quality});return {result:fitted,quality,error:entry.error};}
    }
-   await onProgress({run,entry,calls,quality});
+   await progress({run,entry,calls,quality});
    if(quality.complete)break;
-  }
+  }}finally{await pool.close();await progress({run,entry:null,calls,quality});}
  }
  return {result:fitted,quality};
 }

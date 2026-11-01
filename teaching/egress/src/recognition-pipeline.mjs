@@ -1,8 +1,8 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-6';
-import {materializeInterpretation} from './semantic-plan.mjs?v=topology-rebuild-6';
-import {roomPoint,inside,area,segDist,dist} from './geometry.mjs?v=topology-rebuild-6';
-import {sanitaryKinds} from './sanitary-elements.mjs?v=topology-rebuild-6';
-import {windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-6';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=recognition-speed-2';
+import {materializeInterpretation} from './semantic-plan.mjs?v=recognition-speed-2';
+import {roomPoint,inside,area,segDist,dist} from './geometry.mjs?v=recognition-speed-2';
+import {sanitaryKinds} from './sanitary-elements.mjs?v=recognition-speed-2';
+import {windowOverlaps} from './door-evidence.mjs?v=recognition-speed-2';
 
 const spaceKinds=['room','corridor','lobby'];
 const midpoint=e=>{const p=roomPoint({points:e.points.map(([x,y])=>({x,y}))});return [p.x,p.y];};

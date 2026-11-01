@@ -1,0 +1,98 @@
+{
+  "date": "2026-11-01",
+  "scope": "One synthetic double-line plan; live shared service. Not a universal latency guarantee.",
+  "imageSha256": "2b33067e6ed822b78660fe75c61c4bfc2d232b32c7e4032d53d05da3ba8f57dc",
+  "tests": 297,
+  "controlledScheduling": {
+    "calls": 8,
+    "simulatedResponseMs": 40,
+    "serialMs": 327,
+    "parallelMs": 162,
+    "sameMergeOrder": true
+  },
+  "firstParallelProbe": {
+    "elapsedMs": 346150.19999999553,
+    "phases": {
+      "model": {
+        "calls": 20,
+        "failures": 15,
+        "totalMs": 475070.79999998957,
+        "maxConcurrent": 2
+      },
+      "coverage": {
+        "calls": 1,
+        "failures": 0,
+        "totalMs": 309517.90000000596,
+        "maxConcurrent": 1
+      },
+      "reconstruction": {
+        "calls": 1,
+        "failures": 0,
+        "totalMs": 502.09999999403954,
+        "maxConcurrent": 1
+      },
+      "geometry": {
+        "calls": 1,
+        "failures": 0,
+        "totalMs": 456.5,
+        "maxConcurrent": 1
+      }
+    },
+    "regions": 11,
+    "unread": 7,
+    "note": "First concurrent implementation, before whole-sheet context and known-symbol coverage fixes. Repeated coverage alarms left seven regions unread. This is not a production serial baseline."
+  },
+  "finalLiveProbe": {
+    "candidate": "recognition-speed-3",
+    "elapsedMs": 121666.5,
+    "phases": {
+      "model": {
+        "calls": 6,
+        "failures": 2,
+        "totalMs": 185730.50000000745,
+        "maxConcurrent": 2
+      },
+      "coverage": {
+        "calls": 1,
+        "failures": 0,
+        "totalMs": 72663,
+        "maxConcurrent": 1
+      },
+      "reconstruction": {
+        "calls": 1,
+        "failures": 0,
+        "totalMs": 600.8999999985099,
+        "maxConcurrent": 1
+      },
+      "geometry": {
+        "calls": 1,
+        "failures": 0,
+        "totalMs": 555.2999999970198,
+        "maxConcurrent": 1
+      }
+    },
+    "finished": false,
+    "regions": 4,
+    "read": 3,
+    "unread": 1,
+    "blockingError": "Error: Today\u2019s shared recognition allowance has been used. Your drawing is saved locally; contact your instructor.",
+    "geometryEvaluation": {
+      "expectedIndoor": 6,
+      "actualIndoor": 6,
+      "uniqueIndoorMatches": 6,
+      "indoorAreaMatches": 6,
+      "indoorRoleMatches": 6,
+      "exteriorMatches": 2,
+      "exteriorCoverMatches": 2,
+      "expectedDoorways": 9,
+      "doorwayMatches": 9,
+      "sourceLocatedDoorways": 9,
+      "directionMatches": 9,
+      "extraDoorways": 0,
+      "extraExterior": 0,
+      "pendingExterior": 0,
+      "pendingSpaces": 0
+    },
+    "note": "Three regions read once; fourth region stopped at the existing shared daily allowance. 2:01 is time to a resumable incomplete draft, not full completion. Quota was not increased. No source-coverage subdivision occurred. All geometry assertions passed on the draft, but the coverage gate correctly kept analysis disabled."
+  }
+}

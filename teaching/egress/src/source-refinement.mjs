@@ -1,10 +1,10 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-6';
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-6';
-import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-6';
-import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-6';
-import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-6';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-6';
-import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-6';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=recognition-speed-2';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-2';
+import {normalizeWallNetwork} from './wall-network.mjs?v=recognition-speed-2';
+import {collapseWallFaces} from './wall-faces.mjs?v=recognition-speed-2';
+import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=recognition-speed-2';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=recognition-speed-2';
+import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=recognition-speed-2';
 
 export function refinementSignature(result){
  let hash=2166136261;
@@ -225,7 +225,7 @@ export function refineSourceWalls(result,imageData){
  for(const s of unique)kept.push({id:newId(),kind:'wall',label:s.label||'Source wall',points:[norm(s.a),norm(s.b)],sourceBand:Math.min(40,s.band||inkRadius),confidence:'medium',evidence:'Wall position fitted to source strokes within an architectural boundary band. Openings require confirmation.',confirmed:false});
  // Whole-image and detail reads can describe the same opening. Keep one.
  for(let i=kept.length-1;i>=0;i--){const e=kept[i];if(e.confirmed||!['door','entrance'].includes(e.kind))continue;const a=px(e.points[0]),b=px(e.points[1]),c=lerp(a,b,.5);const duplicate=kept.findIndex((v,j)=>j<i&&!v.confirmed&&['door','entrance'].includes(v.kind)&&dist(c,lerp(...v.points.slice(0,2).map(px),.5))<Math.max(3,Math.min(dist(a,b)*.35,12*unit)));if(duplicate>=0){if(e.openingEvidence?.located&&!kept[duplicate].openingEvidence?.located)kept[duplicate]=e;kept.splice(i,1);}}
- const out=attachSourceEvidence(refineFurnitureGeometry({...result,elements:kept,warnings:[...result.warnings]},imageData),imageData);
+ const out=attachSourceEvidence(refineFurnitureGeometry({...result,elements:kept,warnings:[...result.warnings]},imageData,source),imageData,source);
  out.sourceRefinement={version:11,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
  return out;
 }

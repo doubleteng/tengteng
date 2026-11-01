@@ -17,7 +17,7 @@ function initializeInstructorVision_() {
     shared.setProperties({VISION_API_KEY:key,VISION_MODEL:old.getProperty('VISION_MODEL')||'gemini-4-argon'});
   }
   if(!shared.getProperty('VISION_SESSION_SECRET'))shared.setProperty('VISION_SESSION_SECRET',Utilities.getUuid()+Utilities.getUuid());
-  if(!shared.getProperty('VISION_DAILY_LIMIT'))shared.setProperty('VISION_DAILY_LIMIT','120');
+  if(!shared.getProperty('VISION_DAILY_LIMIT'))shared.setProperty('VISION_DAILY_LIMIT','500');
   if(!shared.getProperty('VISION_MAX_CONCURRENT'))shared.setProperty('VISION_MAX_CONCURRENT','3');
   console.log('Instructor vision ready: '+visionStatus_().model+'. No credentials returned.');
 }
@@ -45,7 +45,7 @@ function reserveVisionRequest_(session){
     const props=PropertiesService.getScriptProperties(),now=Date.now(),day=new Date(now).toISOString().slice(0,10);
     let usage=JSON.parse(props.getProperty('VISION_SHARED_USAGE')||'{}');
     if(usage.day!==day)usage={day:day,count:0};
-    const limit=Math.max(1,Math.min(1000,Number(props.getProperty('VISION_DAILY_LIMIT'))||120));
+    const limit=Math.max(1,Math.min(1000,Number(props.getProperty('VISION_DAILY_LIMIT'))||500));
     if(usage.count>=limit)throw Error('Today’s shared recognition allowance has been used. Your drawing is saved locally; contact your instructor.');
     const active=JSON.parse(props.getProperty('VISION_ACTIVE')||'[]').filter(r=>now-r.started<420000);
     const concurrent=Math.max(1,Math.min(10,Number(props.getProperty('VISION_MAX_CONCURRENT'))||3));

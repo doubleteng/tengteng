@@ -1,6 +1,6 @@
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-4';
-import {openingHost} from './import-quality.mjs?v=topology-rebuild-4';
-import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=topology-rebuild-4';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-5';
+import {openingHost} from './import-quality.mjs?v=topology-rebuild-5';
+import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=topology-rebuild-5';
 
 const sourcePoint=(p,image)=>{
  const dx=p.x-(image.x||0),dy=p.y-(image.y||0),c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0);
@@ -21,7 +21,7 @@ export function reconstructionQuality(result,image){
   return perimeter>0&&4*Math.PI*a/(perimeter*perimeter)<.055;
  });
  const covered=model.spaceSeeds.filter(s=>model.rooms.some(r=>insideRoom(s.point,r))).map(s=>s.point);
- const score=compiled.pending.length*12+compiled.unmatchedWalls.length*5+unhosted.length*2+slivers.length*8+unopened.length*2;
+ const score=compiled.pending.length*12+compiled.pendingFeatures.length*4+compiled.unmatchedWalls.length*5+unhosted.length*2+slivers.length*8+unopened.length*2;
  return {compiled,model,unhosted,unopened,slivers,covered,score,complete:compiled.complete&&unhosted.length===0&&slivers.length===0&&unopened.length===0};
 }
 
@@ -56,6 +56,10 @@ export function reconstructionTargets(result,image,{limit=8}={}){
   }else add(sourcePoint(seed.point,image),220,220,4);
  }
  for(const c of quality.unhosted){const p=sourcePoint({x:(c.points[0].x+c.points[1].x)/2,y:(c.points[0].y+c.points[1].y)/2},image);add(p,220,220,2);}
+ for(const f of quality.compiled.pendingFeatures){
+  const ps=f.points.map(p=>sourcePoint(p,image)),xs=ps.map(p=>p[0]),ys=ps.map(p=>p[1]);
+  add([(Math.min(...xs)+Math.max(...xs))/2,(Math.min(...ys)+Math.max(...ys))/2],Math.max(...xs)-Math.min(...xs)+100,Math.max(...ys)-Math.min(...ys)+100,3);
+ }
  for(const w of quality.compiled.unmatchedWalls)add(sourcePoint({x:(w.a.x+w.b.x)/2,y:(w.a.y+w.b.y)/2},image),220,220,4);
  for(const r of quality.unopened){
   const ps=r.points.map(p=>sourcePoint(p,image)),xs=ps.map(p=>p[0]),ys=ps.map(p=>p[1]),width=Math.max(...xs)-Math.min(...xs),height=Math.max(...ys)-Math.min(...ys);

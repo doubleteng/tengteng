@@ -1,10 +1,10 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-4';
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-4';
-import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-4';
-import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-4';
-import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-4';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-4';
-import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-4';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-5';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-5';
+import {normalizeWallNetwork} from './wall-network.mjs?v=topology-rebuild-5';
+import {collapseWallFaces} from './wall-faces.mjs?v=topology-rebuild-5';
+import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-5';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=topology-rebuild-5';
+import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=topology-rebuild-5';
 
 export function refinementSignature(result){
  let hash=2166136261;
@@ -19,7 +19,7 @@ export function refinementSignature(result){
 export function refineSourceWalls(result,imageData){
  result={...result,elements:normalizeArchitecturalElements(result.elements)};
  const previous=result.sourceRefinement;
- if(previous?.version===10&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
+ if(previous?.version===11&&previous.sourceWidth===imageData.width&&previous.sourceHeight===imageData.height&&previous.signature===refinementSignature(result))return attachSourceEvidence(structuredClone(result),imageData);
  const {width:w,height:h,mask}=strokeMask(imageData),unit=Math.max(w,h)/2000;
  const radius=Math.max(4,12*unit),inkRadius=Math.max(1,Math.round(1.5*unit));
  const px=q=>({x:q[0]*w/1000,y:q[1]*h/1000});
@@ -226,6 +226,6 @@ export function refineSourceWalls(result,imageData){
  // Whole-image and detail reads can describe the same opening. Keep one.
  for(let i=kept.length-1;i>=0;i--){const e=kept[i];if(e.confirmed||!['door','entrance'].includes(e.kind))continue;const a=px(e.points[0]),b=px(e.points[1]),c=lerp(a,b,.5);const duplicate=kept.findIndex((v,j)=>j<i&&!v.confirmed&&['door','entrance'].includes(v.kind)&&dist(c,lerp(...v.points.slice(0,2).map(px),.5))<Math.max(3,Math.min(dist(a,b)*.35,12*unit)));if(duplicate>=0){if(e.openingEvidence?.located&&!kept[duplicate].openingEvidence?.located)kept[duplicate]=e;kept.splice(i,1);}}
  const out=attachSourceEvidence(refineFurnitureGeometry({...result,elements:kept,warnings:[...result.warnings]},imageData),imageData);
- out.sourceRefinement={version:10,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
+ out.sourceRefinement={version:11,sourceWidth:w,sourceHeight:h,signature:refinementSignature(out),rejectedHints:[...new Set(rejected)].length};
  return out;
 }

@@ -1,4 +1,4 @@
-import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom,floorRegions} from './geometry.mjs?v=topology-rebuild-4';
+import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom,floorRegions} from './geometry.mjs?v=topology-rebuild-5';
 
 // Evidence is a geometric check against source pixels, not a wall classifier.
 // Light pencil and gray CAD strokes use local contrast. Uniform gray fills do not.

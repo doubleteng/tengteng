@@ -1,7 +1,7 @@
-import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=topology-rebuild-4';
-import {roomArea,floorOpenings} from './openings.mjs?v=topology-rebuild-4';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-4';
-import {functions} from './model.mjs?v=topology-rebuild-4';
+import {SF,IN,dist,inside,insideRoom,edges,segDist,route} from './geometry.mjs?v=topology-rebuild-5';
+import {roomArea,floorOpenings} from './openings.mjs?v=topology-rebuild-5';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-5';
+import {functions} from './model.mjs?v=topology-rebuild-5';
 export function roomLoad(p,fi,r){
  const a=roomArea(p,fi,r),factor=Number(r.factor)||functions[r.function]?.factor||150,circulation=r.role==='corridor';
  return{id:r.id,name:r.name,role:r.role||'room',area:a,factor,basis:r.basis||functions[r.function]?.basis||'gross',function:r.function,functionLabel:circulation?'Circulation (no additional occupants)':functions[r.function]?.name||'User-defined use',occupants:circulation?0:Math.ceil(a/SF/factor),areaConfirmed:!!r.areaConfirmed};

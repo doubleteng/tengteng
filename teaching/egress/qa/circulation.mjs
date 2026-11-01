@@ -1,8 +1,8 @@
-import {stairLanding} from './stairs.mjs?v=topology-rebuild-4';
-import {pendingOpeningBarriers} from './import-quality.mjs?v=topology-rebuild-4';
-import {makeGrid,flood,route,insideRoom,floorRegions,splitWalls} from './geometry.mjs?v=topology-rebuild-4';
-import {floorOpenings,inOpening} from './openings.mjs?v=topology-rebuild-4';
-import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-4';
+import {stairLanding} from './stairs.mjs?v=topology-rebuild-5';
+import {pendingOpeningBarriers} from './import-quality.mjs?v=topology-rebuild-5';
+import {makeGrid,flood,route,insideRoom,floorRegions,splitWalls} from './geometry.mjs?v=topology-rebuild-5';
+import {floorOpenings,inOpening} from './openings.mjs?v=topology-rebuild-5';
+import {featureObstacles,excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-5';
 
 // An open or unverified stair can be a circulation destination without being
 // accepted as an exit. These paths never enter the egress field or capacity sum.

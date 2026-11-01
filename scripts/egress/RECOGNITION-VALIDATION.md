@@ -48,6 +48,15 @@ door swings. Do not invent openings to make route coverage appear complete.
 Accuracy on arbitrary hand sketches, scan degradation, dense large buildings,
 stairs and ambiguous glazing is not established by these tests.
 
+A second shared-service run used the 17-degree rotated, faint solid-wall PNG.
+All six indoor spaces, both exterior areas and nine doorway assemblies were
+located. One opening side was initially unresolved because a thick jamb shifted
+the fitted aperture endpoints; bounded source-pixel tolerance in refinement 11
+recovers its distributed arc and leaf evidence. Replaying the actual saved
+response through refinement 11 yields all nine expected assembly directions,
+no extra doorways or exterior areas, and no pending enclosures. A clipped copy
+of the already complete balcony is now discarded by spatial overlap.
+
 ## Reconstruction contracts
 
 - A shorter detail wall replaces only its actual overlap, preserving both
@@ -59,5 +68,8 @@ stairs and ambiguous glazing is not established by these tests.
   two walls bounding an occupied strip remain separate.
 - An opening inventory searches a large room's perimeter and resumes unread
   regions from its persisted ledger.
+- A tile with one returned wall is still checked for substantial source strokes
+  outside described areas, including angled or faint wings. Such strokes cause
+  smaller rereads, never automatic wall generation.
 - A continuous window-frame counterexample cannot pass sliding-panel evidence.
 - Preview, application and reports use the same wall-derived room geometry.

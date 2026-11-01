@@ -47,6 +47,21 @@ export function slidingPanelEvidence(a,b,{width,height,mask},unit=1){
 // Test a real jamb gap for the observed leaf angle, on either side and hinge.
 // Gap-only evidence is not enough: windows and broken scans also make gaps.
 export function doorSwingEvidence(a,b,{width,height,mask},unit=1){
+ const source={width,height,mask},exact=measureSwing(a,b,source,unit);if(exact.score)return exact;
+ // Thick jamb strokes and raster resampling shift fitted wall-run endpoints
+ // by a few pixels. Require the same distributed arc + leaf evidence while
+ // allowing that bounded aperture uncertainty; never infer a travel direction.
+ const span=dist(a,b);if(span<8)return exact;
+ const step=Math.max(1,Math.min(3*unit,span*.08)),u={x:(b.x-a.x)/span,y:(b.y-a.y)/span},matches=[];
+ for(const [left,right] of [[-step,0],[0,step],[-step,step]]){
+  const aa={x:a.x+u.x*left,y:a.y+u.y*left},bb={x:b.x+u.x*right,y:b.y+u.y*right},m=measureSwing(aa,bb,source,unit);
+  if(m.score>=.8)matches.push(m);
+ }
+ matches.sort((a,b)=>b.score-a.score);if(!matches.length)return exact;
+ const best=matches[0];return {...best,swingPoint:matches.some(m=>m.openSide!==best.openSide&&m.score>=best.score-.1)?null:best.swingPoint};
+}
+
+function measureSwing(a,b,{width,height,mask},unit=1){
  const span=dist(a,b),tol=Math.max(1,1.5*unit);if(span<5)return {score:0};
  const hit=q=>{for(let dx=-Math.ceil(tol);dx<=tol;dx++)for(let dy=-Math.ceil(tol);dy<=tol;dy++){if(dx*dx+dy*dy>tol*tol+1)continue;const x=Math.round(q.x+dx),y=Math.round(q.y+dy);if(x>=0&&y>=0&&x<width&&y<height&&mask[y*width+x])return true;}return false;};
  let best={score:0};const matches=[];

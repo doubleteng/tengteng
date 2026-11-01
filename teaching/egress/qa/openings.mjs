@@ -1,6 +1,6 @@
-import {excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-4';
-import {area,edges,inside} from './geometry.mjs?v=topology-rebuild-4';
-import {intersection} from './drafting.mjs?v=topology-rebuild-4';
+import {excludedSpaces} from './semantic-plan.mjs?v=topology-rebuild-5';
+import {area,edges,inside} from './geometry.mjs?v=topology-rebuild-5';
+import {intersection} from './drafting.mjs?v=topology-rebuild-5';
 
 export function floorOpenings(project,index,{includeBase=false}={}){
   const elevation=project.floors[index].elevation;

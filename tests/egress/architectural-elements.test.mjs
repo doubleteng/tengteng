@@ -40,3 +40,7 @@ test('Explicit basin and urinal objects are fixtures while complete private toil
  const elements=normalizeArchitecturalElements(['Wash basin','Urinals','Toilet bowl','Toilet','Private toilet room','Restroom with wash basins'].map(label=>el(label,'room',rect(0,0,10,10))));
  assert.deepEqual(elements.map(e=>e.kind),['sanitary-fixture','sanitary-fixture','sanitary-fixture','room','room','room']);
 });
+test('A clipped duplicate of a complete balcony is removed while adjacent pending outdoors and reviewed objects survive',()=>{
+ const input=[el('Balcony','exterior',rect(100,100,300,300)),el('Balcony tile','exterior',rect(120,120,200,200),{partial:true}),el('Unresolved site','exterior',rect(450,100,200,200),{partial:true}),el('Reviewed tile','exterior',rect(120,120,200,200),{partial:true,confirmed:true})];
+ assert.deepEqual(normalizeArchitecturalElements(input).map(e=>e.label),['Balcony','Unresolved site','Reviewed tile']);
+});

@@ -1,4 +1,5 @@
 import {strokeMask} from './import-quality.mjs?v=wall-faces-1';
+import {inside,segDist} from './geometry.mjs?v=auto-enclosure-1';
 // Tile the sheet, not the rooms already found by a first model response.
 // Each core owns its geometry; overlapping margins provide reading context.
 export function coverageRegions(width,height,{tilePixels=1100,maxAxis=6}={}){
@@ -21,14 +22,32 @@ export function enhancePlanContrast(image){
  return {width:image.width,height:image.height,data};
 }
 
-// A blank/context-only reply is not accepted as completion when long source
-// strokes remain. This triggers another reading; it never creates a wall.
+// Long source components outside everything the response actually described
+// trigger a smaller reread. One returned wall cannot certify an entire tile.
+// This is a coverage alarm, never a classifier or a source of new walls.
 export function hasUnresolvedStructure(detail,image){
- if(detail.elements.some(e=>e.kind==='wall'))return false;
- const {width:w,height:h,mask}=strokeMask(image),minimum=Math.max(28,Math.min(w,h)*.07);let lines=0;
- for(let y=0;y<h;y+=2){let run=0,gap=0;for(let x=0;x<w;x++){if(mask[y*w+x]){run++;gap=0;}else if(++gap>1)run=0;if(run>=minimum){lines++;break;}}}
- for(let x=0;x<w;x+=2){let run=0,gap=0;for(let y=0;y<h;y++){if(mask[y*w+x]){run++;gap=0;}else if(++gap>1)run=0;if(run>=minimum){lines++;break;}}}
- return lines>=3;
+ const {width:w,height:h,mask}=strokeMask(image),minimum=Math.max(28,Math.min(w,h)*.10),cell=8,cols=Math.ceil(w/cell),rows=Math.ceil(h/cell),known=new Uint8Array(cols*rows);
+ const hasWalls=detail.elements.some(e=>e.kind==='wall'),lines=[],polygons=[];
+ for(const e of detail.elements){
+  const ps=e.points.map(([x,y])=>({x:x*w/1000,y:y*h/1000}));
+  if(['wall','window','door','entrance','toilet-partition','toilet-door'].includes(e.kind))ps.slice(1).forEach((p,i)=>lines.push([ps[i],p]));
+  else if(ps.length>=3&&(hasWalls||!['room','corridor','lobby'].includes(e.kind)))polygons.push(ps);
+ }
+ const tolerance=Math.max(cell*1.5,Math.max(w,h)*.012);
+ for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
+  const p={x:(x+.5)*cell,y:(y+.5)*cell};
+  known[y*cols+x]=polygons.some(poly=>inside(p,poly))||lines.some(([a,b])=>segDist(p,a,b)<tolerance)?1:0;
+ }
+ const unseen=new Uint8Array(w*h);for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(mask[y*w+x]&&!known[Math.floor(y/cell)*cols+Math.floor(x/cell)])unseen[y*w+x]=1;
+ const queue=new Int32Array(w*h);
+ for(let start=0;start<unseen.length;start++){
+  if(!unseen[start])continue;let head=0,tail=1,minX=w,minY=h,maxX=0,maxY=0;queue[0]=start;unseen[start]=0;
+  while(head<tail){const index=queue[head++],x=index%w,y=Math.floor(index/w);minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);
+   for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy||x+dx<0||x+dx>=w||y+dy<0||y+dy>=h)continue;const next=index+dy*w+dx;if(unseen[next]){unseen[next]=0;queue[tail++]=next;}}
+  }
+  if(tail>=minimum&&Math.hypot(maxX-minX,maxY-minY)>=minimum&&maxX>3&&maxY>3&&minX<w-4&&minY<h-4)return true;
+ }
+ return false;
 }
 
 export const coverageSummary=regions=>({version:1,total:regions.length,read:regions.filter(r=>r.state==='read').length,complete:regions.length>0&&regions.every(r=>r.state==='read'),regions:regions.map(({id,x,y,width,height,state,error})=>({id,x,y,width,height,state,...(error?{error:String(error).slice(0,180)}:{})}))});
@@ -55,7 +74,7 @@ export async function readCoverage(run,{read,merge,onProgress=()=>{},cancelled=(
     if(/quota|allowance|configured|access|session|429|busy|connect/i.test(region.error))return run;
    }
   }
-  if(region.state==='failed'&&/truncated|no architectural walls/i.test(region.error)&&(region.depth||0)<2&&run.regions.length<64){run.regions.splice(index,1,...splitRegion(region));index--;await onProgress(run,region);}
+  if(region.state==='failed'&&/truncated|no architectural walls|unresolved structure/i.test(region.error)&&(region.depth||0)<2&&run.regions.length<64){run.regions.splice(index,1,...splitRegion(region));index--;await onProgress(run,region);}
  }
  return run;
 }

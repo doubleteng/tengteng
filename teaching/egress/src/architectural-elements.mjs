@@ -17,7 +17,7 @@ export function architecturalAttributes(item){
 }
 
 export function normalizeArchitecturalElements(elements){
- return normalizeSanitaryElements(elements).map(item=>{
+ const normalized=normalizeSanitaryElements(elements).map(item=>{
   const e={...item,...architecturalAttributes(item)},label=(e.label||'').trim();
   const fixtureLabel=/^(?:(?:individual|row of|bank of)\s+)?(?:wash\s*basins?|wash\s*sinks?|sinks?|urinals?|toilet\s+(?:bowl|pan|fixture)s?|bathtubs?|shower\s+trays?)\b|^(?:洗手盆|水斗|小便池|马桶|浴缸)(?:\s|\d|$)/i.test(label);
   // Bare "Toilet" may name a complete private room; do not demote it.
@@ -37,6 +37,15 @@ export function normalizeArchitecturalElements(elements){
    e.roofState??=/\b(?:covered|canopy|loggia|arcade|veranda)\b/i.test(label)?'covered':/\b(?:uncovered|open.to.sky|unroofed)\b/i.test(label)?'open':'unknown';
   }
   return e;
+ });
+ // Older tiled results can contain a complete balcony plus a clipped copy
+ // from an adjacent tile. Retain the complete footprint, not two areas or an
+ // unnecessary pending repair. A different uncovered area remains pending.
+ const outdoor=e=>['exterior','courtyard'].includes(e.kind);
+ return normalized.filter(e=>{
+  if(!e.partial||e.confirmed||!(outdoor(e)||e.kind==='void'))return true;
+  const full=normalized.filter(v=>v!==e&&!v.partial&&(outdoor(e)?outdoor(v):v.kind==='void')).map(v=>({...v,points:v.points.map(([x,y])=>({x,y}))}));
+  return !excludedCell({points:e.points.map(([x,y])=>({x,y}))},full);
  });
 }
 

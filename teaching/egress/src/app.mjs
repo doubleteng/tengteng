@@ -411,7 +411,7 @@ function recognizeCad(){
 }
 async function readPlanRegion(bitmap,region){
  const c=document.createElement('canvas'),w=region.width/1000*bitmap.width,h=region.height/1000*bitmap.height,k=Math.min(2,2400/Math.max(w,h));c.width=Math.round(w*k);c.height=Math.round(h*k);const ctx=c.getContext('2d');ctx.drawImage(bitmap,region.x/1000*bitmap.width,region.y/1000*bitmap.height,w,h,0,0,c.width,c.height);const original=ctx.getImageData(0,0,c.width,c.height),enhanced=enhancePlanContrast(original);ctx.putImageData(new ImageData(enhanced.data,c.width,c.height),0,0);
- const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(region.focus!=='openings'&&hasUnresolvedStructure(detail,original))throw Error('No architectural walls were resolved despite visible long source lines. Retrying smaller regions.');return detail;
+ const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(region.focus!=='openings'&&hasUnresolvedStructure(detail,original))throw Error('Unresolved structure remains outside the recognized areas. Retrying smaller regions.');return detail;
 }
 async function fitRecognizedSource(result,pixels){
  const worker=new Worker(new URL('./source-worker.mjs?v=wall-faces-1',import.meta.url),{type:'module'});

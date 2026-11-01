@@ -56,7 +56,7 @@ test('Duplicate reverse-direction wall hints collapse; disconnected parallel wal
  assert.equal(normalizeWallNetwork(input,{unit:1,supported:()=>true}).length,2);
 });
 test('Source refinement and door evidence survive saving without treating the geometry as user-confirmed',()=>{
- const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,10);
+ const f=fixture(),r=validateInterpretation(refineSourceWalls(f.result,f.imageData));assert.equal(r.sourceRefinement.version,11);
  assert.ok(r.elements.some(e=>e.openingEvidence?.autoDoor&&!e.confirmed));assert.ok(r.elements.some(e=>e.kind==='wall'&&e.sourceBand>0));
  assert.deepEqual(refineSourceWalls(r,f.imageData).elements,r.elements);
 });
@@ -83,4 +83,11 @@ test('Continuous window rails cannot satisfy sliding-panel evidence even when th
  const r=validateInterpretation(refineSourceWalls(f.result,f.imageData)),door=r.elements.find(e=>e.id==='slider');
  assert.match(door.openingEvidence?.windowConflict||'',/Continuous/);
  const model=materializeInterpretation(r,{x:0,y:0,width:20,height:20,calibrated:true});assert.equal(model.doors.length,0);assert.ok(model.candidates[0].windowConflict);
+});
+
+for(const angle of [0,.37,-.2])test('A small source-jamb offset does not erase an otherwise visible opening side at '+angle,()=>{
+ const f=fixture({angle,gray:185}),span=Math.hypot(f.b.x-f.a.x,f.b.y-f.a.y),u={x:(f.b.x-f.a.x)/span,y:(f.b.y-f.a.y)/span};
+ const a={x:f.a.x+u.x,y:f.a.y+u.y},b={x:f.b.x-u.x,y:f.b.y-u.y},source=strokeMask(f.imageData);
+ const e=doorSwingEvidence(a,b,source,.6);assert.ok(e.score>=.8);assert.ok(e.swingPoint);assert.equal(e.doorType,'single');
+ const absent=fixture({angle,gray:185,swing:false});assert.equal(doorSwingEvidence(a,b,strokeMask(absent.imageData),.6).score,0);
 });

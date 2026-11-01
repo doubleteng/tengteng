@@ -84,3 +84,20 @@ test('Overlapping detail tiles recover the missing half of a six-room faint-line
  const fitted=refineSourceWalls(result,{width,height,data}),compiled=compileRecognition(fitted,{x:0,y:0,width:30,height:20});
  assert.equal(compiled.model.rooms.length,6);assert.ok(compiled.model.walls.length<=20);assert.equal(compiled.pending.length,0);
 });
+
+test('One returned wall cannot mark a second unrecognized wing as complete, including angled faint strokes',()=>{
+ const width=400,height=300,data=new Uint8ClampedArray(width*height*4).fill(255);
+ const draw=(a,b)=>{const n=Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])*2);for(let i=0;i<=n;i++){const x=Math.round(a[0]+(b[0]-a[0])*i/n),y=Math.round(a[1]+(b[1]-a[1])*i/n),k=(y*width+x)*4;data[k]=data[k+1]=data[k+2]=225;}};
+ draw([40,40],[40,260]);draw([260,60],[350,140]);draw([350,140],[280,240]);
+ const response={...empty(),elements:[el('known','wall',[[100,133],[100,867]])]};
+ assert.equal(hasUnresolvedStructure(response,{width,height,data}),true);
+ response.elements.push(el('wing','room',[[600,150],[920,400],[760,850],[600,800]]));
+ assert.equal(hasUnresolvedStructure(response,{width,height,data}),false);
+});
+test('Furniture and fixtures already classified in the response are not unread building wings',()=>{
+ const width=200,height=200,data=new Uint8ClampedArray(width*height*4).fill(255);
+ for(let y=60;y<=140;y++)for(const x of [60,140]){const k=(y*width+x)*4;data[k]=data[k+1]=data[k+2]=30;}
+ for(let x=60;x<=140;x++)for(const y of [60,140]){const k=(y*width+x)*4;data[k]=data[k+1]=data[k+2]=30;}
+ const response={...empty(),elements:[el('fixture','sanitary-fixture',rect(250,250,500,500))]};
+ assert.equal(hasUnresolvedStructure(response,{width,height,data}),false);
+});

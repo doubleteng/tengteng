@@ -1,7 +1,7 @@
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=recognition-speed-1';
-import {openingHost} from './import-quality.mjs?v=recognition-speed-1';
-import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=recognition-speed-1';
-import {ReadAhead,serviceUnavailable,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-1';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=recognition-speed-2';
+import {openingHost} from './import-quality.mjs?v=recognition-speed-2';
+import {area,insideRoom,dist,roomPoint,segDist,edges} from './geometry.mjs?v=recognition-speed-2';
+import {ReadAhead,serviceUnavailable,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-2';
 
 const sourcePoint=(p,image)=>{
  const dx=p.x-(image.x||0),dy=p.y-(image.y||0),c=Math.cos(image.rotation||0),s=Math.sin(image.rotation||0);

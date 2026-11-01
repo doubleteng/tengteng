@@ -1,6 +1,6 @@
-import {strokeMask} from './import-quality.mjs?v=recognition-speed-1';
-import {inside,segDist} from './geometry.mjs?v=recognition-speed-1';
-import {ReadAhead,serviceUnavailable,smallerRegionNeeded,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-1';
+import {strokeMask} from './import-quality.mjs?v=recognition-speed-2';
+import {inside,segDist} from './geometry.mjs?v=recognition-speed-2';
+import {ReadAhead,serviceUnavailable,smallerRegionNeeded,busyService,serialProgress} from './recognition-scheduling.mjs?v=recognition-speed-2';
 // Tile the sheet, not the rooms already found by a first model response.
 // Each core owns its geometry; overlapping margins provide reading context.
 export function coverageRegions(width,height,{tilePixels=1100,maxAxis=6}={}){
@@ -26,10 +26,19 @@ export function enhancePlanContrast(image){
 // Long source components outside everything the response actually described
 // trigger a smaller reread. One returned wall cannot certify an entire tile.
 // This is a coverage alarm, never a classifier or a source of new walls.
-export function hasUnresolvedStructure(detail,image){
+export function coverageContext(result,region){
+ // Coordinates may extend beyond this crop. Retaining the actual polygon
+ // avoids treating a crop edge as an architectural enclosure.
+ return (result?.elements||[]).filter(e=>!e.partial&&e.confidence!=='low').map(e=>({...e,points:e.points.map(([x,y])=>[(x-region.x)/region.width*1000,(y-region.y)/region.height*1000])}));
+}
+export function hasUnresolvedStructure(detail,image,context=[]){
  const {width:w,height:h,mask}=strokeMask(image),minimum=Math.max(28,Math.min(w,h)*.10),cell=8,cols=Math.ceil(w/cell),rows=Math.ceil(h/cell),known=new Uint8Array(cols*rows);
  const hasWalls=detail.elements.some(e=>e.kind==='wall'),lines=[],polygons=[];
- for(const e of detail.elements){
+ // The overview has already read complete rooms/fixtures that a detail may
+ // only partly see. Their source context prevents rereading the same furniture
+ // as an omitted wing. New wings outside both reads still trigger subdivision.
+ // Context alone cannot certify a detail with no local architectural walls.
+ for(const e of [...detail.elements,...(hasWalls?context:[])]){
   const ps=e.points.map(([x,y])=>({x:x*w/1000,y:y*h/1000}));
   if(['wall','window','door','entrance','toilet-partition','toilet-door'].includes(e.kind))ps.slice(1).forEach((p,i)=>lines.push([ps[i],p]));
   else if(ps.length>=3&&(hasWalls||!['room','corridor','lobby'].includes(e.kind)))polygons.push(ps);

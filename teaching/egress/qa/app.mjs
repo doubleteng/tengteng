@@ -1,43 +1,43 @@
-import {doorSymbolLines} from './door-symbol.mjs?v=recognition-speed-1';
-import {repairReconstruction} from './reconstruction-repair.mjs?v=recognition-speed-1';
-import {recognitionTiming,elapsedLabel} from './recognition-timing.mjs?v=recognition-speed-1';
-import {outdoorDescription} from './architectural-elements.mjs?v=recognition-speed-1';
-import {recognitionProblem} from './recognition-state.mjs?v=recognition-speed-1';
-import {coverageRegions,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=recognition-speed-1';
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-1';
-import {doorAssemblyFields,doorScheduleReport,nonSwingDoor} from './door-assembly.mjs?v=recognition-speed-1';
-import {reconcileOpeningCandidates} from './opening-identity.mjs?v=recognition-speed-1';
-import {confirmedStairPath,stairLanding} from './stairs.mjs?v=recognition-speed-1';
-import {refineSourceWalls} from './source-refinement.mjs?v=recognition-speed-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=recognition-speed-1';
-import {hasDrawingContent,stageDrawingImport,repairLegacyCaseImport} from './drawing-import.mjs?v=recognition-speed-1';
-import {attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions,openingSpaces} from './import-quality.mjs?v=recognition-speed-1';
-import {studioIcon} from './studio-icons.mjs?v=recognition-speed-1';
-import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=recognition-speed-1';
-import {exampleById,createExample} from './examples.mjs?v=recognition-speed-1';
-import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=recognition-speed-1';
-import {analyzePlanCode} from './plan-code.mjs?v=recognition-speed-1';
-import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=recognition-speed-1';
-import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=recognition-speed-1';
-import {roomLoad,capacityDimension} from './capacity.mjs?v=recognition-speed-1';
-import {validateInterpretation,materializeInterpretation,confirmOpening,semanticColors,reconcileDetectedWindows} from './semantic-plan.mjs?v=recognition-speed-1';
-import {reviewInterpretation} from './recognition-ui.mjs?v=recognition-speed-1';
-import {moveWall,enclosedRooms,roomsFromFaces,syncEnclosedRooms,enableWallRooms,assignRoomUse} from './editable-plan.mjs?v=recognition-speed-1';
-import {pdfLinework,referenceLinework} from './pdf-plan.mjs?v=recognition-speed-1';
-import {floorOpenings,roomArea} from './openings.mjs?v=recognition-speed-1';
-import {zoomAt,objectSnap,snapGeometry,calibrateImage,alignmentTransform,alignFloor} from './drafting.mjs?v=recognition-speed-1';
-import {pairWallFaces} from './wall-import.mjs?v=recognition-speed-1';
-import {VisionConnection} from './vision.mjs?v=recognition-speed-1';
-import {FT,IN,SF,dist,area,inside,bounds,project,segDist,edges,centroid,roomPoint,insideRoom,floorRegions,length,uid,lerp} from './geometry.mjs?v=recognition-speed-1';
-import {fresh,functions,validateProject} from './model.mjs?v=recognition-speed-1';
-import {sources} from './analysis.mjs?v=recognition-speed-1';
+import {doorSymbolLines} from './door-symbol.mjs?v=recognition-speed-2';
+import {repairReconstruction} from './reconstruction-repair.mjs?v=recognition-speed-2';
+import {recognitionTiming,elapsedLabel} from './recognition-timing.mjs?v=recognition-speed-2';
+import {outdoorDescription} from './architectural-elements.mjs?v=recognition-speed-2';
+import {recognitionProblem} from './recognition-state.mjs?v=recognition-speed-2';
+import {coverageRegions,coverageContext,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=recognition-speed-2';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-2';
+import {doorAssemblyFields,doorScheduleReport,nonSwingDoor} from './door-assembly.mjs?v=recognition-speed-2';
+import {reconcileOpeningCandidates} from './opening-identity.mjs?v=recognition-speed-2';
+import {confirmedStairPath,stairLanding} from './stairs.mjs?v=recognition-speed-2';
+import {refineSourceWalls} from './source-refinement.mjs?v=recognition-speed-2';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=recognition-speed-2';
+import {hasDrawingContent,stageDrawingImport,repairLegacyCaseImport} from './drawing-import.mjs?v=recognition-speed-2';
+import {attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions,openingSpaces} from './import-quality.mjs?v=recognition-speed-2';
+import {studioIcon} from './studio-icons.mjs?v=recognition-speed-2';
+import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=recognition-speed-2';
+import {exampleById,createExample} from './examples.mjs?v=recognition-speed-2';
+import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=recognition-speed-2';
+import {analyzePlanCode} from './plan-code.mjs?v=recognition-speed-2';
+import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=recognition-speed-2';
+import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=recognition-speed-2';
+import {roomLoad,capacityDimension} from './capacity.mjs?v=recognition-speed-2';
+import {validateInterpretation,materializeInterpretation,confirmOpening,semanticColors,reconcileDetectedWindows} from './semantic-plan.mjs?v=recognition-speed-2';
+import {reviewInterpretation} from './recognition-ui.mjs?v=recognition-speed-2';
+import {moveWall,enclosedRooms,roomsFromFaces,syncEnclosedRooms,enableWallRooms,assignRoomUse} from './editable-plan.mjs?v=recognition-speed-2';
+import {pdfLinework,referenceLinework} from './pdf-plan.mjs?v=recognition-speed-2';
+import {floorOpenings,roomArea} from './openings.mjs?v=recognition-speed-2';
+import {zoomAt,objectSnap,snapGeometry,calibrateImage,alignmentTransform,alignFloor} from './drafting.mjs?v=recognition-speed-2';
+import {pairWallFaces} from './wall-import.mjs?v=recognition-speed-2';
+import {VisionConnection} from './vision.mjs?v=recognition-speed-2';
+import {FT,IN,SF,dist,area,inside,bounds,project,segDist,edges,centroid,roomPoint,insideRoom,floorRegions,length,uid,lerp} from './geometry.mjs?v=recognition-speed-2';
+import {fresh,functions,validateProject} from './model.mjs?v=recognition-speed-2';
+import {sources} from './analysis.mjs?v=recognition-speed-2';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let p=fresh(),mode='building',tool='select',selected=null,draft=[],cursor=null,cam={x:15,y:9,s:20},views=[],allFloors=false,playing=false,analysis=null,baseline=null,revision=0,analyzedRevision=-1,history=[],future=[],drag=null,space=false,filter='issues',dirty=false,analyzeTimer,saveTimer,probeRoute=null,highlight=null;
 let snapResult=null,pointerView=null,alignSession=null,traceRoomId=null,stairTrace=null;
 const cameras=new Map(),underlays=new Map();
 let lastDragUpdate=0,exampleBackup=null,importBackup=null,repairBackup=null,exampleSwitchBusy=false,workflowStage=0,moreToolsOpen=false,activeFinding=null;
 const vis={furniture:true,context:true,candidates:true,site:true,underlay:true,voids:true,grid:true,background:true,cad:true,rooms:true,walls:true,doors:true,stairs:true,obstacles:true,routes:true,pedestrian:true,accessible:true,vehicle:true,walkable:true,paths:true,targets:true};
-let worker=new Worker(new URL('./analysis-worker.mjs?v=recognition-speed-1',import.meta.url),{type:'module'}),busy=false,queued=false;
+let worker=new Worker(new URL('./analysis-worker.mjs?v=recognition-speed-2',import.meta.url),{type:'module'}),busy=false,queued=false;
 const canvas=$('#plan'),ctx=canvas.getContext('2d'),wrap=$('#canvas-wrap');let W=1,H=1;
 const floor=()=>p.floors[p.activeFloor],target=()=>mode==='site'?p.site:floor(),meter=()=>p.units==='ft'?FT:1,unit=()=>p.units==='ft'?'ft':'m',fmt=v=>`${(v/meter()).toFixed(1)} ${unit()}`,nfmt=v=>(v/meter()).toFixed(2),capfmt=(v,up=false)=>capacityDimension(v,p.units,up);
 const tools={building:[['select','↖','Select'],['wall','╱','Wall'],['door','◜','Door'],['exit','⇥','Exit'],['stair','▤','Stair link'],['obstacle','▨','Obstacle'],['void','⬚','Multi-height space'],['common','⌁','Common path'],['dead','⊣','Dead end'],['probe','◎','Test a point'],['measure','↔','Measure']],site:[['select','↖','Select'],['walkable','▱','Walkable area'],['siteobstacle','▨','Site obstacle'],['public','⇥','Public way'],['assembly','⊕','Assembly point'],['pedestrian','↝','Pedestrian'],['accessible','♿','Accessible'],['vehicle','⇢','Vehicle'],['probe','◎','Test a point'],['measure','↔','Measure']]};
@@ -376,7 +376,7 @@ $('#drawing-input').onchange=async e=>{
  const session=await chooseDrawingDestination(file);if(!session)return;
  if(['png','jpg','jpeg','pdf'].includes(ext)){modal('Reading drawing','<p>Preparing the drawing…</p>');$('#modal').addEventListener('close',()=>session.cancelled=true,{once:true});await importReference(file,ext,session);return;}
  modal('Reading '+ext.toUpperCase(),'<p>Decoding the drawing…</p>');
- const cadWorker=new Worker(new URL('./cad-worker.mjs?v=recognition-speed-1',import.meta.url),{type:'module'}),dialog=$('#modal');
+ const cadWorker=new Worker(new URL('./cad-worker.mjs?v=recognition-speed-2',import.meta.url),{type:'module'}),dialog=$('#modal');
  let cancelled=false;
  const stop=()=>{cancelled=true;clearTimeout(timer);cadWorker.terminate();dialog.removeEventListener('close',stop);};
  const timer=setTimeout(()=>{stop();$('#modal-content').innerHTML='<p>The drawing took too long to decode. Export a smaller 2D model-space drawing with only the needed layers.</p>';},60000);
@@ -410,12 +410,12 @@ function recognizeCad(){
  const run=()=>{const b=bounds(lines.flatMap(s=>[s.a,s.b])),pad=Math.max(b.maxX-b.minX,b.maxY-b.minY)*.02,w=b.maxX-b.minX+pad*2,h=b.maxY-b.minY+pad*2;if(!(w>0&&h>0))return toast('Select a two-dimensional plan.');const c=document.createElement('canvas'),k=2400/Math.max(w,h);c.width=Math.ceil(w*k);c.height=Math.ceil(h*k);const ctx=c.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#202c26';ctx.lineWidth=1.4;ctx.beginPath();for(const s of lines){ctx.moveTo((s.a.x-b.minX+pad)*k,(b.maxY+pad-s.a.y)*k);ctx.lineTo((s.b.x-b.minX+pad)*k,(b.maxY+pad-s.b.y)*k);}ctx.stroke();remember();f.image={src:c.toDataURL('image/png'),name:'Selected CAD layers',x:b.minX-pad,y:b.minY-pad,width:w,height:h,rotation:0,calibrated:true,pixelWidth:c.width,pixelHeight:c.height,calibration:{method:'CAD source units'},linework:{method:'Original CAD vectors',warnings:[],segments:lines.map(s=>({a:{x:(s.a.x-b.minX+pad)/w,y:(s.a.y-b.minY+pad)/h},b:{x:(s.b.x-b.minX+pad)/w,y:(s.b.y-b.minY+pad)/h}}))}};change();recognizeReference();};
  if(f.image){modal('Use the visible CAD layers', '<p>The current image reference will be replaced by a view of the visible CAD layers. Original CAD coordinates remain available. Undo restores the image.</p><button id="cad-recognition-start" class="primary">Use these CAD layers</button>');$('#cad-recognition-start').onclick=run;}else run();
 }
-async function readPlanRegion(bitmap,region){
+async function readPlanRegion(bitmap,region,context=[]){
  const c=document.createElement('canvas'),w=region.width/1000*bitmap.width,h=region.height/1000*bitmap.height,k=Math.min(2,2400/Math.max(w,h));c.width=Math.round(w*k);c.height=Math.round(h*k);const ctx=c.getContext('2d');ctx.drawImage(bitmap,region.x/1000*bitmap.width,region.y/1000*bitmap.height,w,h,0,0,c.width,c.height);const original=ctx.getImageData(0,0,c.width,c.height),enhanced=enhancePlanContrast(original);ctx.putImageData(new ImageData(enhanced.data,c.width,c.height),0,0);
- const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(!region.focus&&hasUnresolvedStructure(detail,original))throw Error('Unresolved structure remains outside the recognized areas. Retrying smaller regions.');return detail;
+ const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(!region.focus&&hasUnresolvedStructure(detail,original,context))throw Error('Unresolved structure remains outside the recognized areas. Retrying smaller regions.');return detail;
 }
 async function fitRecognizedSource(result,pixels){
- const worker=new Worker(new URL('./source-worker.mjs?v=recognition-speed-1',import.meta.url),{type:'module'});
+ const worker=new Worker(new URL('./source-worker.mjs?v=recognition-speed-2',import.meta.url),{type:'module'});
  return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Source fitting took too long. Completed recognition regions are saved; continue recognition to retry.'));},120000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.result):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({result,imageData:{width:pixels.width,height:pixels.height,data:pixels.data}});});
 }
 async function recognizeReference(reread=false){
@@ -436,8 +436,8 @@ async function recognizeReference(reread=false){
     im.recognitionRun=run;timing=recognitionTiming(run);
     $('#vision-elapsed')?.remove();const elapsed=document.createElement('p');elapsed.id='vision-elapsed';elapsed.className='small';elapsed.setAttribute('role','status');button.after(elapsed);
     const updateElapsed=()=>{elapsed.textContent=elapsedLabel(timing.elapsed())+' elapsed';};updateElapsed();clock=setInterval(updateElapsed,1000);
-    const stopped=()=>!button.isConnected||!p.floors.includes(f)||f.image!==im;
-    const read=region=>timing.measure('model',()=>readPlanRegion(bitmap,region));
+    const stopped=()=>!button.isConnected||!$('#modal').open||!p.floors.includes(f)||f.image!==im;
+    const read=region=>timing.measure('model',()=>readPlanRegion(bitmap,region,coverageContext(run.result,region)));
     let result={interpretation:run.result,model:status.model},overview=false;
     if(!resume){try{result=await timing.measure('model',()=>vision.request({action:'recognizePlan',image}));run.result=validateInterpretation(result.interpretation);overview=true;}catch(error){run.result.warnings.push('Overview unavailable; continuing with individual regions: '+error.message);}}
     if(stopped())return;
@@ -459,7 +459,7 @@ async function recognizeReference(reread=false){
  }catch(e){$('#modal-content').innerHTML=`<p class="callout">${esc(e.message)}</p>`;}
 }
 
-async function vectorizeScan(c){const source=c.getContext('2d').getImageData(0,0,c.width,c.height),worker=new Worker(new URL('./raster-worker.mjs?v=recognition-speed-1',import.meta.url),{type:'module'});toast('Converting image strokes into editable vectors…');return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Image vectorization timed out. Crop or simplify the plan image.'));},45000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.linework):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({width:source.width,height:source.height,data:source.data},[source.data.buffer]);});}
+async function vectorizeScan(c){const source=c.getContext('2d').getImageData(0,0,c.width,c.height),worker=new Worker(new URL('./raster-worker.mjs?v=recognition-speed-2',import.meta.url),{type:'module'});toast('Converting image strokes into editable vectors…');return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Image vectorization timed out. Crop or simplify the plan image.'));},45000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.linework):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({width:source.width,height:source.height,data:source.data},[source.data.buffer]);});}
 async function importReference(file,ext,session){
  try{
   const staged=stageDrawingImport(p,session),scope=staged.scope;let src,width,height,pageNumber=1,linework;

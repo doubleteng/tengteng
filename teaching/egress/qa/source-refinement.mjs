@@ -1,10 +1,10 @@
-import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=recognition-speed-1';
-import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-1';
-import {normalizeWallNetwork} from './wall-network.mjs?v=recognition-speed-1';
-import {collapseWallFaces} from './wall-faces.mjs?v=recognition-speed-1';
-import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=recognition-speed-1';
-import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=recognition-speed-1';
-import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=recognition-speed-1';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=recognition-speed-2';
+import {refineFurnitureGeometry} from './furniture-evidence.mjs?v=recognition-speed-2';
+import {normalizeWallNetwork} from './wall-network.mjs?v=recognition-speed-2';
+import {collapseWallFaces} from './wall-faces.mjs?v=recognition-speed-2';
+import {doorSwingEvidence,glazingBarrierEvidence,slidingPanelEvidence,windowOverlaps} from './door-evidence.mjs?v=recognition-speed-2';
+import {strokeMask,attachSourceEvidence} from './import-quality.mjs?v=recognition-speed-2';
+import {dist,segDist,project,lerp,edges,inside} from './geometry.mjs?v=recognition-speed-2';
 
 export function refinementSignature(result){
  let hash=2166136261;

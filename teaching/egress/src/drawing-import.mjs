@@ -1,4 +1,4 @@
-import {fresh} from './model.mjs?v=auto-enclosure-1';
+import {fresh} from './model.mjs?v=topology-rebuild-6';
 
 export function hasDrawingContent(project){
  return !!project.openings?.length||[...project.floors,project.site].some(scope=>

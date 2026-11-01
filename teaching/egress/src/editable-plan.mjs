@@ -1,6 +1,7 @@
-import {pendingOpeningBarriers} from './import-quality.mjs?v=wall-faces-1';
-import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=auto-enclosure-1';
-import {intersection} from './drafting.mjs?v=auto-enclosure-1';
+import {pendingOpeningBarriers} from './import-quality.mjs?v=topology-rebuild-6';
+import {excludedCell} from './architectural-elements.mjs?v=topology-rebuild-6';
+import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=topology-rebuild-6';
+import {intersection} from './drafting.mjs?v=topology-rebuild-6';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.
@@ -91,16 +92,20 @@ function syncWallRooms(floor){
  const result=enclosedRooms([...floor.walls,...portals],{minArea:.05});
  let cells=roomsFromFaces(result.faces,previous).map(r=>({...r,geometrySource:'walls',fromWalls:true}));
  // Exterior/courtyard and floor-void polygons classify cells, not partitions.
- cells=cells.filter(r=>!(floor.features||[]).some(f=>['exterior','courtyard','void'].includes(f.kind)&&r.points.every(q=>inside(q,f.points)||edges(f.points).some(([a,b])=>segDist(q,a,b)<.01))));
+ cells=cells.filter(r=>!excludedCell(r,floor.features||[]));
  for(const seed of floor.spaceSeeds){const old=previous.find(r=>r.id===seed.id&&r.geometrySource==='walls'),cell=old&&cells.find(r=>r.id===old.id);if(cell)seed.point=roomPoint(cell);}
  const assigned=new Set();
  for(const cell of cells){
   const seeds=floor.spaceSeeds.filter(s=>insideRoom(s.point,cell));
   if(seeds.length){
    for(const s of seeds)assigned.add(s.id);
-   const primary=seeds.find(s=>s.role!=='corridor'&&s.role!=='lobby')||seeds[0];
-   delete cell.roomUse;Object.assign(cell,roomAttributes(primary));if(seeds.some(s=>s.roomUse!==primary.roomUse))delete cell.roomUse;cell.seedIds=seeds.map(s=>s.id);cell.useNeedsConfirmation=false;
-   if(seeds.length>1){cell.name=[...new Set(seeds.map(s=>s.name))].join(' / ').slice(0,180);cell.useNeedsConfirmation=true;cell.areaConfirmed=false;}
+   // A tile may call the visible end of a known corridor a vestibule/room.
+   // Complete labels take precedence within this SAME wall-derived cell.
+   // Partial labels still name newly recovered cells with no complete seed.
+   const complete=seeds.filter(s=>!s.recognition?.partial),labels=complete.length?complete:seeds;
+   const primary=labels.find(s=>s.role!=='corridor'&&s.role!=='lobby')||labels[0];
+   delete cell.roomUse;Object.assign(cell,roomAttributes(primary));if(labels.some(s=>s.roomUse!==primary.roomUse))delete cell.roomUse;cell.seedIds=seeds.map(s=>s.id);cell.useNeedsConfirmation=false;
+   if(labels.length>1){cell.name=[...new Set(labels.map(s=>s.name))].join(' / ').slice(0,180);cell.useNeedsConfirmation=true;cell.areaConfirmed=false;}
   }else{delete cell.roomUse;cell.seedIds=[];cell.useNeedsConfirmation=true;}
  }
  floor.rooms=cells.sort((a,b)=>{

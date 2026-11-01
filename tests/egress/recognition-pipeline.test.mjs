@@ -49,3 +49,44 @@ test('Detail replacement preserves outside and confirmed geometry without duplic
  const before=structuredClone(r),merged=mergeDetail(r,detail,region);assert.deepEqual(r,before);assert.equal(merged.accepted,true);assert.ok(merged.result.elements.some(e=>e.id==='checked'&&e.confirmed));assert.ok(merged.result.elements.some(e=>e.id.startsWith('far')));assert.equal(merged.result.elements.filter(e=>e.id==='long').length,0);
  assert.equal(mergeDetail(r,{...detail,elements:[]},region).accepted,false);
 });
+test('A positively identified detail door replaces only its own span of coarse glazing',()=>{
+ const r={version:1,summary:'',warnings:[],outline:[],elements:[el('glazing','window',[[0,500],[1000,500]])]},region={id:'opening',x:400,y:400,width:200,height:200,core:{left:400,top:400,right:600,bottom:600}};
+ const detail={version:1,summary:'',warnings:[],outline:[],elements:[{...el('door','door',[[200,500],[800,500]]),doorType:'double',confidence:'high'}]};
+ const m=mergeDetail(r,detail,region).result;
+ assert.deepEqual(m.elements.filter(e=>e.kind==='window').map(e=>e.points),[[[0,500],[440,500]],[[560,500],[1000,500]]]);
+ assert.equal(m.elements.filter(e=>e.kind==='door').length,1);
+});
+test('An unrelated doorway or unknown gap cannot delete windows elsewhere in the inspected crop',()=>{
+ const r={version:1,summary:'',warnings:[],outline:[],elements:[el('glazing','window',[[100,500],[900,500]])]},region={id:'opening',x:0,y:0,width:1000,height:1000};
+ for(const doorway of [el('gap','door',[[400,500],[500,500]]),{...el('known','door',[[400,300],[500,300]]),doorType:'single',confidence:'high'}]){
+  const m=mergeDetail(r,{...r,elements:[doorway]},region).result;
+  assert.deepEqual(m.elements.find(e=>e.kind==='window').points,r.elements[0].points);
+ }
+});
+
+test('A crop-clipped exterior or void remains pending and cannot erase an indoor cell',()=>{
+ const f=fixture(),r=refineSourceWalls(f.result,f.imageData);
+ r.elements.push({...el('clipped','exterior',rect(0,0,1000,1000)),partial:true,roofState:'covered'});
+ const c=compileRecognition(r,image);
+ assert.equal(c.model.rooms.length,2);assert.equal(c.model.features.some(e=>e.kind==='exterior'),false);
+ assert.equal(c.pendingFeatures.length,1);assert.equal(c.complete,false);
+});
+test('A complete outdoor footprint survives a smaller partial tile with the same space',()=>{
+ const result={version:1,summary:'',warnings:[],outline:[],elements:[el('balcony','exterior',rect(100,100,600,600))]};
+ const detail={...result,elements:[el('balcony','exterior',rect(0,0,800,800))]};
+ const merged=mergeDetail(result,detail,{id:'tile',x:200,y:200,width:500,height:500}).result;
+ assert.equal(merged.elements.length,1);assert.equal(merged.elements[0].id,'balcony');
+});
+test('Only a full architecture reread replaces a pending outdoor guess; confirmed areas remain',()=>{
+ const result={version:1,summary:'',warnings:[],outline:[],elements:[{...el('guess','exterior',rect(200,200,200,200)),partial:true},{...el('reviewed','exterior',rect(400,400,100,100)),partial:true,confirmed:true}]};
+ const detail={...result,elements:[el('context','wall',[[100,100],[800,100]])]},region={id:'repair',x:0,y:0,width:1000,height:1000};
+ for(const focus of [undefined,'openings'])assert.ok(mergeDetail(result,detail,{...region,focus}).result.elements.some(e=>e.id==='guess'));
+ const merged=mergeDetail(result,detail,{...region,focus:'architecture'}).result;
+ assert.equal(merged.elements.some(e=>e.id==='guess'),false);assert.ok(merged.elements.some(e=>e.id==='reviewed'));
+ assert.ok(mergeDetail(result,{...detail,elements:[]},{...region,focus:'architecture'}).result.elements.some(e=>e.id==='guess'));
+});
+test('A cropped vestibule label cannot reclassify a complete corridor in the same wall cell',()=>{
+ const boundary=rect(100,100,800,800),result={version:1,summary:'',warnings:[],outline:[],elements:[el('Corridor','corridor',boundary),{...el('Cropped vestibule','room',rect(600,100,300,800)),partial:true},...boundary.map((p,i)=>el('w'+i,'wall',[p,boundary[(i+1)%4]]))]};
+ let model=materializeInterpretation(result,image);assert.equal(model.rooms.length,1);assert.equal(model.rooms[0].role,'corridor');assert.equal(model.rooms[0].name,'Corridor');assert.equal(model.rooms[0].useNeedsConfirmation,false);
+ result.elements.push(el('divider','wall',[[600,100],[600,900]]));model=materializeInterpretation(result,image);assert.equal(model.rooms.length,2);assert.ok(model.rooms.some(r=>r.name==='Cropped vestibule'&&r.role==='room'));
+});

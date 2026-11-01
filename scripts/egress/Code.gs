@@ -70,5 +70,5 @@ function visionCall(request){
   validateVisionImage_(request.image);
   if(!visionStatus_().configured)throw Error('The instructor vision service is not configured. No student API key is needed.');
   const id=reserveVisionRequest_(session);
-  try{return recognizePlan_({image:request.image});}finally{releaseVisionRequest_(id);}
+  try{return recognizePlan_({image:request.image,focus:request.focus==='openings'?'openings':'architecture'});}finally{releaseVisionRequest_(id);}
 }

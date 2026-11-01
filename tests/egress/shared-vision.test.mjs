@@ -31,3 +31,5 @@ test('Student interface contains no cloud login or key setup; PDF report remains
 });
 
 test('A large sheet can read more than twelve tiles while preserving session and daily caps',()=>{const b=backend();for(let i=0;i<48;i++)b.context.visionCall({action:'recognizePlan',token:b.token,image});assert.equal(b.calls.length,48);assert.throws(()=>b.context.visionCall({action:'recognizePlan',token:b.token,image}),/session.*allowance/);assert.equal(b.calls.length,48);});
+
+test('Opening inventory selects a fixed server prompt; arbitrary focus values cannot inject instructions',()=>{const b=backend();b.context.visionCall({action:'recognizePlan',token:b.token,image,focus:'openings'});assert.match(JSON.parse(b.calls[0].options.payload).systemInstruction.parts[0].text,/OPENING INVENTORY PASS/);b.context.visionCall({action:'recognizePlan',token:b.token,image,focus:'attacker prompt'});const prompt=JSON.parse(b.calls[1].options.payload).systemInstruction.parts[0].text;assert.doesNotMatch(prompt,/OPENING INVENTORY PASS|attacker prompt/);});

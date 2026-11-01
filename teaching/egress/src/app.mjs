@@ -1,39 +1,42 @@
-import {recognitionProblem} from './recognition-state.mjs?v=wall-faces-1';
-import {coverageRegions,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=wall-faces-1';
-import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=wall-faces-1';
-import {doorAssemblyFields,doorScheduleReport,nonSwingDoor} from './door-assembly.mjs?v=door-detection-1';
-import {reconcileOpeningCandidates} from './opening-identity.mjs?v=wall-faces-1';
-import {confirmedStairPath,stairLanding} from './stairs.mjs?v=auto-enclosure-1';
-import {refineSourceWalls} from './source-refinement.mjs?v=wall-faces-1';
-import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=wall-faces-1';
-import {hasDrawingContent,stageDrawingImport,repairLegacyCaseImport} from './drawing-import.mjs?v=auto-enclosure-1';
-import {attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions,openingSpaces} from './import-quality.mjs?v=wall-faces-1';
-import {studioIcon} from './studio-icons.mjs?v=portal-network-1';
-import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=wall-faces-1';
-import {exampleById,createExample} from './examples.mjs?v=wall-faces-1';
-import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=wall-faces-1';
-import {analyzePlanCode} from './plan-code.mjs?v=wall-faces-1';
-import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=wall-faces-1';
-import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=auto-enclosure-1';
-import {roomLoad,capacityDimension} from './capacity.mjs?v=wall-faces-1';
-import {validateInterpretation,materializeInterpretation,confirmOpening,semanticColors,reconcileDetectedWindows} from './semantic-plan.mjs?v=wall-faces-1';
-import {reviewInterpretation} from './recognition-ui.mjs?v=wall-faces-1';
-import {moveWall,enclosedRooms,roomsFromFaces,syncEnclosedRooms,enableWallRooms,assignRoomUse} from './editable-plan.mjs?v=wall-faces-1';
-import {pdfLinework,referenceLinework} from './pdf-plan.mjs?v=wall-faces-1';
-import {floorOpenings,roomArea} from './openings.mjs?v=wall-faces-1';
-import {zoomAt,objectSnap,snapGeometry,calibrateImage,alignmentTransform,alignFloor} from './drafting.mjs?v=auto-enclosure-1';
-import {pairWallFaces} from './wall-import.mjs?v=auto-enclosure-1';
-import {VisionConnection} from './vision.mjs?v=portal-network-1';
-import {FT,IN,SF,dist,area,inside,bounds,project,segDist,edges,centroid,roomPoint,insideRoom,floorRegions,length,uid,lerp} from './geometry.mjs?v=auto-enclosure-1';
-import {fresh,functions,validateProject} from './model.mjs?v=auto-enclosure-1';
-import {sources} from './analysis.mjs?v=wall-faces-1';
+import {doorSymbolLines} from './door-symbol.mjs?v=topology-rebuild-6';
+import {repairReconstruction} from './reconstruction-repair.mjs?v=topology-rebuild-6';
+import {outdoorDescription} from './architectural-elements.mjs?v=topology-rebuild-6';
+import {recognitionProblem} from './recognition-state.mjs?v=topology-rebuild-6';
+import {coverageRegions,enhancePlanContrast,hasUnresolvedStructure,readCoverage,coverageSummary} from './plan-coverage.mjs?v=topology-rebuild-6';
+import {usableFurnitureGeometry} from './furniture-evidence.mjs?v=topology-rebuild-6';
+import {doorAssemblyFields,doorScheduleReport,nonSwingDoor} from './door-assembly.mjs?v=topology-rebuild-6';
+import {reconcileOpeningCandidates} from './opening-identity.mjs?v=topology-rebuild-6';
+import {confirmedStairPath,stairLanding} from './stairs.mjs?v=topology-rebuild-6';
+import {refineSourceWalls} from './source-refinement.mjs?v=topology-rebuild-6';
+import {compileRecognition,mergeDetail} from './recognition-pipeline.mjs?v=topology-rebuild-6';
+import {hasDrawingContent,stageDrawingImport,repairLegacyCaseImport} from './drawing-import.mjs?v=topology-rebuild-6';
+import {attachSourceEvidence,recoverBoundaryWalls,joinSourceJunctions,openingSpaces} from './import-quality.mjs?v=topology-rebuild-6';
+import {studioIcon} from './studio-icons.mjs?v=topology-rebuild-6';
+import {startScreen,workflowSteps,workflowState,renderWorkflow,selectionHelp} from './workflow-ui.mjs?v=topology-rebuild-6';
+import {exampleById,createExample} from './examples.mjs?v=topology-rebuild-6';
+import {exampleGallery,renderExampleGuide,precedentSourcesHtml} from './examples-ui.mjs?v=topology-rebuild-6';
+import {analyzePlanCode} from './plan-code.mjs?v=topology-rebuild-6';
+import {renderPlanCodePanel,planCodeReport} from './plan-code-ui.mjs?v=topology-rebuild-6';
+import {loadCard,factorText,factorReference,loadCalculation,occupantReferenceTable,occupantMethod,areaBasisNote,occupantSource} from './occupancy-ui.mjs?v=topology-rebuild-6';
+import {roomLoad,capacityDimension} from './capacity.mjs?v=topology-rebuild-6';
+import {validateInterpretation,materializeInterpretation,confirmOpening,semanticColors,reconcileDetectedWindows} from './semantic-plan.mjs?v=topology-rebuild-6';
+import {reviewInterpretation} from './recognition-ui.mjs?v=topology-rebuild-6';
+import {moveWall,enclosedRooms,roomsFromFaces,syncEnclosedRooms,enableWallRooms,assignRoomUse} from './editable-plan.mjs?v=topology-rebuild-6';
+import {pdfLinework,referenceLinework} from './pdf-plan.mjs?v=topology-rebuild-6';
+import {floorOpenings,roomArea} from './openings.mjs?v=topology-rebuild-6';
+import {zoomAt,objectSnap,snapGeometry,calibrateImage,alignmentTransform,alignFloor} from './drafting.mjs?v=topology-rebuild-6';
+import {pairWallFaces} from './wall-import.mjs?v=topology-rebuild-6';
+import {VisionConnection} from './vision.mjs?v=topology-rebuild-6';
+import {FT,IN,SF,dist,area,inside,bounds,project,segDist,edges,centroid,roomPoint,insideRoom,floorRegions,length,uid,lerp} from './geometry.mjs?v=topology-rebuild-6';
+import {fresh,functions,validateProject} from './model.mjs?v=topology-rebuild-6';
+import {sources} from './analysis.mjs?v=topology-rebuild-6';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let p=fresh(),mode='building',tool='select',selected=null,draft=[],cursor=null,cam={x:15,y:9,s:20},views=[],allFloors=false,playing=false,analysis=null,baseline=null,revision=0,analyzedRevision=-1,history=[],future=[],drag=null,space=false,filter='issues',dirty=false,analyzeTimer,saveTimer,probeRoute=null,highlight=null;
 let snapResult=null,pointerView=null,alignSession=null,traceRoomId=null,stairTrace=null;
 const cameras=new Map(),underlays=new Map();
 let lastDragUpdate=0,exampleBackup=null,importBackup=null,repairBackup=null,exampleSwitchBusy=false,workflowStage=0,moreToolsOpen=false,activeFinding=null;
 const vis={furniture:true,context:true,candidates:true,site:true,underlay:true,voids:true,grid:true,background:true,cad:true,rooms:true,walls:true,doors:true,stairs:true,obstacles:true,routes:true,pedestrian:true,accessible:true,vehicle:true,walkable:true,paths:true,targets:true};
-let worker=new Worker(new URL('./analysis-worker.mjs?v=wall-faces-1',import.meta.url),{type:'module'}),busy=false,queued=false;
+let worker=new Worker(new URL('./analysis-worker.mjs?v=topology-rebuild-6',import.meta.url),{type:'module'}),busy=false,queued=false;
 const canvas=$('#plan'),ctx=canvas.getContext('2d'),wrap=$('#canvas-wrap');let W=1,H=1;
 const floor=()=>p.floors[p.activeFloor],target=()=>mode==='site'?p.site:floor(),meter=()=>p.units==='ft'?FT:1,unit=()=>p.units==='ft'?'ft':'m',fmt=v=>`${(v/meter()).toFixed(1)} ${unit()}`,nfmt=v=>(v/meter()).toFixed(2),capfmt=(v,up=false)=>capacityDimension(v,p.units,up);
 const tools={building:[['select','↖','Select'],['wall','╱','Wall'],['door','◜','Door'],['exit','⇥','Exit'],['stair','▤','Stair link'],['obstacle','▨','Obstacle'],['void','⬚','Multi-height space'],['common','⌁','Common path'],['dead','⊣','Dead end'],['probe','◎','Test a point'],['measure','↔','Measure']],site:[['select','↖','Select'],['walkable','▱','Walkable area'],['siteobstacle','▨','Site obstacle'],['public','⇥','Public way'],['assembly','⊕','Assembly point'],['pedestrian','↝','Pedestrian'],['accessible','♿','Accessible'],['vehicle','⇢','Vehicle'],['probe','◎','Test a point'],['measure','↔','Measure']]};
@@ -191,6 +194,7 @@ function propertyInput(label,key,value,type='text',extra=''){return`<label>${lab
 function renderProperties(){const keepRoomSettings=$('#properties').dataset.objectId===selected&&$('#properties .room-settings')?.open;const sel=selection();if(!sel){$('#properties').innerHTML=tool!=='select'?`<div class="editing-help"><strong>${esc(tools[mode].find(t=>t[0]===tool)?.[2]||'Draw on the plan')}</strong><p>${esc(shortHints[tool]||hints[tool].split('. ')[0])}</p><small>Esc · Select</small></div>`:'<div class="editing-help"><strong>Select a room, wall or door.</strong></div>';return;}const{o,kind}=sel;let html=`<h3>${esc(kind==='door'?(o.exit?'Exit':'Door'):kind==='stair'?'Stair connection':kind.charAt(0).toUpperCase()+kind.slice(1))}</h3><div id="finding-context"></div><details class="editing-help inline-help"><summary>How to edit</summary><p>${esc(selectionHelp(kind,o))}</p></details>`;if(kind!=='wall')html+=propertyInput('Name','name',o.name||'');if(o.width!=null)html+=propertyInput(`${o.recognition?.autoDetected&&o.widthConfirmed!==true?'Estimated opening width':'Clear width'} (${unit()})`,'width',nfmt(o.width),'number','min="0.01" step="0.01"');if(kind==='cad')html+=`<p class="small">Editable drawing segment · length ${fmt(dist(o.a,o.b))}. Drag its endpoints or the whole line. Assign walls to make this geometry affect egress analysis.</p>${mode==='building'?'<button id="cad-one-wall">Use selected line as a wall</button>':''}`;if(kind==='wall')html+=propertyInput(`Wall thickness (${unit()})`,'thickness',nfmt(o.thickness||.15),'number','min="0.01" step="0.01"')+`<p class="small">Length ${fmt(dist(o.a,o.b))}. Drag an endpoint to reshape the wall.</p>`;
 if(o.recognition)html+=`<p class="semantic-note">Recognized ${esc(o.role||o.kind||kind)} · ${o.kind==='furniture'&&!usableFurnitureGeometry(o)?'contour unresolved':esc(o.recognition.confidence||'review')+' confidence'}<br>${esc(o.recognition.evidence||'Review geometry against the original drawing.')}</p>`;
 if(kind==='furniture'&&o.kind==='furniture'&&!usableFurnitureGeometry(o)){html+='<p class="import-problem">Furniture contour is not resolved. Original symbols remain in the underlay. Read a detail or correct the outline.</p><button id="confirm-furniture-outline">Use this checked outline</button>';}else if(kind==='furniture'){html+=['toilet-compartment','toilet-partition','toilet-door','sanitary-fixture'].includes(o.kind)?'<p>Restroom fixture · visible and editable. It does not create a room, doorway or exit.</p>':`<label class="inline"><input data-prop="blocksMovement" type="checkbox" ${o.blocksMovement?'checked':''}> Include in route obstacles</label><p>Furniture is visible and editable. It never divides rooms or changes gross room area. This option only changes walkable routes.</p>`;}
+if(kind==='context'&&outdoorDescription(o))html+='<p>'+esc(outdoorDescription(o))+'</p>';
 if(kind==='context')html+='<p>Context is separate from room detection. Courtyards, exterior and voids are excluded from indoor area / routing; projected geometry is reference only.</p>';
 if(kind==='candidate')html+=doorAssemblyFields(o)+`<p class="import-connection">${esc(openingSpaces(floor(),o.points).labels.join(' ↔ '))}</p><p>${o.detectionReason?esc(o.detectionReason):o.suggestedExit?'Detected indoor–outdoor opening. Confirm its exit role.':'Proposed '+esc(o.kind)+'.'} Drag the two jamb points to correct the position. It does not connect spaces until confirmed.</p><label>Measured clear opening width (${unit()})<input id="candidate-width" type="number" min="0.01" value="${nfmt(dist(...o.points.slice(0,2)))}"></label><div class="candidate-actions"><button id="confirm-door">Confirm interior door / passage</button><button id="confirm-exit">Confirm exit to ${floor().elevation===0?'site':'vertical circulation'}</button></div>`;
 if(kind==='room'){
@@ -239,7 +243,7 @@ if(vis.grid){const spacing=(p.units==='ft'?FT:1)*(s<10?10:s<25?5:1),lo=s2w({x:v.
 if(hasSite){if(vis.walkable)for(const o of p.site.walkable)polygon(o.points,v,'#eae6da','#cec5b2');for(const b of p.floors.filter(o=>o.elevation===0))for(const poly of floorRegions(b))polygon(poly,v,'#dce1d6','#a9b6a2',1.5);if(vis.obstacles)for(const o of p.site.obstacles){polygon(o.points,v,o.kind==='water'?'#d9e9ed':'#cbd8bb',o.kind==='water'?'#98b5bf':'#adbf9e');label(o.name||'Obstacle',centroid(o.points),v,o.kind==='water'?'#658792':'#7a8d6e',9);}}
 
 if(v.mode!=='site'){for(const poly of floorRegions(f))polygon(poly,v,'#ffffff','#b9c5b5',1);if(vis.rooms&&!blocked)f.rooms.forEach((r,i)=>{const cols=['#f4efe5','#eee9de','#f7f3e9','#edeae1'];polygon(r.points,v,r.role==='corridor'?'#e8dac1':r.role==='lobby'?'#ece0cb':cols[i%cols.length],'#d8d0c0',.6);if(s>5){const c=roomPoint(r);label(p.precedent?r.name.split(' · ')[0]:r.name,c,v,'#62584a',Math.min(11,s*.8+5));const n=roomLoad(p,v.fi,r).occupants;label(`${n} people · ${(roomArea(p,v.fi,r)/SF).toFixed(0)} sf`,{x:c.x,y:c.y-.75},v,'#958873',Math.min(9,s*.7+3));}});if(vis.obstacles)for(const o of f.obstacles)polygon(o.points,v,'#d6dcd3','#a2ada0');if(vis.walls)for(const w of f.walls)line([w.a,w.b],v,'#514c44',Math.max(1.5,(w.thickness||.15)*s));
-if(vis.doors)for(const d of f.doors){const w=f.walls.find(w=>w.id===d.wallId),angle=w?Math.atan2(w.b.y-w.a.y,w.b.x-w.a.x):0,a={x:d.x-Math.cos(angle)*d.width/2,y:d.y-Math.sin(angle)*d.width/2},b={x:d.x+Math.cos(angle)*d.width/2,y:d.y+Math.sin(angle)*d.width/2};line([a,b],v,'#fff',Math.max(4,(w?.thickness||.2)*s+2));line([a,b],v,d.exit?'#427a5f':'#94ac97',2);if(d.exit){if(!hasSite){marker({x:d.x,y:d.y},v,'↗','#427a5f');if(s>8)label(d.name,{x:d.x,y:d.y-1},v,'#568569',9);}}else if(d.openingType!=='passage'&&!nonSwingDoor(d)&&d.drawSwing!==false){const q=w2s(a,v);ctx.strokeStyle='#b4c2ae';ctx.lineWidth=.8;ctx.beginPath();ctx.arc(q.x,q.y,d.width*s/(d.doorType==='double'?2:1),-angle-Math.PI/2,-angle);ctx.stroke();if(d.doorType==='double'){const end=w2s(b,v);ctx.beginPath();ctx.arc(end.x,end.y,d.width*s/2,-angle-Math.PI,-angle-Math.PI/2);ctx.stroke();}}}if(vis.stairs)for(const o of f.stairs||[]){const path=confirmedStairPath(o),center=centroid(o.points);polygon(o.points,v,'#e9e2d433','#a99b84');if(path){line(path,v,'#59755e',1.6);arrow(path.at(-2),path.at(-1),v,'#59755e');marker(path[0],v,'•','#59755e');label(o.direction.toUpperCase(),along(path,.5),v,'#56714f',10);}else{line([...o.points,o.points[0]],v,'#a99b84',1,[4,4]);}label(o.name||o.link,{x:center.x,y:center.y-.6},v,'#56714f',9);}
+if(vis.doors)for(const d of f.doors){const w=f.walls.find(w=>w.id===d.wallId),angle=w?Math.atan2(w.b.y-w.a.y,w.b.x-w.a.x):0,a={x:d.x-Math.cos(angle)*d.width/2,y:d.y-Math.sin(angle)*d.width/2},b={x:d.x+Math.cos(angle)*d.width/2,y:d.y+Math.sin(angle)*d.width/2};line([a,b],v,'#fff',Math.max(4,(w?.thickness||.2)*s+2));line([a,b],v,d.exit?'#427a5f':'#94ac97',2);if(d.symbol)for(const stroke of doorSymbolLines(d,w))line(stroke,v,'#94ac97',1);if(d.exit){if(!hasSite){marker({x:d.x,y:d.y},v,'↗','#427a5f');if(s>8)label(d.name,{x:d.x,y:d.y-1},v,'#568569',9);}}else if(!d.symbol&&d.openingType!=='passage'&&!nonSwingDoor(d)&&d.drawSwing!==false){const q=w2s(a,v);ctx.strokeStyle='#b4c2ae';ctx.lineWidth=.8;ctx.beginPath();ctx.arc(q.x,q.y,d.width*s/(d.doorType==='double'?2:1),-angle-Math.PI/2,-angle);ctx.stroke();if(d.doorType==='double'){const end=w2s(b,v);ctx.beginPath();ctx.arc(end.x,end.y,d.width*s/2,-angle-Math.PI,-angle-Math.PI/2);ctx.stroke();}}}if(vis.stairs)for(const o of f.stairs||[]){const path=confirmedStairPath(o),center=centroid(o.points);polygon(o.points,v,'#e9e2d433','#a99b84');if(path){line(path,v,'#59755e',1.6);arrow(path.at(-2),path.at(-1),v,'#59755e');marker(path[0],v,'•','#59755e');label(o.direction.toUpperCase(),along(path,.5),v,'#56714f',10);}else{line([...o.points,o.points[0]],v,'#a99b84',1,[4,4]);}label(o.name||o.link,{x:center.x,y:center.y-.6},v,'#56714f',9);}
 if(vis.routes)for(const o of f.traces)line(o.points,v,o.kind==='common'?'#b9813e':'#ab6b57',2,[5,4]);}
 if(v.mode!=='site'&&vis.voids)for(const o of floorOpenings(p,v.fi,{includeBase:true})){const base=p.floors.find(f=>f.id===o.baseFloorId),isBase=f.id===o.baseFloorId;polygon(o.points,v,isBase?'#f9edd12a':'#faf8f1',isBase?'#ad9670':'#b58a54',1.5);line([...o.points,o.points[0]],v,'#b58a54',1.5,[6,4]);if(!isBase&&o.points.length>=4){line([o.points[0],o.points[2]],v,'#d2b68b',1);line([o.points[1],o.points[3]],v,'#d2b68b',1);}const ob=bounds(o.points),topEdge=o.points.filter(q=>Math.abs(q.y-ob.maxY)<.01);label(isBase?'OPEN ABOVE':'VOID → '+(base?.name||'lower floor'),{x:topEdge.reduce((n,q)=>n+q.x,0)/topEdge.length,y:ob.maxY-.65},v,'#9e7444',10);}
 if(hasSite)paintReference(p.site,v);if(v.mode!=='site')paintReference(f,v);if(v.mode!=='site'&&vis.underlay)paintUnderlay(v);
@@ -371,7 +375,7 @@ $('#drawing-input').onchange=async e=>{
  const session=await chooseDrawingDestination(file);if(!session)return;
  if(['png','jpg','jpeg','pdf'].includes(ext)){modal('Reading drawing','<p>Preparing the drawing…</p>');$('#modal').addEventListener('close',()=>session.cancelled=true,{once:true});await importReference(file,ext,session);return;}
  modal('Reading '+ext.toUpperCase(),'<p>Decoding the drawing…</p>');
- const cadWorker=new Worker(new URL('./cad-worker.mjs?v=portal-network-1',import.meta.url),{type:'module'}),dialog=$('#modal');
+ const cadWorker=new Worker(new URL('./cad-worker.mjs?v=topology-rebuild-6',import.meta.url),{type:'module'}),dialog=$('#modal');
  let cancelled=false;
  const stop=()=>{cancelled=true;clearTimeout(timer);cadWorker.terminate();dialog.removeEventListener('close',stop);};
  const timer=setTimeout(()=>{stop();$('#modal-content').innerHTML='<p>The drawing took too long to decode. Export a smaller 2D model-space drawing with only the needed layers.</p>';},60000);
@@ -407,10 +411,10 @@ function recognizeCad(){
 }
 async function readPlanRegion(bitmap,region){
  const c=document.createElement('canvas'),w=region.width/1000*bitmap.width,h=region.height/1000*bitmap.height,k=Math.min(2,2400/Math.max(w,h));c.width=Math.round(w*k);c.height=Math.round(h*k);const ctx=c.getContext('2d');ctx.drawImage(bitmap,region.x/1000*bitmap.width,region.y/1000*bitmap.height,w,h,0,0,c.width,c.height);const original=ctx.getImageData(0,0,c.width,c.height),enhanced=enhancePlanContrast(original);ctx.putImageData(new ImageData(enhanced.data,c.width,c.height),0,0);
- const reply=await vision.request({action:'recognizePlan',image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(hasUnresolvedStructure(detail,original))throw Error('No architectural walls were resolved despite visible long source lines. Retrying smaller regions.');return detail;
+ const reply=await vision.request({action:'recognizePlan',focus:region.focus,image:c.toDataURL('image/jpeg',.95)}),detail=validateInterpretation(reply.interpretation);if(!region.focus&&hasUnresolvedStructure(detail,original))throw Error('Unresolved structure remains outside the recognized areas. Retrying smaller regions.');return detail;
 }
 async function fitRecognizedSource(result,pixels){
- const worker=new Worker(new URL('./source-worker.mjs?v=wall-faces-1',import.meta.url),{type:'module'});
+ const worker=new Worker(new URL('./source-worker.mjs?v=topology-rebuild-6',import.meta.url),{type:'module'});
  return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Source fitting took too long. Completed recognition regions are saved; continue recognition to retry.'));},120000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.result):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({result,imageData:{width:pixels.width,height:pixels.height,data:pixels.data}});});
 }
 async function recognizeReference(reread=false){
@@ -421,7 +425,7 @@ async function recognizeReference(reread=false){
   const config=await visionConfig;await vision.connect(config.endpoint);
   const status=await vision.request({action:'status'});
   if(!status.configured){$('#modal-content').innerHTML='<p class="callout">Plan recognition is temporarily unavailable. Please try again later.</p>';return;}
-  $('#modal-title').textContent='Recognize architectural spaces';$('#modal-content').innerHTML=`<p>Recognize rooms, corridors, indoor / outdoor enclosure, stairs and furniture.</p><p>Review and edit the recognized spaces, then confirm door and entrance locations.</p><p class="small">This plan image is sent to Google Gemini for recognition.</p><button class="primary" id="vision-start">${im.recognitionRun?.version===3&&!im.recognitionRun.finished?'Continue recognition':'Recognize this plan'}</button>`;
+  $('#modal-title').textContent='Recognize architectural spaces';$('#modal-content').innerHTML=`<p>Recognize walls, rooms, doors and indoor / outdoor spaces.</p><p>Review and edit the recognized spaces, then confirm door and entrance locations.</p><p class="small">This plan image is sent to Google Gemini for recognition.</p><button class="primary" id="vision-start">${im.recognitionRun?.version===3&&!im.recognitionRun.finished?'Continue recognition':'Recognize this plan'}</button>`;
   $('#vision-start').onclick=async()=>{
    const button=$('#vision-start');button.disabled=true;button.textContent='Reading rooms, circulation and enclosure…';
    try{const bitmap=new Image();bitmap.src=im.src;await bitmap.decode();const c=document.createElement('canvas'),scale=Math.min(1,2400/Math.max(bitmap.width,bitmap.height));c.width=Math.round(bitmap.width*scale);c.height=Math.round(bitmap.height*scale);c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);const image=c.toDataURL('image/jpeg',.9);let result={interpretation:{version:1,summary:'Whole-sheet tiled recognition',outline:[],elements:[],warnings:[]},model:status.model};if(im.recognitionRun?.version===3&&!im.recognitionRun.finished)result.interpretation=im.recognitionRun.result;else{try{result=await vision.request({action:'recognizePlan',image});}catch(error){result.interpretation.warnings.push('Overview unavailable; continuing with individual regions: '+error.message);}}
@@ -431,15 +435,18 @@ async function recognizeReference(reread=false){
     await readCoverage(run,{read:region=>readPlanRegion(bitmap,region),merge:mergeDetail,cancelled:()=>!button.isConnected||!p.floors.includes(f)||f.image!==im,onProgress:async(current,region)=>{button.textContent='Reading whole plan · '+current.regions.filter(r=>r.state==='read').length+' / '+current.regions.length+' regions'+(region.attempts>1?' · retrying':'')+'…';if(p.floors.includes(f)&&f.image===im){im.recognitionRun=current;await saveLocal();}}});
     if(!button.isConnected||!p.floors.includes(f)||f.image!==im)return;
     button.textContent='Joining wall geometry and checking rooms…';
-    let interpretation=await fitRecognizedSource(run.result,pixels);if(!button.isConnected||!p.floors.includes(f)||f.image!==im)return;interpretation.coverage=coverageSummary(run.regions);
+    const stopped=()=>!button.isConnected||!p.floors.includes(f)||f.image!==im;
+    const reconstruction=await repairReconstruction(run,{image:im,fit:result=>fitRecognizedSource(result,pixels),read:region=>readPlanRegion(bitmap,region),cancelled:stopped,onProgress:async({calls,entry,quality})=>{if(stopped())return;button.textContent='Reconstructing walls + openings · detail '+calls+' · '+(quality.compiled.pending.length?quality.compiled.pending.length+' spaces to enclose':quality.unopened.length?quality.unopened.length+' rooms without openings':quality.unhosted.length+' openings to connect')+'…';im.recognitionRun=run;await saveLocal();}});
+    if(stopped())return;let interpretation=reconstruction.result;interpretation.coverage=coverageSummary(run.regions);
+    if(reconstruction.error)interpretation.warnings.push('Automatic reconstruction paused: '+reconstruction.error);
     if(!interpretation.coverage.complete)interpretation.warnings.push((run.regions.length-interpretation.coverage.read)+' regions could not be read. Continue recognition to finish them; completed regions are saved.');
-    interpretation=validateInterpretation(interpretation);remember();im.interpretation=interpretation;im.recognitionPipeline=3;run.finished=interpretation.coverage.complete;im.recognitionModel=result.model;im.pixelWidth=bitmap.width;im.pixelHeight=bitmap.height;await saveLocal();if(p.floors.includes(f)&&f.image===im)reviewRecognition(f,im);
+    interpretation=validateInterpretation(interpretation);remember();im.interpretation=interpretation;im.recognitionPipeline=3;run.finished=interpretation.coverage.complete&&reconstruction.quality.complete;im.recognitionModel=result.model;im.pixelWidth=bitmap.width;im.pixelHeight=bitmap.height;await saveLocal();if(p.floors.includes(f)&&f.image===im)reviewRecognition(f,im);
    }catch(e){if(button.isConnected){button.disabled=false;button.textContent='Try recognition again';$('#modal-content').insertAdjacentHTML('beforeend',`<p class="callout">${esc(e.message)}</p>`);}else toast(e.message);}
   };
  }catch(e){$('#modal-content').innerHTML=`<p class="callout">${esc(e.message)}</p>`;}
 }
 
-async function vectorizeScan(c){const source=c.getContext('2d').getImageData(0,0,c.width,c.height),worker=new Worker(new URL('./raster-worker.mjs?v=wall-faces-1',import.meta.url),{type:'module'});toast('Converting image strokes into editable vectors…');return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Image vectorization timed out. Crop or simplify the plan image.'));},45000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.linework):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({width:source.width,height:source.height,data:source.data},[source.data.buffer]);});}
+async function vectorizeScan(c){const source=c.getContext('2d').getImageData(0,0,c.width,c.height),worker=new Worker(new URL('./raster-worker.mjs?v=topology-rebuild-6',import.meta.url),{type:'module'});toast('Converting image strokes into editable vectors…');return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{worker.terminate();reject(Error('Image vectorization timed out. Crop or simplify the plan image.'));},45000);worker.onmessage=e=>{clearTimeout(timer);worker.terminate();e.data.ok?resolve(e.data.linework):reject(Error(e.data.error));};worker.onerror=e=>{clearTimeout(timer);worker.terminate();reject(Error(e.message));};worker.postMessage({width:source.width,height:source.height,data:source.data},[source.data.buffer]);});}
 async function importReference(file,ext,session){
  try{
   const staged=stageDrawingImport(p,session),scope=staged.scope;let src,width,height,pageNumber=1,linework;

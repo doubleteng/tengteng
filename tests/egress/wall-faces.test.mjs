@@ -19,6 +19,17 @@ test('Short duplicate face fragments inside an identified wall band do not form 
  const walls=[wall('center',[0,3],[100,3],{pairedFaces:true,band:4}),wall('face-a',[20,0],[55,0]),wall('face-b',[30,6],[65,6])];
  assert.equal(normalizeWallNetwork(walls,{supported:()=>true}).length,1);
 });
+test('Unequal fragmented wall faces establish one centerline without needing an existing centerline hint',()=>{
+ const walls=[wall('long',[0,0],[200,0]),wall('fragment-a',[15,6],[45,6]),wall('fragment-b',[80,6],[120,6]),wall('fragment-c',[160,6],[190,6])];
+ const result=normalizeWallNetwork(collapseWallFaces(walls,{faceEvidence:()=>true}),{supported:()=>true});
+ assert.equal(result.length,1);assert.equal(result[0].a.y,3);assert.equal(result[0].b.y,3);assert.equal(Math.abs(result[0].b.x-result[0].a.x),200);
+});
+test('Broad source bands cannot merge the two walls around occupied narrow circulation',()=>{
+ const walls=[wall('left',[0,0],[100,0],{band:4}),wall('right',[0,6],[100,6],{band:4})];
+ const interiorAt=p=>p.y>1&&p.y<5;
+ assert.equal(normalizeWallNetwork(walls,{supported:()=>true,interiorAt}).length,2);
+ assert.equal(collapseWallFaces([wall('a',[0,0],[200,0]),wall('b',[20,6],[50,6])],{faceEvidence:()=>true,interiorAt}).length,2);
+});
 test('A narrow corridor between parallel walls vetoes face pairing',()=>{
  const walls=[wall('left',[0,0],[100,0]),wall('right',[0,6],[100,6])];
  assert.equal(collapseWallFaces(walls,{faceEvidence:()=>true,interiorAt:()=>true}).length,2);

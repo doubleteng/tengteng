@@ -1,4 +1,4 @@
-import {dist,lerp} from './geometry.mjs?v=topology-rebuild-6';
+import {dist,lerp} from './geometry.mjs?v=topology-rebuild-7';
 
 // Conservative proposals only: two straight, nearly parallel, substantially
 // overlapping faces on the same layer, with no competing mate. The UI requires

@@ -13,6 +13,6 @@ window.addEventListener('message',function(e){
  if(!['status','recognizePlan'].includes(request.action))return;
  google.script.run.withSuccessHandler(function(result){peer.postMessage({type:'egress-vision-result',nonce,requestId,result},origin);})
  .withFailureHandler(function(error){peer.postMessage({type:'egress-vision-result',nonce,requestId,error:error.message||'Recognition is unavailable. Please try again shortly.'},origin);})
- .visionCall({action:request.action,image:request.image,token});
+ .visionCall({action:request.action,image:request.image,focus:request.focus==='openings'?'openings':'architecture',token});
 });
 </script></body></html>

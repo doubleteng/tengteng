@@ -1,7 +1,8 @@
-import {materializeInterpretation} from './semantic-plan.mjs?v=wall-faces-1';
-import {roomPoint,inside,area,segDist,dist} from './geometry.mjs?v=auto-enclosure-1';
-import {sanitaryKinds} from './sanitary-elements.mjs?v=door-detection-1';
-import {windowOverlaps} from './door-evidence.mjs?v=auto-enclosure-1';
+import {normalizeArchitecturalElements} from './architectural-elements.mjs?v=topology-rebuild-6';
+import {materializeInterpretation} from './semantic-plan.mjs?v=topology-rebuild-6';
+import {roomPoint,inside,area,segDist,dist} from './geometry.mjs?v=topology-rebuild-6';
+import {sanitaryKinds} from './sanitary-elements.mjs?v=topology-rebuild-6';
+import {windowOverlaps} from './door-evidence.mjs?v=topology-rebuild-6';
 
 const spaceKinds=['room','corridor','lobby'];
 const midpoint=e=>{const p=roomPoint({points:e.points.map(([x,y])=>({x,y}))});return [p.x,p.y];};
@@ -10,11 +11,11 @@ const midpoint=e=>{const p=roomPoint({points:e.points.map(([x,y])=>({x,y}))});re
 // polygons remain label hints, never an alternative source of usable area.
 export function compileRecognition(result,image,{elevation=null}={}){
  const model=materializeInterpretation(result,{...image,calibrated:true},{elevation});
- const expected=result.elements.filter(e=>spaceKinds.includes(e.kind));
+ const expected=normalizeArchitecturalElements(result.elements).filter(e=>spaceKinds.includes(e.kind));
  const pending=model.pendingSpaces||[];
  const unmatchedWalls=model.walls.filter(w=>!w.recognition?.reviewed&&w.recognition?.sourceCheck&&(w.recognition.sourceCheck.coverage<.55||w.recognition.sourceCheck.missingPixels>30));
  const roomBySource=new Map(model.rooms.filter(r=>r.recognition?.sourceId).map(r=>[r.recognition.sourceId,r]));
- return {model,expected:expected.length,pending,unmatchedWalls,roomBySource,complete:result.coverage?.complete!==false&&expected.length>0&&pending.length===0&&unmatchedWalls.length===0&&model.outline.length>=3};
+ return {model,expected:expected.length,pending,pendingFeatures:model.pendingFeatures,unmatchedWalls,roomBySource,complete:result.coverage?.complete!==false&&expected.length>0&&pending.length===0&&!model.pendingFeatures.length&&unmatchedWalls.length===0&&model.outline.length>=3};
 }
 
 function clip(a,b,r){
@@ -30,7 +31,7 @@ export function mergeDetail(result,detail,region){
  const lineKinds=['wall','window','door','entrance','toilet-partition','toilet-door'];
  const mapped=[];
  for(const e of detail.elements){
-  const object={...e,id:'detail-'+region.id+'-'+e.id,confirmed:false,points:e.points.map(map)};
+  const object={...e,id:'detail-'+region.id+'-'+e.id,confirmed:false,points:e.points.map(map),...(e.swingPoint?{swingPoint:map(e.swingPoint)}:{})};
   const cropEdge=p=>Math.min(p[0],p[1],1000-p[0],1000-p[1])<8;
   if(['wall','window','toilet-partition'].includes(e.kind)){
    for(let i=1;i<e.points.length;i++){
@@ -57,20 +58,51 @@ export function mergeDetail(result,detail,region){
  const newer=mapped.filter(e=>e.kind==='wall').flatMap(segments),elements=[];
  for(const e of result.elements){
   if(e.confirmed){elements.push(e);continue;}
+  // A full-neighborhood architecture reread can replace a clipped outdoor
+  // guess. Do not preserve its artificial crop edges as a second footprint.
+  // Ordinary coverage tiles and opening-only requests cannot erase it.
+  if(region.focus==='architecture'&&e.partial&&['exterior','courtyard','void'].includes(e.kind)&&e.points.every(within))continue;
+  if(e.kind==='window'){
+   // A local reread may correct one span of coarse glazing. It cannot erase
+   // every window in the crop merely by returning an unrelated doorway.
+   // An unknown gap is insufficient to override explicit window evidence.
+   const replacements=mapped.filter(v=>v.kind==='window'||['door','entrance'].includes(v.kind)&&v.confidence==='high'&&['single','double','sliding','folding'].includes(v.doorType));
+   for(let i=1;i<e.points.length;i++){
+    const a=e.points[i-1],b=e.points[i],range=clip(a,b,core),dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy),mix=t=>[a[0]+dx*t,a[1]+dy*t],cuts=[];
+    if(range&&length)for(const v of replacements)for(let k=1;k<v.points.length;k++){
+     const c=v.points[k-1],d=v.points[k],vl=Math.hypot(d[0]-c[0],d[1]-c[1]);
+     if(!vl||Math.abs(dx*(d[1]-c[1])-dy*(d[0]-c[0]))/length/vl>.1)continue;
+     const offset=p=>Math.abs((p[0]-a[0])*dy-(p[1]-a[1])*dx)/length;
+     if(Math.max(offset(c),offset(d))>3)continue;
+     const along=p=>((p[0]-a[0])*dx+(p[1]-a[1])*dy)/(length*length),ts=[along(c),along(d)],lo=Math.max(range[0],Math.min(...ts)),hi=Math.min(range[1],Math.max(...ts));
+     if(hi>lo)cuts.push([lo,hi]);
+    }
+    if(!cuts.length){elements.push(e.points.length===2?e:{...e,id:e.id+'-window-'+i,points:[a,b]});continue;}
+    let cursor=0,part=0;for(const [lo,hi] of cuts.sort((a,b)=>a[0]-b[0])){if(lo>cursor+.001)elements.push({...e,id:e.id+'-span-'+i+'-'+part++,points:[mix(cursor),mix(lo)]});cursor=Math.max(cursor,hi);}
+    if(cursor<.999)elements.push({...e,id:e.id+'-span-'+i+'-'+part,points:[mix(cursor),b]});
+   }
+   continue;
+  }
   if(['door','entrance'].includes(e.kind)&&e.points.every(within)&&windowOverlaps(...e.points.slice(0,2).map(point),mapped.filter(v=>v.kind==='toilet-door').map(v=>({...v,points:v.points.map(point)})),3))continue;
   if(e.kind==='wall'){
-   // Replace only where the detail actually supplies a parallel wall. Keep
-   // unmatched old walls: a partial response cannot erase a whole core.
+   // Replace only the actual overlap with returned parallel segments. A
+   // shorter detail wall cannot erase the uncovered ends of the crop core.
    for(let i=1;i<e.points.length;i++){
-    const a=e.points[i-1],b=e.points[i],range=clip(a,b,core),mix=t=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
-    const replacement=range&&newer.some(pair=>nearby([point(mix(range[0])),point(mix(range[1]))],pair)&&dist(...pair)>=Math.hypot(...mix(range[1]).map((v,j)=>v-mix(range[0])[j]))*.65);
-    if(!replacement)elements.push({...e,id:e.id+'-keep-'+i,points:[a,b]});
-    else{if(range[0]>.001)elements.push({...e,id:e.id+'-before-'+i,points:[a,mix(range[0])]});if(range[1]<.999)elements.push({...e,id:e.id+'-after-'+i,points:[mix(range[1]),b]});}
+    const a=e.points[i-1],b=e.points[i],range=clip(a,b,core),dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy),mix=t=>[a[0]+dx*t,a[1]+dy*t],cuts=[];
+    if(range&&length)for(const [p,q] of newer){
+     if(!nearby([point(mix(range[0])),point(mix(range[1]))],[p,q]))continue;
+     const along=p=>((p.x-a[0])*dx+(p.y-a[1])*dy)/(length*length),ts=[along(p),along(q)],lo=Math.max(range[0],Math.min(...ts)),hi=Math.min(range[1],Math.max(...ts));
+     if(hi>lo)cuts.push([lo,hi]);
+    }
+    if(!cuts.length){elements.push(e.points.length===2?e:{...e,id:e.id+'-segment-'+i,points:[a,b]});continue;}
+    let cursor=0,part=0;for(const [lo,hi] of cuts.sort((a,b)=>a[0]-b[0])){if(lo>cursor+.0001)elements.push({...e,id:e.id+'-span-'+i+'-'+part++,points:[mix(cursor),mix(lo)]});cursor=Math.max(cursor,hi);}
+    if(cursor<.9999)elements.push({...e,id:e.id+'-span-'+i+'-'+part,points:[mix(cursor),b]});
    }
   }else elements.push(e);
  }
  const equalSpace=(a,b)=>{
-  if(!spaceKinds.includes(a.kind)||!spaceKinds.includes(b.kind))return false;
+  const outdoor=['exterior','courtyard','void'];
+  if(!(spaceKinds.includes(a.kind)&&spaceKinds.includes(b.kind))&&!(outdoor.includes(a.kind)&&outdoor.includes(b.kind)))return false;
   const aa=a.points.map(point),bb=b.points.map(point),ac=midpoint(a),bc=midpoint(b);
   const mutual=inside(point(ac),bb)&&inside(point(bc),aa),ratio=Math.min(area(aa),area(bb))/Math.max(1,area(aa),area(bb));
   return mutual&&(ratio>.55||a.label.toLowerCase()===b.label.toLowerCase());

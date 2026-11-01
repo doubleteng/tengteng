@@ -1,4 +1,4 @@
-import {dist,lerp} from './geometry.mjs?v=auto-enclosure-1';
+import {dist,lerp} from './geometry.mjs?v=topology-rebuild-6';
 
 export function windowOverlaps(a,b,windows,tolerance=.12){
  const length=dist(a,b);if(!length)return null;
@@ -20,20 +20,60 @@ export function glazingBarrierEvidence(a,b,{width,height,mask},unit=1){
  return {score:runs.some((r,i)=>runs.slice(i+1).some(s=>s[0]-r[1]>=Math.max(2,2*unit)))?best:0};
 }
 
-// Test a real jamb gap for a quarter-circle swing, on either side and hinge.
+// A partly open sliding assembly has staggered panel rails, not an empty
+// aperture or a swing arc. Use only alongside an explicit sliding-door
+// classification; these pixels alone cannot establish a traversable doorway.
+export function slidingPanelEvidence(a,b,{width,height,mask},unit=1){
+ const span=dist(a,b);if(span<12)return {score:0};
+ const ux=(b.x-a.x)/span,uy=(b.y-a.y)/span,count=48,limit=Math.max(4,Math.min(12*unit,span*.16)),rows=[];
+ for(let offset=-Math.ceil(limit);offset<=Math.ceil(limit);offset++){
+  const bits=[];
+  for(let i=0;i<count;i++){
+   const t=.08+.84*i/(count-1),x=Math.round(a.x+(b.x-a.x)*t-uy*offset),y=Math.round(a.y+(b.y-a.y)*t+ux*offset);
+   bits.push(x>=0&&y>=0&&x<width&&y<height&&mask[y*width+x]?1:0);
+  }
+  const hits=bits.reduce((s,v)=>s+v,0);if(hits/count>=.85)return {score:0};
+  if(hits/count>=.25&&hits/count<=.75)rows.push({offset,bits,hits,mean:bits.reduce((s,v,i)=>s+v*i,0)/hits});
+ }
+ let score=0;
+ for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++){
+  const a=rows[i],b=rows[j];if(b.offset-a.offset<Math.max(2,2*unit)||Math.abs(a.mean-b.mean)<count*.24)continue;
+  const union=a.bits.filter((v,i)=>v||b.bits[i]).length/count,overlap=a.bits.filter((v,i)=>v&&b.bits[i]).length/count;
+  if(union>=.82&&overlap<.35)score=Math.max(score,union);
+ }
+ return {score};
+}
+
+// Test a real jamb gap for the observed leaf angle, on either side and hinge.
 // Gap-only evidence is not enough: windows and broken scans also make gaps.
 export function doorSwingEvidence(a,b,{width,height,mask},unit=1){
+ const source={width,height,mask},exact=measureSwing(a,b,source,unit);if(exact.score)return exact;
+ // Thick jamb strokes and raster resampling shift fitted wall-run endpoints
+ // by a few pixels. Require the same distributed arc + leaf evidence while
+ // allowing that bounded aperture uncertainty; never infer a travel direction.
+ const span=dist(a,b);if(span<8)return exact;
+ const step=Math.max(1,Math.min(3*unit,span*.08)),u={x:(b.x-a.x)/span,y:(b.y-a.y)/span},matches=[];
+ for(const [left,right] of [[-step,0],[0,step],[-step,step]]){
+  const aa={x:a.x+u.x*left,y:a.y+u.y*left},bb={x:b.x+u.x*right,y:b.y+u.y*right},m=measureSwing(aa,bb,source,unit);
+  if(m.score>=.8)matches.push(m);
+ }
+ matches.sort((a,b)=>b.score-a.score);if(!matches.length)return exact;
+ const best=matches[0];return {...best,swingPoint:matches.some(m=>m.openSide!==best.openSide&&m.score>=best.score-.1)?null:best.swingPoint};
+}
+
+function measureSwing(a,b,{width,height,mask},unit=1){
  const span=dist(a,b),tol=Math.max(1,1.5*unit);if(span<5)return {score:0};
  const hit=q=>{for(let dx=-Math.ceil(tol);dx<=tol;dx++)for(let dy=-Math.ceil(tol);dy<=tol;dy++){if(dx*dx+dy*dy>tol*tol+1)continue;const x=Math.round(q.x+dx),y=Math.round(q.y+dy);if(x>=0&&y>=0&&x<width&&y<height&&mask[y*width+x])return true;}return false;};
  let best={score:0};const matches=[];
- for(const hinge of [0,1])for(const side of [-1,1])for(const fraction of [1,.5]){
+ for(const hinge of [0,1])for(const side of [-1,1])for(const fraction of [1,.5])for(const swingAngle of [45,60,75,90,105,120,135,150,180]){
   const c=hinge?b:a,end=hinge?a:b,r=span*fraction,u={x:(end.x-c.x)/span,y:(end.y-c.y)/span},n={x:-u.y*side,y:u.x*side};
   if(r<5)continue;
-  let arc=0,leaf=0;const samples=24;
-  for(let i=0;i<samples;i++){const angle=(15+60*i/(samples-1))*Math.PI/180;if(hit({x:c.x+r*(u.x*Math.cos(angle)+n.x*Math.sin(angle)),y:c.y+r*(u.y*Math.cos(angle)+n.y*Math.sin(angle))}))arc++;const t=.2+.7*i/(samples-1);if(hit({x:c.x+n.x*r*t,y:c.y+n.y*r*t}))leaf++;}
+  let arc=0,leaf=0;const samples=24,sectors=[0,0,0];
+  const open=swingAngle*Math.PI/180,leafDirection={x:u.x*Math.cos(open)+n.x*Math.sin(open),y:u.y*Math.cos(open)+n.y*Math.sin(open)};
+  for(let i=0;i<samples;i++){const angle=(12+(swingAngle-24)*i/(samples-1))*Math.PI/180;if(hit({x:c.x+r*(u.x*Math.cos(angle)+n.x*Math.sin(angle)),y:c.y+r*(u.y*Math.cos(angle)+n.y*Math.sin(angle))})){arc++;sectors[Math.floor(i/8)]++;}const t=.2+.7*i/(samples-1);if(hit({x:c.x+leafDirection.x*r*t,y:c.y+leafDirection.y*r*t}))leaf++;}
   // Require distributed arc support, not a single crossing line or endpoint.
   const score=arc/samples*.8+leaf/samples*.2;
-  if(arc/samples>=.5&&leaf/samples>=.25){const match={score,arc:arc/samples,leaf:leaf/samples,hinge,side,fraction,openSide:hinge?-side:side};matches.push(match);if(score>best.score)best=match;}
+  if(arc/samples>=.7&&leaf/samples>=.55&&sectors.every(n=>n>=4)){const match={score,arc:arc/samples,leaf:leaf/samples,hinge,side,fraction,swingAngle,openSide:hinge?-side:side};matches.push(match);if(score>best.score)best=match;}
  }
  if(!best.score)return best;
  const pair=matches.filter(m=>m.fraction===.5&&m.openSide===best.openSide&&m.score>=.55);

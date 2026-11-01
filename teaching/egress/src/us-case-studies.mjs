@@ -1,5 +1,5 @@
-import { fresh, functions } from './model.mjs?v=wall-rooms-1';
-import { edges, FT } from './geometry.mjs?v=wall-rooms-1';
+import { fresh, functions } from './model.mjs?v=portal-network-1';
+import { edges, FT } from './geometry.mjs?v=portal-network-1';
 
 // Independent teaching diagrams. Drawing coordinates are registered to one XY
 // datum per building; analysis and editing always use the app's metre units.

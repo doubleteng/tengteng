@@ -1,6 +1,6 @@
-import {excludedSpaces} from './semantic-plan.mjs?v=stair-evidence-1';
-import {area,edges,inside} from './geometry.mjs?v=wall-rooms-1';
-import {intersection} from './drafting.mjs?v=stair-evidence-1';
+import {excludedSpaces} from './semantic-plan.mjs?v=portal-network-1';
+import {area,edges,inside} from './geometry.mjs?v=portal-network-1';
+import {intersection} from './drafting.mjs?v=portal-network-1';
 
 export function floorOpenings(project,index,{includeBase=false}={}){
   const elevation=project.floors[index].elevation;

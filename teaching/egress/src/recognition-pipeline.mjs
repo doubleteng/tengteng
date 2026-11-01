@@ -1,5 +1,5 @@
-import {materializeInterpretation} from './semantic-plan.mjs?v=stair-evidence-1';
-import {roomPoint} from './geometry.mjs?v=wall-rooms-1';
+import {materializeInterpretation} from './semantic-plan.mjs?v=portal-network-1';
+import {roomPoint} from './geometry.mjs?v=portal-network-1';
 
 const spaceKinds=['room','corridor','lobby'];
 const box=points=>({left:Math.min(...points.map(p=>p[0])),top:Math.min(...points.map(p=>p[1])),right:Math.max(...points.map(p=>p[0])),bottom:Math.max(...points.map(p=>p[1]))});

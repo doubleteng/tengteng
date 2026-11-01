@@ -1,5 +1,6 @@
-import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=wall-rooms-1';
-import {intersection} from './drafting.mjs?v=stair-evidence-1';
+import {openingHost} from './import-quality.mjs?v=portal-network-1';
+import {dist,project,segDist,edges,area,centroid,inside,insideRoom,roomPoint,uid} from './geometry.mjs?v=portal-network-1';
+import {intersection} from './drafting.mjs?v=portal-network-1';
 
 // Carry connected junctions, adjacent room edges, floor corners and attached
 // doors through a wall drag from a stable pointer-down snapshot.
@@ -86,7 +87,7 @@ function syncWallRooms(floor){
  floor.spaceSeeds??=[];
  // Carry edited room functions into the label records before regenerating.
  for(const r of previous)if(r.seedIds?.length===1){const seed=floor.spaceSeeds.find(s=>s.id===r.seedIds[0]);if(seed){Object.assign(seed,roomAttributes(r));seed.point=roomPoint(r);}}
- const portals=(floor.candidates||[]).filter(c=>c.points?.length>=2).map(c=>({id:'area-opening-'+c.id,a:c.points[0],b:c.points[1],areaPortal:true}));
+ const portals=(floor.candidates||[]).filter(c=>c.points?.length>=2&&!openingHost(floor.walls,c.points).error).map(c=>({id:'area-opening-'+c.id,a:c.points[0],b:c.points[1],areaPortal:true}));
  const result=enclosedRooms([...floor.walls,...portals],{minArea:.05});
  let cells=roomsFromFaces(result.faces,previous).map(r=>({...r,geometrySource:'walls',fromWalls:true}));
  // Exterior/courtyard and floor-void polygons classify cells, not partitions.

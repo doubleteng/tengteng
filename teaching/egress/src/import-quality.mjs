@@ -1,4 +1,4 @@
-import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom} from './geometry.mjs?v=wall-rooms-1';
+import {dist,project,segDist,edges,inside,crosses,lerp,roomPoint,insideRoom} from './geometry.mjs?v=portal-network-1';
 
 // Evidence is a geometric check against source pixels, not a wall classifier.
 // Light pencil and gray CAD strokes use local contrast. Uniform gray fills do not.
@@ -19,6 +19,7 @@ export function strokeMask({width:w,height:h,data}){
 
 export function wallEvidence(element,source,openings=[]){
  const {width:w,height:h,mask}=source,px=q=>({x:q[0]*w/1000,y:q[1]*h/1000});
+ const band=Math.max(3,Math.min(40,Math.ceil(element.sourceBand||0)));
  const gaps=openings.flatMap(e=>e.points.length>=2?[e.points.slice(0,2).map(px)]:[]);
  let supported=0,total=0,longest=0,run=0;
  for(let j=1;j<element.points.length;j++){
@@ -26,7 +27,7 @@ export function wallEvidence(element,source,openings=[]){
   for(let i=0;i<=n;i++){
    const q=lerp(a,b,i/n);
    if(gaps.some(([c,d])=>segDist(q,c,d)<3)){run=0;continue;}
-   let hit=false;for(let k=-3;k<=3;k++){const x=Math.round(q.x+nx*k),y=Math.round(q.y+ny*k);if(x>=0&&y>=0&&x<w&&y<h&&mask[y*w+x]){hit=true;break;}}
+   let hit=false;for(let k=-band;k<=band;k++){const x=Math.round(q.x+nx*k),y=Math.round(q.y+ny*k);if(x>=0&&y>=0&&x<w&&y<h&&mask[y*w+x]){hit=true;break;}}
    total++;if(hit){supported++;run=0;}else longest=Math.max(longest,++run);
   }
  }
@@ -160,6 +161,7 @@ export function auditImport(floor,{tolerance=.025,gapLimit=.25}={}){
   if(host.error)issue('opening-host',c.name+': no matching wall',host.error,c.id,lerp(...c.points.slice(0,2),.5));
   if(spaces.sides.some(s=>!s.length)||spaces.sides[0].some(id=>spaces.sides[1].includes(id)))issue('opening-spaces',c.name+': space connection is unclear',spaces.labels.join(' ↔ ')+'. Correct the room boundary or the jamb position.',c.id,lerp(...c.points.slice(0,2),.5));
  }
+ for(const d of floor.doors||[])if(d.recognition?.autoDetected&&d.widthConfirmed!==true)issue('door-width-estimate',d.name+': clear width is estimated','Door located from the source swing and jambs. Its opening width comes from the drawing scale; enter the actual clear width for capacity checks.',d.id,{x:d.x,y:d.y});
  for(const r of rooms){
   const es=edges(r.points);let crossing=false;for(let i=0;i<es.length;i++)for(let j=i+1;j<es.length;j++)if(crosses(...es[i],...es[j]))crossing=true;
   if(crossing)issue('room-crossing',r.name+': boundary crosses itself','Move the crossing corners before using this area or occupant load.',r.id,r.points[0]);
@@ -176,4 +178,4 @@ export function auditImport(floor,{tolerance=.025,gapLimit=.25}={}){
  return {issues,connections,counts:{walls:walls.length,rooms:rooms.length,openings:candidates.length}};
 }
 
-export function pendingOpeningBarriers(floor){return (floor.candidates||[]).filter(c=>c.points?.length>=2).map(c=>({a:c.points[0],b:c.points[1],thickness:.15,pendingOpening:true}));}
+export function pendingOpeningBarriers(floor){return (floor.candidates||[]).filter(c=>c.points?.length>=2&&!openingHost(floor.walls||[],c.points).error).map(c=>({a:c.points[0],b:c.points[1],thickness:.15,pendingOpening:true}));}

@@ -1,5 +1,5 @@
-import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=wall-rooms-1';
-import {roomLoad,capacityDimension} from './capacity.mjs?v=stair-evidence-1';
+import {FT,IN,SF,edges,segDist,roomPoint} from './geometry.mjs?v=portal-network-1';
+import {roomLoad,capacityDimension} from './capacity.mjs?v=portal-network-1';
 
 export const planSources={ibc:'https://www.iccsafe.org/wp-content/uploads/Session-62-and-63-2021-IBC-Means-of-Egress.pdf',ada:'https://www.access-board.gov/ada/chapter/ch04/'};
 export const planCategories=[

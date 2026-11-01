@@ -1,5 +1,5 @@
-import {normalizeSanitaryElements} from './sanitary-elements.mjs?v=topology-rebuild-3';
-import {inside,insideRoom,bounds} from './geometry.mjs?v=topology-rebuild-3';
+import {normalizeSanitaryElements} from './sanitary-elements.mjs?v=topology-rebuild-4';
+import {inside,insideRoom,bounds} from './geometry.mjs?v=topology-rebuild-4';
 
 const outdoorTypes=['balcony','terrace','porch','loggia','arcade','courtyard','site','other'];
 const roofStates=['covered','open','unknown'];

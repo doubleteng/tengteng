@@ -1,4 +1,4 @@
-import {strokeMask} from './import-quality.mjs?v=topology-rebuild-3';
+import {strokeMask} from './import-quality.mjs?v=topology-rebuild-4';
 // PDF.js 5.6.205 operator-list linework adapter. Coordinates are normalized to
 // the rendered page so calibration and floor alignment affect pixels and lines
 // together. Text is deliberately excluded; linework still needs semantic review.

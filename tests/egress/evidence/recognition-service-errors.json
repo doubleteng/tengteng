@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-01",
+  "candidate": "recognition-error-1",
+  "tests": 304,
+  "failure": "Error: Today\u2019s shared recognition allowance has been used. Your drawing is saved locally; contact your instructor.",
+  "timings": {
+    "startedAt": "2026-11-01T08:15:51.091Z",
+    "elapsedMs": 1247.5999999940395,
+    "phases": {
+      "model": {
+        "calls": 1,
+        "failures": 1,
+        "totalMs": 1242.8000000044703,
+        "maxConcurrent": 1
+      }
+    }
+  },
+  "regionStates": [
+    "pending",
+    "pending",
+    "pending",
+    "pending"
+  ],
+  "noInterpretationSaved": true,
+  "sourceUnchanged": true,
+  "originalDesignCounts": {
+    "rooms": 0,
+    "walls": 0,
+    "doors": 0
+  },
+  "previousDraftRetained": "Prior live run opened 3/4 saved regions; View saved draft showed all six spaces and 57 objects without another model call."
+}

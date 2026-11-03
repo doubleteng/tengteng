@@ -11,3 +11,5 @@
 html:not(.reader-en) .saved-page [lang=en],html.reader-en .saved-page [lang=zh]{display:none}
 
 .saved-page:has(.sheet-scroll){max-width:94rem}.sheet-scroll{overflow:auto;max-height:calc(100vh - 12rem);border:1px solid var(--line)}.sheet-scroll table{border-collapse:separate;border-spacing:0;width:100%;font:inherit;font-size:.97rem}.sheet-scroll td,.sheet-scroll th{min-width:6rem;max-width:28rem;overflow-wrap:anywhere;border-bottom:1px solid var(--line);padding:.55rem .75rem;text-align:left;vertical-align:top}.sheet-scroll th{position:sticky;top:0;background:var(--paper,#faf8f2);z-index:1}.sheet-scroll td:nth-child(3),.sheet-scroll td:nth-child(4){min-width:15rem}.sheet-scroll a{white-space:normal}
+
+.source-preview{display:block;width:100%;height:clamp(400px,69vh,880px);border:1px solid var(--line)}.source-plate{margin:1rem 0}.source-plate img{max-height:65vh;object-fit:contain}.original-link{margin:.5rem 0 1rem}.web-snapshot dd{margin:0 0 .5rem}.web-snapshot dt{font-size:.88rem;color:var(--muted)}

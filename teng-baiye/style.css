@@ -32,3 +32,5 @@ dialog{border:0;padding:0;background:var(--paper);color:var(--ink);max-width:125
 .oberlin-table{overflow-x:auto;margin:1.5rem 0 3rem}.oberlin-table table{width:100%;border-collapse:collapse;text-align:left}.oberlin-table caption{text-align:left;font-size:1.25rem;padding:.5rem 0}.oberlin-table th,.oberlin-table td{padding:.65rem .8rem;border-bottom:1px solid currentColor;vertical-align:top}.oberlin-table td:first-child{white-space:nowrap}.oberlin-table a{text-decoration:underline}
 
 .pdf-preview{display:block;width:100%;height:clamp(400px,70vh,810px);border:0;background:#e8e5dc}.main-image:has(.pdf-preview){display:block;padding:0}.original-site{overflow-wrap:anywhere}.publisher-links a{display:inline-block;margin:.4rem 1rem .4rem 0}.publisher-links summary{cursor:pointer}
+
+.edition-filters{margin:1.2rem 0 .7rem;align-items:center}.edition-filters>span{color:var(--muted);margin-right:.35rem}

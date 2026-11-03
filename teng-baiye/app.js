@@ -4,7 +4,7 @@ const languageLabels = { ZH: '中文', EN: 'English', DE: 'Deutsch', KO: '한국
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let lang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh';
-const state = {route:'home', workFilter:'all', workQuery:'', imageOnly:false, period:'all', archiveMode:'sources', archiveQuery:'', sourceLanguage:'all', materialType:'all'};
+const state = {route:'home', workFilter:'all', workEdition:'all', workQuery:'', imageOnly:false, period:'all', archiveMode:'sources', archiveQuery:'', sourceLanguage:'all', materialType:'all'};
 const words = {
   navHome:['首页','Overview'],navLife:['生平','Life'],navFamily:['家人与晚年','Family & later life'],navBook:['画坛遗珠','Book'],navWorks:['作品','Works'],navArchive:['文献与图像','Archive'],navAbout:['关于档案','About'],
   methodLink:['来源、核验与图像说明 ↗','Sources, evidence & image notes ↗'],
@@ -47,8 +47,33 @@ function credit(m){
  if(m.id==='I037'||m.id==='D002')return 'The Wikimedia Commons source carries PD-scan / PD-China-1996 labels. These are source labels, not an independent rights determination.';
  return 'Attribution follows the linked source. Download availability does not establish permission for public republication; rights remain to be checked.';
 }
+const plateBooks = {
+ runli: {zh:'《滕白也雕塑绘画润例》', en:'Illustrated Commission Rates (1933)'},
+ album: {zh:'《滕白也指画第一集》', en:'Finger Paintings, First Collection'}
+};
+function workImages(w){
+ const images=w.images.map(mat).filter(Boolean);
+ const filtered=state.route==='works' && state.workEdition!=='all';
+ const plates=filtered?images.filter(m=>m.plate?.editions.includes(state.workEdition)):images;
+ const cover=plates.find(m=>m.id===w.coverImage) || plates.find(m=>m.thumb);
+ return cover?[cover,...images.filter(m=>m!==cover)]:images;
+}
+function plateCaption(m){
+ if(!m?.plate)return '';
+ const p=m.plate, books=p.editions.map(key=>v(plateBooks[key])).join(' · ');
+ let url, label;
+ if(p.printedPage){
+  url='#book?p='+p.printedPage;
+  label=say('《画坛遗珠》第'+p.printedPage+'页','Bao and Wang, p. '+p.printedPage);
+ }else{
+  const doc=mat(p.document);
+  url=pdfReader(doc.file,p.page,materialTitle(doc));
+  label=p.document==='D007'?say('李宝妍，图9','Lee, fig. 9'):say('1937年原册作品页','Photograph of the 1937 plate');
+ }
+ return `<p class="book-attrib">${esc(materialTitle(m))}<br>${esc(books)} · <a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a></p>`;
+}
 function artCard(w){
- const m=w.images.map(mat).find(m=>m?.thumb);
+ const m=workImages(w).find(im=>im.thumb);
  return `<button class="art-card" data-work="${w.id}" aria-label="${t('viewWork')}: ${esc(v(w.title))}"><div class="art-image">${m?`<img src="${m.thumb}" alt="${esc(v(w.title))}" loading="lazy" decoding="async">`:noImage(w.id)}</div><div><div class="art-meta"><h3>${esc(v(w.title))}</h3><span class="id">${w.id}</span></div>${lang==='zh'?`<div class="art-secondary">${esc(w.title.en)}</div>`:''}<p>${esc(v(w.date))}</p></div></button>`;
 }
 function renderHome(){
@@ -101,11 +126,11 @@ function renderLife(){
  return `<div class="wrap">${pageHead('生平年表','Chronology')}<p><a class="text-link" href="#family">${say('家人与晚年','Family and later life')} ↗</a></p><div class="tools"><div class="filters">${['all','early','america','return','later','research'].map(p=>chip('period',p,t(p),state.period)).join('')}</div><a class="text-link" href="data/timeline.csv" download>${t('download')} ↓</a></div><div class="timeline" id="timeline-results">${timelineResults()}</div></div>`;
 }
 function timelineResults(){return A.timeline.filter(e=>state.period==='all'||e.period===state.period).map(e=>`<article class="event" id="${e.id}"><div class="event-date">${esc(v(e.date))}<span class="event-place">${esc(v(e.place))}</span></div><div><h2>${esc(v(e.title))}</h2><p>${esc(v(e.text))}</p><div class="evidence"><span>${esc(v(e.status))}</span>${refs(e.sources)}</div></div></article>`).join('')}
-function filteredWorks(){const q=state.workQuery.toLowerCase().trim();return A.works.filter(w=>(state.workFilter==='all'?w.category!=='related':w.category===state.workFilter)&&(!state.imageOnly||w.images.some(id=>mat(id)?.thumb))&&(!q||JSON.stringify(w).toLowerCase().includes(q)))}
+function filteredWorks(){const q=state.workQuery.toLowerCase().trim();return A.works.filter(w=>(state.workFilter==='all'?w.category!=='related':w.category===state.workFilter)&&(state.workEdition==='all'||w.images.some(id=>mat(id)?.plate?.editions.includes(state.workEdition)))&&(!state.imageOnly||w.images.some(id=>mat(id)?.thumb))&&(!q||JSON.stringify(w).toLowerCase().includes(q)))}
 function renderWorks(){
- return `<div class="wrap">${pageHead('作品与设计','Works & Designs')}<div class="tools"><div class="filters">${['all','painting','sculpture','design','related'].map(c=>chip('work-filter',c,t(c),state.workFilter)).join('')}</div>${searchMarkup('work-search',state.workQuery,say('搜索题名、馆藏、关键词…','Search title, collection, keyword…'))}</div><div class="result-bar"><p class="filter-count" id="work-count" aria-live="polite"></p><label class="toggle-label"><input id="image-only" type="checkbox" ${state.imageOnly?'checked':''}>${say('仅看已有图像','Only entries with images')}</label></div><div class="work-grid" id="work-results"></div><div class="download-row"><a href="data/works.csv" download>${say('下载作品目录 CSV','Download work catalogue CSV')} ↓</a><a href="#about">${say('了解归属与去重方法','Attribution & duplicate records')} ↗</a></div></div>`;
+ return `<div class="wrap">${pageHead('作品与设计','Works & Designs')}<div class="filters edition-filters" role="group" aria-label="${say('图版出处','Plate source')}"><span>${say('图版出处','Plate source')}</span>${chip('work-edition','all',t('all'),state.workEdition)}${Object.entries(plateBooks).map(([key,title])=>chip('work-edition',key,esc(v(title)),state.workEdition)).join('')}</div><div class="tools"><div class="filters">${['all','painting','sculpture','design','related'].map(c=>chip('work-filter',c,t(c),state.workFilter)).join('')}</div>${searchMarkup('work-search',state.workQuery,say('搜索题名、馆藏、关键词…','Search title, collection, keyword…'))}</div><div class="result-bar"><p class="filter-count" id="work-count" aria-live="polite"></p><label class="toggle-label"><input id="image-only" type="checkbox" ${state.imageOnly?'checked':''}>${say('仅看已有图像','Only entries with images')}</label></div><div class="work-grid" id="work-results"></div><div class="download-row"><a href="data/works.csv" download>${say('下载作品目录 CSV','Download work catalogue CSV')} ↓</a><a href="#about">${say('了解归属与去重方法','Attribution & duplicate records')} ↗</a></div></div>`;
 }
-function updateWorks(){const list=filteredWorks();$('#work-results').innerHTML=list.length?list.map(artCard).join(''):`<div class="empty">${t('empty')}</div>`;$('#work-count').textContent=(state.workQuery.trim() || state.imageOnly || state.workFilter!=='all') ? say(`显示 ${list.length} 条记录`,`${list.length} ${list.length===1?"entry":"entries"}`) : ''}
+function updateWorks(){const list=filteredWorks();$('#work-results').innerHTML=list.length?list.map(artCard).join(''):`<div class="empty">${t('empty')}</div>`;$('#work-count').textContent=(state.workQuery.trim() || state.imageOnly || state.workFilter!=='all' || state.workEdition!=='all') ? say(`显示 ${list.length} 条记录`,`${list.length} ${list.length===1?"entry":"entries"}`) : ''}
 function renderArchive(){
  return `<div class="wrap">${pageHead('文献与图像','Documents & Images')}<div class="download-row"><a href="catalogue/index.html?lang=${lang}">${say('研究目录','Research catalogue')} ↗</a><a href="runli/?lang=${lang}">${say('润例与指画集','Commission rates and finger paintings')} ↗</a><a href="shenbao/?lang=${lang}">${say('《申报》中的滕白也与侯涵辉','Teng Baiye and Hou Hanhui in Shen Bao')} ↗</a></div><div class="mode-tabs">${[['sources',t('sources')],['materials',t('material')],['leads',t('leads')]].map(([key,label])=>`<button class="mode-tab" data-mode="${key}" aria-pressed="${state.archiveMode===key}">${label}</button>`).join('')}</div><div class="tools">${searchMarkup('archive-search',state.archiveQuery,say('搜索作者、题名、编号、关键词…','Search author, title, ID, keyword…'))}<div class="filters">${state.archiveMode==='sources'?['all',...Object.keys(languageLabels)].map(c=>chip('source-language',c,c==='all'?say('所有语言','All languages'):languageLabels[c],state.sourceLanguage)).join(''):state.archiveMode==='materials'?['all','work','people','document','pdf'].map(c=>chip('material-type',c,t(c),state.materialType)).join(''):''}</div></div><p class="filter-count" id="archive-count" aria-live="polite"></p><div id="archive-results"></div><div class="download-row"><a href="catalogue/index.html?lang=${lang}">${say('研究目录（14张表）','Research catalogue (14 tables)')} ↗</a><a href="data/sources.csv" download>${say('来源目录 CSV','Sources CSV')} ↓</a><a href="data/materials.csv" download>${say('素材索引 CSV','Material index CSV')} ↓</a><a href="data/leads.csv" download>${say('文献线索 CSV','Research leads CSV')} ↓</a><a href="data/archive.json" download>${say('完整档案 JSON','Complete archive JSON')} ↓</a></div></div>`;
 }
@@ -130,6 +155,8 @@ function renderAbout(){
 }
 function render(){
  const route=location.hash.slice(1).split('?')[0]||'home';state.route=['home','life','family','book','works','archive','about'].includes(route)?route:'home';
+ const edition=new URLSearchParams(location.hash.split('?')[1]||'').get('edition');
+ state.workEdition=state.route==='works' && Object.hasOwn(plateBooks,edition)?edition:'all';
  document.documentElement.lang=lang==='zh'?'zh-CN':'en';
  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));
  document.querySelectorAll('[data-nav]').forEach(el=>{el.toggleAttribute('aria-current',el.dataset.nav===state.route);if(el.dataset.nav===state.route)el.setAttribute('aria-current','page')});
@@ -139,14 +166,14 @@ function render(){
  if(state.route==='works')updateWorks();if(state.route==='archive')updateArchive();
 }
 let detailState=null;
-function openWork(id){const w=work(id);if(!w)return;detailState={kind:'work',item:w,images:w.images.map(mat).filter(Boolean),index:0};renderDetail();$('#detail').showModal()}
+function openWork(id){const w=work(id);if(!w)return;detailState={kind:'work',item:w,images:workImages(w),index:0};renderDetail();$('#detail').showModal()}
 function openMaterial(id){const m=mat(id);if(!m)return;detailState={kind:'material',item:m,images:[m],index:0};renderDetail();$('#detail').showModal()}
 function renderDetail(){
  if(!detailState)return;const {kind,item,images,index}=detailState;const current=images[index];const w=kind==='work'?item:null;const m=kind==='material'?item:null;
  const title=w?v(w.title):materialTitle(m);let body='';
  if(w)body=`<dl><dt>${t('date')}</dt><dd>${esc(v(w.date))}</dd><dt>${t('medium')}</dt><dd>${esc(v(w.medium))}</dd><dt>${t('dimensions')}</dt><dd>${esc(w.dimensions)}</dd><dt>${t('collection')}</dt><dd>${esc(w.collection)}</dd>${w.accession?`<dt>${t('accession')}</dt><dd>${esc(w.accession)}</dd>`:''}</dl><p class="note"><span class="note-heading">${t('notes')}</span>${esc(v(w.note))}</p>`;
  if(m)body=`<dl><dt>${t('file')}</dt><dd>${m.id} · ${esc(m.size)}</dd><dt>${t('source')}</dt><dd><a href="${esc(localSource(window.SOURCE_PATHS[m.url] || m.sources[0]))}" target="_blank" rel="noopener noreferrer">${say('查看出处与文献','Source record and documents')} ↗</a></dd></dl><p class="note"><span class="note-heading">${say('原始编目备注','Original catalogue note')}</span>${esc(m.note)}</p>`;
- $('#detail').innerHTML=`<button class="dialog-close" data-close aria-label="${t('close')}">×</button><div class="detail-layout"><div class="viewer"><div class="main-image">${current?.thumb?`<img src="${current.file}" alt="${esc(materialTitle(current))}">`:current?.id.startsWith('D')?`<iframe class="pdf-preview" title="${esc(materialTitle(current))}" src="${esc(pdfReader(current.file,1,materialTitle(current)))}" allowfullscreen></iframe>`:noImage(item.id)}</div>${images.length>1?`<div class="thumbs" aria-label="${say('作品的不同图像','Images of this work')}">${images.map((im,i)=>`<button data-image-index="${i}" aria-pressed="${index===i}" aria-label="${im.id}"><img src="${im.thumb}" alt="${im.id}"></button>`).join('')}</div>`:''}${current&&current.sources.includes('S012')?`<p class="book-attrib">${esc(materialTitle(current))} · ${esc(credit(current))}</p>`:''}<div class="viewer-controls"><span>${current?`${current.id} · ${index+1} / ${images.length}`:say('尚未取得图像','Image not yet obtained')}</span>${images.length>1?`<span><button data-image-step="-1" aria-label="${t('prev')}">←</button> <button data-image-step="1" aria-label="${t('next')}">→</button></span>`:''}${current?`<a href="${esc(current.file.endsWith('.pdf')?pdfReader(current.file,1,materialTitle(current)):current.file)}" target="_blank" rel="noopener noreferrer">${readingFiles[current.file]?say('打开阅读本 ↗','Read PDF ↗'):t('original')}</a>`:''}</div></div><div class="detail-info"><div class="eyebrow">${item.id} / ${w?'WORK RECORD':'ARCHIVE MATERIAL'}</div><h2 id="dialog-title">${esc(title)}</h2>${w&&lang==='zh'?`<p class="subtitle">${esc(w.title.en)}</p>`:''}${body}<div class="evidence">${refs(item.sources)}</div>${current?`<p class="rights"><span class="note-heading">${t('rights')}</span>${esc(credit(current))}</p>`:''}${m?`<a class="text-link full-link" href="${m.file}" download>${say('下载文件','Download file')} <span>↓</span></a>`:''}</div></div>`;
+ $('#detail').innerHTML=`<button class="dialog-close" data-close aria-label="${t('close')}">×</button><div class="detail-layout"><div class="viewer"><div class="main-image">${current?.thumb?`<img src="${current.file}" alt="${esc(materialTitle(current))}">`:current?.id.startsWith('D')?`<iframe class="pdf-preview" title="${esc(materialTitle(current))}" src="${esc(pdfReader(current.file,1,materialTitle(current)))}" allowfullscreen></iframe>`:noImage(item.id)}</div>${images.length>1?`<div class="thumbs" aria-label="${say('作品的不同图像','Images of this work')}">${images.map((im,i)=>`<button data-image-index="${i}" aria-pressed="${index===i}" aria-label="${esc(materialTitle(im))}" title="${esc(materialTitle(im))}"><img src="${im.thumb}" alt=""></button>`).join('')}</div>`:''}${current?.plate?plateCaption(current):current&&current.sources.includes('S012')?`<p class="book-attrib">${esc(materialTitle(current))} · ${esc(credit(current))}</p>`:''}<div class="viewer-controls"><span>${current?`${current.id} · ${index+1} / ${images.length}`:say('尚未取得图像','Image not yet obtained')}</span>${images.length>1?`<span><button data-image-step="-1" aria-label="${t('prev')}">←</button> <button data-image-step="1" aria-label="${t('next')}">→</button></span>`:''}${current?`<a href="${esc(current.file.endsWith('.pdf')?pdfReader(current.file,1,materialTitle(current)):current.file)}" target="_blank" rel="noopener noreferrer">${readingFiles[current.file]?say('打开阅读本 ↗','Read PDF ↗'):t('original')}</a>`:''}</div></div><div class="detail-info"><div class="eyebrow">${item.id} / ${w?'WORK RECORD':'ARCHIVE MATERIAL'}</div><h2 id="dialog-title">${esc(title)}</h2>${w&&lang==='zh'?`<p class="subtitle">${esc(w.title.en)}</p>`:''}${body}<div class="evidence">${refs(item.sources)}</div>${current?`<p class="rights"><span class="note-heading">${t('rights')}</span>${esc(credit(current))}</p>`:''}${m?`<a class="text-link full-link" href="${m.file}" download>${say('下载文件','Download file')} <span>↓</span></a>`:''}</div></div>`;
 }
 function navigateSource(id){if($('#detail').open)$('#detail').close();state.archiveMode='sources';state.archiveQuery=id;state.sourceLanguage='all';if(location.hash==='#archive'){render();window.scrollTo(0,0)}else location.hash='archive'}
 document.addEventListener('click',e=>{
@@ -157,6 +184,7 @@ document.addEventListener('click',e=>{
  if(b.hasAttribute('data-close')){$('#detail').close();return}
  if(b.dataset.imageIndex!==undefined){detailState.index=Number(b.dataset.imageIndex);renderDetail();return}
  if(b.dataset.imageStep){detailState.index=(detailState.index+Number(b.dataset.imageStep)+detailState.images.length)%detailState.images.length;renderDetail();return}
+ if(b.dataset.workEdition){location.hash=b.dataset.workEdition==='all'?'works':'works?edition='+b.dataset.workEdition;return}
  if(b.dataset.workFilter){state.workFilter=b.dataset.workFilter;render();return}
  if(b.dataset.period){state.period=b.dataset.period;render();return}
  if(b.dataset.mode){state.archiveMode=b.dataset.mode;state.archiveQuery='';render();return}

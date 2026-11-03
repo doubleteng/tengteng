@@ -4605,7 +4605,8 @@
         "I083",
         "I232"
       ],
-      "category": "sculpture"
+      "category": "sculpture",
+      "coverImage": "I232"
     },
     {
       "id": "W035",
@@ -4637,7 +4638,8 @@
         "I050",
         "I234"
       ],
-      "category": "sculpture"
+      "category": "sculpture",
+      "coverImage": "I234"
     },
     {
       "id": "W036",
@@ -4668,7 +4670,8 @@
         "I050",
         "I235"
       ],
-      "category": "sculpture"
+      "category": "sculpture",
+      "coverImage": "I235"
     },
     {
       "id": "W037",
@@ -5181,7 +5184,8 @@
         "I079",
         "I178"
       ],
-      "category": "sculpture"
+      "category": "sculpture",
+      "coverImage": "I178"
     },
     {
       "id": "W055",
@@ -5853,7 +5857,8 @@
         "I177",
         "I231"
       ],
-      "category": "sculpture"
+      "category": "sculpture",
+      "coverImage": "I177"
     },
     {
       "id": "W078",
@@ -5882,7 +5887,8 @@
       "images": [
         "I179"
       ],
-      "category": "sculpture"
+      "category": "sculpture",
+      "coverImage": "I179"
     },
     {
       "id": "W079",
@@ -5942,7 +5948,8 @@
         "I206",
         "I251"
       ],
-      "category": "painting"
+      "category": "painting",
+      "coverImage": "I251"
     },
     {
       "id": "W081",
@@ -6093,7 +6100,8 @@
         "I211",
         "I252"
       ],
-      "category": "painting"
+      "category": "painting",
+      "coverImage": "I252"
     },
     {
       "id": "W086",
@@ -6243,7 +6251,8 @@
         "I218",
         "I253"
       ],
-      "category": "painting"
+      "category": "painting",
+      "coverImage": "I253"
     },
     {
       "id": "W091",
@@ -12033,7 +12042,14 @@
       "rightsEn": "See the source and its credit statement. This research copy does not convey a republication license.",
       "url": "https://doi.org/10.14380/AHF.2020.51.183",
       "file": "assets/I050.jpeg",
-      "thumb": "assets/I050.webp"
+      "thumb": "assets/I050.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "document": "D007",
+        "page": 3
+      }
     },
     {
       "id": "I051",
@@ -16698,7 +16714,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 54.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I177.jpg",
-      "thumb": "assets/I177.webp"
+      "thumb": "assets/I177.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 54
+      }
     },
     {
       "id": "I178",
@@ -16717,7 +16739,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 54.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I178.jpg",
-      "thumb": "assets/I178.webp"
+      "thumb": "assets/I178.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 54
+      }
     },
     {
       "id": "I179",
@@ -16736,7 +16764,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 55.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I179.jpg",
-      "thumb": "assets/I179.webp"
+      "thumb": "assets/I179.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 55
+      }
     },
     {
       "id": "I180",
@@ -17207,7 +17241,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 109.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I206.jpg",
-      "thumb": "assets/I206.webp"
+      "thumb": "assets/I206.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 109
+      }
     },
     {
       "id": "I207",
@@ -17226,7 +17266,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 109.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I207.jpg",
-      "thumb": "assets/I207.webp"
+      "thumb": "assets/I207.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 109
+      }
     },
     {
       "id": "I208",
@@ -17245,7 +17291,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 110.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I208.jpg",
-      "thumb": "assets/I208.webp"
+      "thumb": "assets/I208.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 110
+      }
     },
     {
       "id": "I209",
@@ -17264,7 +17316,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 110.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I209.jpg",
-      "thumb": "assets/I209.webp"
+      "thumb": "assets/I209.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 110
+      }
     },
     {
       "id": "I210",
@@ -17283,7 +17341,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 111.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I210.jpg",
-      "thumb": "assets/I210.webp"
+      "thumb": "assets/I210.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 111
+      }
     },
     {
       "id": "I211",
@@ -17302,7 +17366,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 111.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I211.jpg",
-      "thumb": "assets/I211.webp"
+      "thumb": "assets/I211.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 111
+      }
     },
     {
       "id": "I212",
@@ -17321,7 +17391,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 111.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I212.jpg",
-      "thumb": "assets/I212.webp"
+      "thumb": "assets/I212.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 111
+      }
     },
     {
       "id": "I213",
@@ -17340,7 +17416,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 112.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I213.jpg",
-      "thumb": "assets/I213.webp"
+      "thumb": "assets/I213.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 112
+      }
     },
     {
       "id": "I214",
@@ -17359,7 +17441,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 113.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I214.jpg",
-      "thumb": "assets/I214.webp"
+      "thumb": "assets/I214.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 113
+      }
     },
     {
       "id": "I215",
@@ -17378,7 +17466,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 113.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I215.jpg",
-      "thumb": "assets/I215.webp"
+      "thumb": "assets/I215.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 113
+      }
     },
     {
       "id": "I216",
@@ -17397,7 +17491,14 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 114.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I216.jpg",
-      "thumb": "assets/I216.webp"
+      "thumb": "assets/I216.webp",
+      "plate": {
+        "editions": [
+          "runli",
+          "album"
+        ],
+        "printedPage": 114
+      }
     },
     {
       "id": "I217",
@@ -17416,7 +17517,14 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 115.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I217.jpg",
-      "thumb": "assets/I217.webp"
+      "thumb": "assets/I217.webp",
+      "plate": {
+        "editions": [
+          "runli",
+          "album"
+        ],
+        "printedPage": 115
+      }
     },
     {
       "id": "I218",
@@ -17435,7 +17543,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 115.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I218.jpg",
-      "thumb": "assets/I218.webp"
+      "thumb": "assets/I218.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 115
+      }
     },
     {
       "id": "I219",
@@ -17454,7 +17568,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 116.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I219.jpg",
-      "thumb": "assets/I219.webp"
+      "thumb": "assets/I219.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 116
+      }
     },
     {
       "id": "I220",
@@ -17473,7 +17593,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 116.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I220.jpg",
-      "thumb": "assets/I220.webp"
+      "thumb": "assets/I220.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 116
+      }
     },
     {
       "id": "I221",
@@ -17492,7 +17618,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 117.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I221.jpg",
-      "thumb": "assets/I221.webp"
+      "thumb": "assets/I221.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 117
+      }
     },
     {
       "id": "I222",
@@ -17511,7 +17643,14 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 117.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I222.jpg",
-      "thumb": "assets/I222.webp"
+      "thumb": "assets/I222.webp",
+      "plate": {
+        "editions": [
+          "runli",
+          "album"
+        ],
+        "printedPage": 117
+      }
     },
     {
       "id": "I223",
@@ -17530,7 +17669,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 118.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I223.jpg",
-      "thumb": "assets/I223.webp"
+      "thumb": "assets/I223.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 118
+      }
     },
     {
       "id": "I224",
@@ -17549,7 +17694,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 118.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I224.jpg",
-      "thumb": "assets/I224.webp"
+      "thumb": "assets/I224.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 118
+      }
     },
     {
       "id": "I225",
@@ -17568,7 +17719,14 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 119.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I225.jpg",
-      "thumb": "assets/I225.webp"
+      "thumb": "assets/I225.webp",
+      "plate": {
+        "editions": [
+          "runli",
+          "album"
+        ],
+        "printedPage": 119
+      }
     },
     {
       "id": "I226",
@@ -17587,7 +17745,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 119.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I226.jpg",
-      "thumb": "assets/I226.webp"
+      "thumb": "assets/I226.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 119
+      }
     },
     {
       "id": "I227",
@@ -17606,7 +17770,14 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 120.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I227.jpg",
-      "thumb": "assets/I227.webp"
+      "thumb": "assets/I227.webp",
+      "plate": {
+        "editions": [
+          "runli",
+          "album"
+        ],
+        "printedPage": 120
+      }
     },
     {
       "id": "I228",
@@ -17625,7 +17796,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 120.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I228.jpg",
-      "thumb": "assets/I228.webp"
+      "thumb": "assets/I228.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 120
+      }
     },
     {
       "id": "I229",
@@ -17644,7 +17821,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 121.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I229.jpg",
-      "thumb": "assets/I229.webp"
+      "thumb": "assets/I229.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "printedPage": 121
+      }
     },
     {
       "id": "I230",
@@ -17663,7 +17846,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 122.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I230.jpg",
-      "thumb": "assets/I230.webp"
+      "thumb": "assets/I230.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 122
+      }
     },
     {
       "id": "I231",
@@ -17682,7 +17871,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 125.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I231.jpg",
-      "thumb": "assets/I231.webp"
+      "thumb": "assets/I231.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 125
+      }
     },
     {
       "id": "I232",
@@ -17701,7 +17896,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 126.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I232.jpg",
-      "thumb": "assets/I232.webp"
+      "thumb": "assets/I232.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 126
+      }
     },
     {
       "id": "I233",
@@ -17720,7 +17921,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 127.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I233.jpg",
-      "thumb": "assets/I233.webp"
+      "thumb": "assets/I233.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 127
+      }
     },
     {
       "id": "I234",
@@ -17739,7 +17946,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 128.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I234.jpg",
-      "thumb": "assets/I234.webp"
+      "thumb": "assets/I234.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 128
+      }
     },
     {
       "id": "I235",
@@ -17758,7 +17971,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 128.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I235.jpg",
-      "thumb": "assets/I235.webp"
+      "thumb": "assets/I235.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 128
+      }
     },
     {
       "id": "I236",
@@ -17777,7 +17996,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 129.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I236.jpg",
-      "thumb": "assets/I236.webp"
+      "thumb": "assets/I236.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 129
+      }
     },
     {
       "id": "I237",
@@ -17796,7 +18021,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 129.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I237.jpg",
-      "thumb": "assets/I237.webp"
+      "thumb": "assets/I237.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 129
+      }
     },
     {
       "id": "I238",
@@ -17815,7 +18046,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 129.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I238.jpg",
-      "thumb": "assets/I238.webp"
+      "thumb": "assets/I238.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 129
+      }
     },
     {
       "id": "I239",
@@ -17834,7 +18071,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 130.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I239.jpg",
-      "thumb": "assets/I239.webp"
+      "thumb": "assets/I239.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 130
+      }
     },
     {
       "id": "I240",
@@ -17853,7 +18096,13 @@
       "rightsEn": "Bao Mingxin and Wang Ruihua, Study of Teng Baiye (Donghua University Press, 2008), p. 130.",
       "url": "https://www.sanmin.com.tw/product/index/000883707",
       "file": "assets/I240.jpg",
-      "thumb": "assets/I240.webp"
+      "thumb": "assets/I240.webp",
+      "plate": {
+        "editions": [
+          "runli"
+        ],
+        "printedPage": 130
+      }
     },
     {
       "id": "I241",
@@ -18351,7 +18600,14 @@
       "rightsEn": "Teng Baiye, Baiyu Wenyi She, January 1937. Copy photographed by Wanjuan Shuwu, Kongfz listing 10096634114. Original watermark retained.",
       "url": "https://book.kongfz.com/1792/10096634114/",
       "file": "assets/I251.jpg",
-      "thumb": "assets/I251.webp"
+      "thumb": "assets/I251.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "document": "D161",
+        "page": 7
+      }
     },
     {
       "id": "I252",
@@ -18370,7 +18626,14 @@
       "rightsEn": "Teng Baiye, Baiyu Wenyi She, January 1937. Copy photographed by Wanjuan Shuwu, Kongfz listing 10096634114. Original watermark retained.",
       "url": "https://book.kongfz.com/1792/10096634114/",
       "file": "assets/I252.jpg",
-      "thumb": "assets/I252.webp"
+      "thumb": "assets/I252.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "document": "D161",
+        "page": 8
+      }
     },
     {
       "id": "I253",
@@ -18389,7 +18652,14 @@
       "rightsEn": "Teng Baiye, Baiyu Wenyi She, January 1937. Copy photographed by Wanjuan Shuwu, Kongfz listing 10096634114. Original watermark retained.",
       "url": "https://book.kongfz.com/1792/10096634114/",
       "file": "assets/I253.jpg",
-      "thumb": "assets/I253.webp"
+      "thumb": "assets/I253.webp",
+      "plate": {
+        "editions": [
+          "album"
+        ],
+        "document": "D161",
+        "page": 9
+      }
     },
     {
       "id": "D159",

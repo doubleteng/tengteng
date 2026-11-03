@@ -1,0 +1,76 @@
+﻿线索ID,类型 Type,文献 / 档案题名,作者 / 主体,日期 Date,刊物 / 馆藏位置,线索来源ID,优先级,下一步 / 核验备注
+L001,本人文章,Bamboo and Bamboo Painting,Teng Kuei,1934,"Journal of the Royal Asiatic Society, North China Branch，页55—61",S006；S036；S088；S089；S130；S131；S183；S197,高,1934年5月演讲报道与10月会刊书评均已核。尚待取得论文本身的七页与图版。
+L002,本人文章,指畫略說,滕白也,1935-05-16,《藝風》3卷5期，印页89，扫描86；期号日期扫描4，目录扫描6。,S036；S010；S012；S120,高,已见署名原刊，《藝風》3卷5期印页89。
+L003,本人文章,新年的梦想：滕白也感言,滕白也,1933-01-01,《东方杂志》30卷1期，新年的梦想专题页5、60,S085；S010,中,已调原刊，PDF第304和359页，署“燕京大学教授 滕白也”。见D006。
+L004,本人文章,青年画家刘狮画评,滕白也,1933-11,文艺春秋1卷5期,S010,中,二次引文，待原刊。
+L005,本人文章,中國的美術,滕白也,1934-10-10,《文化建設》1卷1期，页109–123；扫描127–141。目录扫描7。,S010；S119,中,原刊题作《中國的美術》，目录及正文署名和题名均已核，印页109–123。
+L006,本人文章,新人与新艺术,滕白也,1935-01,第1卷第16期（新年特辑），印页321–324，扫描15–18。目录扫描3，版权页扫描19。,S010；S148,中,已核1935年1月1日新年特辑，原印页321–324。
+L007,本人文章,洋人眼里的国画问题与其检讨,滕白也,1935-09-30,学校生活118期，页4—17,S010,中,二次引文，待原刊。
+L008,本人文章,从美术的来源说起,滕白也,1935-06-25,第3卷第12期，印页74、84；合订本扫描333（本期封面）、339（目录）、424（起页）、436（结尾）。,S010；S149,中,1935年6月25日当期，印页74、84接续刊登。
+L009,本人文章,談佛教藝術,滕白也,1941-03-15,1卷3、4期合刊，第14–16页；影印集332–334页，扫描335–337。,S010；S122,中,原刊题《談佛教藝術》，1941年3月15日，合刊印页14–16。
+L010,本人文章,谈到岭南画派,滕白也,1943-06-08,广西日报第4版,S010,中,二次引文，待原报。
+L011,本人诗文,一封書,滕白也,1923-10,第9卷第10号，第124–125页，扫描138–139，目录扫描4。,S010；S118,中,已核《婦女雜誌》9卷10期，印页124–125，署滕圭。
+L012,本人诗文,浪淘沙·春晨闲步达园,滕白也,1932,《燕京月刊》（封面题《燕大月刊》）第9卷第1期，印页150–151；扫描3（目录）、153–154（正文）、157（版权页）。,S010；S147,中,1932年5月16日印页150–151另有《一剪梅·無題》承接署名。
+L013,作品集,滕白也指画集／指画第一集,滕白也,1927或1937，版本待分,研究引文及古籍销售索引出现不同年代,S010；S012,高,不可直接合并为同一版本；寻找版权页与全册图版。 p5、10称1927年本载滕指画20件，有Carl Zigrosser英文小传。仍待版权页及与后版关系。
+L014,作品集,滕白也雕塑绘画润例,滕白也,1933（研究引文）,沪江大学商学院实用艺术系相关出版,S010；S058；S243；S012,高,潜在重要雕塑、肖像与绘画图版来源。 p5、10、12、33–34称1933-10-10沪江大学商学院艺术系出版。载指画11件，与1927本重合6件，另有雕像10件、浮雕3件。
+L015,本人著作,中国民族装饰画案选集,滕白也,未核,上海文史馆名录著录,S013,中,书名、版本及存世情况待馆藏检索。
+L016,本人著作,青春和凤蝶,滕白也,1956（地方报道）,出版机构待核,S014,中,仅作为作品目录线索，不认定已经取得。
+L017,报刊,Expressionism in Chinese Art. Chinese Authority’s Address to Local Club,North-China Herald,1934-01-31,页172,S006；S036；S129,高,已见1934年1月31日上海英文报纸对讲演内容的详细报道，原印页172。
+L018,报刊,Bamboo Symbol in Chinese Art. Significance and History Described,North-China Herald,1934-05-09,页188,S006；S130；S131,高,5月9日原报页188为演讲报道。10月24日另有会刊文章出版的消息。
+L019,报刊,Finger paintings of Kwei Dun are shown,Seattle Daily Times,1928-05-18,页38,S006；S031,高,已有剪报；补原报库出处及全版。
+L020,报刊,"Can shut eyes, pick colors",Peggy McLellan / Seattle Star,1927-11-17,版次待核,S006；S189,中,州馆逐页OCR可核标题和副题，正文识读有限，原页照片待取。
+L021,报刊,Chinese artist finishes relief for Mines Hall,Seattle Daily Times,1928-06-21,页4,S006,高,寻找矿学院浮雕原照片与所在地。
+L022,报刊,Finger-Tip Painting and the Painter…,Town Crier,1928-12-15,The Town Crier，23卷50期，页40–41,S061；S009；S006,高,已取得原刊及图版I042、I043。图书馆馆藏日期与部分引文所写12月25日有异。
+L023,报刊,Group of Chinese drawings now being shown in Boston,Harvard Crimson,1930-04-30,Twentieth Century Club展览,S006；S002；S097,高,已核1930年4月30日《哈佛深红报》全文。
+L024,档案,Teng致匹兹堡大学书信,Teng Kwei,1929-12-29,"University Archives, University of Pittsburgh",S006,高,Clarke第2章注20给出日期及匹兹堡大学档案馆位置。待原信。
+L025,档案,Teng致Mark Tobey书信,滕白也,1938,丁宁，脚注9；Wesley Wehr 旧藏,S007；S008；S239,高,已取得万青力据 Wesley Wehr 寄赠影印本所译的1938年7月10日汉口来信。文集印页235–237，英文原稿现藏处仍待核。
+L026,档案,Mark Tobey访谈William Seitz录音转录,Mark Tobey / William Seitz,访谈日期待核,Smithsonian AAA.seitwill，箱17夹15–25；UW Wesley Wehr papers，箱10夹23。,S036；S006；S237,高,直接核托贝对滕氏教学的回忆。
+L027,档案照片,Portrait of Teng Baiye with dedication to Mark Tobey,摄影者待核,1926-12-16题赠,UW Libraries Special Collections，UW23723z,S009；S007,高,已保存论文版本；向原馆取得更清晰数字档及使用说明。
+L028,档案照片,Virna Haffer拍摄的Kwei Teng溴油肖像,Virna Haffer,约1928—1929,Painted with Light: Pictorialism and the Seattle Camera Club，2011,S006；S052；S109,高,塔科马图书馆目录著录1929年溴油肖像 Kwei Dun，像主为馆方推定。原相仍待取得。
+L029,档案,入境记录：Dun Kwei,NARA／船客名录,1924-12-23,NARA143733772，p382；FS 103卷p601—603,S035；S031；S087,高,已核NARA原簿图382，对象143734154；勿与船公司乘客表混同。
+L030,同期图录,Chinesische Malerei der Gegenwart,Berlin Lankwitz: Würfel Verlag,1934,钟馗Teufelbezwinger图版,S037；S082,高,已取得海德堡原扫描：目录印页54及图版174。《雁》《苍鹰》尚无对应作品照片。
+L031,研究论文,Teng Baiye and Mark Tobey: Interactions between Chinese and American Art in Shanghai and Seattle,David Clarke,2002,Pacific Northwest Quarterly 93，Fall，页171—179,S008；S009；S193,高,已核原刊目录及总索引，页171–179；文章全文尚待取得。
+L032,研究论文,影響美國抽象表現主義的中國人——滕白也（一九〇〇至一九八〇）,万青力,1991-11,台北《雄獅美術》第249期，页196–201。,S010；S126；S238,中,已取得2004年文集重刊中的相关页；1991年台北原版尚待核。
+L033,回忆文章,指画巨擘滕白也,郑逸梅,版本年份待核,《林下云烟》目录线索，约页70,S012；S010,中,寻找可核版本；《艺坛百影》也有相关回忆。
+L034,本人书信,致钱新之书信,滕白也,1947-04-02,沈宁文章引述,S010,中,原件位置、全文与图像待核。
+L035,本人书信,致韩国钧书信,滕白也,某年9月5日,沈宁文章引述,S010,中,年份不明，保留不确定性。
+L036,历史照片,东吴二中辩论队合影,摄影者待核,1919；1920-02刊,《新民报》7卷2期,S010,高,重要早年照片线索；未取得原图。
+L037,档案夹,"Kwei, Teng, 1929",C. J. Bulliet papers,1929,Smithsonian AAA，Series 4，Box 15，Folder 43,S072,高,检索指南已定位，待调阅文件夹内件。
+L038,私人书信,Tobey 致 Dorothy 与 Leonard Elmhirst（上海）,Mark Tobey,1934-04-25,Dartington Hall Archives，Elmhirst Papers；Clarke 第二章注47,S006,高,"Dartington Hall Trust已说明实物现存 Devon Heritage Centre, Exeter（非旧书目所记的Totnes地址），馆藏根目录DHTA：https://www.dartington.org/about/image-library-archive 。未取得1934-04-25具体档号或信件扫描。"
+L039,日记抄本,"Diary Notes, 1934",Mark Tobey,1934,UW Special Collections，Wesley Wehr papers；Clarke 第二章注50，第13页,S006；S090,高,华盛顿大学另有托贝上海日记，编号3593-002/7/9–22；与原先文献所引Wehr抄本的关系待核。
+L040,报刊,Kwei to Speak,Harvard Crimson,1931-02-25,Clarke 第二章注25,S006；S098,高,已取得报社档案原文；属于演讲预告。
+L041,报刊评论,Guide through New York art land,Frank E. Washburn Freund,1930-01-11,Pittsburgh Post-Gazette；Clarke 第二章注17,S006；S228,高,已取得匹兹堡原报第11页并核对署名、展厅及滕的段落。
+L042,博物馆期刊,Children’s Museum News,Brooklyn Children’s Museum,1930年3月,卷XVII，第6期，第119页；Clarke 第二章注19,S006；S230,高,"Brooklyn Children’s Museum，BCM-02，Box 85, folder 5；1930年3月号原刊第119页仍待查。"
+L043,报刊征集公告,首都建立總理銅像會第二次征求模型圖案,《中央日報》,1935-06-20,第7页；李寶妍2020，印刷页196注21,S070；S185；S186；S187；S224,高,待调阅原报。与1936年最终审查分开。
+L044,展览目录复核,Third International Exhibition of Lithography and Wood Engraving,Art Institute of Chicago,1931-12至1932-01,Clarke 第二章注26,S006；S007；S159；S160；S181,高,两届年份已核；仍待逐件目录核定 Rocky Landscape 的场次。
+L045,中文重印书目,指畫略傳／白也,白也（署名待核）,1971年重印,《論山水畫》，臺灣學生書局；东京大学东洋文化研究所 CJ2:04 6401042285,S081,高,对勘1935年《指画略说》，不先合并。
+L046,作品集原本,滕白也雕塑指畫潤例（韩文论文所引书名）,滕白也,1933,李寶妍2020，图9，注23，参考文献,S070,高,与L014题名异文互参，优先获取封面、版权页及三件肖像模型所在原页。
+L047,照片馆藏,Teng Kuei and family,Mark Tobey papers / UW Libraries,照片日期待核,"Accession 3593-006, Box 2，馆方清册列八张",S103,高,逐张核人物、拍摄日期、是否包含既有1926年题赠像。
+L048,展览卷宗,Summer Show [01–02],Brooklyn Museum Archives,1929,"Departments of European, American, and Contemporary Art，展览卷宗清册页54",S105；S104,高,核对价格表、收据及参展者住址，确认滕圭送展件数与题名。
+L049,原始图版,Lotus and duck，图版II.543,滕圭；教育部全国美展专集,1937展览,《教育部第二次全國美術展覽會專集》第二種《現代書畫集》图版543,S094；S117,高,需取得插图专集对应图版。与展品目录编号457及2021年拍品的关系待核。
+L050,展品题名辨识,艺风社第二届展览第18、20号作品,滕白也,1935-05-16,《藝風》3卷5期，出品目录印页171（扫描155）,S127；S012,高,两项分别以“小”和“双”的繁体开头，余字印墨不清，需用另一部原刊核实。 p30明确给出《小鹅》《双雀》，分别与S127目录第18、20项首字相合；本书读法可收，建议标是后出释读。
+L051,展览馆藏查访,1934年伯尔尼展的借展通信,E. Lichtenstein、刘海粟与 Otto Fischer 办公室,1934,Kunstmuseum Basel，F 001.027.011.000（Korrespondenz Direktion und Sekretariat Otto Fischer 1934: L）,S110,高,馆藏检索工具明确列 E. Lichtenstein 关于将展览引进伯尔尼的通信及刘海粟给该展的借展资料。待查内件是否列滕白也的作品、尺寸或价格。名列艺术家已见S110，展件仍须核。 https://kunstmuseumbasel.ch/de/file/7070/dc560e40/Findmittel_Otto%2BFischer.pdf
+L052,展览馆藏查访,伦敦 New Burlington Galleries 1935年展览逐件目录,New Burlington Galleries / China Association / China Society,1935-02-21—03-25（原目录题名所列）,OCLC 81509270；24页，馆藏书目源于Harvard；Preface / appreciation by Laurence Binyon。,S082,高,找到实体展览册著录；同期《The Spectator》3月22日另有述评。尚未核实该目录是否列滕的作品，不可由柏林名单直接推定。 https://openlibrary.org/books/OL61086011M
+L053,展览馆藏查访,1934年阿姆斯特丹、海牙合用展览目录,Stedelijk Museum（Amsterdam）与 Gemeentemuseum（Den Haag）,1934年5–6月,Tentoonstelling van moderne Chineesche schilderkunst，39页；《The Library of Dr Jan Fontein》书目第63号。,S082,高,39页原目录著录已确认。Robert van Gulik同年展评举及其他画家，未能确认滕在两站的具体展品。 https://www.arslibri.com/collections/FonteinLibrary.pdf
+L054,通信原档,"T’eng, Kuei to Carl Zigrosser：信件、照片与行程表",宾夕法尼亚大学 Kislak Center,1928–1952及未署年,"Ms. Coll. 6, box 46, folders 1698–1706",S161；S158；S157,高,152件、584叶。待取得原信及其家庭照片，逐件核日期、寄地、像主。
+L055,未具名作品,Two Finger Drawings — Mr. Teng Kuei,燕京大学／哈佛燕京学社,1933年1月,"Yale Divinity Library，RG 11，Box 325, Folder 4976",S170,高,报送芝加哥博览会的两件指画，清单无题。查最终借展与退还记录。
+L056,美国展品对照,"Landscape, no. 8, by Dun, Kwei",第十三届西北艺术家展览,1928-04,西雅图美术馆图书馆，展览目录第8号,S140；S143,高,未标藏家、尺寸或插图，不能确定与现藏同题作品的对应关系。
+L057,作品去向,Bust of Mussolini：拟送罗马,滕圭工作室,1935-11-20,The North-China Herald，印页337,S133,高,原报图注只记拟寄罗马。待核送交、运输或接收机构档案。
+L058,学位授予档案,University of Washington graduate degrees / Fine Arts,University of Washington,1927年以后,校方年表、毕业典礼程序册、美术研究生档案,S138；S001；S191；S192,高,已核1928–29、1929–30两学年MFA授位栏，均未见其名。校方1927年BFA授位记录已核。仍可查其他学年与个别授位档案。
+L059,展览目录,第四届国际版画展参展作品,Print Club of Philadelphia,1931–1932,Historical Society of Pennsylvania，Print Club archives，Collection 2065,S182；S225,高,12月15日参展名单列滕圭。继续查逐件图录及布鲁克林、伍斯特巡展清单。
+L060,托贝回忆原件,汉诺威1966展览图录中的托贝书信与访谈,Mark Tobey / Kestner-Gesellschaft Hannover；Wieland Schmied,1966，5月19日至6月26日展,原展图录 Mark Tobey，〈Aus Briefen und Gesprächen〉，第27页。SLUB合并目录ID 0-116824756X。,S214,高,2002年多特蒙德博物馆研究文集从此页引托贝点名滕圭教授书法的段落。原页和语句最初的书信或访谈出处待核。
+L061,本人书信,致陈仁炳的私人信件,滕白也,1957年8月20日以前,《人民日报》第8版；郑重《毛澤東與〈文匯報〉》引信,S235；S242；S012,高,年表印页69记1957年6月18日致信，7月12日见《解放日报》。尚待核原报、全信及郑重所引段落是否同函。
+L062,晚年档案,1978年秋《解放日报》介绍滕白也的报道,《解放日报》,1978年秋,上海大学图书馆嘉定校区所藏《解放日报》合订本，位置22–25,S043,高,滕国俊称读到此文后托报社转信；具体报期、作者、标题仍待定位。
+L063,晚年档案,上海医学模型厂任职及徐汇区政协委员名册,上海医学模型厂／上海卫生学校；徐汇区政协,1950年代，届次待核,上海交大医学院档案馆，上海市卫生学校、上海卫生人员训练所全宗；徐汇区历届委员名册,S013；S016；S241；S012,高,年表印页69记1950年5月任技师、1952年另办奉贤石膏模型厂；后续查具体人事及模型清册。
+L064,晚年档案,划定、改正及受聘文件,上海原工作单位、上海市文史研究馆,1958、1978–1980,人事档案、落实政策文书、馆员聘书,S013；S016；S043,高,核对1958年正式处分时间、1978及1979两说与受聘日期。
+L065,指画原报,滕白也参加日内瓦中国画展的作品,《申报》,1934,欧洲展览图录、借品清册,S204,高,中文报道列名；日内瓦与伯尔尼分站及具体展品仍需逐项核对。
+L066,旅美学籍,侯涵辉在欧伯林的学籍,Oberlin College Archives,1934年以前,"Office of the Secretary, SG IV, Series 3, Box 5；Oberlin Kindergarten-Primary Training School, Boxes 7–9",S012；S208；S253；S254,高,专著载Oberlin与儿童心理，订婚报道载音乐学士。以出生1907-05-03、福建籍及返沪时间核同一人。
+L067,史料复核,《美术家》第79期克拉克论文、万青力编译,包铭新、王瑞华据文献著录,1991-06,《画坛遗珠：滕白也研究》印页7–9（原书内题）；PDF扫描页为印页＋8,S012,高,找香港《美术家》第79期原文38–48页，必要时对勘万青力随后在台湾发表的独立论文；不重复计入1991年11月的《雄狮美术》。
+L068,史料复核,奉贤两卷滕白也档案及手写履历,包铭新、王瑞华据文献著录,20世纪,《画坛遗珠：滕白也研究》印页4–5、16（原书内题）；PDF扫描页为印页＋8,S012,高,出版时作者见两卷且称当时未解密；第16页明确引用本人手写履历所述东吴求学年份。原卷号、现行利用状态待馆方核实。
+L069,史料复核,南京《中央日报》总理铜像竞赛连续报道,包铭新、王瑞华据文献著录,1935-09—1937-07-07,《画坛遗珠：滕白也研究》印页36–37（原书内题）；PDF扫描页为印页＋8,S012,高,专著可追1935年9月、1936年1月及3月19日、5月10日、13日、20日、1937年7月7日诸期。应区别征稿、初审、终评、专访及工程报道。
+L070,史料复核,上海唯美社《世界人体摄影名作》版权页与滕白也作序原叶,包铭新、王瑞华据文献著录,1936-05-25,《画坛遗珠：滕白也研究》印页32（原书内题）；PDF扫描页为印页＋8,S012,高,依包、王所引题名、日期查原刊，检索目录时留意同期广告中“世界人体摄影名作”也可能作题材或副题，不先认定同书。
+L071,上海教职档案,上海市教育局全宗教职员名册、履历与聘书存根,上海市档案馆,1928–1937、1945–1949,上海市教育局全宗 Q235；中小学教职员名册、履历表、聘书存根。馆藏指南 https://www.shda.gov.cn/daly/gczn/202509/t20250919_74648.html,S012；S208；S251；S261,高,查侯涵辉、侯亞輝与候亞輝。全宗是下一步检索位置；尚未定位其个人任教记录。
+L072,子女学籍,武汉大学历届录取和毕业记录：滕大威,武汉大学档案馆,毕业年份待核,校友档案查询、录取及毕业名册。https://dag.whu.edu.cn/fwzn/cjwt.htm,S012；S260,高,家人确认武汉大学毕业。现有可公开检索的名单未找到同时吻合身份的记录，未据毕业年份反推生日。
+L073,新疆家庭史,新疆水利工作及迁居记录：滕大文、滕大章,新疆、上海地方档案及方志,1960年代以后,《画坛遗珠》印页38、66–70；新疆档案目录,S012；S239；S260,高,水库名称依原书作“伊利水库”，与现代标准地名的对应关系待考。未取得个人调动表、单位事故记录、乌鲁木齐讣告，故仅按已知年份著录。
+L074,美国音乐教育,欧伯林音乐学院入学申请与注册处记录,Oberlin College Archives,1934年前,"RG 25, Series VI, boxes 1–48 and 49–90；注册处成绩及幼师学校成绩单 https://oberlin.libraryhost.com/repositories/2/resources/221；RG 10, XIV/1，箱4（学生独奏）、箱7（毕业演奏、管弦乐团）。 https://www.oberlin.edu/archive/archon_pdfs/Conservatory_Inventory.pdf；地方报Oberlin News，1927-06-09印1栏1、1928-06-07印1栏6、1929-06-13印4栏1（毕业名单索引）。",S012；S208；S250；S253；S254；S263；S266；S267；S268,高,申请、就读和获学位分别核实。用1907年5月3日出生、福建籍、1934年秋已在沪辨人，英文名待核。
+L075,婚姻档案,上海婚姻登记档案与离婚诉讼文书,上海区级档案馆、相关人民法院,1950年代末及以后,徐汇婚姻登记档案 https://zwdt.sh.gov.cn/govPortals/bsfw/item/d4c53be4-6d77-4d63-bea8-729536c5d9d8 ；上海离婚诉讼文书 https://zwdt.sh.gov.cn/govPortals/bsfw/item/65e8180a-4ae1-4dee-8aae-08c68d5e0ca1,S012；S238,高,两类档案分别查询。徐汇是已知生活线索，具体办理区县、是否经法院均不详。公开服务说明没有个人姓名。

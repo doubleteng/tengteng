@@ -1,0 +1,13 @@
+.saved-page{max-width:54rem;margin:auto;padding:1.5rem clamp(1rem,4vw,3.5rem) 5rem;font-family:var(--serif);overflow-wrap:anywhere}
+.saved-page nav,.saved-page .page-index{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem}
+.saved-page nav{justify-content:space-between;border-bottom:1px solid var(--line);padding:.3rem 0 1rem}
+.saved-page h1{font-size:clamp(1.8rem,4vw,3rem);line-height:1.25;margin:2rem 0 1rem}
+.saved-page h2{font-size:1.35rem;color:var(--red);margin:1.7rem 0 .6rem}
+.saved-page p,.saved-page li,.saved-page blockquote{font-size:1.06rem;line-height:1.68}
+.saved-page a,.saved-page summary{text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
+.saved-page li{margin:.5rem 0}.saved-page details{margin-top:1.5rem}.saved-page code{display:block;white-space:normal;overflow-wrap:anywhere;padding:.6rem 0}
+.saved-page button{border:1px solid var(--line);border-radius:.2rem;padding:.3rem .7rem;color:var(--ink);background:transparent;cursor:pointer}
+.saved-page blockquote{margin:0;padding:.5rem 1rem;border-left:2px solid var(--red)}.saved-page .record-id,.saved-page small{color:var(--muted)}.saved-page img{max-width:100%}
+html:not(.reader-en) .saved-page [lang=en],html.reader-en .saved-page [lang=zh]{display:none}
+
+.saved-page:has(.sheet-scroll){max-width:94rem}.sheet-scroll{overflow:auto;max-height:calc(100vh - 12rem);border:1px solid var(--line)}.sheet-scroll table{border-collapse:separate;border-spacing:0;width:100%;font:inherit;font-size:.97rem}.sheet-scroll td,.sheet-scroll th{min-width:6rem;max-width:28rem;overflow-wrap:anywhere;border-bottom:1px solid var(--line);padding:.55rem .75rem;text-align:left;vertical-align:top}.sheet-scroll th{position:sticky;top:0;background:var(--paper,#faf8f2);z-index:1}.sheet-scroll td:nth-child(3),.sheet-scroll td:nth-child(4){min-width:15rem}.sheet-scroll a{white-space:normal}

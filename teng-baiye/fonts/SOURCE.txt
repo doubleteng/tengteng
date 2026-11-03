@@ -1,0 +1,3 @@
+Archive FangSong is a subset of Zhuque Fangsong Regular v0.212 by TrionesType.
+Source: https://github.com/TrionesType/zhuque/releases/tag/v0.212
+License: SIL Open Font License 1.1 (OFL.txt). The subset covers all Han characters in this edition.

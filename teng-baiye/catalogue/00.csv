@@ -1,6 +1,6 @@
 ﻿项目 Item,中文摘要 / 数量,English / Link / Notes,依据 Sources
 研究对象,滕白也（又名滕圭）；约1900—1980，生卒有异说。,Teng Baiye / Teng Gui; dates differ across sources.,S001；S013；S025
-范围与日期,截至2026-11-03，含中、英、德、韩、日、法、意、瑞典、西班牙及荷兰语。,Public sources in ten languages as of 3 November 2026.
+范围与日期,截至2026-11-04，含中、英、德、韩、日、法、意、瑞典、西班牙及荷兰语。,Public sources in ten languages as of 4 November 2026.
 总文件夹,作品、人物、文献图版与原始PDF均归档在此。,https://teng-teng.org/teng-baiye/index.html#archive
 人物概览,来自上海奉贤的画家、雕塑家与美术教育者；指画及其与马克·托贝的交流，是现有研究的核心。,"A painter, sculptor and educator from Fengxian, Shanghai, known for finger painting and exchanges with Mark Tobey.",S003；S013；S007
 教育与资格,华盛顿大学1927年美术学士授位表有其名。哈佛燕京学社1929年批准其研究员资助。同年11月在英国皇家艺术学会当选 Fellow。美术硕士仍仅据1930年展览履历。,UW records a BFA in 1927 and subsequent graduate enrollment. The Harvard-Yenching fellowship and 1929 Royal Society of Arts election are separately documented. An MFA is reported in a 1930 exhibition biography.,S001；S002；S138；S171；S146
@@ -8,13 +8,13 @@
 创作范围,绘画、指画、石版画、雕塑和室内设计均有记录。存世原作、历史图版和仅见题名的作品分开标记。,"Records cover painting, finger painting, lithography, sculpture and design; evidence levels are kept separate.",S019—S025；S018；S038
 来源读取方式,S编号为检索来源；L编号为尚需追索的文献；I编号为已保存图像；D编号为已保存PDF。,S = source; L = research lead; I = saved image; D = saved PDF.
 语言说明,原题与姓名保留原文；来源表新增英文摘要。中文工作译名另标。,Original titles are retained. Source summaries are available in Chinese and English.
-检索来源数量,277,Multilingual source records. Items sharing a journal issue are identified by title and date.,01_检索来源
-追加文献档案线索,75,Bibliographic and archival leads; not all original documents have been obtained.,05_文献档案线索
-已保存图像,250,"Includes full views, details, portraits, installations and historical page scans.",04_素材索引
-已保存PDF及选页,158,Full documents and labelled extracts from original PDFs.,04_素材索引
-作品与设计条目,108,"Research entries, including unidentified groups and textual leads; not a count of authenticated extant originals.",03_作品目录
+检索来源数量,286,Multilingual source records. Items sharing a journal issue are identified by title and date.,01_检索来源
+追加文献档案线索,77,Bibliographic and archival leads; not all original documents have been obtained.,05_文献档案线索
+已保存图像,255,"Includes full views, details, portraits, installations and historical page scans.",04_素材索引
+已保存PDF及选页,163,Full documents and labelled extracts from original PDFs.,04_素材索引
+作品与设计条目,110,"Research entries, including unidentified groups and textual leads; not a count of authenticated extant originals.",03_作品目录
 相关旧藏条目,1,"R001 is a rubbing formerly collected by Teng, not created by him.",S030
-生平与研究史条目,119,Chronology includes later exhibitions and scholarship.,02_生平年表
+生平与研究史条目,121,Chronology includes later exhibitions and scholarship.,02_生平年表
 核验状态,“检索命中”“预览已见”“正文已阅”“PDF已阅”等状态严格区分；不把检索摘要当作全文。,"Access status is explicit. Search snippets, previews and inspected full texts are distinguished."
 图片计数与去重,同一馆藏的全图、细节、成组照，以及同一作品不同年代转载图均注明关系。图片数不等于作品数。,Multiple views and reproductions are linked to the same work ID.,03_作品目录；04_素材索引
 未取得材料,《钟馗》柏林原刊图版已取得。塔科马所藏疑似滕圭肖像、华盛顿大学目录中的八张家庭照片以及《画竹》一文所附图版仍待取得。,"The Berlin Zhong Kui plate has been recovered. The Tacoma portrait, UW family photographs and the bamboo essay illustration remain to be obtained.",07_未获图像

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "timeline": [
     {
       "id": "T01",
@@ -2223,6 +2223,34 @@
       "order": "1936-05-25"
     },
     {
+      "id": "T120",
+      "date": {
+        "zh": "1936-10-10—11-30",
+        "en": "10 October–30 November 1936"
+      },
+      "place": {
+        "zh": "法兰克福",
+        "en": "Frankfurt"
+      },
+      "title": {
+        "zh": "陶德曼藏画展中的滕圭作品",
+        "en": "Teng’s works in the Trautmann collection exhibition"
+      },
+      "text": {
+        "zh": "《Sinica》目录以星号标明参展作品。滕圭名下《钟馗》第45项、《月夜竹》第48项带星号；另五项仅能确认列入收藏目录。目录不证明画家本人到访。",
+        "en": "The Sinica catalogue marks exhibited works with a star: Teng’s Zhong Kui (no. 45) and Bamboo in Moonlight (no. 48). Five other entries document the collection only. This does not establish Teng’s personal attendance."
+      },
+      "sources": [
+        "S283"
+      ],
+      "status": {
+        "zh": "同期目录与脚注",
+        "en": "Contemporary catalogue and footnote"
+      },
+      "period": "return",
+      "order": "1936-10-10"
+    },
+    {
       "id": "T40",
       "date": {
         "zh": "1937",
@@ -2888,6 +2916,34 @@
       },
       "period": "later",
       "order": "1956-01-01"
+    },
+    {
+      "id": "T121",
+      "date": {
+        "zh": "1956年（原报日期待核）",
+        "en": "1956; original issue date unverified"
+      },
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "title": {
+        "zh": "为英国版画展撰写评论",
+        "en": "A review of the British print exhibition"
+      },
+      "text": {
+        "zh": "据姜浩峰2022年报道，滕白也观展后在《新民晚报》写《介绍几幅英国版画展中的作品》。展览于6月10–24日在中苏友好大厦举行；文章的原报日期和版面仍待核实。",
+        "en": "According to Jiang Haofeng’s 2022 report, Teng wrote a Xinmin Evening News review of the British print exhibition held at the Sino-Soviet Friendship Building on 10–24 June. The review’s original date and page remain unverified."
+      },
+      "sources": [
+        "S285"
+      ],
+      "status": {
+        "zh": "据后出报道；原文待核",
+        "en": "Later report; original review not yet inspected"
+      },
+      "period": "later",
+      "order": "1956-06-10"
     },
     {
       "id": "T114",
@@ -5563,25 +5619,27 @@
         "en": "Zhong Kui (Trautmann collection)"
       },
       "date": {
-        "zh": "不晚于1942年5月",
-        "en": "By May 1942"
+        "zh": "不晚于1937年",
+        "en": "By 1937"
       },
       "medium": {
         "zh": "指画",
         "en": "Finger painting"
       },
       "dimensions": "未见尺寸",
-      "collection": "1942年藏主为陶德曼；现藏未核",
+      "collection": "1937年美术期刊、1942年展览图录均记陶德曼藏；现藏未核",
       "accession": "",
       "sources": [
-        "S234"
+        "S234",
+        "S284"
       ],
       "note": {
-        "zh": "右侧长题款、面容与双足画法可与柏林展所刊另一幅《钟馗》区别。",
-        "en": "The inscription on the right and the depiction of the face and feet distinguish this work from the Berlin catalogue’s Zhong Kui."
+        "zh": "1937年《Die Kunst》印页63与1942年苏黎世图版为同一作品，右侧长题款、面容与双足可逐项对照。1936年收藏目录另有《钟馗》第45项；因相关图版未取得，尚不以该条锁定此作。区别于1934年柏林图版174。",
+        "en": "The 1937 Die Kunst reproduction (p. 63) matches the 1942 Zürich plate in inscription, face and feet. The 1936 collection list also records a Zhong Kui, no. 45, but its missing plate prevents a visual identification. This is distinct from Berlin plate 174 (1934)."
       },
       "images": [
-        "I105"
+        "I105",
+        "I255"
       ],
       "category": "painting"
     },
@@ -6815,6 +6873,37 @@
       },
       "images": [],
       "category": "painting"
+    },
+    {
+      "id": "W110",
+      "title": {
+        "zh": "月夜竹（德文题名译）",
+        "en": "Bamboo in Moonlight"
+      },
+      "date": {
+        "zh": "不晚于1936年",
+        "en": "By 1936"
+      },
+      "medium": {
+        "zh": "绘画（据原刊图版）",
+        "en": "Painting (period reproduction)"
+      },
+      "dimensions": "未见尺寸",
+      "collection": "陶德曼旧藏；现藏未核",
+      "accession": "",
+      "sources": [
+        "S283",
+        "S284"
+      ],
+      "note": {
+        "zh": "原题Bambus in Mondnacht。1936年《Sinica》图版35及1937年《Die Kunst》印页58为同一构图；1936年目录第48项带星号，表明参加法兰克福展览。月轮、斜竹及右下题款与已有三件竹画不同。中文题名为德文题名的工作译名。",
+        "en": "Bambus in Mondnacht appears as plate 35 in Sinica (1936) and on p. 58 of Die Kunst (1937). Catalogue no. 48 is starred as exhibited in Frankfurt. The moon, diagonal bamboo and lower-right inscription distinguish it from the other bamboo paintings in this archive."
+      },
+      "images": [
+        "I254"
+      ],
+      "category": "painting",
+      "coverImage": "I254"
     }
   ],
   "sources": [
@@ -11047,6 +11136,66 @@
       "status": "已核分册起页；尚未见图版543",
       "notes": "第171页是整部画集在影印丛书中的起页。图版号另据S094。",
       "url": "https://m.yrdart.com/jujiao/2193.html"
+    },
+    {
+      "id": "S283",
+      "language": "DE",
+      "type": "同期期刊、收藏目录",
+      "title": "Strömungen in der heutigen chinesischen Malerei. Sammlung Oskar P. Trautmann",
+      "author": "Erwin Rousselle · Sinica, Jg. XI",
+      "date": "1936",
+      "summary": {
+        "zh": "第157页列滕圭七项藏品；《钟馗》和《月夜竹》带星号。第156页脚注说明，带星号者在1936年10月10日至11月30日于法兰克福展出。图版35刊《月夜竹》。",
+        "en": "Page 157 lists seven works by Teng Kwei. Stars identify Zhong Kui and Bamboo in Moonlight as shown in Frankfurt, 10 October–30 November 1936. Plate 35 reproduces the bamboo painting."
+      },
+      "status": "原PDF已阅并保存；12页",
+      "notes": "印页149–158及图版34、35。目录号不同于图版号；未带星号的五项不能据此认定参展。原文引用的其他图版未包含在所下载文件中。",
+      "url": "https://china-institut.uni-frankfurt.de/publications/pdf/5-6_Erwin%20Rousselle_Str%C3%B6mungen%20in%20der%20heutigen%20chinesischen%20Malerei_Sammlung%20Oskar%20P%20Trautmann.pdf"
+    },
+    {
+      "id": "S284",
+      "language": "DE",
+      "type": "同期美术期刊图版",
+      "title": "Die Sammlung heutiger chinesischer Malerei von Oskar P. Trautmann",
+      "author": "Erwin Rousselle · Die Kunst, Bd. 77, H. 2 · F. Bruckmann, München",
+      "date": "1937（卷标1937/1938）",
+      "summary": {
+        "zh": "印页58–63讨论陶德曼藏画。第58页刊《月夜竹》，第63页刊滕圭指画《钟馗》。后者与1942年苏黎世图录所刊W068构图和题款相同。",
+        "en": "The article on pp. 58–63 reproduces Bamboo in Moonlight (p. 58) and Teng’s finger-painted Zhong Kui (p. 63). The latter matches W068 in the 1942 Zürich catalogue."
+      },
+      "status": "原PDF及馆藏元数据已阅；保存文章六页及两幅图",
+      "notes": "波兰西里西亚数字图书馆馆藏号29384 III，刊期标1937/1938、卷77、第2期，元数据出版年1937。第63页上方山水为徐悲鸿作品，不归入滕白也。",
+      "url": "https://sbc.org.pl/dlibra/publication/edition/729279"
+    },
+    {
+      "id": "S285",
+      "language": "ZH",
+      "type": "报刊历史报道",
+      "title": "作为时代见证者的上海展览中心",
+      "author": "姜浩峰 · 新民周刊",
+      "date": "2022-02-09网页；2022-02-14刊期",
+      "summary": {
+        "zh": "报道记1956年6月上海英国版画展后，滕白也在《新民晚报》发表《介绍几幅英国版画展中的作品》。1956年原报的日期、版面和全文尚未取得。",
+        "en": "The report states that Teng wrote a Xinmin Evening News review after the June 1956 British print exhibition in Shanghai. The original review’s issue, page and full text remain unverified."
+      },
+      "status": "报道正文已阅；1956年原文待核",
+      "notes": "英国版画展的展期为1956年6月10–24日；展期不可当作滕文的发表日期。华东师范大学2022年2月15日转载。",
+      "url": "https://www.xinminweekly.com.cn/fengmian/2022/02/09/17051.html"
+    },
+    {
+      "id": "S286",
+      "language": "EN",
+      "type": "家史网站 · 近名辨认",
+      "title": "Mo-li & Her Family",
+      "author": "Huangquest 家史网站",
+      "date": "网页未标日期",
+      "summary": {
+        "zh": "家史明确把Louise How、Loo-yee、璐懿相连，并记她赴Oberlin求学。与既有名册和船单线索合看，支持把Loo Y. How候选人辨为夏璐懿，而非据近姓归为侯涵辉。",
+        "en": "The family history identifies Louise How as Loo-yee (璐懿) and records her study at Oberlin. It strengthens the identification of the Loo Y. How candidate with Xia Luyi; it does not establish Hou Hanhui’s enrollment."
+      },
+      "status": "家史正文已阅；属于候选人辨析",
+      "notes": "家史不是校方学籍档。名册Loo Y. How与家史Louise/Loo-yee的对应为交叉比对推断；不得把此页人物照片作为侯涵辉肖像。",
+      "url": "https://www.huangquest.com/mo-li--her-family.html"
     }
   ],
   "materials": [
@@ -18711,6 +18860,84 @@
       "url": "https://book.kongfz.com/1792/10096634114/",
       "file": "assets/D161.pdf",
       "thumb": ""
+    },
+    {
+      "id": "I254",
+      "works": [
+        "W110"
+      ],
+      "category": "work",
+      "title": "月夜竹（1937年德文期刊图版）",
+      "titleEn": "Bamboo in Moonlight, 1937 German journal plate",
+      "size": "1051 × 1598",
+      "sources": [
+        "S284",
+        "S283"
+      ],
+      "note": "直接提取《Die Kunst》印页58的嵌入图像，保留原扫描色调；与1936年图版35为同作。",
+      "rights": "Erwin Rousselle，Die Kunst，卷77第2期，1937，F. Bruckmann。数字化：Biblioteka Śląska / Śląska Biblioteka Cyfrowa；馆藏元数据标Domena publiczna。",
+      "rightsEn": "Die Kunst 77/2, 1937, F. Bruckmann. Digitized by the Silesian Library; repository record marked public domain.",
+      "url": "https://sbc.org.pl/Content/729279/PDF/iii29384_77-1937_1938-02-0001.pdf?handler=pdf",
+      "file": "assets/I254.jpg",
+      "thumb": "assets/I254.webp"
+    },
+    {
+      "id": "I255",
+      "works": [
+        "W068"
+      ],
+      "category": "work",
+      "title": "钟馗（1937年《Die Kunst》图版）",
+      "titleEn": "Zhong Kui, Die Kunst plate, 1937",
+      "size": "602 × 1144",
+      "sources": [
+        "S284"
+      ],
+      "note": "直接提取印页63下方嵌入图像；与I105同作，补充较早刊载记录，不另增作品条目。",
+      "rights": "Erwin Rousselle，Die Kunst，卷77第2期，1937，F. Bruckmann。数字化：Biblioteka Śląska / Śląska Biblioteka Cyfrowa；馆藏元数据标Domena publiczna。",
+      "rightsEn": "Die Kunst 77/2, 1937, F. Bruckmann. Digitized by the Silesian Library; repository record marked public domain.",
+      "url": "https://sbc.org.pl/Content/729279/PDF/iii29384_77-1937_1938-02-0001.pdf?handler=pdf",
+      "file": "assets/I255.jpg",
+      "thumb": "assets/I255.webp"
+    },
+    {
+      "id": "D162",
+      "works": [
+        "W110"
+      ],
+      "category": "document",
+      "title": "Rousselle：陶德曼藏中国画（Sinica，1936）",
+      "titleEn": "Rousselle on the Trautmann collection, Sinica, 1936",
+      "size": "PDF · 12页",
+      "sources": [
+        "S283"
+      ],
+      "note": "法兰克福中国研究所提供的原PDF。正文印149–158；含图版34、35。七项滕圭藏品见印157（PDF第11页）。",
+      "rights": "Erwin Rousselle，Sinica XI，1936；数字文件：China-Institut Frankfurt。",
+      "rightsEn": "Erwin Rousselle, Sinica XI, 1936; digital file from China-Institut Frankfurt.",
+      "url": "https://china-institut.uni-frankfurt.de/publications/pdf/5-6_Erwin%20Rousselle_Str%C3%B6mungen%20in%20der%20heutigen%20chinesischen%20Malerei_Sammlung%20Oskar%20P%20Trautmann.pdf",
+      "file": "assets/D162.pdf",
+      "thumb": ""
+    },
+    {
+      "id": "D163",
+      "works": [
+        "W110",
+        "W068"
+      ],
+      "category": "document",
+      "title": "Rousselle：陶德曼藏画（Die Kunst，1937，印58–63）",
+      "titleEn": "Rousselle, Die Kunst, 1937, pp. 58–63",
+      "size": "PDF · 6页选页",
+      "sources": [
+        "S284"
+      ],
+      "note": "从整期PDF第30–35页提取，保留原刊页码58–63。不是整期杂志；两幅滕画分别在本选页第1、6页。",
+      "rights": "Erwin Rousselle，Die Kunst，卷77第2期，1937，F. Bruckmann。数字化：Biblioteka Śląska / Śląska Biblioteka Cyfrowa；馆藏元数据标Domena publiczna。",
+      "rightsEn": "Die Kunst 77/2, 1937, F. Bruckmann. Digitized by the Silesian Library; repository record marked public domain.",
+      "url": "https://sbc.org.pl/Content/729279/PDF/iii29384_77-1937_1938-02-0001.pdf?handler=pdf",
+      "file": "assets/D163.pdf",
+      "thumb": ""
     }
   ],
   "leads": [
@@ -19784,6 +20011,33 @@
       ],
       "priority": "高",
       "notes": "两类档案分别查询。徐汇是已知生活线索，具体办理区县、是否经法院均不详。公开服务说明没有个人姓名。"
+    },
+    {
+      "id": "L076",
+      "type": "1950年代报刊文章",
+      "title": "介绍几幅英国版画展中的作品",
+      "author": "滕白也",
+      "date": "1956年；具体刊期待核",
+      "location": "《新民晚报》；上海英国版画展相关报道",
+      "sources": [
+        "S285"
+      ],
+      "priority": "高",
+      "notes": "以1956年6月10–24日展期为检索起点，向展前后扩展；2022年报道记配乔治·克鲁克香克作品。未见原报，不把展览日期代作发表日期。"
+    },
+    {
+      "id": "L077",
+      "type": "旧藏与期刊缺图",
+      "title": "陶德曼藏滕圭七项作品及Sinica图版",
+      "author": "Erwin Rousselle；Oskar P. Trautmann",
+      "date": "1936–1937",
+      "location": "Sinica XI (1936)，印157；图版35、37及47/48相关讨论；Die Kunst 77/2 (1937)，印58–63",
+      "sources": [
+        "S283",
+        "S284"
+      ],
+      "priority": "高",
+      "notes": "七项为29鸟、40宋式鸭、45钟馗、50a野雁、48月夜竹、61雨、70山水。已取得月夜竹及1937钟馗图；其余题名不足以自动合并已有作品。《雨》与W089《山雨》须待图版37比较。1936钟馗缺图，不将同题目录号自动等同W068。"
     }
   ],
   "issues": [
@@ -20008,7 +20262,7 @@
       "id": "Q17",
       "title": "侯涵辉的美国教育经历",
       "conflict": "《申报》订婚消息称音乐系学士。包铭新、王瑞华年表印页65记美国俄亥俄州欧伯林教育学院儿童心理专业。",
-      "approach": "“亞勃林”最可能指Oberlin College。1934年婚讯所称音乐学士究竟为哪种专业学位、正式注册姓名与毕业年份均待核。",
+      "approach": "“亞勃林”最可能指Oberlin College。1934年婚讯所称音乐学士究竟为哪种专业学位、正式注册姓名与毕业年份均待核。 家史将Louise How／Loo-yee／璐懿与Oberlin相连，支持排除Loo Y. How近名候选；这不是侯氏本人的学籍证明。",
       "sources": [
         "S012",
         "S208",
@@ -20020,7 +20274,8 @@
         "S273",
         "S274",
         "S275",
-        "S276"
+        "S276",
+        "S286"
       ],
       "next": "校务秘书处历年中国学生卡、注册处学生档、幼师学校校友卡；俄州同名近名学生不自动合并。 招生处音乐学院申请档案RG 25、系列VI；注册处成绩和幼师成绩单。"
     },

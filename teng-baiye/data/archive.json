@@ -11341,6 +11341,36 @@
       "status": "编辑访谈正文已阅；专题原刊尚待定位",
       "notes": "访谈由主编本人说明篇名、期号与篇幅。没有提供该篇作者、页码或第4期出版日期；不把访谈网页日期2021年迁站路径当作文章日期，也不将一万数千字误记成确定的1.4万字。",
       "url": "https://szfz.shtong.gov.cn/n87144/20210701/131037.html"
+    },
+    {
+      "id": "S291",
+      "language": "EN",
+      "type": "教育史研究 · 课程表转录",
+      "title": "A History of Early Childhood Education in Canada, Australia, and New Zealand: Table 2",
+      "author": "Larry Prochner · UBC Press",
+      "date": "2009；表列1924–1925学年",
+      "summary": {
+        "zh": "第193页表2转录欧伯林幼师学校1924–25学年课程，列儿童心理、基础心理、音乐及钢琴；儿童心理栏注明比奈—西蒙测验。表下注明依据该校1925年校目第33–42页。",
+        "en": "Table 2 on p. 193 transcribes the school’s 1924–25 curriculum, including child psychology, elementary psychology, music and pianoforte. It cites the 1925 catalogue, pp. 33–42. Child psychology includes Binet–Simon tests."
+      },
+      "status": "表格文本见公开检索索引；出版方样章核到表名和页码；原校目对应页未获",
+      "notes": "出版方23页样章只含前言、目录与首章，不含第193页。表格正文由公开网页检索文本读取，尚未完成原书图版及1925校目的逐项校勘。课程不是独立专业或学位，也不证明侯涵辉就读。",
+      "url": "https://www.ubcpress.ca/asset/9129/1/9780774816595.pdf"
+    },
+    {
+      "id": "S292",
+      "language": "EN",
+      "type": "同期校目书影 · 师资训练",
+      "title": "Five Catalogs of the Oberlin Kindergarten Training School Ohio",
+      "author": "Oberlin Kindergarten(-Primary) Training School；书影提供：Langdon Manor Books",
+      "date": "1925–1931年间五册；单张内页所属册未核",
+      "summary": {
+        "zh": "公开书影的印页25说明钢琴教学及熟练证书；印页41的幼儿园导论列儿童心理学教材。五册封面和两张内页已保存，可直接对照该校教育与音乐训练的关系。",
+        "en": "The photographed p. 25 describes piano instruction and a proficiency certificate. On p. 41, Kindergarten Introduction assigns a childhood-psychology textbook. The covers and two interior images are preserved for comparison."
+      },
+      "status": "三张书影逐字核读并保存；未取得五册全文",
+      "notes": "书商货号9547，整组标1925–31。不得把各张内页自动归到1924–25或某一册；钢琴熟练证书不是音乐学士。照片未标识侯涵辉，不能作为她的肖像或就读证据。",
+      "url": "https://www.langdonmanorbooks.com/pages/books/9547/five-catalogs-of-the-oberlin-kindergarten-training-school-ohio"
     }
   ],
   "materials": [
@@ -19083,6 +19113,57 @@
       "url": "https://sbc.org.pl/Content/729279/PDF/iii29384_77-1937_1938-02-0001.pdf?handler=pdf",
       "file": "assets/D163.pdf",
       "thumb": ""
+    },
+    {
+      "id": "I256",
+      "works": [],
+      "category": "document",
+      "title": "欧伯林幼师学校五册校目封面",
+      "titleEn": "Five Oberlin kindergarten-training catalogue covers",
+      "size": "1840 × 971",
+      "sources": [
+        "S292"
+      ],
+      "note": "封面可辨1925–26、1926–27、1927–28、1930–31；中间一册右侧年份被遮。 学校史背景，非侯涵辉个人记录。",
+      "rights": "原校目：Oberlin Kindergarten(-Primary) Training School；书影：Langdon Manor Books，货号9547。保留原照片，未改动内容。",
+      "rightsEn": "Original school catalogues; photographs supplied by Langdon Manor Books, item 9547. Unaltered source images.",
+      "url": "https://langdonmanorbooks.cdn.bibliopolis.com/pictures/9547_1.jpg?auto=webp&v=1786647181",
+      "file": "assets/I256.jpg",
+      "thumb": "assets/I256.jpg"
+    },
+    {
+      "id": "I257",
+      "works": [],
+      "category": "document",
+      "title": "欧伯林幼师学校校目：钢琴教学与证书",
+      "titleEn": "Oberlin training-school catalogue: piano and certificate",
+      "size": "1306 × 932",
+      "sources": [
+        "S292"
+      ],
+      "note": "印页25：钢琴熟练证书与师范毕业分开；照片未显示本册年份。 学校史背景，非侯涵辉个人记录。",
+      "rights": "原校目：Oberlin Kindergarten(-Primary) Training School；书影：Langdon Manor Books，货号9547。保留原照片，未改动内容。",
+      "rightsEn": "Original school catalogues; photographs supplied by Langdon Manor Books, item 9547. Unaltered source images.",
+      "url": "https://langdonmanorbooks.cdn.bibliopolis.com/pictures/9547_4.jpg?auto=webp&v=1786647181",
+      "file": "assets/I257.jpg",
+      "thumb": "assets/I257.jpg"
+    },
+    {
+      "id": "I258",
+      "works": [],
+      "category": "document",
+      "title": "欧伯林幼师学校校目：幼儿园导论及儿童心理教材",
+      "titleEn": "Oberlin training-school catalogue: kindergarten introduction",
+      "size": "1347 × 1020",
+      "sources": [
+        "S292"
+      ],
+      "note": "印页41：Education I由Miss Yocom授课，教材包括Psychology of Childhood；照片未显示本册年份。 学校史背景，非侯涵辉个人记录。",
+      "rights": "原校目：Oberlin Kindergarten(-Primary) Training School；书影：Langdon Manor Books，货号9547。保留原照片，未改动内容。",
+      "rightsEn": "Original school catalogues; photographs supplied by Langdon Manor Books, item 9547. Unaltered source images.",
+      "url": "https://langdonmanorbooks.cdn.bibliopolis.com/pictures/9547_5.jpg?auto=webp&v=1786647181",
+      "file": "assets/I258.jpg",
+      "thumb": "assets/I258.jpg"
     }
   ],
   "leads": [
@@ -20263,6 +20344,34 @@
       ],
       "priority": "高",
       "notes": "主编称长一万数千字，补充首轮县志。须核原刊作者、页码、家属采访及档案引用，尤其与2008《画坛遗珠》的来源关系。不要调成旧政协《奉贤文史资料》第4辑。"
+    },
+    {
+      "id": "L084",
+      "type": "幼师学校独立年鉴与校目",
+      "title": "The Okatiess 与幼师学校课程、学生名册",
+      "author": "Oberlin Kindergarten-Primary Training School",
+      "date": "校目1894–1932；年鉴1923–1931",
+      "location": "Oberlin College Archives RG 24, Series III, Box 12（校目）、Box 15（The Okatiess）、Box 13（毕业纪念）；Series I, Box 7（学生及校友卡）",
+      "sources": [
+        "S254",
+        "S291",
+        "S292"
+      ],
+      "priority": "高",
+      "notes": "校方目录确认各组材料存在，尚未读到完整学生名单。先核1924–25校目33–42页，再逐年查Hou/Hon/How/Heu、Hanhui/Han-hui/Ya-hui、Daystar等；姓氏近似不能直接认人。The Okatiess与学院Hi-O-Hi是两套年鉴。"
+    },
+    {
+      "id": "L085",
+      "type": "跨校学生名录",
+      "title": "幼师学校、商科学校及当地中学合编学生名录",
+      "author": "Oberlin School of Commerce Records",
+      "date": "1927–1930",
+      "location": "Oberlin College Archives RG 31-021；RG 24馆藏指南Related Materials明确指向该组",
+      "sources": [
+        "S254"
+      ],
+      "priority": "高",
+      "notes": "这是幼师学校学生在学院主名册之外的另一条检索路径。公开指南未展示名录逐页内容，也未给出侯涵辉条目；不能把当地学校地址或会员身份等同于学院学籍。"
     }
   ],
   "issues": [

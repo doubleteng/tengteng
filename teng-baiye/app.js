@@ -1,6 +1,6 @@
 'use strict';
 const A = window.ARCHIVE;
-const languageLabels = { ZH: '中文', EN: 'English', DE: 'Deutsch', KO: '한국어', JA: '日本語', FR: 'Français', IT: 'Italiano', ES: 'Español', SV: 'Svenska', NL: 'Nederlands' };
+const languageLabels = { ZH: '中文', EN: 'English', DE: 'Deutsch', KO: '한국어', JA: '日本語', FR: 'Français', IT: 'Italiano', ES: 'Español', SV: 'Svenska', NL: 'Nederlands', CS: 'Čeština' };
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let lang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh';
@@ -131,7 +131,7 @@ function renderFamily() {
 }
 
 function renderLife(){
- return `<div class="wrap">${pageHead('生平年表','Chronology')}<p><a class="text-link" href="#family">${say('家人与晚年','Family and later life')} ↗</a></p><div class="tools"><div class="filters">${['all','early','america','return','later','research'].map(p=>chip('period',p,t(p),state.period)).join('')}</div><a class="text-link" href="data/timeline.csv" download>${t('download')} ↓</a></div><div class="timeline" id="timeline-results">${timelineResults()}</div></div>`;
+ return `<div class="wrap">${pageHead('生平年表','Chronology')}<p><a class="text-link" href="#family">${say('家人与晚年','Family and later life')} ↗</a></p><div class="tools"><div class="filters">${['all','early','america','return','later','research'].map(p=>chip('period',p,t(p),state.period)).join('')}</div><a class="text-link" href="data/timeline.csv" download>${t('download')} ↓</a></div><div class="timeline" id="timeline-results">${timelineResults()}</div><section class="family-section"><h2>${say('书札与交游','Correspondence and friendships')}</h2><p>${say('陈海燕整理的《程啸天师友往来书札诗文录》在目录中单列滕白也，前言也将他列为程啸天的交往者。相关条目的体裁、日期与内容，仍待原页核对。','Chen Haiyan’s compilation of Cheng Xiaotian’s correspondence and literary exchanges lists Teng Baiye in its contents. The preface identifies him among Cheng’s acquaintances; the form, date and content of his entry await examination.')}</p><div class="evidence">${refs(['S296'])}</div><p>${say('周叔昭的留言册也留有滕白也的题写。何创时书法艺术基金会的介绍与凌鹏的论文均提及此册。册中留言跨越多年，滕氏原页尚未取得，不能用周叔昭1931年毕业的年份给他的题写定年。','Teng also contributed to Zhou Shuzhao’s autograph album, described by the Ho Chuang Shih foundation and scholar Ling Peng. The album spans many years. Teng’s page remains unlocated, so Zhou’s 1931 graduation cannot date his contribution.')}</p><div class="evidence">${refs(['S297','S298','S299'])}</div></section></div>`;
 }
 function timelineResults(){return A.timeline.filter(e=>state.period==='all'||e.period===state.period).map(e=>`<article class="event" id="${e.id}"><div class="event-date">${esc(v(e.date))}<span class="event-place">${esc(v(e.place))}</span></div><div><h2>${esc(v(e.title))}</h2><p>${esc(v(e.text))}</p><div class="evidence"><span>${esc(v(e.status))}</span>${refs(e.sources)}</div></div></article>`).join('')}
 function filteredWorks(){const q=state.workQuery.toLowerCase().trim();return A.works.filter(w=>(state.workFilter==='all'?w.category!=='related':w.category===state.workFilter)&&(state.workEdition==='all'||w.images.some(id=>mat(id)?.plate?.editions.includes(state.workEdition)))&&(!state.imageOnly||w.images.some(id=>mat(id)?.thumb))&&(!q||JSON.stringify(w).toLowerCase().includes(q)))}
@@ -205,3 +205,4 @@ $('#detail').addEventListener('click',e=>{if(e.target===$('#detail')){const r=$(
 $('#detail').addEventListener('close',()=>{detailState=null});
 window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0)});
 render();
+

@@ -3129,14 +3129,15 @@
         "en": "Location unconfirmed"
       },
       "title": {
-        "zh": "友人追述劳动和婚姻变故",
-        "en": "A friend’s account of labour and family separation"
+        "zh": "回忆文章中的劳动与婚姻变故",
+        "en": "Labour and divorce in retrospective accounts"
       },
       "text": {
-        "zh": "万青力转述上海友人，称滕白也受政治批判、被迫劳动，妻子受压与他划清界限。两人离婚后各自谋生，友人没有给出日期。次子滕大威把家庭破裂追溯到1950年代末。",
-        "en": "Wan Qingli relayed an unnamed Shanghai friend’s account of pressure on Teng’s wife to dissociate herself politically from him. The couple divorced and made separate livelihoods. The account discussed his forced labour but did not date the divorce. Their younger son separately recalled a family rupture in the late 1950s."
+        "zh": "郑逸梅记文革期间因绘画和海外交往遭批判、强制劳动及夫妻离婚。万青力转述上海友人时也写到类似经过。两文未给离婚日期，来源是否独立尚未证明；次子把家庭破裂追溯到1950年代末。",
+        "en": "Zheng Yimei describes political attacks, compulsory labour and divorce during the Cultural Revolution. Wan Qingli relays a similar account from a Shanghai friend. Neither dates the divorce, and the independence of the accounts is unproven. Their younger son dates the family rupture to the late 1950s."
       },
       "sources": [
+        "S287",
         "S238",
         "S012"
       ],
@@ -3380,6 +3381,34 @@
       },
       "period": "later",
       "order": "1979-12-01"
+    },
+    {
+      "id": "T124",
+      "date": {
+        "zh": "去世前的夏季（回忆；年月待核）",
+        "en": "Summer before his death; date unverified"
+      },
+      "place": {
+        "zh": "地点未载",
+        "en": "Place unspecified"
+      },
+      "title": {
+        "zh": "郑逸梅追记跌伤与卧床",
+        "en": "Zheng Yimei recalls a fall and confinement to bed"
+      },
+      "text": {
+        "zh": "郑逸梅〈指画巨擘滕白也〉开篇记，滕白也原可独自外出，夏间跌倒伤及胫骨，此后卧床。文中以去年、八十岁和冬季描述时间；初刊未核，不能由重编本年份推算发生年，也不能改写既有10月22日的记载。",
+        "en": "Zheng recalls that Teng could go out unaided before a summer fall injured his shin and left him bedridden. The essay uses relative dating and describes his death as occurring in winter. Its first publication date is unknown; the reprint year cannot establish the event year or supersede the reported 22 October date."
+      },
+      "sources": [
+        "S287"
+      ],
+      "status": {
+        "zh": "后出回忆；未见病历或同期讣告",
+        "en": "Retrospective account; no clinical record or contemporary obituary"
+      },
+      "period": "later",
+      "order": "1980-06-01"
     },
     {
       "id": "T24",
@@ -11256,17 +11285,17 @@
     {
       "id": "S287",
       "language": "ZH",
-      "type": "回忆文章的版本与目录",
-      "title": "指画巨擘滕白也：郑逸梅文章的版本线索",
-      "author": "郑逸梅；书目核对：MegBook、知乎书店、CiNii Books",
-      "date": "1982年书目；2019年重编本目录",
+      "type": "回忆文章 · 公开正文及版本",
+      "title": "指画巨擘滕白也",
+      "author": "郑逸梅；《前尘旧梦》北方文艺版，QQ阅读",
+      "date": "2016年重编本；原作初刊未核",
       "summary": {
-        "zh": "2019年《林下云烟》目录将该篇列在第70页，下篇从第73页开始。日本CiNii确认《艺坛百影》由中州书画社于1982年6月出版，筑波大学有藏本。尚未取得滕白也篇正文，不能据目录补写其文革经历。",
-        "en": "The 2019 Linxia yunyan contents place the essay at p. 70, with the next essay at p. 73. CiNii confirms the June 1982 edition of Yitan baiying and a copy at the University of Tsukuba. Teng’s essay has not yet been read; these are bibliographic leads."
+        "zh": "郑逸梅记滕白也晚年某夏跌伤胫骨、此后卧床，并在文革叙述中提及因绘画和海外交往遭批判、强制劳动及夫妻离婚。文章未给离婚日期，也没有交代妻子此后的职业或住处。",
+        "en": "Zheng recalls a fall in summer that injured Teng’s shin and left him bedridden. He also describes political attacks over painting and foreign contacts, compulsory labour and divorce. The text supplies no divorce date or details of the wife’s subsequent work or residence."
       },
-      "status": "已核公开目录、ISBN与日本馆藏记录；文章全文未获",
-      "notes": "2019年北方文艺出版社《林下云烟》，ISBN 9787531745686，343页。《珍闻与雅玩》公开目录另题〈当代指画巨擘滕白也〉。不同编本内容是否相同待逐字比较。1982年书目NCID BA45963926，筑波大学索书号702.22-Te21；该目录本身不列滕篇页码。",
-      "url": "https://www.megbook.com.hk/mall/detail.jsp?proID=3406216"
+      "status": "QQ阅读公开正文已阅；初刊及各编本差异待核",
+      "notes": "所读为2016年《前尘旧梦》第25章的公开展示正文，不是原刊影印。开篇以去年和八十岁叙事，称夏间跌伤、冬季去世；初刊时间未核，不据此改定死日。文中只称夫人，未写侯氏姓名。劳动与离婚段和万青力S238相近，不能视为两个已证独立来源。2019《林下云烟》起页70、下篇73；《艺坛百影》1982年馆藏NCID BA45963926；各本待校。",
+      "url": "https://miread.read.qq.com/read/1029490351/25"
     },
     {
       "id": "S288",
@@ -11282,6 +11311,36 @@
       "status": "刊方公开摘要及目录已核；全文待查",
       "notes": "2026年2月28日刊方发布第105期说明。目录起页57；终页未以原刊核验。全文与注释尚待查阅；是否引用新增家藏资料、晚年回忆或采访，不能由摘要确定。",
       "url": "https://yishu-online.com/browse-articles/?1123"
+    },
+    {
+      "id": "S289",
+      "language": "ZH",
+      "type": "地方人物书目 · 图书馆推荐",
+      "title": "奉贤历史文化名人：奉城图书馆书单",
+      "author": "张志弟著；推荐来源：奉城艺韵",
+      "date": "图书2006年；书单2019-11-12",
+      "summary": {
+        "zh": "奉城图书馆推荐书单明确列滕白也为张志弟《奉贤历史文化名人》的叙述对象，并给出索书号K820.851.3/5528及ISBN 9787801865898。该篇正文、篇名和页码尚未取得。",
+        "en": "The Fengcheng library reading list explicitly names Teng among the subjects of Zhang Zhidi’s local biography collection. It gives shelfmark K820.851.3/5528 and ISBN 9787801865898. Teng’s chapter, title and page range remain unlocated."
+      },
+      "status": "书单与书目已核；滕白也篇正文未获",
+      "notes": "东方出版中心，2006年，259页。网络书目对出版月份有1月、10月两说，未见版权页，暂只录年份。不得据推荐语推断文革或家人细节。",
+      "url": "https://www.sohu.com/a/353302287_120055114"
+    },
+    {
+      "id": "S290",
+      "language": "ZH",
+      "type": "地方志编辑访谈 · 篇目定位",
+      "title": "资料积累是确保志书质量的基础——《奉贤文史》主编访谈",
+      "author": "邵长兴访丁惠义、姚金祥；上海通",
+      "date": "2012-05-18",
+      "summary": {
+        "zh": "主编访谈明确指出，《奉贤文史》第4期刊有《中国雕塑、指画大家滕白也》，长一万数千字，用以补充首轮《奉贤县志》的简略记载。该刊2009年6月创刊，不能与旧政协《奉贤文史资料》第4辑混同。",
+        "en": "The editors identify a substantial Teng biography in issue 4 of Fengxian Wenshi, intended to supplement the earlier county gazetteer. This periodical began in June 2009 and is distinct from the older CPPCC series Fengxian Wenshi Ziliao."
+      },
+      "status": "编辑访谈正文已阅；专题原刊尚待定位",
+      "notes": "访谈由主编本人说明篇名、期号与篇幅。没有提供该篇作者、页码或第4期出版日期；不把访谈网页日期2021年迁站路径当作文章日期，也不将一万数千字误记成确定的1.4万字。",
+      "url": "https://szfz.shtong.gov.cn/n87144/20210701/131037.html"
     }
   ],
   "materials": [
@@ -19495,15 +19554,15 @@
       "type": "回忆文章",
       "title": "指画巨擘滕白也",
       "author": "郑逸梅",
-      "date": "1982年6月；2019年9月重编本",
-      "location": "《林下云烟》2019年北方文艺版，起页70，ISBN 9787531745686；《艺坛百影》1982年中州书画社版，筑波大学702.22-Te21",
+      "date": "2016年重编本已读；初刊待核",
+      "location": "QQ阅读《前尘旧梦》第25章；2019《林下云烟》目录起页70；1982《艺坛百影》筑波大学702.22-Te21",
       "sources": [
         "S012",
         "S010",
         "S287"
       ],
       "priority": "高",
-      "notes": "已将约页70核实为2019年版目录起页70，下篇73。知乎目录列第22章；《珍闻与雅玩》另题〈当代指画巨擘滕白也〉。正文和初刊仍未取得，尚不能认定各编本完全相同。日本馆藏NCID BA45963926。"
+      "notes": "已读QQ阅读公开正文，原“正文未获”状态解除。仍需核初刊、1982与2019版本差异，并核郑文与万青力劳动及离婚叙述的来源关系。无确切离婚日期；不能由相似文字认定为独立证词。"
     },
     {
       "id": "L034",
@@ -20178,6 +20237,32 @@
       ],
       "priority": "中",
       "notes": "已读公开摘要。需取得正文与注释，核是否新增家藏材料、晚年记述或采访；并与同作者2024年Venezia Arti论文去重。现阶段不将摘要视为新的文革史料。"
+    },
+    {
+      "id": "L082",
+      "type": "地方传记全文",
+      "title": "奉贤历史文化名人中的滕白也篇",
+      "author": "张志弟",
+      "date": "2006",
+      "location": "东方出版中心；ISBN 9787801865898；奉城图书馆书单索书号K820.851.3/5528",
+      "sources": [
+        "S289"
+      ],
+      "priority": "高",
+      "notes": "已核书单明确列滕白也。需先取得目录及相应正文，核作者资料来源与1958年后经历；不把书目当作生平证据。"
+    },
+    {
+      "id": "L083",
+      "type": "地方文史专题原刊",
+      "title": "中国雕塑、指画大家滕白也",
+      "author": "原篇作者未核；丁惠义、姚金祥主编的《奉贤文史》",
+      "date": "第4期；确切出版年月待核",
+      "location": "2009年6月创刊的《奉贤文史》第4期；上海通2012-05-18主编访谈确认",
+      "sources": [
+        "S290"
+      ],
+      "priority": "高",
+      "notes": "主编称长一万数千字，补充首轮县志。须核原刊作者、页码、家属采访及档案引用，尤其与2008《画坛遗珠》的来源关系。不要调成旧政协《奉贤文史资料》第4辑。"
     }
   ],
   "issues": [

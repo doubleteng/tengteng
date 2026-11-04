@@ -11371,6 +11371,51 @@
       "status": "三张书影逐字核读并保存；未取得五册全文",
       "notes": "书商货号9547，整组标1925–31。不得把各张内页自动归到1924–25或某一册；钢琴熟练证书不是音乐学士。照片未标识侯涵辉，不能作为她的肖像或就读证据。",
       "url": "https://www.langdonmanorbooks.com/pages/books/9547/five-catalogs-of-the-oberlin-kindergarten-training-school-ohio"
+    },
+    {
+      "id": "S293",
+      "language": "EN",
+      "type": "校方档案清单 · 学籍检索",
+      "title": "Office of the Registrar: Inventory (RG 27)",
+      "author": "Oberlin College Archives",
+      "date": "档案含1921–1938年中国学生专题；清单印10–19页",
+      "summary": {
+        "zh": "印12页列Chinese Students, 1921–1938；印19页列幼师学校毕业生与未毕业生成绩单的字母分箱。H开头姓氏可先查毕业生第8箱及未毕业生第10箱。",
+        "en": "The inventory lists a Chinese Students, 1921–1938 file on p. 12. Page 19 locates training-school transcripts: H surnames fall in graduate Box 8 or non-graduate Box 10."
+      },
+      "status": "公开清单PDF已保存；印12、19页已核图；个人档案未获",
+      "notes": "RG 27, Subgroup I, Series 4, Box 1：Chinese Students, 1921–1938及Oberlin Kindergarten Training School, 1926–1939。Subgroup III, Box 8：毕业生G–Metcalf；Box 10：毕业生U–Z及未毕业生A–Sloan。成绩档案须馆方许可。目录只证明材料类别存在，不证明侯涵辉有个人档案。",
+      "url": "https://www2.oberlin.edu/archive/archon_pdfs/Registrar_Inventory.pdf"
+    },
+    {
+      "id": "S294",
+      "language": "EN",
+      "type": "校友档案馆藏指南",
+      "title": "Alumni Records (RG 28)",
+      "author": "Oberlin College Archives · Brian Williams",
+      "date": "馆藏1833–2024；指南起草1991",
+      "summary": {
+        "zh": "校友档案包括幼师学校学生。第II系列收1966届及以前毕业生，以及该范围中1966年7月1日后去世的未毕业生；可能保存地址变更、校友调查表、剪报及讣告。",
+        "en": "The alumni files include the training school. Series II covers graduates through 1966 and non-graduates in that range who died after July 1, 1966. Files may contain questionnaires, address changes and obituaries."
+      },
+      "status": "官方馆藏指南已阅；未见侯涵辉个人条目",
+      "notes": "馆方曾在1916、1926、1936、1948年寄发传记调查表；1960年校友名录覆盖已知毕业生和未毕业生。馆藏标示Unrestricted，但未公开逐人文件。不能据此认定侯涵辉填过表，或把可能内容写成她的经历。",
+      "url": "https://oberlin.libraryhost.com/repositories/2/resources/244"
+    },
+    {
+      "id": "S295",
+      "language": "EN",
+      "type": "年鉴实物书目与封面",
+      "title": "The Okatiess, 1925",
+      "author": "Oberlin Kindergarten-Primary Training School；书影：Common Crow Books",
+      "date": "1925",
+      "summary": {
+        "zh": "公开封面可辨The Okatiess与1925。书商货号0083921称全书84页并有签名题赠，但未展示学生名单或肖像内页。",
+        "en": "The public cover shows The Okatiess and 1925. Common Crow Books item 0083921 describes an 84-page copy with inscriptions; no student or portrait pages are displayed."
+      },
+      "status": "封面原图已保存；书目说明已阅；内页未获",
+      "notes": "封面可确认年鉴题名与年份；页数、签名情况来自书商描述，未逐页核验。该图不是侯涵辉肖像，不能确认她入学或毕业。",
+      "url": "https://www.commoncrowbooks.com/pages/books/0083921/oberlin-kindergarten-primary-training-school/okatiess-1925-yearbook-of-oberlin-kindergarten-primary-training-school"
     }
   ],
   "materials": [
@@ -19164,6 +19209,40 @@
       "url": "https://langdonmanorbooks.cdn.bibliopolis.com/pictures/9547_5.jpg?auto=webp&v=1786647181",
       "file": "assets/I258.jpg",
       "thumb": "assets/I258.jpg"
+    },
+    {
+      "id": "D164",
+      "works": [],
+      "category": "document",
+      "title": "欧伯林注册处档案清单：留学生与幼师学籍",
+      "titleEn": "Oberlin Registrar inventory: Chinese students and training-school transcripts",
+      "size": "PDF · 10页，印10–19",
+      "sources": [
+        "S293"
+      ],
+      "note": "完整保存公开Inventory文件。PDF第3页为印12页，第10页为印19页。文件是档案目录，不含侯涵辉个人成绩单。",
+      "rights": "Oberlin College Archives, Office of the Registrar Records, RG 27；公开馆藏清单。",
+      "rightsEn": "Oberlin College Archives, RG 27; public inventory.",
+      "url": "https://www2.oberlin.edu/archive/archon_pdfs/Registrar_Inventory.pdf",
+      "file": "assets/D164.pdf",
+      "thumb": ""
+    },
+    {
+      "id": "I259",
+      "works": [],
+      "category": "document",
+      "title": "The Okatiess：1925年幼师学校年鉴封面",
+      "titleEn": "The Okatiess: 1925 training-school yearbook cover",
+      "size": "1000 × 1387",
+      "sources": [
+        "S295"
+      ],
+      "note": "仅封面；未取得学生名册、肖像或签名内页。非侯涵辉个人图像。",
+      "rights": "原年鉴：Oberlin Kindergarten-Primary Training School，1925；封面书影：Common Crow Books，货号0083921。",
+      "rightsEn": "Yearbook, 1925; cover photograph by Common Crow Books, item 0083921.",
+      "url": "https://commoncrowbooks.cdn.bibliopolis.com/pictures/0083921.jpg?auto=webp&v=1478034467",
+      "file": "assets/I259.jpg",
+      "thumb": "assets/I259.jpg"
     }
   ],
   "leads": [
@@ -20206,11 +20285,11 @@
     },
     {
       "id": "L074",
-      "type": "美国音乐教育",
-      "title": "欧伯林音乐学院入学申请与注册处记录",
+      "type": "美国师范与音乐教育",
+      "title": "欧伯林入学申请、注册处与幼师学校成绩记录",
       "author": "Oberlin College Archives",
       "date": "1934年前",
-      "location": "RG 25, Series VI, boxes 1–48 and 49–90；注册处成绩及幼师学校成绩单 https://oberlin.libraryhost.com/repositories/2/resources/221；RG 10, XIV/1，箱4（学生独奏）、箱7（毕业演奏、管弦乐团）。 https://www.oberlin.edu/archive/archon_pdfs/Conservatory_Inventory.pdf；地方报Oberlin News，1927-06-09印1栏1、1928-06-07印1栏6、1929-06-13印4栏1（毕业名单索引）。",
+      "location": "RG 25, Series VI, boxes 1–48 and 49–90；注册处成绩及幼师学校成绩单 https://oberlin.libraryhost.com/repositories/2/resources/221；RG 10, XIV/1，箱4（学生独奏）、箱7（毕业演奏、管弦乐团）。 https://www.oberlin.edu/archive/archon_pdfs/Conservatory_Inventory.pdf；地方报Oberlin News，1927-06-09印1栏1、1928-06-07印1栏6、1929-06-13印4栏1（毕业名单索引）。 RG 27, Subgroup I, Series 4, Box 1（Chinese Students, 1921–1938；幼师学校1926–1939）；Subgroup III, Box 8（毕业生G–Metcalf）、Box 10（未毕业生A–Sloan）。清单印12、19页。",
       "sources": [
         "S012",
         "S208",
@@ -20220,10 +20299,11 @@
         "S263",
         "S266",
         "S267",
-        "S268"
+        "S268",
+        "S293"
       ],
       "priority": "高",
-      "notes": "申请、就读和获学位分别核实。用1907年5月3日出生、福建籍、1934年秋已在沪辨人，英文名待核。"
+      "notes": "申请、就读和获学位分别核实。用1907年5月3日出生、福建籍、1934年秋已在沪辨人，英文名待核。 已核的是公开目录；Subgroup III须档案馆许可。H姓分箱只是检索路径，并非找到侯涵辉的成绩单。"
     },
     {
       "id": "L075",
@@ -20355,10 +20435,11 @@
       "sources": [
         "S254",
         "S291",
-        "S292"
+        "S292",
+        "S295"
       ],
       "priority": "高",
-      "notes": "校方目录确认各组材料存在，尚未读到完整学生名单。先核1924–25校目33–42页，再逐年查Hou/Hon/How/Heu、Hanhui/Han-hui/Ya-hui、Daystar等；姓氏近似不能直接认人。The Okatiess与学院Hi-O-Hi是两套年鉴。"
+      "notes": "校方目录确认各组材料存在，尚未读到完整学生名单。先核1924–25校目33–42页，再逐年查Hou/Hon/How/Heu、Hanhui/Han-hui/Ya-hui、Daystar等；姓氏近似不能直接认人。The Okatiess与学院Hi-O-Hi是两套年鉴。 另见Common Crow Books货号0083921的1925年年鉴封面；内页未公开，不能据封面认人。"
     },
     {
       "id": "L085",
@@ -20372,6 +20453,19 @@
       ],
       "priority": "高",
       "notes": "这是幼师学校学生在学院主名册之外的另一条检索路径。公开指南未展示名录逐页内容，也未给出侯涵辉条目；不能把当地学校地址或会员身份等同于学院学籍。"
+    },
+    {
+      "id": "L086",
+      "type": "留学生校友及归国经历",
+      "title": "侯涵辉待核：欧伯林校友个人文件与1960年名录",
+      "author": "Oberlin College Archives",
+      "date": "1920年代就读候选；1936、1948年校友调查",
+      "location": "RG 28, Series II；Alumni register: graduates and former students, teaching and administrative staff, 1833–1960，LD4179.A16",
+      "sources": [
+        "S294"
+      ],
+      "priority": "高",
+      "notes": "先核Hou/Hon/How/Heu及Teng等拼写，再以出生日期、福建籍、1934年在沪等信息比对。问卷、地址变更或讣告可能连接留美和回国经历，但尚无侯涵辉个人文件。1960名录在线副本受限，仅核到书目，未检索全文。"
     }
   ],
   "issues": [

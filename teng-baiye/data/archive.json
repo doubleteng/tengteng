@@ -3298,6 +3298,34 @@
       "order": "1978-12-01"
     },
     {
+      "id": "T122",
+      "date": {
+        "zh": "晚年平反后（具体年月未载）",
+        "en": "After rehabilitation; exact date unrecorded"
+      },
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "title": {
+        "zh": "孙子滕一飞来沪陪伴",
+        "en": "A three-month stay with grandson Teng Yifei"
+      },
+      "text": {
+        "zh": "《画坛遗珠》第60页记，大孙子滕一飞从新疆来沪陪伴三个月，随祖父拜访艺术界友人。滕白也嘱他记下所见所闻，书中将这些记录列为还原晚年生活的材料。原笔记及起止日期未见。",
+        "en": "Page 60 of Bao and Wang’s biography says that Teng’s eldest grandson, Yifei, came from Xinjiang for three months and accompanied him on visits to artist friends. Teng asked him to record what he saw and heard. The original notes and dates of the stay have not been located."
+      },
+      "sources": [
+        "S012"
+      ],
+      "status": {
+        "zh": "据后出传记；原笔记待查",
+        "en": "Later biography; original notes unlocated"
+      },
+      "period": "later",
+      "order": "1979-01-01"
+    },
+    {
       "id": "T118",
       "date": {
         "zh": "1979-07-15",
@@ -3324,6 +3352,34 @@
       },
       "period": "later",
       "order": "1979-07-15"
+    },
+    {
+      "id": "T123",
+      "date": {
+        "zh": "1979年12月合订本（具体日待核）",
+        "en": "December 1979 volume; day unverified"
+      },
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "title": {
+        "zh": "接受桂兰的指画采访",
+        "en": "A finger-painting interview by Guilan"
+      },
+      "text": {
+        "zh": "《文汇报》〈苍劲何来——访指画家滕白也〉记记者登门观看指画桃花。存世局部摄影能核题名、署名和示范过程；完整篇幅及报头尚未取得。",
+        "en": "A Wenhui Bao interview describes a visit during which Teng demonstrated finger-painted peach blossoms. The surviving photograph verifies the title, byline and demonstration, but omits the complete article and dated masthead."
+      },
+      "sources": [
+        "S252"
+      ],
+      "status": {
+        "zh": "原报局部摄影；月份据合订本著录",
+        "en": "Newspaper photograph; month from volume listing"
+      },
+      "period": "later",
+      "order": "1979-12-01"
     },
     {
       "id": "T24",
@@ -10680,11 +10736,11 @@
       "author": "桂兰，《文汇报》",
       "date": "1979-12（合订本；具体日未见报头）",
       "summary": {
-        "zh": "桂兰登门访问，亲眼看见滕白也从铝管挤出红白两色，分置指尖两侧，在纸上撇转成桃花。",
-        "en": "An interviewer signing as Guilan watched Teng put red and white pigments on opposite sides of a fingertip and turn his finger on the paper to make peach blossoms."
+        "zh": "桂兰登门访问，亲眼看见滕白也从铝管挤出红白两色，分置指尖两侧，在纸上撇转成桃花。照片右栏还可辨出反右扩大化与艺术生涯中断的记述，后文已被画面裁掉。",
+        "en": "An interviewer signing as Guilan watched Teng put red and white pigments on opposite sides of a fingertip and turn his finger on the paper to make peach blossoms. The visible right column also connects the interruption of his artistic career to the expanded anti-rightist campaign; the continuation is cropped out."
       },
       "status": "原报局部摄影，已核题名、作者和示范；照片未含整版或报头",
-      "notes": "1979年12月合订本，照片第25张。直接图片 https://www0.kfzimg.com/sw/kfz-cos/kfzimg/1231489/2acd538fa9b97eed_b.jpg 。",
+      "notes": "1979年12月合订本，照片第25张。直接图片 https://www0.kfzimg.com/sw/kfz-cos/kfzimg/1231489/2acd538fa9b97eed_b.jpg 。 本轮核对27张图中的第24–27张：第26张为1979年12月31日漫画版，第27张为其局部，均不是这篇采访的续文。不得据相邻照片给采访定为12月31日。",
       "url": "https://book.kongfz.com/10495/6700600072/"
     },
     {
@@ -11196,6 +11252,36 @@
       "status": "家史正文已阅；属于候选人辨析",
       "notes": "家史不是校方学籍档。名册Loo Y. How与家史Louise/Loo-yee的对应为交叉比对推断；不得把此页人物照片作为侯涵辉肖像。",
       "url": "https://www.huangquest.com/mo-li--her-family.html"
+    },
+    {
+      "id": "S287",
+      "language": "ZH",
+      "type": "回忆文章的版本与目录",
+      "title": "指画巨擘滕白也：郑逸梅文章的版本线索",
+      "author": "郑逸梅；书目核对：MegBook、知乎书店、CiNii Books",
+      "date": "1982年书目；2019年重编本目录",
+      "summary": {
+        "zh": "2019年《林下云烟》目录将该篇列在第70页，下篇从第73页开始。日本CiNii确认《艺坛百影》由中州书画社于1982年6月出版，筑波大学有藏本。尚未取得滕白也篇正文，不能据目录补写其文革经历。",
+        "en": "The 2019 Linxia yunyan contents place the essay at p. 70, with the next essay at p. 73. CiNii confirms the June 1982 edition of Yitan baiying and a copy at the University of Tsukuba. Teng’s essay has not yet been read; these are bibliographic leads."
+      },
+      "status": "已核公开目录、ISBN与日本馆藏记录；文章全文未获",
+      "notes": "2019年北方文艺出版社《林下云烟》，ISBN 9787531745686，343页。《珍闻与雅玩》公开目录另题〈当代指画巨擘滕白也〉。不同编本内容是否相同待逐字比较。1982年书目NCID BA45963926，筑波大学索书号702.22-Te21；该目录本身不列滕篇页码。",
+      "url": "https://www.megbook.com.hk/mall/detail.jsp?proID=3406216"
+    },
+    {
+      "id": "S288",
+      "language": "EN",
+      "type": "研究论文公开摘要与期刊目录",
+      "title": "Learning from the East: Mark Tobey’s Formative Influences and the Artistic Bond with Teng Baiye",
+      "author": "Phyllis Hanyang Zhong / Yishu: Journal of Contemporary Chinese Art",
+      "date": "2026-03；第23卷，第105期",
+      "summary": {
+        "zh": "刊方目录列文章起页57，下一篇起页67；公开摘要讨论滕白也对托贝笔法、书法和白色书写的影响。正文未取得，暂不能判断是否含晚年新材料，亦未把它与同作者2024年论文视为同文。",
+        "en": "The official contents place the article at p. 57, with the next essay beginning at p. 67. Its public abstract concerns Teng’s influence on Tobey’s brushwork and white writing. The full text remains unread and has not been equated with Zhong’s 2024 article."
+      },
+      "status": "刊方公开摘要及目录已核；全文待查",
+      "notes": "2026年2月28日刊方发布第105期说明。目录起页57；终页未以原刊核验。全文与注释尚待查阅；是否引用新增家藏资料、晚年回忆或采访，不能由摘要确定。",
+      "url": "https://yishu-online.com/browse-articles/?1123"
     }
   ],
   "materials": [
@@ -19409,14 +19495,15 @@
       "type": "回忆文章",
       "title": "指画巨擘滕白也",
       "author": "郑逸梅",
-      "date": "版本年份待核",
-      "location": "《林下云烟》目录线索，约页70",
+      "date": "1982年6月；2019年9月重编本",
+      "location": "《林下云烟》2019年北方文艺版，起页70，ISBN 9787531745686；《艺坛百影》1982年中州书画社版，筑波大学702.22-Te21",
       "sources": [
         "S012",
-        "S010"
+        "S010",
+        "S287"
       ],
-      "priority": "中",
-      "notes": "寻找可核版本；《艺坛百影》也有相关回忆。"
+      "priority": "高",
+      "notes": "已将约页70核实为2019年版目录起页70，下篇73。知乎目录列第22章；《珍闻与雅玩》另题〈当代指画巨擘滕白也〉。正文和初刊仍未取得，尚不能认定各编本完全相同。日本馆藏NCID BA45963926。"
     },
     {
       "id": "L034",
@@ -20038,6 +20125,59 @@
       ],
       "priority": "高",
       "notes": "七项为29鸟、40宋式鸭、45钟馗、50a野雁、48月夜竹、61雨、70山水。已取得月夜竹及1937钟馗图；其余题名不足以自动合并已有作品。《雨》与W089《山雨》须待图版37比较。1936钟馗缺图，不将同题目录号自动等同W068。"
+    },
+    {
+      "id": "L078",
+      "type": "家属笔记",
+      "title": "滕一飞陪伴祖父三个月期间的见闻记录",
+      "author": "滕一飞",
+      "date": "滕白也晚年平反后；具体年月未载",
+      "location": "《画坛遗珠》印页60所述家属记录；原件藏地未载",
+      "sources": [
+        "S012"
+      ],
+      "priority": "高",
+      "notes": "书中称祖父要求孙子记录所见所闻，并称这些材料用于还原晚年生活。先核笔记是否留存、记录时间及是否为同期书写；不得把三个月直接定为1979年某三个月。"
+    },
+    {
+      "id": "L079",
+      "type": "晚年交往的交叉核验",
+      "title": "1976年12月赵朴初赴奉贤探望滕白也",
+      "author": "赵朴初；滕白也及奉贤友人",
+      "date": "1976-12",
+      "location": "《画坛遗珠》印页60；待查赵朴初同期日记、行程、书信及奉贤接待记录",
+      "sources": [
+        "S012"
+      ],
+      "priority": "高",
+      "notes": "现有单一后出传记记载，尚未找到赵氏同期独立记录。可同时追查赵金海、季仁荪、庄正重与滕的来往；未确认相关档案实际存世。"
+    },
+    {
+      "id": "L080",
+      "type": "晚年在世采访",
+      "title": "苍劲何来——访指画家滕白也（完整原报）",
+      "author": "桂兰 / 文汇报",
+      "date": "1979-12；具体日未核",
+      "location": "《文汇报》1979年12月合订本；S252第25张商品图",
+      "sources": [
+        "S252"
+      ],
+      "priority": "高",
+      "notes": "局部图缺报头、文章左右边界及结尾。已检查相邻24、26、27图，未得续文。26图日期12月31日属于漫画版，不能移用于采访；仍需逐日核正文。"
+    },
+    {
+      "id": "L081",
+      "type": "后续研究全文",
+      "title": "Learning from the East: Mark Tobey’s Formative Influences and the Artistic Bond with Teng Baiye",
+      "author": "Phyllis Hanyang Zhong",
+      "date": "2026-03",
+      "location": "Yishu 23，第105期，起页57；刊方文章号1123",
+      "sources": [
+        "S288",
+        "S009"
+      ],
+      "priority": "中",
+      "notes": "已读公开摘要。需取得正文与注释，核是否新增家藏材料、晚年记述或采访；并与同作者2024年Venezia Arti论文去重。现阶段不将摘要视为新的文革史料。"
     }
   ],
   "issues": [

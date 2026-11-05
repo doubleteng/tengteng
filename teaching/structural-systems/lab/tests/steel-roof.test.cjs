@@ -1,7 +1,7 @@
 /* Run with node tests/steel-roof.test.cjs. No runtime dependencies. */
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const dir=path.join(__dirname,'..'),context={window:{}};vm.createContext(context);
-const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');
+const html=fs.readFileSync(path.join(dir,'structure-core.js'),'utf8');
 vm.runInContext(html.slice(html.indexOf('/* BEGIN STEEL REFLECTION SCRIPT */'),html.indexOf('/* END STEEL REFLECTION SCRIPT */')),context);
 for(const file of ['steel-roof-data.js','steel-roof-lessons.js'])vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),context);
 const A=context.window.SteelRoof,D=context.window.SteelRoofData,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,`${a} != ${b}`);
@@ -26,9 +26,9 @@ for(const family of ['3060','4060'])for(const option of ['A','B','C','D','E'])fo
  }
 }
 // Dimensions are derived from discrete source rows and measured on the displayed geometry.
-for(const name of ['40LH13','44LH14','48LH14']){const trial={...s,lesson:'joist-table',joist:name},anno=A.scene(trial).annotations[1];near(Math.hypot(...anno.a.map((v,i)=>v-anno.b[i])),parseInt(name)/12);assert.match(anno.title,new RegExp(name));}
-for(const depth of [32,36,40,44,48]){const anno=A.scene({...s,lesson:'girder-table',girderDepth:depth}).annotations[1];near(Math.hypot(...anno.a.map((v,i)=>v-anno.b[i])),depth/12);}
-for(const gauge of [22,20,18,16]){const anno=A.scene({...s,lesson:'deck-table',gauge}).annotations[2];near(Math.hypot(...anno.a.map((v,i)=>v-anno.b[i])),({22:.0295,20:.0358,18:.0474,16:.0598})[gauge]/12);}
+for(const name of ['40LH13','44LH14','48LH14']){const trial={...s,roofView:'bay',lesson:'joist-table',joist:name},anno=A.scene(trial).annotations[1];near(Math.hypot(...anno.a.map((v,i)=>v-anno.b[i])),parseInt(name)/12);assert.match(anno.title,new RegExp(name));}
+for(const depth of [32,36,40,44,48]){const anno=A.scene({...s,roofView:'bay',lesson:'girder-table',girderDepth:depth}).annotations[1];near(Math.hypot(...anno.a.map((v,i)=>v-anno.b[i])),depth/12);}
+for(const gauge of [22,20,18,16]){const anno=A.scene({...s,roofView:'bay',lesson:'deck-table',gauge}).annotations[2];near(Math.hypot(...anno.a.map((v,i)=>v-anno.b[i])),({22:.0295,20:.0358,18:.0474,16:.0598})[gauge]/12);}
 // Imported studies keep notes and trial choices; invalid references fall back safely.
 s={...s,lesson:'girder-table',notes:{'brief':'My supports','joist-table':'Check self-weight'},completed:{brief:true},tablePick:{gauge:20,span:6}};
 const restored=A.normalize(JSON.parse(JSON.stringify(s)));assert.equal(restored.notes.brief,'My supports');assert.equal(restored.joist,'40LH13');assert.equal(restored.lesson,'girder-table');assert.equal(restored.tablePick.span,6);

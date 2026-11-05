@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
-const dir=path.join(__dirname,'..'),ctx={window:{}};vm.createContext(ctx);const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');vm.runInContext(html.slice(html.indexOf('/* BEGIN STEEL REFLECTION SCRIPT */'),html.indexOf('/* END STEEL REFLECTION SCRIPT */')),ctx);
+const dir=path.join(__dirname,'..'),ctx={window:{}};vm.createContext(ctx);const html=fs.readFileSync(path.join(dir,'structure-core.js'),'utf8');vm.runInContext(html.slice(html.indexOf('/* BEGIN STEEL REFLECTION SCRIPT */'),html.indexOf('/* END STEEL REFLECTION SCRIPT */')),ctx);
 for(const file of ['steel-roof-data.js','steel-roof-lessons.js','steel-explain.js'])vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx);
 const R=ctx.window.SteelRoof,E=ctx.window.SteelExplain,S=ctx.window.SteelReflection,text=r=>r.cards.flatMap(c=>c.text).join('\n');
 let s=R.normalize({...R.defaults(),lesson:'deck-table',panel:'explain',tablePick:{gauge:20,span:6}}),e=E.table(s);assert.equal(e.cards.length,4);assert.equal(e.status,'pass');assert.match(text(e),/128 psf/);assert.match(text(e),/122 psf/);assert.match(text(e),/5.714 ft remains/);assert.match(text(e),/0.0358 in/);

@@ -30,3 +30,12 @@ Run `node tests/steel-roof.test.cjs` from this directory. It checks the source e
 ## Coach integration
 
 Structure Coach uses the same Lecture 9 knowledge and source-table data. Five optional conversation starters cover the assignment, deck, joist, girder and independent modeling. They prepare an editable message without sending it. Source-backed row lookup retains PDF page, nominal span, units and blanks. General explanations leave the calculation prompt unchanged. The evidence step connects recorded dimensions/designations to student-built grids, bearings, family/type dimensions and roof geometry. Steel Lecture 2 remains Upcoming.
+
+
+## Integrated November 2026 update
+- Steel_Building_Parameters_Options.pdf: current user-linked 35-page introduction, file 1k-6ww6K_z_hm-kwgnSpfBd3vfWQ620HN. Shared requirements in all three assignments; floor voids pp16–19, deck pp22–23, lateral pp29–32, foundations p33.
+- Lecture_11_STEEL_COLUMNS_FOUNDATION.pdf: 72 pages. Lab 3/3.1 includes original page images and explicit discrepancies on pp49,66,69.
+- Steel_Composite_Floor_Deck_Span_Load_Table.pdf: original one-page source, file 13A2B-lb-4v4fYDMztEeTW2YrcVCoOgW_. Separate construction and service checks, selected row/column highlights.
+- No independent W-column or footing capacity table was found in the supplied folder. Lecture calculator-result pages are identified as examples, not invented design tables.
+- Original embedded column calculator: https://jonochshorn.com/scholarship/calculators-st/steel-column-design/steel-col-design.htm . Directory: https://jonochshorn.com/scholarship/calculators-st/index.html .
+- Coach knowledge version 1.12.0-steel-building-integrated includes project requirements, mechanisms, table method, source inconsistencies and student-reviewed partial model notes. Gemini model configuration prepared as gemini-4-argon; no live provider test or production deployment.

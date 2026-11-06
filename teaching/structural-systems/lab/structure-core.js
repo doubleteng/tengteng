@@ -408,7 +408,7 @@ class LabRenderer{
  pick(pt){const solid=this.depthSurface?.pick(pt.x,pt.y);if(solid)return {id:solid};let best=null,bd=14;for(let i=this.hit.length-1;i>=0;i--){const h=this.hit[i],d=this.distance(pt,h);if(d<bd&&(!this.depthSurface||h.p.some(p=>this.depthVisible(p)))){bd=d;best=h;}}return best;}
 
  requestRender(){if(!root.requestAnimationFrame){this.render();return;}if(this.renderFrame)return;this.renderFrame=root.requestAnimationFrame(()=>{this.renderFrame=null;this.render();});}
- render(){if(!this.w)return;const c=this.ctx;c.clearRect(0,0,this.w,this.h);c.fillStyle='#f5f7fa';c.fillRect(0,0,this.w,this.h);this.hit=[];this.depthSurface=null;let polys=[],lines=[],labels=[];
+ render(){if(!this.w)return;const c=this.ctx;c.clearRect(0,0,this.w,this.h);c.fillStyle='#eeeeee';c.fillRect(0,0,this.w,this.h);this.hit=[];this.depthSurface=null;let polys=[],lines=[],labels=[];
   const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false)=>{const p=this.projectFace(pts);if(p.length<3)return;if(cull&&this.mode==='3d'&&!this.xray&&(p[1].x-p[0].x)*(p[2].y-p[0].y)-(p[1].y-p[0].y)*(p[2].x-p[0].x)>=0)return;polys.push({p,color,stroke,alpha,id,edges,z:p.reduce((s,v)=>s+v.z,0)/p.length});};
   // A measured ground grid is a spatial reference, not a structural element.
   const gridStep=this.extent>55?10:5,gridSize=Math.ceil(this.extent*.72/gridStep)*gridStep;
@@ -2123,7 +2123,7 @@ class SteelReflectionLab{
   const metrics=this.el.querySelector('#steelSpanMetrics');if(metrics)metrics.innerHTML=`<span>Joist span<b>${r.span} ft</b></span><span>Spacing<b>${r.spacing.toFixed(1)} ft</b></span><span>Joist lines<b>${r.count}</b></span>`;
  }
  drawMaterial(){
-  if(!this.visible)return;const canvas=this.el.querySelector('#steelCanvas');if(!canvas)return;const rect=canvas.parentElement.getBoundingClientRect(),w=Math.max(300,rect.width),h=Math.max(300,rect.height),d=Math.min(root.devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;const c=canvas.getContext('2d');c.setTransform(d,0,0,d,0,0);c.fillStyle='#f5f7fa';c.fillRect(0,0,w,h);
+  if(!this.visible)return;const canvas=this.el.querySelector('#steelCanvas');if(!canvas)return;const rect=canvas.parentElement.getBoundingClientRect(),w=Math.max(300,rect.width),h=Math.max(300,rect.height),d=Math.min(root.devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;const c=canvas.getContext('2d');c.setTransform(d,0,0,d,0,0);c.fillStyle='#eeeeee';c.fillRect(0,0,w,h);
   this.refreshExplanation();const s=this.state,m=materialState(s),x=w*.21,y=h*.26,length=w*.48,extension=m.total*w*.055;
   c.setLineDash([6,5]);c.strokeStyle='#7d91a7';c.lineWidth=1.5;c.strokeRect(x,y,length,36);c.setLineDash([]);c.fillStyle=m.residual?'#b66a37':'#2873ab';c.fillRect(x,y+6,length+extension,24);
   c.font='14px Chivo, Arial, sans-serif';c.fillStyle='#284b69';c.textAlign='center';c.fillText('Original length L₀ (dashed)',w*.5,y-20);c.fillText(s.materialLoad?'Loaded specimen':m.residual?'Unloaded · residual extension remains':'Unloaded · original length restored',w*.5,y+73);

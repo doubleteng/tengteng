@@ -1,0 +1,25 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const root=require('node:path').resolve(__dirname,'..')+'/', window={}, ctx=vm.createContext({window,globalThis:window,console,Blob});
+const files=['structure-core.js','steel-roof-data.js','steel-pdf-map.js','steel-pdf-tables.js','steel-explain.js','steel-roof-lessons.js','steel-floor-data.js','steel-floor-lessons.js','steel-foundation-data.js','steel-linked-tables.js','steel-project-brief.js','steel-foundation-lessons.js'];
+for(const file of files)vm.runInContext(fs.readFileSync(root+file,'utf8'),ctx,{filename:file});
+const modules=window.LAB_MODULES, states=Object.fromEntries(modules.map(m=>[m.id,JSON.parse(JSON.stringify(m.defaults))]));
+states.floor.layout=window.FloorLayout.defaults();states.building.assignment=window.BuildingAssignment.defaults();states.building.floorHeight=12.25;states.floor.bayStoryHeight=12.25;
+const view={projection:'orthographic',xray:false,mode:'3d',loads:true,forces:true,deform:false,labels:true,scale:40,diagram:'moment'};
+for(const m of modules){const result=window.LAB_MODELS[m.id](states[m.id],view,states);assert.ok(result.items.length,m.id+' scene');assert.ok(result.stats.every(s=>typeof s.value!=='number'||Number.isFinite(s.value)),m.id+' finite metrics');}
+const r=window.SteelRoof.normalize({...window.SteelRoof.defaults(),family:'3060',option:'A',use:'office',familyChosen:true,optionChosen:true,useChosen:true,briefConfirmed:true});
+const f=window.SteelFloor.normalize({...window.SteelFloor.defaults(),option:'P',optionChosen:true,briefConfirmed:true,beamName:'W21x44',beamWeight:44,notes:{'floor-beam':'QA evidence: original source plus load conditions.'},pdfSources:{beam:'Lecture 10 p64'},pdfEvidence:{beam:{designation:'W21x44',reviewed:false}},sourceCell:{kind:'beam'}});
+const n=window.SteelFoundation.normalize({...window.SteelFoundation.defaults(),records:{'0,0':{roofLoad:'',floorLoad:'',upperLength:'',evidence:'QA unknown is not zero',section:'W8x28'}},pdfSelections:{column:{section:'W8x28'}},pdfSources:{column:'Lecture 11'}});
+const steel=window.SteelReflection.normalize({...r,lesson:'floor-beam',roofLesson:'deck-table',floor:f,foundation:n});
+assert.equal(steel.floor.pdfSources.beam,'Lecture 10 p64');assert.equal(steel.foundation.records['0,0'].roofLoad,'');assert.equal(steel.foundation.pdfSelections.column.section,'W8x28');
+const blank=window.SteelFoundation.current(r,f,window.SteelFoundation.defaults());assert.equal(blank.complete,false);assert.equal(blank.stale,true);
+for(const family of ['3060','4060'])for(const option of 'PQRSTUVW'){const layout=window.SteelFloor.layout({...r,family},{...f,option});assert.ok(layout.area>0&&layout.area<7200,'partial floor '+family+option);}
+const termContext=window.StructureCoach.normalize({context:{module:'loads',title:'Term · Beam',selected:'term:beam',rows:[{label:'Span',value:'18',unit:'ft'}],confirmed:false}}).context;assert.equal(termContext.selected,'term:beam');
+const bootstrap=fs.readFileSync(root+'structure-bootstrap.js','utf8');
+Object.assign(ctx,{modules,t:x=>x,states,view,active:'floor',lang:'en',plane:'plan',predictions:{floor:'QA prediction'},reflections:{floor:'QA reflection'},steelMode:true,coaching:false,intro:false,P:window.WoodProject,toast:()=>{},steel:{getData:()=>steel},coach:{getData:()=>({version:3,composer:'QA unsent draft',messages:[],draft:'QA calculation brief',openQuestions:[]})}});
+vm.runInContext(bootstrap.slice(bootstrap.indexOf('function validateStudy('),bootstrap.indexOf('function showComparison(')),ctx);
+const data={format:'structure-lab',version:4,active:'floor',states,view,plane:'plan',screen:'steel',steel,coach:ctx.coach.getData(),predictions:ctx.predictions,reflections:ctx.reflections};
+const normalized=ctx.validateStudy(data);assert.equal(normalized.floor.layout.enabled,states.floor.layout.enabled);assert.equal(normalized.building.floorHeight,12.25);assert.throws(()=>ctx.validateStudy({...data,states:null}));
+window.StructureStudio={getData:()=>({version:1,activities:{'terms:beam':{visited:true,changed:true,note:'Beam supports a strip of deck.'}},glossary:{term:'beam',values:{beam:{span:18}}}})};
+let saved;ctx.downloadBlob=(name,blob)=>saved={name,blob};
+vm.runInContext(bootstrap.slice(bootstrap.indexOf('function saveStudy('),bootstrap.indexOf('function validateStudy(')),ctx);ctx.saveStudy();assert.ok(saved);
+(async()=>{const result=JSON.parse(await saved.blob.text());assert.equal(result.studio.glossary.values.beam.span,18);assert.equal(result.steel.floor.beamName,'W21x44');assert.equal(result.coach.composer,'QA unsent draft');assert.equal(result.reflections.floor,'QA reflection');assert.equal(result.steel.foundation.records['0,0'].roofLoad,'');ctx.validateStudy(result);console.log('PASS: 10 original models, 16 partial-floor schemes, source evidence preservation, unknown reactions, v4 validation, and real saveStudy serialization with optional studio notes.');})();

@@ -37,7 +37,7 @@ if(window.AssignmentAnimation)assignmentAnimation=new window.AssignmentAnimation
 
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,3200);}
 function initializeStatic(){document.documentElement.lang='en';$('resetBtn').title=P.has(active)?'Reset this stage; keep the shared project brief':'Reset lesson inputs';$('resetBtn').setAttribute('aria-label',P.has(active)?'Reset this project stage':'Reset lesson');$('exportBtn').textContent=P.has(active)?'Save project':'Save study';}
-function renderNav(){
+function renderNav(){queueMicrotask(()=>window.StructureStudio?.sync());
  const item=m=>`<button class="module ${P.has(m.id)?'project-module ':''}${!intro&&!coaching&&!steelMode&&m.id===active?'active':''}" data-module="${m.id}" ${!intro&&!coaching&&!steelMode&&m.id===active?'aria-current="page"':''} title="${tr(P.has(m.id)?P.title+' · '+P.labels[m.id]:m.title)}"><span class="module-number">${P.has(m.id)?P.ids.indexOf(m.id)+1:m.num}</span><span><strong>${tr(P.labels[m.id]||m.title)}</strong><small>${tr(m.short)}</small></span></button>`;
  const groups=[{id:'concepts',title:'Fundamental Concepts',subtitle:'01–05 · learn the principles',ids:modules.filter(m=>!P.has(m.id)).map(m=>m.id)},...(P.projects||[{id:'wood',title:P.title,subtitle:'One coordinated building',ids:P.ids}])];
  $('modules').innerHTML=groups.map(g=>`<details class="nav-group ${g.id==='wood'?'project-nav':''}" data-nav-group="${g.id}" ${navCollapsed.has(g.id)?'':'open'}><summary><strong>${tr(g.title)}</strong><small>${tr(g.subtitle)}</small></summary><div class="nav-group-items">${g.ids.map(id=>modules.find(m=>m.id===id)).filter(Boolean).map(item).join('')}</div></details>`).join('');
@@ -51,7 +51,7 @@ function switchModule(id){if(!models[id])return;navCollapsed.delete(P.has(id)?'w
 function renderTabs(){document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===tab);b.setAttribute('aria-selected',b.dataset.tab===tab?'true':'false');});}
 function renderAll(){initializeStatic();renderNav();renderTabs();const m=module(),project=P.has(active);$('lectureLabel').textContent=(project?'Stage '+(P.ids.indexOf(active)+1)+' of 4 · ':'')+m.lecture+' · ARC 2713';$('lessonTitle').textContent=project?P.title:t(m.title);$('lessonQuestion').textContent=t(m.question);$('sourceLink').href='https://drive.google.com/file/d/'+m.source+'/view';$('view2d').classList.toggle('active',view.mode==='2d');$('view3d').classList.toggle('active',view.mode==='3d');$('planeSelect').style.display=view.mode==='2d'?'':'none';const stages=$('woodProjectStages');stages.hidden=!project;stages.innerHTML=project?P.ids.map((id,i)=>`<button data-project-stage="${id}" class="${id===active?'active':''}" ${id===active?'aria-current="step"':''}>${i+1} · ${P.labels[id]}</button>`).join(''):'';stages.querySelectorAll('[data-project-stage]').forEach(b=>b.onclick=()=>switchModule(b.dataset.projectStage));recompute();renderPanel();}
 function projectBriefHTML(){const value=P.brief(states),o=value?E.occupancies[value]:null;return `<div class="project-brief"><label for="projectBrief">Shared project brief</label><select id="projectBrief">${!value?'<option value="" selected disabled>Choose one brief for this project</option>':''}${Object.entries(E.occupancies).map(([id,o])=>`<option value="${id}" ${value===id?'selected':''}>${esc(o.label)}</option>`).join('')}</select><p>${o?'Roof snow: '+o.snow+' psf · Floor live load: '+o.live+' psf':'This saved study uses different roof and floor briefs. Choose a common building use and location to coordinate them.'}</p><small>Shared across all four project stages. Truss geometry and manually assigned loads remain editable.</small></div>`;}
-function recompute(){
+function recompute(){queueMicrotask(()=>window.StructureStudio?.sync());
  P.coordinateRoof?.(states);
  const custom=studio.active,reveal=!(custom&&studio.stage!=='analysis');const vv={...view,forces:hideResults||!reveal?false:view.forces,deform:hideResults||!reveal?false:view.deform,selected};let error=null;
  try{current=models[active](states[active],vv,states);}catch(e){error=e;current={items:[],stats:[],extent:30,explanation:'This configuration cannot be solved. Restore the lesson preset or change the geometry.',analysis:false};console.error('Model error',active,e);}
@@ -103,7 +103,7 @@ function controlVisible(c){const p=states[active];
  return true;
 }
 function controlUnit(c){return active==='floor'&&states.floor.bayMode==='auto'?window.BayUnits(states.floor,c.unit):{factor:1,unit:c.unit};}
-function renderPanel(){
+function renderPanel(){queueMicrotask(()=>window.StructureStudio?.sync());
  const m=module(),p=states[active];let html='';
  if(tab==='model'){
   html=(P.has(active)?projectBriefHTML():'')+`<p class="panel-intro">${tr(m.description)}</p>`;
@@ -200,7 +200,7 @@ function chartHTML(ch){
 function setView(mode){view.mode=mode;$('view2d').classList.toggle('active',mode==='2d');$('view3d').classList.toggle('active',mode==='3d');$('planeSelect').style.display=mode==='2d'?'':'none';recompute();}
 function openDialog(title,html){$('dialogTitle').textContent=t(title);$('dialogBody').innerHTML=html;$('dialog').showModal();}
 function downloadBlob(name,blob){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.target='_self';document.body.appendChild(a);try{a.click();}finally{a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}}
-function saveStudy(){try{if(states.truss.analysis)window.TrussAnalysis.capture(states.truss);const data={format:'structure-lab',version:4,created:new Date().toISOString(),active,lang,states,view,plane,predictions,reflections,screen:steelMode?'steel':coaching?'coach':intro?'glossary':'lab',steel:steel?.getData(),coach:coach?.getData()};downloadBlob('StructureLab-'+(steelMode?'steel-study':P.has(active)?'wood-building':active)+'.json',new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));toast(t('Study download started, including your notes'));}catch(e){toast(t('Download could not start. Please try again.'));}}
+function saveStudy(){try{if(states.truss.analysis)window.TrussAnalysis.capture(states.truss);const data={format:'structure-lab',version:4,created:new Date().toISOString(),active,lang,states,view,plane,predictions,reflections,screen:steelMode?'steel':coaching?'coach':intro?'glossary':'lab',steel:steel?.getData(),coach:coach?.getData(),studio:window.StructureStudio?.getData()};downloadBlob('StructureLab-'+(steelMode?'steel-study':P.has(active)?'wood-building':active)+'.json',new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));toast(t('Study download started, including your notes'));}catch(e){toast(t('Download could not start. Please try again.'));}}
 function validateStudy(data){
  const record=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
  if(!record(data)||data.format!=='structure-lab'||![1,2,3,4].includes(data.version)||!record(data.states)||!modules.some(m=>record(data.states[m.id])))throw Error(t('This is not a Structure Lab study file.'));
@@ -231,7 +231,7 @@ $('exportBtn').onclick=saveStudy;$('importBtn').onclick=()=>$('fileInput').click
   for(const m of modules)states[m.id]=valid[m.id];predictions=nextPredictions;reflections=nextReflections;Object.assign(view,nextView);baseline={};showAnswers={};studio.reset();
   active=modules.some(m=>m.id===data.active)?data.active:'loads';setIntro(false);coach?.restore(nextCoach);steel?.restore(nextSteel);
   for(const k of ['Loads','Forces','Deform','Labels'])$('show'+k).checked=view[k.toLowerCase()];$('deformScale').value=view.scale;$('scaleValue').textContent='×'+view.scale;
-  plane=['plan','elevation'].includes(data.plane)?data.plane:'auto';$('planeSelect').value=plane;selected=active==='loads'?'beam1':null;tab='model';hideResults=false;renderer.reset({nextScene:true});renderAll();if(data.screen==='steel')openSteel(nextSteel.lesson);else if(data.screen==='coach')openCoach();else if(data.screen==='glossary')setIntro(true);toast(t('Study opened'));
+  plane=['plan','elevation'].includes(data.plane)?data.plane:'auto';$('planeSelect').value=plane;selected=active==='loads'?'beam1':null;tab='model';hideResults=false;renderer.reset({nextScene:true});renderAll();if(data.screen==='steel')openSteel(nextSteel.lesson);else if(data.screen==='coach')openCoach();else if(data.screen==='glossary')setIntro(true);window.StructureStudio?.restore(data.studio);toast(t('Study opened'));
  }catch(err){toast(err.message||t('Unable to open this file.'));}finally{e.target.value='';}
 };
 $('captureBtn').onclick=()=>{const name='StructureLab-'+active+'-'+view.mode+'.png',failed=()=>toast(t('Image could not be created or downloaded. Please try again.'));try{$('scene').toBlob(blob=>{if(!blob){failed();return;}try{downloadBlob(name,blob);}catch(e){failed();}},'image/png');}catch(e){failed();}};
@@ -241,7 +241,7 @@ $('brand').onclick=e=>{e.preventDefault();openLearning();};
 $('glossaryNav').onclick=()=>openLearning();
 document.addEventListener?.('keydown',e=>{if(intro||coaching||steelMode||!studio.active||['INPUT','SELECT','TEXTAREA'].includes(e.target?.tagName)||$('dialog').open)return;const key=e.key.toLowerCase(),ctrl=e.ctrlKey||e.metaKey;if(key==='escape'){studio.chain=null;studio.chooseTool('select');return;}if(ctrl&&key==='z'){e.preventDefault();studio.restore(!e.shiftKey);return;}if(ctrl&&key==='y'){e.preventDefault();studio.restore(false);return;}if(ctrl)return;if(key==='delete'||key==='backspace'){e.preventDefault();studio.removeSelected();return;}const tool={v:'select',n:'node',m:'member',l:'load',s:'support'}[key];if(tool){e.preventDefault();studio.chooseTool(tool);}});
 // Structured in-browser access is read-only and does not bypass visible controls.
-window.StructureLab={getState:()=>JSON.parse(JSON.stringify({active,states,view,predictions,reflections,screen:steelMode?'steel':coaching?'coach':intro?'glossary':'lab',steel:steel?.getData(),coach:coach?.getData()})),getResults:()=>steelMode?{module:'steel-'+steel.state.lesson,metrics:[],assumptions:window.SteelFloor.isFloor(steel.state.lesson)?'Representative floor / lateral teaching model; source checks and external calculation records are not design approval.':window.SteelRoof.lecture(steel.state.lesson)===1?'Conceptual reflection activity; no project member selection.':'Nominal horizontal span study using assigned PDF tables; not a complete roof design.',study:window.SteelFoundation.isFoundation(steel.state.lesson)?window.SteelFoundation.current(steel.state,steel.floorState,steel.foundationState):window.SteelFloor.isFloor(steel.state.lesson)?window.SteelFloor.calc(steel.state,steel.floorState):window.SteelRoof.lecture(steel.state.lesson)===1?null:window.SteelRoof.calc(steel.state)}:JSON.parse(JSON.stringify({module:active,metrics:current.stats,assumptions:t(active==='floor'&&(states.floor.bayMode==='auto'||states.floor.layout?.enabled)?current.explanation:module().equations)})),version:'1.12.0-local-integrated'};
+window.StructureLab={getState:()=>JSON.parse(JSON.stringify({active,states,view,predictions,reflections,screen:steelMode?'steel':coaching?'coach':intro?'glossary':'lab',steel:steel?.getData(),coach:coach?.getData()})),getResults:()=>steelMode?{module:'steel-'+steel.state.lesson,metrics:[],assumptions:window.SteelFloor.isFloor(steel.state.lesson)?'Representative floor / lateral teaching model; source checks and external calculation records are not design approval.':window.SteelRoof.lecture(steel.state.lesson)===1?'Conceptual reflection activity; no project member selection.':'Nominal horizontal span study using assigned PDF tables; not a complete roof design.',study:window.SteelFoundation.isFoundation(steel.state.lesson)?window.SteelFoundation.current(steel.state,steel.floorState,steel.foundationState):window.SteelFloor.isFloor(steel.state.lesson)?window.SteelFloor.calc(steel.state,steel.floorState):window.SteelRoof.lecture(steel.state.lesson)===1?null:window.SteelRoof.calc(steel.state)}:JSON.parse(JSON.stringify({module:active,metrics:current.stats,assumptions:t(active==='floor'&&(states.floor.bayMode==='auto'||states.floor.layout?.enabled)?current.explanation:module().equations)})),version:'2.0.0-studio'};
 
 function captureSteelContext(){
  const r=steel.state,f=steel.floorState,n=steel.foundationState,N=window.SteelFoundation,F=window.SteelFloor;
@@ -253,6 +253,7 @@ function captureSteelContext(){
  return {module:'steel',title:'Steel Building · linked 1.1 / 2.1 / 3.1',capturedAt:new Date().toISOString(),selected:n?.selected||'',confirmed:false,rows,note:'Student-reviewed partial inputs, not a complete Revit model or verified design. Refresh after changes. Unknown values are not zero loads.'};
 }
 function captureCoachContext(){
+ if((intro||(coaching&&coach?.state.context?.selected?.startsWith('term:')))&&glossary){const t=glossary.term;return {module:t.lab,title:'Term · '+t.name,capturedAt:new Date().toISOString(),selected:'term:'+t.id,confirmed:false,rows:Object.entries(glossary.value).map(([key,value])=>({label:key,value:String(value),unit:t.controls.find(c=>c.key===key)?.unit||''})),note:t.definition+' Scope: '+t.note};}
  if(steel&&(steelMode||(coaching&&coach.state.project==='steel')))return captureSteelContext();
  const m=module(),p=states[active],rows=m.controls.filter(controlVisible).slice(0,25).map(c=>({label:c.label,value:c.type==='select'?String(c.options.find(o=>String(o[0])===String(p[c.key]))?.[1]??p[c.key]):String(p[c.key]??''),unit:c.unit||''}));
  if(active==='truss'&&p.mode==='custom'){rows.push({label:'Custom model',value:(p.custom?.nodes?.length||0)+' nodes · '+(p.custom?.members?.length||0)+' members',unit:''});}
@@ -261,7 +262,25 @@ function captureCoachContext(){
 }
 coach=new window.StructureCoach($('coachScreen'),{save:saveStudy,toast,context:captureCoachContext,openModel:id=>id==='steel'?openSteel(steel.state.lesson):switchModule(id)});
 steel=new window.SteelReflectionLab($('steelScreen'),{navigate:()=>renderNav(),coach:message=>{if(coach.state.composer?.trim()){openCoach();toast('Your current Coach message is kept. Send or clear it, then return to discuss your saved Steel reflection.');return;}coach.state.project='steel';coach.state.context=captureSteelContext();coach.state.composer=message;openCoach();}});
-$('coachFromModel').onclick=()=>{coach.state.context=captureCoachContext();openCoach();};
+$('coachFromModel').onclick=()=>{coach.state.context=captureCoachContext();coach.state.project=P.has(active)?'wood':'fundamentals';openCoach();};
 renderAll();
 glossary=new window.LabGlossary($('glossaryScreen'),{openLab:switchModule,close:()=>switchModule(active)});setIntro(true);
+// Controlled UI bridge: reuse existing models, events and normalized study data.
+window.StructureLabUI={
+ navigate(kind,id){if(kind==='steel')openSteel(id||'lecture1.1');else if(kind==='coach')openCoach();else if(kind==='terms')openLearning(id);else switchModule(id);},
+ getHandles:()=>({glossary,steel,coach,renderer}),
+ getModel:()=>({active,selected,tab,view,current,module:module()}),
+ setPanel(next){if(!['model','explain','exercise'].includes(next))return;tab=next;renderTabs();renderPanel();},
+ select(id){selected=id;tab='explain';recompute();renderTabs();renderPanel();},
+ askCoach(){coach.state.context=captureCoachContext();coach.state.project=steelMode?'steel':!intro&&P.has(active)?'wood':'fundamentals';openCoach();},
+ checkpoint(){ $('snapshotBtn').click(); },compare(){if(baseline[active])showComparison();},
+ save:saveStudy,dialog:openDialog,courseMap:showCourseMap,help:showHelp,
+ selectTerm:id=>openLearning(id),
+ setMaterial(value){const c=modules.find(m=>m.id==='materials').controls.find(c=>c.key==='material');if(c?.options.some(o=>o[0]===value)){states.materials.material=value;recompute();renderPanel();}},
+ makeTermScene(){const p=JSON.parse(JSON.stringify(modules.find(m=>m.id==='loads').defaults));return models.loads(p,{...view,selected:null,loads:true,labels:true});},
+ resize(){renderer.resize();steel?.renderer?.resize();},
+ pause(){glossary?.hide();steel?.hide();coach?.hide();assignmentAnimation?.pause();}
+};
+
 })();
+

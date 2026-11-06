@@ -369,6 +369,10 @@ class LabRenderer{
  }
  resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.w=Math.max(10,r.width);this.h=Math.max(10,r.height);const d=Math.min(window.devicePixelRatio||1,2);this.canvas.width=Math.round(this.w*d);this.canvas.height=Math.round(this.h*d);this.ctx.setTransform(d,0,0,d,0,0);this.render();}
  setScene(items,opts={}){this.items=items;this.sceneBounds={center:[...(opts.center||[0,4,0])],extent:opts.extent||24};if(this.fitPending){this.center=[...this.sceneBounds.center];this.extent=this.sceneBounds.extent;this.fitPending=false;}this.selected=opts.selected;this.plane=opts.plane||'elevation';this.editor=opts.editor||null;this.planEditor=opts.planEditor||false;this.render();}
+ captureView(){return {yaw:this.yaw,pitch:this.pitch,zoom:this.zoom,pan:[...this.pan],center:[...this.center],extent:this.extent};}
+ restoreView(view){if(view){Object.assign(this,view,{pan:[...view.pan],center:[...view.center],fitPending:false});this.render();}}
+ // Preserve role/force hues while keeping opaque members legible on the #666666 viewport.
+ modelColor(hex){if(!/^#[0-9a-f]{6}$/i.test(hex))return hex;this.colorCache??=new Map();if(this.colorCache.has(hex))return this.colorCache.get(hex);const rgb=[1,3,5].map(k=>parseInt(hex.slice(k,k+2),16)),lum=a=>a.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);let out=rgb;for(let t=0;lum(out)<.52&&t<=1;t+=.025)out=rgb.map(v=>Math.round(v+(255-v)*t));const result='#'+out.map(v=>v.toString(16).padStart(2,'0')).join('');this.colorCache.set(hex,result);return result;}
  // Geometry updates only refresh the Fit target; the user's camera stays fixed.
  reset({nextScene=false}={}){this.fitPending=nextScene||!this.sceneBounds;if(!this.fitPending){this.center=[...this.sceneBounds.center];this.extent=this.sceneBounds.extent;}this.zoom=1;this.pan=[0,0];this.yaw=-.65;this.pitch=.5;this.render();}
  camera(v){let [x,y,z]=sub(v,this.center),xx,yy,zz;
@@ -408,24 +412,24 @@ class LabRenderer{
  pick(pt){const solid=this.depthSurface?.pick(pt.x,pt.y);if(solid)return {id:solid};let best=null,bd=14;for(let i=this.hit.length-1;i>=0;i--){const h=this.hit[i],d=this.distance(pt,h);if(d<bd&&(!this.depthSurface||h.p.some(p=>this.depthVisible(p)))){bd=d;best=h;}}return best;}
 
  requestRender(){if(!root.requestAnimationFrame){this.render();return;}if(this.renderFrame)return;this.renderFrame=root.requestAnimationFrame(()=>{this.renderFrame=null;this.render();});}
- render(){if(!this.w)return;const c=this.ctx;c.clearRect(0,0,this.w,this.h);c.fillStyle='#eeeeee';c.fillRect(0,0,this.w,this.h);this.hit=[];this.depthSurface=null;let polys=[],lines=[],labels=[];
-  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false)=>{const p=this.projectFace(pts);if(p.length<3)return;if(cull&&this.mode==='3d'&&!this.xray&&(p[1].x-p[0].x)*(p[2].y-p[0].y)-(p[1].y-p[0].y)*(p[2].x-p[0].x)>=0)return;polys.push({p,color,stroke,alpha,id,edges,z:p.reduce((s,v)=>s+v.z,0)/p.length});};
+ render(){if(!this.w)return;const c=this.ctx;c.clearRect(0,0,this.w,this.h);c.fillStyle='#666666';c.fillRect(0,0,this.w,this.h);this.hit=[];this.depthSurface=null;let polys=[],lines=[],labels=[];
+  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false)=>{const p=this.projectFace(pts);if(p.length<3)return;if(cull&&this.mode==='3d'&&!this.xray&&(p[1].x-p[0].x)*(p[2].y-p[0].y)-(p[1].y-p[0].y)*(p[2].x-p[0].x)>=0)return;polys.push({p,color:this.modelColor(color),stroke,alpha,id,edges,z:p.reduce((s,v)=>s+v.z,0)/p.length});};
   // A measured ground grid is a spatial reference, not a structural element.
   const gridStep=this.extent>55?10:5,gridSize=Math.ceil(this.extent*.72/gridStep)*gridStep;
-  if(this.mode==='3d'||this.plane==='plan')for(let v=-gridSize;v<=gridSize;v+=gridStep){this.lineRaw(this.project([v,0,-gridSize]),this.project([v,0,gridSize]),'#e2e7ef',.7);this.lineRaw(this.project([-gridSize,0,v]),this.project([gridSize,0,v]),'#e2e7ef',.7);}
+  if(this.mode==='3d'||this.plane==='plan')for(let v=-gridSize;v<=gridSize;v+=gridStep){this.lineRaw(this.project([v,0,-gridSize]),this.project([v,0,gridSize]),'#797979',.7);this.lineRaw(this.project([-gridSize,0,v]),this.project([gridSize,0,v]),'#797979',.7);}
   if(this.editor&&this.mode==='2d'&&this.plane==='elevation'){
    const a=this.unproject({x:0,y:this.h}),b=this.unproject({x:this.w,y:0}),base=this.editor.snap||1,step=base*Math.max(1,Math.ceil((b.x-a.x)/(base*90)));
-   for(let x=Math.ceil(a.x/step)*step;x<=b.x;x+=step)this.lineRaw(this.project([x,a.y,0]),this.project([x,b.y,0]),Math.abs(x)<1e-8?'#b2bfd1':'#e1e7ef',Math.abs(x)<1e-8?1.4:.7);
-   for(let y=Math.ceil(a.y/step)*step;y<=b.y;y+=step)this.lineRaw(this.project([a.x,y,0]),this.project([b.x,y,0]),Math.abs(y)<1e-8?'#b2bfd1':'#e1e7ef',Math.abs(y)<1e-8?1.4:.7);
+   for(let x=Math.ceil(a.x/step)*step;x<=b.x;x+=step)this.lineRaw(this.project([x,a.y,0]),this.project([x,b.y,0]),Math.abs(x)<1e-8?'#a4a4a4':'#797979',Math.abs(x)<1e-8?1.4:.7);
+   for(let y=Math.ceil(a.y/step)*step;y<=b.y;y+=step)this.lineRaw(this.project([a.x,y,0]),this.project([b.x,y,0]),Math.abs(y)<1e-8?'#a4a4a4':'#797979',Math.abs(y)<1e-8?1.4:.7);
   }
   for(const it of this.items){
    if(it.type==='beam'){
     const dir=unit(sub(it.b,it.a)),ref=Math.abs(dir[1])>.95?[1,0,0]:[0,1,0],u=unit(cross(dir,ref)),v=unit(cross(u,dir)),w=it.w||.35,h=it.h||.35;
     const points=root.LabJoinery?root.LabJoinery.corners(it):[];if(!points.length)for(const end of [it.a,it.b])for(const [su,sv]of [[-1,-1],[1,-1],[1,1],[-1,1]])points.push(add(add(end,mul(u,su*w/2)),mul(v,sv*h/2)));
-    [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]].forEach((ids,i)=>face(ids.map(j=>points[j]),this.shade(it.color||'#bd9f7c',[.83,1,.89,1.07,1.12,.95][i]),it.id===this.selected?'#193ee3':it.panel||it.id?.startsWith('roof-deck')?'#89754e':'#65758a88',this.xray?Math.min(it.alpha??1,.2):(it.alpha??1),it.id,true,true));
+    [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]].forEach((ids,i)=>face(ids.map(j=>points[j]),this.shade(it.color||'#bd9f7c',[.83,1,.89,1.07,1.12,.95][i]),it.id===this.selected?'#fff0a6':Math.min(w,h)*this.scale()<3?this.modelColor(it.color||'#bd9f7c'):'#3f464b',this.xray?Math.min(it.alpha??1,.2):(it.alpha??1),it.id,true,true));
     if(it.id)this.hit.push(it.panel?{id:it.id,p:[2,3,7,6].map(j=>this.project(points[j])),area:true,data:it.data}:{id:it.id,p:[this.project(it.a),this.project(it.b)],data:it.data});
     if(it.label){const d=sub(this.center,mul(add(it.a,it.b),.5)),point=mul(add(it.a,it.b),.5);point[1]+=it.h/2;labels.push({p:this.project(point),text:it.label,color:it.color,id:it.id});}
-   }else if(it.type==='poly')face(it.points,it.color,it.stroke||'#65758a66',it.alpha??1,it.id,true);
+   }else if(it.type==='poly')face(it.points,it.color,it.stroke||'#3f464b',it.alpha??1,it.id,true);
    else if(it.type==='line'||it.type==='arrow')lines.push(it);
    else if(it.type==='label')labels.push({p:this.project(it.p),text:it.text,color:it.color,id:it.owner});
    else if(it.type==='node')lines.push(it);
@@ -434,24 +438,24 @@ class LabRenderer{
   if(!painted)polys.sort((a,b)=>a.z-b.z).forEach(f=>{c.globalAlpha=f.alpha;c.beginPath();f.p.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();c.fillStyle=f.color;c.fill();if(f.stroke){c.globalAlpha=this.xray?.72:f.alpha;c.strokeStyle=f.stroke;c.lineWidth=this.xray?1.05:1;c.stroke();}c.globalAlpha=1;});
   if(painted)for(const f of polys)if(f.edges)for(let i=0;i<f.p.length;i++)this.lineRaw(f.p[i],f.p[(i+1)%f.p.length],f.stroke,f.id===this.selected?2:.65);
   for(const it of lines){
-   if(it.type==='node'){const p=this.project(it.p);if(!this.depthVisible(p))continue;c.beginPath();c.arc(p.x,p.y,it.handle?5:3,0,Math.PI*2);c.fillStyle=it.color||'#ffffff';c.fill();c.strokeStyle='#2b4389';c.lineWidth=1.5;c.stroke();if(it.id)this.hit.push({id:it.id,p:[p],handle:it.handle,world:it.p,data:it.data});continue;}
-   const a=this.project(it.a),b=this.project(it.b);this.lineRaw(a,b,it.color||'#303d55',it.width||1.5,it.dash);
-   if(it.type==='arrow'&&this.depthVisible(b)){const ang=Math.atan2(b.y-a.y,b.x-a.x),size=7;c.beginPath();c.moveTo(b.x,b.y);c.lineTo(b.x-size*Math.cos(ang-.44),b.y-size*Math.sin(ang-.44));c.lineTo(b.x-size*Math.cos(ang+.44),b.y-size*Math.sin(ang+.44));c.closePath();c.fillStyle=it.color||'#e67844';c.fill();}
+   if(it.type==='node'){const p=this.project(it.p);if(!this.depthVisible(p))continue;c.beginPath();c.arc(p.x,p.y,it.handle?5:3,0,Math.PI*2);c.fillStyle=this.modelColor(it.color||'#ffffff');c.fill();c.strokeStyle='#273845';c.lineWidth=1.5;c.stroke();if(it.id)this.hit.push({id:it.id,p:[p],handle:it.handle,world:it.p,data:it.data});continue;}
+   const a=this.project(it.a),b=this.project(it.b);this.lineRaw(a,b,this.modelColor(it.color||'#303d55'),it.width||1.5,it.dash);
+   if(it.type==='arrow'&&this.depthVisible(b)){const ang=Math.atan2(b.y-a.y,b.x-a.x),size=7;c.beginPath();c.moveTo(b.x,b.y);c.lineTo(b.x-size*Math.cos(ang-.44),b.y-size*Math.sin(ang-.44));c.lineTo(b.x-size*Math.cos(ang+.44),b.y-size*Math.sin(ang+.44));c.closePath();c.fillStyle=this.modelColor(it.color||'#e67844');c.fill();}
    if(it.id)this.hit.push({id:it.id,p:[a,b],data:it.data});
   }
   c.font='12px Chivo, Arial, sans-serif';c.textAlign='center';c.textBaseline='middle';
-  labels.forEach(l=>{if(!this.depthVisible(l.p)&&(!l.id||this.depthSurface?.pick(l.p.x,l.p.y)!==l.id))return;const tw=c.measureText(l.text).width;c.fillStyle='#fffffff0';c.fillRect(l.p.x-tw/2-5,l.p.y-10,tw+10,20);c.fillStyle=l.color||'#35405b';c.fillText(l.text,l.p.x,l.p.y);});
+  labels.forEach(l=>{if(!this.depthVisible(l.p)&&(!l.id||this.depthSurface?.pick(l.p.x,l.p.y)!==l.id))return;const tw=c.measureText(l.text).width;c.fillStyle='#e9e5ddf5';c.fillRect(l.p.x-tw/2-5,l.p.y-10,tw+10,20);c.fillStyle='#22292e';c.fillText(l.text,l.p.x,l.p.y);});
   if(this.editor?.enabled&&this.cursorWorld&&['member','node'].includes(this.editor.tool)){
    const p=this.project([this.cursorWorld.x,this.cursorWorld.y,0]),from=this.editor.chainPoint;
-   if(from)this.lineRaw(this.project([from.x,from.y,0]),p,'#345bcc',1.6,[5,4]);
-   c.beginPath();c.arc(p.x,p.y,5,0,Math.PI*2);c.strokeStyle='#345bcc';c.lineWidth=1.4;c.stroke();
-   c.font='11px Chivo, Arial, sans-serif';c.fillStyle='#536580';c.textAlign='left';c.fillText(this.cursorWorld.x.toFixed(2)+' , '+this.cursorWorld.y.toFixed(2)+' ft',p.x+10,p.y-12);
+   if(from)this.lineRaw(this.project([from.x,from.y,0]),p,'#a9d3ff',1.6,[5,4]);
+   c.beginPath();c.arc(p.x,p.y,5,0,Math.PI*2);c.strokeStyle='#a9d3ff';c.lineWidth=1.4;c.stroke();
+   c.font='11px Chivo, Arial, sans-serif';c.fillStyle='#eeeeea';c.textAlign='left';c.fillText(this.cursorWorld.x.toFixed(2)+' , '+this.cursorWorld.y.toFixed(2)+' ft',p.x+10,p.y-12);
   }
   this.axes();
  }
  lineRaw(a,b,color,width,dash){if(a.visible===false&&b.visible===false)return;const c=this.ctx;c.beginPath();if(this.depthSurface&&a.depth!==undefined&&b.depth!==undefined){const count=Math.min(5000,Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)))),point=t=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,depth:a.depth+(b.depth-a.depth)*t});let started=false,last;for(let i=0;i<=count;i++){const p=point(i/count);if(this.depthVisible(p)){if(!started)c.moveTo(p.x,p.y);started=true;last=p;}else if(started){c.lineTo(last.x,last.y);started=false;}}if(started)c.lineTo(last.x,last.y);}else{c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);} c.strokeStyle=color;c.lineWidth=width;c.setLineDash(dash||[]);c.stroke();c.setLineDash([]);}
  shade(hex,v){if(!/^#[0-9a-f]{6}$/i.test(hex))return hex;return '#'+[1,3,5].map(k=>Math.max(0,Math.min(255,Math.round(parseInt(hex.slice(k,k+2),16)*v))).toString(16).padStart(2,'0')).join('');}
- axes(){const p=this.camera([0,0,0]),origin={x:42,y:this.h-38};[[[1,0,0],'X','#d66c61'],[[0,1,0],'Z','#498361'],[[0,0,1],'Y','#547ac3']].forEach(([v,t,color])=>{const q=this.camera(v),b={x:origin.x+(q.xx-p.xx)*26,y:origin.y-(q.yy-p.yy)*26};this.lineRaw(origin,b,color,2);this.ctx.fillStyle=color;this.ctx.font='11px Chivo, Arial, sans-serif';this.ctx.fillText(t,b.x+(b.x-origin.x)*.3,b.y+(b.y-origin.y)*.3);});}
+ axes(){const p=this.camera([0,0,0]),origin={x:42,y:this.h-38};[[[1,0,0],'X','#ffb6ad'],[[0,1,0],'Z','#b6e5be'],[[0,0,1],'Y','#b1d7ff']].forEach(([v,t,color])=>{const q=this.camera(v),b={x:origin.x+(q.xx-p.xx)*26,y:origin.y-(q.yy-p.yy)*26};this.lineRaw(origin,b,color,2);this.ctx.fillStyle=color;this.ctx.font='11px Chivo, Arial, sans-serif';this.ctx.fillText(t,b.x+(b.x-origin.x)*.3,b.y+(b.y-origin.y)*.3);});}
 }
 root.LabRenderer=LabRenderer;
 })(window);
@@ -518,7 +522,7 @@ root.LAB_MODULES=[
  defaults:{bayMode:'auto',bayUnits:'us',bayInterior:2,bayStories:1,bayStoryHeight:12,bayPanel:'mpp',bayLoading:'project',bayLive:100,bayDead:15,bayFire:0,bayConnection:'flush',bayIncludeRoof:true,bayCarbonSet:false,bayGwpGlulam:0,bayGwpPanel:0,occupancy:'grocery',beamSpan:15,girderSpan:24,spacing:7.5,b:8.5,h:10,girderB:8.5,girderH:14.5,roof:true},
  controls:[sel('bayMode','Floor design method',[['auto','Bay designer · automatic sizes'],['manual','Manual member study']]),sel('bayUnits','Bay units',[['us','US customary'],['metric','Metric']]),sel('occupancy','Course project',occupancy),s('bayInterior','Interior beams per bay',0,12,1,''),s('bayStories','Supported floor levels',1,6,1,''),s('bayStoryHeight','Story height',10,20,.5,'ft'),sel('bayPanel','Panel system',[['mpp','MPP · course 3 in panel'],['clt','CLT · E1 catalog sizing']]),sel('bayLoading','Floor loading',[['project','Shared project brief'],['40','Residential · 40 psf'],['50','Office · 50 psf'],['75','Retail · 75 psf'],['100','Assembly · 100 psf'],['150','Library · 150 psf'],['custom','Custom live load']]),s('bayLive','Custom live load',0,300,5,'psf'),s('bayDead','Additional dead load',0,100,5,'psf'),sel('bayFire','Glulam fire exposure',[[0,'0 min'],[30,'30 min'],[60,'60 min'],[90,'90 min'],[120,'120 min']]),sel('bayConnection','Beam / girder arrangement',[['flush','Flush · common top surface'],['stacked','Stacked · beam above girder']]),check('bayIncludeRoof','Include the largest truss reaction in column sizing'),check('bayCarbonSet','Calculate A1–A3 carbon with my EPD factors'),s('bayGwpGlulam','Glulam A1–A3 factor',-1000,1000,1,'kgCO2e/m³'),s('bayGwpPanel','Panel A1–A3 factor',-1000,1000,1,'kgCO2e/m³'),s('beamSpan','Beam span',10,30,.5,'ft'),s('girderSpan','Girder span / column spacing',10,30,.5,'ft'),s('spacing','Maximum beam spacing, center to center',4,10,.25,'ft'),s('b','Beam width',4,12,.5,'in'),s('h','Beam depth',6,24,.5,'in'),s('girderB','Girder width',4,14,.5,'in'),s('girderH','Girder depth',8,30,.5,'in'),check('roof','Show roof / column continuity')],
  principle:'Panel span is measured between its bearing faces in this lesson model; center-to-center beam spacing is larger. Coordinate roof and floor columns to avoid unintended transfer structure. A floor can satisfy a strength check and still be too flexible.',
- equations:'Course table: 3-inch F10-3 MPP spans 8.92/7.76/6.09 ft for live loads 50/75/150 psf. Beam live-load deflection is compared to L/360. Girder results use an equivalent uniform load approximation. Displayed volume covers this one floor bay, excluding columns and roof.',
+ equations:'Course table: 3-inch F10-3 MPP spans 8.92/7.76/6.09 ft for live loads 50/75/150 psf. Beam live-load deflection is compared to L/360. The simple bay study uses an equivalent uniform girder load; the panel-layout study transfers discrete beam reactions at their actual positions. Displayed volume covers the selected floor study, excluding columns and roof.',
  challenge:'Create a floor with fewer columns. Keep the deck within its lesson span limit, then investigate which member depth controls clear height. Save two alternatives for comparison.',answer:'Increasing column spacing increases girder span and its structural demand. Increasing beam spacing also loads each beam more and may exceed the deck span table. Coordinate the system, not just the size of one member.'},
 {id:'building',num:'WB',lecture:'Lectures 6–8',title:'Building assembly',short:'Roof, floor & supporting frame',
  source:'1mKdXreh431eGtT1DrImtqrVwwrkAAQ5O',question:'Building · How do all the structural parts work together?',
@@ -2123,16 +2127,16 @@ class SteelReflectionLab{
   const metrics=this.el.querySelector('#steelSpanMetrics');if(metrics)metrics.innerHTML=`<span>Joist span<b>${r.span} ft</b></span><span>Spacing<b>${r.spacing.toFixed(1)} ft</b></span><span>Joist lines<b>${r.count}</b></span>`;
  }
  drawMaterial(){
-  if(!this.visible)return;const canvas=this.el.querySelector('#steelCanvas');if(!canvas)return;const rect=canvas.parentElement.getBoundingClientRect(),w=Math.max(300,rect.width),h=Math.max(300,rect.height),d=Math.min(root.devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;const c=canvas.getContext('2d');c.setTransform(d,0,0,d,0,0);c.fillStyle='#eeeeee';c.fillRect(0,0,w,h);
+  if(!this.visible)return;const canvas=this.el.querySelector('#steelCanvas');if(!canvas)return;const rect=canvas.parentElement.getBoundingClientRect(),w=Math.max(300,rect.width),h=Math.max(300,rect.height),d=Math.min(root.devicePixelRatio||1,2);canvas.width=w*d;canvas.height=h*d;const c=canvas.getContext('2d');c.setTransform(d,0,0,d,0,0);c.fillStyle='#666666';c.fillRect(0,0,w,h);
   this.refreshExplanation();const s=this.state,m=materialState(s),x=w*.21,y=h*.26,length=w*.48,extension=m.total*w*.055;
-  c.setLineDash([6,5]);c.strokeStyle='#7d91a7';c.lineWidth=1.5;c.strokeRect(x,y,length,36);c.setLineDash([]);c.fillStyle=m.residual?'#b66a37':'#2873ab';c.fillRect(x,y+6,length+extension,24);
-  c.font='14px Chivo, Arial, sans-serif';c.fillStyle='#284b69';c.textAlign='center';c.fillText('Original length L₀ (dashed)',w*.5,y-20);c.fillText(s.materialLoad?'Loaded specimen':m.residual?'Unloaded · residual extension remains':'Unloaded · original length restored',w*.5,y+73);
-  if(s.materialLoad){for(const [xx,sign]of [[x,-1],[x+length+extension,1]]){c.beginPath();c.moveTo(xx,y+18);c.lineTo(xx+sign*35,y+18);c.lineTo(xx+sign*27,y+11);c.moveTo(xx+sign*35,y+18);c.lineTo(xx+sign*27,y+25);c.strokeStyle='#a72b35';c.lineWidth=2;c.stroke();}}
+  c.setLineDash([6,5]);c.strokeStyle='#c7d0d8';c.lineWidth=1.5;c.strokeRect(x,y,length,36);c.setLineDash([]);c.fillStyle=m.residual?'#efb889':'#a0cef1';c.fillRect(x,y+6,length+extension,24);
+  c.font='14px Chivo, Arial, sans-serif';c.fillStyle='#f1ede5';c.textAlign='center';c.fillText('Original length L₀ (dashed)',w*.5,y-20);c.fillText(s.materialLoad?'Loaded specimen':m.residual?'Unloaded · residual extension remains':'Unloaded · original length restored',w*.5,y+73);
+  if(s.materialLoad){for(const [xx,sign]of [[x,-1],[x+length+extension,1]]){c.beginPath();c.moveTo(xx,y+18);c.lineTo(xx+sign*35,y+18);c.lineTo(xx+sign*27,y+11);c.moveTo(xx+sign*35,y+18);c.lineTo(xx+sign*27,y+25);c.strokeStyle='#ffb6ad';c.lineWidth=2;c.stroke();}}
   const gx=w*.19,gy=h*.82,gw=w*.59,gh=Math.max(55,h*.27),px=t=>gx+t*gw/2.9,py=t=>gy-t*gh/1.5;
-  c.strokeStyle='#8fa0b3';c.lineWidth=1;c.beginPath();c.moveTo(gx,gy-gh);c.lineTo(gx,gy);c.lineTo(gx+gw,gy);c.stroke();
-  c.beginPath();c.moveTo(px(0),py(0));c.lineTo(px(1),py(1));c.lineTo(px(2.4),py(1.4));c.strokeStyle='#8aa9be';c.lineWidth=2.5;c.stroke();
-  c.setLineDash([5,4]);c.beginPath();c.moveTo(px(m.plastic),py(0));c.lineTo(px(m.plastic+1.4),py(1.4));c.strokeStyle='#b66a37';c.stroke();c.setLineDash([]);
-  c.beginPath();c.arc(px(m.total),py(s.materialLoad/100),5,0,Math.PI*2);c.fillStyle='#005eb8';c.fill();c.font='13px Chivo, Arial, sans-serif';c.fillStyle='#38566f';c.textAlign='left';c.fillText('Stress',gx,gy-gh-12);c.fillText('Strain (dimensionless)',gx+gw*.43,gy+24);c.fillText('Yield',px(1)+8,py(1)-9);
+  c.strokeStyle='#c7d0d8';c.lineWidth=1;c.beginPath();c.moveTo(gx,gy-gh);c.lineTo(gx,gy);c.lineTo(gx+gw,gy);c.stroke();
+  c.beginPath();c.moveTo(px(0),py(0));c.lineTo(px(1),py(1));c.lineTo(px(2.4),py(1.4));c.strokeStyle='#b1d7ff';c.lineWidth=2.5;c.stroke();
+  c.setLineDash([5,4]);c.beginPath();c.moveTo(px(m.plastic),py(0));c.lineTo(px(m.plastic+1.4),py(1.4));c.strokeStyle='#efb889';c.stroke();c.setLineDash([]);
+  c.beginPath();c.arc(px(m.total),py(s.materialLoad/100),5,0,Math.PI*2);c.fillStyle='#fff0a6';c.fill();c.font='13px Chivo, Arial, sans-serif';c.fillStyle='#f1ede5';c.textAlign='left';c.fillText('Stress',gx,gy-gh-12);c.fillText('Strain (dimensionless)',gx+gw*.43,gy+24);c.fillText('Yield',px(1)+8,py(1)-9);
   const status=s.materialLoad>100?'Beyond yield: plastic strain develops.':s.materialLoad>0?(m.residual?'Reloading a specimen with residual strain.':'Within the elastic range: try unloading.'):(m.residual?'Load is zero, but the specimen is still longer.':'Load is zero and the original length is restored.');
   const out=this.el.querySelector('#steelLoadValue');if(out)out.textContent=s.materialLoad+'%';const info=this.el.querySelector('#steelMaterialStatus');if(info)info.textContent=status;
   const observation=this.el.querySelector('#steelObservation');if(observation)observation.innerHTML='<strong>Unload to distinguish elastic and plastic behavior.</strong> '+esc(status);

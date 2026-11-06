@@ -14,26 +14,27 @@ function normalize(raw={}){const d=defaults(),s={...d,...raw};const number=(k,mi
 function signature(roof,s){return [roof.family,roof.use,s.option,s.beamSpan,s.girderSpan,s.spaces,s.gauge,s.continuity,s.bearing,s.sides,s.beamWeight,s.girderWeight,s.beamName,s.girderName,s.elevation,s.bridge,s.bridgeWidth].join('|');}
 function calc(roof,s){s=normalize(s);const live=(uses[roof.use]||uses.library).live,spacing=s.girderSpan/s.spaces,dead=15+31+deck[s.gauge].weight,q=live+dead,w=q*spacing+s.beamWeight,wl=live*spacing,R=w*s.beamSpan/2000,P=R*s.sides,points=Array.from({length:s.spaces-1},(_,i)=>({x:(i+1)*spacing,kips:P}));const clear=Math.max(0,spacing-s.bearing/12),index=spans.findIndex(n=>n>=clear-1e-9),capacity=index<0?null:deck[s.gauge].loads[index],superimposed=live+15,construction=deck[s.gauge].construction[s.continuity];const girderReaction=(points.reduce((n,p)=>n+p.kips,0)+s.girderWeight*s.girderSpan/1000)/2;
 return {live,dead,q,spacing,w,wl,R,P,points,clear,tableSpan:index<0?null:spans[index],capacity,superimposed,construction,clearValid:spacing>s.bearing/12,constructionOK:spacing>s.bearing/12&&clear<=construction+1e-9,serviceOK:spacing>s.bearing/12&&capacity!==null&&superimposed<=capacity,girderReaction,boundaryReaction:(q*spacing/2+s.beamWeight)*s.beamSpan/2000*s.sides,columnFloorReaction:girderReaction+(q*spacing/2+s.beamWeight)*s.beamSpan/2000*s.sides,pattern:({2:'One midspan point load',3:'Two equal third-point loads',4:'Three equal quarter-point loads'})[s.spaces]||'Multiple discrete point loads',basisCurrent:s.basis===signature(roof,s)};}
-function scene(roof,s,id){const c=calc(roof,s),lateral=['floor-lateral','floor-continuity'].includes(id),G=s.girderSpan,L=s.beamSpan,Y=12,items=[],color={deck:'#9cbbc5',beam:'#cf7a42',girder:'#4b8097',column:'#536775',brace:'#ab5551'},focus=s.layer;
+function dimensions(s){const depth=name=>{const m=/^W(\d+)/i.exec(name);return m?+m[1]/12:null;};return {Y:s.elevation||12.25,bd:depth(s.beamName)||.8,gd:depth(s.girderName)||1.1};}
+function scene(roof,s,id){const c=calc(roof,s),lateral=['floor-lateral','floor-continuity'].includes(id),G=s.girderSpan,L=s.beamSpan,{Y,bd,gd}=dimensions(s),items=[],color={deck:'#9cbbc5',beam:'#cf7a42',girder:'#4b8097',column:'#536775',brace:'#ab5551'},focus=s.layer;
 const beam=(a,b,kind,w=.28,h=.8)=>{if(focus==='all'||focus===kind)items.push({type:'beam',a,b,w,h,color:color[kind],id:kind});},line=(a,b,kind)=>{if(focus==='all'||focus===kind)items.push({type:'line',a,b,color:color[kind],width:2,id:kind});},label=(p,text)=>items.push({type:'label',p,text,color:'#33434a'});
 const cols=lateral?[0,G,2*G,3*G]:[0,G],maxX=lateral?3*G:G;
-for(const x of cols)for(const z of [0,L])beam([x,0,z],[x,lateral?24:Y,z],'column',.45,.45);
-for(const y of (lateral?[12,24]:[12])){
- for(const z of [0,L])beam([0,y-.55,z],[maxX,y-.55,z],'girder',.38,1.1);
- for(let bay=0;bay<(lateral?3:1);bay++)for(let j=0;j<=s.spaces;j++)beam([bay*G+j*c.spacing,y-.4,0],[bay*G+j*c.spacing,y-.4,L],'beam',.24,.8);
+for(const x of cols)for(const z of [0,L])beam([x,0,z],[x,lateral?2*Y:Y,z],'column',.45,.45);
+for(const y of (lateral?[Y,2*Y]:[Y])){
+ for(const z of [0,L])beam([0,y-gd/2,z],[maxX,y-gd/2,z],'girder',.38,gd);
+ for(let bay=0;bay<(lateral?3:1);bay++)for(let j=0;j<=s.spaces;j++)beam([bay*G+j*c.spacing,y-bd/2,0],[bay*G+j*c.spacing,y-bd/2,L],'beam',.24,bd);
  if(focus==='all'||focus==='deck'){
-  const slab=(x0,x1,z0,z1)=>items.push({type:'poly',points:[[x0,y+.06,z0],[x1,y+.06,z0],[x1,y+.06,z1],[x0,y+.06,z1]],color:color.deck,alpha:.28,id:'deck'});
-  if(s.opening&&lateral){slab(0,G,0,L);slab(2*G,maxX,0,L);slab(G,2*G,0,L*.33);slab(G,2*G,L*.67,L);for(const z of [L*.33,L*.67])beam([G,y-.4,z],[2*G,y-.4,z],'beam');}else slab(0,maxX,0,L);
+  const slab=(x0,x1,z0,z1)=>items.push({type:'poly',points:[[x0,y,z0],[x1,y,z0],[x1,y,z1],[x0,y,z1]],color:color.deck,alpha:.28,id:'deck'});
+  if(s.opening&&lateral){slab(0,G,0,L);slab(2*G,maxX,0,L);slab(G,2*G,0,L*.33);slab(G,2*G,L*.67,L);for(const z of [L*.33,L*.67])beam([G,y-bd/2,z],[2*G,y-bd/2,z],'beam',.24,bd);}else slab(0,maxX,0,L);
   for(let z=2;z<L;z+=3)line([0,y+.09,z],[maxX,y+.09,z],'deck');
  }
 }
 if(lateral){
  const bays=s.brace==='corners'?[0,2]:s.brace==='central'?[1]:[];
- for(const b of bays)for(const z of [0,L])for(const y of [0,12]){beam([b*G,y,z],[(b+1)*G,y+12,z],'brace',.12,.12);beam([(b+1)*G,y,z],[b*G,y+12,z],'brace',.12,.12);}
- if(s.brace!=='none')for(const x of [0,maxX])for(const y of [0,12]){beam([x,y,0],[x,y+12,L],'brace',.12,.12);beam([x,y,L],[x,y+12,0],'brace',.12,.12);}
- const a=s.wind==='x'?[-G*.4,24,L/2]:[maxX/2,24,-L*.4],b=s.wind==='x'?[G*.3,24,L/2]:[maxX/2,24,L*.3];items.push({type:'arrow',a,b,color:'#ae5550',width:3});label(a,'Lateral action');label([maxX/2,26,L/2],s.opening?'Diaphragm opening: edge transfer required':'Diaphragm → braced bays → foundations');
+ for(const b of bays)for(const z of [0,L])for(const y of [0,Y]){beam([b*G,y,z],[(b+1)*G,y+Y,z],'brace',.12,.12);beam([(b+1)*G,y,z],[b*G,y+Y,z],'brace',.12,.12);}
+ if(s.brace!=='none')for(const x of [0,maxX])for(const y of [0,Y]){beam([x,y,0],[x,y+Y,L],'brace',.12,.12);beam([x,y,L],[x,y+Y,0],'brace',.12,.12);}
+ const a=s.wind==='x'?[-G*.4,2*Y,L/2]:[maxX/2,2*Y,-L*.4],b=s.wind==='x'?[G*.3,2*Y,L/2]:[maxX/2,2*Y,L*.3];items.push({type:'arrow',a,b,color:'#ae5550',width:3});label(a,'Lateral action');label([maxX/2,2*Y+2,L/2],s.opening?'Diaphragm opening: edge transfer required':'Diaphragm → braced bays → foundations');
 }else{for(const x of [c.spacing]){items.push({type:'poly',points:[[x-c.spacing/2,Y+.1,0],[x+c.spacing/2,Y+.1,0],[x+c.spacing/2,Y+.1,L],[x-c.spacing/2,Y+.1,L]],color:'#d28a52',alpha:.25,id:'tributary'});items.push({type:'arrow',a:[x,Y+6,L/2],b:[x,Y+1,L/2],color:'#bd7144',width:2});}if(id==='floor-girder')for(const p of c.points){items.push({type:'arrow',a:[p.x,Y+5,0],b:[p.x,Y+.3,0],color:'#ae5550',width:3});label([p.x,Y+6,0],`${p.kips.toFixed(2)} kips`);}label([G/2,Y+2,-2],`Girder span ${G} ft · ${s.spaces} spaces`);label([G+2,Y+2,L/2],`Beam span ${L} ft`);label([c.spacing,Y+3,L*.7],`${c.spacing.toFixed(2)} ft tributary strip`);}
-return {items,center:[maxX/2,lateral?12:6,L/2],extent:Math.max(maxX,L,lateral?28:20)*1.22,plane:'plan'};}
+return {items,center:[maxX/2,lateral?Y:Y/2,L/2],extent:Math.max(maxX,L,lateral?2*Y+4:Y+8)*1.4,plane:'plan'};}
 // Floor diagrams are coordinates within the same 60 x 120 ft enclosure as Lecture 1.1.
 function layout(roof,s){
  const small=roof.family==='3060',bay=small?30:40,o=s.option,group='PQRS'.includes(o),index='PQRSTUVW'.indexOf(o)%4;
@@ -53,10 +54,10 @@ function sync(roof,s){
 }
 function projectScene(roof,s){
  const R=root.SteelRoof,g=R.roofGeometry(roof),r=R.scene({...roof,roofView:'building',layer:'all'}),l=layout(roof,s);r.items=r.items.filter(it=>it.id!=='selected-bay'&&(it.type!=='label'||it.text==='OPEN PORCH'));const items=r.items;
- const Y=s.elevation||12.25,p=(x,z,y=Y)=>[x-30,y,z+g.bay-g.length/2];
+ const {Y,bd,gd}=dimensions(s),p=(x,z,y=Y)=>[x-30,y,z+g.bay-g.length/2];
  const segments=new Set(),columns=new Set();
  function member(a,b,id,w,h,color){const key=JSON.stringify([a,b].sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b))));if(segments.has(key))return;segments.add(key);items.push({type:'beam',a,b,id,w,h,color});}
- const depth=name=>{const m=/^W(\d+)/i.exec(name);return m?+m[1]/12:null;},bd=depth(s.beamName)||.8,gd=depth(s.girderName)||1.1;
+
  for(const c of l.cells){
   const across=c.x1-c.x0>=c.z1-c.z0,n=s.spaces;
   if(across){for(const x of [c.x0,c.x1])member(p(x,c.z0,Y-gd/2),p(x,c.z1,Y-gd/2),'floor-girder',.38,gd,'#4b8097');for(let i=0;i<=n;i++){const z=c.z0+(c.z1-c.z0)*i/n;member(p(c.x0,z,Y-bd/2),p(c.x1,z,Y-bd/2),'floor-beam',.24,bd,'#cf7a42');}}
@@ -84,6 +85,6 @@ function projectScene(roof,s){
  r.annotations=[{a:p(0,0,0),b:p(0,120,0),title:'Shared building · roof '+roof.option+' / floor '+s.option,value:roof.family+' · 60 × 120 ft + porch',color:'#326c94'},{a:p(l.hole.x0,l.hole.z0),b:p(l.hole.x1,l.hole.z1),title:'Floor '+s.option+' · open to roof',value:l.area+' sq ft elevated floor · shared coordinates',color:'#4b8097'}];
  return r;
 }
-root.SteelFloor={layout,sync,roofSignature,projectScene,uses,source,spans,deck,concepts,steps,all,isFloor,lecture,defaults,normalize,signature,calc,scene};
+root.SteelFloor={dimensions,layout,sync,roofSignature,projectScene,uses,source,spans,deck,concepts,steps,all,isFloor,lecture,defaults,normalize,signature,calc,scene};
 if(typeof module!=='undefined')module.exports=root.SteelFloor;
 })(typeof window!=='undefined'?window:globalThis);

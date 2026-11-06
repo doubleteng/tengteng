@@ -38,8 +38,8 @@
     floor:['Build the floor that your space needs','Set the floor boundary, arrange panels and framing, and trace loads into the supports.'],
     building:['Connect the whole building','Coordinate roof and floor reactions, columns, lateral restraint and foundations.']
   };
-  let data = {version:1, activities:{}, concrete:false, termView:'model'}, queued=false, decorating=false;
-  let resourceOpen=false, lastRoute='', railSignature='', lastModelRoute='loads', termRenderer=null, memberSelection=null;
+  let data = {version:1, activities:{}, lastVisited:{}, concrete:false, termView:'model'}, queued=false, decorating=false;
+  let resourceOpen=false, lastRoute='', railSignature='', lastModelRoute='fundamentals:loads', termRenderer=null, memberSelection=null, arrangedPanelFirst=null;
   const handles=api.getHandles();
   function route() {
     const s=W.StructureLab.getState();
@@ -50,12 +50,13 @@
   function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});}
   function activity(key=route().key){return data.activities[key]??={visited:true,changed:false};}
   function go(space,id) {
+    id=id||data.lastVisited[space];
     resourceOpen=false; data.concrete=space==='concrete';
     if(space==='terms')api.navigate('terms',id||handles.glossary.id);
     else if(space==='steel')api.navigate('steel',id||handles.steel.state.lesson||'lecture1.1');
     else if(space==='coach')api.navigate('coach');
     else if(space==='concrete'){api.navigate('lab','materials');api.setMaterial('concrete');}
-    else api.navigate('lab',id||(space==='wood'?'building':'origins'));
+    else api.navigate('lab',id||(space==='wood'?'roof':'origins'));
     railSignature='';sync();
   }
   function buttonRoute(space,id,name,current){const a=data.activities[space+':'+id];return `<button class="studio-route" data-studio-space="${space}" data-studio-id="${esc(id)}" ${current?'aria-current="page"':''}><span class="studio-route-dot ${a?.changed?'changed':''}"></span><span>${esc(name)}</span>${a?.changed?'<span class="studio-route-mark" title="Model explored">•</span>':''}</button>`;}
@@ -74,11 +75,12 @@
     $('brand').onclick=e=>{e.preventDefault();go('terms');};
     const note=D.querySelector('.study-file-note');if(note){note.textContent='Your study travels with you';note.title='Save study downloads your model choices, source records and notes. Open study resumes them.';}
     D.querySelectorAll('#labInspector [data-tab]').forEach(b=>b.textContent=({model:'Adjust',explain:'Inspect',exercise:'Explain'})[b.dataset.tab]);
-    const action=D.createElement('div');action.className='studio-model-actions';action.innerHTML='<button data-action="sources">Sources & assumptions</button><button data-action="trial">Keep trial A</button><button data-action="compare">Compare A / B</button>';
+    const action=D.createElement('div');action.className='studio-model-actions';action.innerHTML='<button data-action="sources">Sources & assumptions</button><button data-action="trial">Keep trial A</button><button data-action="compare">Compare A / B</button><button data-action="next" hidden></button>';
     $('labWorkspace').append(action);
-    action.querySelector('[data-action="sources"]').onclick=()=>{api.setPanel('explain');$('sourceLink').focus();};
+    action.querySelector('[data-action="sources"]').onclick=()=>{if(W.WoodProject.has(route().id)&&$('courseReferences'))$('courseReferences').click();else{api.setPanel('explain');$('sourceLink').focus();}};
     action.querySelector('[data-action="trial"]').onclick=()=>{api.checkpoint();activity().trial=true;schedule();};
     action.querySelector('[data-action="compare"]').onclick=()=>api.compare();
+    action.querySelector('[data-action="next"]').onclick=()=>{const order=['roof','truss','floor','building'],next=order[order.indexOf(route().id)+1];if(next)go('wood',next);else api.setPanel('exercise');};
     D.addEventListener('keydown',e=>{if(e.key==='Escape'){if(e.target.closest?.('.sn-calculator')||D.querySelector('.sn-calculator-expanded'))return;if(resourceOpen){resourceOpen=false;sync();$('studioOpenSources')?.focus();}D.body.classList.remove('studio-rail-open');$('studioTaskToggle').setAttribute('aria-expanded','false');}});
     $('workspace').addEventListener('click',e=>{if(e.target.closest('.sr-pdf-overlay button,[data-family-choice],[data-option-choice],[data-use-choice],[data-floor-option],[data-floor-family]')){activity().changed=true;schedule();}});
     $('workspace').addEventListener('change',e=>{if(!e.target.matches('input,select,textarea')||e.target.closest('#coachScreen'))return;activity().changed=true;schedule();});
@@ -102,14 +104,14 @@
     if(signature===railSignature)return;railSignature=signature;
     let title,goal;
     if(r.space==='terms'){title=handles.glossary.term.name;goal=handles.glossary.term.try;}
-    else if(r.space==='steel'){title=steelGroups.flatMap(g=>g[1]).find(x=>x[0]===r.id)?.[1]||'Choose your project';goal='Select a member. Check its geometry and loads, read the original source, and explain your trial choice.';}
+    else if(r.space==='steel'){title=steelGroups.flatMap(g=>g[1]).find(x=>x[0]===r.id)?.[1]||'Choose your project';goal=$('steelScreen').querySelector('.sr-head>div>p:last-child,.steel-head p')?.textContent?.trim()||'Select a member. Check its geometry and loads, read the original source, and explain your trial choice.';}
     else [title,goal]=missions[r.id]||[info[1],info[2]];
     const groups=groupsFor(r);
     $('studioRail').innerHTML=`<div class="studio-rail-heading"><span class="studio-eyebrow">STRUCTURE LAB</span><h1>${esc(info[0])}</h1><p>${esc(info[2])}</p></div><section class="studio-mission"><div class="studio-eyebrow">CURRENT TASK</div><h2>${esc(title)}</h2><p>${esc(goal)}</p>${r.space==='coach'?'':`<p class="studio-observation-status">${notes.trim()?'Observation recorded':'Keep a short explanation after testing.'}</p><button id="studioNextAction" class="studio-primary">${r.space==='terms'?'Try the related model':r.space==='steel'?'Open source & tools':'Inspect the response'}</button>`}</section><div class="studio-chapters">${groups.map(([name,items])=>`<details ${items.some(x=>x[0]===r.id)?'open':''}><summary>${esc(name)} <span>${items.length}</span></summary>${items.map(([id,label])=>buttonRoute(r.space,id,label,id===r.id)).join('')}</details>`).join('')}</div>${r.space==='concrete'?'<section class="studio-availability"><strong>Concrete project</strong><p>The current course site lists “Precast · Spans · Assembly” as upcoming. No assignment requirements or sizing tables have been supplied here.</p><button id="studioConcreteScope">View available concrete content</button></section>':''}${r.space==='coach'?'<button id="studioBackToModel" class="studio-primary">Return to your model</button><p class="studio-progress-note">Model notes are attached when you choose Ask Coach from a model. Check and confirm them before using them.</p>':''}<div class="studio-rail-bottom"><button id="studioFind">All topics & original course map</button><span>Developed by Teng Teng, PhD<br>and Ralph Nelson</span></div>`;
     bindRoutes($('studioRail'));
     $('studioFind').onclick=openLibrary;
     if($('studioNextAction'))$('studioNextAction').onclick=()=>{if(r.space==='terms')go(W.WoodProject.has(handles.glossary.term.lab)?'wood':'fundamentals',handles.glossary.term.lab);else if(r.space==='steel'){if($('steelScreen').querySelector('.sr-reading')){resourceOpen=true;sync();}else{const control=$('steelScreen').querySelector('.sr-picker button,.steel-aside input,.steel-aside select');control?.focus();control?.scrollIntoView({block:'nearest'});}}else api.setPanel('explain');};
-    if($('studioBackToModel'))$('studioBackToModel').onclick=()=>{if(lastModelRoute.startsWith('terms:'))go('terms',lastModelRoute.slice(6));else if(lastModelRoute.startsWith('steel:'))go('steel',lastModelRoute.slice(6));else go(W.WoodProject.has(lastModelRoute)?'wood':'fundamentals',lastModelRoute);};
+    if($('studioBackToModel'))$('studioBackToModel').onclick=()=>{if(lastModelRoute.includes(':')){const [space,id]=lastModelRoute.split(':');go(space,id);}else go(W.WoodProject.has(lastModelRoute)?'wood':'fundamentals',lastModelRoute);};
     if($('studioConcreteScope'))$('studioConcreteScope').onclick=()=>api.dialog('Concrete · available course content','<p>Explore concrete as a material in the elastic member model. The model uses an uncracked elastic idealization; it does not simulate reinforced-concrete cracking, crushing, reinforcement or prestressing.</p><p>Concrete footing weight and bearing studies remain in the Wood and Steel building support stages. Those checks do not verify reinforced-concrete footing strength.</p><p><strong>Concrete Building Project · Upcoming</strong><br>Precast · Spans · Assembly</p><p>The full project brief and member tables are not in this version of the course. They are required before an assignment-specific workflow can be offered.</p>');
   }
   function openLibrary(){
@@ -143,10 +145,31 @@
     termRenderer?.resize();
   }
   function arrangePanel(){
-    const p=$('panelContent');if(p.dataset.studioArranged==='yes')return;p.dataset.studioArranged='yes';
-    const direct=[...p.children], controls=direct.filter(el=>el.classList.contains('control'));
-    if(controls.length>7){const extra=D.createElement('details');extra.className='studio-extra-controls';const summary=D.createElement('summary');summary.textContent='More model conditions ('+(controls.length-6)+')';extra.append(summary);controls[6].before(extra);controls.slice(6).forEach(el=>extra.append(el));}
+    const p=$('panelContent');if(p.dataset.studioArranged==='yes'&&p.firstElementChild===arrangedPanelFirst)return;p.dataset.studioArranged='yes';
+    if(api.getModel().tab==='model'){
+      const direct=[...p.children], firstInput=direct.find(el=>el.matches('.learning-step,.control,.studio-field,.assignment-tabs'));
+      const brief=direct.find(el=>el.classList.contains('project-brief'));
+      if(brief){
+        const box=D.createElement('details');box.className='studio-project-brief';
+        const summary=D.createElement('summary'), choice=brief.querySelector('select'), loads=brief.querySelector('p');
+        summary.innerHTML='<span>Shared project brief</span><strong>'+esc(choice?.selectedOptions?.[0]?.textContent||'Project conditions')+'</strong>'+(loads?'<small>'+esc(loads.textContent)+'</small>':'');
+        brief.before(box);box.append(summary,brief);
+      }
+      // Move the existing bound nodes. Inputs, source evidence and export actions keep their original handlers.
+      if(firstInput&&!p.querySelector('.studio-project-guidance')){
+        const before=direct.slice(0,direct.indexOf(firstInput));
+        const notes=before.filter(el=>el.matches('.panel-intro,.studio-note,.response-card:not(.warn)')||el.querySelector('#courseLinkRoof')||(['roof','truss'].includes(route().id)&&el.matches('.studio-actions')));
+        if(notes.length){
+          const guidance=D.createElement('details');guidance.className='studio-project-guidance';guidance.innerHTML='<summary>'+(W.WoodProject.has(route().id)?'Project notes, evidence & drawings':'How to use this model')+'</summary>';
+          const end=p.querySelector(':scope > .unit-note');if(end)end.before(guidance);else p.append(guidance);
+          notes.forEach(el=>guidance.append(el));
+        }
+      }
+    }
     p.querySelectorAll('.panel-intro,.unit-note').forEach(el=>{el.classList.add('studio-secondary-copy');});
+    p.querySelectorAll('.unit-note').forEach(el=>{el.textContent=el.textContent.replace('Full assumptions are listed in Explain.','Full assumptions are listed in Inspect.');});
+    const analysis=$('labWorkspace').querySelector('.analysis-strip>span');if(analysis)analysis.textContent=analysis.textContent.replace('Analysis assumptions in Explain','Analysis assumptions in Inspect');
+    arrangedPanelFirst=p.firstElementChild;
   }
   function arrangeSteel(){
     const host=$('steelScreen'), reading=host.querySelector('.sr-reading');
@@ -182,26 +205,28 @@
     renderer?.resize();
   }
   function arrangeCoach(){
-    const host=$('coachScreen');if(host.querySelector('.studio-coach-tools'))return;
+    const host=$('coachScreen');if(!host.querySelector('.studio-coach-tools')){
     const bar=D.createElement('div');bar.className='studio-coach-tools';bar.innerHTML='<div><span class="studio-eyebrow">COMMUNICATE YOUR STRUCTURE</span><p>State the member, span, supports, loads and question. Attach model notes when they help.</p></div><button id="studioBriefToggle" aria-expanded="false">Calculation brief</button>';
     const grid=host.querySelector('.coach-grid');if(grid)grid.before(bar);else return;
     const panel=host.querySelector('.coach-draft-panel');const hasDraft=!!handles.coach.state.draft?.trim?.();host.classList.toggle('studio-brief-open',hasDraft);
     $('studioBriefToggle').setAttribute('aria-expanded',String(hasDraft));if(panel)panel.inert=!hasDraft;
     $('studioBriefToggle').onclick=()=>{const show=host.classList.toggle('studio-brief-open');if(panel)panel.inert=!show;$('studioBriefToggle').setAttribute('aria-expanded',String(show));};
+    }
     host.querySelectorAll('.coach-update-record').forEach(el=>{if(el.tagName==='DETAILS'||el.closest('details'))return;const box=D.createElement('details');box.className='studio-coach-record';box.innerHTML='<summary>Prompt update record</summary>';el.before(box);box.append(el);});
   }
   function sync(){
     if(decorating)return;decorating=true;
     try{
       const r=route();activity(r.key);D.body.dataset.studioSpace=r.space;
-      if(r.space==='terms')lastModelRoute='terms:'+r.id;else if(r.s.screen==='lab')lastModelRoute=r.id;else if(r.space==='steel')lastModelRoute='steel:'+r.id;
+      data.lastVisited[r.space]=r.id;
+      if(r.space!=='coach')lastModelRoute=r.key;
       if(lastRoute!==r.key){resourceOpen=false;memberSelection=null;lastRoute=r.key;D.body.classList.remove('studio-rail-open');$('studioTaskToggle').setAttribute('aria-expanded','false');}
       D.querySelectorAll('.studio-spaces [data-space]').forEach(b=>{const active=b.dataset.space===r.space;b.setAttribute('aria-current',active?'page':'false');});
       renderRail(r);
       if(r.space==='terms')arrangeGlossary();
       else if(r.space==='steel')arrangeSteel();
       else if(r.space==='coach')arrangeCoach();
-      else {arrangePanel();D.querySelectorAll('#labInspector [data-tab]').forEach(b=>b.textContent=({model:'Adjust',explain:'Inspect',exercise:'Explain'})[b.dataset.tab]);const compare=D.querySelector('.studio-model-actions [data-action="compare"]');if(compare)compare.disabled=!data.activities[r.key]?.trial;}
+      else {arrangePanel();D.querySelectorAll('#labInspector [data-tab]').forEach(b=>b.textContent=({model:'Adjust',explain:'Inspect',exercise:'Explain'})[b.dataset.tab]);const compare=D.querySelector('.studio-model-actions [data-action="compare"]');if(compare)compare.disabled=!data.activities[r.key]?.trial;const sources=D.querySelector('.studio-model-actions [data-action="sources"]');if(sources)sources.textContent=r.space==='wood'&&$('courseReferences')?'Sources & tables':'Sources & assumptions';const next=D.querySelector('.studio-model-actions [data-action="next"]');if(next){next.hidden=r.space!=='wood';next.textContent=({roof:'Next: Truss →',truss:'Next: Floor →',floor:'Next: Building →',building:'Explain your building →'})[r.id]||'';}}
     }finally{decorating=false;}
   }
   function wrap(obj,method){if(!obj||typeof obj[method]!=='function')return;const original=obj[method];obj[method]=function(...args){const result=original.apply(this,args);schedule();return result;};}
@@ -215,19 +240,20 @@
   const changeTerm=handles.glossary.change.bind(handles.glossary);handles.glossary.change=(...args)=>{data.termView='diagram';activity('terms:'+handles.glossary.id).changed=true;const result=changeTerm(...args);schedule();return result;};
   handles.glossary.choose('beam');
   // RenderPanel replaces the children but not its root; reset the one-time grouping marker.
-  const panelObserver=new MutationObserver(records=>{if(records.some(r=>r.target===$('panelContent')&&r.addedNodes.length&&![...r.addedNodes].every(n=>n.classList?.contains('studio-extra-controls')))){delete $('panelContent').dataset.studioArranged;schedule();}});
+  const panelObserver=new MutationObserver(records=>{if(records.some(r=>r.target===$('panelContent')&&r.addedNodes.length)&&$('panelContent').firstElementChild!==arrangedPanelFirst)schedule();});
   panelObserver.observe($('panelContent'),{childList:true});
   W.StructureStudio={
     sync:schedule,
     getData(){return {...data,glossary:{term:handles.glossary.id,values:handles.glossary.values},lastModelRoute};},
-    restore(raw){data={version:1,activities:{},concrete:false,termView:'model'};handles.glossary.values={};chooseTerm('beam');if(raw&&typeof raw==='object'){
+    restore(raw){data={version:1,activities:{},lastVisited:{},concrete:false,termView:'model'};lastModelRoute='fundamentals:loads';handles.glossary.values={};chooseTerm('beam');if(raw&&typeof raw==='object'){
       data.concrete=raw.concrete===true;data.termView=raw.termView==='diagram'?'diagram':'model';
       const valid=new Set([...terms.flatMap(g=>g[1].map(x=>'terms:'+x[0])),...steelGroups.flatMap(g=>g[1].map(x=>'steel:'+x[0])),...W.LAB_MODULES.map(x=>(W.WoodProject.has(x.id)?'wood':'fundamentals')+':'+x.id),'concrete:materials','coach:coach']);
+      for(const [space,id]of Object.entries(raw.lastVisited||{})){if(valid.has(space+':'+id))data.lastVisited[space]=id;}
       for(const [key,value]of Object.entries(raw.activities||{})){if(valid.has(key)&&value&&typeof value==='object')data.activities[key]={visited:true,changed:value.changed===true,note:typeof value.note==='string'?value.note.slice(0,12000):''};}
       const termIds=terms.flatMap(g=>g[1].map(x=>x[0]));
       if(raw.glossary?.values&&typeof raw.glossary.values==='object'){for(const id of termIds){const value=raw.glossary.values[id];if(value&&typeof value==='object'){chooseTerm(id);for(const c of handles.glossary.term.controls){const v=value[c.key];if(c.type==='choice'){if(c.options.some(o=>o[0]===v))changeTerm(c.key,v);}else if(typeof v==='number'&&Number.isFinite(v))changeTerm(c.key,Math.min(c.max,Math.max(c.min,v)));}}}}
       chooseTerm(termIds.includes(raw.glossary?.term)?raw.glossary.term:'beam');
-      if(typeof raw.lastModelRoute==='string'&&(termIds.some(x=>'terms:'+x===raw.lastModelRoute)||W.LAB_MODULES.some(x=>x.id===raw.lastModelRoute)||steelGroups.flatMap(x=>x[1]).some(x=>'steel:'+x[0]===raw.lastModelRoute)))lastModelRoute=raw.lastModelRoute;
+      if(typeof raw.lastModelRoute==='string'&&raw.lastModelRoute!=='coach:coach'&&(valid.has(raw.lastModelRoute)||W.LAB_MODULES.some(x=>x.id===raw.lastModelRoute)))lastModelRoute=raw.lastModelRoute;
     }railSignature='';lastRoute='';schedule();},
     go,inventory:{terms:terms.flatMap(g=>g[1].map(x=>x[0])),modules:W.LAB_MODULES.map(x=>x.id),steel:steelGroups.flatMap(g=>g[1].map(x=>x[0]))}
   };

@@ -283,3 +283,33 @@ body.studio-enabled{color:#eeeeee;background:#000000;color-scheme:dark;scrollbar
 .studio-enabled #viewportNote:empty{display:none}
 
 .studio-enabled .studio-chapters summary span,.studio-enabled :is(.sr-reading,.sr-aside,.steel-aside) a,.studio-enabled .sr-aside button,.studio-enabled .steel-panel-tabs button,.studio-enabled .sr-load-condition>span,.studio-enabled .sr-load-condition small,.studio-enabled .sr-shared small,.studio-enabled .sr-shared span,.studio-enabled .sr-assumptions,.studio-enabled .sr-controls details,.studio-enabled .sr-reflect button,.studio-enabled .sr-reflect p,.studio-enabled .sr-project-brief small,.studio-enabled .sr-project-brief a{font-size:11.7px!important;line-height:1.55}
+
+/* Model conditions are visible first; the original notes remain in place on demand. */
+.studio-enabled .studio-project-brief{border-bottom:1px solid #666666;margin:0 0 16px;padding:0 0 14px}
+.studio-enabled .studio-project-brief>summary{cursor:pointer;color:#eeeeee;font-size:13px;line-height:1.55;list-style:none;position:relative;padding-right:20px}
+.studio-enabled .studio-project-brief>summary::-webkit-details-marker{display:none}
+.studio-enabled .studio-project-brief>summary::after{content:'+';position:absolute;right:0;top:0;color:#0088cc;font-size:18px}
+.studio-enabled .studio-project-brief[open]>summary::after{content:'−'}
+.studio-enabled .studio-project-brief>summary span{display:block;color:#979797;font-size:11.7px;margin-bottom:4px}
+.studio-enabled .studio-project-brief>summary strong{font-size:14px;font-weight:400}
+.studio-enabled .studio-project-brief>summary small{display:block;color:#979797;font-size:11.7px;margin-top:5px}
+.studio-enabled .studio-project-brief .project-brief{margin:14px 0 0;padding:10px 0 0;border:0;border-top:1px solid #666666}
+.studio-enabled .studio-project-guidance{margin:20px 0;border-top:1px solid #666666;padding-top:14px}
+.studio-enabled .studio-project-guidance>summary{cursor:pointer;color:#0088cc;font-size:13px;line-height:1.55;margin-bottom:12px}
+.studio-enabled .studio-project-guidance .studio-exact{margin-top:18px}
+.studio-enabled .studio-project-guidance .panel-intro{margin-bottom:14px}
+.studio-enabled .studio-project-guidance .studio-actions{gap:8px}
+.studio-enabled #panelContent>.learning-step{margin-top:20px}
+.studio-enabled #panelContent>.learning-step:first-child{margin-top:0}
+.studio-enabled .studio-coach-record{color:#979797;border-top:1px solid #666666;padding-top:8px;font-size:11.7px;line-height:1.55}
+.studio-enabled .studio-coach-record>summary{font-weight:400;color:#979797}
+.studio-enabled .studio-coach-record .coach-update-record{padding-top:9px}
+.studio-enabled :is(.floor-steps small,.assignment-tabs button,.studio-stages button,.studio-tools button,.studio-check,.studio-exact td){font-size:11.7px}
+.studio-enabled .member-result-plot{background:#eeeeee;color:#000000;color-scheme:light}
+.studio-enabled .member-result-plot text{font-size:11.7px}
+.studio-enabled #panelContent>.control:has(select>option:only-child){padding:8px 0}
+.studio-enabled #panelContent>.control:has(select>option:only-child) .control-row{margin-bottom:4px}
+.studio-enabled #panelContent select:has(>option:only-child){appearance:none;border:0;padding:4px 0;color:#979797;min-height:24px}
+.studio-model-actions{flex-wrap:wrap;align-items:center}
+.studio-enabled .studio-model-actions [data-action=next]{margin-left:auto;color:#0088cc;white-space:nowrap}
+@media(max-width:700px){.studio-enabled .studio-model-actions [data-action=next]{flex-basis:100%;text-align:right;margin-top:7px;min-height:32px}}

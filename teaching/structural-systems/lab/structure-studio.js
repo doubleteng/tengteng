@@ -228,7 +228,7 @@
       else if(r.space==='steel')arrangeSteel();
       else if(r.space==='coach')arrangeCoach();
       else {arrangePanel();D.querySelectorAll('#labInspector [data-tab]').forEach(b=>b.textContent=({model:'Adjust',explain:'Inspect',exercise:'Explain'})[b.dataset.tab]);const compare=D.querySelector('.studio-model-actions [data-action="compare"]');if(compare)compare.disabled=!data.activities[r.key]?.trial;const sources=D.querySelector('.studio-model-actions [data-action="sources"]');if(sources)sources.textContent=r.space==='wood'&&$('courseReferences')?'Sources & tables':'Sources & assumptions';const next=D.querySelector('.studio-model-actions [data-action="next"]');if(next){next.hidden=r.space!=='wood';next.textContent=({roof:'Next: Truss →',truss:'Next: Floor →',floor:'Next: Building →',building:'Explain your building →'})[r.id]||'';}}
-    }finally{decorating=false;}
+    }finally{decorating=false;D.dispatchEvent(new CustomEvent('structure:layout'));}
   }
   function wrap(obj,method){if(!obj||typeof obj[method]!=='function')return;const original=obj[method];obj[method]=function(...args){const result=original.apply(this,args);schedule();return result;};}
   buildShell();

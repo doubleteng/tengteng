@@ -1,0 +1,81 @@
+/* Full-width models across all lessons, with on-demand navigation and controls. */
+html body.studio-wide{height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+body.studio-wide .topbar{height:42px;min-height:42px;padding:0 14px;gap:12px}
+body.studio-wide .topbar .brand{font-size:17px}
+body.studio-wide .topbar .brand svg{width:25px;height:25px}
+body.studio-wide .study-file-note{display:none}
+body.studio-wide .studio-spaces{position:static;height:38px;min-height:38px;padding:0 14px;gap:22px;overflow-y:hidden}
+body.studio-wide .studio-spaces>button{padding:0 4px;font-size:12px}
+.viewport-tools{display:flex;align-items:center;gap:10px;padding:4px 12px;min-height:38px;flex-shrink:0;border-bottom:1px solid #666;background:#282c30;color:#e7e5df;z-index:65}
+.viewport-tools button{border:1px solid #666;background:#282c30;color:#84cdee;padding:5px 10px;font-size:12px;white-space:nowrap;min-height:28px}
+.viewport-tools button[aria-expanded=true],.viewport-tools button[aria-pressed=true]{background:#384851;border-color:#84cdee;color:#fff}
+.viewport-tools #studioTaskToggle{display:block!important;border:1px solid #666!important;padding:5px 10px!important}
+#viewportLocation{font-size:12px;color:#b7bab8;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#viewportMaximize{margin-left:auto}
+body.studio-wide #workspace.workspace{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);position:relative;overflow:hidden;flex:1;min-height:0;height:auto;padding:0}
+body.studio-wide :is(#labWorkspace,#steelScreen,#glossaryScreen,#coachScreen){grid-column:1;grid-row:1;min-width:0;min-height:0;height:100%;padding:8px 12px 6px;overflow:hidden;display:flex;flex-direction:column}
+body.studio-wide .studio-rail{display:none;position:absolute;inset:0 auto 0 0;width:min(310px,92vw);height:100%;padding:18px;z-index:60;overflow:auto;background:#282c30;border:1px solid #666;box-shadow:12px 0 30px #0006}
+body.studio-wide.studio-rail-open .studio-rail{display:block}
+body.studio-wide :is(#labInspector,.sr-aside,.steel-aside,.glossary-explanation){display:none;position:absolute;inset:0 0 0 auto;z-index:55;width:min(380px,92vw);min-height:0;max-height:none;height:100%;padding:12px 16px;background:#282c30;border:1px solid #666;overflow:auto;box-shadow:-12px 0 30px #0006}
+body.studio-wide.viewport-panel-open :is(#labInspector,.sr-aside,.steel-aside,.glossary-explanation){display:block}
+body.studio-wide.viewport-panel-open #labInspector{display:flex;flex-direction:column}
+body.studio-wide #labInspector[hidden]{display:none!important}
+.viewport-panel-close{display:block;position:sticky;top:0;z-index:30;flex-shrink:0;width:100%;margin:0 0 12px;padding:8px;border:1px solid #777;background:#282c30!important;color:#84cdee!important;text-align:right;font-size:12px}
+body.studio-wide :is(.sr-work,.steel-layout,.glossary-content){display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:0;min-height:0;flex:1;overflow:hidden}
+body.studio-wide :is(.sr-left,.steel-stage,.studio-term-stage){display:flex;flex-direction:column;min-height:0;overflow:hidden}
+body.studio-wide :is(.lesson-head,.sr-head,.steel-head,.glossary-head,.coach-head){padding:0 0 6px;min-height:0;flex-shrink:0;margin:0}
+body.studio-wide :is(#lessonTitle,.sr-head h1,.steel-head h1,.glossary-head h1,.coach-head h1){font-size:20px;line-height:1.25;margin:0;font-weight:400}
+body.studio-wide :is(#lectureLabel,.sr-kicker,.glossary-head .eyebrow){display:none}
+body.studio-wide :is(#lessonQuestion,.sr-head>div>p:last-child,.steel-head p,.glossary-head p,.coach-head p){font-size:12px;line-height:1.4;margin:2px 0 0;max-width:none}
+body.studio-wide .viewbar{padding:4px 0;min-height:34px;gap:8px;flex-shrink:0}
+body.studio-wide #canvasWrap{flex:1;min-height:0;height:auto!important;border:0}
+body.studio-wide :is(.sr-canvas,.steel-stage .steel-canvas-wrap,.studio-term-canvas){flex:1;min-height:0;height:auto!important;max-height:none;margin:0}
+body.studio-wide .studio-term-model{flex:1;min-height:0}
+body.studio-wide #results{margin:4px 0 0;min-height:0;max-height:56px;flex-wrap:nowrap;overflow:auto;flex-shrink:0}
+body.studio-wide #results>div{padding:3px 12px;min-width:125px}
+body.studio-wide #results .metric-label{font-size:12px;margin-bottom:2px}
+body.studio-wide #results .metric-value{font-size:18px}
+body.studio-wide .analysis-strip{display:none}
+body.studio-wide .studio-model-actions{padding-top:4px;min-height:32px;gap:12px;flex-wrap:nowrap;flex-shrink:0;overflow:auto}
+body.studio-wide .studio-model-actions button{font-size:12px;padding:3px 6px;white-space:nowrap;margin:0;flex-basis:auto}
+body.studio-wide .studio-steel-tools{padding:4px 0;margin-bottom:4px;min-height:32px}
+body.studio-wide .studio-steel-tools button{padding:4px 8px;font-size:12px}
+body.studio-wide .sr-modelbar{padding:3px 0 4px;min-height:32px;flex-shrink:0}
+body.studio-wide .sr-member-key{display:none}
+body.studio-wide .sr-inspect{min-height:0;max-height:42px;padding:4px 0;overflow:auto;font-size:12px;flex-shrink:0}
+body.studio-wide .sr-layers{margin:3px 0 0;flex-shrink:0;max-height:40px;overflow:auto;flex-wrap:nowrap}
+body.studio-wide .sr-layers button{font-size:12px;padding:4px 8px;white-space:nowrap}
+body.studio-wide .sr-footer{position:static;margin:3px 0 0;padding:3px 0;min-height:30px;flex-shrink:0}
+body.studio-wide .sr-footer button{padding:3px 6px;min-height:26px}
+body.studio-wide .steel-stage .steel-toolbar{padding:4px 0;flex-shrink:0}
+body.studio-wide .steel-observation{margin:4px 0;padding:4px 8px;max-height:42px;overflow:auto;flex-shrink:0}
+body.studio-wide .studio-term-tools{padding:4px 0;margin:0 0 4px;flex-shrink:0}
+body.studio-wide .studio-term-caption{font-size:12px;line-height:1.4;margin:4px 0;flex-shrink:0}
+body.studio-wide .glossary-bottom{padding:4px 0 0;flex-shrink:0}
+body.studio-wide .glossary-visual{min-height:0;flex:1;overflow:auto}
+body.studio-wide .glossary-diagram{min-height:0}
+body.studio-wide .wood-table-workspace .sr-pdf-scroll{height:calc(100dvh - 390px);min-height:260px;max-height:none}
+body.studio-wide .studio-source-drawer{left:0!important;right:0!important;top:0!important;bottom:0!important}
+/* Maximize stays inside the page, so embedded teaching pages support it too. */
+body.studio-wide.viewport-maximized>.topbar,body.studio-wide.viewport-maximized>.studio-spaces{display:none!important}
+body.studio-wide.viewport-maximized :is(.lesson-head,.sr-head,.steel-head,.glossary-head,.coach-head,#results,.sr-inspect,.steel-observation,.studio-term-caption,.glossary-bottom){display:none!important}
+body.studio-wide.viewport-maximized :is(#labWorkspace,#steelScreen,#glossaryScreen,#coachScreen){padding:4px 6px}
+body.studio-wide.viewport-maximized .wood-table-workspace .sr-pdf-scroll{height:calc(100dvh - 240px)}
+@media(max-width:700px){
+ body.studio-wide .course-label{display:none}
+ body.studio-wide .topbar{padding:0 8px}
+ body.studio-wide .topbar .brand{font-size:13px}
+ body.studio-wide .studio-spaces{gap:16px;padding:0 8px}
+ .viewport-tools{padding:4px 6px;gap:6px}
+ .viewport-tools button{padding:5px 7px}
+ #viewportLocation{display:none}
+ body.studio-wide :is(#labWorkspace,#steelScreen,#glossaryScreen,#coachScreen){padding:6px}
+ body.studio-wide :is(#lessonQuestion,.sr-head>div>p:last-child,.steel-head p,.glossary-head p){display:none}
+ body.studio-wide .viewbar{max-height:76px;overflow:auto}
+ body.studio-wide .view-toggles{gap:8px}
+ body.studio-wide .studio-term-tools{flex-wrap:nowrap;overflow:auto}
+ body.studio-wide .sr-footer>span{display:none}
+ body.studio-wide .studio-steel-tools>span{display:none}
+ body.studio-wide .sr-picker{overflow:auto;min-height:0}
+ body.studio-wide .wood-table-workspace .sr-pdf-scroll{min-height:220px}
+}

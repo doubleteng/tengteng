@@ -6,3 +6,7 @@
 .sr-task{padding:16px 18px;margin:0 0 24px;border-left:3px solid #466d82;background:#f1f5f5}.sr-task h2{margin-top:4px}.sn-calculator{margin:22px 0;padding:16px;border:1px solid #cbd8df;background:#f8fafb}.sn-calculator iframe{display:block;background:white;border:1px solid #bccbd4;max-width:100%;min-height:600px}.sr-controls textarea{width:100%;box-sizing:border-box}.steel-toolbar{flex-wrap:wrap}
 
 .sr-project-brief{margin:0 0 20px;padding:15px;border:1px solid #c5d3da;background:#fafcfb}.sr-project-brief summary{font-weight:650;cursor:pointer;color:#2c5268}.sr-project-brief th:first-child{min-width:115px}.sr-linked-tables{margin-bottom:28px}.sr-linked-tables .sr-task{margin-top:15px}
+
+
+/* Keep the original course calculators beside the relevant model inputs. */
+.sn-calculator{scroll-margin-top:16px;min-width:0}.sn-calculator-head{display:flex;align-items:start;justify-content:space-between;gap:14px;flex-wrap:wrap}.sn-calculator-head h3{margin:4px 0}.sn-calculator-head>div:last-child{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.sn-calculator iframe{width:100%;box-sizing:border-box;min-height:760px;margin:14px 0}.sn-calculator-jump{margin:0 0 16px}.sn-calculator:fullscreen{background:#f8fafb;box-sizing:border-box;width:100%;height:100%;margin:0;padding:24px;overflow:auto}.sn-calculator:fullscreen iframe{height:calc(100vh - 210px);min-height:500px}.sn-calculator::backdrop{background:#f8fafb}@media(max-width:700px){.sn-calculator{padding:10px}.sn-calculator:fullscreen{padding:12px}.sn-calculator iframe{min-height:680px}}

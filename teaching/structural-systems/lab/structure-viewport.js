@@ -1,27 +1,78 @@
-/* Shared full-width workspace. Panels overlay the model only when requested. */
+/* Full-width workspace with hover-revealed side panels. */
 (function (W, D) {
   'use strict';
   const body = D.body, api = W.StructureLabUI, $ = id => D.getElementById(id);
   if (!api || !$('studioRail')) return;
   body.classList.add('studio-wide');
-  let lastRoute = '', queued = false;
+  let lastRoute = '', queued = false, panel = null, closeTimer = 0;
+  const workspace = $('workspace'), rail = $('studioRail');
+  const panelSelector = '#labInspector, .sr-aside, .steel-aside, .glossary-explanation';
+  const boundPanels = new WeakSet();
   const bar = D.createElement('div');
   bar.className = 'viewport-tools';
   bar.setAttribute('role', 'toolbar');
   bar.setAttribute('aria-label', 'Model workspace');
-  bar.innerHTML = '<button id="viewportControls" aria-expanded="false">Controls & explanation</button><span id="viewportLocation"></span><button id="viewportMaximize" aria-pressed="false">Maximize model ⛶</button>';
-  $('workspace').before(bar);
+  bar.innerHTML = '<span id="viewportLocation"></span><button id="viewportMaximize" aria-pressed="false">Maximize model ⛶</button>';
+  workspace.before(bar);
   const chapters = $('studioTaskToggle');
-  chapters.textContent = 'Chapters';
+  chapters.className = 'viewport-edge viewport-edge-left';
+  chapters.innerHTML = '<span aria-hidden="true">›</span><span>Chapters</span>';
   chapters.setAttribute('aria-controls', 'studioRail');
-  bar.prepend(chapters);
+  chapters.title = 'Hover to open chapters';
+  const controls = D.createElement('button');
+  controls.id = 'viewportControls'; controls.className = 'viewport-edge viewport-edge-right';
+  controls.innerHTML = '<span aria-hidden="true">‹</span><span>Controls</span>';
+  controls.setAttribute('aria-label', 'Controls & explanation');
+  controls.setAttribute('aria-expanded', 'false');
+  controls.title = 'Hover to open controls and explanation';
+  workspace.append(chapters, controls);
   function resize() { requestAnimationFrame(() => api.resize()); }
-  function setPanel(open, focus = false) {
-    body.classList.toggle('viewport-panel-open', open);
-    $('viewportControls').setAttribute('aria-expanded', String(open));
-    if (open) { body.classList.remove('studio-rail-open'); chapters.setAttribute('aria-expanded', 'false'); }
-    if (!open && focus) $('viewportControls').focus();
+  function setChapters(open) {
+    body.classList.toggle('studio-rail-open', open);
+    chapters.setAttribute('aria-expanded', String(open));
+    if (open) setPanel(false);
   }
+  function setPanel(open, focus = false) {
+    open = Boolean(open && panel);
+    body.classList.toggle('viewport-panel-open', open);
+    controls.setAttribute('aria-expanded', String(open));
+    if (open) { body.classList.remove('studio-rail-open'); chapters.setAttribute('aria-expanded', 'false'); }
+    if (!open && focus) controls.focus();
+  }
+  function closePanels(force = false) {
+    clearTimeout(closeTimer);
+    if (!force && [chapters, controls, rail, panel].some(element => element?.matches(':hover'))) return;
+    setChapters(false); setPanel(false);
+  }
+  function inSidebar(target) {
+    return target instanceof Element && !!target.closest('.viewport-edge, #studioRail, ' + panelSelector);
+  }
+  function bindHover(element, open) {
+    if (boundPanels.has(element)) return;
+    boundPanels.add(element);
+    element.addEventListener('pointerenter', e => {
+      if (e.pointerType === 'touch') return;
+      clearTimeout(closeTimer); open();
+    });
+    element.addEventListener('pointerleave', e => {
+      if (e.pointerType === 'touch' || inSidebar(e.relatedTarget)) return;
+      closeTimer = setTimeout(closePanels, 100);
+    });
+  }
+  bindHover(chapters, () => setChapters(true));
+  bindHover(rail, () => setChapters(true));
+  bindHover(controls, () => setPanel(true));
+  // The edges remain keyboard and touch controls; desktop needs no click.
+  const needsClick = e => e.pointerType === 'touch' || e.detail === 0 || !W.matchMedia('(any-hover: hover)').matches;
+  chapters.onclick = e => { if (needsClick(e)) setChapters(!body.classList.contains('studio-rail-open')); };
+  controls.onclick = e => { if (needsClick(e)) setPanel(!body.classList.contains('viewport-panel-open')); };
+  workspace.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch' || inSidebar(e.target)) return;
+    closePanels();
+  });
+  workspace.addEventListener('focusout', e => {
+    if (e.relatedTarget && inSidebar(e.target) && !inSidebar(e.relatedTarget)) closePanels();
+  });
   function maximize(value) {
     body.classList.toggle('viewport-maximized', value);
     const button = $('viewportMaximize');
@@ -29,9 +80,7 @@
     button.textContent = value ? 'Restore layout ↙' : 'Maximize model ⛶';
     resize();
   }
-  $('viewportControls').onclick = () => setPanel(!body.classList.contains('viewport-panel-open'));
   $('viewportMaximize').onclick = () => maximize(!body.classList.contains('viewport-maximized'));
-  chapters.addEventListener('click', () => { setPanel(false); });
   const originalPanel = api.setPanel;
   api.setPanel = function (...args) { const result = originalPanel.apply(this, args); setPanel(true); return result; };
   function sync() {
@@ -39,16 +88,16 @@
     const active = D.querySelector('.studio-route[aria-current="page"]');
     const title = active?.textContent.trim().replace(/•$/, '').trim() || D.querySelector('.studio-spaces [aria-current="page"]')?.textContent || 'Structure Lab';
     const key = space + ':' + title;
-    if (key !== lastRoute) { setPanel(false); lastRoute = key; }
+    if (key !== lastRoute) { closePanels(true); lastRoute = key; }
     $('viewportLocation').textContent = title;
-    $('viewportControls').hidden = space === 'coach';
     $('viewportMaximize').textContent = body.classList.contains('viewport-maximized') ? 'Restore layout ↙' : space === 'coach' ? 'Maximize workspace ⛶' : 'Maximize model ⛶';
-    const panel = space === 'terms' ? D.querySelector('.glossary-explanation') : space === 'steel' ? D.querySelector('#steelScreen .sr-aside, #steelScreen .steel-aside') : space === 'coach' ? null : $('labInspector');
-    $('viewportControls').disabled = !panel;
-    if (panel && !panel.querySelector(':scope > .viewport-panel-close')) {
-      const close = D.createElement('button');
-      close.className = 'viewport-panel-close'; close.textContent = 'Close controls ×';
-      close.onclick = () => setPanel(false, true); panel.prepend(close);
+    panel = space === 'terms' ? D.querySelector('.glossary-explanation') : space === 'steel' ? D.querySelector('#steelScreen .sr-aside, #steelScreen .steel-aside') : space === 'coach' ? null : $('labInspector');
+    controls.hidden = !panel;
+    body.classList.toggle('viewport-no-controls', !panel);
+    if (panel) {
+      if (!panel.id) panel.id = 'viewportAside';
+      controls.setAttribute('aria-controls', panel.id);
+      bindHover(panel, () => setPanel(true));
     }
   }
   // The existing lesson renderer may replace entire steel panels after an edit.

@@ -331,3 +331,23 @@ body.studio-enabled{color:#e7e5df;background:#282c30;color-scheme:dark;scrollbar
 .studio-enabled .studio-sources-open .sr-left>:not(.studio-source-drawer){display:none!important}
 .studio-enabled .studio-source-heading{gap:12px;flex-wrap:wrap}
 @media(max-width:700px){.studio-enabled .studio-sources-open .sr-left>.studio-source-drawer{height:auto!important;max-height:70dvh!important;min-height:380px!important;flex:auto}}
+
+/* Original wood PDF occupies the model area; the parameter panel remains usable. */
+.wood-table-workspace[hidden]{display:none!important}
+.wood-table-workspace{display:flex;flex-direction:column;min-height:0;flex:1;background:#282c30;color:#e7e5df;overflow:auto;border:1px solid #666;padding:12px;gap:10px}
+.wood-table-head,.wood-table-workspace nav{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.wood-table-workspace button{background:#353b40;color:#e7e5df;border:1px solid #777;padding:8px;font-size:13px;cursor:pointer}
+.wood-table-workspace nav button[aria-pressed=true]{color:#84cdee;border-color:#84cdee}
+.wood-table-workspace .sr-pdf-host{min-height:320px;flex:1;display:flex;flex-direction:column}
+.wood-table-workspace .sr-pdf-scroll{flex:1;min-height:280px;max-height:55vh;overflow:auto}
+.wood-table-workspace .sr-pdf-overlay button{padding:0;background:transparent;border:1px solid #1681bd;min-height:0;min-width:0;border-radius:0}
+.wood-table-workspace .sr-pdf-overlay button:hover,.wood-table-workspace .sr-pdf-overlay button[aria-pressed=true]{background:#2bbaf029;border:2px solid #1260a6}
+.wood-table-workspace .sr-pdf-overlay button:focus-visible{outline:3px solid #c34d1c;outline-offset:1px}
+.wood-table-message,.wood-table-readout p{font-size:14px;line-height:1.5;margin:0 0 6px}
+.wood-table-readout a{color:#84cdee}.wood-table-readout strong{font-size:17px}.wood-table-check{color:#f4d48a}
+.wood-tables-open #canvasWrap,.wood-tables-open>.viewbar,.wood-tables-open>#trussTools{display:none!important}
+.wood-tables-open>#results,.wood-tables-open>.analysis-strip{display:none!important}
+.wood-table-workspace .sr-pdf-host{flex:0 0 auto;min-height:0}
+.wood-table-workspace .sr-pdf-scroll{flex:none;height:330px;min-height:240px;max-height:40dvh}
+.wood-table-readout,.wood-table-head,.wood-table-workspace nav,.wood-table-message{flex-shrink:0}
+.sr-pdf-host:not([data-pdf-ready="true"]) .sr-pdf-overlay{visibility:hidden}

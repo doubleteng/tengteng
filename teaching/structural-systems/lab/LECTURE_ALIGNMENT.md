@@ -51,3 +51,16 @@ Existing suites: `steel-roof.test.cjs` (including 360 assignment/spacing combina
 New suite: `lecture-alignment.test.cjs` checks 80 linked roof/floor combinations for matching elevations/depths, all support IDs, camera snapshot isolation, palette contrast and course/Coach load distinctions.
 
 Browser checks: actual PDF cell selection updates deck gauge and self-weight; Save/Open restores that choice; roof-to-floor flow preserves the shared brief; partial-floor model and local bay respond to elevation changes; clicking another column changes the grid record; course guide opens with the correct stage-specific evidence. Publication is checked against the live site after deployment.
+
+## Wood original-table integration — 6 November 2026
+
+- Added original pages from Lecture 6 (69, 79) and Lecture 7 (44, 34). Their PDF page content was copied without redrawing tables and verified pixel-identical to the source. `wood-sources/provenance.json` records source page numbers, Drive URLs and full-source SHA-256 hashes.
+- Transparent buttons map the three assigned roof and floor load conditions, the course purlin column for spans 6–15 ft, and the four floor-panel widths. Source rows outside these assignment choices remain readable in the complete page.
+- Roof MPP clicks set the shared use/location, target purlin spacing and linked nodal loads. The actual spacing is computed from the top-chord nodes and shown separately. Purlin clicks set both roof and truss frame spacing. Floor clicks set beam centers from the governing clear span plus beam width; panel-width clicks change actual subdivisions.
+- The printed 8.44 ft F10-3 vibration limit is checked separately from the live-load columns. The default applied floor span uses the smaller limit. End seams and the partial floor remain coordinated.
+- The lecture's fixed 3.5 × 9.5 in purlin uses 8 plf. Alternative sections retain the explicit 35 pcf estimate. MPP self-weight is counted once in the downstream roof load.
+- The simple-span purlin model applies the Simple row (12 ft: 665 plf). Clicking Multiple (12 ft: 510 plf) explains the support mismatch without mutating or approving the model. Economy criteria are shown separately from capacity checks.
+- Save/Open retains canonical cell IDs; geometry, dead-load and occupancy changes are checked against the saved conditions. No capacity or provenance is trusted from imported free text.
+- The supplied course folder `12IsQijuLbxPMHX6nKry2rk11cVsA6wYA` confirms these original Lecture 6 and Lecture 7 sources. Lecture 8 and the assignment template reuse the same three span/load tables; beam, girder and column sizes are calculation exercises rather than additional span/load lookup tables.
+
+Validation: `wood-tables.test.cjs` covers all three briefs, all ten supported purlin spans, four widths, conservation of roof/floor loads, rejected support mismatches, and saved-source validation. Existing model, steel, studio and lecture-alignment suites also pass. Browser checks exercise actual PDF cells, shared model updates and Save/Open.

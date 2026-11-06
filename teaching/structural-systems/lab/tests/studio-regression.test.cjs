@@ -2,9 +2,11 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const root=require('node:path').resolve(__dirname,'..')+'/', window={}, ctx=vm.createContext({window,globalThis:window,console,Blob});
 const files=['structure-core.js','steel-roof-data.js','steel-pdf-map.js','steel-pdf-tables.js','steel-explain.js','steel-roof-lessons.js','steel-floor-data.js','steel-floor-lessons.js','steel-foundation-data.js','steel-linked-tables.js','steel-project-brief.js','steel-foundation-lessons.js'];
 for(const file of files)vm.runInContext(fs.readFileSync(root+file,'utf8'),ctx,{filename:file});
+vm.runInContext(fs.readFileSync(root+'wood-pdf-tables.js','utf8'),ctx,{filename:'wood-pdf-tables.js'});
 const modules=window.LAB_MODULES, states=Object.fromEntries(modules.map(m=>[m.id,JSON.parse(JSON.stringify(m.defaults))]));
 states.floor.layout=window.FloorLayout.defaults();states.building.assignment=window.BuildingAssignment.defaults();states.building.floorHeight=12.25;states.floor.bayStoryHeight=12.25;
 const view={projection:'orthographic',xray:false,mode:'3d',loads:true,forces:true,deform:false,labels:true,scale:40,diagram:'moment'};
+for(const cell of ['roof-grocery','purlin-simple-12','floor-grocery','width-118'])window.WoodPDFTables.apply(states,cell);
 for(const m of modules){const result=window.LAB_MODELS[m.id](states[m.id],view,states);assert.ok(result.items.length,m.id+' scene');assert.ok(result.stats.every(s=>typeof s.value!=='number'||Number.isFinite(s.value)),m.id+' finite metrics');}
 const r=window.SteelRoof.normalize({...window.SteelRoof.defaults(),family:'3060',option:'A',use:'office',familyChosen:true,optionChosen:true,useChosen:true,briefConfirmed:true});
 const f=window.SteelFloor.normalize({...window.SteelFloor.defaults(),option:'P',optionChosen:true,briefConfirmed:true,beamName:'W21x44',beamWeight:44,notes:{'floor-beam':'QA evidence: original source plus load conditions.'},pdfSources:{beam:'Lecture 10 p64'},pdfEvidence:{beam:{designation:'W21x44',reviewed:false}},sourceCell:{kind:'beam'}});
@@ -19,6 +21,10 @@ Object.assign(ctx,{modules,t:x=>x,states,view,active:'floor',lang:'en',plane:'pl
 vm.runInContext(bootstrap.slice(bootstrap.indexOf('function validateStudy('),bootstrap.indexOf('function showComparison(')),ctx);
 const data={format:'structure-lab',version:4,active:'floor',states,view,plane:'plan',screen:'steel',steel,coach:ctx.coach.getData(),predictions:ctx.predictions,reflections:ctx.reflections};
 const normalized=ctx.validateStudy(data);assert.equal(normalized.floor.layout.enabled,states.floor.layout.enabled);assert.equal(normalized.building.floorHeight,12.25);assert.throws(()=>ctx.validateStudy({...data,states:null}));
+assert.equal(JSON.stringify(normalized.roof.tableSelections),JSON.stringify(states.roof.tableSelections));
+assert.equal(normalized.floor.layout.beamSpacing,states.floor.layout.beamSpacing);
+assert.equal(normalized.floor.layout.panelWidthIn,118);
+for(const type of ['roof','purlin','floor','width'])assert.equal(window.WoodPDFTables.report(normalized,type).valid,true,'saved wood '+type+' still matches model');
 window.StructureStudio={getData:()=>({version:1,activities:{'terms:beam':{visited:true,changed:true,note:'Beam supports a strip of deck.'}},glossary:{term:'beam',values:{beam:{span:18}}}})};
 let saved;ctx.downloadBlob=(name,blob)=>saved={name,blob};
 vm.runInContext(bootstrap.slice(bootstrap.indexOf('function saveStudy('),bootstrap.indexOf('function validateStudy(')),ctx);ctx.saveStudy();assert.ok(saved);

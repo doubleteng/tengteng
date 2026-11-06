@@ -1,0 +1,26 @@
+[
+  {
+    "page": 1,
+    "sourcePage": 69,
+    "sourceURL": "https://drive.google.com/file/d/1PfjudK3MflzwjUCVHM1KLGT3LOXVgEL1/view",
+    "sourceSHA256": "1142f3ea54100ff9df5149d8b0e6e09c78e8d64553d2b99fe50d8aac794cfd00"
+  },
+  {
+    "page": 2,
+    "sourcePage": 79,
+    "sourceURL": "https://drive.google.com/file/d/1PfjudK3MflzwjUCVHM1KLGT3LOXVgEL1/view",
+    "sourceSHA256": "1142f3ea54100ff9df5149d8b0e6e09c78e8d64553d2b99fe50d8aac794cfd00"
+  },
+  {
+    "page": 3,
+    "sourcePage": 44,
+    "sourceURL": "https://drive.google.com/file/d/19tvjBUzl7Q5qubdlg8Mf2Rxq2ZGBHiBw/view",
+    "sourceSHA256": "8ab40d3c70d92fc8cc38fa23939eb63534eae7a5ef852e640c7112cc304063a2"
+  },
+  {
+    "page": 4,
+    "sourcePage": 34,
+    "sourceURL": "https://drive.google.com/file/d/19tvjBUzl7Q5qubdlg8Mf2Rxq2ZGBHiBw/view",
+    "sourceSHA256": "8ab40d3c70d92fc8cc38fa23939eb63534eae7a5ef852e640c7112cc304063a2"
+  }
+]

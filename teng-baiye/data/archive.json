@@ -1261,34 +1261,6 @@
       "order": "1932-12-12"
     },
     {
-      "id": "T14",
-      "date": {
-        "zh": "1933",
-        "en": "1933"
-      },
-      "place": {
-        "zh": "北平、上海相关",
-        "en": "China"
-      },
-      "title": {
-        "zh": "发表英文艺术论文",
-        "en": "Art in Modern China"
-      },
-      "text": {
-        "zh": "Art In Modern China署燕京大学，讨论中国绘画的不同倾向。",
-        "en": "His English essay, signed with a Yenching University affiliation, examines different directions in Chinese painting."
-      },
-      "sources": [
-        "S018"
-      ],
-      "status": {
-        "zh": "本人原文",
-        "en": "Original text available"
-      },
-      "period": "return",
-      "order": "1933-01-01"
-    },
-    {
       "id": "T32",
       "date": {
         "zh": "1933-01-01",
@@ -1456,6 +1428,34 @@
       },
       "period": "return",
       "order": "1933-11-19"
+    },
+    {
+      "id": "T14",
+      "date": {
+        "zh": "1933年12月",
+        "en": "December 1933"
+      },
+      "place": {
+        "zh": "北平、上海相关",
+        "en": "China"
+      },
+      "title": {
+        "zh": "发表英文艺术论文",
+        "en": "Art in Modern China"
+      },
+      "text": {
+        "zh": "《The Open Court》第47卷第8期（总927期）刊出Art in Modern China，页479—494。作者署燕京大学，文中讨论中国绘画，并附《飞雁》《雨后山水》《群鸡》图版。",
+        "en": "The Open Court published Art in Modern China in volume 47, issue 8 (no. 927), pp. 479–494. Signed with Teng’s Yenching University affiliation, the essay discusses Chinese painting and includes Flying Geese, Landscape After the Rain and A Chicken Family."
+      },
+      "sources": [
+        "S018"
+      ],
+      "status": {
+        "zh": "本人原文",
+        "en": "Original text available"
+      },
+      "period": "return",
+      "order": "1933-12-01"
     },
     {
       "id": "T15",
@@ -1637,6 +1637,34 @@
       "status": {
         "zh": "同期中英文报道，日期有异",
         "en": "Contemporary reports give different dates"
+      },
+      "period": "return",
+      "order": "1934-05-03"
+    },
+    {
+      "id": "T127",
+      "date": {
+        "zh": "1934年5月3日",
+        "en": "3 May 1934"
+      },
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "title": {
+        "zh": "讲述竹与画竹",
+        "en": "A lecture on bamboo and bamboo painting"
+      },
+      "text": {
+        "zh": "Journal of the North China Branch of the Royal Asiatic Society第65卷记滕圭于5月3日讲演Bamboo and Bamboo Painting。该文刊于同卷55—61页，附墨竹图版，讨论竹的形态、用途与画竹技法。",
+        "en": "Volume 65 of the Journal of the North China Branch of the Royal Asiatic Society records Teng Kuei’s lecture Bamboo and Bamboo Painting on 3 May. The article occupies pp. 55–61 with a bamboo plate, discussing the plant’s form, uses and depiction."
+      },
+      "sources": [
+        "S088"
+      ],
+      "status": {
+        "zh": "原刊正文及讲演记录",
+        "en": "Original article and lecture record"
       },
       "period": "return",
       "order": "1934-05-03"
@@ -1826,14 +1854,15 @@
         "en": "Marriage to Hou Hanhui"
       },
       "text": {
-        "zh": "11月25日下午，滕白也与侯涵辉在沪江大学大礼堂结婚。11月17日订婚报道写作候亞輝，婚后报道写作侯亞輝。书中称介绍人为沪江大学校长刘湛恩的妻子刘王立明。",
-        "en": "Teng married Hou Hanhui at the University of Shanghai on 25 November. The two newspaper notices spell her name differently. Bao and Wang identify Liu Wang Liming, wife of university president Liu Zhan’en, as the person who introduced them."
+        "zh": "11月25日下午，滕白也与侯涵辉在沪江大学大礼堂结婚。11月17日订婚报道写作候亞輝，婚后报道写作侯亞輝。书中称介绍人为沪江大学校长刘湛恩的妻子刘王立明。 同时期报刊肖像图注以“侯日星女士”称她，并记与滕白也于“上月二十五日”结婚。",
+        "en": "Teng married Hou Hanhui at the University of Shanghai on 25 November. The two newspaper notices spell her name differently. Bao and Wang identify Liu Wang Liming, wife of university president Liu Zhan’en, as the person who introduced them. A contemporary press portrait captions her as Hou Rixing and states that she married Teng on the twenty-fifth of the preceding month."
       },
       "sources": [
         "S209",
         "S208",
         "S012",
-        "S251"
+        "S251",
+        "S319"
       ],
       "status": {
         "zh": "婚期据同期报道；介绍人据专著",
@@ -1973,16 +2002,16 @@
         "en": "Illustrating Chinese Children’s Rhymes"
       },
       "text": {
-        "zh": "上海商务印书馆出版Ruth Hsü编选、英译的儿童歌谣集，书目列Teng Kuei为插图作者。所提供《牧童之歌》第73页图像另有2020年论文著录，原书该页仍待独立核对。",
-        "en": "Commercial Press, Shanghai, published Ruth Hsü’s compilation and translation, illustrated by Teng Kuei. The supplied page 73 awaits comparison with an independent original scan."
+        "zh": "上海商务印书馆出版Ruth Hsü编选、英译的《中国儿童歌谣》，书目列Teng Kuei为插图作者。",
+        "en": "The Commercial Press, Shanghai, published Chinese Children’s Rhymes, compiled and translated by Ruth Hsü and illustrated by Teng Kuei."
       },
       "sources": [
         "S307",
-        "S305"
+        "S308"
       ],
       "status": {
-        "zh": "馆藏书目；逐页及版次核验范围见说明",
-        "en": "Catalogue evidence; page-level limits noted"
+        "zh": "馆藏书目",
+        "en": "Library catalogues"
       },
       "period": "return",
       "order": "1935-01-01"
@@ -2214,7 +2243,8 @@
         "S188",
         "S012",
         "S257",
-        "S258"
+        "S258",
+        "S323"
       ],
       "status": {
         "zh": "评选由同期图注支持，后续据研究",
@@ -2369,35 +2399,31 @@
     {
       "id": "T18",
       "date": {
-        "zh": "1938前后",
-        "en": "Around 1938"
+        "zh": "1937—1938年",
+        "en": "1937–1938"
       },
       "place": {
-        "zh": "汉口、桂林",
-        "en": "Guilin and elsewhere"
+        "zh": "桂林、汉口",
+        "en": "Guilin and Hankou"
       },
       "title": {
-        "zh": "战时活动及书信",
-        "en": "Wartime work and correspondence"
+        "zh": "战时避难与难民生产",
+        "en": "Wartime refuge and refugee workshops"
       },
       "text": {
-        "zh": "1938年6月通讯记滕圭在汉口组织难民生产军需品，工人多为妇女和少女。7月10日他从汉口写信给托贝，回忆此前与家人在桂林避难。",
-        "en": "A June 1938 bulletin places Teng’s refugee workshop in Hankou. Most workers were women and teenage girls. On 10 July he wrote to Tobey from Hankou about the family’s earlier refuge in Guilin."
+        "zh": "1937年夏，滕白也与家人在桂林避难。1938年6月，他在汉口主持难民生产项目，组织数百名工人制作袜子、扇子、草鞋和毛巾，供给前线。工场设在两处改作厂房的学校，工人主要是妇女和少女，项目隶属新生活运动组织。",
+        "en": "Teng and his family took refuge in Guilin in the summer of 1937. By June 1938 he was directing refugee workshops in Hankou, where hundreds of workers made socks, fans, straw sandals and towels for troops. The workshops occupied two former schools and employed mainly women and teenage girls under a New Life Movement Association project."
       },
       "sources": [
-        "S007",
-        "S008",
-        "S221",
-        "S233",
         "S239",
-        "S012"
+        "S233"
       ],
       "status": {
-        "zh": "同期通讯与书信译文",
-        "en": "Contemporary bulletin and translated letter"
+        "zh": "来源见下列文献",
+        "en": "Sources cited below"
       },
       "period": "return",
-      "order": "1938-01-01"
+      "order": "1937-07-01"
     },
     {
       "id": "T89",
@@ -2523,27 +2549,29 @@
     {
       "id": "T108",
       "date": {
-        "zh": "1941-02—1942-07",
-        "en": "1941-02—1942-07"
+        "zh": "1941—1942年",
+        "en": "1941–1942"
       },
       "place": {
-        "zh": "广西",
-        "en": "Guangxi"
+        "zh": "桂林",
+        "en": "Guilin"
       },
       "title": {
         "zh": "任教广西大学",
         "en": "Teaching at Guangxi University"
       },
       "text": {
-        "zh": "年表分列广西大学的两项工作：1941年2月至1942年2月任英文教授，同年5月至1942年7月在桂林良丰兼任教授及生活指导。",
-        "en": "The chronology lists two overlapping Guangxi University appointments: teaching English from February 1941 to February 1942, and teaching with student-life duties at Liangfeng, Guilin, from May 1941 to July 1942."
+        "zh": "1941至1942年，滕白也在广西大学任教。",
+        "en": "Teng taught at Guangxi University in 1941–1942."
       },
       "sources": [
+        "S016",
+        "S013",
         "S012"
       ],
       "status": {
-        "zh": "已核著作印页67",
-        "en": "Printed p. 67"
+        "zh": "来源见下列文献",
+        "en": "Sources cited below"
       },
       "period": "return",
       "order": "1941-01-01"
@@ -2847,16 +2875,17 @@
         "en": "Making anatomical models"
       },
       "text": {
-        "zh": "据《画坛遗珠》印页58、69，1950年5月滕白也任上海卫生学校模型厂技师，从事人体模型制作。市文史馆名录亦记其医学模型厂工作。1952年在奉贤另办石膏模型厂。",
-        "en": "Bao and Wang date his appointment as a model technician at Shanghai Health School to May 1950. The municipal institute also records medical modelling work. In 1952 he helped establish a plaster-model workshop in Fengxian."
+        "zh": "1950年5月，滕白也到上海卫生学校模型厂任技师，运用雕塑技艺制作人体模型。1952年，他与同乡在奉贤开办石膏模型厂。",
+        "en": "In May 1950, Teng became a technician at Shanghai Health School’s model workshop, applying his sculpture skills to anatomical models. In 1952 he organized a plaster-model factory with fellow villagers in Fengxian."
       },
       "sources": [
+        "S012",
         "S013",
-        "S012"
+        "S016"
       ],
       "status": {
-        "zh": "机构履历；年月据出版年表",
-        "en": "Institutional record; date from published chronology"
+        "zh": "来源见下列文献",
+        "en": "Sources cited below"
       },
       "period": "later",
       "order": "1950-05-01"
@@ -2918,35 +2947,6 @@
       "order": "1952-01-01"
     },
     {
-      "id": "T113",
-      "date": {
-        "zh": "1956-08",
-        "en": "1956-08"
-      },
-      "place": {
-        "zh": "上海",
-        "en": "Shanghai"
-      },
-      "title": {
-        "zh": "儿童读物《青青和鳳蝶》出版",
-        "en": "Writing and illustrating a children’s science book"
-      },
-      "text": {
-        "zh": "上海少年儿童出版社8月出版《青青和鳳蝶》。版权页将著文、绘图署给滕白也，装帧署赵白山。",
-        "en": "The August first edition credits Teng with both text and illustrations; Zhao Baishan designed the book."
-      },
-      "sources": [
-        "S012",
-        "S259"
-      ],
-      "status": {
-        "zh": "已核著作印页58",
-        "en": "Printed p. 58"
-      },
-      "period": "later",
-      "order": "1956-01-01"
-    },
-    {
       "id": "T126",
       "date": {
         "zh": "1956",
@@ -3003,6 +3003,35 @@
       },
       "period": "later",
       "order": "1956-06-10"
+    },
+    {
+      "id": "T113",
+      "date": {
+        "zh": "1956-08",
+        "en": "1956-08"
+      },
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "title": {
+        "zh": "儿童读物《青青和鳳蝶》出版",
+        "en": "Writing and illustrating a children’s science book"
+      },
+      "text": {
+        "zh": "上海少年儿童出版社8月出版《青青和鳳蝶》。版权页将著文、绘图署给滕白也，装帧署赵白山。",
+        "en": "The August first edition credits Teng with both text and illustrations; Zhao Baishan designed the book."
+      },
+      "sources": [
+        "S012",
+        "S259"
+      ],
+      "status": {
+        "zh": "已核著作印页58",
+        "en": "Printed p. 58"
+      },
+      "period": "later",
+      "order": "1956-08-01"
     },
     {
       "id": "T114",
@@ -3133,18 +3162,17 @@
         "en": "Labeled a rightist"
       },
       "text": {
-        "zh": "上海市文史研究馆名录记滕白也于1958年被划为右派。此前在1957年7月和8月，他已先后受到《文汇报》和《人民日报》的公开批评。",
-        "en": "The municipal institute’s roster records the designation in 1958. Public criticism in Wen Hui Bao and People’s Daily had already appeared in July and August 1957."
+        "zh": "1957年7月17日，《文汇报》刊文攻击滕白也的雕塑家身份；8月20日，《人民日报》又在批判文章中点名。1958年，他被划为右派。",
+        "en": "On 17 July 1957, Wenhui Bao attacked Teng’s standing as a sculptor. People’s Daily named him in another denunciation on 20 August. In 1958 he was labeled a rightist."
       },
       "sources": [
-        "S013",
         "S241",
         "S235",
-        "S012"
+        "S013"
       ],
       "status": {
-        "zh": "馆员名录；报刊另记前一年遭遇",
-        "en": "Institutional roster and earlier press reports"
+        "zh": "来源见下列文献",
+        "en": "Sources cited below"
       },
       "period": "later",
       "order": "1958-01-01"
@@ -3188,12 +3216,12 @@
         "en": "Location unconfirmed"
       },
       "title": {
-        "zh": "回忆文章中的劳动与婚姻变故",
-        "en": "Labour and divorce in retrospective accounts"
+        "zh": "政治运动中的困境",
+        "en": "Hardship during political campaigns"
       },
       "text": {
-        "zh": "郑逸梅记文革期间因绘画和海外交往遭批判、强制劳动及夫妻离婚。万青力转述上海友人时也写到类似经过。两文未给离婚日期，来源是否独立尚未证明；次子把家庭破裂追溯到1950年代末。",
-        "en": "Zheng Yimei describes political attacks, compulsory labour and divorce during the Cultural Revolution. Wan Qingli relays a similar account from a Shanghai friend. Neither dates the divorce, and the independence of the accounts is unproven. Their younger son dates the family rupture to the late 1950s."
+        "zh": "郑逸梅和万青力的回忆文章记述，滕白也曾因绘画和海外交往遭批判，被迫劳动，并经历家庭离散。",
+        "en": "Retrospective accounts by Zheng Yimei and Wan Qingli describe denunciations over Teng’s art and overseas contacts, compulsory labour and the breakup of his family."
       },
       "sources": [
         "S287",
@@ -3201,8 +3229,8 @@
         "S012"
       ],
       "status": {
-        "zh": "时代背景据回忆，法定离婚年月未详",
-        "en": "Retrospective accounts; date of divorce unknown"
+        "zh": "来源见下列文献",
+        "en": "Sources cited below"
       },
       "period": "later",
       "order": "1966-01-01"
@@ -3337,22 +3365,22 @@
         "en": "Shanghai"
       },
       "title": {
-        "zh": "平反及文史馆履历",
+        "zh": "获得平反，受聘文史馆",
         "en": "Rehabilitation and institute membership"
       },
       "text": {
-        "zh": "奉贤区资料把落实政策、平反记在1978年12月，学生回忆提及1978年回沪。上海市文史研究馆名录写1979年平反。区级资料也记他任馆员，具体聘书和改正决定日期待查。",
-        "en": "Fengxian dates rehabilitation to December 1978, and the pupil’s account places Teng back in Shanghai in 1978. The municipal institute records rehabilitation in 1979. His appointment letter and the dated rehabilitation decision have not been located."
+        "zh": "奉贤地方资料记滕白也于1978年12月获得平反，上海市文史研究馆名录则记为1979年。他晚年受聘为上海市文史研究馆馆员，继续作画、授艺，并于1979年参加上海中山公园的艺友画展。",
+        "en": "The Fengxian district account dates Teng’s rehabilitation to December 1978; the Shanghai Research Institute of Culture and History records 1979. He became a member of the institute in his final years, continued painting and teaching, and participated in an exhibition at Shanghai’s Zhongshan Park in 1979."
       },
       "sources": [
-        "S013",
         "S016",
+        "S013",
         "S043",
         "S012"
       ],
       "status": {
-        "zh": "1978与1979两说并存",
-        "en": "Sources give 1978 and 1979"
+        "zh": "来源见下列文献",
+        "en": "Sources cited below"
       },
       "period": "later",
       "order": "1978-12-01"
@@ -3922,13 +3950,12 @@
       "sources": [
         "S026",
         "S012",
-        "S305",
         "S306",
         "S310"
       ],
       "note": {
-        "zh": "上传全图与既有I157、I016右幅及弗莱美术馆年报局部相符。年报记包铭新收藏，属2014年的历史著录，不据此判定当前持有人。",
-        "en": "The supplied full photograph matches I157, the right-hand work in I016, and the Frye annual-report detail. The 2014 report credits Bao Mingxin’s collection; this is not evidence of present ownership."
+        "zh": "纸本水墨立轴，画中三鹤与松干的布局、题款对应《画坛遗珠》图版及弗莱美术馆2014年报。年报图注记1949年前、包铭新收藏；收藏信息为2014年的著录。",
+        "en": "An ink-on-paper hanging scroll. The three cranes, pine trunk and inscription correspond to the published plates and the Frye Art Museum’s 2014 annual report, which dates the work before 1949 and credits Bao Mingxin’s collection. The collection attribution is dated 2014."
       },
       "images": [
         "I268",
@@ -4211,13 +4238,12 @@
         "S043",
         "S012",
         "S246",
-        "S305",
         "S306",
         "S311"
       ],
       "note": {
-        "zh": "新图与I176为同一竖幅山水，订正旧记录的“横幅”。1957年是黄葆戉题跋日期，不直接等于作画或入藏日期。1944年赠画说及《富春江歌》是否同作仍待原图录与递藏记录；仅凭后添题跋不能确认或否定赠画年份。",
-        "en": "The supplied image matches the vertical landscape in I176, correcting the former horizontal-format description. The 1957 inscription does not establish when the painting was made or acquired. The reported 1944 gift and alternate title require a catalogue plate and provenance records; a later inscription alone cannot settle them."
+        "zh": "竖幅指画山水。黄葆戉题跋末署丁酉四月，即1957年农历四月；题跋日期并非作画或入藏日期。《富春江歌》是否同作，以及1944年赠画说，尚待原图录及递藏档案确认。",
+        "en": "A vertical finger-painted landscape. Huang Baoyue’s inscription is dated to the fourth lunar month of 1957; it does not date the painting or its acquisition. The alternate title Song of the Fuchun River and the reported 1944 gift await confirmation from the catalogue and provenance records."
       },
       "images": [
         "I263",
@@ -5352,7 +5378,8 @@
       "collection": "上海；现藏未核",
       "accession": "",
       "sources": [
-        "S133"
+        "S133",
+        "S324"
       ],
       "note": {
         "zh": "原报称将送往罗马；是否运抵、现藏何处待证。",
@@ -6123,7 +6150,7 @@
       ],
       "note": {
         "zh": "叶、竿旁有题款。第65页同图较小。与赠滕国俊的仿郑板桥墨竹（W049）构图、款识不同。 《画坛遗珠》印页93。 1934年英文原刊及图版D173可与书中转载对照。",
-        "en": "Bao and Wang reproduce this work on printed page 93. The original 1934 article and its plate are now preserved as D173."
+        "en": "Bao and Wang reproduce this work on printed page 93. The original 1934 article and its plate are available as D173."
       },
       "images": [
         "I200"
@@ -6958,13 +6985,12 @@
       "sources": [
         "S259",
         "S012",
-        "S305",
         "S306",
         "S309"
       ],
       "note": {
-        "zh": "版权页署滕白也著、绘图，赵白山装帧。封面、内页和版权页作为一册书的不同视图。 用户所供两张彩页分别与I246、I249同图，作为同书的不同照片保存。2020论文所写“青青与凤蝶、1957”依原书订正。",
-        "en": "The first edition credits Teng with writing and illustrations, and Zhao Baishan with book design. The views document a single publication. The two supplied colour plates duplicate compositions already recorded in I246 and I249. The original colophon corrects the 2020 essay’s title and date."
+        "zh": "1956年8月由上海少年儿童出版社出版。版权页署滕白也著、绘图，赵白山装帧。封面、昆虫彩页和版权页为同一册书的不同图版。",
+        "en": "Published by Children’s Publishing House, Shanghai, in August 1956. The colophon credits Teng Baiye with text and illustrations, and Zhao Baishan with book design. The cover, insect plates and colophon document one publication."
       },
       "images": [
         "I245",
@@ -7078,15 +7104,14 @@
         "en": "Finger painting (preliminary reading of inscription)"
       },
       "dimensions": "未见原作尺寸",
-      "collection": "私人收藏（2020年论文图注；藏家未署名）",
+      "collection": "藏家未详",
       "accession": "",
       "sources": [
-        "S305",
         "S306"
       ],
       "note": {
         "zh": "喜鹊栖于梅枝，画右题“喜上眉梢”及戊午款。与《石上鸟》《枝头春信》构图不同。戊午在通常所用的1900—1980生年范围内对应1918或1978；单凭此图不能锁定为1978年。",
-        "en": "The inscription gives the cyclical year wuwu, which could be 1918 or 1978 within the commonly used lifespan. The 2020 essay’s placement among later works cannot date the painting."
+        "en": "A magpie perches among plum blossoms. The inscription reads Joy at the Brow and gives the cyclical year wuwu, which could be 1918 or 1978 within the commonly used lifespan; the Gregorian date remains unresolved."
       },
       "images": [
         "I262"
@@ -7111,14 +7136,13 @@
       "collection": "上海商务印书馆出版；原画所在未核",
       "accession": "",
       "sources": [
-        "S305",
         "S306",
         "S307",
         "S308"
       ],
       "note": {
-        "zh": "书目确认Ruth Hsü编选、英译，Teng Kuei绘图。所示《牧童之歌》标页73，与2020年课程论文图5一致；尚未取得原书该页独立比对。书名及图题均为英文工作译名，不把诗歌作者归给滕白也。",
-        "en": "Catalogues credit Ruth Hsü as compiler and translator and Teng Kuei as illustrator. The supplied page 73 matches figure 5 in the 2020 essay; an independent scan of the original page remains unlocated. The Herdsboy’s Song is a poem/illustration title, not a separate book."
+        "zh": "上海商务印书馆1935年出版；书目署Ruth Hsü编选、英译，Teng Kuei绘图。图版标第73页及The Herdsboy’s Song。该题名为书中歌谣及插图题目，并非独立书名。原书该页仍待另一份原刊影像比对。",
+        "en": "Published by the Commercial Press, Shanghai, in 1935. Catalogues credit Ruth Hsü as compiler and translator and Teng Kuei as illustrator. The reproduced page is numbered 73 and titled The Herdsboy’s Song, a rhyme and illustration within the book. An independent original-page scan remains to be compared."
       },
       "images": [
         "I267"
@@ -7154,36 +7178,6 @@
         "I266"
       ],
       "category": "design"
-    },
-    {
-      "id": "W114",
-      "title": {
-        "zh": "友人之像",
-        "en": "Portrait of a Friend"
-      },
-      "date": {
-        "zh": "1934年刊载说；原刊期页待核",
-        "en": "Reported publication in 1934; issue/page unverified"
-      },
-      "medium": {
-        "zh": "人物像印刷图版；原作媒材未核",
-        "en": "Printed portrait reproduction; original medium unverified"
-      },
-      "dimensions": "未见尺寸",
-      "collection": "原作所在未核",
-      "accession": "",
-      "sources": [
-        "S305",
-        "S315"
-      ],
-      "note": {
-        "zh": "图中可读“友人之像 滕白也作”。据2020年论文第12页转载及书目，出处为《美术杂志》（上海）1934年第2期第29页；用户另提供同一篇目。尚未取得原刊该页。转载图左下叠入另一画面局部，保留原貌；不据此判断原作构成。",
-        "en": "The reproduced caption reads Portrait of a Friend, by Teng Baiye. The citation to Meishu zazhi (Shanghai), 1934, issue 2, p. 29 comes from the supplied essay and lead. Another image intrudes at lower left; the original page is needed to establish its boundaries."
-      },
-      "images": [
-        "I269"
-      ],
-      "category": "painting"
     }
   ],
   "sources": [
@@ -11748,33 +11742,18 @@
       "url": "https://escholarship.org/uc/item/16g2v1dm"
     },
     {
-      "id": "S305",
-      "language": "EN",
-      "type": "未刊课程论文（用户提供）",
-      "title": "Re-discovering Teng Baiye (滕白也)",
-      "author": "Zhen Cheng",
-      "date": "2020-06-01",
-      "summary": {
-        "zh": "22页课程论文，讨论指画、雕塑、儿童读物和晚年创作；图4—6、8与所提供照片相关。书目及生平中的若干日期需订正。",
-        "en": "A 22-page course paper on finger painting, sculpture, children’s books and later work. Figures 4–6 and 8 relate to the supplied photographs; several bibliographical and biographical dates require correction."
-      },
-      "status": "仅列书目信息与核验说明；论文全文不公开",
-      "notes": "Zhen Cheng，ARTH 6818 Modern Chinese Art 课程论文，2020年6月1日。未刊课程作业，不作为同行评审论文；本站不提供论文 PDF 或 DOC。",
-      "url": "https://teng-teng.org/teng-baiye/sources/S305.html"
-    },
-    {
       "id": "S306",
       "language": "ZH",
-      "type": "用户提供照片及未署名生平原稿",
-      "title": "绘画、书页照片与两份生平原稿",
-      "author": "用户提供；两份文稿未署作者",
-      "date": "未署年月；2026-11-08归档",
+      "type": "绘画与书籍图版",
+      "title": "绘画与书籍图版",
+      "author": "家藏照片",
+      "date": "照片未署拍摄日期",
       "summary": {
-        "zh": "七张照片、两份DOCX。照片按构图与既有作品合并；原稿保留原貌，婚期、学历、机构名称等另附核验对照。",
-        "en": "Seven photographs and two unsigned DOCX drafts. Matching images are merged with existing works. The original drafts are preserved alongside checks of dates, credentials and institutional names."
+        "zh": "《喜上眉梢》《富春江山水》《松鹤图》的照片，以及《青青和凤蝶》《蚂蚁的生活》《中国儿童歌谣》的书页图版。",
+        "en": "Photographs of Joy at the Brow, Fuchun River Landscape and Cranes and Pine Tree, with plates from Qingqing and the Swallowtail Butterfly, The Life of Ants and Chinese Children’s Rhymes."
       },
-      "status": "原文件与校验值已保存",
-      "notes": "文件名中的20200602不作为作品创作年月；照片提供者不自动视作原作持有人。",
+      "status": "原作年代及出版资料见各作品记录",
+      "notes": "照片拍摄日期与原作创作日期分别记录；照片提供者不等同于原作现藏者。",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html"
     },
     {
@@ -11783,13 +11762,13 @@
       "type": "图书联合目录及书目元数据",
       "title": "Chinese Children’s Rhymes — bibliographical records",
       "author": "Open Library / WorldCat",
-      "date": "1935（出版）；2026-11-08核对",
+      "date": "1935",
       "summary": {
         "zh": "书目列上海商务印书馆1935年出版；Ruth Hsü编选、英译，Teng Kuei绘图。Open Library责任说明直接列绘者，页数记xxiv, 98 p., 1 l.。",
         "en": "Catalogues record the Commercial Press, Shanghai, 1935; Ruth Hsü compiled and translated the rhymes, with illustrations by Teng Kuei. Open Library records xxiv, 98 p., 1 l."
       },
-      "status": "Open Library原始JSON及WorldCat条目已核",
-      "notes": "书目记录可证插图署名；未取得原书第73页独立扫描，不能把图像逐页核对写成完成。",
+      "status": "图书馆书目记录",
+      "notes": "书目列出插图署名；第73页的独立原刊影像尚待核对。",
       "url": "https://openlibrary.org/books/OL6345328M.json"
     },
     {
@@ -11798,12 +11777,12 @@
       "type": "数字图书馆访问记录",
       "title": "Chinese Children’s Rhymes — HathiTrust digitized copy",
       "author": "HathiTrust / University of California",
-      "date": "1935（原书）；2026-11-08核对",
+      "date": "1935",
       "summary": {
-        "zh": "定位到加州大学数字化本uc1.b4021811，馆藏记录009658273。访问状态为受限搜索，未取得全文。",
-        "en": "A University of California digitization, uc1.b4021811, is listed under record 009658273. Access is limited to search; no full text was obtained."
+        "zh": "加州大学藏本的数字化编号为uc1.b4021811，馆藏记录009658273；HathiTrust提供书内搜索。",
+        "en": "The University of California copy is digitized as uc1.b4021811 under catalogue record 009658273. HathiTrust provides search within the volume."
       },
-      "status": "馆藏及访问权限API已保存",
+      "status": "加州大学藏本；HathiTrust数字化记录",
       "notes": "数字化记录存在不等于全文公开。",
       "url": "https://catalog.hathitrust.org/Record/009658273"
     },
@@ -11830,8 +11809,8 @@
       "author": "Frye Art Museum",
       "date": "2014",
       "summary": {
-        "zh": "印刷第15页刊《松鹤》局部，图注记1949年前、纸上水墨装裱卷轴、包铭新收藏；局部与上传全图相符。",
-        "en": "Printed page 15 reproduces a detail of Cranes and Pine Tree, dated before 1949, ink and paper mounted on scroll, Collection Bao Mingxin. The detail matches the supplied photograph."
+        "zh": "印刷第15页刊《松鹤》局部，图注记1949年前、纸上水墨装裱卷轴、包铭新收藏；局部与作品全图相符。",
+        "en": "Printed page 15 reproduces a detail of Cranes and Pine Tree, dated before 1949, ink and paper mounted on scroll, Collection Bao Mingxin. The detail matches the full photograph."
       },
       "status": "官方年报原PDF已核；相关页已保存",
       "notes": "原年报PDF第17页对应印刷第15页。收藏信息是2014年著录，不代表当前持有人。",
@@ -11875,8 +11854,8 @@
       "author": "U.S. Department of State, Office of the Historian",
       "date": "1946-07-12（任命）",
       "summary": {
-        "zh": "司徒雷登于1946年7月12日获任驻华大使，7月19日递交国书。原稿在1929年荐学情节中使用“美国驻华大使”是把后来的职衔提前。",
-        "en": "Stuart was appointed ambassador to China on 12 July 1946 and presented credentials on 19 July. Calling him the ambassador in a 1929 recommendation is anachronistic."
+        "zh": "司徒雷登于1946年7月12日获任美国驻华大使，7月19日递交国书。1929年，他的身份是燕京大学校长。",
+        "en": "John Leighton Stuart was appointed US ambassador to China on 12 July 1946 and presented credentials on 19 July. In 1929 he was president of Yenching University."
       },
       "status": "官方任职日期已核",
       "notes": "1929年应按当时燕京大学校长身份表述，荐学信见S171。",
@@ -11885,13 +11864,13 @@
     {
       "id": "S314",
       "language": "ZH",
-      "type": "用户提供的期刊篇目线索",
+      "type": "期刊篇目",
       "title": "校聞：美術家滕奎來校演講",
       "author": "《沪大周刊》；短讯作者未详",
-      "date": "1933，第21卷第5期，第17页（据用户线索）",
+      "date": "1933，第21卷第5期，第17页（原页待核）",
       "summary": {
-        "zh": "用户提供可定卷期页码的演讲消息；原刊影像及独立篇名索引尚未取得。题名中的滕奎是被报道者，不能据此记作短讯作者。",
-        "en": "The user supplied an exact volume, issue and page for a campus lecture report. Neither the original page nor an independent article index has been obtained; the named lecturer is not necessarily the author."
+        "zh": "《沪大周刊》演讲消息篇目，原刊影像及独立篇名索引尚待核对；报道题名中的滕奎为演讲者。",
+        "en": "A bibliographical reference to a campus lecture notice in Huda zhoukan. The original page and an independent article index remain to be checked. Teng Kwei is the lecturer named in the title."
       },
       "status": "篇目待原页核验",
       "notes": "“奎”可能是原刊写法或录入异体，须见原页判定；不从卷期推算具体演讲日期。",
@@ -11909,7 +11888,7 @@
         "en": "The catalogue identifies a 2024 facsimile containing issues 1–3 of Meishu zazhi, published by Liangyou in January–June 1934, with Studio on the cover. Saitama University holds the volume."
       },
       "status": "影印本身份及馆藏位置已核",
-      "notes": "目录不直接证明第2期第29页的图像；《友人之像》的期页仍据用户线索及2020论文。",
+      "notes": "该馆藏目录确认影印本及收藏位置，不单独证明某一作品的刊载页。",
       "url": "https://ci.nii.ac.jp/ncid/BD09836676"
     },
     {
@@ -11920,12 +11899,102 @@
       "author": "章华明、王细荣 / 上海理工大学学报（社会科学版）",
       "date": "2016，38(4):387–394",
       "summary": {
-        "zh": "文章将《沪大周刊》列入沪江大学校园演讲史料，英文校名为University of Shanghai。这能订正2020论文的Shanghai University写法，但不证明尚未取得的滕奎演讲原页。",
-        "en": "The university journal identifies Huda zhoukan as a source for University of Shanghai campus lectures. This corrects the institutional name in the 2020 essay; it does not verify the still-unlocated Teng lecture item."
+        "zh": "文章以《沪大周刊》等史料考察沪江大学校园演讲。沪江大学的英文名称为University of Shanghai。",
+        "en": "The article studies campus lectures at the University of Shanghai using Huda zhoukan and other historical sources."
       },
-      "status": "正文及学校—刊物关系已核；所指滕奎短讯原页待核",
-      "notes": "页码387–394。该文的演讲表不是滕白也演讲的原始证据。",
+      "status": "大学学报论文",
+      "notes": "2016年第38卷第4期，页387–394。",
       "url": "https://jss.usst.edu.cn/html/2016/4/20160418.htm"
+    },
+    {
+      "id": "S319",
+      "language": "ZH",
+      "type": "历史报刊肖像及婚讯图注",
+      "title": "侯日星女士肖像及婚讯图注",
+      "author": "原图注署“慕汕／贈”；刊物待考",
+      "date": "约1934年末（据婚讯推定）；原刊日期待考",
+      "summary": {
+        "zh": "图注称“侯日星女士”，记其毕业于美国“亞勃林師大音樂系”、新近回国，并已于“上月二十五日”与艺术家滕白也结婚。结合1934年11月25日婚礼报道，可将侯日星与侯涵辉相联系。",
+        "en": "The caption names Hou Rixing, describes her as a recent returnee and graduate of the music department of “Yabolin Normal University” in the United States, and states that she married Teng Baiye on the twenty-fifth of the preceding month. Read with the marriage notice dated 25 November 1934, it connects Hou Rixing with Hou Hanhui."
+      },
+      "status": "图注可读；刊名、卷期及拍摄日期未见",
+      "notes": "“侯日星”是报刊所用姓名，不能由此确定为原名。“亞勃林”与Oberlin的对应由同时代婚讯支持；具体英文注册名和学位仍须校方档案确认。",
+      "url": "https://teng-teng.org/teng-baiye/sources/S319.html"
+    },
+    {
+      "id": "S321",
+      "language": "ZH",
+      "type": "同期报刊",
+      "title": "滕白也乳名小狗",
+      "author": "刊名未见；署名两字，影印不清",
+      "date": "刊期未详",
+      "summary": {
+        "zh": "这则短文从高桥乡里与早年家境谈起，将滕白也赴海外学习、从事雕塑和指画的经历，与“小狗”这一乳名串联起来。作者把乡间旧称和成名后的艺术家身份并置，既谈他的技艺，也夹杂对性情及作品的揶揄。",
+        "en": "This short piece takes the childhood nickname “Little Dog” as its theme, digresses on Gaoqiao place names, and discusses Teng’s sculpture, finger painting, reputation and temperament. Its account of artistic ability mixes with teasing commentary, placing a village nickname alongside the artist’s public identity. The nickname, local details and judgments of his work are presented as this newspaper’s account."
+      },
+      "status": "标题及第2版明确；刊名、日期未见；署名不作猜读。",
+      "notes": "第2版（版头可见）",
+      "url": "https://teng-teng.org/teng-baiye/sources/S321.html"
+    },
+    {
+      "id": "S322",
+      "language": "ZH",
+      "type": "同期报刊",
+      "title": "短聞",
+      "author": "刊名未见；观止",
+      "date": "刊期未详",
+      "summary": {
+        "zh": "观止在“短闻”栏中讥称，滕白也掌握了替要人塑像的“交际秘法”：主动承塑，却宣称应孙科之邀。文中点到于右任、唐绍仪及尤列，又以“鲁迅死，你敢塑像否”的反问，影射艺术家对酬劳与政治人物的选择。这段文字集中表现小报对雕塑委托和社会交游的讽刺，动机指控属于作者意见。",
+        "en": "In the “Short News” column, Guanzhi mocks Teng’s supposed “secret of social success”: voluntarily sculpting prominent men while presenting the work as commissioned by Sun Ke. The item names Yu Youren, Tang Shaoyi and You Lie, then asks whether he would sculpt the recently deceased Lu Xun. It satirizes the relationship between portrait commissions, money and political connections; its account of Teng’s motives remains the columnist’s judgment."
+      },
+      "status": "栏目名短闻和署名观止明确。上传文件名是摘自首句，并非原刊独立标题。",
+      "notes": "版次未见",
+      "url": "https://teng-teng.org/teng-baiye/sources/S322.html"
+    },
+    {
+      "id": "S323",
+      "language": "ZH",
+      "type": "同期报刊",
+      "title": "雕塑界的驕子　滕白也和他的太太",
+      "author": "铁报；未见署名",
+      "date": "1936年5月22日",
+      "summary": {
+        "zh": "文章以滕白也赢得孙中山铜像模型竞选开篇，称他为雕塑界的“骄子”，随后转写夫妻在上海吕班路万宜坊租屋的生活。报道把妻子的洁癖、洗涤与熨衣习惯写成房东不满和频繁搬家的原因，在艺术家的公共声望之外铺陈家庭趣闻。竞选结果可与同期新闻互证；租居细节及对妻子的刻画仍是这篇小报的单方叙述。",
+        "en": "The article opens with Teng’s success in the Sun Yat-sen statue-model competition and calls him a rising star of sculpture. It then turns to the couple’s rented home in Wanyi Fang on Shanghai’s Luban Road, blaming repeated moves on his wife’s demanding cleaning, washing and ironing habits. The competition result is supported by other contemporary reporting; the domestic details and characterization of his wife remain this newspaper’s account."
+      },
+      "status": "报头刊名、民国年、月日、星期及版次均可视读。",
+      "notes": "第3版",
+      "url": "https://teng-teng.org/teng-baiye/sources/S323.html"
+    },
+    {
+      "id": "S324",
+      "language": "ZH",
+      "type": "同期报刊",
+      "title": "滕白也乳名阿小狗",
+      "author": "福尔摩斯报；龙池",
+      "date": "11月14日，年份未见",
+      "summary": {
+        "zh": "龙池把“阿小狗”解释为乡人对滕白也少年时活泼伶俐的称呼，并叙述奉贤高桥出身、族人资助与海外求学的故事。文章后半转向他的雕塑活动，称他曾为戴季陶造像，又受意大利驻沪总领事之请制作墨索里尼像。乳名和资助经过仍属本文记述；墨索里尼胸像另见1935年的英文报刊图版。",
+        "en": "Longchi explains “A-Xiaogou” as a village nickname for Teng’s lively, quick-witted childhood and tells a story of Gaoqiao origins, support from relatives and overseas study. The article then describes portraits of Dai Jitao and a Mussolini sculpture said to have been commissioned through the Italian consul in Shanghai. The nickname and family support remain the article’s account; a Mussolini bust also appears in an illustrated English-language newspaper feature from 1935."
+      },
+      "status": "刊名中英文、月日、原题、署名均明确；年份未见，版号残缺不作猜读。",
+      "notes": "版号残缺，未定",
+      "url": "https://teng-teng.org/teng-baiye/sources/S324.html"
+    },
+    {
+      "id": "S325",
+      "language": "ZH",
+      "type": "同期报刊",
+      "title": "滕白也之過去情史",
+      "author": "金钢钻；娑娑",
+      "date": "1936年7月8日",
+      "summary": {
+        "zh": "娑娑以滕白也往来京沪、承造孙中山铜像的近况引出一段“过去情史”。文章声称，他任教时曾与一位姓郭的女学生相恋，并见过其经营公司的父亲；一次宴席上的中西礼俗冲突，最终使婚事告吹。作者用饭桌动作和人物对白制造戏剧性，未提供郭女士全名或当事人的证言。",
+        "en": "Suosuo begins with Teng’s travels between Nanjing and Shanghai and his Sun Yat-sen statue commission, then recounts an alleged earlier romance. The story claims that he fell in love with a student surnamed Guo and met her businessman father, but that a clash over dining customs ended the proposed marriage. Dramatic gestures and dialogue drive the narrative; neither Guo’s full name nor testimony from the people involved is supplied. It records the popular press’s storytelling about the artist’s private life."
+      },
+      "status": "金钢钻中文报头、The Diamond英文名、民国年月日、星期、版次、题名与署名均可视读。",
+      "notes": "第1版",
+      "url": "https://teng-teng.org/teng-baiye/sources/S325.html"
     }
   ],
   "materials": [
@@ -19890,11 +19959,10 @@
       "titleEn": "Joy at the Brow",
       "size": "411 × 837",
       "sources": [
-        "S306",
-        "S305"
+        "S306"
       ],
-      "note": "画面初读“喜上眉梢”“戊午”；与2020论文第19页图8同图，具体公历年待考。",
-      "rights": "用户提供照片；作品及原出版物署名按各条出处说明，未获开放许可。",
+      "note": "画右题“喜上眉梢”及戊午款；具体公历年待考。",
+      "rights": "照片来源见S306；作品及原出版物署名见对应记录，未注明开放许可。",
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html",
       "file": "assets/I262.jpg",
@@ -19911,11 +19979,10 @@
       "size": "962 × 1284",
       "sources": [
         "S306",
-        "S305",
         "S012"
       ],
       "note": "与I176同一幅竖式山水；题跋日期与画作日期分列。",
-      "rights": "用户提供照片；作品及原出版物署名按各条出处说明，未获开放许可。",
+      "rights": "照片来源见S306；作品及原出版物署名见对应记录，未注明开放许可。",
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html",
       "file": "assets/I263.jpg",
@@ -19935,7 +20002,7 @@
         "S259"
       ],
       "note": "与I246同一插图的不同照片；原书版权页署滕白也著、绘图。",
-      "rights": "用户提供照片；作品及原出版物署名按各条出处说明，未获开放许可。",
+      "rights": "照片来源见S306；作品及原出版物署名见对应记录，未注明开放许可。",
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html",
       "file": "assets/I264.jpg",
@@ -19955,7 +20022,7 @@
         "S259"
       ],
       "note": "与I249同一插图；保留图下注名，不另立作品。",
-      "rights": "用户提供照片；作品及原出版物署名按各条出处说明，未获开放许可。",
+      "rights": "照片来源见S306；作品及原出版物署名见对应记录，未注明开放许可。",
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html",
       "file": "assets/I265.jpg",
@@ -19975,7 +20042,7 @@
         "S309"
       ],
       "note": "封面署“滕白也编著”；封面及内页绘者未见版权页确认。",
-      "rights": "用户提供照片；作品及原出版物署名按各条出处说明，未获开放许可。",
+      "rights": "照片来源见S306；作品及原出版物署名见对应记录，未注明开放许可。",
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html",
       "file": "assets/I266.jpg",
@@ -19992,11 +20059,10 @@
       "size": "1281 × 2048",
       "sources": [
         "S306",
-        "S305",
         "S307"
       ],
-      "note": "同2020论文第15页图5；该书插图署名有独立书目支持，原书第73页仍待独立比对。",
-      "rights": "用户提供照片；作品及原出版物署名按各条出处说明，未获开放许可。",
+      "note": "书页标第73页及The Herdsboy’s Song；图书馆书目署Teng Kuei绘图。",
+      "rights": "照片来源见S306；作品及原出版物署名见对应记录，未注明开放许可。",
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html",
       "file": "assets/I267.png",
@@ -20017,7 +20083,7 @@
         "S012"
       ],
       "note": "与I157及I016右幅同一作品；三只仙鹤的姿态、松干、题款相合。",
-      "rights": "用户提供照片；作品及原出版物署名按各条出处说明，未获开放许可。",
+      "rights": "照片来源见S306；作品及原出版物署名见对应记录，未注明开放许可。",
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://teng-teng.org/teng-baiye/sources/S306.html",
       "file": "assets/I268.jpg",
@@ -20041,26 +20107,6 @@
       "url": "https://fryemuseum.org/sites/default/files/2023-07/2014_AnnualReport_012115-webexport-full.pdf",
       "file": "assets/D171.pdf",
       "thumb": ""
-    },
-    {
-      "id": "I269",
-      "works": [
-        "W114"
-      ],
-      "category": "work",
-      "title": "《友人之像》：2020年论文转载",
-      "titleEn": "Portrait of a Friend, reproduced in the 2020 essay",
-      "size": "1063 × 1482",
-      "sources": [
-        "S305",
-        "S315"
-      ],
-      "note": "转载图可读“友人之像 滕白也作”。左下有另一图像局部，保留原貌，不据此推定原作构成。",
-      "rights": "原出版物图版；出处及转引层级见记录。未改动画面内容。",
-      "rightsEn": "Source and attribution preserved in the record. No open licence established.",
-      "url": "https://teng-teng.org/teng-baiye/sources/S305.html",
-      "file": "assets/I269.jpg",
-      "thumb": "assets/I269.webp"
     },
     {
       "id": "D172",
@@ -20096,6 +20142,127 @@
       "rightsEn": "Source and attribution preserved in the record. No open licence established.",
       "url": "https://granthsanjeevani.com/jspui/handle/123456789/172841",
       "file": "assets/D173.pdf",
+      "thumb": ""
+    },
+    {
+      "id": "I270",
+      "works": [],
+      "category": "people",
+      "title": "侯涵辉肖像（报刊题名：侯日星女士）",
+      "titleEn": "Portrait of Hou Hanhui, captioned Hou Rixing",
+      "size": "763 × 1240",
+      "sources": [
+        "S319",
+        "S209"
+      ],
+      "note": "报刊肖像裁片；原图注记其与滕白也结婚，未见刊名或摄影者署名。",
+      "rights": "历史报刊图版；原图注署“慕汕／贈”。保留原貌，未修复或重绘。",
+      "rightsEn": "Historical press photograph. The caption credits “Mu Shan / presented”. Unretouched extract.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S319.html",
+      "file": "assets/I270.jpg",
+      "thumb": "assets/I270.webp"
+    },
+    {
+      "id": "I271",
+      "works": [],
+      "category": "people",
+      "title": "侯日星肖像与婚讯原图注",
+      "titleEn": "Hou Rixing portrait and original marriage caption",
+      "size": "876 × 1247",
+      "sources": [
+        "S319",
+        "S209"
+      ],
+      "note": "报刊肖像裁片；原图注记其与滕白也结婚，未见刊名或摄影者署名。",
+      "rights": "历史报刊图版；原图注署“慕汕／贈”。保留原貌，未修复或重绘。",
+      "rightsEn": "Historical press photograph. The caption credits “Mu Shan / presented”. Unretouched extract.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S319.html",
+      "file": "assets/I271.jpg",
+      "thumb": "assets/I271.webp"
+    },
+    {
+      "id": "D174",
+      "works": [],
+      "category": "document",
+      "title": "滕白也乳名小狗",
+      "titleEn": "Teng Baiye’s Childhood Nickname: Little Dog",
+      "size": "1页",
+      "sources": [
+        "S321"
+      ],
+      "note": "刊名未见，刊期未详，第2版（版头可见）",
+      "rights": "历史报刊原页；题名与署名见来源记录。",
+      "rightsEn": "Historical newspaper page; title and byline retained in the source record.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S321.html",
+      "file": "assets/D174.pdf",
+      "thumb": ""
+    },
+    {
+      "id": "D175",
+      "works": [],
+      "category": "document",
+      "title": "短聞",
+      "titleEn": "A “Secret of Social Success”: Sculpting Public Figures",
+      "size": "1页",
+      "sources": [
+        "S322"
+      ],
+      "note": "刊名未见，刊期未详，版次未见",
+      "rights": "历史报刊原页；题名与署名见来源记录。",
+      "rightsEn": "Historical newspaper page; title and byline retained in the source record.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S322.html",
+      "file": "assets/D175.pdf",
+      "thumb": ""
+    },
+    {
+      "id": "D176",
+      "works": [],
+      "category": "document",
+      "title": "雕塑界的驕子　滕白也和他的太太",
+      "titleEn": "Teng Baiye and His Wife",
+      "size": "1页",
+      "sources": [
+        "S323"
+      ],
+      "note": "铁报，1936年5月22日，第3版",
+      "rights": "历史报刊原页；题名与署名见来源记录。",
+      "rightsEn": "Historical newspaper page; title and byline retained in the source record.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S323.html",
+      "file": "assets/D176.pdf",
+      "thumb": ""
+    },
+    {
+      "id": "D177",
+      "works": [],
+      "category": "document",
+      "title": "滕白也乳名阿小狗",
+      "titleEn": "Teng Baiye’s Childhood Nickname: A-Xiaogou",
+      "size": "1页",
+      "sources": [
+        "S324"
+      ],
+      "note": "福尔摩斯报，11月14日，年份未见，版号残缺，未定",
+      "rights": "历史报刊原页；题名与署名见来源记录。",
+      "rightsEn": "Historical newspaper page; title and byline retained in the source record.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S324.html",
+      "file": "assets/D177.pdf",
+      "thumb": ""
+    },
+    {
+      "id": "D178",
+      "works": [],
+      "category": "document",
+      "title": "滕白也之過去情史",
+      "titleEn": "A Story of Teng Baiye’s Earlier Romance",
+      "size": "1页",
+      "sources": [
+        "S325"
+      ],
+      "note": "金钢钻，1936年7月8日，第1版",
+      "rights": "历史报刊原页；题名与署名见来源记录。",
+      "rightsEn": "Historical newspaper page; title and byline retained in the source record.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S325.html",
+      "file": "assets/D178.pdf",
       "thumb": ""
     }
   ],
@@ -21378,19 +21545,6 @@
       "notes": "核对Speaks on China栏目及馆藏具体期号，区分可邀讲题与实际演讲。目录仅列1931—1954年范围和材料类别，未证实保存所需期号。"
     },
     {
-      "id": "L091",
-      "type": "本人书信与出版档案",
-      "title": "“白云”署名的实用艺术稿件及致Yang Xieren信",
-      "author": "滕白也",
-      "date": "1957（据2020年论文）",
-      "location": "天津人民美术出版社；信件原件所在未核",
-      "sources": [
-        "S305"
-      ],
-      "priority": "高",
-      "notes": "论文第15页称150余稿中100余稿获收，署名白云；未提供可核信件图像、日期、档号或出版记录。收信人的中文姓名未确认，不据音译猜定。检索录用函、编务档案及署名白云的画册，不将“获收”改写成“出版”。"
-    },
-    {
       "id": "L092",
       "type": "图书原页",
       "title": "《中国儿童歌谣》题名页、版权页及第73页",
@@ -21399,8 +21553,7 @@
       "location": "HathiTrust uc1.b4021811；OCLC 730005",
       "sources": [
         "S307",
-        "S308",
-        "S305"
+        "S308"
       ],
       "priority": "高",
       "notes": "书目已确认绘者；需独立原书第73页比对《牧童之歌》，并核具体版次。数字本当前仅限搜索。"
@@ -21429,8 +21582,7 @@
       "sources": [
         "S311",
         "S312",
-        "S012",
-        "S305"
+        "S012"
       ],
       "priority": "高",
       "notes": "取得原图录内页、尺寸、馆藏编号与入藏记录，核对《富春江歌》是否同物及1944赠画说；2004天津展的新闻不能单独证明滕画参展。"
@@ -21440,14 +21592,14 @@
       "type": "校园周刊消息",
       "title": "校聞：美術家滕奎來校演講",
       "author": "短讯作者未详；演讲者据题名",
-      "date": "1933（用户提供）",
+      "date": "1933",
       "location": "《沪大周刊》第21卷第5期，第17页",
       "sources": [
         "S314",
         "S318"
       ],
       "priority": "高",
-      "notes": "用户给出精确篇目；原页及独立索引未取得。“滕奎”按线索原文保存，演讲日期、内容和名字字形须原刊核对。 刊物属于沪江大学（University of Shanghai），不是上海大学；见S318。"
+      "notes": "所列篇目尚待原页及独立索引；演讲日期、内容和姓名字形须原刊核对。《沪大周刊》属于沪江大学（University of Shanghai）。"
     },
     {
       "id": "L097",
@@ -21457,11 +21609,10 @@
       "date": "1934",
       "location": "《美术杂志》（上海）第2期第29页；2024影印本第4辑第10册",
       "sources": [
-        "S305",
         "S315"
       ],
       "priority": "高",
-      "notes": "现有2020论文转载图；需要原刊页及上下文，核对媒材、图像边界、题名和被画者。"
+      "notes": "需查《美术杂志》原刊第2期第29页，核对《友人之像》的题名、署名、媒材及图像边界。"
     }
   ],
   "issues": [
@@ -21588,13 +21739,11 @@
       "id": "Q09",
       "title": "英文文章卷期",
       "conflict": "1933仓储Iss.8，后文标December、卷43或47",
-      "approach": "保留原始仓储引用和印刷页479—494，不武断修订所有卷期。",
+      "approach": "原刊封面及卷题名页记第47卷（XLVII）、第8期／总927期，1933年12月；正文页479—494。",
       "sources": [
-        "S018",
-        "S006",
-        "S009"
+        "S018"
       ],
-      "next": "核The Open Court整期封面"
+      "next": "原刊卷期已核。"
     },
     {
       "id": "Q10",
@@ -21732,9 +21881,8 @@
       "id": "Q20",
       "title": "《喜上眉梢》的戊午纪年",
       "conflict": "画面可初读戊午；在通常采用的生年范围内对应1918或1978。",
-      "approach": "保留干支纪年，不据论文编排位置定为晚年作。",
+      "approach": "保留干支纪年，公历年份待作品题款与来源档案确认。",
       "sources": [
-        "S305",
         "S306"
       ],
       "next": "核更清晰题款、印章及实物来源。"
@@ -21742,25 +21890,13 @@
     {
       "id": "Q21",
       "title": "儿童读物的版次与绘者署名",
-      "conflict": "2020论文把《青青和凤蝶》写作“与”并记1957；还称《蚂蚁的生活》由滕著绘。",
-      "approach": "前书据版权页采用1956年8月、滕白也著绘；后书确认1956年及编著者，绘者待核。",
+      "conflict": "《青青和凤蝶》有版权页；《蚂蚁的生活》仅据封面与馆藏书目，尚缺绘图及装帧署名。",
+      "approach": "《青青和凤蝶》为1956年8月出版、滕白也著绘；《蚂蚁的生活》为1956年出版、滕白也编著，绘者待核。",
       "sources": [
         "S259",
-        "S305",
         "S309"
       ],
       "next": "取得《蚂蚁的生活》版权页及原书全册。"
-    },
-    {
-      "id": "Q22",
-      "title": "Mountain Landscape的哈佛藏本归属",
-      "conflict": "2020论文称哈佛收藏；图像与荷兰国立博物馆W062构图相同，但未核哈佛馆藏号。",
-      "approach": "记录相同构图线索；不同印本不合并为同一馆藏实物。",
-      "sources": [
-        "S305",
-        "S155"
-      ],
-      "next": "核哈佛馆藏号、尺寸及来源；比对纸张与题赠。"
     }
   ],
   "missing": [
@@ -21917,5 +22053,146 @@
       "status": "1937年目录第21项，上海陈幼石藏；所见三张作品照片中无此作。",
       "next": "查《滕白也指畫第一集》第21幅和陈幼石旧藏图录。"
     }
-  ]
+  ],
+  "anecdotes": [
+    {
+      "id": "S321",
+      "title": {
+        "zh": "滕白也乳名小狗",
+        "en": "Teng Baiye’s Childhood Nickname: Little Dog"
+      },
+      "publication": {
+        "zh": "刊名未见",
+        "en": "Newspaper unidentified"
+      },
+      "date": {
+        "zh": "刊期未详",
+        "en": "Date unknown"
+      },
+      "byline": {
+        "zh": "署名两字，影印不清",
+        "en": "Two-character byline, indistinct in the scan"
+      },
+      "summary": {
+        "zh": "这则短文从高桥乡里与早年家境谈起，将滕白也赴海外学习、从事雕塑和指画的经历，与“小狗”这一乳名串联起来。作者把乡间旧称和成名后的艺术家身份并置，既谈他的技艺，也夹杂对性情及作品的揶揄。",
+        "en": "This short piece takes the childhood nickname “Little Dog” as its theme, digresses on Gaoqiao place names, and discusses Teng’s sculpture, finger painting, reputation and temperament. Its account of artistic ability mixes with teasing commentary, placing a village nickname alongside the artist’s public identity. The nickname, local details and judgments of his work are presented as this newspaper’s account."
+      },
+      "file": "assets/D174.pdf",
+      "sources": [
+        "S321"
+      ]
+    },
+    {
+      "id": "S322",
+      "title": {
+        "zh": "“交际秘法”：为名人塑像",
+        "en": "A “Secret of Social Success”: Sculpting Public Figures"
+      },
+      "publication": {
+        "zh": "刊名未见",
+        "en": "Newspaper unidentified"
+      },
+      "date": {
+        "zh": "刊期未详",
+        "en": "Date unknown"
+      },
+      "byline": {
+        "zh": "观止",
+        "en": "Guanzhi"
+      },
+      "summary": {
+        "zh": "观止在“短闻”栏中讥称，滕白也掌握了替要人塑像的“交际秘法”：主动承塑，却宣称应孙科之邀。文中点到于右任、唐绍仪及尤列，又以“鲁迅死，你敢塑像否”的反问，影射艺术家对酬劳与政治人物的选择。这段文字集中表现小报对雕塑委托和社会交游的讽刺，动机指控属于作者意见。",
+        "en": "In the “Short News” column, Guanzhi mocks Teng’s supposed “secret of social success”: voluntarily sculpting prominent men while presenting the work as commissioned by Sun Ke. The item names Yu Youren, Tang Shaoyi and You Lie, then asks whether he would sculpt the recently deceased Lu Xun. It satirizes the relationship between portrait commissions, money and political connections; its account of Teng’s motives remains the columnist’s judgment."
+      },
+      "file": "assets/D175.pdf",
+      "sources": [
+        "S322"
+      ]
+    },
+    {
+      "id": "S323",
+      "title": {
+        "zh": "滕白也和他的太太",
+        "en": "Teng Baiye and His Wife"
+      },
+      "publication": {
+        "zh": "铁报",
+        "en": "Tie Bao"
+      },
+      "date": {
+        "zh": "1936年5月22日",
+        "en": "22 May 1936"
+      },
+      "byline": {
+        "zh": "未见署名",
+        "en": "Unsigned"
+      },
+      "summary": {
+        "zh": "文章以滕白也赢得孙中山铜像模型竞选开篇，称他为雕塑界的“骄子”，随后转写夫妻在上海吕班路万宜坊租屋的生活。报道把妻子的洁癖、洗涤与熨衣习惯写成房东不满和频繁搬家的原因，在艺术家的公共声望之外铺陈家庭趣闻。竞选结果可与同期新闻互证；租居细节及对妻子的刻画仍是这篇小报的单方叙述。",
+        "en": "The article opens with Teng’s success in the Sun Yat-sen statue-model competition and calls him a rising star of sculpture. It then turns to the couple’s rented home in Wanyi Fang on Shanghai’s Luban Road, blaming repeated moves on his wife’s demanding cleaning, washing and ironing habits. The competition result is supported by other contemporary reporting; the domestic details and characterization of his wife remain this newspaper’s account."
+      },
+      "file": "assets/D176.pdf",
+      "sources": [
+        "S323"
+      ]
+    },
+    {
+      "id": "S324",
+      "title": {
+        "zh": "滕白也乳名阿小狗",
+        "en": "Teng Baiye’s Childhood Nickname: A-Xiaogou"
+      },
+      "publication": {
+        "zh": "福尔摩斯报",
+        "en": "The Holmes Newspaper"
+      },
+      "date": {
+        "zh": "11月14日，年份未见",
+        "en": "14 November; year not shown"
+      },
+      "byline": {
+        "zh": "龙池",
+        "en": "Longchi"
+      },
+      "summary": {
+        "zh": "龙池把“阿小狗”解释为乡人对滕白也少年时活泼伶俐的称呼，并叙述奉贤高桥出身、族人资助与海外求学的故事。文章后半转向他的雕塑活动，称他曾为戴季陶造像，又受意大利驻沪总领事之请制作墨索里尼像。乳名和资助经过仍属本文记述；墨索里尼胸像另见1935年的英文报刊图版。",
+        "en": "Longchi explains “A-Xiaogou” as a village nickname for Teng’s lively, quick-witted childhood and tells a story of Gaoqiao origins, support from relatives and overseas study. The article then describes portraits of Dai Jitao and a Mussolini sculpture said to have been commissioned through the Italian consul in Shanghai. The nickname and family support remain the article’s account; a Mussolini bust also appears in an illustrated English-language newspaper feature from 1935."
+      },
+      "file": "assets/D177.pdf",
+      "sources": [
+        "S324"
+      ]
+    },
+    {
+      "id": "S325",
+      "title": {
+        "zh": "滕白也之过去情史",
+        "en": "A Story of Teng Baiye’s Earlier Romance"
+      },
+      "publication": {
+        "zh": "金钢钻",
+        "en": "Jin Gang Zuan (The Diamond)"
+      },
+      "date": {
+        "zh": "1936年7月8日",
+        "en": "8 July 1936"
+      },
+      "byline": {
+        "zh": "娑娑",
+        "en": "Suosuo"
+      },
+      "summary": {
+        "zh": "娑娑以滕白也往来京沪、承造孙中山铜像的近况引出一段“过去情史”。文章声称，他任教时曾与一位姓郭的女学生相恋，并见过其经营公司的父亲；一次宴席上的中西礼俗冲突，最终使婚事告吹。作者用饭桌动作和人物对白制造戏剧性，未提供郭女士全名或当事人的证言。",
+        "en": "Suosuo begins with Teng’s travels between Nanjing and Shanghai and his Sun Yat-sen statue commission, then recounts an alleged earlier romance. The story claims that he fell in love with a student surnamed Guo and met her businessman father, but that a clash over dining customs ended the proposed marriage. Dramatic gestures and dialogue drive the narrative; neither Guo’s full name nor testimony from the people involved is supplied. It records the popular press’s storytelling about the artist’s private life."
+      },
+      "file": "assets/D178.pdf",
+      "sources": [
+        "S325"
+      ]
+    }
+  ],
+  "anecdotesIntro": {
+    "zh": "1930年代上海报刊笔下的滕白也：乳名、交游、婚恋与家庭生活。这些文字保留了当时小报的叙事和口吻；其中的传闻与评价，按原刊记述呈现。",
+    "en": "Teng Baiye in the Shanghai press of the 1930s: childhood nicknames, social connections, courtship and domestic life. These articles retain the storytelling and tone of the popular press; their anecdotes and judgments are presented as the newspapers told them."
+  }
 }

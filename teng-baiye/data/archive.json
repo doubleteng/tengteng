@@ -4,8 +4,8 @@
     {
       "id": "T01",
       "date": {
-        "zh": "1900前后",
-        "en": "Around 1900"
+        "zh": "1900年（另有异说）",
+        "en": "1900; alternative dates recorded"
       },
       "place": {
         "zh": "上海奉贤高桥",
@@ -16,8 +16,8 @@
         "en": "Birth and family origins"
       },
       "text": {
-        "zh": "多来源均指向奉贤高桥；出生年有1900、1901、1902。",
-        "en": "Sources place his birthplace at Gaoqiao, Fengxian, but give 1900, 1901 or 1902 as his birth year."
+        "zh": "滕白也出生于上海奉贤高桥。上海市文史研究馆和《画坛遗珠》均记生年为1900年；奉城地方资料与部分海外馆藏分别记1901、1902年。奉城高桥的地方记录与1948年《中国美术年鉴》所记奉贤籍贯相互呼应，后者并未直接记出生地点。",
+        "en": "Teng Baiye was born in Gaoqiao, Fengxian, Shanghai. The Shanghai Research Institute of Culture and History and Bao and Wang’s monograph give 1900; local and overseas records also give 1901 or 1902. The Fengcheng account of Gaoqiao agrees geographically with the native place recorded in the 1948 Chinese Art Yearbook, although the yearbook does not state a birthplace."
       },
       "sources": [
         "S013",
@@ -27,8 +27,8 @@
         "S012"
       ],
       "status": {
-        "zh": "年份有争议",
-        "en": "Year disputed"
+        "zh": "1900年见馆方名录与专著；籍贯有同期记载",
+        "en": "1900 in institutional and published accounts; contemporary native-place record"
       },
       "period": "early",
       "order": "1900-01-01"
@@ -64,20 +64,20 @@
     {
       "id": "T02",
       "date": {
-        "zh": "1922前后",
-        "en": "Around 1922"
+        "zh": "1918／1919—1922年",
+        "en": "1918/1919–1922"
       },
       "place": {
-        "zh": "苏州",
-        "en": "Suzhou"
+        "zh": "上海、苏州",
+        "en": "Shanghai and Suzhou"
       },
       "title": {
-        "zh": "东吴教育线索",
-        "en": "Education in Suzhou"
+        "zh": "东吴中学与大学求学",
+        "en": "Education at Soochow schools"
       },
       "text": {
-        "zh": "地方资料记东吴二中后进入东吴大学；入学与毕业情况待校史档案。",
-        "en": "Local accounts describe study at a Soochow secondary school and then Soochow University. Enrollment and graduation records remain to be located."
+        "zh": "《画坛遗珠》第61页记滕白也1918年入东吴第二中学，1922年7月毕业，9月进入东吴大学文学系。奉贤地方记述将中学入学时间记为1919年春，同样记其1922年升入东吴大学。两类材料支持东吴中学至大学的求学路径，入学年份及具体学籍尚待校方档案厘清。",
+        "en": "Bao and Wang’s chronology (p. 61) records entry to Soochow No. 2 Middle School in 1918, graduation in July 1922 and admission to Soochow University’s literature department that September. The Fengxian account dates secondary-school entry to spring 1919 and also places university entry in 1922. These accounts support the educational sequence, while the enrollment dates and student record remain to be established from university files."
       },
       "sources": [
         "S014",
@@ -86,11 +86,11 @@
         "S012"
       ],
       "status": {
-        "zh": "二手线索",
-        "en": "Secondary accounts"
+        "zh": "地方记述与专著相互支持，入学年不同",
+        "en": "Local and published accounts agree on the sequence, but differ on the entry year"
       },
       "period": "early",
-      "order": "1922-01-01"
+      "order": "1918-01-01"
     },
     {
       "id": "T41",
@@ -121,6 +121,37 @@
       "order": "1923-01-01"
     },
     {
+      "id": "T130",
+      "date": {
+        "zh": "1923年7月（据年表）",
+        "en": "July 1923, according to the chronology"
+      },
+      "title": {
+        "zh": "筹备赴美留学",
+        "en": "Preparing to study in the United States"
+      },
+      "text": {
+        "zh": "《画坛遗珠》第61页记，滕白也于1923年7月停学办理留学手续，经牧师帮助收到华盛顿大学雕塑专业的录取通知。1924年的学生入境记录与此后连续的华盛顿大学学籍，为赴美求学的后续过程提供了独立佐证；牧师身份、1923年的录取信及其准确系名尚未核得。",
+        "en": "Bao and Wang (p. 61) record leave from school in July 1923 and an offer to study sculpture at the University of Washington obtained with a pastor’s help. His 1924 admission to the United States as a student and subsequent university registers independently support the later course of study. The pastor’s identity, the 1923 admission letter and its exact departmental designation remain unverified."
+      },
+      "order": "1923-07-01",
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "period": "early",
+      "sources": [
+        "S012",
+        "S087",
+        "S135",
+        "S136"
+      ],
+      "status": {
+        "zh": "出版文献记载；证据范围见正文",
+        "en": "Published account; evidential scope stated in the text"
+      }
+    },
+    {
       "id": "T99",
       "date": {
         "zh": "1924-06-16",
@@ -131,8 +162,8 @@
         "en": "Shanghai"
       },
       "title": {
-        "zh": "首次在《申报》刊指画润例",
-        "en": "Publication of finger-painting rates"
+        "zh": "在《申报》刊登绘画润例",
+        "en": "Commission rates published in Shenbao"
       },
       "text": {
         "zh": "据包、王转录，滕白也在《申报》刊登指画润例，通信处在上海西门普安坊五号。三尺堂幅八元，扇面每柄四元。吴昌硕、王一亭、刘海粟、吴湖帆、黄炎培等联名为其订价。",
@@ -142,11 +173,26 @@
         "S012"
       ],
       "status": {
-        "zh": "已核著作印页33",
-        "en": "Printed p. 33"
+        "zh": "据《画坛遗珠》第33、61页转录",
+        "en": "Transcribed in Bao and Wang, pp. 33 and 61"
       },
       "period": "america",
-      "order": "1924-06-16"
+      "order": "1924-06-16",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "刊载日期与原报",
+            "en": "Publication date and newspaper original"
+          },
+          "text": {
+            "zh": "年表明确记1924年6月16日刊润例并附书画。这为刊报时间提供了具体出处；当日《申报》原版尚未逐页核对，“首次”的认定也仍以该书为据。",
+            "en": "The chronology specifies 16 June 1924 and says that calligraphy and paintings accompanied the rates. This supplies a dated published reference; the original issue has not been checked page by page, and the claim that it was his first advertisement remains the monograph’s."
+          },
+          "sources": [
+            "S012"
+          ]
+        }
+      ]
     },
     {
       "id": "T03",
@@ -176,7 +222,23 @@
         "en": "Official admission register, image 382"
       },
       "period": "america",
-      "order": "1924-12-23"
+      "order": "1924-12-23",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "航程与年表日期",
+            "en": "Voyage and chronology dates"
+          },
+          "text": {
+            "zh": "上海于1924年11月12日签发的学生证明及12月23日的入境记录，与年表所写“9月离国赴美”不能直接衔接。现有入境原簿明确证明的是12月抵美；准确离沪日期仍需船舶旅客名单核对。",
+            "en": "The student certificate issued in Shanghai on 12 November and the admission record of 23 December do not fit directly with the chronology’s September departure. The original register establishes December arrival; the precise Shanghai departure requires the ship’s passenger manifest."
+          },
+          "sources": [
+            "S087",
+            "S012"
+          ]
+        }
+      ]
     },
     {
       "id": "T04",
@@ -206,7 +268,26 @@
         "en": "University student registers"
       },
       "period": "america",
-      "order": "1924-12-24"
+      "order": "1924-12-24",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "入学月份与雕塑学习",
+            "en": "Enrollment month and sculpture study"
+          },
+          "text": {
+            "zh": "年表第62页记1925年1月入学学习雕塑。校方1924—25学年名册及后续美术学籍与这一时间范围相符；1927年授位名册另列Dun, Kwei获美术学士。年表中的Washington State University为误写，实际学校是西雅图的University of Washington。",
+            "en": "The chronology dates the beginning of sculpture study to January 1925. The 1924–25 register and subsequent Fine Arts entries fit that academic period; the 1927 degree list separately records a Bachelor of Fine Arts for Dun, Kwei. The chronology’s “Washington State University” is an error: the school was the University of Washington in Seattle."
+          },
+          "sources": [
+            "S012",
+            "S135",
+            "S136",
+            "S137",
+            "S138"
+          ]
+        }
+      ]
     },
     {
       "id": "T49",
@@ -263,7 +344,24 @@
         "en": "Photograph and collection caption"
       },
       "period": "america",
-      "order": "1926-12-16"
+      "order": "1926-12-16",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "与托贝的交往",
+            "en": "Exchange with Tobey"
+          },
+          "text": {
+            "zh": "1926年的题赠照片证明两人至迟此时已相识。年表将初识记在1925年；后来的研究也记滕白也向托贝传授中国画和书法。照片与研究共同支持西雅图时期的交往，不能单凭照片确定初次见面的年份。",
+            "en": "The inscribed photograph establishes their acquaintance by 1926. The chronology dates their first meeting to 1925, and later studies describe Teng teaching Tobey Chinese painting and calligraphy. The photograph and scholarship support their Seattle exchange without fixing the first meeting to a particular year."
+          },
+          "sources": [
+            "S012",
+            "S007",
+            "S003"
+          ]
+        }
+      ]
     },
     {
       "id": "T48",
@@ -481,20 +579,37 @@
         "en": "Finger and brush paintings at the East West Gallery"
       },
       "text": {
-        "zh": "两份报刊记载展览，6月24日展讯列6月30日为结束日。",
-        "en": "Two period notices record the exhibition. The 24 June listing gives a closing date of 30 June."
+        "zh": "1928年6月，滕白也的指画与毛笔画在旧金山东西画廊展出。《Oakland Tribune》6月24日展讯列6月30日闭展，6月26日《San Mateo Times》也报道了此展。《画坛遗珠》第62页进一步记售出35件作品，共3920美元。同期报纸独立证实展览的时间和地点；数量与金额目前据年表记载，未见销售账册。",
+        "en": "Teng’s finger and brush paintings were exhibited at San Francisco’s East West Gallery in June 1928. The Oakland Tribune listing of 24 June gives a closing date of 30 June; the San Mateo Times also reported the show on 26 June. Bao and Wang (p. 62) additionally record 35 works sold for $3,920. Contemporary newspapers independently establish the exhibition’s time and place; the sales figures remain based on the chronology, without a verified sales ledger."
       },
       "sources": [
         "S062",
         "S063",
-        "S064"
+        "S064",
+        "S012"
       ],
       "status": {
-        "zh": "同期剪报",
-        "en": "Contemporary press"
+        "zh": "同期展讯印证展览；售画数字据年表",
+        "en": "Contemporary notices corroborate the show; sales figures from the chronology"
       },
       "period": "america",
-      "order": "1928-06-24"
+      "order": "1928-06-24",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "西雅图的展览",
+            "en": "The Seattle exhibition"
+          },
+          "text": {
+            "zh": "同页年表还记1928年在华盛顿大学亨利画廊举办国画展。该条与其在西雅图学习和展览的经历相合；不能将旧金山的35件、3920美元转算为两地或多年展览的总销售额。",
+            "en": "The same page records an exhibition of Chinese painting at the University of Washington’s Henry Gallery in 1928. It fits Teng’s Seattle study and exhibition activity. The San Francisco figures of 35 works and $3,920 should not be presented as combined sales for both cities or for several years."
+          },
+          "sources": [
+            "S012",
+            "S007"
+          ]
+        }
+      ]
     },
     {
       "id": "T29",
@@ -613,7 +728,25 @@
         "en": "Contemporary records"
       },
       "period": "america",
-      "order": "1929-01-01"
+      "order": "1929-01-01",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "华盛顿展览的记载",
+            "en": "A reported Washington exhibition"
+          },
+          "text": {
+            "zh": "《画坛遗珠》第62页记1929年9月在华盛顿国会图书馆举办展览。纽约和布鲁克林的同期展讯支持他当年的美国展览活动，但并不直接证明华盛顿这场展览；其确切日期、展名和场地仍待国会图书馆原始记录。",
+            "en": "Bao and Wang (p. 62) record a September 1929 exhibition at the Library of Congress in Washington. Contemporary New York and Brooklyn notices support his American exhibition activity that year, but do not establish this Washington event. Its dates, title and venue await Library of Congress records."
+          },
+          "sources": [
+            "S012",
+            "S032",
+            "S104",
+            "S105"
+          ]
+        }
+      ]
     },
     {
       "id": "T53",
@@ -658,8 +791,8 @@
         "en": "Fellowship decision"
       },
       "text": {
-        "zh": "HYI执行委员会批准申请，仍附行政委员会同意条件。",
-        "en": "The Institute’s Executive Committee approved his application, subject to the Administrative Committee’s agreement."
+        "zh": "1929年6月14日，哈佛燕京学社执行委员会批准滕白也的研究员资助申请，附北平行政委员会同意条件。7月往返函件记燕京大学校长司徒雷登具名推荐，7月20日确认条件已满足。同期报纸亦报道他获得哈佛资助，支持其赴哈佛学习研究的经历。",
+        "en": "On 14 June 1929 the Harvard-Yenching Institute’s Executive Committee approved Teng’s fellowship application, conditional on approval from the Peking Administrative Committee. July correspondence records a recommendation by Yenching president John Leighton Stuart and confirms on 20 July that the condition was satisfied. Contemporary press coverage also reported the award, supporting his period of study and research at Harvard."
       },
       "sources": [
         "S002",
@@ -672,7 +805,40 @@
         "en": "Institutional archival retrospective"
       },
       "period": "america",
-      "order": "1929-06-14"
+      "order": "1929-06-14",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "哈佛学习与学位记载",
+            "en": "Harvard study and the degree account"
+          },
+          "text": {
+            "zh": "上海市文史研究馆名录和《画坛遗珠》均有哈佛硕士的记载，因而这一说法有文献依据。1929年的住校研究员资助函、后续津贴函与同期研究生报道，独立支持其在哈佛学习研究；这些材料本身不等同于授位证明。硕士的授予学校、专业与日期仍需学位名册或学位证确认。",
+            "en": "The Shanghai Research Institute of Culture and History’s directory and Bao and Wang both record a Harvard master’s degree, so the claim has a documentary basis. The 1929 resident fellowship correspondence, later stipend letters and contemporary reports of graduate study independently support research and study at Harvard. They do not themselves establish a degree award; the awarding institution, field and date require a degree register or diploma."
+          },
+          "sources": [
+            "S013",
+            "S012",
+            "S171",
+            "S172",
+            "S033"
+          ]
+        },
+        {
+          "title": {
+            "zh": "司徒雷登当时的身份",
+            "en": "Stuart’s title at the time"
+          },
+          "text": {
+            "zh": "1929年的推荐人身份为燕京大学校长。司徒雷登于1946年7月获任美国驻华大使，不能将这个后来的职衔用于1929年的推荐。",
+            "en": "Stuart acted as president of Yenching University in 1929. His appointment as U.S. ambassador to China came in July 1946; that later title does not apply to the recommendation."
+          },
+          "sources": [
+            "S171",
+            "S338"
+          ]
+        }
+      ]
     },
     {
       "id": "T66",
@@ -913,63 +1079,39 @@
         "en": "Archival itinerary description and dated bursar’s letter"
       },
       "period": "return",
-      "order": "1931-01-01"
-    },
-    {
-      "id": "T73",
-      "date": {
-        "zh": "1931-12—1932-01-24",
-        "en": "Dec 1931 – 24 Jan 1932"
-      },
-      "place": {
-        "zh": "芝加哥",
-        "en": "Chicago"
-      },
-      "title": {
-        "zh": "芝加哥第三届国际石版画与木刻展",
-        "en": "Chicago’s third international print exhibition"
-      },
-      "text": {
-        "zh": "芝加哥艺术博物馆第三届国际石版画与木刻展的录选名单在中国项下只列 Teng Kwei。文章说明展至1月24日，未列他的作品题名。",
-        "en": "The list of artists accepted for the Art Institute of Chicago’s third international lithograph and wood-engraving exhibition names Teng Kwei alone under China. The article gives a closing date of 24 January without naming his print."
-      },
-      "sources": [
-        "S181"
-      ],
-      "status": {
-        "zh": "据原刊或档案",
-        "en": "Source document"
-      },
-      "period": "america",
-      "order": "1931-01-01"
-    },
-    {
-      "id": "T74",
-      "date": {
-        "zh": "1931-12—1932-01-02",
-        "en": "Dec 1931 – 2 Jan 1932"
-      },
-      "place": {
-        "zh": "费城",
-        "en": "Philadelphia"
-      },
-      "title": {
-        "zh": "费城版画会国际展",
-        "en": "International print exhibition in Philadelphia"
-      },
-      "text": {
-        "zh": "费城版画会第四届国际蚀刻、干刻与木版画展的名单在中国项下列 Teng Kwei。展至1932年1月2日，报道预告随后到布鲁克林博物馆和伍斯特博物馆展出，未注明滕圭作品的题名和技法。",
-        "en": "The Philadelphia Print Club’s fourth international exhibition of etchings, drypoints and wood blocks lists Teng Kwei under China. The report gives 2 January as the closing date and announces a subsequent tour to Brooklyn and Worcester. His title and medium are unspecified."
-      },
-      "sources": [
-        "S182"
-      ],
-      "status": {
-        "zh": "据原刊或档案",
-        "en": "Source document"
-      },
-      "period": "america",
-      "order": "1931-01-01"
+      "order": "1931-01-01",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "欧洲行程的不同记录",
+            "en": "Accounts of the European itinerary"
+          },
+          "text": {
+            "zh": "宾大馆藏提要记英国、法国、西班牙、德国、意大利及途经印度返华，支持1931—1932年欧洲旅行的主体经历。《画坛遗珠》第63页另记荷兰、比利时，并称曾到七个欧洲国家、在剑桥和巴黎讲学。二者共同支持欧洲艺术交流，尚不能据此确认完整七国名单及每一场讲演；画作参加欧洲展览也不自动证明本人到场。",
+            "en": "Penn’s finding aid identifies England, France, Spain, Germany and Italy, followed by return via India, supporting the main account of European travel in 1931–32. Bao and Wang (p. 63) also name the Netherlands and Belgium and describe seven European countries and lectures at Cambridge and in Paris. Together these support artistic exchange in Europe, but not a complete verified seven-country itinerary or each lecture. Exhibition of a work in Europe does not by itself establish the artist’s presence."
+          },
+          "sources": [
+            "S161",
+            "S012",
+            "S145"
+          ]
+        },
+        {
+          "title": {
+            "zh": "归国与燕京任教的时间",
+            "en": "Return to China and teaching at Yenching"
+          },
+          "text": {
+            "zh": "年表记1932年3月28日回国。4月燕京讲演预告及4月29日哈佛财务函均将他置于燕京，支持春季已返华的判断；确切抵达日期目前仍以年表为据。",
+            "en": "The chronology dates his return to 28 March 1932. An April Yenching lecture notice and the Harvard bursar’s letter of 29 April place him at Yenching, supporting a spring return. The precise arrival date still rests on the chronology."
+          },
+          "sources": [
+            "S012",
+            "S172",
+            "S165"
+          ]
+        }
+      ]
     },
     {
       "id": "T38",
@@ -1029,61 +1171,60 @@
       "order": "1931-10-16"
     },
     {
-      "id": "T58",
+      "id": "T73",
       "date": {
-        "zh": "1932-10",
-        "en": "October 1932"
+        "zh": "1931-12—1932-01-24",
+        "en": "Dec 1931 – 24 Jan 1932"
       },
       "place": {
-        "zh": "多伦多",
-        "en": "Toronto"
+        "zh": "芝加哥",
+        "en": "Chicago"
       },
       "title": {
-        "zh": "《春花》见多伦多美术馆展品目录",
-        "en": "Spring Blossoms listed in Toronto"
+        "zh": "芝加哥第三届国际石版画与木刻展",
+        "en": "Chicago’s third international print exhibition"
       },
       "text": {
-        "zh": "多伦多美术馆展出《Spring Blossoms》，由纽约E. Weyhe借展。",
-        "en": "The Art Gallery of Toronto listed Spring Blossoms in its Flowers and Still-Life exhibition, lent by E. Weyhe."
+        "zh": "芝加哥艺术博物馆第三届国际石版画与木刻展的录选名单在中国项下只列 Teng Kwei。文章说明展至1月24日，未列他的作品题名。",
+        "en": "The list of artists accepted for the Art Institute of Chicago’s third international lithograph and wood-engraving exhibition names Teng Kwei alone under China. The article gives a closing date of 24 January without naming his print."
       },
       "sources": [
-        "S152"
+        "S181"
       ],
       "status": {
-        "zh": "同期原刊或档案",
-        "en": "Contemporary publication or archival record"
+        "zh": "据原刊或档案",
+        "en": "Source document"
       },
-      "period": "return",
-      "order": "1932-01-01"
+      "period": "america",
+      "order": "1931-12-01"
     },
     {
-      "id": "T68",
+      "id": "T74",
       "date": {
-        "zh": "1932-08",
-        "en": "August 1932"
+        "zh": "1931-12—1932-01-02",
+        "en": "Dec 1931 – 2 Jan 1932"
       },
       "place": {
-        "zh": "北平",
-        "en": "Peiping"
+        "zh": "费城",
+        "en": "Philadelphia"
       },
       "title": {
-        "zh": "燕京课程册列为美术讲师",
-        "en": "Lecturer in Fine Arts in the Yenching catalogue"
+        "zh": "费城版画会国际展",
+        "en": "International print exhibition in Philadelphia"
       },
       "text": {
-        "zh": "燕京大学文学院公布1932–33学年课程册，列滕圭为国文学系美术讲师，载明其美术鉴赏、技法、雕塑、室内装饰与比较艺术五门课。",
-        "en": "The 1932–33 catalogue listed Teng as Lecturer in Fine Arts and assigned five courses to him, including sculpture and interior decoration."
+        "zh": "费城版画会第四届国际蚀刻、干刻与木版画展的名单在中国项下列 Teng Kwei。展至1932年1月2日，报道预告随后到布鲁克林博物馆和伍斯特博物馆展出，未注明滕圭作品的题名和技法。",
+        "en": "The Philadelphia Print Club’s fourth international exhibition of etchings, drypoints and wood blocks lists Teng Kwei under China. The report gives 2 January as the closing date and announces a subsequent tour to Brooklyn and Worcester. His title and medium are unspecified."
       },
       "sources": [
-        "S173",
-        "S174"
+        "S182"
       ],
       "status": {
-        "zh": "同期原刊或档案",
-        "en": "Contemporary publication or archival record"
+        "zh": "据原刊或档案",
+        "en": "Source document"
       },
-      "period": "return",
-      "order": "1932-01-01"
+      "period": "america",
+      "order": "1931-12-01"
     },
     {
       "id": "T61",
@@ -1199,6 +1340,63 @@
       },
       "period": "return",
       "order": "1932-05-16"
+    },
+    {
+      "id": "T68",
+      "date": {
+        "zh": "1932-08",
+        "en": "August 1932"
+      },
+      "place": {
+        "zh": "北平",
+        "en": "Peiping"
+      },
+      "title": {
+        "zh": "燕京课程册列为美术讲师",
+        "en": "Lecturer in Fine Arts in the Yenching catalogue"
+      },
+      "text": {
+        "zh": "燕京大学文学院公布1932–33学年课程册，列滕圭为国文学系美术讲师，载明其美术鉴赏、技法、雕塑、室内装饰与比较艺术五门课。",
+        "en": "The 1932–33 catalogue listed Teng as Lecturer in Fine Arts and assigned five courses to him, including sculpture and interior decoration."
+      },
+      "sources": [
+        "S173",
+        "S174"
+      ],
+      "status": {
+        "zh": "同期原刊或档案",
+        "en": "Contemporary publication or archival record"
+      },
+      "period": "return",
+      "order": "1932-08-01"
+    },
+    {
+      "id": "T58",
+      "date": {
+        "zh": "1932-10",
+        "en": "October 1932"
+      },
+      "place": {
+        "zh": "多伦多",
+        "en": "Toronto"
+      },
+      "title": {
+        "zh": "《春花》见多伦多美术馆展品目录",
+        "en": "Spring Blossoms listed in Toronto"
+      },
+      "text": {
+        "zh": "多伦多美术馆展出《Spring Blossoms》，由纽约E. Weyhe借展。",
+        "en": "The Art Gallery of Toronto listed Spring Blossoms in its Flowers and Still-Life exhibition, lent by E. Weyhe."
+      },
+      "sources": [
+        "S152"
+      ],
+      "status": {
+        "zh": "同期原刊或档案",
+        "en": "Contemporary publication or archival record"
+      },
+      "period": "return",
+      "order": "1932-10-01"
     },
     {
       "id": "T88",
@@ -1369,6 +1567,36 @@
       "order": "1933-06-11"
     },
     {
+      "id": "T131",
+      "date": {
+        "zh": "1933年7月—1934年7月（据年表）",
+        "en": "July 1933–July 1934, according to the chronology"
+      },
+      "title": {
+        "zh": "在沪江与暨南任教",
+        "en": "Teaching at the University of Shanghai and Jinan University"
+      },
+      "text": {
+        "zh": "《画坛遗珠》第64页记，滕白也自1933年7月至次年7月任沪江大学商学院实用美术系及暨南大学教授。1933年沪江出版其雕塑绘画润例、上海报纸报道其设馆授课，支持这一时期在沪从事艺术教育的活动；两校具体聘任、职级和任期仍需校方档案逐项确认。",
+        "en": "Bao and Wang (p. 64) place Teng at the University of Shanghai’s business college, teaching applied art, and at Jinan University from July 1933 to July 1934, using the rank of professor. The Shanghai university’s publication of his commission schedule and press reports of his studio teaching support his educational activity in Shanghai in this period. The individual appointments, ranks and terms still require university records."
+      },
+      "order": "1933-07-01",
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "period": "return",
+      "sources": [
+        "S012",
+        "S016",
+        "S243"
+      ],
+      "status": {
+        "zh": "出版文献记载；证据范围见正文",
+        "en": "Published account; evidential scope stated in the text"
+      }
+    },
+    {
       "id": "T100",
       "date": {
         "zh": "1933-10-10",
@@ -1394,7 +1622,23 @@
         "en": "Printed p. 33"
       },
       "period": "return",
-      "order": "1933-10-10"
+      "order": "1933-10-10",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "出版与文章发表",
+            "en": "Publication and the English essay"
+          },
+          "text": {
+            "zh": "画册全名为《滕白也雕塑绘画润例》，刊日据年表第64页。《Art in Modern China》则发表于1933年12月《The Open Court》，不应与10月出版的润例合并为同月事件。",
+            "en": "The full catalogue title is Teng Baiye’s Schedule of Fees for Sculpture and Painting; its date comes from p. 64 of the chronology. “Art in Modern China” appeared in the December 1933 issue of The Open Court, separately from the October commission schedule."
+          },
+          "sources": [
+            "S012",
+            "S018"
+          ]
+        }
+      ]
     },
     {
       "id": "T95",
@@ -1628,42 +1872,30 @@
         "S130",
         "S183",
         "S197",
-        "S012"
+        "S012",
+        "S088"
       ],
       "status": {
         "zh": "同期中英文报道，日期有异",
         "en": "Contemporary reports give different dates"
       },
       "period": "return",
-      "order": "1934-05-03"
-    },
-    {
-      "id": "T127",
-      "date": {
-        "zh": "1934年5月3日",
-        "en": "3 May 1934"
-      },
-      "place": {
-        "zh": "上海",
-        "en": "Shanghai"
-      },
-      "title": {
-        "zh": "讲述竹与画竹",
-        "en": "A lecture on bamboo and bamboo painting"
-      },
-      "text": {
-        "zh": "Journal of the North China Branch of the Royal Asiatic Society第65卷记滕圭于5月3日讲演Bamboo and Bamboo Painting。该文刊于同卷55—61页，附墨竹图版，讨论竹的形态、用途与画竹技法。",
-        "en": "Volume 65 of the Journal of the North China Branch of the Royal Asiatic Society records Teng Kuei’s lecture Bamboo and Bamboo Painting on 3 May. The article occupies pp. 55–61 with a bamboo plate, discussing the plant’s form, uses and depiction."
-      },
-      "sources": [
-        "S088"
-      ],
-      "status": {
-        "zh": "原刊正文及讲演记录",
-        "en": "Original article and lecture record"
-      },
-      "period": "return",
-      "order": "1934-05-03"
+      "order": "1934-05-03",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "学会会刊的讲演记录",
+            "en": "The society journal’s lecture record"
+          },
+          "text": {
+            "zh": "Journal of the North China Branch of the Royal Asiatic Society第65卷记滕圭于5月3日讲演Bamboo and Bamboo Painting。该文刊于同卷55—61页，附墨竹图版，讨论竹的形态、用途与画竹技法。",
+            "en": "Volume 65 of the Journal of the North China Branch of the Royal Asiatic Society records Teng Kuei’s lecture Bamboo and Bamboo Painting on 3 May. The article occupies pp. 55–61 with a bamboo plate, discussing the plant’s form, uses and depiction."
+          },
+          "sources": [
+            "S088"
+          ]
+        }
+      ]
     },
     {
       "id": "T79",
@@ -1833,7 +2065,23 @@
         "en": "Source document"
       },
       "period": "return",
-      "order": "1934-11-10"
+      "order": "1934-11-10",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "协会名称与年份",
+            "en": "Society name and date"
+          },
+          "text": {
+            "zh": "1934年8月的筹办报道与11月的成立报道相接，支持滕白也参与主持这一艺术生产团体。《画坛遗珠》第63页将任理事长记在1932年3月，日期与现有同期报道不合；1932年的组织或任职不能仅凭1934年的新闻倒推。",
+            "en": "Preparatory reports from August 1934 and the November founding notice support Teng’s leading role in this arts-and-production organization. Bao and Wang (p. 63) date his chairmanship to March 1932, which does not align with the contemporary reports available. The 1934 notices cannot establish a separate 1932 organization or appointment."
+          },
+          "sources": [
+            "S206",
+            "S012"
+          ]
+        }
+      ]
     },
     {
       "id": "T81",
@@ -1865,7 +2113,24 @@
         "en": "Date from contemporary reports; introduction from the later study"
       },
       "period": "return",
-      "order": "1934-11-25"
+      "order": "1934-11-25",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "侯日星、侯亚辉与留美音乐教育",
+            "en": "Hou Rixing, Hou Yahui and music study in America"
+          },
+          "text": {
+            "zh": "婚礼报道所记1934年11月25日，与“侯日星女士”肖像图注中的“上月二十五日”婚讯相接，支持这些姓名指向侯涵辉。《申报》订婚消息称她为“美國亞勃林師大音樂系學士”，肖像图注也提到留美学音乐；两者支持Oberlin音乐教育的线索。英文注册姓名、具体学位及毕业年份尚待校方记录，报刊用名“日星”也不足以确定为原名。",
+            "en": "The marriage notice’s date of 25 November 1934 connects with the portrait caption of “Hou Rixing,” which refers to marriage on the twenty-fifth of the preceding month. This supports identifying these names with Hou Hanhui. Both the Shenbao engagement notice and the portrait caption describe music study at an American institution rendered “Yabolin,” supporting the Oberlin music-education lead. The English enrollment name, precise degree and graduation year await university records; use of Rixing in print does not establish a birth name."
+          },
+          "sources": [
+            "S208",
+            "S209",
+            "S319"
+          ]
+        }
+      ]
     },
     {
       "id": "T16",
@@ -1882,8 +2147,8 @@
         "en": "Yifeng exhibition and sculpture society"
       },
       "text": {
-        "zh": "同期展评记其《鹅》；雕刻学会成立史料记其任秘书。",
-        "en": "A contemporary review discusses Teng’s Goose. Later histories identify him as secretary of the newly formed sculpture society."
+        "zh": "1935年艺风社展览的同期评论提及滕白也的《鹅》。《画坛遗珠》第65页记他参加该社第二届展览，并记中国雕刻学会于5月12日成立、滕白也任常务理事会秘书。组织名称为“中国雕刻学会”，不宜改写为“中国雕塑学会”。",
+        "en": "A contemporary review of the 1935 Yifeng exhibition discusses Teng’s Goose. Bao and Wang (p. 65) record his participation in the society’s second exhibition and the establishment of the Chinese Carving Society on 12 May, with Teng as secretary to its standing council. The organization’s recorded Chinese name is Zhongguo Diaoke Xuehui."
       },
       "sources": [
         "S039",
@@ -1923,34 +2188,6 @@
       "status": {
         "zh": "同期原刊或档案",
         "en": "Contemporary publication or archival record"
-      },
-      "period": "return",
-      "order": "1935-01-01"
-    },
-    {
-      "id": "T102",
-      "date": {
-        "zh": "1935-02—06",
-        "en": "1935-02—06"
-      },
-      "place": {
-        "zh": "上海",
-        "en": "Shanghai"
-      },
-      "title": {
-        "zh": "任劳美视察",
-        "en": "An inspector of manual and art education"
-      },
-      "text": {
-        "zh": "据年表，滕在上海教育行政部门任劳美视察四个月，负责的领域是劳作和美术。",
-        "en": "The chronology places Teng in Shanghai’s education administration as an inspector for manual training and art from February to June."
-      },
-      "sources": [
-        "S012"
-      ],
-      "status": {
-        "zh": "已核著作印页65",
-        "en": "Printed p. 65"
       },
       "period": "return",
       "order": "1935-01-01"
@@ -2011,6 +2248,73 @@
       },
       "period": "return",
       "order": "1935-01-01"
+    },
+    {
+      "id": "T132",
+      "date": {
+        "zh": "1935—1936年（据年表）",
+        "en": "1935–1936, according to the chronology"
+      },
+      "title": {
+        "zh": "中山文化教育馆的雕塑工作",
+        "en": "Sculpture work for the Sun Yat-sen cultural institution"
+      },
+      "text": {
+        "zh": "《画坛遗珠》第65页记1935年受聘为中山文化教育馆雕塑专员，第66页记1936年1—7月任南京中山文化教育馆雕塑干事。1936年孙中山铜像模型的同期新闻与照片，独立证明他在南京参与重要纪念雕塑项目；这些材料支持其雕塑活动背景，但不替代具体职衔的任命文件。",
+        "en": "Bao and Wang record a sculpture appointment at the Sun Yat-sen cultural and educational institution in 1935 (p. 65) and service as a sculpture officer in Nanjing from January to July 1936 (p. 66). Contemporary reports and photographs of the 1936 Sun Yat-sen statue model independently document his involvement in a major commemorative sculpture project in Nanjing. They support the setting of his work without replacing appointment records for the precise titles."
+      },
+      "order": "1935-01-02",
+      "place": {
+        "zh": "南京",
+        "en": "Nanjing"
+      },
+      "period": "return",
+      "sources": [
+        "S012",
+        "S068",
+        "S069",
+        "S070",
+        "S017",
+        "S133",
+        "S224",
+        "S188",
+        "S012",
+        "S257",
+        "S258",
+        "S323"
+      ],
+      "status": {
+        "zh": "出版文献记载；证据范围见正文",
+        "en": "Published account; evidential scope stated in the text"
+      }
+    },
+    {
+      "id": "T102",
+      "date": {
+        "zh": "1935-02—06",
+        "en": "1935-02—06"
+      },
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "title": {
+        "zh": "任劳美视察",
+        "en": "An inspector of manual and art education"
+      },
+      "text": {
+        "zh": "《画坛遗珠》第65页记1935年2—6月，滕白也受聘在上海教育行政部门任“劳美视察”，涉及劳作与美术教育。职务目前以年表措辞记载，完整机构名和任命文件尚待核对。",
+        "en": "Bao and Wang (p. 65) record an appointment from February to June 1935 as an inspector concerned with manual training and art education in Shanghai’s education administration. The title follows the chronology; the full institutional name and appointment document remain unverified."
+      },
+      "sources": [
+        "S012"
+      ],
+      "status": {
+        "zh": "已核著作印页65",
+        "en": "Printed p. 65"
+      },
+      "period": "return",
+      "order": "1935-02-01"
     },
     {
       "id": "T43",
@@ -2362,7 +2666,23 @@
         "en": "Printed p. 66"
       },
       "period": "return",
-      "order": "1937-01-01"
+      "order": "1937-01-01",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "与桂林避难记录的关系",
+            "en": "Relationship to the Guilin refuge account"
+          },
+          "text": {
+            "zh": "年表将庐山塑像工作记在1937年8月至1938年3月；滕白也1938年7月致托贝的信，则记1937年夏至1938年3月在桂林避难。这两段时间重叠，尚不能确定是否包含中途往返，故不把年表的起止日期视为已经独立证实。",
+            "en": "The chronology dates the Lushan sculpture work to August 1937–March 1938, while Teng’s July 1938 letter to Tobey describes refuge in Guilin from summer 1937 to March 1938. The periods overlap, and possible intervening journeys remain unknown; the chronology’s exact dates are therefore not independently established."
+          },
+          "sources": [
+            "S012",
+            "S239"
+          ]
+        }
+      ]
     },
     {
       "id": "T105",
@@ -2419,7 +2739,23 @@
         "en": "Sources cited below"
       },
       "period": "return",
-      "order": "1937-07-01"
+      "order": "1937-07-01",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "难民生产工作与秘书职务",
+            "en": "Refugee production and the reported secretary role"
+          },
+          "text": {
+            "zh": "《画坛遗珠》第67页记1938年4月至1939年12月主持新生活运动促进总会难胞生活改进团，并任汉口新运总会秘书。1938年的英文报道具名记他主持难民生产，直接支持救济工作的核心经历；秘书职衔和完整任期目前仍据年表。这里的组织为新生活运动机构。",
+            "en": "Bao and Wang (p. 67) describe Teng directing a refugee livelihood programme from April 1938 to December 1939 and serving as secretary of the Hankou New Life Movement association. A contemporary English report names him as the director of refugee production, directly supporting the central relief-work account. The secretary title and full term still rest on the chronology."
+          },
+          "sources": [
+            "S012",
+            "S233"
+          ]
+        }
+      ]
     },
     {
       "id": "T89",
@@ -2525,8 +2861,8 @@
         "en": "Guilin"
       },
       "title": {
-        "zh": "在桂林纺药棉厂工作",
-        "en": "Work at a cotton factory"
+        "zh": "在桂林纱布药棉厂工作",
+        "en": "Work at the Guilin gauze and absorbent-cotton factory"
       },
       "text": {
         "zh": "据年表，他任桂林纱布药棉厂管理员。",
@@ -2541,6 +2877,34 @@
       },
       "period": "return",
       "order": "1940-01-01"
+    },
+    {
+      "id": "T133",
+      "date": {
+        "zh": "1940年9月12日（据年表）",
+        "en": "12 September 1940, according to the chronology"
+      },
+      "title": {
+        "zh": "表示捐献绘画收入支持抗战",
+        "en": "Pledging painting income to the war effort"
+      },
+      "text": {
+        "zh": "《画坛遗珠》第67页记，滕白也在桂林美丽川菜馆的新闻会上表示愿将指画及金石润金献给国家，以支持抗战。这一记载支持他以艺术收入参与救亡的意愿；现有材料未给出实际汇款、收据或展览收支，尚不能据此确定捐款已经完成及其金额。",
+        "en": "Bao and Wang (p. 67) record Teng telling a press gathering at Guilin’s Meili Sichuan restaurant that he wished to donate income from finger painting and epigraphic commissions to support the war effort. This supports an intention to contribute artistic earnings. Without a remittance, receipt or exhibition accounts, it does not establish completion or the amount of a donation."
+      },
+      "order": "1940-09-12",
+      "place": {
+        "zh": "桂林",
+        "en": "Guilin"
+      },
+      "period": "return",
+      "sources": [
+        "S012"
+      ],
+      "status": {
+        "zh": "出版文献记载；证据范围见正文",
+        "en": "Published account; evidential scope stated in the text"
+      }
     },
     {
       "id": "T108",
@@ -2570,7 +2934,23 @@
         "en": "Sources cited below"
       },
       "period": "return",
-      "order": "1941-01-01"
+      "order": "1941-01-01",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "任教科目与职务",
+            "en": "Teaching subject and appointment"
+          },
+          "text": {
+            "zh": "年表第67页称英文教授、教授兼生活指导；奉贤地方资料称美术教授。多种记述相互支持任教广西大学这一经历，具体科目和职级仍有差异。",
+            "en": "The chronology (p. 67) describes an English professorship and a role combining teaching with student guidance; the Fengxian account describes art teaching. The accounts support employment at Guangxi University while differing over subject and rank."
+          },
+          "sources": [
+            "S012",
+            "S016"
+          ]
+        }
+      ]
     },
     {
       "id": "T47",
@@ -2715,30 +3095,31 @@
     {
       "id": "T110",
       "date": {
-        "zh": "1943-09—1944-03-08",
-        "en": "1943-09—1944-03-08"
+        "zh": "1943—1947年",
+        "en": "1943–1947"
       },
       "place": {
         "zh": "贵阳",
         "en": "Guiyang"
       },
       "title": {
-        "zh": "在贵阳筹备画展",
-        "en": "Planning an exhibition in Guiyang"
+        "zh": "西南与沪宁的展览活动",
+        "en": "Exhibitions in southwest China, Shanghai and Nanjing"
       },
       "text": {
-        "zh": "年表记1943年9月在贵阳筹备画展，1944年3月8日在市商会展出花鸟指画一百余幅。",
-        "en": "The chronology records preparations in Guiyang in September 1943 and over a hundred finger-painted bird-and-flower pictures shown at the local chamber of commerce on 8 March 1944."
+        "zh": "《画坛遗珠》第67—68页记，滕白也于1943年9月在贵阳筹备展览，1944年3月8日在市商会展出百余幅花鸟指画；又记1945年10月至1946年2月在昆明、1946年在重庆、成都和宜昌、1947年在上海与南京举办展览。1948年《中国美术年鉴》记其抗战期间往来桂林、重庆，支持西南活动的背景；各场展览的具体日期目前主要据年表。",
+        "en": "Bao and Wang (pp. 67–68) record preparations for a Guiyang show in September 1943 and more than one hundred finger-painted bird-and-flower pictures exhibited at the city chamber of commerce on 8 March 1944. They also list Kunming in October 1945–February 1946; Chongqing, Chengdu and Yichang in 1946; and Shanghai and Nanjing in 1947. The 1948 Chinese Art Yearbook’s account of wartime travel between Guilin and Chongqing supports the southwestern setting; the individual exhibition dates remain principally based on the chronology."
       },
       "sources": [
-        "S012"
+        "S012",
+        "S221"
       ],
       "status": {
         "zh": "已核著作印页67",
         "en": "Printed p. 67"
       },
       "period": "return",
-      "order": "1943-01-01"
+      "order": "1943-09-01"
     },
     {
       "id": "T20",
@@ -3111,6 +3492,34 @@
       "order": "1956-01-01"
     },
     {
+      "id": "T134",
+      "date": {
+        "zh": "1956年（据年表）",
+        "en": "1956, according to the chronology"
+      },
+      "title": {
+        "zh": "孙中山胸像的记载",
+        "en": "A recorded bust of Sun Yat-sen"
+      },
+      "text": {
+        "zh": "《画坛遗珠》第69页记滕白也于1956年塑孙中山胸像，并称发表于《解放日报》《文汇报》。这一条支持其1950年代仍从事雕塑的线索。书中同时将3月12日与“诞辰90周年”相连，日期说明有误；具体刊期、胸像形制及其与1930年代作品的关系仍待原报核对。",
+        "en": "Bao and Wang (p. 69) record a bust of Sun Yat-sen in 1956 and reproduction in Jiefang Daily and Wenhui Bao, supporting a lead that Teng continued sculpture in the 1950s. The entry incorrectly links 12 March with the ninetieth anniversary of Sun’s birth. The publication dates, form of the bust and relationship to Teng’s 1930s sculptures await the newspaper originals."
+      },
+      "order": "1956-01-01",
+      "place": {
+        "zh": "上海",
+        "en": "Shanghai"
+      },
+      "period": "later",
+      "sources": [
+        "S012"
+      ],
+      "status": {
+        "zh": "出版文献记载；证据范围见正文",
+        "en": "Published account; evidential scope stated in the text"
+      }
+    },
+    {
       "id": "T121",
       "date": {
         "zh": "1956年（原报日期待核）",
@@ -3279,7 +3688,26 @@
         "en": "Source document"
       },
       "period": "later",
-      "order": "1957-08-20"
+      "order": "1957-08-20",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "《解放日报》的相关报道",
+            "en": "Related Jiefang Daily reports"
+          },
+          "text": {
+            "zh": "《画坛遗珠》第69—70页列1957年7月12日、7月14日和8月12日《解放日报》对滕白也的报道。现存《文汇报》与《人民日报》文字独立证明同年已发生公开政治批判；《解放日报》这三期的具体标题和全文仍待原版核对。",
+            "en": "Bao and Wang (pp. 69–70) list reports about Teng in Jiefang Daily on 12 July, 14 July and 12 August 1957. Surviving Wenhui Bao and People’s Daily texts independently establish public political attacks that year; the titles and full text of those three Jiefang Daily reports await verification against the original issues."
+          },
+          "sources": [
+            "S012",
+            "S241",
+            "S012",
+            "S235",
+            "S012"
+          ]
+        }
+      ]
     },
     {
       "id": "T22",
@@ -3307,7 +3735,24 @@
         "en": "Sources cited below"
       },
       "period": "later",
-      "order": "1958-01-01"
+      "order": "1958-01-01",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "报刊批判与正式处理",
+            "en": "Press attacks and formal designation"
+          },
+          "text": {
+            "zh": "1957年的报纸已使用“右派分子”等标签，馆方名录则将被划右派记为1958年。两者支持先有公开批判、后有正式处理的时间线，但原始处理决定尚未见，不能将报纸用语日期直接当作处分日期。",
+            "en": "Newspapers used the political label “rightist” in 1957, while the institute’s directory dates the designation to 1958. These support a sequence of public attacks followed by formal designation, although the original decision remains unlocated and a newspaper label cannot itself date an administrative decision."
+          },
+          "sources": [
+            "S013",
+            "S235",
+            "S012"
+          ]
+        }
+      ]
     },
     {
       "id": "T35",
@@ -3365,7 +3810,26 @@
         "en": "Sources cited below"
       },
       "period": "later",
-      "order": "1966-01-01"
+      "order": "1966-01-01",
+      "evidenceSections": [
+        {
+          "title": {
+            "zh": "被迫劳动与持续时间",
+            "en": "Compulsory labour and its duration"
+          },
+          "text": {
+            "zh": "《画坛遗珠》第58页以及郑逸梅、万青力的叙述，支持下放奉贤、被迫劳动及长期困顿的经历。郑、万两文部分叙事相近，不能简单算作两份独立证言。1958年被划右派至1978年底或1979年平反的跨度，说明政治处境延续多年，不能据此直接推定连续二十年被关押于劳改机构。",
+            "en": "Bao and Wang (p. 58) and accounts by Zheng Yimei and Wan Qingli support removal to Fengxian, compulsory labour and prolonged hardship. Overlap between Zheng’s and Wan’s narratives prevents treating them automatically as two independent testimonies. The interval from designation in 1958 to rehabilitation in late 1978 or 1979 establishes prolonged political adversity, but does not prove twenty uninterrupted years of confinement in a labour-reform institution."
+          },
+          "sources": [
+            "S012",
+            "S287",
+            "S238",
+            "S013",
+            "S016"
+          ]
+        }
+      ]
     },
     {
       "id": "T116",

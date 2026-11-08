@@ -39,3 +39,5 @@ dialog{border:0;padding:0;background:var(--paper);color:var(--ink);max-width:125
 .life-portrait{display:grid;grid-template-columns:minmax(220px,340px) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center;padding:12px 0 38px;margin-bottom:22px;border-bottom:1px solid var(--line)}
 .life-portrait figure{margin:0}.life-portrait img{width:100%;height:auto;max-height:520px;object-fit:contain}.life-portrait figcaption{font-size:12px;line-height:1.7;color:var(--muted);margin-top:12px}.life-portrait h2{font-size:clamp(28px,3.2vw,40px);margin:12px 0 20px}.life-portrait p{max-width:660px;line-height:1.95;margin-bottom:18px}.life-portrait .portrait-date{font-size:14px;color:var(--muted)}
 @media(max-width:640px){.life-portrait{grid-template-columns:1fr;gap:24px}.life-portrait figure{max-width:340px;margin:auto}.life-portrait img{max-height:440px}.life-portrait p{font-size:15px}.life-portrait .portrait-date{font-size:13px}}
+
+.event-context{margin-top:1.5rem;padding-left:1.2rem;border-left:1px solid var(--line,#d4cec2)}.event-context h3{font-size:1rem;font-weight:500;margin:0 0 .5rem}.event-context p{margin:.4rem 0 .8rem}

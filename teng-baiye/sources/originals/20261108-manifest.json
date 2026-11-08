@@ -1,0 +1,51 @@
+[
+  {
+    "id": "I262",
+    "original_filename": "WeChat Image_20200602011527(2).jpg",
+    "site_file": "assets/I262.jpg",
+    "sha256": "8c9c2d28b39f9d535ab3d43a7a9c94fb6abe41238d1d8bd03d7f39b2efca6568",
+    "bytes": 195301
+  },
+  {
+    "id": "I263",
+    "original_filename": "WeChat Image_20200602010523(2).jpg",
+    "site_file": "assets/I263.jpg",
+    "sha256": "c36f281edb2c3ff2b7c81bb0bf05c4722b1b741aacf8cf4174fd19f017d8a89a",
+    "bytes": 400250
+  },
+  {
+    "id": "I264",
+    "original_filename": "WeChat Image_20200602010515(2).jpg",
+    "site_file": "assets/I264.jpg",
+    "sha256": "7c0b2680104c7252c7c02628f709b26c33a0601487f8ac250cf5b1f90143adcd",
+    "bytes": 420845
+  },
+  {
+    "id": "I265",
+    "original_filename": "WeChat Image_20200602010511(2).jpg",
+    "site_file": "assets/I265.jpg",
+    "sha256": "95ce720309a9080fe3ce5e7b22930db064de299f038d186643dce86afe9c9df2",
+    "bytes": 493769
+  },
+  {
+    "id": "I266",
+    "original_filename": "WeChat Image_20200602010508(2).jpg",
+    "site_file": "assets/I266.jpg",
+    "sha256": "ade7ad078b5098013e80d5e2ab0346eff2baaf4378718fce67691326b6fe8cc9",
+    "bytes": 623810
+  },
+  {
+    "id": "I267",
+    "original_filename": "WeChat Image_20200602010500(2).png",
+    "site_file": "assets/I267.png",
+    "sha256": "d189b9f0256d21c6e3b129b287ec64208f80935f492c3a51493ef64b2c551e12",
+    "bytes": 1548317
+  },
+  {
+    "id": "I268",
+    "original_filename": "松鹤图(2).jpg",
+    "site_file": "assets/I268.jpg",
+    "sha256": "3f5f6d2af92081bcac6931e3e634c4bc904748fc3c947954816ef88aa572a90e",
+    "bytes": 508471
+  }
+]

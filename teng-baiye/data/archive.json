@@ -193,21 +193,17 @@
         "en": "Study at the University of Washington"
       },
       "text": {
-        "zh": "华盛顿大学1924–25学年名册将 Benjamin Duncan 和 Dun, Kwei 并列；此后以多个姓名拼写连续登记。他在1927年获美术学士，继而注册为研究生。",
-        "en": "UW catalogues connect the names Benjamin Duncan and Dun, Kwei, record a BFA awarded in 1927, and list subsequent graduate enrollment."
+        "zh": "华盛顿大学1924–25学年名册登记为 Duncan, Benjamin (Dun, Kwei)，家乡栏为中国；1925–26学年名册列其修读美术。1926–27学年改以 Dun, Kwei 登记。",
+        "en": "The University of Washington’s 1924–25 register lists Duncan, Benjamin (Dun, Kwei), from China. The 1925–26 register places him in Fine Arts; the 1926–27 register uses Dun, Kwei."
       },
       "sources": [
-        "S001",
-        "S031",
-        "S032",
         "S135",
         "S136",
-        "S137",
-        "S138"
+        "S137"
       ],
       "status": {
-        "zh": "校方连续学籍及授位表",
-        "en": "University student registers and degree list"
+        "zh": "校方连续学籍名册",
+        "en": "University student registers"
       },
       "period": "america",
       "order": "1924-12-24"
@@ -2875,8 +2871,8 @@
         "en": "Making anatomical models"
       },
       "text": {
-        "zh": "1950年5月，滕白也到上海卫生学校模型厂任技师，运用雕塑技艺制作人体模型。1952年，他与同乡在奉贤开办石膏模型厂。",
-        "en": "In May 1950, Teng became a technician at Shanghai Health School’s model workshop, applying his sculpture skills to anatomical models. In 1952 he organized a plaster-model factory with fellow villagers in Fengxian."
+        "zh": "1950年5月，滕白也到上海卫生学校模型厂任技师，运用雕塑技艺制作人体模型。",
+        "en": "In May 1950, Teng became a technician at Shanghai Health School’s model workshop, applying his sculpture skills to anatomical models."
       },
       "sources": [
         "S012",
@@ -2933,8 +2929,8 @@
         "en": "A plaster-model workshop in Fengxian"
       },
       "text": {
-        "zh": "书中记他在奉贤召集同乡开办石膏模型厂。",
-        "en": "The biography records that he organized a plaster model factory with fellow villagers in Fengxian."
+        "zh": "1952年，滕白也在奉贤召集同乡开办石膏模型厂。",
+        "en": "In 1952, Teng organized a plaster-model factory with fellow villagers in Fengxian."
       },
       "sources": [
         "S012"
@@ -2961,17 +2957,15 @@
         "en": "Writing The Life of Ants"
       },
       "text": {
-        "zh": "上海少年儿童出版社出版滕白也编著《蚂蚁的生活》。馆藏书目记44页，附插图；封面及内页绘者待版权页核实。同年8月《青青和凤蝶》初版，版权页明确滕白也著、绘图。",
-        "en": "The Shanghai children’s publisher issued Teng Baiye’s The Life of Ants in 1956. Catalogue records list 44 illustrated pages; the illustrator remains unverified. Qingqing and the Swallowtail appeared in August of the same year, explicitly crediting Teng with text and illustrations."
+        "zh": "上海少年儿童出版社出版滕白也编著《蚂蚁的生活》。馆藏书目记44页，附插图。",
+        "en": "The Shanghai children’s publisher issued Teng Baiye’s The Life of Ants in 1956. Library catalogues list 44 illustrated pages."
       },
       "sources": [
-        "S309",
-        "S306",
-        "S259"
+        "S309"
       ],
       "status": {
-        "zh": "馆藏书目；逐页及版次核验范围见说明",
-        "en": "Catalogue evidence; page-level limits noted"
+        "zh": "馆藏书目",
+        "en": "Library catalogue records"
       },
       "period": "later",
       "order": "1956-01-01"
@@ -3027,8 +3021,8 @@
         "S259"
       ],
       "status": {
-        "zh": "已核著作印页58",
-        "en": "Printed p. 58"
+        "zh": "1956年8月初版版权页",
+        "en": "Colophon of the August 1956 first edition"
       },
       "period": "later",
       "order": "1956-08-01"
@@ -3162,12 +3156,10 @@
         "en": "Labeled a rightist"
       },
       "text": {
-        "zh": "1957年7月17日，《文汇报》刊文攻击滕白也的雕塑家身份；8月20日，《人民日报》又在批判文章中点名。1958年，他被划为右派。",
-        "en": "On 17 July 1957, Wenhui Bao attacked Teng’s standing as a sculptor. People’s Daily named him in another denunciation on 20 August. In 1958 he was labeled a rightist."
+        "zh": "1958年，滕白也被划为右派。上海市文史研究馆馆员名录记载了这一年份。",
+        "en": "Teng was labeled a rightist in 1958, the year recorded in the Shanghai Research Institute of Culture and History’s member directory."
       },
       "sources": [
-        "S241",
-        "S235",
         "S013"
       ],
       "status": {
@@ -11995,6 +11987,21 @@
       "status": "金钢钻中文报头、The Diamond英文名、民国年月日、星期、版次、题名与署名均可视读。",
       "notes": "第1版",
       "url": "https://teng-teng.org/teng-baiye/sources/S325.html"
+    },
+    {
+      "id": "S326",
+      "language": "EN",
+      "type": "通讯社照片及背面说明",
+      "title": "滕白也与绘画、雕塑：ACME通讯社照片",
+      "author": "背面标有ACME；摄影者未署名",
+      "date": "1927年11月（背面日期章）；拍摄日期未署",
+      "summary": {
+        "zh": "照片呈现滕白也与一幅花鸟画、一件人物雕塑。背面英文说明以Kwei Dun称呼他，记其在华盛顿大学就读，以指尖和指甲绘画、塑形。供稿栏有ACME字样，打字日期为“NOV 19”；另盖“NOV 28 1927”日期章。",
+        "en": "The photograph shows Teng Baiye with a bird-and-flower painting and a figure sculpture. The reverse names him Kwei Dun, identifies him as a University of Washington student, and describes his use of fingertips and nails to paint and model. Its distribution line bears ACME, the typed date reads “NOV 19”, and a separate stamp reads “NOV 28 1927”."
+      },
+      "status": "照片正反面及原说明可读",
+      "notes": "1927年据背面日期章。11月19日是说明所署月日，11月28日是日期章所示月日，均不能直接视为拍摄日期。摄影者、画作及雕塑题名未署。",
+      "url": "https://teng-teng.org/teng-baiye/sources/S326.html"
     }
   ],
   "materials": [
@@ -20264,6 +20271,40 @@
       "url": "https://teng-teng.org/teng-baiye/sources/S325.html",
       "file": "assets/D178.pdf",
       "thumb": ""
+    },
+    {
+      "id": "I272",
+      "works": [],
+      "category": "people",
+      "title": "滕白也与绘画、雕塑：照片正面",
+      "titleEn": "Teng Baiye with a painting and sculpture: recto",
+      "size": "1080 × 1440",
+      "sources": [
+        "S326"
+      ],
+      "note": "背面ACME说明称人物为Kwei Dun；日期章为1927年11月28日。",
+      "rights": "家属提供照片正反面影像；ACME供稿标记，摄影者未署。原文件未作修复或重绘。",
+      "rightsEn": "Front and reverse images supplied by the family. ACME distribution marking; photographer uncredited. Original image files, without retouching.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S326.html",
+      "file": "assets/I272.jpg",
+      "thumb": "assets/I272.jpg"
+    },
+    {
+      "id": "I273",
+      "works": [],
+      "category": "people",
+      "title": "滕白也肖像：ACME说明与日期章",
+      "titleEn": "Teng Baiye portrait: ACME caption and date stamp",
+      "size": "1080 × 1440",
+      "sources": [
+        "S326"
+      ],
+      "note": "背面打字日期为NOV 19，日期章为NOV 28 1927。",
+      "rights": "家属提供照片正反面影像；ACME供稿标记，摄影者未署。原文件未作修复或重绘。",
+      "rightsEn": "Front and reverse images supplied by the family. ACME distribution marking; photographer uncredited. Original image files, without retouching.",
+      "url": "https://teng-teng.org/teng-baiye/sources/S326.html",
+      "file": "assets/I273.jpg",
+      "thumb": "assets/I273.jpg"
     }
   ],
   "leads": [

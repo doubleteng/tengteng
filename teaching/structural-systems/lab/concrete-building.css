@@ -21,3 +21,5 @@ body.studio-wide.viewport-panel-open .concrete-aside{display:block}
 
 /* Beam sections use the same source dimensions as the model. */
 .cb-beam-section svg{display:block;width:100%;max-height:180px;background:#252b30;border:1px solid #53616a;margin:10px 0}.cb-beam-section label{display:grid;gap:5px;margin:8px 0}.cb-beam-section select{width:100%}.cb-beam-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+.cb-source-row{padding:10px;border:1px solid #54636c;margin:8px 0;background:#222a2f}.cb-source-row>strong{display:block}.cb-source-row>div{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.cb-basis-note{border-left:3px solid #e4bd7c;padding-left:10px;color:#e3ceb1}.cb-member-source{padding:10px;border:1px solid #8fc6dd}.cb-component-map button{font-size:12px!important}

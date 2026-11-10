@@ -84,3 +84,25 @@ test('original stair table has separate click rows and original design condition
     assert.equal(D.cells.find(x=>x.id===c.id),undefined,'stairs are not service-load capacity cells');
   }
 });
+
+test('page 6 hit regions contain the printed capacities, including narrow final columns', () => {
+  // Independent pixel anchors read on a 2x rendering of the original scan.
+  // This catches a half-column-spacing error even when values and IDs are correct.
+  for (const [section,pattern,span,value,px,py] of [
+    ['8LDT18','28-S',16,194,295,621],
+    ['8LDT18','48-S',42,35,763,662],
+    ['8LDT18','68-S',26,162,476,716],
+    ['8LDT18','68-D1',32,134,583,762],
+    ['8LDT18','88-D1',52,51,938,806],
+    ['8LDT18','108-D1',64,34,1113,853],
+    ['8LDT18plus2','28-S',16,201,300,1124],
+    ['8LDT18plus2','48-S',24,164,445,1171],
+    ['8LDT18plus2','68-S',30,117,552,1217],
+    ['8LDT18plus2','68-D1',32,134,588,1264],
+    ['8LDT18plus2','88-D1',52,39,945,1311]
+  ]) {
+    const c=find(6,section,pattern,span), [x,y,w,h]=c.rect;
+    assert.equal(c.capacity,value);
+    assert.ok(px/2>=x && px/2<=x+w && py/2>=y && py/2<=y+h,c.id+' misses the printed number');
+  }
+});

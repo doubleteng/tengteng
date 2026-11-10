@@ -30,7 +30,7 @@ test('Kilo follows the original continuous-wall scheme and 15 ft perimeter tribu
 test('all simple-support reactions conserve deck plus beam weight after asymmetric panel removals',()=>{
  for(const prototype of Object.keys(M.prototypes))for(const use of Object.keys(M.uses)){
   const s={...M.defaults(),prototype,use,cores:false};s.roofVoids=[];s.voids=[M.layout(s).panels[1].id];
-  for(const key of ['roof','floor','roofBeam','floorBeam'])select(s,key);
+  for(const key of ['roof','floor',...M.beamRoles(s).map(r=>r.key)])select(s,key);
   const c=M.calc(s);
   for(const level of ['roof','floor']){const r=c[level+'Reactions'];assert.ok(r.deckTotal>0);assert.ok(r.beamWeight!==null,prototype+' '+use+' '+level);near(r.totalToSupports,r.deckTotal+r.beamWeight);for(const m of r.members)near(m.r0+m.r1,m.deckLoad+m.selfWeight);}
   for(const col of c.columns)near(col.foundation,col.roof+col.floor+col.selfWeight);
@@ -65,4 +65,49 @@ test('interior L-beams are paired, with per-member demand and both selfweights i
  const c=M.calc(s);near(c.checks.floorBeam.tributary,15);assert.equal(c.checks.floorBeam.multiplicity,2);
  const m=c.floorReactions.members[0];assert.equal(m.multiplicity,2);near(m.selfWeight,2*cell.selfWeight*24);near(c.floorReactions.totalToSupports,c.floorReactions.deckTotal+c.floorReactions.beamWeight);
  assert.equal(M.scene(s).items.filter(x=>x.id===m.id).length,4);
+});
+
+test('L, inverted T and rectangular sections are solid, non-overlapping and applied to all four prototypes',()=>{
+ for(const prototype of Object.keys(M.prototypes))for(const family of ['L','T','R']){
+  const s={...M.defaults(),prototype,cores:false,showRoof:false,layer:'beams'};
+  for(const role of M.beamRoles(s))s.beamFamilies[role.key]=family;
+  for(const role of M.beamRoles(s).filter(r=>r.level==='floor')){
+   const p=M.beamProfile(s,role.key),parts=M.beamParts(p),m=M.scene(s).items.filter(i=>i.id===`floor-beam-${role.lines[0].coord}-0`);
+   assert.equal(p.schematic,true);assert.equal(M.check(s,role.key).passes,false);
+   assert.equal(m.length,family==='R'?1:family==='L'&&!role.edge?4:2);
+   const area=parts.reduce((a,x)=>a+x.w*x.h,0);
+   near(area,p.count*(family==='R'?p.w*p.h:p.w*p.flangeH+p.webW*p.webH));
+   for(let i=0;i<parts.length;i++)for(let j=i+1;j<parts.length;j++){
+    const a=parts[i],b=parts[j],overX=Math.min(a.offset+a.w/2,b.offset+b.w/2)-Math.max(a.offset-a.w/2,b.offset-b.w/2),overY=Math.min(a.y+a.h/2,b.y+b.h/2)-Math.max(a.y-a.h/2,b.y-b.h/2);
+    assert.ok(overX<1e-7||overY<1e-7,'beam parts may meet but must not overlap');
+   }
+  }
+ }
+});
+test('edge L ledges face inward at opposite Kilo sides and decks clear the webs',()=>{
+ const s={...M.defaults(),prototype:'KILO',cores:false,showRoof:false},scene=M.scene(s);
+ for(const coord of [0,60]){
+  const parts=scene.items.filter(i=>i.id===`floor-beam-${coord}-0`);
+  assert.equal(parts.length,2);const ledge=parts.find(i=>i.w===1.5),web=parts.find(i=>i.w===1);
+  near(web.a[0],coord);near(ledge.a[0],coord+(coord===0?.25:-.25));
+ }
+ const deck=scene.items.find(i=>i.id==='floor:p-0-24');assert.ok(deck.a[0]>.5);near(deck.b[0],30);
+});
+test('Charlie independently checks edge L and interior T/R beams with each source self-weight',()=>{
+ const s={...M.defaults(),prototype:'CHARLIE',cores:false};select(s,'floor');
+ const edge=P.cells.find(c=>c.family==='L'&&c.span===20&&c.section==='18LB24'),interior=P.cells.find(c=>c.family==='T'&&c.span===20&&c.section==='28IT20');
+ s.selections.floorEdgeBeam=edge.id;s.selections.floorBeam=interior.id;
+ const c=M.calc(s);near(c.checks.floorEdgeBeam.tributary,15);near(c.checks.floorBeam.tributary,30);
+ near(c.checks.floorBeam.required,c.checks.floorEdgeBeam.required*2);
+ const r=c.floorReactions;for(const m of r.members){const cell=m.key==='floorEdgeBeam'?edge:interior;near(m.selfWeight,cell.selfWeight*20);}
+ near(r.totalToSupports,r.deckTotal+r.beamWeight);
+ for(const family of ['L','T','R']){
+  const key='floorBeam',cell=P.cells.find(c=>c.family===family&&c.span===20&&!c.sourceAnomaly);s.beamFamilies[key]=family;s.selections[key]=cell.id;
+  const p=M.beamProfile(s,key);assert.equal(p.schematic,false);near(p.h*12,cell.depth);near(p.w,cell.width);assert.equal(M.beamPage(s,key),cell.page);
+ }
+ const saved=M.normalize(JSON.parse(JSON.stringify(s)));assert.equal(saved.selections.floorEdgeBeam,edge.id);assert.equal(saved.beamFamilies.floorBeam,'R');
+});
+test('old mixed-layout studies migrate shared beams without inventing capacity selections',()=>{
+ const cell=P.cells.find(c=>c.family==='T'&&c.span===20&&!c.sourceAnomaly),old=M.normalize({prototype:'CHARLIE',selections:{floorBeam:cell.id}});
+ assert.equal(old.selections.floorEdgeBeam,cell.id);assert.equal(M.normalize(M.defaults()).selections.floorEdgeBeam,undefined);
 });

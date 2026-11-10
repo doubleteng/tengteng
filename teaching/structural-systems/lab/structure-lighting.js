@@ -18,7 +18,8 @@ class ShadowMap{
   this.size=resolution;this.depth=new Float32Array(resolution*resolution);this.depth.fill(-Infinity);
   const faces=[],points=[];
   for(const it of items){
-   if(it.castShadow===false||(it.alpha??1)<.45)continue;
+   // Alpha also encodes teaching overlays; actual beam solids and corrugated deck remain opaque in solid view.
+   if(it.castShadow===false||(it.type==='poly'&&(it.alpha??1)<.4&&!it.corrugation))continue;
    if(it.type==='beam'){
     const p=corners(it);if(p.length!==8)continue;points.push(...p);
     for(const f of cubeFaces)faces.push(f.map(i=>p[i]));
@@ -68,5 +69,5 @@ class ShadowMap{
   return 1-receiver.strength*blocked/9;
  }
 }
-root.LabLighting={direction,normal,shade,ShadowMap,version:'20261110-shadows'};
+root.LabLighting={direction,normal,shade,ShadowMap,version:'20261110-shadows2'};
 })(window);

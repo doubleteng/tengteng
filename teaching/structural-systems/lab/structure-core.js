@@ -436,13 +436,13 @@ class LabRenderer{
    if(this.lightItems!==this.items){this.lightItems=this.items;this.lightMap=new root.LabLighting.ShadowMap(this.items,it=>root.LabJoinery.corners(it));}
    if(this.lightMap.valid)lighting=this.lightMap;
   }
-  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false,ground=false)=>{
+  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false,ground=false,shadowBias=0)=>{
    const p=this.projectFace(pts,lighting);if(p.length<3)return;
    const back=(p[1].x-p[0].x)*(p[2].y-p[0].y)-(p[1].y-p[0].y)*(p[2].x-p[0].x)>=0;
    if(cull&&this.mode==='3d'&&!this.xray&&back)return;
    let normal=lighting?root.LabLighting.normal(pts):null;if(normal&&!cull&&back)normal=normal.map(v=>-v);
-   const base=ground?color:this.modelColor(color);
-   polys.push({p,color:lighting&&!ground?root.LabLighting.shade(base,normal):base,stroke,alpha,id,edges,shadow:lighting?.receiver(normal,ground),z:p.reduce((s,v)=>s+v.z,0)/p.length});
+   const base=ground?color:this.modelColor(color),shadow=lighting?.receiver(normal,ground);if(shadow)shadow.bias+=shadowBias;
+   polys.push({p,color:lighting&&!ground?root.LabLighting.shade(base,normal):base,stroke,alpha,id,edges,shadow,z:p.reduce((s,v)=>s+v.z,0)/p.length});
   };
   // A receiving plane at the lowest visible member keeps foundations visible.
   if(lighting)face(lighting.ground,'#666666',null,1,null,false,false,true);
@@ -461,7 +461,8 @@ class LabRenderer{
     [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]].forEach((ids,i)=>face(ids.map(j=>points[j]),lighting?(it.color||'#bd9f7c'):this.shade(it.color||'#bd9f7c',[.83,1,.89,1.07,1.12,.95][i]),it.id===this.selected?'#fff0a6':Math.min(w,h)*this.scale()<3?this.shade(this.modelColor(it.color||'#bd9f7c'),lighting?.72:1):'#3f464b',this.xray?Math.min(it.alpha??1,.2):(it.alpha??1),it.id,true,true));
     if(it.id)this.hit.push(it.panel?{id:it.id,p:[2,3,7,6].map(j=>this.project(points[j])),area:true,data:it.data}:{id:it.id,p:[this.project(it.a),this.project(it.b)],data:it.data});
     if(it.label){const d=sub(this.center,mul(add(it.a,it.b),.5)),point=mul(add(it.a,it.b),.5);point[1]+=it.h/2;labels.push({p:this.project(point),text:it.label,color:it.color,id:it.id});}
-   }else if(it.type==='poly')face(it.points,it.color,it.stroke||'#3f464b',it.alpha??1,it.id,true);
+   }// Fine 1.5-inch corrugations use a small extra bias to prevent sub-texel self-shadow noise.
+   else if(it.type==='poly')face(it.points,it.color,it.stroke||'#3f464b',it.alpha??1,it.id,true,false,false,it.corrugation?.2:0);
    else if(it.type==='line'||it.type==='arrow')lines.push(it);
    else if(it.type==='label')labels.push({p:this.project(it.p),text:it.text,color:it.color,id:it.owner});
    else if(it.type==='node')lines.push(it);

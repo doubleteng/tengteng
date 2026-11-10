@@ -341,6 +341,8 @@ class DepthSurface {
   const lit=shadow&&a.light&&b.light&&c.light;
   const gx=lit?a.light.map((v,k)=>((b.light[k]-v)*(c.y-a.y)-(c.light[k]-v)*(b.y-a.y))/area):null;
   const gy=lit?a.light.map((v,k)=>((b.x-a.x)*(c.light[k]-v)-(c.x-a.x)*(b.light[k]-v))/area):null;
+  let material=lit&&shadow.material;
+  if(material){const m=a.light.map((v,k)=>(v+b.light[k]+c.light[k])/3),q=1/m[3],derivative=g=>[0,1,2].map(k=>(g[k]-m[k]*q*g[3])*q);material=root.LabLighting.filterTexture(material,derivative(gx),derivative(gy));}
   const red=packed&255,green=(packed>>>8)&255,blue=(packed>>>16)&255;
   for(let y=ymin;y<=ymax;y++){
    const py=y+.5,xa=low.x+(py-low.y)*longSlope,xb=py<mid.y?low.x+(py-low.y)*upperSlope:mid.x+(py-mid.y)*lowerSlope;
@@ -350,7 +352,7 @@ class DepthSurface {
    for(let x=x0;x<=x1;x++,index++,z+=dzdx){
     if(z>=zbuf[index]-1e-8){
      zbuf[index]=z;ids[index]=id;
-     if(lit){const q=1/values[3],factor=shadow.map.visibility(values[0]*q,values[1]*q,values[2]*q,shadow);pixels[index]=(255<<24)|(Math.round(blue*factor)<<16)|(Math.round(green*factor)<<8)|Math.round(red*factor);}
+     if(lit){const q=1/values[3],factor=shadow.map.visibility(values[0]*q,values[1]*q,values[2]*q,shadow)*(material?root.LabLighting.texture(material,values[0]*q,values[1]*q,values[2]*q):1);pixels[index]=(255<<24)|(Math.min(255,Math.round(blue*factor))<<16)|(Math.min(255,Math.round(green*factor))<<8)|Math.min(255,Math.round(red*factor));}
      else pixels[index]=packed;
     }
     if(lit)for(let k=0;k<4;k++)values[k]+=gx[k];
@@ -377,7 +379,7 @@ const sub=(a,b)=>a.map((v,i)=>v-b[i]),add=(a,b)=>a.map((v,i)=>v+b[i]),mul=(a,s)=
 class LabRenderer{
  constructor(canvas,callbacks={}){
   this.canvas=canvas;this.ctx=canvas.getContext('2d');this.cb=callbacks;this.items=[];this.mode='3d';this.plane='elevation';this.yaw=-.65;this.pitch=.5;this.zoom=1;this.pan=[0,0];this.center=[0,0,0];this.extent=24;this.hit=[];this.drag=null;this.selected=null;this.editor=null;this.cursorWorld=null;
-  this.projection='perspective';this.xray=false;this.depthSurface=null;this.sceneBounds=null;this.fitPending=true;
+  this.projection='perspective';this.xray=false;this.materials=true;this.depthSurface=null;this.sceneBounds=null;this.fitPending=true;
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas.parentElement);
   canvas.addEventListener('contextmenu',e=>e.preventDefault());
   canvas.addEventListener('wheel',e=>{e.preventDefault();this.zoom=Math.max(.3,Math.min(5,this.zoom*Math.exp(-e.deltaY*.001)));this.requestRender();},{passive:false});
@@ -387,7 +389,7 @@ class LabRenderer{
  }
  resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.w=Math.max(10,r.width);this.h=Math.max(10,r.height);const d=Math.min(window.devicePixelRatio||1,2);this.canvas.width=Math.round(this.w*d);this.canvas.height=Math.round(this.h*d);this.ctx.setTransform(d,0,0,d,0,0);this.render();}
  setScene(items,opts={}){this.items=items;this.sceneBounds={center:[...(opts.center||[0,4,0])],extent:opts.extent||24};if(this.fitPending){this.center=[...this.sceneBounds.center];this.extent=this.sceneBounds.extent;this.fitPending=false;}this.selected=opts.selected;this.plane=opts.plane||'elevation';this.editor=opts.editor||null;this.planEditor=opts.planEditor||false;this.applyDisplay();this.render();}
- applyDisplay(){const d=root.StructureDisplay;if(!d)return;this.projection=d.projection;this.xray=d.xray;if(d.view&&['wood','steel','concrete'].includes(root.document?.body?.dataset?.studioSpace)&&this.canvas?.closest?.('#labWorkspace,#steelScreen,#concreteScreen')){this.mode=d.view==='3d'?'3d':'2d';if(d.view!=='3d')this.plane=d.view;}}
+ applyDisplay(){const d=root.StructureDisplay;if(!d)return;this.projection=d.projection==='orthographic'?'orthographic':'perspective';this.xray=d.xray===true;this.materials=d.materials!==false;if(d.view&&['wood','steel','concrete'].includes(root.document?.body?.dataset?.studioSpace)&&this.canvas?.closest?.('#labWorkspace,#steelScreen,#concreteScreen')){this.mode=d.view==='3d'?'3d':'2d';if(d.view!=='3d')this.plane=d.view;}}
  captureView(){return {yaw:this.yaw,pitch:this.pitch,zoom:this.zoom,pan:[...this.pan],center:[...this.center],extent:this.extent};}
  restoreView(view){if(view){Object.assign(this,view,{pan:[...view.pan],center:[...view.center],fitPending:false});this.applyDisplay();this.render();}}
  // Preserve role/force hues while keeping opaque members legible on the #666666 viewport.
@@ -437,13 +439,14 @@ class LabRenderer{
    if(this.lightItems!==this.items){this.lightItems=this.items;this.lightMap=new root.LabLighting.ShadowMap(this.items,it=>root.LabJoinery.corners(it));}
    if(this.lightMap.valid)lighting=this.lightMap;
   }
-  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false,ground=false,shadowBias=0)=>{
+  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false,ground=false,shadowBias=0,material=null)=>{
    const p=this.projectFace(pts,lighting);if(p.length<3)return;
    const back=(p[1].x-p[0].x)*(p[2].y-p[0].y)-(p[1].y-p[0].y)*(p[2].x-p[0].x)>=0;
    if(cull&&this.mode==='3d'&&!this.xray&&back)return;
-   let normal=lighting?root.LabLighting.normal(pts):null;if(normal&&!cull&&back)normal=normal.map(v=>-v);
-   const base=ground?color:this.modelColor(color),shadow=lighting?.receiver(normal,ground);if(shadow)shadow.bias+=shadowBias;
-   polys.push({p,color:lighting&&!ground?root.LabLighting.shade(base,normal):base,stroke,alpha,id,edges,shadow,z:p.reduce((s,v)=>s+v.z,0)/p.length});
+   let normal=this.mode==='3d'&&!this.xray&&root.LabLighting?root.LabLighting.normal(pts):null;if(normal&&!cull&&back)normal=normal.map(v=>-v);
+   const base=ground?color:material?material.color:this.modelColor(color),shadow=lighting?.receiver(normal,ground);if(shadow){shadow.bias+=shadowBias;if(material)shadow.material={...material,coordinates:root.LabLighting.textureCoordinates(lighting,material)};}
+   const view=[Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch)];
+   polys.push({p,color:normal&&!ground?root.LabLighting.shade(base,normal,material,view):base,stroke,alpha,id,edges,shadow,z:p.reduce((s,v)=>s+v.z,0)/p.length});
   };
   // A receiving plane at the lowest visible member keeps foundations visible.
   if(lighting)face(lighting.ground,'#666666',null,1,null,false,false,true);
@@ -456,14 +459,15 @@ class LabRenderer{
    for(let y=Math.ceil(a.y/step)*step;y<=b.y;y+=step)this.lineRaw(this.project([a.x,y,0]),this.project([b.x,y,0]),Math.abs(y)<1e-8?'#a4a4a4':'#797979',Math.abs(y)<1e-8?1.4:.7);
   }
   for(const it of this.items){
+   const material=this.materials&&!this.xray&&root.LabLighting?.materialFor(it,root.document?.body?.dataset?.studioSpace);
    if(it.type==='beam'){
     const dir=unit(sub(it.b,it.a)),ref=Math.abs(dir[1])>.95?[1,0,0]:[0,1,0],u=unit(cross(dir,ref)),v=unit(cross(u,dir)),w=it.w||.35,h=it.h||.35;
     const points=root.LabJoinery?root.LabJoinery.corners(it):[];if(!points.length)for(const end of [it.a,it.b])for(const [su,sv]of [[-1,-1],[1,-1],[1,1],[-1,1]])points.push(add(add(end,mul(u,su*w/2)),mul(v,sv*h/2)));
-    [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]].forEach((ids,i)=>face(ids.map(j=>points[j]),lighting?(it.color||'#bd9f7c'):this.shade(it.color||'#bd9f7c',[.83,1,.89,1.07,1.12,.95][i]),it.id===this.selected?'#fff0a6':Math.min(w,h)*this.scale()<3?this.shade(this.modelColor(it.color||'#bd9f7c'),lighting?.72:1):'#3f464b',this.xray?Math.min(it.alpha??1,.2):(it.alpha??1),it.id,true,true));
+    [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]].forEach((ids,i)=>face(ids.map(j=>points[j]),lighting?(it.color||'#bd9f7c'):this.shade(it.color||'#bd9f7c',[.83,1,.89,1.07,1.12,.95][i]),it.id===this.selected?'#fff0a6':Math.min(w,h)*this.scale()<3?this.shade(this.modelColor(it.color||'#bd9f7c'),lighting?.72:1):'#3f464b',this.xray?Math.min(it.alpha??1,.2):(it.alpha??1),it.id,true,true,false,0,material));
     if(it.id)this.hit.push(it.panel?{id:it.id,p:[2,3,7,6].map(j=>this.project(points[j])),area:true,data:it.data}:{id:it.id,p:[this.project(it.a),this.project(it.b)],data:it.data});
     if(it.label){const d=sub(this.center,mul(add(it.a,it.b),.5)),point=mul(add(it.a,it.b),.5);point[1]+=it.h/2;labels.push({p:this.project(point),text:it.label,color:it.color,id:it.id});}
    }// Fine 1.5-inch corrugations use a small extra bias to prevent sub-texel self-shadow noise.
-   else if(it.type==='poly'){face(it.points,it.color,it.id===this.selected?'#fff0a6':it.edges===false?null:it.stroke||'#3f464b',this.xray?Math.min(it.alpha??1,.2):it.alpha??1,it.id,it.edges!==false||it.id===this.selected,false,false,it.shadowBias??(it.corrugation?.2:0));if(it.id)this.hit.push({id:it.id,p:it.points.map(p=>this.project(p)),area:true});}
+   else if(it.type==='poly'){face(it.points,it.color,it.id===this.selected?'#fff0a6':it.edges===false?null:it.stroke||'#3f464b',this.xray?Math.min(it.alpha??1,.2):it.alpha??1,it.id,it.edges!==false||it.id===this.selected,false,false,it.shadowBias??(it.corrugation?.2:0),material);if(it.id)this.hit.push({id:it.id,p:it.points.map(p=>this.project(p)),area:true});}
    else if(it.type==='line'||it.type==='arrow')lines.push(it);
    else if(it.type==='label')labels.push({p:this.project(it.p),text:it.text,color:it.color,id:it.owner});
    else if(it.type==='node')lines.push(it);

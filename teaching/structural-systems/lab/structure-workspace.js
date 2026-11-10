@@ -4,9 +4,9 @@
 const api=W.StructureLabUI,studio=W.StructureStudio;if(!api||!studio)return;
 const $=id=>D.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const h=api.getHandles(),projects=['wood','steel','concrete'];
-W.StructureDisplay={projection:'perspective',view:'3d',xray:false};
+W.StructureDisplay={projection:'perspective',view:'3d',xray:false,materials:true};
 const bar=D.createElement('section');bar.id='buildingWorkspace';bar.hidden=true;bar.setAttribute('aria-label','Building project workspace');
-bar.innerHTML=`<header class="bw-heading"><div><h1 id="bwTitle"></h1><p id="bwDescription"></p></div><button id="bwSources">Original PDF & tables</button></header><div class="bw-toolbar" role="toolbar" aria-label="Building model tools"><div id="bwClassification" class="bw-group"></div><label class="bw-chapter">Chapter <select id="bwChapter" aria-label="Chapter"></select></label><div class="bw-group bw-views" aria-label="Display methods"><button data-bw-view="plan">Plan</button><button data-bw-view="3d">3D</button><button data-bw-view="elevation">Elevation</button><select id="bwProjection" aria-label="Projection"><option value="perspective">Perspective</option><option value="orthographic">Orthographic</option></select><select id="bwDisplay" aria-label="Display style"><option value="shaded">Shaded + shadows</option><option value="xray">X-ray</option></select><button id="bwFit">Fit</button><button id="bwControls">Controls</button><button id="bwMaximize" title="Maximize model">⛶</button></div></div>`;
+bar.innerHTML=`<header class="bw-heading"><div><h1 id="bwTitle"></h1><p id="bwDescription"></p></div><button id="bwSources">Original PDF & tables</button></header><div class="bw-toolbar" role="toolbar" aria-label="Building model tools"><div id="bwClassification" class="bw-group"></div><label class="bw-chapter">Chapter <select id="bwChapter" aria-label="Chapter"></select></label><div class="bw-group bw-views" aria-label="Display methods"><button data-bw-view="plan">Plan</button><button data-bw-view="3d">3D</button><button data-bw-view="elevation">Elevation</button><select id="bwProjection" aria-label="Projection"><option value="perspective">Perspective</option><option value="orthographic">Orthographic</option></select><select id="bwDisplay" aria-label="Display style"><option value="materials">Materials + shadows</option><option value="shaded">Role colors + shadows</option><option value="xray">X-ray</option></select><button id="bwFit">Fit</button><button id="bwControls">Controls</button><button id="bwMaximize" title="Maximize model">⛶</button></div></div>`;
 $('workspace').before(bar);
 const footer=D.createElement('footer');footer.id='buildingFooter';footer.hidden=true;footer.innerHTML='<span>Drag to orbit · Shift-drag to pan · Scroll to zoom · Click a member</span><button id="bwSave">Save study</button><button id="bwPNG">PNG</button><button id="bwCoach">Ask Coach</button>';$('workspace').after(footer);
 let lastSpace='',signature='',queued=false;
@@ -37,7 +37,7 @@ function applyDisplay(){
  const d=W.StructureDisplay;
  if(studio.route().space==='wood')api.setDisplay({projection:d.projection,xray:d.xray,mode:d.view==='3d'?'3d':'2d',plane:d.view==='3d'?'auto':d.view});
  const rr=renderer();if(studio.route().space==='concrete')h.concrete.draw();else if(rr){rr.applyDisplay();rr.render();}
- $('bwProjection').value=d.projection;$('bwProjection').disabled=d.view!=='3d';$('bwDisplay').value=d.xray?'xray':'shaded';
+ $('bwProjection').value=d.projection;$('bwProjection').disabled=d.view!=='3d';$('bwDisplay').value=d.xray?'xray':d.materials!==false?'materials':'shaded';
  for(const b of bar.querySelectorAll('[data-bw-view]'))b.setAttribute('aria-pressed',String(b.dataset.bwView===d.view));
 }
 function sources(){const r=studio.route();if(r.space==='concrete')h.concrete.openSource();else if(r.space==='wood')W.WoodPDFTables.open(r.id==='floor'?'floor':r.id==='truss'?'purlin':'roof');else {const b=$('studioOpenSources');if(b&&$('steelScreen').querySelector('.sr-reading'))b.click();else {api.setPanel('explain');W.StructureViewport.setPanel(true);}}}
@@ -64,16 +64,16 @@ function sync(){
  classify(r);
  if(lastSpace!==r.space){$('bwChapter').innerHTML=studio.groupsFor(r).map(([name,rows])=>`<optgroup label="${esc(name)}">${rows.map(([id,title])=>`<option value="${esc(id)}">${esc(title)}</option>`).join('')}</optgroup>`).join('');lastSpace=r.space;}
  $('bwChapter').value=r.id;arrange(r);const rr=renderer();if(rr){rr.applyDisplay();rr.resize();}
- $('bwProjection').value=W.StructureDisplay.projection;$('bwProjection').disabled=W.StructureDisplay.view!=='3d';$('bwDisplay').value=W.StructureDisplay.xray?'xray':'shaded';
+ $('bwProjection').value=W.StructureDisplay.projection;$('bwProjection').disabled=W.StructureDisplay.view!=='3d';$('bwDisplay').value=W.StructureDisplay.xray?'xray':W.StructureDisplay.materials!==false?'materials':'shaded';
  for(const b of bar.querySelectorAll('[data-bw-view]'))b.setAttribute('aria-pressed',String(b.dataset.bwView===W.StructureDisplay.view));
 }
 $('bwChapter').onchange=()=>{studio.go(studio.route().space,$('bwChapter').value);sync();};
 for(const b of bar.querySelectorAll('[data-bw-view]'))b.onclick=()=>{W.StructureDisplay.view=b.dataset.bwView;applyDisplay();};
 $('bwProjection').onchange=()=>{W.StructureDisplay.projection=$('bwProjection').value;applyDisplay();};
-$('bwDisplay').onchange=()=>{W.StructureDisplay.xray=$('bwDisplay').value==='xray';applyDisplay();};
+$('bwDisplay').onchange=()=>{W.StructureDisplay.xray=$('bwDisplay').value==='xray';W.StructureDisplay.materials=$('bwDisplay').value!=='shaded';applyDisplay();};
 $('bwFit').onclick=()=>renderer()?.reset();$('bwControls').onclick=()=>{const open=!D.body.classList.contains('viewport-panel-open');D.body.classList.toggle('viewport-panel-pinned',open);W.StructureViewport.setPanel(open);};
 $('bwSources').onclick=sources;$('bwSave').onclick=()=>api.save();$('bwCoach').onclick=()=>api.askCoach();$('bwMaximize').onclick=()=>$('viewportMaximize').click();
 $('bwPNG').onclick=()=>{const canvas=renderer()?.canvas;if(!canvas)return;canvas.toBlob(blob=>{if(!blob)return;const a=D.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='StructureLab-'+studio.route().space+'-'+W.StructureDisplay.projection+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});};
-W.StructureWorkspace={sync,renderer,restoreDisplay(raw){W.StructureDisplay={projection:raw?.projection==='orthographic'?'orthographic':'perspective',view:['3d','plan','elevation'].includes(raw?.view)?raw.view:'3d',xray:raw?.xray===true};sync();}};
+W.StructureWorkspace={sync,renderer,restoreDisplay(raw){W.StructureDisplay={projection:raw?.projection==='orthographic'?'orthographic':'perspective',view:['3d','plan','elevation'].includes(raw?.view)?raw.view:'3d',xray:raw?.xray===true,materials:raw?.materials!==false};sync();}};
 D.addEventListener('structure:layout',()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});});sync();
 })(window,document);

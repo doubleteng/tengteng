@@ -8,11 +8,37 @@ const unit=a=>{const n=Math.hypot(...a)||1;return a.map(v=>v/n);};
 const direction=unit([-.65,1,.45]),right=unit(cross([0,1,0],direction)),up=cross(direction,right);
 const cubeFaces=[[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]];
 const normal=points=>unit(cross(sub(points[1],points[0]),sub(points[2],points[0])));
-function shade(hex,n){
+function shade(hex,n,material=null,view=null){
  if(!/^#[0-9a-f]{6}$/i.test(hex))return hex;
  // World-space Lambert lighting: visible side faces and soffits stay distinct as the camera orbits.
- const k=.25+.18*Math.max(0,n[1])+.60*Math.max(0,dot(n,direction));
+ let k=.25+.18*Math.max(0,n[1])+.60*Math.max(0,dot(n,direction));
+ if(material&&view){const h=unit(direction.map((v,i)=>v+view[i])),spec=Math.pow(Math.max(0,dot(n,h)),material.kind==='steel'?28:10);k+=spec*(material.kind==='steel'?.3:material.kind==='wood'?.045:.018);}
  return '#'+[1,3,5].map(i=>Math.min(255,Math.round(parseInt(hex.slice(i,i+2),16)*k)).toString(16).padStart(2,'0')).join('');
+}
+// Display-only finishes. They never change member dimensions, loads or source choices.
+const finishes={concrete:{color:'#c9c5bd'},wood:{color:'#cda36b'},steel:{color:'#b7c5ce'}};
+function materialFor(item,space){
+ if(item.type==='poly'&&(item.alpha??1)<.4&&!item.corrugation)return null;
+ let kind=item.material||space;
+ if(/footing|foundation|raft|slab|landing|stair/.test(item.id||'')||item.a&&item.b&&Math.max(item.a[1],item.b[1])<0)kind='concrete';
+ if(!finishes[kind])return null;
+ return {kind,color:item.pending?'#c8bdab':finishes[kind].color,axis:item.a&&item.b?unit(sub(item.b,item.a)):[1,0,0]};
+}
+function textureCoordinates(map,material){
+ const axis=material.axis,side=unit(cross(axis,Math.abs(axis[1])>.95?[1,0,0]:[0,1,0]));
+ return [axis,side,cross(axis,side)].map(a=>[dot(a,right)*map.texel,dot(a,up)*map.texel,dot(a,direction),dot(a,right)*map.left+dot(a,up)*map.bottom]);
+}
+function filterTexture(material,dx,dy){
+ const [a,b]=material.coordinates,du=d=>a[0]*d[0]+a[1]*d[1]+a[2]*d[2],dv=d=>b[0]*d[0]+b[1]*d[1]+b[2]*d[2];
+ // Suppress grain finer than a screen pixel instead of producing moire on distant decks.
+ const weight=(f,g)=>Math.exp(-.5*((f*dv(dx)+g*du(dx))**2+(f*dv(dy)+g*du(dy))**2));
+ return {...material,grain:material.kind==='wood'?[weight(90,1),weight(235,.5)]:[weight(150,.15)]};
+}
+function texture(material,x,y,z){
+ const [a,b,c]=material.coordinates,u=a[0]*x+a[1]*y+a[2]*z+a[3],v=b[0]*x+b[1]*y+b[2]*z+b[3],w=c[0]*x+c[1]*y+c[2]*z+c[3];
+ if(material.kind==='wood')return .98+.008*Math.sin(v*2.5+Math.sin(u*.14)*.4)+(material.grain?.[0]??1)*.025*Math.sin(v*90+Math.sin(u*.7)*1.2)+(material.grain?.[1]??1)*.008*Math.sin(v*235+u*.5);
+ if(material.kind==='steel')return .99+(material.grain?.[0]??1)*.01*Math.sin(v*150+u*.15);
+ const ix=Math.floor(u*26),iy=Math.floor(v*26),iz=Math.floor(w*26),n=Math.imul(ix,374761393)^Math.imul(iy,668265263)^Math.imul(iz,1442695041);return .96+((n^(n>>>13))>>>0)/4294967295*.06;
 }
 class ShadowMap{
  constructor(items,corners,resolution=1536){
@@ -70,5 +96,5 @@ class ShadowMap{
   return 1-receiver.strength*blocked/9;
  }
 }
-root.LabLighting={direction,normal,shade,ShadowMap,version:'20261110-workspace'};
+root.LabLighting={direction,normal,shade,materialFor,textureCoordinates,filterTexture,texture,ShadowMap,version:'20261110-r7'};
 })(window);

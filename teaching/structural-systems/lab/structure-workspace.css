@@ -1,0 +1,27 @@
+/* Identical project shell and canvas footprint across Wood, Steel and Concrete. */
+#buildingWorkspace[hidden],#buildingFooter[hidden]{display:none!important}
+#buildingWorkspace{flex:none;padding:10px 38px 9px 14px;border-bottom:1px solid #515a60;background:#262b2f;z-index:12}
+.bw-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:10px}.bw-heading h1{font:400 22px Chivo,Arial,sans-serif;margin:0 0 4px;color:#f2f4f5}.bw-heading p{margin:0;color:#bbccd6;font-size:13px}.bw-heading button{flex:none}
+.bw-toolbar,.bw-group{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.bw-toolbar{gap:12px}.bw-toolbar label{display:flex;gap:6px;align-items:center;font-size:13px;white-space:nowrap}.bw-toolbar select,#buildingWorkspace button,#buildingFooter button{font:400 13px Chivo,Arial,sans-serif;min-height:32px;padding:5px 10px;border:1px solid #71818d;border-radius:2px;background:#252c31;color:#e8eff3}.bw-toolbar select{padding-right:20px;max-width:230px}.bw-chapter{border-left:1px solid #55616b;padding-left:12px}.bw-views{border-left:1px solid #55616b;padding-left:12px}#buildingWorkspace button:hover,#buildingFooter button:hover{background:#3a454e}#buildingWorkspace button[aria-pressed=true]{background:#385362;border-color:#a7c8db;color:white}#buildingWorkspace :focus-visible,#buildingFooter :focus-visible{outline:2px solid #d6e9a6;outline-offset:2px}
+body.building-unified .viewport-tools,body.building-unified #studioRail,body.building-unified #studioTaskToggle{display:none!important}
+body.building-unified #workspace{padding:0 26px 0 0!important}
+body.building-unified #labWorkspace,body.building-unified #steelScreen,body.building-unified #concreteScreen{padding:8px 12px 0!important;position:relative;gap:0!important}
+body.building-unified :is(.lesson-head,#woodProjectStages,.viewbar,.cb-head,.cb-toolbar,.cb-footer,.cb-metrics,.sr-head,.sr-steps,.sr-footer,.steel-head,.steel-activities,.studio-steel-tools,.sr-modelbar,.steel-observation,.sr-modelnote,.sr-inspect,.sr-model-steps,.sr-metrics,.sf-metrics,#results,.analysis-strip){display:none!important}
+body.building-unified :is(.sr-work,.sr-left,.steel-layout,.steel-stage){gap:0!important;padding:0!important;min-height:0!important}
+body.building-unified :is(#canvasWrap,.cb-stage,.sr-canvas,.steel-canvas-wrap){margin:0!important;min-height:120px!important;flex:1!important;border:1px solid #72777b!important;background:#666!important;border-radius:0!important}
+body.building-unified :is(#labInspector,.concrete-aside,.sr-aside,.steel-aside){width:min(420px,calc(100vw - 42px))!important;top:0!important;bottom:0!important;max-height:none!important;border-left:1px solid #7b8c97!important;background:#242b30!important;z-index:45!important;padding:16px!important;overflow-y:auto!important}
+body.building-unified #labInspector{right:26px!important}body.building-unified :is(.concrete-aside,.sr-aside,.steel-aside){right:0!important}
+.bw-project-controls{margin-bottom:16px;border-bottom:1px solid #52616c;padding-bottom:12px}.bw-project-controls summary{font-size:15px;cursor:pointer;color:#d5e2ea;margin-bottom:10px}.bw-project-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bw-project-tools label{display:flex;align-items:center;gap:6px;font-size:13px}.bw-project-tools .view-toggles{display:flex;flex-wrap:wrap}.bw-project-tools .steel-toolbar,.bw-project-tools .sr-layers{display:flex!important;flex-wrap:wrap;padding:0!important;margin:0!important}.bw-project-tools :is([data-action=view],[data-action=fit],[data-floor-action=view],[data-floor-action=fit],[data-found-action=view],[data-found-action=fit]){display:none!important}
+#buildingFooter{display:flex;gap:8px;align-items:center;flex:none;min-height:42px;padding:5px 38px 5px 14px;background:#262b2f;color:#b8c9d3;font-size:12px}#buildingFooter span{flex:1}
+body.building-unified .wood-table-workspace{z-index:70}body.building-unified #trussTools:not([hidden]){max-height:80px;overflow:auto;flex:none}
+@media(max-width:1000px){.bw-toolbar{gap:8px}.bw-views{border:0;padding-left:0}.bw-heading p{display:none}#buildingWorkspace{padding-top:7px}.bw-heading{margin-bottom:7px}.bw-toolbar select{max-width:190px}#buildingFooter span{font-size:11px}}
+@media(max-width:600px){.bw-heading h1{font-size:18px}.bw-heading button{font-size:11px!important}.bw-chapter{border:0;padding-left:0}#buildingWorkspace{padding-left:8px}.bw-toolbar{gap:7px}#buildingFooter span{display:none}#buildingFooter{justify-content:flex-end}.bw-toolbar select{max-width:180px}}
+
+/* Keep the same two toolbar rows even when a project has fewer classification fields. */
+.bw-toolbar{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;row-gap:10px}.bw-views{grid-column:1/-1;border-left:0;padding-left:0}.bw-chapter{justify-self:start}.bw-project-tools .studio-model-actions{display:flex;flex-wrap:wrap}.bw-project-tools .studio-model-actions [data-action=sources],.bw-project-tools .studio-model-actions [data-action=next]{display:none}
+body.building-unified .sr-left,body.building-unified .steel-stage{width:100%!important;max-width:none!important;margin:0!important}
+@media(max-width:800px){.bw-toolbar{grid-template-columns:1fr}.bw-chapter{border-left:0;padding-left:0}.bw-views{grid-column:1}}
+
+body.building-unified .sr-left,body.building-unified .steel-stage{overflow:hidden!important}
+body.building-unified .sr-left,body.building-unified .steel-stage{scrollbar-gutter:auto!important}
+body.building-unified .sr-left>.sr-layers{display:none!important}

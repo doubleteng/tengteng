@@ -10,7 +10,8 @@ const cubeFaces=[[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]];
 const normal=points=>unit(cross(sub(points[1],points[0]),sub(points[2],points[0])));
 function shade(hex,n){
  if(!/^#[0-9a-f]{6}$/i.test(hex))return hex;
- const k=.38+.18*Math.max(0,n[1])+.46*Math.max(0,dot(n,direction));
+ // World-space Lambert lighting: visible side faces and soffits stay distinct as the camera orbits.
+ const k=.25+.18*Math.max(0,n[1])+.60*Math.max(0,dot(n,direction));
  return '#'+[1,3,5].map(i=>Math.min(255,Math.round(parseInt(hex.slice(i,i+2),16)*k)).toString(16).padStart(2,'0')).join('');
 }
 class ShadowMap{
@@ -69,5 +70,5 @@ class ShadowMap{
   return 1-receiver.strength*blocked/9;
  }
 }
-root.LabLighting={direction,normal,shade,ShadowMap,version:'20261110-shadows2'};
+root.LabLighting={direction,normal,shade,ShadowMap,version:'20261110-workspace'};
 })(window);

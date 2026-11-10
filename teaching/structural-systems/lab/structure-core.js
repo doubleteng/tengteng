@@ -377,7 +377,7 @@ const sub=(a,b)=>a.map((v,i)=>v-b[i]),add=(a,b)=>a.map((v,i)=>v+b[i]),mul=(a,s)=
 class LabRenderer{
  constructor(canvas,callbacks={}){
   this.canvas=canvas;this.ctx=canvas.getContext('2d');this.cb=callbacks;this.items=[];this.mode='3d';this.plane='elevation';this.yaw=-.65;this.pitch=.5;this.zoom=1;this.pan=[0,0];this.center=[0,0,0];this.extent=24;this.hit=[];this.drag=null;this.selected=null;this.editor=null;this.cursorWorld=null;
-  this.projection='orthographic';this.xray=false;this.depthSurface=null;this.sceneBounds=null;this.fitPending=true;
+  this.projection='perspective';this.xray=false;this.depthSurface=null;this.sceneBounds=null;this.fitPending=true;
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas.parentElement);
   canvas.addEventListener('contextmenu',e=>e.preventDefault());
   canvas.addEventListener('wheel',e=>{e.preventDefault();this.zoom=Math.max(.3,Math.min(5,this.zoom*Math.exp(-e.deltaY*.001)));this.requestRender();},{passive:false});
@@ -386,9 +386,10 @@ class LabRenderer{
   this.resize();
  }
  resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.w=Math.max(10,r.width);this.h=Math.max(10,r.height);const d=Math.min(window.devicePixelRatio||1,2);this.canvas.width=Math.round(this.w*d);this.canvas.height=Math.round(this.h*d);this.ctx.setTransform(d,0,0,d,0,0);this.render();}
- setScene(items,opts={}){this.items=items;this.sceneBounds={center:[...(opts.center||[0,4,0])],extent:opts.extent||24};if(this.fitPending){this.center=[...this.sceneBounds.center];this.extent=this.sceneBounds.extent;this.fitPending=false;}this.selected=opts.selected;this.plane=opts.plane||'elevation';this.editor=opts.editor||null;this.planEditor=opts.planEditor||false;this.render();}
+ setScene(items,opts={}){this.items=items;this.sceneBounds={center:[...(opts.center||[0,4,0])],extent:opts.extent||24};if(this.fitPending){this.center=[...this.sceneBounds.center];this.extent=this.sceneBounds.extent;this.fitPending=false;}this.selected=opts.selected;this.plane=opts.plane||'elevation';this.editor=opts.editor||null;this.planEditor=opts.planEditor||false;this.applyDisplay();this.render();}
+ applyDisplay(){const d=root.StructureDisplay;if(!d)return;this.projection=d.projection;this.xray=d.xray;if(d.view&&['wood','steel','concrete'].includes(root.document?.body?.dataset?.studioSpace)&&this.canvas?.closest?.('#labWorkspace,#steelScreen,#concreteScreen')){this.mode=d.view==='3d'?'3d':'2d';if(d.view!=='3d')this.plane=d.view;}}
  captureView(){return {yaw:this.yaw,pitch:this.pitch,zoom:this.zoom,pan:[...this.pan],center:[...this.center],extent:this.extent};}
- restoreView(view){if(view){Object.assign(this,view,{pan:[...view.pan],center:[...view.center],fitPending:false});this.render();}}
+ restoreView(view){if(view){Object.assign(this,view,{pan:[...view.pan],center:[...view.center],fitPending:false});this.applyDisplay();this.render();}}
  // Preserve role/force hues while keeping opaque members legible on the #666666 viewport.
  modelColor(hex){if(!/^#[0-9a-f]{6}$/i.test(hex))return hex;this.colorCache??=new Map();if(this.colorCache.has(hex))return this.colorCache.get(hex);const rgb=[1,3,5].map(k=>parseInt(hex.slice(k,k+2),16)),lum=a=>a.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);let out=rgb;for(let t=0;lum(out)<.52&&t<=1;t+=.025)out=rgb.map(v=>Math.round(v+(255-v)*t));const result='#'+out.map(v=>v.toString(16).padStart(2,'0')).join('');this.colorCache.set(hex,result);return result;}
  // Geometry updates only refresh the Fit target; the user's camera stays fixed.

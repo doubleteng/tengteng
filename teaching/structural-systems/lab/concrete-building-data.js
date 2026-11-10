@@ -4,14 +4,14 @@
 (function(W){'use strict';
 const uses={office:{name:'Office · Ypsilanti',snow:20,roofDL:15,live:50,floorDL:15,raft:50},grocery:{name:'Grocery · Pinconning',snow:40,roofDL:15,live:75,floorDL:20,raft:50},library:{name:'Library · Houghton',snow:100,roofDL:15,live:150,floorDL:15,raft:68}};
 const prototypes={
- ALPHA:{family:'DT',width:8,span:30,beamSpan:24,axis:'x',description:'8 ft double tees span 30 ft. One longitudinal column line carries 24 ft beams; perimeter panels carry the outer deck reactions. Parameters p.14.'},
- CHARLIE:{family:'HC',width:4,span:30,beamSpan:20,axis:'z',description:'4 ft hollow-core planks span 20, 24 or 30 ft. 20 ft beams on columns; replace 1–3 internal support lines with litewalls. Parameters p.15.'},
+ ALPHA:{family:'DT',width:8,span:30,beamSpan:24,axis:'x',description:'8 ft double tees span 30 ft. One longitudinal column line carries 24 ft L / inverted T / rectangular beams; perimeter panels carry the outer deck reactions. Parameters p.14.'},
+ CHARLIE:{family:'HC',width:4,span:30,beamSpan:20,axis:'z',description:'4 ft hollow-core planks span 20, 24 or 30 ft. 20 ft L / inverted T / rectangular beams on columns; replace 1–3 internal support lines with litewalls. Parameters p.15.'},
  DELTA:{family:'DT',width:10,span:40,beamSpan:20,axis:'z',description:'8 or 10 ft double tees span 40 ft. One transverse column / beam line; other support lines are bearing walls. Beam subdivision is a student design choice. Parameters p.16.'},
- KILO:{family:'HC',width:4,span:30,beamSpan:24,axis:'x',description:'4 ft hollow-core planks span 30 ft to a continuous central litewall. Perimeter litewalls support 24 ft beams. Parameters p.17 and Lecture 12 p.152.'}
+ KILO:{family:'HC',width:4,span:30,beamSpan:24,axis:'x',description:'4 ft hollow-core planks span 30 ft to a continuous central litewall. Perimeter litewalls support 24 ft L / inverted T / rectangular beams. Parameters p.17 and Lecture 12 p.152.'}
 };
 const groups=[['Concrete Building · Read',[['concrete-brief','1 · Brief & prototypes'],['concrete-concepts','1.0 · Members & load path']]],['Concrete Building · Model + tables',[['concrete-roof','1.1 · Roof deck'],['concrete-floor','2.1 · Floor & double height'],['concrete-beams','2.2 · Beams & reactions'],['concrete-vertical','3.1 · Columns, walls & raft'],['concrete-assembly','3.2 · Assembly & submission']]]];
 const ids=groups.flatMap(g=>g[1].map(x=>x[0]));
-const defaults=()=>({version:2,lesson:'concrete-brief',prototype:'ALPHA',use:'office',deckSpan:30,deltaWidth:10,deltaBeamSpan:20,wallLines:1,kiloSupport:'wall',slope:3,roofTopping:2,stage:7,layer:'all',mode:'3d',voids:[],roofVoids:['p-30-24','p-30-56','p-30-88'],selections:{},notes:{},tablePages:{},showRoof:true,planLevel:'floor',columnSize:24,wallThickness:8,cores:true,stairThickness:8,showGrid:true,loadPath:false});
+const defaults=()=>({version:2,lesson:'concrete-brief',prototype:'ALPHA',use:'office',deckSpan:30,deltaWidth:10,deltaBeamSpan:20,wallLines:1,kiloSupport:'wall',slope:3,roofTopping:2,stage:7,layer:'all',mode:'3d',voids:[],roofVoids:['p-30-24','p-30-56','p-30-88'],selections:{},beamFamilies:{},notes:{},tablePages:{},showRoof:true,planLevel:'floor',columnSize:24,wallThickness:8,cores:true,stairThickness:8,showGrid:true,loadPath:false});
 function normalize(raw){
  const d=defaults(),r=raw&&typeof raw==='object'?raw:{};
  for(const k of ['prototype','use'])if((k==='prototype'?prototypes:uses)[r[k]])d[k]=r[k];
@@ -20,11 +20,14 @@ function normalize(raw){
  if(Number.isFinite(r.slope))d.slope=Math.min(10,Math.max(3,r.slope));
  for(const k of ['showRoof','cores','showGrid','loadPath'])if(typeof r[k]==='boolean')d[k]=r[k];
  for(const k of ['voids','roofVoids'])if(Array.isArray(r[k]))d[k]=[...new Set(r[k].filter(x=>typeof x==='string'&&/^p-\d+(?:\.\d+)?-\d+(?:\.\d+)?$/.test(x)))].slice(0,100);
- for(const k of ['roof','floor','roofBeam','floorBeam'])if(typeof r.selections?.[k]==='string'&&W.ConcretePDFData.cells.some(c=>c.id===r.selections[k]))d.selections[k]=r.selections[k];
+ for(const k of ['roof','floor','roofBeam','floorBeam','roofEdgeBeam','floorEdgeBeam'])if(typeof r.selections?.[k]==='string'&&W.ConcretePDFData.cells.some(c=>c.id===r.selections[k]))d.selections[k]=r.selections[k];
+ for(const k of ['roofBeam','floorBeam','roofEdgeBeam','floorEdgeBeam'])if(['L','T','R'].includes(r.beamFamilies?.[k]))d.beamFamilies[k]=r.beamFamilies[k];
  for(const k of ids){if(typeof r.notes?.[k]==='string')d.notes[k]=r.notes[k].slice(0,12000);if(Number.isInteger(r.tablePages?.[k])&&r.tablePages[k]>=1&&r.tablePages[k]<=18)d.tablePages[k]=r.tablePages[k];}
+ if(!r.beamFamilies&&supportLines(d).some(x=>!x.wall&&!x.edge)&&supportLines(d).some(x=>!x.wall&&x.edge))for(const level of ['roof','floor'])if(!d.selections[level+'EdgeBeam']&&d.selections[level+'Beam'])d.selections[level+'EdgeBeam']=d.selections[level+'Beam'];
  return d;
 }
-const choice=(s,key)=>W.ConcretePDFData.cells.find(c=>c.id===s.selections[key])||null;
+const cellsByID=new Map(W.ConcretePDFData.cells.map(c=>[c.id,c]));
+const choice=(s,key)=>cellsByID.get(s.selections[key])||null;
 const roofY=(s,x)=>28+x*Math.tan(s.slope*Math.PI/180);
 const overlap=(a,b)=>a.x<b.x+b.dx-1e-7&&a.x+a.dx>b.x+1e-7&&a.z<b.z+b.dz-1e-7&&a.z+a.dz>b.z+1e-7;
 function coreLayout(s){
@@ -51,34 +54,76 @@ function supportLines(s){
  }
  return lines;
 }
+
+// Separate one-sided perimeter supports from two-sided internal supports.
+function beamRoles(s){
+ const lines=supportLines(s).filter(x=>!x.wall),inside=lines.filter(x=>!x.edge),edge=lines.filter(x=>x.edge),roles=[];
+ for(const level of ['roof','floor']){
+  roles.push({key:level+'Beam',level,edge:!inside.length,lines:inside.length?inside:edge,label:(level==='roof'?'Roof':'Floor')+(inside.length?' interior beams':' edge beams')});
+  if(inside.length&&edge.length)roles.push({key:level+'EdgeBeam',level,edge:true,lines:edge,label:(level==='roof'?'Roof':'Floor')+' edge beams'});
+ }
+ return roles;
+}
+const beamRole=(s,key)=>beamRoles(s).find(r=>r.key===key);
+const beamKey=(s,level,line)=>beamRoles(s).find(r=>r.level===level&&r.lines.some(x=>x.id===line.id))?.key||level+'Beam';
+const beamFamily=(s,key)=>s.beamFamilies?.[key]||(['L','T','R'].includes(choice(s,key)?.family)?choice(s,key).family:beamRole(s,key)?.edge?'L':'T');
+const beamPage=(s,key)=>({L:13,T:14,R:12})[beamFamily(s,key)];
+function beamProfile(s,key,edge=beamRole(s,key)?.edge){
+ const selected=validChoice(s,key),family=beamFamily(s,key);
+ // Preliminary geometry has no assigned load capacity or self-weight.
+ const h=(selected?.depth||24)/12,w=selected?.width||(family==='L'?18:family==='T'?28:12)/12;
+ const flangeH=(selected?.h2In||12)/12,webW=(selected?.webWidthIn||12)/12;
+ return {family,h,w,flangeH,webW,webH:h-flangeH,count:family==='L'&&!edge?2:1,selected,schematic:!selected};
+}
+function beamParts(profile,sign=1){
+ const {family,h,w,flangeH,webW,webH,count}=profile;
+ if(family==='R')return [{part:'rectangle',offset:0,y:-h/2,w,h}];
+ const parts=[];
+ for(let n=0;n<count;n++){
+  const direction=count===2?(n===0?-1:1):sign,webCenter=family==='L'&&count===2?direction*webW/2:0;
+  parts.push({part:'ledge',offset:webCenter+(family==='L'?direction*(w-webW)/2:0),y:-flangeH/2,w,h:flangeH});
+  parts.push({part:'web',offset:webCenter,y:webH/2,w:webW,h:webH});
+ }
+ return parts;
+}
+// Display cutback clears the beam upstand; structural spans remain nominal grid spans.
+function deckCutback(s,level,line){
+ if(!line||line.wall)return 0;
+ const p=beamProfile(s,beamKey(s,level,line),line.edge);
+ return p.family==='R'?0:p.webW*(p.count===2?1:.5)+.5/12;
+}
+
 function check(s,key){
  const l=layout(s),c=choice(s,key),u=uses[s.use],beam=key.endsWith('Beam'),roof=key.startsWith('roof'),topping=roof?s.roofTopping:2;
  const nominalSpan=beam?l.beamSpan:l.span,slopeFactor=roof?1/Math.cos(s.slope*Math.PI/180):1;
  const alongSlope=beam?l.p.axis==='z':l.p.axis==='x',span=nominalSpan*(alongSlope?slopeFactor:1);
  const deck=beam?check(s,roof?'roof':'floor'):null;
  const added=roof?u.snow+u.roofDL:u.live+u.floorDL;
- const required=beam?(deck.compatible?(deck.c.selfWeight*slopeFactor+added)*(c?.family==='L'?Math.min(l.beamTributary,l.span/2):l.beamTributary):null):added;
- const compatible=!!c&&(beam?['R','L','T'].includes(c.family):c.family===l.p.family&&c.width===l.width&&c.topping===topping)&&c.span===Math.ceil((span-1e-7)/2)*2;
+ const family=beam?beamFamily(s,key):null,role=beam?beamRole(s,key):null,fullTributary=role?.edge?l.span/2:l.span;
+ const tributary=beam?(family==='L'?Math.min(fullTributary,l.span/2):fullTributary):null;
+ const required=beam?(deck.compatible?(deck.c.selfWeight*slopeFactor+added)*tributary:null):added;
+ const compatible=!!c&&(beam?c.family===family:c.family===l.p.family&&c.width===l.width&&c.topping===topping)&&c.span===Math.ceil((span-1e-7)/2)*2;
  const anomaly=!!c?.sourceAnomaly;
  const status=!c?'Choose a printed capacity cell':!compatible?'Section, topping or table span does not match':required===null?'Choose a compatible deck first':anomaly?'Source anomaly — verify printed row':required>c.capacity?'Demand exceeds table capacity':'Within selected service-load table';
- const candidates=W.ConcretePDFData.cells.filter(v=>(beam?['R','L','T'].includes(v.family):v.family===l.p.family&&v.width===l.width&&v.topping===topping)&&v.span===Math.ceil((span-1e-7)/2)*2&&!v.sourceAnomaly),maxCapacity=candidates.length?Math.max(...candidates.map(v=>v.capacity)):null;
- return {key,c,required,span,nominalSpan,maxCapacity,tributary:beam?(c?.family==='L'?Math.min(l.beamTributary,l.span/2):l.beamTributary):null,multiplicity:beam&&c?.family==='L'&&l.beamTributary>l.span/2?2:1,compatible,passes:compatible&&required!==null&&required<=c.capacity&&!anomaly,anomaly,status,unit:beam?'plf':'psf',scope:beam?'Source assumes 50% superimposed dead / 50% live; verify actual load mix, camber and release strength.':'Use the printed topping, superimposed dead load, release strength and camber conditions.',utilization:compatible&&required!==null?required/c.capacity:null};
+ const candidates=W.ConcretePDFData.cells.filter(v=>(beam?v.family===family:v.family===l.p.family&&v.width===l.width&&v.topping===topping)&&v.span===Math.ceil((span-1e-7)/2)*2&&!v.sourceAnomaly),maxCapacity=candidates.length?Math.max(...candidates.map(v=>v.capacity)):null;
+ return {key,c,required,span,nominalSpan,maxCapacity,tributary,multiplicity:beam&&family==='L'&&!role?.edge?2:1,compatible,passes:compatible&&required!==null&&required<=c.capacity&&!anomaly,anomaly,status,unit:beam?'plf':'psf',scope:beam?'Source assumes 50% superimposed dead / 50% live; verify actual load mix, camber and release strength.':'Use the printed topping, superimposed dead load, release strength and camber conditions.',utilization:compatible&&required!==null?required/c.capacity:null};
 }
 const validChoice=(s,key)=>check(s,key).compatible?choice(s,key):null;
 function reactions(s,level,l,q){
- const selected=validChoice(s,level+'Beam'),voids=new Set(level==='roof'?s.roofVoids:[...s.voids,...l.coreVoids]);
+ const voids=new Set(level==='roof'?s.roofVoids:[...s.voids,...l.coreVoids]);
  const members=[],columns=new Map(),walls=[];
  if(q===null)return {members,columns:[],walls,deckTotal:null,beamWeight:null,totalToSupports:null};
  const col=(line,t)=>{const x=line.axis==='z'?line.coord:t,z=line.axis==='z'?t:line.coord,id=`column-${x}-${z}`;if(!columns.has(id))columns.set(id,{id,x,z,load:0,complete:true});return columns.get(id);};
  for(const line of supportLines(s)){
   const tributary=l.panels.filter(p=>!voids.has(p.id)&&((l.p.axis==='x'&&(p.x===line.coord||p.x+p.dx===line.coord))||(l.p.axis==='z'&&(p.z===line.coord||p.z+p.dz===line.coord))));
   if(line.wall){walls.push({id:line.id,coord:line.coord,axis:line.axis,deckLoad:tributary.reduce((a,p)=>a+q*p.dx*p.dz/2,0),length:line.length});continue;}
+  const key=beamKey(s,level,line),selected=validChoice(s,key);
   for(let t=0;t<line.length;t+=line.step){
    const end=Math.min(line.length,t+line.step),length=end-t,loads=[];
    for(const p of tributary){const a=line.axis==='z'?p.z:p.x,b=a+p.width,lo=Math.max(t,a),hi=Math.min(end,b);if(hi>lo)loads.push({force:q*p.span*(hi-lo)/2,at:(lo+hi)/2-t,panel:p.id});}
    const chord=length*(level==='roof'&&line.axis==='x'?1/Math.cos(s.slope*Math.PI/180):1),multiplicity=selected?.family==='L'&&!line.edge?2:1,weight=selected?selected.selfWeight*chord*multiplicity:null;
    const deckLoad=loads.reduce((a,b)=>a+b.force,0),r0=loads.reduce((a,b)=>a+b.force*(1-b.at/length),0)+(weight||0)/2,r1=deckLoad-loads.reduce((a,b)=>a+b.force*(1-b.at/length),0)+(weight||0)/2;
-   members.push({id:`${level}-beam-${line.coord}-${t}`,line:line.id,axis:line.axis,coord:line.coord,t,end,length,chord,multiplicity,deckLoad,selfWeight:weight,r0,r1,complete:weight!==null,loads});
+   members.push({id:`${level}-beam-${line.coord}-${t}`,key,family:beamFamily(s,key),line:line.id,axis:line.axis,coord:line.coord,t,end,length,chord,multiplicity,deckLoad,selfWeight:weight,r0,r1,complete:weight!==null,loads});
    for(const [pos,r]of [[t,r0],[end,r1]]){const c=col(line,pos);c.load+=r;c.complete&&=weight!==null;}
   }
  }
@@ -89,7 +134,7 @@ function reactions(s,level,l,q){
 function calc(s){
  const l=layout(s),u=uses[s.use],floorIDs=new Set([...s.voids,...l.coreVoids]),floorVoids=l.panels.filter(p=>floorIDs.has(p.id)),roofVoids=l.panels.filter(p=>s.roofVoids.includes(p.id));
  const area=panels=>panels.reduce((a,p)=>a+p.dx*p.dz,0),voidArea=area(floorVoids),floorArea=7200-l.uncovered-voidArea,roofArea=7200-l.uncovered-area(roofVoids);
- const checks=Object.fromEntries(['roof','floor','roofBeam','floorBeam'].map(k=>[k,check(s,k)]));
+ const checks=Object.fromEntries(['roof','floor',...beamRoles(s).map(r=>r.key)].map(k=>[k,check(s,k)]));
  const roofQ=checks.roof.compatible?checks.roof.c.selfWeight/Math.cos(s.slope*Math.PI/180)+u.roofDL+u.snow:null,floorQ=checks.floor.compatible?checks.floor.c.selfWeight+u.floorDL+u.live:null;
  const rise=60*Math.tan(s.slope*Math.PI/180),warnings=[];
  if(l.uncovered)warnings.push(`${l.uncovered} sq ft is uncovered: 8 ft modules do not close 60 ft. Resolve the edge strip; 10 ft Delta tees close the footprint.`);
@@ -100,8 +145,11 @@ function calc(s){
  if(l.cores.length)warnings.push('Stair / lift wells reserve whole precast panels. Surplus opening area counts toward the 25% limit. Landings bear on dedicated solid panels; connection design remains separate.');
  for(const c of Object.values(checks))if(c.anomaly)warnings.push(c.c.sourceNote||'Selected printed source row has an anomaly. Verify before acceptance.');
  for(const key of ['roof','floor'])if(checks[key].maxCapacity!==null&&checks[key].required>checks[key].maxCapacity)warnings.push(`${key==='roof'?'Roof':'Floor'} demand ${checks[key].required} psf exceeds every compatible capacity in the supplied tables (maximum ${checks[key].maxCapacity} psf). ${s.prototype==='CHARLIE'?'Try the permitted 20 or 24 ft plank span.':'A different section / verified source or instructor-approved layout is needed.'}`);
- for(const level of ['roof','floor']){const b=validChoice(s,level+'Beam'),d=validChoice(s,level);if(b?.family==='L'&&l.beamTributary===l.span)warnings.push(`${level} interior support has decks on both sides. A single L-beam has one ledge: detail paired L-beams or choose an inverted T / rectangular beam; the current table comparison is numerical only.`);if(b?.h1In&&d&&b.h1In>d.depth)warnings.push(`${level} beam web rises ${b.h1In-d.depth} in above the selected deck surface; resolve the floor / roof level or section arrangement.`);}
- for(const key of ['roofBeam','floorBeam']){const v=validChoice(s,key),deck=validChoice(s,key.startsWith('roof')?'roof':'floor');if(v?.h1In&&deck&&v.h1In>deck.depth)warnings.push(`${key}: selected beam web projects ${v.h1In-deck.depth} in above the deck top when supported on its ledge. Coordinate the upstand / bearing detail.`);}
+ for(const role of beamRoles(s)){
+  const b=validChoice(s,role.key),d=validChoice(s,role.level);
+  if(beamFamily(s,role.key)==='L'&&!role.edge)warnings.push(`${role.label}: paired L sections carry opposite deck sides. Verify the paired-beam connection and support width; both beam self-weights enter reactions.`);
+  if(b?.h1In&&d&&b.h1In>d.depth)warnings.push(`${role.label}: web projects ${b.h1In-d.depth} in above the deck top. Coordinate the upstand / bearing detail.`);
+ }
  const roofReactions=reactions(s,'roof',l,roofQ),floorReactions=reactions(s,'floor',l,floorQ),columns=[];
  const columnIDs=new Set([...roofReactions.columns,...floorReactions.columns].map(c=>c.id));
  for(const id of columnIDs){const a=roofReactions.columns.find(c=>c.id===id),b=floorReactions.columns.find(c=>c.id===id),p=a||b,height=roofY(s,p.x)-(validChoice(s,'roof')?.depth||10)/12,verticalArea=s.prototype==='KILO'?(s.wallThickness/12)*(p.z===0||p.z===120?2:4):(s.columnSize/12)**2,weight=verticalArea*height*150;columns.push({...p,roof:a?.load??null,floor:b?.load??null,selfWeight:weight,foundation:a&&b&&a.complete&&b.complete?a.load+b.load+weight:null});}
@@ -134,18 +182,17 @@ function scene(s,selected){
    for(const level of ['floor','roof']){if(level==='roof'&&!s.showRoof)continue;const a=pos(0,0),b=pos(support.length,0);a[1]=soffit(level,a[0])-1;b[1]=soffit(level,b[0])-1;beam('wall-band-'+support.coord+'-'+level,a,b,s.wallThickness/12,2,palette.wall,2,'vertical');}
   }else{
    for(let t=0;t<=support.length+.001;t+=support.step){const a=pos(t,0),b=pos(t,soffit('roof',a[0]));if(s.prototype==='KILO')wall('kilo-pier-'+support.coord+'-'+t,[a[0],Math.max(0,a[2]-2)],[a[0],Math.min(120,a[2]+2)]);else beam(`column-${a[0]}-${a[2]}`,a,b,s.columnSize/12,s.columnSize/12,palette.column,2,'vertical');}
-   for(const level of ['floor','roof']){if(level==='roof'&&!s.showRoof)continue;const sel=validChoice(s,level+'Beam'),h=(sel?.depth||24)/12,w=sel?.width||28/12;
-    for(let t=0;t<support.length;t+=support.step){const a=pos(t,0),b=pos(Math.min(support.length,t+support.step),0);a[1]=soffit(level,a[0])-h/2;b[1]=soffit(level,b[0])-h/2;const id=`${level}-beam-${support.coord}-${t}`,stage=level==='floor'?3:6;
-     if(sel?.family==='T'||sel?.family==='L'){
-      const flangeH=(sel.h2In||sel.depth*.4)/12,webW=(sel.webWidthIn||12)/12,soffA=soffit(level,a[0]),soffB=soffit(level,b[0]),transverse=support.axis==='z'?0:2;
-      // The slab underside bears on the ledge top; the web is an upstand.
-      const count=sel.family==='L'&&!support.edge?2:1;
-      for(let n=0;n<count;n++){
-       const sign=count===2?(n===0?-1:1):(support.coord===0?1:-1),flangeOffset=sel.family==='L'?sign*w/2:0,webOffset=sel.family==='L'?sign*webW/2:0;
-       const fa=[...a],fb=[...b],wa=[...a],wb=[...b];fa[1]=soffA-flangeH/2;fb[1]=soffB-flangeH/2;wa[1]=soffA-flangeH+h/2;wb[1]=soffB-flangeH+h/2;fa[transverse]+=flangeOffset;fb[transverse]+=flangeOffset;wa[transverse]+=webOffset;wb[transverse]+=webOffset;
-       beam(id,fa,fb,w,flangeH,palette.beam,stage,'beams');beam(id,wa,wb,webW,h,palette.beam,stage,'beams');
-      }
-     }else beam(id,a,b,w,h,palette.beam,stage,'beams');
+   for(const level of ['floor','roof']){
+    if(level==='roof'&&!s.showRoof)continue;
+    const key=beamKey(s,level,support),profile=beamProfile(s,key,support.edge),parts=beamParts(profile,support.coord===0?1:-1);
+    for(let t=0;t<support.length;t+=support.step){
+     const id=`${level}-beam-${support.coord}-${t}`,stage=level==='floor'?3:6;
+     for(const part of parts){
+      const a=pos(t,0),b=pos(Math.min(support.length,t+support.step),0),transverse=support.axis==='z'?0:2;
+      a[1]=soffit(level,a[0])+part.y;b[1]=soffit(level,b[0])+part.y;
+      a[transverse]+=part.offset;b[transverse]+=part.offset;
+      beam(id,a,b,part.w,part.h,palette.beam,stage,'beams');
+     }
     }
    }
   }
@@ -156,7 +203,7 @@ function scene(s,selected){
  for(const core of l.cores){
   if(core.type==='elevator'){
    for(const [i,a,b]of [[0,[core.x,core.z],[core.x,core.z+10]],[1,[core.x+10,core.z],[core.x+10,core.z+10]],[2,[core.x,core.z],[core.x+10,core.z]]]){const yy=13.5;beam('lift-wall-'+i,[a[0],yy/2,a[1]],[b[0],yy/2,b[1]],s.wallThickness/12,yy,palette.wall,2,'vertical');}
-   if(s.stage>=2)label('LIFT · 10 × 10 ft',[core.x+5,14.2,core.z+5]);continue;
+   if(s.stage>=2&&allowed('vertical'))label('LIFT · 10 × 10 ft',[core.x+5,14.2,core.z+5]);continue;
   }
   const x=core.x,z=core.z,run=11*11/12,h=s.stairThickness/12;
   // Solid landing supports terminate at landing elevation, avoiding the walking path.
@@ -173,15 +220,19 @@ function scene(s,selected){
    beam(core.id+'-tread-a-'+i,[x,yy-.08,zz],[x+4,yy-.08,zz],11/12,.16,palette.stair,4,'stairs');
    beam(core.id+'-tread-b-'+i,[x+4.5,7+yy-.08,z+4+run-(i-1)*11/12],[x+8.5,7+yy-.08,z+4+run-(i-1)*11/12],11/12,.16,palette.stair,4,'stairs');
   }
-  if(s.stage>=4)label(core.id.toUpperCase()+' · 4 ft flights',[x+core.dx/2,14.5,z+core.dz/2]);
+  if(s.stage>=4&&allowed('stairs'))label(core.id.toUpperCase()+' · 4 ft flights',[x+core.dx/2,14.5,z+core.dz/2]);
  }
  for(const level of ['floor','roof']){
   if(level==='roof'&&!s.showRoof)continue;if(s.mode==='2d'&&level!==s.planLevel)continue;
   const stage=level==='roof'?7:5,voids=new Set(level==='roof'?s.roofVoids:[...s.voids,...l.coreVoids]),sel=validChoice(s,level),d=depth(level),topping=(level==='roof'?s.roofTopping:2)/12;
   for(const p of l.panels){
    const id=level+':'+p.id,y=x=>top(level,x),corners=[[p.x,y(p.x)+.05,p.z],[p.x+p.dx,y(p.x+p.dx)+.05,p.z],[p.x+p.dx,y(p.x+p.dx)+.05,p.z+p.dz],[p.x,y(p.x)+.05,p.z+p.dz]];
-   if(voids.has(p.id)){if(s.stage>=stage){for(let i=0;i<4;i++)line(corners[i],corners[(i+1)%4],palette.opening,id);}continue;}
+   if(voids.has(p.id)){if(s.stage>=stage&&allowed('deck')){for(let i=0;i<4;i++)line(corners[i],corners[(i+1)%4],palette.opening,id);}continue;}
    const a=l.p.axis==='x'?[p.x,y(p.x)-d/2,p.z+p.dz/2]:[p.x+p.dx/2,y(p.x+p.dx/2)-d/2,p.z],b=l.p.axis==='x'?[p.x+p.dx,y(p.x+p.dx)-d/2,p.z+p.dz/2]:[p.x+p.dx/2,y(p.x+p.dx/2)-d/2,p.z+p.dz];
+   const spanAxis=l.p.axis==='x'?0:2,lines=supportLines(s);
+   const startLine=lines.find(x=>x.coord===a[spanAxis]),endLine=lines.find(x=>x.coord===b[spanAxis]);
+   a[spanAxis]+=deckCutback(s,level,startLine);b[spanAxis]-=deckCutback(s,level,endLine);
+   a[1]=y(a[0])-d/2;b[1]=y(b[0])-d/2;
    if(l.p.family==='DT'){
     const flange=2/12+topping,fa=[...a],fb=[...b];fa[1]+=d/2-flange/2;fb[1]+=d/2-flange/2;beam(id,fa,fb,p.width-.08,flange,palette[level],stage,'deck');
     for(const offset of [-p.width/4,p.width/4]){const ra=[...a],rb=[...b];ra[l.p.axis==='x'?2:0]+=offset;rb[l.p.axis==='x'?2:0]+=offset;ra[1]-=flange/2;rb[1]-=flange/2;beam(id,ra,rb,.5,Math.max(.2,d-flange),palette[level],stage,'deck');}
@@ -198,5 +249,5 @@ function scene(s,selected){
  if(section){label('2ND FLOOR +14 ft',[65,14,0]);label('ROOF +'+roofY(s,60).toFixed(2)+' ft',[65,roofY(s,60),0]);label('MAT '+c.use.raft+' in',[65,-2,0]);}
  return {items,center:[30,section?13:12,60],extent:section?85:148,plane:section?'elevation':'plan',selected};
 }
-W.ConcreteBuildingData={uses,prototypes,groups,ids,defaults,normalize,choice,validChoice,layout,supportLines,coreLayout,check,calc,reactions,scene,palette,roofY};
+W.ConcreteBuildingData={uses,prototypes,groups,ids,defaults,normalize,choice,validChoice,layout,supportLines,beamRoles,beamRole,beamKey,beamFamily,beamPage,beamProfile,beamParts,deckCutback,coreLayout,check,calc,reactions,scene,palette,roofY};
 })(typeof window!=='undefined'?window:globalThis);

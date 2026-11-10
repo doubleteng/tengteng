@@ -18,3 +18,6 @@ body.studio-wide.viewport-panel-open .concrete-aside{display:block}
 .cb-check small{overflow-wrap:anywhere}
 .cb-source{width:min(76vw,1120px)}
 @media(max-width:850px){.cb-source{width:calc(100vw - 58px);right:29px;top:40px}.cb-head h1{font-size:20px}.cb-toolbar{gap:7px}.cb-metrics{gap:15px}.cb-stage{min-height:200px}.cb-footer span{display:none}}
+
+/* Beam sections use the same source dimensions as the model. */
+.cb-beam-section svg{display:block;width:100%;max-height:180px;background:#252b30;border:1px solid #53616a;margin:10px 0}.cb-beam-section label{display:grid;gap:5px;margin:8px 0}.cb-beam-section select{width:100%}.cb-beam-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}

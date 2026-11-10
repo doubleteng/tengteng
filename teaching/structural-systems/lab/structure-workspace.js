@@ -16,7 +16,7 @@ const uses=[['office','Office · Ypsilanti'],['grocery','Grocery · Pinconning']
 function classify(r){
  let html;
  if(r.space==='wood')html=select('bwType','Truss',[['pratt','Pratt'],['howe','Howe'],['warren','Warren']],r.s.states.truss.type)+select('bwUse','Brief',uses,r.s.states.roof.occupancy);
- if(r.space==='concrete')html=select('bwType','Prototype',Object.keys(W.ConcreteBuildingData.prototypes).map(v=>[v,v]),h.concrete.state.prototype)+select('bwUse','Brief',Object.entries(W.ConcreteBuildingData.uses).map(([k,v])=>[k,v.name]),h.concrete.state.use)+select('bwBasis','System',[['poster','Poster system'],['course','Course adaptation']],h.concrete.state.basis);
+ if(r.space==='concrete')html=select('bwType','Prototype',Object.keys(W.ConcreteBuildingData.prototypes).map(v=>[v,v]),h.concrete.state.prototype)+select('bwUse','Brief',Object.entries(W.ConcreteBuildingData.uses).map(([k,v])=>[k,v.name]),h.concrete.state.use);
  if(r.space==='steel')html=select('bwType','Bay',[['3060','3060 · 30 × 60 ft'],['4060','4060 · 40 × 60 ft']],h.steel.state.family)+select('bwRoof','Roof','ABCDE'.split('').map(v=>[v,v]),h.steel.state.option)+select('bwFloor','Floor',[['','Not selected'],...'PQRSTUVW'.split('').map(v=>[v,v])],h.steel.floorState.optionChosen?h.steel.floorState.option:'')+select('bwUse','Brief',uses,h.steel.state.use);
  if($('bwClassification').innerHTML!==html&&signature!==r.space+html){$('bwClassification').innerHTML=html;signature=r.space+html;for(const el of $('bwClassification').querySelectorAll('select'))el.onchange=()=>changeChoice(el.id,el.value);}
 }
@@ -36,7 +36,7 @@ function changeChoice(id,value){
 function applyDisplay(){
  const d=W.StructureDisplay;
  if(studio.route().space==='wood')api.setDisplay({projection:d.projection,xray:d.xray,mode:d.view==='3d'?'3d':'2d',plane:d.view==='3d'?'auto':d.view});
- const rr=renderer();if(rr){rr.applyDisplay();rr.render();}
+ const rr=renderer();if(studio.route().space==='concrete')h.concrete.draw();else if(rr){rr.applyDisplay();rr.render();}
  $('bwProjection').value=d.projection;$('bwProjection').disabled=d.view!=='3d';$('bwDisplay').value=d.xray?'xray':'shaded';
  for(const b of bar.querySelectorAll('[data-bw-view]'))b.setAttribute('aria-pressed',String(b.dataset.bwView===d.view));
 }
@@ -60,7 +60,7 @@ function sync(){
  if(r.space==='steel'&&((W.SteelFloor.isFloor(r.id)&&W.SteelFloor.lecture(r.id)===2.1)||W.SteelFoundation.isFoundation(r.id))&&!h.steel.floorState.optionChosen){h.steel.floorState.optionChosen=true;h.steel.floorState.familyAtChoice=h.steel.state.family;h.steel.floorState.briefConfirmed=true;W.SteelFloor.sync(h.steel.state,h.steel.floorState);h.steel.render();}
  D.body.classList.remove('studio-rail-open');$('studioTaskToggle')?.setAttribute('aria-expanded','false');
  $('bwTitle').textContent=r.space[0].toUpperCase()+r.space.slice(1)+' Building Project';
- $('bwDescription').textContent=r.space==='concrete'?`60 × 120 ft study · ${h.concrete.state.basis==='course'?'Course adaptation':'Poster structural system'} · Members linked to original PDF cells`:r.space==='steel'?'Shared roof, partial floor & foundations · Read the original tables · Trace the load path':'Roof, truss, floor & building assembly · Read the original tables · Trace the load path';
+ $('bwDescription').textContent=r.space==='concrete'?`2026 assignment · 60 × 120 ft · Original PDF selections & explicit source checks`:r.space==='steel'?'Shared roof, partial floor & foundations · Read the original tables · Trace the load path':'Roof, truss, floor & building assembly · Read the original tables · Trace the load path';
  classify(r);
  if(lastSpace!==r.space){$('bwChapter').innerHTML=studio.groupsFor(r).map(([name,rows])=>`<optgroup label="${esc(name)}">${rows.map(([id,title])=>`<option value="${esc(id)}">${esc(title)}</option>`).join('')}</optgroup>`).join('');lastSpace=r.space;}
  $('bwChapter').value=r.id;arrange(r);const rr=renderer();if(rr){rr.applyDisplay();rr.resize();}
@@ -71,7 +71,7 @@ $('bwChapter').onchange=()=>{studio.go(studio.route().space,$('bwChapter').value
 for(const b of bar.querySelectorAll('[data-bw-view]'))b.onclick=()=>{W.StructureDisplay.view=b.dataset.bwView;applyDisplay();};
 $('bwProjection').onchange=()=>{W.StructureDisplay.projection=$('bwProjection').value;applyDisplay();};
 $('bwDisplay').onchange=()=>{W.StructureDisplay.xray=$('bwDisplay').value==='xray';applyDisplay();};
-$('bwFit').onclick=()=>renderer()?.reset();$('bwControls').onclick=()=>W.StructureViewport.setPanel(!D.body.classList.contains('viewport-panel-open'));
+$('bwFit').onclick=()=>renderer()?.reset();$('bwControls').onclick=()=>{const open=!D.body.classList.contains('viewport-panel-open');D.body.classList.toggle('viewport-panel-pinned',open);W.StructureViewport.setPanel(open);};
 $('bwSources').onclick=sources;$('bwSave').onclick=()=>api.save();$('bwCoach').onclick=()=>api.askCoach();$('bwMaximize').onclick=()=>$('viewportMaximize').click();
 $('bwPNG').onclick=()=>{const canvas=renderer()?.canvas;if(!canvas)return;canvas.toBlob(blob=>{if(!blob)return;const a=D.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='StructureLab-'+studio.route().space+'-'+W.StructureDisplay.projection+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});};
 W.StructureWorkspace={sync,renderer,restoreDisplay(raw){W.StructureDisplay={projection:raw?.projection==='orthographic'?'orthographic':'perspective',view:['3d','plan','elevation'].includes(raw?.view)?raw.view:'3d',xray:raw?.xray===true};sync();}};

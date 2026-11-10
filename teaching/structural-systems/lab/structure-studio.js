@@ -23,6 +23,7 @@
     fundamentals:['Fundamentals','Experiment with structure','Change one condition, compare the response, then explain the mechanism.'],
     wood:['Wood building','Build a coordinated project','Carry your roof, truss, floor and support choices into one building.'],
     steel:['Steel building','Build from evidence','Connect each member to its geometry, load, original source and trial selection.'],
+    concrete:['Concrete building','2026 assignment','Select the assigned system, read original tables and trace gravity loads.'],
     coach:['Structure Coach','Explain your design','Describe the selected member, its conditions and the evidence behind your choice.']
   };
   const missions = {
@@ -49,7 +50,6 @@
   function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});}
   function activity(key=route().key){return data.activities[key]??={visited:true,changed:false};}
   function go(space,id) {
-    if(space==='concrete'){api.navigate('concrete');return;}
     id=id||data.lastVisited[space];
     resourceOpen=false; data.concrete=space==='concrete';
     if(space==='terms')api.navigate('terms',id||handles.glossary.id);
@@ -260,7 +260,7 @@
       chooseTerm(termIds.includes(raw.glossary?.term)?raw.glossary.term:'beam');
       if(typeof raw.lastModelRoute==='string'&&raw.lastModelRoute!=='coach:coach'&&(valid.has(raw.lastModelRoute)||W.LAB_MODULES.some(x=>x.id===raw.lastModelRoute)))lastModelRoute=raw.lastModelRoute;
     }railSignature='';lastRoute='';schedule();},
-    go,inventory:{concrete:[],terms:terms.flatMap(g=>g[1].map(x=>x[0])),modules:W.LAB_MODULES.map(x=>x.id),steel:steelGroups.flatMap(g=>g[1].map(x=>x[0]))}
+    go,inventory:{concrete:W.ConcreteBuildingData.ids,terms:terms.flatMap(g=>g[1].map(x=>x[0])),modules:W.LAB_MODULES.map(x=>x.id),steel:steelGroups.flatMap(g=>g[1].map(x=>x[0]))}
   };
   sync();
 })(window);

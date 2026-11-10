@@ -41,6 +41,8 @@
   }
   function closePanels(force = false) {
     clearTimeout(closeTimer);
+    if (!force && body.classList.contains('viewport-panel-pinned')) return;
+    if (force) body.classList.remove('viewport-panel-pinned');
     if (!force && [chapters, controls, rail, panel].some(element => element?.matches(':hover'))) return;
     setChapters(false); setPanel(false);
   }

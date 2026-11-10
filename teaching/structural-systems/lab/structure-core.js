@@ -463,12 +463,12 @@ class LabRenderer{
     if(it.id)this.hit.push(it.panel?{id:it.id,p:[2,3,7,6].map(j=>this.project(points[j])),area:true,data:it.data}:{id:it.id,p:[this.project(it.a),this.project(it.b)],data:it.data});
     if(it.label){const d=sub(this.center,mul(add(it.a,it.b),.5)),point=mul(add(it.a,it.b),.5);point[1]+=it.h/2;labels.push({p:this.project(point),text:it.label,color:it.color,id:it.id});}
    }// Fine 1.5-inch corrugations use a small extra bias to prevent sub-texel self-shadow noise.
-   else if(it.type==='poly')face(it.points,it.color,it.stroke||'#3f464b',it.alpha??1,it.id,true,false,false,it.corrugation?.2:0);
+   else if(it.type==='poly'){face(it.points,it.color,it.id===this.selected?'#fff0a6':it.edges===false?null:it.stroke||'#3f464b',this.xray?Math.min(it.alpha??1,.2):it.alpha??1,it.id,it.edges!==false||it.id===this.selected,false,false,it.shadowBias??(it.corrugation?.2:0));if(it.id)this.hit.push({id:it.id,p:it.points.map(p=>this.project(p)),area:true});}
    else if(it.type==='line'||it.type==='arrow')lines.push(it);
    else if(it.type==='label')labels.push({p:this.project(it.p),text:it.text,color:it.color,id:it.owner});
    else if(it.type==='node')lines.push(it);
   }
-  let painted=false;if(this.mode==='3d'&&!this.xray&&root.DepthSurface){this.depthSurface=new root.DepthSurface(this.w,this.h,this.drag?.button!==undefined?.5:1);polys.forEach(p=>this.depthSurface.add(p));painted=this.depthSurface.paint(c);}
+  let painted=false;if(this.mode==='3d'&&!this.xray&&root.DepthSurface){this.depthSurface=new root.DepthSurface(this.w,this.h,this.drag?.button!==undefined?.5:this.canvas.id==='cbCanvas'?2:1);polys.forEach(p=>this.depthSurface.add(p));painted=this.depthSurface.paint(c);}
   if(!painted)polys.sort((a,b)=>a.z-b.z).forEach(f=>{c.globalAlpha=f.alpha;c.beginPath();f.p.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();c.fillStyle=f.color;c.fill();if(f.stroke){c.globalAlpha=this.xray?.72:f.alpha;c.strokeStyle=f.stroke;c.lineWidth=this.xray?1.05:1;c.stroke();}c.globalAlpha=1;});
   if(lighting)for(let v=-gridSize;v<=gridSize;v+=gridStep){
    this.lineRaw(this.project([v,lighting.groundY,-gridSize]),this.project([v,lighting.groundY,gridSize]),'#737373',.55);

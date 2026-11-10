@@ -2,7 +2,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const path=require('node:path'),window={},context=vm.createContext({window,console});
 for(const file of ['structure-lighting.js','structure-core.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context,{filename:file});
 const L=window.LabLighting,corners=it=>window.LabJoinery.corners(it);
-const deck={type:'beam',id:'deck',a:[-5,5,0],b:[5,5,0],w:8,h:1,color:'#aaccee'};
+const deck={type:'beam',id:'deck',a:[-5,5,0],b:[5,5,0],w:8,h:1,alpha:.27,color:'#aaccee'};
 test('a deck casts a shadow on the lower floor but does not shadow its own top',()=>{
  const floor={type:'beam',id:'floor',a:[-12,-.5,0],b:[12,-.5,0],w:20,h:1};
  const map=new L.ShadowMap([deck,floor],corners,512),receiver=map.receiver([0,1,0]);
@@ -10,6 +10,12 @@ test('a deck casts a shadow on the lower floor but does not shadow its own top',
  assert.ok(vis([3.25,0,-2.25])<.7,'Known sun-ray intersection is shadowed');
  assert.equal(vis([-10,0,0]),1,'Uncovered floor is lit');
  assert.equal(vis([0,5.5,0]),1,'Top does not self-shadow');
+ const sheet={type:'poly',id:'deck',alpha:.42,corrugation:true,points:[[-5,5,-4],[5,5,-4],[5,5,4],[-5,5,4]]};
+ const roof=new L.ShadowMap([sheet,floor],corners,512);
+ assert.ok(roof.visibility(...roof.project([3.25,0,-2.25]),roof.receiver([0,1,0]))<.7,'Steel corrugated deck with teaching alpha casts its full shadow');
+ const overlay={...sheet,id:'tributary',alpha:.28,corrugation:false};
+ const overlayOnly=new L.ShadowMap([overlay,floor],corners,512);
+ assert.equal(overlayOnly.visibility(...overlayOnly.project([3.25,0,-2.25]),overlayOnly.receiver([0,1,0])),1,'Tributary teaching overlays do not cast shadows');
  const withoutDeck=new L.ShadowMap([floor],corners,512);
  assert.equal(withoutDeck.visibility(...withoutDeck.project([3.25,0,-2.25]),withoutDeck.receiver([0,1,0])),1,'Removing deck clears its shadow');
 });

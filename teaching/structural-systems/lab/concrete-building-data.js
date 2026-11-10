@@ -148,7 +148,7 @@ function componentSchedule(s){
  rows.push({key:'stairs',name:'Precast stair flights',pages:[10,11],cell:stair||null,kind:'stair'});
  rows.push({key:'landings',name:'Stair landings + access slabs',pages:[11],kind:'reference',note:'Bearing / connection diagram only. Flight span recommendations do not verify landing or access-slab capacity.'});
  if(s.prototype==='CHARLIE'||(!isPoster(s)&&['ALPHA','DELTA'].includes(s.prototype)))rows.push({key:'columns',name:'Columns + haunches',pages:[15,16],kind:'reference',note:'Column interaction diagrams only. No selected capacity; haunches and connections require separate design.'});
- const wallName=s.prototype==='ALPHA'?'Haunched structural wall panels':s.prototype==='KILO'&&isPoster(s)?'Cyclopean bearing blocks + portal lite walls':'Opening-bearing lite walls';
+ const wallName=s.prototype==='CHARLIE'&&isPoster(s)?'Shear walls + core / landing supports (course common)':s.prototype==='ALPHA'?'Haunched structural wall panels':s.prototype==='KILO'&&isPoster(s)?'Cyclopean bearing blocks + portal lite walls':'Opening-bearing lite walls';
  rows.push({key:'walls',name:wallName,pages:[17,18],kind:'reference',note:'Generic wall / tee-wall diagrams, not a capacity table for these openings, haunches or blocks. No capacity assigned.'});
  rows.push({key:'enclosure',name:{ALPHA:'Spandrels · fins · guardrails',CHARLIE:'Insulated panels · fins · hoods',DELTA:'Segmented panels · shadow / door hoods',KILO:'Screen hoods'}[s.prototype],pages:[],kind:'unlisted',note:'Poster geometry only; no matching load table in the supplied PDF.'});
  rows.push({key:'raft',name:'Raft foundation',pages:[],kind:'unlisted',note:'Thickness from Parameters p.12; no soil-bearing capacity assigned.'});

@@ -23,7 +23,6 @@
     fundamentals:['Fundamentals','Experiment with structure','Change one condition, compare the response, then explain the mechanism.'],
     wood:['Wood building','Build a coordinated project','Carry your roof, truss, floor and support choices into one building.'],
     steel:['Steel building','Build from evidence','Connect each member to its geometry, load, original source and trial selection.'],
-    concrete:['Concrete building','Connect material behaviour and assembly','Assemble four prototypes and choose members from original PDF tables.'],
     coach:['Structure Coach','Explain your design','Describe the selected member, its conditions and the evidence behind your choice.']
   };
   const missions = {
@@ -50,6 +49,7 @@
   function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});}
   function activity(key=route().key){return data.activities[key]??={visited:true,changed:false};}
   function go(space,id) {
+    if(space==='concrete'){api.navigate('concrete');return;}
     id=id||data.lastVisited[space];
     resourceOpen=false; data.concrete=space==='concrete';
     if(space==='terms')api.navigate('terms',id||handles.glossary.id);
@@ -123,7 +123,7 @@
     $('studioOriginalSources').onclick=()=>api.courseMap();$('studioOriginalHelp').onclick=()=>api.help();
     // Course map is recreated with real navigation actions; the original navigation remains in the page.
     if(original){$('studioOriginalMap').innerHTML=original.innerHTML;$('studioOriginalMap').querySelectorAll('[data-module]').forEach(b=>b.onclick=()=>{$('dialog').close();go(W.WoodProject.has(b.dataset.module)?'wood':'fundamentals',b.dataset.module);});$('studioOriginalMap').querySelectorAll('[data-steel-lecture]').forEach(b=>b.onclick=()=>{$('dialog').close();go('steel','lecture'+b.dataset.steelLecture);});$('studioOriginalMap').querySelector('#coachNav')?.removeAttribute('id');$('studioOriginalMap').querySelector('.coach-nav')?.addEventListener('click',()=>{$('dialog').close();go('coach');});}
-    const entries=[...terms.flatMap(([g,a])=>a.map(([id,name])=>({space:'terms',id,name,group:g}))),...W.LAB_MODULES.map(m=>({space:W.WoodProject.has(m.id)?'wood':'fundamentals',id:m.id,name:m.title,group:m.lecture})),...steelGroups.flatMap(([group,a])=>a.map(([id,name])=>({space:'steel',id,name,group}))),...W.ConcreteBuildingData.groups.flatMap(([group,a])=>a.map(([id,name])=>({space:'concrete',id,name,group}))),{space:'coach',id:'coach',name:'Structure Coach',group:'Explain & communicate'}];
+    const entries=[...terms.flatMap(([g,a])=>a.map(([id,name])=>({space:'terms',id,name,group:g}))),...W.LAB_MODULES.map(m=>({space:W.WoodProject.has(m.id)?'wood':'fundamentals',id:m.id,name:m.title,group:m.lecture})),...steelGroups.flatMap(([group,a])=>a.map(([id,name])=>({space:'steel',id,name,group}))),{space:'coach',id:'coach',name:'Structure Coach',group:'Explain & communicate'}];
     const draw=()=>{const q=$('studioTopicSearch').value.toLowerCase().trim(), found=entries.filter(x=>(x.name+' '+x.id+' '+x.group).toLowerCase().includes(q));$('studioTopicResults').innerHTML=found.length?found.map(x=>`<button class="studio-search-result" data-studio-space="${x.space}" data-studio-id="${esc(x.id)}"><strong>${esc(x.name)}</strong><span>${esc(spaceInfo[x.space][0])} / ${esc(x.group)}</span></button>`).join(''):'<p>No matching topic. Try a member name or a broader term.</p>';$('studioTopicResults').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('dialog').close();go(b.dataset.studioSpace,b.dataset.studioId);});};
     $('studioTopicSearch').oninput=draw;draw();$('studioTopicSearch').focus();
   }
@@ -251,8 +251,8 @@
 
     getData(){return {...data,display:W.StructureDisplay,glossary:{term:handles.glossary.id,values:handles.glossary.values},lastModelRoute};},
     restore(raw){data={version:1,activities:{},lastVisited:{},concrete:false,termView:'model'};lastModelRoute='fundamentals:loads';handles.glossary.values={};chooseTerm('beam');if(raw&&typeof raw==='object'){
-      W.StructureWorkspace?.restoreDisplay(raw.display);data.concrete=raw.concrete===true;data.termView=raw.termView==='diagram'?'diagram':'model';
-      const valid=new Set([...terms.flatMap(g=>g[1].map(x=>'terms:'+x[0])),...steelGroups.flatMap(g=>g[1].map(x=>'steel:'+x[0])),...W.LAB_MODULES.map(x=>(W.WoodProject.has(x.id)?'wood':'fundamentals')+':'+x.id),...W.ConcreteBuildingData.ids.map(x=>'concrete:'+x),'concrete:materials','coach:coach']);
+      W.StructureWorkspace?.restoreDisplay(raw.display);data.concrete=false;data.termView=raw.termView==='diagram'?'diagram':'model';
+      const valid=new Set([...terms.flatMap(g=>g[1].map(x=>'terms:'+x[0])),...steelGroups.flatMap(g=>g[1].map(x=>'steel:'+x[0])),...W.LAB_MODULES.map(x=>(W.WoodProject.has(x.id)?'wood':'fundamentals')+':'+x.id),'coach:coach']);
       for(const [space,id]of Object.entries(raw.lastVisited||{})){if(valid.has(space+':'+id))data.lastVisited[space]=id;}
       for(const [key,value]of Object.entries(raw.activities||{})){if(valid.has(key)&&value&&typeof value==='object')data.activities[key]={visited:true,changed:value.changed===true,note:typeof value.note==='string'?value.note.slice(0,12000):''};}
       const termIds=terms.flatMap(g=>g[1].map(x=>x[0]));
@@ -260,7 +260,7 @@
       chooseTerm(termIds.includes(raw.glossary?.term)?raw.glossary.term:'beam');
       if(typeof raw.lastModelRoute==='string'&&raw.lastModelRoute!=='coach:coach'&&(valid.has(raw.lastModelRoute)||W.LAB_MODULES.some(x=>x.id===raw.lastModelRoute)))lastModelRoute=raw.lastModelRoute;
     }railSignature='';lastRoute='';schedule();},
-    go,inventory:{concrete:W.ConcreteBuildingData.ids,terms:terms.flatMap(g=>g[1].map(x=>x[0])),modules:W.LAB_MODULES.map(x=>x.id),steel:steelGroups.flatMap(g=>g[1].map(x=>x[0]))}
+    go,inventory:{concrete:[],terms:terms.flatMap(g=>g[1].map(x=>x[0])),modules:W.LAB_MODULES.map(x=>x.id),steel:steelGroups.flatMap(g=>g[1].map(x=>x[0]))}
   };
   sync();
 })(window);

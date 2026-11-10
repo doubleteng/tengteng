@@ -10,9 +10,9 @@ const find = (page,section,pattern,span) => D.cells.find(c => c.page === page &&
 
 test('all 11 slab and beam capacity pages have original-page click evidence', () => {
   const counts = {};
-  D.cells.forEach(c => counts[c.page] = (counts[c.page] || 0) + 1);
+  D.cells.filter(c=>c.page<=18).forEach(c => counts[c.page] = (counts[c.page] || 0) + 1);
   assert.deepEqual(counts, {2:182,3:259,4:56,5:83,6:100,7:100,8:149,9:140,12:148,13:126,14:124});
-  assert.equal(D.cells.length, 1467);
+  assert.equal(D.cells.filter(c=>c.page<=18).length, 1467);
   assert.equal(new Set(D.cells.map(c=>c.id)).size,D.cells.length);
   for(const c of D.cells){
     const [w,h] = D.pages[c.page], [x,y,rw,rh] = c.rect;

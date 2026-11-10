@@ -23,7 +23,7 @@
     fundamentals:['Fundamentals','Experiment with structure','Change one condition, compare the response, then explain the mechanism.'],
     wood:['Wood building','Build a coordinated project','Carry your roof, truss, floor and support choices into one building.'],
     steel:['Steel building','Build from evidence','Connect each member to its geometry, load, original source and trial selection.'],
-    concrete:['Concrete building','Connect material behaviour and assembly','Explore elastic response and review the precast project sequence.'],
+    concrete:['Concrete building','Connect material behaviour and assembly','Assemble four prototypes and choose members from original PDF tables.'],
     coach:['Structure Coach','Explain your design','Describe the selected member, its conditions and the evidence behind your choice.']
   };
   const missions = {
@@ -43,8 +43,8 @@
   const handles=api.getHandles();
   function route() {
     const s=W.StructureLab.getState();
-    const space=s.screen==='glossary'?'terms':s.screen==='steel'?'steel':s.screen==='coach'?'coach':data.concrete&&s.active==='materials'?'concrete':W.WoodProject.has(s.active)?'wood':'fundamentals';
-    const id=space==='terms'?handles.glossary.id:space==='steel'?handles.steel.state.lesson:space==='coach'?'coach':s.active;
+    const space=s.screen==='concrete'?'concrete':s.screen==='glossary'?'terms':s.screen==='steel'?'steel':s.screen==='coach'?'coach':data.concrete&&s.active==='materials'?'concrete':W.WoodProject.has(s.active)?'wood':'fundamentals';
+    const id=space==='concrete'?handles.concrete.state.lesson:space==='terms'?handles.glossary.id:space==='steel'?handles.steel.state.lesson:space==='coach'?'coach':s.active;
     return {s,space,id,key:space+':'+id};
   }
   function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});}
@@ -55,7 +55,7 @@
     if(space==='terms')api.navigate('terms',id||handles.glossary.id);
     else if(space==='steel')api.navigate('steel',id||handles.steel.state.lesson||'lecture1.1');
     else if(space==='coach')api.navigate('coach');
-    else if(space==='concrete'){api.navigate('lab','materials');api.setMaterial('concrete');}
+    else if(space==='concrete'){api.navigate('concrete',W.ConcreteBuildingData.ids.includes(id)?id:'concrete-brief');}
     else api.navigate('lab',id||(space==='wood'?'roof':'origins'));
     railSignature='';sync();
   }
@@ -90,11 +90,12 @@
     if(r.space==='terms')return terms;
     if(r.space==='steel')return steelGroups;
     if(r.space==='wood')return [['Project stages',W.LAB_MODULES.filter(x=>W.WoodProject.has(x.id)).map(x=>[x.id,W.WoodProject.labels[x.id]])]];
-    if(r.space==='concrete')return [['Available studies',[['materials','Concrete elastic response']]]];
+    if(r.space==='concrete')return W.ConcreteBuildingData.groups;
     if(r.space==='coach')return [];
     return [['Experiments',W.LAB_MODULES.filter(x=>!W.WoodProject.has(x.id)).map(x=>[x.id,x.title])]];
   }
   function notesFor(r){
+    if(r.space==='concrete')return handles.concrete.state.notes[r.id]||'';
     if(r.space==='steel'){const lab=handles.steel;return lab.state.notes?.[r.id]||lab.floorState?.notes?.[r.id]||lab.foundationState?.notes?.[r.id]||lab.conceptLab?.state?.notes?.[r.id]||'';}
     if(r.space==='terms')return data.activities[r.key]?.note||'';
     return r.s.reflections?.[r.id]||'';
@@ -105,12 +106,13 @@
     let title,goal;
     if(r.space==='terms'){title=handles.glossary.term.name;goal=handles.glossary.term.try;}
     else if(r.space==='steel'){title=steelGroups.flatMap(g=>g[1]).find(x=>x[0]===r.id)?.[1]||'Choose your project';goal=$('steelScreen').querySelector('.sr-head>div>p:last-child,.steel-head p')?.textContent?.trim()||'Select a member. Check its geometry and loads, read the original source, and explain your trial choice.';}
+    else if(r.space==='concrete'){title=W.ConcreteBuildingData.groups.flatMap(g=>g[1]).find(x=>x[0]===r.id)?.[1]||'Concrete Building';goal=W.ConcreteBuildingData.prototypes[handles.concrete.state.prototype].description;}
     else [title,goal]=missions[r.id]||[info[1],info[2]];
     const groups=groupsFor(r);
-    $('studioRail').innerHTML=`<div class="studio-rail-heading"><span class="studio-eyebrow">STRUCTURE LAB</span><h1>${esc(info[0])}</h1><p>${esc(info[2])}</p></div><section class="studio-mission"><div class="studio-eyebrow">CURRENT TASK</div><h2>${esc(title)}</h2><p>${esc(goal)}</p>${r.space==='coach'?'':`<p class="studio-observation-status">${notes.trim()?'Observation recorded':'Keep a short explanation after testing.'}</p><button id="studioNextAction" class="studio-primary">${r.space==='terms'?'Try the related model':r.space==='steel'?'Open source & tools':'Inspect the response'}</button>`}</section>${W.StructureCourseGuide?.checkpoint(r.space,r.id)||''}<div class="studio-chapters">${groups.map(([name,items])=>`<details ${items.some(x=>x[0]===r.id)?'open':''}><summary>${esc(name)} <span>${items.length}</span></summary>${items.map(([id,label])=>buttonRoute(r.space,id,label,id===r.id)).join('')}</details>`).join('')}</div>${r.space==='concrete'?'<section class="studio-availability"><strong>Concrete project</strong><p>Review the Oct 27 / Nov 3 briefing. This workspace currently models elastic member behaviour; the precast project model and sizing-table workflow are not yet available.</p><button id="studioConcreteScope">View available concrete content</button></section>':''}${r.space==='coach'?'<button id="studioBackToModel" class="studio-primary">Return to your model</button><p class="studio-progress-note">Model notes are attached when you choose Ask Coach from a model. Check and confirm them before using them.</p>':''}<div class="studio-rail-bottom"><button id="studioCourseGuide">Course sequence & evidence</button><button id="studioFind">All topics & original course map</button><span>Developed by Teng Teng, PhD<br>and Ralph Nelson</span></div>`;
+    $('studioRail').innerHTML=`<div class="studio-rail-heading"><span class="studio-eyebrow">STRUCTURE LAB</span><h1>${esc(info[0])}</h1><p>${esc(info[2])}</p></div><section class="studio-mission"><div class="studio-eyebrow">CURRENT TASK</div><h2>${esc(title)}</h2><p>${esc(goal)}</p>${r.space==='coach'?'':`<p class="studio-observation-status">${notes.trim()?'Observation recorded':'Keep a short explanation after testing.'}</p><button id="studioNextAction" class="studio-primary">${r.space==='terms'?'Try the related model':r.space==='steel'?'Open source & tools':'Inspect the response'}</button>`}</section>${W.StructureCourseGuide?.checkpoint(r.space,r.id)||''}<div class="studio-chapters">${groups.map(([name,items])=>`<details ${items.some(x=>x[0]===r.id)?'open':''}><summary>${esc(name)} <span>${items.length}</span></summary>${items.map(([id,label])=>buttonRoute(r.space,id,label,id===r.id)).join('')}</details>`).join('')}</div>${r.space==='concrete'?'<section class="studio-availability"><strong>Concrete project</strong><p>Choose Alpha, Charlie, Delta or Kilo. Apply a trial member by clicking a capacity in the original PDF; Save study retains selections and notes.</p><button id="studioConcreteScope">View available concrete content</button></section>':''}${r.space==='coach'?'<button id="studioBackToModel" class="studio-primary">Return to your model</button><p class="studio-progress-note">Model notes are attached when you choose Ask Coach from a model. Check and confirm them before using them.</p>':''}<div class="studio-rail-bottom"><button id="studioCourseGuide">Course sequence & evidence</button><button id="studioFind">All topics & original course map</button><span>Developed by Teng Teng, PhD<br>and Ralph Nelson</span></div>`;
     bindRoutes($('studioRail'));
     $('studioFind').onclick=openLibrary;$('studioCourseGuide').onclick=()=>openCourseGuide(r.space);$('studioRail').querySelector('[data-course-guide]')?.addEventListener('click',()=>openCourseGuide(r.space));
-    if($('studioNextAction'))$('studioNextAction').onclick=()=>{if(r.space==='terms')go(W.WoodProject.has(handles.glossary.term.lab)?'wood':'fundamentals',handles.glossary.term.lab);else if(r.space==='steel'){if($('steelScreen').querySelector('.sr-reading')){resourceOpen=true;sync();}else{const control=$('steelScreen').querySelector('.sr-picker button,.steel-aside input,.steel-aside select');control?.focus();control?.scrollIntoView({block:'nearest'});}}else api.setPanel('explain');};
+    if($('studioNextAction'))$('studioNextAction').onclick=()=>{if(r.space==='terms')go(W.WoodProject.has(handles.glossary.term.lab)?'wood':'fundamentals',handles.glossary.term.lab);else if(r.space==='steel'){if($('steelScreen').querySelector('.sr-reading')){resourceOpen=true;sync();}else{const control=$('steelScreen').querySelector('.sr-picker button,.steel-aside input,.steel-aside select');control?.focus();control?.scrollIntoView({block:'nearest'});}}else if(r.space==='concrete')handles.concrete.openSource();else api.setPanel('explain');};
     if($('studioBackToModel'))$('studioBackToModel').onclick=()=>{if(lastModelRoute.includes(':')){const [space,id]=lastModelRoute.split(':');go(space,id);}else go(W.WoodProject.has(lastModelRoute)?'wood':'fundamentals',lastModelRoute);};
     if($('studioConcreteScope'))$('studioConcreteScope').onclick=()=>openCourseGuide('concrete');
   }
@@ -121,7 +123,7 @@
     $('studioOriginalSources').onclick=()=>api.courseMap();$('studioOriginalHelp').onclick=()=>api.help();
     // Course map is recreated with real navigation actions; the original navigation remains in the page.
     if(original){$('studioOriginalMap').innerHTML=original.innerHTML;$('studioOriginalMap').querySelectorAll('[data-module]').forEach(b=>b.onclick=()=>{$('dialog').close();go(W.WoodProject.has(b.dataset.module)?'wood':'fundamentals',b.dataset.module);});$('studioOriginalMap').querySelectorAll('[data-steel-lecture]').forEach(b=>b.onclick=()=>{$('dialog').close();go('steel','lecture'+b.dataset.steelLecture);});$('studioOriginalMap').querySelector('#coachNav')?.removeAttribute('id');$('studioOriginalMap').querySelector('.coach-nav')?.addEventListener('click',()=>{$('dialog').close();go('coach');});}
-    const entries=[...terms.flatMap(([g,a])=>a.map(([id,name])=>({space:'terms',id,name,group:g}))),...W.LAB_MODULES.map(m=>({space:W.WoodProject.has(m.id)?'wood':'fundamentals',id:m.id,name:m.title,group:m.lecture})),...steelGroups.flatMap(([group,a])=>a.map(([id,name])=>({space:'steel',id,name,group}))),{space:'concrete',id:'materials',name:'Concrete behaviour',group:'Existing material model'},{space:'coach',id:'coach',name:'Structure Coach',group:'Explain & communicate'}];
+    const entries=[...terms.flatMap(([g,a])=>a.map(([id,name])=>({space:'terms',id,name,group:g}))),...W.LAB_MODULES.map(m=>({space:W.WoodProject.has(m.id)?'wood':'fundamentals',id:m.id,name:m.title,group:m.lecture})),...steelGroups.flatMap(([group,a])=>a.map(([id,name])=>({space:'steel',id,name,group}))),...W.ConcreteBuildingData.groups.flatMap(([group,a])=>a.map(([id,name])=>({space:'concrete',id,name,group}))),{space:'coach',id:'coach',name:'Structure Coach',group:'Explain & communicate'}];
     const draw=()=>{const q=$('studioTopicSearch').value.toLowerCase().trim(), found=entries.filter(x=>(x.name+' '+x.id+' '+x.group).toLowerCase().includes(q));$('studioTopicResults').innerHTML=found.length?found.map(x=>`<button class="studio-search-result" data-studio-space="${x.space}" data-studio-id="${esc(x.id)}"><strong>${esc(x.name)}</strong><span>${esc(spaceInfo[x.space][0])} / ${esc(x.group)}</span></button>`).join(''):'<p>No matching topic. Try a member name or a broader term.</p>';$('studioTopicResults').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('dialog').close();go(b.dataset.studioSpace,b.dataset.studioId);});};
     $('studioTopicSearch').oninput=draw;draw();$('studioTopicSearch').focus();
   }
@@ -227,6 +229,7 @@
       if(r.space==='terms')arrangeGlossary();
       else if(r.space==='steel')arrangeSteel();
       else if(r.space==='coach')arrangeCoach();
+      else if(r.space==='concrete'){}
       else {arrangePanel();D.querySelectorAll('#labInspector [data-tab]').forEach(b=>b.textContent=({model:'Adjust',explain:'Inspect',exercise:'Explain'})[b.dataset.tab]);const compare=D.querySelector('.studio-model-actions [data-action="compare"]');if(compare)compare.disabled=!data.activities[r.key]?.trial;const sources=D.querySelector('.studio-model-actions [data-action="sources"]');if(sources)sources.textContent=r.space==='wood'&&$('courseReferences')?'Sources & tables':'Sources & assumptions';const next=D.querySelector('.studio-model-actions [data-action="next"]');if(next){next.hidden=r.space!=='wood';next.textContent=({roof:'Next: Truss →',truss:'Next: Floor →',floor:'Next: Building →',building:'Explain your building →'})[r.id]||'';}}
     }finally{decorating=false;D.dispatchEvent(new CustomEvent('structure:layout'));}
   }
@@ -248,7 +251,7 @@
     getData(){return {...data,glossary:{term:handles.glossary.id,values:handles.glossary.values},lastModelRoute};},
     restore(raw){data={version:1,activities:{},lastVisited:{},concrete:false,termView:'model'};lastModelRoute='fundamentals:loads';handles.glossary.values={};chooseTerm('beam');if(raw&&typeof raw==='object'){
       data.concrete=raw.concrete===true;data.termView=raw.termView==='diagram'?'diagram':'model';
-      const valid=new Set([...terms.flatMap(g=>g[1].map(x=>'terms:'+x[0])),...steelGroups.flatMap(g=>g[1].map(x=>'steel:'+x[0])),...W.LAB_MODULES.map(x=>(W.WoodProject.has(x.id)?'wood':'fundamentals')+':'+x.id),'concrete:materials','coach:coach']);
+      const valid=new Set([...terms.flatMap(g=>g[1].map(x=>'terms:'+x[0])),...steelGroups.flatMap(g=>g[1].map(x=>'steel:'+x[0])),...W.LAB_MODULES.map(x=>(W.WoodProject.has(x.id)?'wood':'fundamentals')+':'+x.id),...W.ConcreteBuildingData.ids.map(x=>'concrete:'+x),'concrete:materials','coach:coach']);
       for(const [space,id]of Object.entries(raw.lastVisited||{})){if(valid.has(space+':'+id))data.lastVisited[space]=id;}
       for(const [key,value]of Object.entries(raw.activities||{})){if(valid.has(key)&&value&&typeof value==='object')data.activities[key]={visited:true,changed:value.changed===true,note:typeof value.note==='string'?value.note.slice(0,12000):''};}
       const termIds=terms.flatMap(g=>g[1].map(x=>x[0]));
@@ -256,7 +259,7 @@
       chooseTerm(termIds.includes(raw.glossary?.term)?raw.glossary.term:'beam');
       if(typeof raw.lastModelRoute==='string'&&raw.lastModelRoute!=='coach:coach'&&(valid.has(raw.lastModelRoute)||W.LAB_MODULES.some(x=>x.id===raw.lastModelRoute)))lastModelRoute=raw.lastModelRoute;
     }railSignature='';lastRoute='';schedule();},
-    go,inventory:{terms:terms.flatMap(g=>g[1].map(x=>x[0])),modules:W.LAB_MODULES.map(x=>x.id),steel:steelGroups.flatMap(g=>g[1].map(x=>x[0]))}
+    go,inventory:{concrete:W.ConcreteBuildingData.ids,terms:terms.flatMap(g=>g[1].map(x=>x[0])),modules:W.LAB_MODULES.map(x=>x.id),steel:steelGroups.flatMap(g=>g[1].map(x=>x[0]))}
   };
   sync();
 })(window);

@@ -6,7 +6,7 @@
   body.classList.add('studio-wide');
   let lastRoute = '', queued = false, panel = null, closeTimer = 0;
   const workspace = $('workspace'), rail = $('studioRail');
-  const panelSelector = '#labInspector, .sr-aside, .steel-aside, .glossary-explanation';
+  const panelSelector = '.concrete-aside, #labInspector, .sr-aside, .steel-aside, .glossary-explanation';
   const boundPanels = new WeakSet();
   const bar = D.createElement('div');
   bar.className = 'viewport-tools';
@@ -91,7 +91,7 @@
     if (key !== lastRoute) { closePanels(true); lastRoute = key; }
     $('viewportLocation').textContent = title;
     $('viewportMaximize').textContent = body.classList.contains('viewport-maximized') ? 'Restore layout ↙' : space === 'coach' ? 'Maximize workspace ⛶' : 'Maximize model ⛶';
-    panel = space === 'terms' ? D.querySelector('.glossary-explanation') : space === 'steel' ? D.querySelector('#steelScreen .sr-aside, #steelScreen .steel-aside') : space === 'coach' ? null : $('labInspector');
+    panel = space === 'concrete' ? D.querySelector('.concrete-aside') : space === 'terms' ? D.querySelector('.glossary-explanation') : space === 'steel' ? D.querySelector('#steelScreen .sr-aside, #steelScreen .steel-aside') : space === 'coach' ? null : $('labInspector');
     controls.hidden = !panel;
     body.classList.toggle('viewport-no-controls', !panel);
     if (panel) {

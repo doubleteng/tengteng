@@ -330,17 +330,35 @@ root.TrussAnalysis=A;
 // Deterministic software depth buffer; no CDN or WebGL dependency.
 class DepthSurface {
  constructor(w,h,scale=1){this.pixelScale=scale;this.w=Math.ceil(w*scale);this.h=Math.ceil(h*scale);this.z=new Float32Array(this.w*this.h);this.z.fill(-Infinity);this.ids=new Int32Array(this.z.length);this.colors=new Uint8ClampedArray(this.z.length*4);this.keys=[null];}
- triangle(a,b,c,color,id){
+ triangle(a,b,c,color,id,shadow=null){
   const area=(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);if(!Number.isFinite(area)||Math.abs(area)<1e-10)return;
   let packed=this.colorCache?.get(color);if(packed===undefined){this.colorCache??=new Map();const rgb=/^#[0-9a-f]{6}/i.test(color)?[1,3,5].map(k=>parseInt(color.slice(k,k+2),16)):[180,160,130];packed=(255<<24)|(rgb[2]<<16)|(rgb[1]<<8)|rgb[0];this.colorCache.set(color,packed);}
   const dzdx=((b.depth-a.depth)*(c.y-a.y)-(c.depth-a.depth)*(b.y-a.y))/area,dzdy=((b.x-a.x)*(c.depth-a.depth)-(c.x-a.x)*(b.depth-a.depth))/area;
   let low=a,mid=b,high=c;if(low.y>mid.y)[low,mid]=[mid,low];if(mid.y>high.y)[mid,high]=[high,mid];if(low.y>mid.y)[low,mid]=[mid,low];
   const ymin=Math.max(0,Math.ceil(low.y-.5)),ymax=Math.min(this.h-1,Math.floor(high.y-.5));if(ymin>ymax)return;
   const longSlope=(high.x-low.x)/(high.y-low.y),upperSlope=(mid.x-low.x)/(mid.y-low.y||1),lowerSlope=(high.x-mid.x)/(high.y-mid.y||1),zbuf=this.z,ids=this.ids,pixels=this.pixels??=new Uint32Array(this.colors.buffer),width=this.w;
-  for(let y=ymin;y<=ymax;y++){const py=y+.5,xa=low.x+(py-low.y)*longSlope,xb=py<mid.y?low.x+(py-low.y)*upperSlope:mid.x+(py-mid.y)*lowerSlope;let x0=Math.ceil((xa<xb?xa:xb)-.500001),x1=Math.floor((xa>xb?xa:xb)-.499999);if(x0<0)x0=0;if(x1>=width)x1=width-1;if(x0>x1)continue;let z=a.depth+(x0+.5-a.x)*dzdx+(py-a.y)*dzdy,index=y*width+x0;for(let x=x0;x<=x1;x++,index++,z+=dzdx)if(z>=zbuf[index]-1e-8){zbuf[index]=z;ids[index]=id;pixels[index]=packed;}}
+  // Perspective-correct light coordinates; camera depth and picking stay unchanged.
+  const lit=shadow&&a.light&&b.light&&c.light;
+  const gx=lit?a.light.map((v,k)=>((b.light[k]-v)*(c.y-a.y)-(c.light[k]-v)*(b.y-a.y))/area):null;
+  const gy=lit?a.light.map((v,k)=>((b.x-a.x)*(c.light[k]-v)-(c.x-a.x)*(b.light[k]-v))/area):null;
+  const red=packed&255,green=(packed>>>8)&255,blue=(packed>>>16)&255;
+  for(let y=ymin;y<=ymax;y++){
+   const py=y+.5,xa=low.x+(py-low.y)*longSlope,xb=py<mid.y?low.x+(py-low.y)*upperSlope:mid.x+(py-mid.y)*lowerSlope;
+   let x0=Math.ceil((xa<xb?xa:xb)-.500001),x1=Math.floor((xa>xb?xa:xb)-.499999);if(x0<0)x0=0;if(x1>=width)x1=width-1;if(x0>x1)continue;
+   let z=a.depth+(x0+.5-a.x)*dzdx+(py-a.y)*dzdy,index=y*width+x0;
+   const values=lit?a.light.map((v,k)=>v+(x0+.5-a.x)*gx[k]+(py-a.y)*gy[k]):null;
+   for(let x=x0;x<=x1;x++,index++,z+=dzdx){
+    if(z>=zbuf[index]-1e-8){
+     zbuf[index]=z;ids[index]=id;
+     if(lit){const q=1/values[3],factor=shadow.map.visibility(values[0]*q,values[1]*q,values[2]*q,shadow);pixels[index]=(255<<24)|(Math.round(blue*factor)<<16)|(Math.round(green*factor)<<8)|Math.round(red*factor);}
+     else pixels[index]=packed;
+    }
+    if(lit)for(let k=0;k<4;k++)values[k]+=gx[k];
+   }
+  }
  }
 
- add(face){if(this.pixelScale!==1)face={...face,p:face.p.map(p=>({...p,x:p.x*this.pixelScale,y:p.y*this.pixelScale}))};const id=face.id?this.keys.push(face.id)-1:0;for(let i=1;i<face.p.length-1;i++)this.triangle(face.p[0],face.p[i],face.p[i+1],face.color,id);}
+ add(face){if(this.pixelScale!==1)face={...face,p:face.p.map(p=>({...p,x:p.x*this.pixelScale,y:p.y*this.pixelScale}))};const id=face.id?this.keys.push(face.id)-1:0;for(let i=1;i<face.p.length-1;i++)this.triangle(face.p[0],face.p[i],face.p[i+1],face.color,id,face.shadow);}
  visible(p,tolerance=0){if(p.visible===false)return false;const x=Math.floor(p.x*this.pixelScale),y=Math.floor(p.y*this.pixelScale);return x<0||x>=this.w||y<0||y>=this.h||p.depth+tolerance>=Math.min(this.z[y*this.w+x],this.z[y*this.w+Math.max(0,x-1)],this.z[Math.max(0,y-1)*this.w+x],this.z[Math.max(0,y-1)*this.w+Math.max(0,x-1)]);}
  pick(x,y){x=Math.floor(x*this.pixelScale);y=Math.floor(y*this.pixelScale);return x>=0&&x<this.w&&y>=0&&y<this.h?this.keys[this.ids[y*this.w+x]]:null;}
  paint(ctx){if(!ctx.createImageData||!root.document?.createElement)return false;if(!this.canvas){this.canvas=document.createElement('canvas');this.canvas.width=this.w;this.canvas.height=this.h;}const c=this.canvas.getContext('2d');if(!c?.putImageData)return false;const frame=c.createImageData(this.w,this.h);frame.data.set(this.colors);c.putImageData(frame,0,0);ctx.drawImage(this.canvas,0,0,this.w/this.pixelScale,this.h/this.pixelScale);return true;}
@@ -382,7 +400,7 @@ class LabRenderer{
  }
  project(v){return this.projectCamera(this.camera(v));}
  projectCamera({xx,yy,zz}){const perspective=this.mode==='3d'&&this.projection==='perspective',d=this.extent*2.5,near=d*.025,dist=d-zz,k=perspective?d/Math.max(near,dist):1,s=this.scale();return{x:this.w/2+this.pan[0]+xx*s*k,y:this.h/2+this.pan[1]-yy*s*k,z:zz,depth:perspective?1/Math.max(near,dist):zz,visible:!perspective||dist>=near};}
- projectFace(points){let q=points.map(p=>this.camera(p));if(this.mode==='3d'&&this.projection==='perspective'){const maxZ=this.extent*2.5*.975,out=[];for(let i=0;i<q.length;i++){const a=q[i],b=q[(i+1)%q.length],ain=a.zz<=maxZ,bin=b.zz<=maxZ;if(ain)out.push(a);if(ain!==bin){const t=(maxZ-a.zz)/(b.zz-a.zz);out.push({xx:a.xx+t*(b.xx-a.xx),yy:a.yy+t*(b.yy-a.yy),zz:maxZ});}}q=out;}return q.map(p=>this.projectCamera(p));}
+ projectFace(points,lighting=null){let q=points.map(p=>({...this.camera(p),light:lighting?.project(p)}));if(this.mode==='3d'&&this.projection==='perspective'){const maxZ=this.extent*2.5*.975,out=[];for(let i=0;i<q.length;i++){const a=q[i],b=q[(i+1)%q.length],ain=a.zz<=maxZ,bin=b.zz<=maxZ;if(ain)out.push(a);if(ain!==bin){const t=(maxZ-a.zz)/(b.zz-a.zz);out.push({xx:a.xx+t*(b.xx-a.xx),yy:a.yy+t*(b.yy-a.yy),zz:maxZ,light:a.light?.map((v,k)=>v+t*(b.light[k]-v))});}}q=out;}return q.map(p=>{const projected=this.projectCamera(p),q=this.mode==='3d'&&this.projection==='perspective'?projected.depth:1;return {...projected,light:p.light?[...p.light.map(v=>v*q),q]:null};});}
  depthVisible(p){return p.visible!==false&&(!this.depthSurface||this.depthSurface.visible(p,this.projection==='perspective'?1e-6:Math.max(.02,this.extent*.0002)));}
 
  scale(){return Math.min(this.w*.78,this.h*1.12)/this.extent*this.zoom;}
@@ -413,10 +431,24 @@ class LabRenderer{
 
  requestRender(){if(!root.requestAnimationFrame){this.render();return;}if(this.renderFrame)return;this.renderFrame=root.requestAnimationFrame(()=>{this.renderFrame=null;this.render();});}
  render(){if(!this.w)return;const c=this.ctx;c.clearRect(0,0,this.w,this.h);c.fillStyle='#666666';c.fillRect(0,0,this.w,this.h);this.hit=[];this.depthSurface=null;let polys=[],lines=[],labels=[];
-  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false)=>{const p=this.projectFace(pts);if(p.length<3)return;if(cull&&this.mode==='3d'&&!this.xray&&(p[1].x-p[0].x)*(p[2].y-p[0].y)-(p[1].y-p[0].y)*(p[2].x-p[0].x)>=0)return;polys.push({p,color:this.modelColor(color),stroke,alpha,id,edges,z:p.reduce((s,v)=>s+v.z,0)/p.length});};
+  let lighting=null;
+  if(this.mode==='3d'&&!this.xray&&root.LabLighting&&root.LabJoinery){
+   if(this.lightItems!==this.items){this.lightItems=this.items;this.lightMap=new root.LabLighting.ShadowMap(this.items,it=>root.LabJoinery.corners(it));}
+   if(this.lightMap.valid)lighting=this.lightMap;
+  }
+  const face=(pts,color,stroke,alpha=1,id=null,edges=false,cull=false,ground=false)=>{
+   const p=this.projectFace(pts,lighting);if(p.length<3)return;
+   const back=(p[1].x-p[0].x)*(p[2].y-p[0].y)-(p[1].y-p[0].y)*(p[2].x-p[0].x)>=0;
+   if(cull&&this.mode==='3d'&&!this.xray&&back)return;
+   let normal=lighting?root.LabLighting.normal(pts):null;if(normal&&!cull&&back)normal=normal.map(v=>-v);
+   const base=ground?color:this.modelColor(color);
+   polys.push({p,color:lighting&&!ground?root.LabLighting.shade(base,normal):base,stroke,alpha,id,edges,shadow:lighting?.receiver(normal,ground),z:p.reduce((s,v)=>s+v.z,0)/p.length});
+  };
+  // A receiving plane at the lowest visible member keeps foundations visible.
+  if(lighting)face(lighting.ground,'#666666',null,1,null,false,false,true);
   // A measured ground grid is a spatial reference, not a structural element.
   const gridStep=this.extent>55?10:5,gridSize=Math.ceil(this.extent*.72/gridStep)*gridStep;
-  if(this.mode==='3d'||this.plane==='plan')for(let v=-gridSize;v<=gridSize;v+=gridStep){this.lineRaw(this.project([v,0,-gridSize]),this.project([v,0,gridSize]),'#797979',.7);this.lineRaw(this.project([-gridSize,0,v]),this.project([gridSize,0,v]),'#797979',.7);}
+  if(!lighting&&(this.mode==='3d'||this.plane==='plan'))for(let v=-gridSize;v<=gridSize;v+=gridStep){this.lineRaw(this.project([v,0,-gridSize]),this.project([v,0,gridSize]),'#797979',.7);this.lineRaw(this.project([-gridSize,0,v]),this.project([gridSize,0,v]),'#797979',.7);}
   if(this.editor&&this.mode==='2d'&&this.plane==='elevation'){
    const a=this.unproject({x:0,y:this.h}),b=this.unproject({x:this.w,y:0}),base=this.editor.snap||1,step=base*Math.max(1,Math.ceil((b.x-a.x)/(base*90)));
    for(let x=Math.ceil(a.x/step)*step;x<=b.x;x+=step)this.lineRaw(this.project([x,a.y,0]),this.project([x,b.y,0]),Math.abs(x)<1e-8?'#a4a4a4':'#797979',Math.abs(x)<1e-8?1.4:.7);
@@ -426,7 +458,7 @@ class LabRenderer{
    if(it.type==='beam'){
     const dir=unit(sub(it.b,it.a)),ref=Math.abs(dir[1])>.95?[1,0,0]:[0,1,0],u=unit(cross(dir,ref)),v=unit(cross(u,dir)),w=it.w||.35,h=it.h||.35;
     const points=root.LabJoinery?root.LabJoinery.corners(it):[];if(!points.length)for(const end of [it.a,it.b])for(const [su,sv]of [[-1,-1],[1,-1],[1,1],[-1,1]])points.push(add(add(end,mul(u,su*w/2)),mul(v,sv*h/2)));
-    [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]].forEach((ids,i)=>face(ids.map(j=>points[j]),this.shade(it.color||'#bd9f7c',[.83,1,.89,1.07,1.12,.95][i]),it.id===this.selected?'#fff0a6':Math.min(w,h)*this.scale()<3?this.modelColor(it.color||'#bd9f7c'):'#3f464b',this.xray?Math.min(it.alpha??1,.2):(it.alpha??1),it.id,true,true));
+    [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]].forEach((ids,i)=>face(ids.map(j=>points[j]),lighting?(it.color||'#bd9f7c'):this.shade(it.color||'#bd9f7c',[.83,1,.89,1.07,1.12,.95][i]),it.id===this.selected?'#fff0a6':Math.min(w,h)*this.scale()<3?this.shade(this.modelColor(it.color||'#bd9f7c'),lighting?.72:1):'#3f464b',this.xray?Math.min(it.alpha??1,.2):(it.alpha??1),it.id,true,true));
     if(it.id)this.hit.push(it.panel?{id:it.id,p:[2,3,7,6].map(j=>this.project(points[j])),area:true,data:it.data}:{id:it.id,p:[this.project(it.a),this.project(it.b)],data:it.data});
     if(it.label){const d=sub(this.center,mul(add(it.a,it.b),.5)),point=mul(add(it.a,it.b),.5);point[1]+=it.h/2;labels.push({p:this.project(point),text:it.label,color:it.color,id:it.id});}
    }else if(it.type==='poly')face(it.points,it.color,it.stroke||'#3f464b',it.alpha??1,it.id,true);
@@ -436,6 +468,10 @@ class LabRenderer{
   }
   let painted=false;if(this.mode==='3d'&&!this.xray&&root.DepthSurface){this.depthSurface=new root.DepthSurface(this.w,this.h,this.drag?.button!==undefined?.5:1);polys.forEach(p=>this.depthSurface.add(p));painted=this.depthSurface.paint(c);}
   if(!painted)polys.sort((a,b)=>a.z-b.z).forEach(f=>{c.globalAlpha=f.alpha;c.beginPath();f.p.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();c.fillStyle=f.color;c.fill();if(f.stroke){c.globalAlpha=this.xray?.72:f.alpha;c.strokeStyle=f.stroke;c.lineWidth=this.xray?1.05:1;c.stroke();}c.globalAlpha=1;});
+  if(lighting)for(let v=-gridSize;v<=gridSize;v+=gridStep){
+   this.lineRaw(this.project([v,lighting.groundY,-gridSize]),this.project([v,lighting.groundY,gridSize]),'#737373',.55);
+   this.lineRaw(this.project([-gridSize,lighting.groundY,v]),this.project([gridSize,lighting.groundY,v]),'#737373',.55);
+  }
   if(painted)for(const f of polys)if(f.edges)for(let i=0;i<f.p.length;i++)this.lineRaw(f.p[i],f.p[(i+1)%f.p.length],f.stroke,f.id===this.selected?2:.65);
   for(const it of lines){
    if(it.type==='node'){const p=this.project(it.p);if(!this.depthVisible(p))continue;c.beginPath();c.arc(p.x,p.y,it.handle?5:3,0,Math.PI*2);c.fillStyle=this.modelColor(it.color||'#ffffff');c.fill();c.strokeStyle='#273845';c.lineWidth=1.5;c.stroke();if(it.id)this.hit.push({id:it.id,p:[p],handle:it.handle,world:it.p,data:it.data});continue;}

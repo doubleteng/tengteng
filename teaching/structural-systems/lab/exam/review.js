@@ -76,8 +76,45 @@
       ? '<div id="xr-priority-feedback" aria-live="polite">'+priorityFeedback(q,a)+'</div>'
       : (a.revealed ? explanation(q,a) : '');
     const guideLink = isPriority ? '<button class="xr-link" data-action="guide">Open '+q.id+' in answer guide</button>' : '';
-    root.innerHTML='<div class="xr-shell"><header class="xr-header"><div><span class="xr-kicker">ARC 2713 &nbsp; / &nbsp; Fall 2026</span><h1>Exam 2 Review</h1></div><nav aria-label="Exam review materials" class="xr-tabs">'+parts.map(([id,label],i)=>'<button data-part="'+id+'" '+(id===part?'aria-current="page"':'')+'><small>Part '+(i+1)+'</small>'+escape(label)+'</button>').join('')+'</nav></header><div class="xr-body"><aside class="xr-index"><div class="xr-tools"><label>Find a question<input type="search" id="xr-search" placeholder="Question number or topic" value="'+escape(filter)+'"></label>'+(groups.length?'<label>Chapter<select id="xr-group"><option value="">All chapters</option>'+groups.map(g=>'<option '+(g===group?'selected':'')+'>'+escape(g)+'</option>').join('')+'</select></label>':'')+'<span id="xr-count" class="xr-kicker" aria-live="polite"></span><label class="xr-mobile">Question<select id="xr-mobile-select"></select></label></div><div id="xr-results"></div><div class="xr-index-foot">'+pdfLink(p,null,'Open Part '+p+' PDF')+'</div></aside><article class="xr-detail"><div class="xr-content"><div class="xr-meta"><span>Part '+p+' / '+escape(parts[p-1][1])+'</span><span>'+displayId(q.id)+'</span></div><h2 class="xr-question-title" tabindex="-1">'+escape(q.title)+'</h2>'+priorityMeta+'<p class="xr-stem">'+escape(q.stem)+'</p>'+figures(q)+entry+'<div class="xr-actions">'+checkButton+'<button class="xr-primary" data-action="coach">Ask Structure Coach</button></div>'+feedback+'<footer class="xr-source">'+pdfLink(p,part==='priority'?pr.page:q.page,'Original PDF · p. '+(part==='priority'?pr.page:q.page))+guideLink+'<div>'+pager()+'</div></footer><p class="xr-footnote">'+captions[part]+'</p></div></article></div></div>';
+    root.innerHTML='<div class="xr-shell"><header class="xr-header"><div><span class="xr-kicker">ARC 2713 &nbsp; / &nbsp; Fall 2026</span><h1>Exam 2 Review</h1></div><nav aria-label="Exam review materials" class="xr-tabs">'+parts.map(([id,label],i)=>'<button data-part="'+id+'" '+(id===part?'aria-current="page"':'')+'><small>Part '+(i+1)+'</small>'+escape(label)+'</button>').join('')+'</nav></header><div class="xr-body"><aside class="xr-index"><div class="xr-tools"><label>Find a question<input type="search" id="xr-search" placeholder="Question number or topic" value="'+escape(filter)+'"></label>'+(groups.length?'<label>Chapter<select id="xr-group"><option value="">All chapters</option>'+groups.map(g=>'<option '+(g===group?'selected':'')+'>'+escape(g)+'</option>').join('')+'</select></label>':'')+'<span id="xr-count" class="xr-kicker" aria-live="polite"></span><label class="xr-mobile">Question<select id="xr-mobile-select"></select></label></div><div id="xr-results"></div><div class="xr-index-foot">'+pdfLink(p,null,'Open Part '+p+' PDF')+'</div></aside><article class="xr-detail"><div class="xr-content"><div class="xr-meta"><span>Part '+p+' / '+escape(parts[p-1][1])+'</span><span>'+displayId(q.id)+'</span></div><h2 class="xr-question-title" tabindex="-1">'+escape(q.title)+'</h2>'+priorityMeta+'<p class="xr-stem">'+escape(q.stem)+'</p>'+lectureSection(q)+figures(q)+entry+'<div class="xr-actions">'+checkButton+'<button class="xr-primary" data-action="coach">Ask Structure Coach</button></div>'+feedback+'<footer class="xr-source">'+pdfLink(p,part==='priority'?pr.page:q.page,'Original PDF · p. '+(part==='priority'?pr.page:q.page))+guideLink+'<div>'+pager()+'</div></footer><p class="xr-footnote">'+captions[part]+'</p></div></article></div></div>';
     renderList();root.querySelector('#xr-results').scrollTop=previousScroll;
+  }
+  const lectureData = W.ExamLectureSources;
+  const references = q => lectureData.questions[q.id] || [];
+  const slideUnit = deck => deck.label.startsWith('Lecture ') && !deck.label.endsWith('worksheet') ? 'slide' : 'page';
+  function lectureSection(q) {
+    return '<section class="xr-lectures" aria-label="Lecture slides"><h3>Lecture slides</h3>'+references(q).map((ref,i)=>{
+      const deck=lectureData.decks[ref.deck], unit=slideUnit(deck);
+      const numbers=ref.pages.join(', ');
+      return '<details class="xr-lecture" data-ref="'+i+'"><summary><span><b>'+escape(deck.label)+' · '+unit+(ref.pages.length>1?'s ':' ')+numbers+'</b><small>'+escape(deck.title)+' · '+escape(ref.role)+'</small></span></summary>'+
+        '<div class="xr-slide-reader"><p>'+escape(ref.note)+'</p>'+
+        (ref.pages.length>1?'<div class="xr-slide-pages" role="group" aria-label="Choose a '+unit+'">'+ref.pages.map((page,index)=>'<button type="button" data-slide="'+page+'" aria-pressed="'+(index===0)+'">'+page+'</button>').join('')+'</div>':'')+
+        '<div class="xr-slide-view"></div><a class="xr-link" href="'+escape(deck.url)+'" target="_blank" rel="noopener">Open full '+(unit==='slide'?'lecture':'document')+' ↗</a></div></details>';
+    }).join('')+'</section>';
+  }
+  function showSlide(details,ref,page) {
+    const deck=lectureData.decks[ref.deck];
+    const name=deck.label+' · '+slideUnit(deck)+' '+page;
+    const path='exam/slides/'+ref.deck+'-'+page+'.webp';
+    const [width,height]=deck.size[page];
+    details.querySelector('.xr-slide-view').innerHTML='<a class="xr-slide-zoom" href="'+path+'" target="_blank" rel="noopener" aria-label="Open '+escape(name)+' at full size"><img src="'+path+'" width="'+width+'" height="'+height+'" alt="'+escape(name+' — '+deck.title)+'"></a>'+
+      '<a class="xr-link" href="'+path+'" target="_blank" rel="noopener">'+escape(name)+' · Open full size ↗</a>';
+    for(const button of details.querySelectorAll('[data-slide]'))button.setAttribute('aria-pressed',String(Number(button.dataset.slide)===page));
+  }
+  for(const surface of [root,chat]){
+    surface.addEventListener('toggle',event=>{
+      const details=event.target;
+      if(!details.matches('details.xr-lecture') || !details.open || details.querySelector('.xr-slide-view img'))return;
+      const ref=references(current())[Number(details.dataset.ref)];
+      showSlide(details,ref,ref.pages[0]);
+    },true);
+    surface.addEventListener('click',event=>{
+      const button=event.target.closest('[data-slide]');
+      if(!button)return;
+      const details=button.closest('.xr-lecture');
+      const ref=references(current())[Number(details.dataset.ref)];
+      showSlide(details,ref,Number(button.dataset.slide));
+    });
   }
   function figures(q) {
     if(!q.figs.length)return '';
@@ -156,7 +193,7 @@
   function renderChat() {
     const q=current(), t=thread(q.id), a=record(q.id);
     const source=pdfLink(q.part,q.page,'Part '+q.part+' · p. '+q.page);
-    chat.innerHTML='<div class="xr-chat"><header><div><span class="xr-kicker">Structure Coach / Exam discussion</span><h1>'+displayId(q.id)+' · '+escape(q.title)+'</h1></div><button class="xr-secondary" data-chat="back">Return to question</button></header><div class="xr-chat-body"><aside><h2>Question reference</h2><p>'+escape(q.stem)+'</p>'+figures(q)+(q.options?'<ol class="xr-reference-options">'+q.options.map(o=>'<li><b>'+o.letter+'.</b> '+escape(o.label)+'</li>').join('')+'</ol>':'')+(a.choices.length||a.text?'<p><b>Your response</b> '+escape(a.choices.join(', ')||a.text)+'</p>':'')+source+'</aside><section><div class="xr-log" role="log" aria-label="Question discussion" aria-live="polite">'+(t.messages.length?t.messages.map(m=>'<div class="xr-bubble"><b>'+(m.role==='student'?'You':'Structure Coach')+'</b><p>'+escape(m.text)+'</p></div>').join(''):'<p class="xr-muted">Ask about a diagram, a choice, or a step in the reasoning. The question and the course explanation travel with your message.</p>')+(pending.has(q.id)?'<p role="status">Structure Coach is responding…</p>':'')+'</div><form id="xr-chat-form"><label>Ask a follow-up<textarea maxlength="1200" rows="3" placeholder="Which part of the question would you like to discuss?">'+escape(t.draft)+'</textarea></label><div class="xr-actions"><button class="xr-primary" type="submit" '+(pending.has(q.id)?'disabled':'')+'>Send to Coach</button><button class="xr-secondary" type="button" data-chat="source">Read course explanation</button></div><p role="status" class="xr-chat-error">'+escape(errors.get(q.id)||'')+'</p></form></section></div></div>';
+    chat.innerHTML='<div class="xr-chat"><header><div><span class="xr-kicker">Structure Coach / Exam discussion</span><h1>'+displayId(q.id)+' · '+escape(q.title)+'</h1></div><button class="xr-secondary" data-chat="back">Return to question</button></header><div class="xr-chat-body"><aside><h2>Question reference</h2><p>'+escape(q.stem)+'</p>'+figures(q)+(q.options?'<ol class="xr-reference-options">'+q.options.map(o=>'<li><b>'+o.letter+'.</b> '+escape(o.label)+'</li>').join('')+'</ol>':'')+(a.choices.length||a.text?'<p><b>Your response</b> '+escape(a.choices.join(', ')||a.text)+'</p>':'')+source+lectureSection(q)+'</aside><section><div class="xr-log" role="log" aria-label="Question discussion" aria-live="polite">'+(t.messages.length?t.messages.map(m=>'<div class="xr-bubble"><b>'+(m.role==='student'?'You':'Structure Coach')+'</b><p>'+escape(m.text)+'</p></div>').join(''):'<p class="xr-muted">Ask about a diagram, a choice, or a step in the reasoning. The question and the course explanation travel with your message.</p>')+(pending.has(q.id)?'<p role="status">Structure Coach is responding…</p>':'')+'</div><form id="xr-chat-form"><label>Ask a follow-up<textarea maxlength="1200" rows="3" placeholder="Which part of the question would you like to discuss?">'+escape(t.draft)+'</textarea></label><div class="xr-actions"><button class="xr-primary" type="submit" '+(pending.has(q.id)?'disabled':'')+'>Send to Coach</button><button class="xr-secondary" type="button" data-chat="source">Read course explanation</button></div><p role="status" class="xr-chat-error">'+escape(errors.get(q.id)||'')+'</p></form></section></div></div>';
     const log=chat.querySelector('.xr-log');log.scrollTop=log.scrollHeight;
   }
   function context(q) {
@@ -170,13 +207,17 @@
       if(chunk)rows.push({label,value:chunk,unit:''});
     }
     add('Question',q.stem);
+    for(const ref of references(q)) {
+      const deck=lectureData.decks[ref.deck];
+      add('Course reference',deck.label+' ('+deck.title+'), '+slideUnit(deck)+' '+ref.pages.join(', ')+'. '+ref.role+'. '+ref.note);
+    }
     if(q.options)add('Options',q.options.map(o=>o.letter+'. '+o.label).join(' '));
     add('Source',parts[q.part-1][1]+', page '+q.page+'. '+(q.figs.length?'Use the course description to interpret the figure. The figure pixels are not attached.':''));
     const a=record(q.id);add('Student attempt',a.choices.join(', ')||a.text);
     add('Course answer & reasoning',q.answer);
     for(const o of q.options||[])if(!o.correct&&o.reason)add('Choice '+o.letter,o.reason);
     if(priorityById[q.id])add('Priority review',priorityById[q.id].review);
-    return {module:'exam-review',selected:q.id,title:displayId(q.id)+' · '+q.title,confirmed:true,note:'Use the course explanation. Answer directly and end with the reasoning or result. Ask a focused question only when a missing detail changes the answer or the student requests guided practice. For a hint, give the next step and leave the answer undisclosed.',rows};
+    return {module:'exam-review',selected:q.id,title:displayId(q.id)+' · '+q.title,confirmed:true,note:'Use the course answer and question values. Cite the supplied lecture and slide. Answer directly and end with the reasoning or result. Ask only if a missing detail changes the answer or the student requests guided practice. For a hint, give only the next step.',rows};
   }
   async function send() {
     const q=current(), id=q.id, t=thread(id), message=t.draft.trim(), generation=epoch;

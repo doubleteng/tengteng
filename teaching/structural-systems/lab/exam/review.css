@@ -98,3 +98,25 @@ body.studio-enabled .exam-screen button.xr-primary:hover {color:#12262e;backgrou
 .xr-graded ul {margin:12px 0}
 .xr-graded .xr-review-note {border-top:1px solid #62706d;padding-top:9px}
 .xr-source button.xr-link {border:0;padding:4px 0}
+
+.xr-lectures {margin:16px 0 20px;min-width:0}
+.xr-lectures h3,.xr-chat .xr-lectures h3 {font-size:14px;margin:0 0 7px;color:#203d54}
+.xr-lecture {border:1px solid #ccd9e3;border-radius:6px;background:white;margin:5px 0;overflow:hidden}
+.xr-lecture summary {display:flex;align-items:center;gap:9px;padding:8px 12px;cursor:pointer;color:#164a70}
+.xr-lecture summary::-webkit-details-marker {display:none}
+.xr-lecture summary::before {content:'▸';font-size:16px}
+.xr-lecture[open] summary::before {content:'▾'}
+.xr-lecture summary:hover,.xr-lecture[open] summary {background:#eff5f8}
+.xr-lecture summary b,.xr-lecture summary small {display:block}
+.xr-lecture summary b {font-size:13px}
+.xr-lecture summary small {font-size:12px;color:#516778;line-height:1.45}
+.xr-slide-reader {padding:8px 12px 12px}
+.xr-slide-reader p {font-size:13px;line-height:1.5;margin:2px 0 9px}
+.xr-slide-pages {display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.xr-slide-pages button {border:1px solid #95adbd;border-radius:4px;background:white;color:#20445b;min-width:34px;min-height:30px;cursor:pointer}
+.xr-slide-pages button[aria-pressed=true] {background:#184d70;color:white}
+.xr-slide-zoom {display:block;cursor:zoom-in}
+.xr-slide-zoom img {width:100%;height:auto;display:block;border:1px solid #dae3e9;box-sizing:border-box}
+.xr-slide-view .xr-link,.xr-slide-reader>.xr-link {display:inline-block;margin:5px 0 0}
+.xr-slide-reader>.xr-link {margin-top:7px}
+.xr-lecture :focus-visible {outline:2px solid #136aa1;outline-offset:-2px}

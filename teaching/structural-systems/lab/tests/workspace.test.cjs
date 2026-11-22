@@ -46,3 +46,14 @@ test('missing or out-of-range study lens values restore to a usable angle',()=>{
   r.setFieldOfView(input);assert.equal(r.fieldOfView,expected);
  }
 });
+
+test('returning from a building plan keeps the fundamentals camera in sync with its own selector',()=>{
+ const r=renderer();r.canvas.id='scene';
+ window.document.body.dataset.studioSpace='concrete';
+ window.StructureDisplay={projection:'orthographic',view:'plan',fieldOfView:58,xray:true};
+ window.StructureLabUI={getModel:()=>({active:'loads'})};
+ try{
+  r.setScene([]);
+  assert.equal(r.projection,'perspective');assert.equal(r.mode,'3d');assert.equal(r.fieldOfView,58);
+ }finally{delete window.StructureLabUI;}
+});

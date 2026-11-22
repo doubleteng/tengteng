@@ -408,7 +408,10 @@ class LabRenderer{
  }
  resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.w=Math.max(10,r.width);this.h=Math.max(10,r.height);const d=Math.min(window.devicePixelRatio||1,2);this.canvas.width=Math.round(this.w*d);this.canvas.height=Math.round(this.h*d);this.ctx.setTransform(d,0,0,d,0,0);this.render();}
  setScene(items,opts={}){this.items=items;this.sceneBounds={center:[...(opts.center||[0,4,0])],extent:opts.extent||24};if(this.fitPending){this.center=[...this.sceneBounds.center];this.extent=this.sceneBounds.extent;this.fitPending=false;}this.selected=opts.selected;this.plane=opts.plane||'elevation';this.editor=opts.editor||null;this.planEditor=opts.planEditor||false;this.applyDisplay();this.render();}
- applyDisplay(){const d=root.StructureDisplay;if(!d)return;this.setFieldOfView(d.fieldOfView);this.projection=this.canvas?.id!=='studioTermCanvas'&&d.projection==='orthographic'?'orthographic':'perspective';this.xray=d.xray===true;this.materials=d.materials!==false;if(d.view&&['wood','steel','concrete'].includes(root.document?.body?.dataset?.studioSpace)&&this.canvas?.closest?.('#labWorkspace,#steelScreen,#concreteScreen')){this.mode=d.view==='3d'?'3d':'2d';if(d.view!=='3d')this.plane=d.view;}}
+ applyDisplay(){const d=root.StructureDisplay;if(!d)return;this.setFieldOfView(d.fieldOfView);
+  // Fundamentals owns its plane, projection and overlays even during a route change.
+  if(this.canvas?.id==='scene'&&root.StructureLabUI&&!root.WoodProject.has(root.StructureLabUI.getModel().active))return;
+  this.projection=this.canvas?.id!=='studioTermCanvas'&&d.projection==='orthographic'?'orthographic':'perspective';this.xray=d.xray===true;this.materials=d.materials!==false;if(d.view&&['wood','steel','concrete'].includes(root.document?.body?.dataset?.studioSpace)&&this.canvas?.closest?.('#labWorkspace,#steelScreen,#concreteScreen')){this.mode=d.view==='3d'?'3d':'2d';if(d.view!=='3d')this.plane=d.view;}}
  captureView(){return {yaw:this.yaw,pitch:this.pitch,zoom:this.zoom,pan:[...this.pan],center:[...this.center],extent:this.extent};}
  restoreView(view){if(view){Object.assign(this,view,{pan:[...view.pan],center:[...view.center],fitPending:false});this.applyDisplay();this.render();}}
  // Preserve role/force hues while keeping opaque members legible on the #666666 viewport.

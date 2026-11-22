@@ -120,3 +120,29 @@ body.studio-enabled .exam-screen button.xr-primary:hover {color:#12262e;backgrou
 .xr-slide-view .xr-link,.xr-slide-reader>.xr-link {display:inline-block;margin:5px 0 0}
 .xr-slide-reader>.xr-link {margin-top:7px}
 .xr-lecture :focus-visible {outline:2px solid #136aa1;outline-offset:-2px}
+
+.xr-office{border:1px solid #586870;background:#232b30;margin:16px 0 20px;overflow:hidden}
+.xr-office [hidden]{display:none!important}
+.xr-office header,.xr-office .xo-controls,.xr-office .xo-tools,.xr-office .xo-legend{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px}
+.xr-office header{justify-content:space-between;padding:10px 13px;border-bottom:1px solid #4b5960}
+.xr-office h3{font-size:18px;font-weight:500;line-height:1.2;color:#f1f5f5}
+.xr-office button,.xr-office select{font:inherit;font-size:13px;min-height:30px}
+.xr-office button{color:#c8dde6;padding:3px 8px;border:1px solid #627581;border-radius:2px;background:#28333a}
+.xr-office button[aria-pressed=true]{background:#38596a;border-color:#92c9e4;color:white}
+.xr-office .xo-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.xr-office select{width:auto;max-width:100%;padding:3px 5px}
+.xr-office .xo-controls,.xr-office .xo-tools{padding:6px 13px;font-size:13px}
+.xr-office label{display:inline-flex;align-items:center;gap:6px}
+.xr-office input{accent-color:#9bd8f1}
+.xr-office .xo-stage{height:clamp(225px,35vh,360px);position:relative;background:#666;overflow:hidden}
+.xr-office canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.xr-office :focus-visible{outline:2px solid #b6e4fa;outline-offset:-2px}
+.xr-office .xo-legend{gap:6px 14px;padding:6px 13px 0;font-size:12px;color:#c8d4db}
+.xo-legend span::before{display:inline-block;content:'';width:13px;height:4px;margin-right:4px;vertical-align:middle;background:var(--swatch)}
+.xo-beam{--swatch:#80c7ef}.xo-girder{--swatch:#edba78}.xo-column{--swatch:#dbe2e5}.xo-deck{--swatch:#94d7be}
+.xr-office .xo-guide{padding:4px 13px;font-size:14px;color:#e7f0f1}
+.xr-office .xo-lens input{width:72px}.xr-office output{min-width:3ch}
+.xr-office small,.xr-office figcaption{display:block;font-size:12px;color:#b7c6ce;padding:2px 13px 9px}
+.xr-office figure{margin:0}.xr-office figure img{display:block;width:100%;max-height:460px;object-fit:contain;background:white}.xr-office figcaption{padding-top:6px}
+@media(max-width:550px){.xr-office header{gap:6px}.xr-office .xo-controls,.xr-office .xo-tools{column-gap:8px}.xr-office .xo-stage{height:245px}}
+.xr-office .xo-controls label{white-space:nowrap}.xr-office .xo-controls select{width:auto}

@@ -3375,7 +3375,7 @@ window.ExamReviewData = {
     "ARE15-22.webp"
    ],
    "stem": "Under uniform gravity loading, which column in the office plan has the most balanced framing reactions about its centerline?",
-   "answer": "C. Column 3C. Locate grid 3 at line C. Equal bays frame into this interior column from opposite sides, putting the resultant close to its centerline. Columns 1A and 5D are at corners, and 2D is on an edge. Their floor framing does not",
+   "answer": "C. Column 3C. Locate grid 3 at line C. Equal bays frame into this interior column from opposite sides, putting the resultant close to its centerline. Columns 1A and 5D are at corners, and 2D is on an edge. Their floor framing does not continue on all sides.",
    "options": [
     {
      "letter": "A",

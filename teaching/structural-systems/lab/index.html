@@ -92,7 +92,7 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
 <link rel="stylesheet" href="structure-viewport.css?v=2.2.2">
 <link rel="stylesheet" href="concrete-building.css?v=20261110r6">
 <link rel="stylesheet" href="structure-workspace.css?v=20261122-lens-1">
-<link rel="stylesheet" href="exam/review.css?v=lecture-slides-1">
+<link rel="stylesheet" href="exam/review.css?v=office-frame-1">
 <style>
 .lab-byline {
   display: flex;
@@ -167,16 +167,19 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
 <script src="concrete-geometry.js?v=20261110-r7"></script>
 <script src="concrete-report.js?v=20261110r6"></script>
 <script src="concrete-building.js?v=20261122-lens-1"></script>
-<script src="exam/questions.js"></script>
+<script src="exam/questions.js?v=office-frame-1"></script>
 <script src="exam/lectures.js?v=1"></script>
-<script src="exam/review.js?v=lecture-slides-1"></script>
+<script src="exam/office-frame.js?v=1"></script>
+<script src="exam/review.js?v=office-frame-1"></script>
 <script src="structure-bootstrap.js?v=20261122-exam"></script>
 <script src="structure-studio.js?v=20261122-lens-1"></script>
 <script src="structure-viewport.js?v=20261122-exam"></script>
 <script src="structure-workspace.js?v=20261122-lens-1"></script>
 <script>
 function openExamLink() {
-  if (location.hash === '#exam-2') window.StructureStudio.go('exam', window.ExamReview.part);
+  const office = /^#exam-2\/(ARE\d{2})$/.exec(location.hash);
+  if (office) window.ExamReview.openOffice(office[1]);
+  else if (location.hash === '#exam-2') window.StructureStudio.go('exam', window.ExamReview.part);
 }
 window.addEventListener('hashchange', openExamLink);
 openExamLink();

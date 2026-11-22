@@ -75,8 +75,11 @@
     const feedback = isPriority
       ? '<div id="xr-priority-feedback" aria-live="polite">'+priorityFeedback(q,a)+'</div>'
       : (a.revealed ? explanation(q,a) : '');
+    const office = part==='practice' && W.OfficeFrame.has(q.id);
+    const officeSlot = office ? '<div data-office-slot></div>' : '';
     const guideLink = isPriority ? '<button class="xr-link" data-action="guide">Open '+q.id+' in answer guide</button>' : '';
-    root.innerHTML='<div class="xr-shell"><header class="xr-header"><div><span class="xr-kicker">ARC 2713 &nbsp; / &nbsp; Fall 2026</span><h1>Exam 2 Review</h1></div><nav aria-label="Exam review materials" class="xr-tabs">'+parts.map(([id,label],i)=>'<button data-part="'+id+'" '+(id===part?'aria-current="page"':'')+'><small>Part '+(i+1)+'</small>'+escape(label)+'</button>').join('')+'</nav></header><div class="xr-body"><aside class="xr-index"><div class="xr-tools"><label>Find a question<input type="search" id="xr-search" placeholder="Question number or topic" value="'+escape(filter)+'"></label>'+(groups.length?'<label>Chapter<select id="xr-group"><option value="">All chapters</option>'+groups.map(g=>'<option '+(g===group?'selected':'')+'>'+escape(g)+'</option>').join('')+'</select></label>':'')+'<span id="xr-count" class="xr-kicker" aria-live="polite"></span><label class="xr-mobile">Question<select id="xr-mobile-select"></select></label></div><div id="xr-results"></div><div class="xr-index-foot">'+pdfLink(p,null,'Open Part '+p+' PDF')+'</div></aside><article class="xr-detail"><div class="xr-content"><div class="xr-meta"><span>Part '+p+' / '+escape(parts[p-1][1])+'</span><span>'+displayId(q.id)+'</span></div><h2 class="xr-question-title" tabindex="-1">'+escape(q.title)+'</h2>'+priorityMeta+'<p class="xr-stem">'+escape(q.stem)+'</p>'+lectureSection(q)+figures(q)+entry+'<div class="xr-actions">'+checkButton+'<button class="xr-primary" data-action="coach">Ask Structure Coach</button></div>'+feedback+'<footer class="xr-source">'+pdfLink(p,part==='priority'?pr.page:q.page,'Original PDF · p. '+(part==='priority'?pr.page:q.page))+guideLink+'<div>'+pager()+'</div></footer><p class="xr-footnote">'+captions[part]+'</p></div></article></div></div>';
+    root.innerHTML='<div class="xr-shell"><header class="xr-header"><div><span class="xr-kicker">ARC 2713 &nbsp; / &nbsp; Fall 2026</span><h1>Exam 2 Review</h1></div><nav aria-label="Exam review materials" class="xr-tabs">'+parts.map(([id,label],i)=>'<button data-part="'+id+'" '+(id===part?'aria-current="page"':'')+'><small>Part '+(i+1)+'</small>'+escape(label)+'</button>').join('')+'</nav></header><div class="xr-body"><aside class="xr-index"><div class="xr-tools"><label>Find a question<input type="search" id="xr-search" placeholder="Question number or topic" value="'+escape(filter)+'"></label>'+(groups.length?'<label>Chapter<select id="xr-group"><option value="">All chapters</option>'+groups.map(g=>'<option '+(g===group?'selected':'')+'>'+escape(g)+'</option>').join('')+'</select></label>':'')+'<span id="xr-count" class="xr-kicker" aria-live="polite"></span><label class="xr-mobile">Question<select id="xr-mobile-select"></select></label></div><div id="xr-results"></div><div class="xr-index-foot">'+pdfLink(p,null,'Open Part '+p+' PDF')+'</div></aside><article class="xr-detail"><div class="xr-content"><div class="xr-meta"><span>Part '+p+' / '+escape(parts[p-1][1])+'</span><span>'+displayId(q.id)+'</span></div><h2 class="xr-question-title" tabindex="-1">'+escape(q.title)+'</h2>'+priorityMeta+'<p class="xr-stem">'+escape(q.stem)+'</p>'+officeSlot+lectureSection(q)+figures(q,office)+entry+'<div class="xr-actions">'+checkButton+'<button class="xr-primary" data-action="coach">Ask Structure Coach</button></div>'+feedback+'<footer class="xr-source">'+pdfLink(p,part==='priority'?pr.page:q.page,'Original PDF · p. '+(part==='priority'?pr.page:q.page))+guideLink+'<div>'+pager()+'</div></footer><p class="xr-footnote">'+captions[part]+'</p></div></article></div></div>';
+    W.OfficeFrame.mount(root.querySelector('[data-office-slot]'),q.id);
     renderList();root.querySelector('#xr-results').scrollTop=previousScroll;
   }
   const lectureData = W.ExamLectureSources;
@@ -116,9 +119,10 @@
       showSlide(details,ref,Number(button.dataset.slide));
     });
   }
-  function figures(q) {
-    if(!q.figs.length)return '';
-    return '<div class="xr-figures">'+q.figs.map((file,i)=>'<a href="exam/figures/'+escape(file)+'" target="_blank" rel="noopener" title="Open figure at full size"><img src="exam/figures/'+escape(file)+'" alt="'+escape(q.title+' — course figure '+(i+1))+'"></a>').join('')+'</div>';
+  function figures(q,office=false) {
+    const files=office?q.figs.filter(file=>!['ARE02-18.webp','ARE15-22.webp'].includes(file)):q.figs;
+    if(!files.length)return '';
+    return '<div class="xr-figures">'+files.map((file,i)=>'<a href="exam/figures/'+escape(file)+'" target="_blank" rel="noopener" title="Open figure at full size"><img src="exam/figures/'+escape(file)+'" alt="'+escape(q.title+' — course figure '+(i+1))+'"></a>').join('')+'</div>';
   }
   function priorityFeedback(q,a) {
     if (!a.revealed || !a.choices.length) return '';
@@ -207,6 +211,10 @@
       if(chunk)rows.push({label,value:chunk,unit:''});
     }
     add('Question',q.stem);
+    if(W.OfficeFrame.has(q.id)){
+      add('Shared office model','Grids 1–5 are 30 ft apart. A–D are 25 ft apart. Floor beams span A–B, B–C or C–D at 10 ft on center. G1 borders the 20 by 10 ft opening near 1D. The model roof outline and vertical sizes are schematic.');
+      const view=W.OfficeFrame.context(q.id);if(view)add('Model view',view);
+    }
     for(const ref of references(q)) {
       const deck=lectureData.decks[ref.deck];
       add('Course reference',deck.label+' ('+deck.title+'), '+slideUnit(deck)+' '+ref.pages.join(', ')+'. '+ref.role+'. '+ref.note);
@@ -262,5 +270,8 @@
     }
     resumeChat=raw.discussing===true;
   }
-  W.ExamReview={parts,show,discuss,restore,get part(){return state.part;},get wasDiscussing(){return resumeChat;},getData:()=>({...state,discussing:!chat.hidden})};
+  W.ExamReview={parts,show,discuss,restore,openOffice(id){
+    if(!W.OfficeFrame.has(id))return;
+    setPart('practice');state.selected.practice=id;W.StructureStudio.go('exam','practice');
+  },get part(){return state.part;},get wasDiscussing(){return resumeChat;},getData:()=>({...state,discussing:!chat.hidden})};
 })(window,document);

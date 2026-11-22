@@ -20,3 +20,29 @@ test('fresh model constructor uses perspective before a workspace preference exi
  context.ResizeObserver=class{observe(){}};window.addEventListener=()=>{};window.devicePixelRatio=1;
  const resize=R.resize;R.resize=function(){};try{delete window.StructureDisplay;const r=new window.LabRenderer(dummy);assert.equal(r.projection,'perspective');assert.equal(r.mode,'3d');}finally{R.resize=resize;}
 });
+
+test('dolly zoom keeps the target plane framed while changing the vertical field of view',()=>{
+ const r=renderer();
+ r.center=[0,0,0];r.pan=[17,-23];r.zoom=1.25;
+ const center=r.project([0,0,0]),target=r.project([2,3,0]);
+ let previousNear=0,previousFar=Infinity;
+ for(const angle of [15,35,75]){
+  r.setFieldOfView(angle);
+  const point=r.project([2,3,0]);
+  assert.equal(point.x,target.x);assert.equal(point.y,target.y);
+  const near=r.project([2,0,4]).x-center.x,far=r.project([2,0,-4]).x-center.x;
+  assert.ok(near>previousNear&&far<previousFar);previousNear=near;previousFar=far;
+  const measured=2*Math.atan(r.h/(2*r.scale()*r.cameraDistance()))*180/Math.PI;
+  assert.ok(Math.abs(measured-angle)<1e-9);
+  const line=r.projectSegment([0,0,0],[0,2,r.cameraDistance()*2]);
+  assert.equal(line.length,2);assert.ok(line.every(p=>Number.isFinite(p.y)));
+ }
+ r.projection='orthographic';r.setFieldOfView(15);const parallel=r.project([2,3,4]);
+ r.setFieldOfView(75);assert.deepEqual(r.project([2,3,4]),parallel);
+});
+test('missing or out-of-range study lens values restore to a usable angle',()=>{
+ const r=renderer();
+ for(const [input,expected] of [[undefined,35],[null,35],[Infinity,35],[-4,15],[90,75],[47,47]]){
+  r.setFieldOfView(input);assert.equal(r.fieldOfView,expected);
+ }
+});

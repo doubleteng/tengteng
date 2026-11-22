@@ -376,10 +376,29 @@ root.DepthGPU=DepthGPU;root.DepthSurface=DepthSurface;
 (function(root){
 'use strict';
 const sub=(a,b)=>a.map((v,i)=>v-b[i]),add=(a,b)=>a.map((v,i)=>v+b[i]),mul=(a,s)=>a.map(v=>v*s),dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],unit=a=>mul(a,1/(Math.hypot(...a)||1));
+const lens = {
+ min:15, max:75, standard:35,
+ normalize(value){
+  return Number.isFinite(value)?Math.min(this.max,Math.max(this.min,Math.round(value))):this.standard;
+ }
+};
+const focalRatio = angle => .5 / Math.tan(angle*Math.PI/360);
+const standardFocalRatio = focalRatio(lens.standard);
 class LabRenderer{
+ static get lens(){return lens;}
+ setFieldOfView(value){
+  const angle=lens.normalize(value);
+  if(this.fieldOfView===angle)return;
+  this.fieldOfView=angle;
+  this.focalRatio=focalRatio(angle);
+ }
+ cameraDistance(){
+  // Focal length in pixels divided by pixels per model unit keeps the target plane framed.
+  return this.h*(this.focalRatio??standardFocalRatio)/this.scale();
+ }
  constructor(canvas,callbacks={}){
   this.canvas=canvas;this.ctx=canvas.getContext('2d');this.cb=callbacks;this.items=[];this.mode='3d';this.plane='elevation';this.yaw=-.65;this.pitch=.5;this.zoom=1;this.pan=[0,0];this.center=[0,0,0];this.extent=24;this.hit=[];this.drag=null;this.selected=null;this.editor=null;this.cursorWorld=null;
-  this.projection='perspective';this.xray=false;this.materials=true;this.depthSurface=null;this.sceneBounds=null;this.fitPending=true;
+  this.setFieldOfView(root.StructureDisplay?.fieldOfView);this.projection='perspective';this.xray=false;this.materials=true;this.depthSurface=null;this.sceneBounds=null;this.fitPending=true;
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas.parentElement);
   canvas.addEventListener('contextmenu',e=>e.preventDefault());
   canvas.addEventListener('wheel',e=>{e.preventDefault();this.zoom=Math.max(.3,Math.min(5,this.zoom*Math.exp(-e.deltaY*.001)));this.requestRender();},{passive:false});
@@ -389,7 +408,7 @@ class LabRenderer{
  }
  resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.w=Math.max(10,r.width);this.h=Math.max(10,r.height);const d=Math.min(window.devicePixelRatio||1,2);this.canvas.width=Math.round(this.w*d);this.canvas.height=Math.round(this.h*d);this.ctx.setTransform(d,0,0,d,0,0);this.render();}
  setScene(items,opts={}){this.items=items;this.sceneBounds={center:[...(opts.center||[0,4,0])],extent:opts.extent||24};if(this.fitPending){this.center=[...this.sceneBounds.center];this.extent=this.sceneBounds.extent;this.fitPending=false;}this.selected=opts.selected;this.plane=opts.plane||'elevation';this.editor=opts.editor||null;this.planEditor=opts.planEditor||false;this.applyDisplay();this.render();}
- applyDisplay(){const d=root.StructureDisplay;if(!d)return;this.projection=d.projection==='orthographic'?'orthographic':'perspective';this.xray=d.xray===true;this.materials=d.materials!==false;if(d.view&&['wood','steel','concrete'].includes(root.document?.body?.dataset?.studioSpace)&&this.canvas?.closest?.('#labWorkspace,#steelScreen,#concreteScreen')){this.mode=d.view==='3d'?'3d':'2d';if(d.view!=='3d')this.plane=d.view;}}
+ applyDisplay(){const d=root.StructureDisplay;if(!d)return;this.setFieldOfView(d.fieldOfView);this.projection=this.canvas?.id!=='studioTermCanvas'&&d.projection==='orthographic'?'orthographic':'perspective';this.xray=d.xray===true;this.materials=d.materials!==false;if(d.view&&['wood','steel','concrete'].includes(root.document?.body?.dataset?.studioSpace)&&this.canvas?.closest?.('#labWorkspace,#steelScreen,#concreteScreen')){this.mode=d.view==='3d'?'3d':'2d';if(d.view!=='3d')this.plane=d.view;}}
  captureView(){return {yaw:this.yaw,pitch:this.pitch,zoom:this.zoom,pan:[...this.pan],center:[...this.center],extent:this.extent};}
  restoreView(view){if(view){Object.assign(this,view,{pan:[...view.pan],center:[...view.center],fitPending:false});this.applyDisplay();this.render();}}
  // Preserve role/force hues while keeping opaque members legible on the #666666 viewport.
@@ -402,8 +421,25 @@ class LabRenderer{
   return {xx,yy,zz};
  }
  project(v){return this.projectCamera(this.camera(v));}
- projectCamera({xx,yy,zz}){const perspective=this.mode==='3d'&&this.projection==='perspective',d=this.extent*2.5,near=d*.025,dist=d-zz,k=perspective?d/Math.max(near,dist):1,s=this.scale();return{x:this.w/2+this.pan[0]+xx*s*k,y:this.h/2+this.pan[1]-yy*s*k,z:zz,depth:perspective?1/Math.max(near,dist):zz,visible:!perspective||dist>=near};}
- projectFace(points,lighting=null){let q=points.map(p=>({...this.camera(p),light:lighting?.project(p)}));if(this.mode==='3d'&&this.projection==='perspective'){const maxZ=this.extent*2.5*.975,out=[];for(let i=0;i<q.length;i++){const a=q[i],b=q[(i+1)%q.length],ain=a.zz<=maxZ,bin=b.zz<=maxZ;if(ain)out.push(a);if(ain!==bin){const t=(maxZ-a.zz)/(b.zz-a.zz);out.push({xx:a.xx+t*(b.xx-a.xx),yy:a.yy+t*(b.yy-a.yy),zz:maxZ,light:a.light?.map((v,k)=>v+t*(b.light[k]-v))});}}q=out;}return q.map(p=>{const projected=this.projectCamera(p),q=this.mode==='3d'&&this.projection==='perspective'?projected.depth:1;return {...projected,light:p.light?[...p.light.map(v=>v*q),q]:null};});}
+ projectSegment(a,b){
+  let start=this.camera(a),end=this.camera(b);
+  if(this.mode==='3d'&&this.projection==='perspective'){
+   const limit=this.cameraDistance()*.975;
+   if(start.zz>limit&&end.zz>limit)return null;
+   if(start.zz>limit||end.zz>limit){
+    const t=(limit-start.zz)/(end.zz-start.zz);
+    const cut={xx:start.xx+t*(end.xx-start.xx),yy:start.yy+t*(end.yy-start.yy),zz:limit};
+    if(start.zz>limit)start=cut;else end=cut;
+   }
+  }
+  return [this.projectCamera(start),this.projectCamera(end)];
+ }
+ worldLine(a,b,color,width){
+  const segment=this.projectSegment(a,b);
+  if(segment)this.lineRaw(segment[0],segment[1],color,width);
+ }
+ projectCamera({xx,yy,zz}){const perspective=this.mode==='3d'&&this.projection==='perspective',d=perspective?this.cameraDistance():0,near=d*.025,dist=d-zz,k=perspective?d/Math.max(near,dist):1,s=this.scale();return{x:this.w/2+this.pan[0]+xx*s*k,y:this.h/2+this.pan[1]-yy*s*k,z:zz,depth:perspective?1/Math.max(near,dist):zz,visible:!perspective||dist>=near};}
+ projectFace(points,lighting=null){let q=points.map(p=>({...this.camera(p),light:lighting?.project(p)}));if(this.mode==='3d'&&this.projection==='perspective'){const maxZ=this.cameraDistance()*.975,out=[];for(let i=0;i<q.length;i++){const a=q[i],b=q[(i+1)%q.length],ain=a.zz<=maxZ,bin=b.zz<=maxZ;if(ain)out.push(a);if(ain!==bin){const t=(maxZ-a.zz)/(b.zz-a.zz);out.push({xx:a.xx+t*(b.xx-a.xx),yy:a.yy+t*(b.yy-a.yy),zz:maxZ,light:a.light?.map((v,k)=>v+t*(b.light[k]-v))});}}q=out;}return q.map(p=>{const projected=this.projectCamera(p),q=this.mode==='3d'&&this.projection==='perspective'?projected.depth:1;return {...projected,light:p.light?[...p.light.map(v=>v*q),q]:null};});}
  depthVisible(p){return p.visible!==false&&(!this.depthSurface||this.depthSurface.visible(p,this.projection==='perspective'?1e-6:Math.max(.02,this.extent*.0002)));}
 
  scale(){return Math.min(this.w*.78,this.h*1.12)/this.extent*this.zoom;}
@@ -452,7 +488,7 @@ class LabRenderer{
   if(lighting)face(lighting.ground,'#666666',null,1,null,false,false,true);
   // A measured ground grid is a spatial reference, not a structural element.
   const gridStep=this.extent>55?10:5,gridSize=Math.ceil(this.extent*.72/gridStep)*gridStep;
-  if(!lighting&&(this.mode==='3d'||this.plane==='plan'))for(let v=-gridSize;v<=gridSize;v+=gridStep){this.lineRaw(this.project([v,0,-gridSize]),this.project([v,0,gridSize]),'#797979',.7);this.lineRaw(this.project([-gridSize,0,v]),this.project([gridSize,0,v]),'#797979',.7);}
+  if(!lighting&&(this.mode==='3d'||this.plane==='plan'))for(let v=-gridSize;v<=gridSize;v+=gridStep){this.worldLine([v,0,-gridSize],[v,0,gridSize],'#797979',.7);this.worldLine([-gridSize,0,v],[gridSize,0,v],'#797979',.7);}
   if(this.editor&&this.mode==='2d'&&this.plane==='elevation'){
    const a=this.unproject({x:0,y:this.h}),b=this.unproject({x:this.w,y:0}),base=this.editor.snap||1,step=base*Math.max(1,Math.ceil((b.x-a.x)/(base*90)));
    for(let x=Math.ceil(a.x/step)*step;x<=b.x;x+=step)this.lineRaw(this.project([x,a.y,0]),this.project([x,b.y,0]),Math.abs(x)<1e-8?'#a4a4a4':'#797979',Math.abs(x)<1e-8?1.4:.7);
@@ -472,17 +508,17 @@ class LabRenderer{
    else if(it.type==='label')labels.push({p:this.project(it.p),text:it.text,color:it.color,id:it.owner});
    else if(it.type==='node')lines.push(it);
   }
-  let painted=false;if(this.mode==='3d'&&!this.xray&&root.DepthSurface){this.depthSurface=new root.DepthSurface(this.w,this.h,this.drag?.button!==undefined?.5:this.canvas.id==='cbCanvas'?2:1);polys.forEach(p=>this.depthSurface.add(p));painted=this.depthSurface.paint(c);}
+  let painted=false;if(this.mode==='3d'&&!this.xray&&root.DepthSurface){this.depthSurface=new root.DepthSurface(this.w,this.h,(this.drag?.button!==undefined||this.lensPreview)?.5:this.canvas.id==='cbCanvas'?2:1);polys.forEach(p=>this.depthSurface.add(p));painted=this.depthSurface.paint(c);}
   if(!painted)polys.sort((a,b)=>a.z-b.z).forEach(f=>{c.globalAlpha=f.alpha;c.beginPath();f.p.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();c.fillStyle=f.color;c.fill();if(f.stroke){c.globalAlpha=this.xray?.72:f.alpha;c.strokeStyle=f.stroke;c.lineWidth=this.xray?1.05:1;c.stroke();}c.globalAlpha=1;});
   if(lighting)for(let v=-gridSize;v<=gridSize;v+=gridStep){
-   this.lineRaw(this.project([v,lighting.groundY,-gridSize]),this.project([v,lighting.groundY,gridSize]),'#737373',.55);
-   this.lineRaw(this.project([-gridSize,lighting.groundY,v]),this.project([gridSize,lighting.groundY,v]),'#737373',.55);
+   this.worldLine([v,lighting.groundY,-gridSize],[v,lighting.groundY,gridSize],'#737373',.55);
+   this.worldLine([-gridSize,lighting.groundY,v],[gridSize,lighting.groundY,v],'#737373',.55);
   }
   if(painted)for(const f of polys)if(f.edges)for(let i=0;i<f.p.length;i++)this.lineRaw(f.p[i],f.p[(i+1)%f.p.length],f.stroke,f.id===this.selected?2:.65);
   for(const it of lines){
    if(it.type==='node'){const p=this.project(it.p);if(!this.depthVisible(p))continue;c.beginPath();c.arc(p.x,p.y,it.handle?5:3,0,Math.PI*2);c.fillStyle=this.modelColor(it.color||'#ffffff');c.fill();c.strokeStyle='#273845';c.lineWidth=1.5;c.stroke();if(it.id)this.hit.push({id:it.id,p:[p],handle:it.handle,world:it.p,data:it.data});continue;}
-   const a=this.project(it.a),b=this.project(it.b);this.lineRaw(a,b,this.modelColor(it.color||'#303d55'),it.width||1.5,it.dash);
-   if(it.type==='arrow'&&this.depthVisible(b)){const ang=Math.atan2(b.y-a.y,b.x-a.x),size=7;c.beginPath();c.moveTo(b.x,b.y);c.lineTo(b.x-size*Math.cos(ang-.44),b.y-size*Math.sin(ang-.44));c.lineTo(b.x-size*Math.cos(ang+.44),b.y-size*Math.sin(ang+.44));c.closePath();c.fillStyle=this.modelColor(it.color||'#e67844');c.fill();}
+   const segment=this.projectSegment(it.a,it.b);if(!segment)continue;const [a,b]=segment;this.lineRaw(a,b,this.modelColor(it.color||'#303d55'),it.width||1.5,it.dash);
+   if(it.type==='arrow'&&this.depthVisible(this.project(it.b))){const ang=Math.atan2(b.y-a.y,b.x-a.x),size=7;c.beginPath();c.moveTo(b.x,b.y);c.lineTo(b.x-size*Math.cos(ang-.44),b.y-size*Math.sin(ang-.44));c.lineTo(b.x-size*Math.cos(ang+.44),b.y-size*Math.sin(ang+.44));c.closePath();c.fillStyle=this.modelColor(it.color||'#e67844');c.fill();}
    if(it.id)this.hit.push({id:it.id,p:[a,b],data:it.data});
   }
   c.font='12px Chivo, Arial, sans-serif';c.textAlign='center';c.textBaseline='middle';

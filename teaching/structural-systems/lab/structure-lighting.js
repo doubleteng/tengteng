@@ -6,12 +6,13 @@ const sub=(a,b)=>a.map((v,i)=>v-b[i]);
 const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
 const unit=a=>{const n=Math.hypot(...a)||1;return a.map(v=>v/n);};
 const direction=unit([-.65,1,.45]),right=unit(cross([0,1,0],direction)),up=cross(direction,right);
+const fillDirection=unit([.65,.4,-.9]);
 const cubeFaces=[[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]];
 const normal=points=>unit(cross(sub(points[1],points[0]),sub(points[2],points[0])));
 function shade(hex,n,material=null,view=null){
  if(!/^#[0-9a-f]{6}$/i.test(hex))return hex;
  // World-space Lambert lighting: visible side faces and soffits stay distinct as the camera orbits.
- let k=.25+.18*Math.max(0,n[1])+.60*Math.max(0,dot(n,direction));
+ let k=.74+.10*Math.max(0,n[1])+.28*Math.max(0,dot(n,direction))+.085*Math.max(0,dot(n,fillDirection));
  if(material&&view){const h=unit(direction.map((v,i)=>v+view[i])),spec=Math.pow(Math.max(0,dot(n,h)),material.kind==='steel'?28:10);k+=spec*(material.kind==='steel'?.3:material.kind==='wood'?.045:.018);}
  return '#'+[1,3,5].map(i=>Math.min(255,Math.round(parseInt(hex.slice(i,i+2),16)*k)).toString(16).padStart(2,'0')).join('');
 }
@@ -83,7 +84,7 @@ class ShadowMap{
  }
  receiver(n,ground=false){
   const nl=dot(n,direction),den=Math.abs(nl)<.12?(nl<0?-.12:.12):nl;
-  return {map:this,bias:this.texel*.18,slopeX:-dot(n,right)/den*this.texel,slopeY:-dot(n,up)/den*this.texel,strength:ground?.44:(nl>0?.48:.10)};
+  return {map:this,bias:this.texel*.18,slopeX:-dot(n,right)/den*this.texel,slopeY:-dot(n,up)/den*this.texel,strength:ground?.32:.055+.34*Math.max(0,nl)};
  }
  // Receiver-plane depth correction avoids acne without lifting shadows off their contacts.
  visibility(x,y,z,receiver){
@@ -96,5 +97,5 @@ class ShadowMap{
   return 1-receiver.strength*blocked/9;
  }
 }
-root.LabLighting={direction,normal,shade,materialFor,textureCoordinates,filterTexture,texture,ShadowMap,version:'20261110-r7'};
+root.LabLighting={direction,normal,shade,materialFor,textureCoordinates,filterTexture,texture,ShadowMap,version:'20261122-fill'};
 })(window);

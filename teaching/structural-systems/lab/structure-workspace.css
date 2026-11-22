@@ -25,3 +25,11 @@ body.building-unified .sr-left,body.building-unified .steel-stage{width:100%!imp
 body.building-unified .sr-left,body.building-unified .steel-stage{overflow:hidden!important}
 body.building-unified .sr-left,body.building-unified .steel-stage{scrollbar-gutter:auto!important}
 body.building-unified .sr-left>.sr-layers{display:none!important}
+
+/* The lens stays beside the projection selector or in the concept viewport toolbar. */
+.bw-lens,.bw-toolbar label.bw-lens{display:inline-flex;align-items:center;gap:6px;color:#e8eff3;font:400 13px Chivo,Arial,sans-serif;white-space:nowrap}
+.bw-lens[hidden]{display:none!important}
+.bw-lens input[type=range]{width:clamp(52px,7vw,100px);min-width:0;height:28px;padding:0;margin:0;accent-color:#a9dff8;cursor:pointer}
+.bw-lens input:focus-visible{outline:2px solid #a9dff8;outline-offset:2px}
+.bw-lens output{min-width:3ch;color:#d1e9f6;font-variant-numeric:tabular-nums}
+@media(max-width:550px){.viewport-tools #viewportLocation{flex:1;min-width:0}.bw-lens,.bw-toolbar label.bw-lens{gap:4px}}

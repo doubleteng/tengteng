@@ -4,13 +4,56 @@
 const api=W.StructureLabUI,studio=W.StructureStudio;if(!api||!studio)return;
 const $=id=>D.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const h=api.getHandles(),projects=['wood','steel','concrete'];
-W.StructureDisplay={projection:'perspective',view:'3d',xray:false,materials:true};
+const lens=W.LabRenderer.lens;
+W.StructureDisplay={projection:'perspective',view:'3d',xray:false,materials:true,fieldOfView:lens.standard};
 const bar=D.createElement('section');bar.id='buildingWorkspace';bar.hidden=true;bar.setAttribute('aria-label','Building project workspace');
 bar.innerHTML=`<header class="bw-heading"><div><h1 id="bwTitle"></h1><p id="bwDescription"></p></div><button id="bwSources">Original PDF & tables</button></header><div class="bw-toolbar" role="toolbar" aria-label="Building model tools"><div id="bwClassification" class="bw-group"></div><label class="bw-chapter">Chapter <select id="bwChapter" aria-label="Chapter"></select></label><div class="bw-group bw-views" aria-label="Display methods"><button data-bw-view="plan">Plan</button><button data-bw-view="3d">3D</button><button data-bw-view="elevation">Elevation</button><select id="bwProjection" aria-label="Projection"><option value="perspective">Perspective</option><option value="orthographic">Orthographic</option></select><select id="bwDisplay" aria-label="Display style"><option value="materials">Materials + shadows</option><option value="shaded">Role colors + shadows</option><option value="xray">X-ray</option></select><button id="bwFit">Fit</button><button id="bwControls">Controls</button><button id="bwMaximize" title="Maximize model">⛶</button></div></div>`;
 $('workspace').before(bar);
 const footer=D.createElement('footer');footer.id='buildingFooter';footer.hidden=true;footer.innerHTML='<span>Drag to orbit · Shift-drag to pan · Scroll to zoom · Click a member</span><button id="bwSave">Save study</button><button id="bwPNG">PNG</button><button id="bwCoach">Ask Coach</button>';$('workspace').after(footer);
 let lastSpace='',signature='',queued=false;
 function renderer(){const r=studio.route();return r.space==='concrete'?h.concrete.renderer:r.space==='steel'?(h.steel.renderer||h.steel.conceptLab.renderer):h.renderer;}
+// One control follows the actual interactive canvas, including when a steel chapter replaces its renderer.
+const lensControl=D.createElement('label');
+lensControl.className='bw-lens';
+lensControl.title='Dolly zoom changes the vertical angle of view while keeping the orbit target at the same scale.';
+lensControl.innerHTML=`Dolly zoom <input type="range" min="${lens.min}" max="${lens.max}" step="1" aria-label="Dolly zoom angle"><output></output>`;
+const lensInput=lensControl.querySelector('input'),lensOutput=lensControl.querySelector('output');
+function lensRenderer(r){
+ if(r.space==='terms')return studio.termRenderer;
+ if(r.space==='fundamentals')return h.renderer;
+ if(projects.includes(r.space))return renderer();
+ return null;
+}
+function showAngle(angle){
+ lensInput.value=angle;lensOutput.value=angle+'°';
+ lensInput.setAttribute('aria-valuetext',angle+' degrees');
+}
+let previewRenderer=null;
+function finishLensPreview(){
+ if(!previewRenderer)return;
+ previewRenderer.lensPreview=false;previewRenderer.requestRender();previewRenderer=null;
+}
+function syncLens(r){
+ const rr=lensRenderer(r),anchor=projects.includes(r.space)?$('bwDisplay'):$('viewportMaximize');
+ if(lensControl.nextElementSibling!==anchor)anchor.before(lensControl);
+ lensControl.hidden=!(rr?.canvas?.isConnected&&rr.canvas.getClientRects().length&&rr.mode==='3d'&&rr.projection==='perspective');
+ const angle=W.StructureDisplay.fieldOfView;
+ if(previewRenderer&&(previewRenderer!==rr||lensControl.hidden))finishLensPreview();
+ if(!lensControl.hidden&&rr.fieldOfView!==angle){rr.setFieldOfView(angle);rr.requestRender();}
+ showAngle(angle);
+}
+function setLens(preview){
+ const rr=lensRenderer(studio.route());if(!rr||lensControl.hidden)return;
+ const angle=lens.normalize(lensInput.valueAsNumber);
+ W.StructureDisplay.fieldOfView=angle;
+ showAngle(angle);rr.setFieldOfView(angle);
+ if(preview){rr.lensPreview=true;previewRenderer=rr;}else finishLensPreview();
+ rr.requestRender();
+}
+lensInput.addEventListener('input',()=>setLens(true));
+lensInput.addEventListener('change',()=>setLens(false));
+lensInput.addEventListener('blur',finishLensPreview);
+lensInput.addEventListener('pointercancel',finishLensPreview);
 function select(id,label,options,value){return `<label>${label} <select id="${id}" aria-label="${label}">${options.map(([v,t])=>`<option value="${esc(v)}" ${String(v)===String(value)?'selected':''}>${esc(t)}</option>`).join('')}</select></label>`;}
 const uses=[['office','Office · Ypsilanti'],['grocery','Grocery · Pinconning'],['library','Library · Houghton']];
 function classify(r){
@@ -37,6 +80,7 @@ function applyDisplay(){
  const d=W.StructureDisplay;
  if(studio.route().space==='wood')api.setDisplay({projection:d.projection,xray:d.xray,mode:d.view==='3d'?'3d':'2d',plane:d.view==='3d'?'auto':d.view});
  const rr=renderer();if(studio.route().space==='concrete')h.concrete.draw();else if(rr){rr.applyDisplay();rr.render();}
+ syncLens(studio.route());
  $('bwProjection').value=d.projection;$('bwProjection').disabled=d.view!=='3d';$('bwDisplay').value=d.xray?'xray':d.materials!==false?'materials':'shaded';
  for(const b of bar.querySelectorAll('[data-bw-view]'))b.setAttribute('aria-pressed',String(b.dataset.bwView===d.view));
 }
@@ -56,7 +100,7 @@ function arrange(r){
  display.hidden=!box.children.length;
 }
 function sync(){
- const r=studio.route(),active=projects.includes(r.space);D.body.classList.toggle('building-unified',active);bar.hidden=!active;footer.hidden=!active;if(!active)return;
+ const r=studio.route(),active=projects.includes(r.space);D.body.classList.toggle('building-unified',active);bar.hidden=!active;footer.hidden=!active;if(!active){syncLens(r);return;}
  if(r.space==='steel'&&((W.SteelFloor.isFloor(r.id)&&W.SteelFloor.lecture(r.id)===2.1)||W.SteelFoundation.isFoundation(r.id))&&!h.steel.floorState.optionChosen){h.steel.floorState.optionChosen=true;h.steel.floorState.familyAtChoice=h.steel.state.family;h.steel.floorState.briefConfirmed=true;W.SteelFloor.sync(h.steel.state,h.steel.floorState);h.steel.render();}
  D.body.classList.remove('studio-rail-open');$('studioTaskToggle')?.setAttribute('aria-expanded','false');
  $('bwTitle').textContent=r.space[0].toUpperCase()+r.space.slice(1)+' Building Project';
@@ -64,6 +108,7 @@ function sync(){
  classify(r);
  if(lastSpace!==r.space){$('bwChapter').innerHTML=studio.groupsFor(r).map(([name,rows])=>`<optgroup label="${esc(name)}">${rows.map(([id,title])=>`<option value="${esc(id)}">${esc(title)}</option>`).join('')}</optgroup>`).join('');lastSpace=r.space;}
  $('bwChapter').value=r.id;arrange(r);const rr=renderer();if(rr){rr.applyDisplay();rr.resize();}
+ syncLens(r);
  $('bwProjection').value=W.StructureDisplay.projection;$('bwProjection').disabled=W.StructureDisplay.view!=='3d';$('bwDisplay').value=W.StructureDisplay.xray?'xray':W.StructureDisplay.materials!==false?'materials':'shaded';
  for(const b of bar.querySelectorAll('[data-bw-view]'))b.setAttribute('aria-pressed',String(b.dataset.bwView===W.StructureDisplay.view));
 }
@@ -74,6 +119,6 @@ $('bwDisplay').onchange=()=>{W.StructureDisplay.xray=$('bwDisplay').value==='xra
 $('bwFit').onclick=()=>renderer()?.reset();$('bwControls').onclick=()=>{const open=!D.body.classList.contains('viewport-panel-open');D.body.classList.toggle('viewport-panel-pinned',open);W.StructureViewport.setPanel(open);};
 $('bwSources').onclick=sources;$('bwSave').onclick=()=>api.save();$('bwCoach').onclick=()=>api.askCoach();$('bwMaximize').onclick=()=>$('viewportMaximize').click();
 $('bwPNG').onclick=()=>{const canvas=renderer()?.canvas;if(!canvas)return;canvas.toBlob(blob=>{if(!blob)return;const a=D.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='StructureLab-'+studio.route().space+'-'+W.StructureDisplay.projection+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});};
-W.StructureWorkspace={sync,renderer,restoreDisplay(raw){W.StructureDisplay={projection:raw?.projection==='orthographic'?'orthographic':'perspective',view:['3d','plan','elevation'].includes(raw?.view)?raw.view:'3d',xray:raw?.xray===true,materials:raw?.materials!==false};sync();}};
+W.StructureWorkspace={sync,renderer,restoreDisplay(raw){W.StructureDisplay={projection:raw?.projection==='orthographic'?'orthographic':'perspective',view:['3d','plan','elevation'].includes(raw?.view)?raw.view:'3d',xray:raw?.xray===true,materials:raw?.materials!==false,fieldOfView:lens.normalize(raw?.fieldOfView)};sync();}};
 D.addEventListener('structure:layout',()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});});sync();
 })(window,document);

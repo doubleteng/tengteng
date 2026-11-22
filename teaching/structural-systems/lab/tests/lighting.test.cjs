@@ -43,3 +43,14 @@ test('perspective and near-plane clipping retain finite light coordinates',()=>{
  assert.equal(q.length,4,'Triangle crossing near plane is clipped');
  for(const p of q){assert.ok(Number.isFinite(p.x)&&Number.isFinite(p.y));assert.equal(p.light.length,4);assert.ok(p.light.every(Number.isFinite));assert.ok(p.light[3]>0);}
 });
+
+test('backlit materials retain their color and readable fill in a cast shadow',()=>{
+ for(const color of ['#cda36b','#b7c5ce','#c9c5bd']){
+  const underside=L.shade(color,[0,-1,0]);
+  const cast=new L.ShadowMap([deck],corners,64).receiver([0,-1,0]);
+  for(const i of [1,3,5]){
+   const channel=s=>parseInt(s.slice(i,i+2),16);
+   assert.ok(channel(underside)*(1-cast.strength)>=channel(color)*.68);
+  }
+ }
+});

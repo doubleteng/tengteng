@@ -251,10 +251,11 @@
   panelObserver.observe($('panelContent'),{childList:true});
   W.StructureStudio={
     sync:schedule,route,groupsFor,
+    get termRenderer(){return termRenderer;},
 
     getData(){return {...data,display:W.StructureDisplay,glossary:{term:handles.glossary.id,values:handles.glossary.values},lastModelRoute};},
-    restore(raw){data={version:1,activities:{},lastVisited:{},concrete:false,termView:'model'};lastModelRoute='fundamentals:loads';handles.glossary.values={};chooseTerm('beam');if(raw&&typeof raw==='object'){
-      W.StructureWorkspace?.restoreDisplay(raw.display);data.concrete=false;data.termView=raw.termView==='diagram'?'diagram':'model';
+    restore(raw){data={version:1,activities:{},lastVisited:{},concrete:false,termView:'model'};lastModelRoute='fundamentals:loads';handles.glossary.values={};chooseTerm('beam');W.StructureWorkspace?.restoreDisplay(raw?.display);if(raw&&typeof raw==='object'){
+     data.concrete=false;data.termView=raw.termView==='diagram'?'diagram':'model';
       const valid=new Set([...terms.flatMap(g=>g[1].map(x=>'terms:'+x[0])),...steelGroups.flatMap(g=>g[1].map(x=>'steel:'+x[0])),...W.LAB_MODULES.map(x=>(W.WoodProject.has(x.id)?'wood':'fundamentals')+':'+x.id),'coach:coach']);
       for(const [space,id]of Object.entries(raw.lastVisited||{})){if(valid.has(space+':'+id))data.lastVisited[space]=id;}
       for(const [key,value]of Object.entries(raw.activities||{})){if(valid.has(key)&&value&&typeof value==='object')data.activities[key]={visited:true,changed:value.changed===true,note:typeof value.note==='string'?value.note.slice(0,12000):''};}

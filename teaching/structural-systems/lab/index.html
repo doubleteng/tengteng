@@ -91,6 +91,7 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
 <link rel="stylesheet" href="structure-viewport.css?v=2.2.2">
 <link rel="stylesheet" href="concrete-building.css?v=20261110r6">
 <link rel="stylesheet" href="structure-workspace.css?v=20261110-rebuild">
+<link rel="stylesheet" href="exam/review.css">
 </head>
 <body>
 <header class="topbar">
@@ -100,6 +101,8 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
 </header>
 <main class="workspace" id="workspace">
  <nav class="sidebar" aria-label="Concept labs and building project"><div class="rail-heading">STRUCTURAL SYSTEMS I</div><button id="glossaryNav" class="learn-nav"><span class="learn-icon">?</span><span>Start here<small>Terms & diagrams</small></span></button><div id="modules"></div><div class="rail-footer"><span class="edition">STRUCTURE LAB · 2.0.0</span><p>Explore a change. Explain its consequences.</p><button id="helpBtn" class="text-link">Controls & model notes</button></div></nav>
+ <section id="examScreen" class="exam-screen" aria-label="Exam 2 review" hidden></section>
+ <section id="examCoachScreen" class="exam-screen" aria-label="Structure Coach question discussion" hidden></section>
  <section id="coachScreen" class="coach-screen" aria-label="Structure Coach" hidden></section>
  <section id="steelScreen" class="steel-screen" aria-label="Steel Project Lecture 1 reflection activities" hidden></section>
  <section id="glossaryScreen" class="glossary-screen" aria-label="Interactive terms and diagram reading"></section>
@@ -139,10 +142,19 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
 <script src="concrete-geometry.js?v=20261110-r7"></script>
 <script src="concrete-report.js?v=20261110r6"></script>
 <script src="concrete-building.js?v=20261110-r7"></script>
-<script src="structure-bootstrap.js?v=20261110-rebuild"></script>
-<script src="structure-studio.js?v=20261110-rebuild"></script>
-<script src="structure-viewport.js?v=20261109-concrete"></script>
+<script src="exam/questions.js"></script>
+<script src="exam/review.js"></script>
+<script src="structure-bootstrap.js?v=20261122-exam"></script>
+<script src="structure-studio.js?v=20261122-exam"></script>
+<script src="structure-viewport.js?v=20261122-exam"></script>
 <script src="structure-workspace.js?v=20261110-r7"></script>
+<script>
+function openExamLink() {
+  if (location.hash === '#exam-2') window.StructureStudio.go('exam', window.ExamReview.part);
+}
+window.addEventListener('hashchange', openExamLink);
+openExamLink();
+</script>
 </body>
 </html>
 

@@ -93,7 +93,7 @@
     if (key !== lastRoute) { closePanels(true); lastRoute = key; }
     $('viewportLocation').textContent = title;
     $('viewportMaximize').textContent = body.classList.contains('viewport-maximized') ? 'Restore layout ↙' : space === 'coach' ? 'Maximize workspace ⛶' : 'Maximize model ⛶';
-    panel = space === 'concrete' ? D.querySelector('.concrete-aside') : space === 'terms' ? D.querySelector('.glossary-explanation') : space === 'steel' ? D.querySelector('#steelScreen .sr-aside, #steelScreen .steel-aside') : space === 'coach' ? null : $('labInspector');
+    panel = space === 'concrete' ? D.querySelector('.concrete-aside') : space === 'terms' ? D.querySelector('.glossary-explanation') : space === 'steel' ? D.querySelector('#steelScreen .sr-aside, #steelScreen .steel-aside') : ['coach','exam'].includes(space) ? null : $('labInspector');
     controls.hidden = !panel;
     body.classList.toggle('viewport-no-controls', !panel);
     if (panel) {

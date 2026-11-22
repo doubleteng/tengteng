@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
 <title>Structure Lab · LTU</title>
+<meta name="author" content="Teng Teng, PhD, and Ralph Nelson">
 <meta name="description" content="An interactive 2D and 3D structural learning laboratory for architecture students. ARC 2713. Concepts, Wood Building, Steel assignment and table-reading lessons, and Structure Coach.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2318233d'/%3E%3Cpath d='M12 49V20l20-8 20 8v29M12 20l20 8 20-8M32 28v21M12 49l20-21 20 21' stroke='%238dafff' stroke-width='4' fill='none'/%3E%3C/svg%3E">
 <style>:root{color-scheme:light;--ink:#1d2940;--muted:#6a768b;--blue:#005EB8;--border:#e0e5ee;--bg:#f5f7fa;--nav:#005EB8;--accent:#abc4ff;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px}
@@ -92,6 +93,26 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
 <link rel="stylesheet" href="concrete-building.css?v=20261110r6">
 <link rel="stylesheet" href="structure-workspace.css?v=20261110-rebuild">
 <link rel="stylesheet" href="exam/review.css?v=lecture-slides-1">
+<style>
+.lab-byline {
+  display: flex;
+  flex: none;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 20px;
+  padding: 5px 14px;
+  border-top: 1px solid #566168;
+  background: #20262a;
+  color: #c5ced3;
+  font: 400 13px/1.35 Chivo, Arial, sans-serif;
+}
+.lab-byline strong { color: #f4f5f2; font-weight: 700; }
+.lab-byline-affiliation { font-size: 12px; }
+@media (max-width: 720px) {
+  .lab-byline { padding: 5px 8px; justify-content: center; text-align: center; }
+  .lab-byline-affiliation { display: none; }
+}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -118,6 +139,10 @@ html,body,button,input,select,textarea,.studio-field textarea,.section-sketch te
  <aside class="inspector" id="labInspector"><div class="panel-tabs" role="tablist" aria-label="Lesson panels"><button data-tab="model" class="active" role="tab">Model</button><button data-tab="explain" role="tab">Explain</button><button data-tab="exercise" role="tab">Exercise</button></div><div class="panel-content" id="panelContent"></div><a id="sourceLink" class="source-link" href="#" rel="noopener">Open source lecture</a><div class="developer-credit">Developed by Teng Teng, PhD and Ralph Nelson</div></aside>
 <section id="concreteScreen" hidden aria-label="Concrete Building Project"></section>
 </main>
+<footer class="lab-byline" aria-label="Structure Lab authors">
+  <span>Developed by <strong>Teng Teng, PhD</strong>, and <strong>Ralph Nelson</strong></span>
+  <span class="lab-byline-affiliation">College of Architecture and Design · Lawrence Technological University</span>
+</footer>
 <input id="fileInput" type="file" accept=".json,application/json" hidden>
 <dialog id="dialog"><div class="dialog-head"><h2 id="dialogTitle"></h2><button id="closeDialog" class="icon-btn" aria-label="Close">×</button></div><div id="dialogBody"></div></dialog>
 <div id="toast" class="toast" role="status" hidden></div>

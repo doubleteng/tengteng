@@ -148,3 +148,22 @@ dialog h2 { font: 740 36px/1.1 Chivo, Arial, sans-serif; letter-spacing: -.055em
 @media (prefers-reduced-motion: reduce) {
   .card-art img { transition: none; }
 }
+
+#case-actions:not([hidden]) { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+#case-actions button { background:transparent; color:var(--ex-ink); border:1px solid #bdc6bd; border-radius:3px; font:inherit; font-size:13px; padding:6px 9px; cursor:pointer; }
+#case-actions button:hover, #case-actions button[aria-pressed=true] { background:#ffc94b; }
+#info:has(.case-story) { width:min(730px,94vw); }
+.case-story { font-family:"Chivo",Arial,sans-serif; }
+.case-story h3 { padding-top:6px; }
+.case-story .case-deck { font-size:1.15rem; font-weight:550; color:#465c5d; }
+.case-story figure { margin:18px 0; }
+.case-story img { display:block; width:100%; height:auto; }
+.case-story figcaption { margin-top:6px; font-size:13px; color:#526260; }
+.case-story table { width:100%; border-collapse:collapse; font-size:.875rem; }
+.case-story td,.case-story th { text-align:left; vertical-align:top; padding:7px 4px; border-bottom:1px solid #d8dad0; }
+.case-story td:first-child { width:31%; }
+.case-references { display:flex; flex-wrap:wrap; gap:9px 15px; }
+.case-references a { color:#344e51; text-decoration:underline; }
+@media (min-width:1050px) {
+ .cards:has(>.card:nth-child(4):last-child) { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}

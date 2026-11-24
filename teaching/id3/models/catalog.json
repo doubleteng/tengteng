@@ -1,4 +1,15 @@
 {
   "city": null,
-  "projects": []
+  "projects": [],
+  "cases": [
+    {
+      "key": "market-switchback",
+      "title": "Market Switchback",
+      "caseStudy": true,
+      "material": "Structural steel",
+      "type": "Public institution and covered market",
+      "url": "./models/market-switchback.glb",
+      "cover": "./models/market-switchback.webp"
+    }
+  ]
 }

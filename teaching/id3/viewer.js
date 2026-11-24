@@ -10,6 +10,12 @@ const loader=new GLTFLoader();
 // Street perspectives are 1.65 m above the registered Rhino street or sidewalk.
 // The target stays level with the eye. A vertical lens shift frames the roofline.
 const contextViews = {
+ 'case-west': {eye:[-90.0,2.2,23.0],target:[-58,2.2,12],shift:.14,fov:61},
+ 'case-market': {eye:[-81.2,2.16,30.64],target:[-47,2.16,31.3],shift:.055,fov:67},
+ 'case-ramp': {eye:[-64.5,6.36,22.52],target:[-33,6.36,22.1],shift:.035,fov:67},
+ 'case-hall': {eye:[-69.75,4.16,17.69],target:[-57.1,4.16,4.1],shift:.12,fov:74},
+ 'case-forum': {eye:[-40.34,8.08,12.55],target:[-30.35,8.08,3.81],shift:.08,fov:72},
+ 'case-court': {eye:[-49.63,8.05,15.65],target:[-43.75,8.05,7.10],shift:.14,fov:70},
  fourth: {eye:[-94,1.802,38],target:[-73,1.802,68],shift:.25},
  detroit: {eye:[-27,4.088,42],target:[-60,4.088,70],shift:.19},
  dunbar: {eye:[-84,3.479,117],target:[-122,3.479,81],shift:.20},
@@ -182,7 +188,7 @@ export class AtlasViewer{
   const [res,ctx]=await Promise.allSettled([model.overview?Promise.resolve(siteFootprint()):loadGLB(model.url),cityPromise]);
   if(key!==this.key){if(res.status==='fulfilled')disposeModel(res.value);return null;}
   if(res.status==='rejected')throw res.reason;
-  this.overview=!!model.overview;this.project=res.value;if(model.demo)this.project.position.copy(demoOrigin);this.prepare(this.project);this.scene.add(this.project);
+  this.overview=!!model.overview;this.caseStudy=!!model.caseStudy;this.project=res.value;if(model.demo)this.project.position.copy(demoOrigin);this.prepare(this.project);this.scene.add(this.project);
   this.hidden.clear();this.paths=new Map();
   this.project.traverse(o=>{if(o.geometry){const path=o.userData.atlasPath;this.paths.set(path,(this.paths.get(path)||false)||!o.userData.initialHidden);}});
   for(const [path,visible] of this.paths){if(!visible)this.hidden.add(path);}
@@ -194,6 +200,7 @@ export class AtlasViewer{
    this.prepare(base);this.project.add(base);this.paths.set('Site / Ground',true);
    this.width=67;this.height=31;this.center=demoOrigin.clone().add(v(0,1.2,0));}
   if(model.overview){this.center=v(-47,1.4,24);this.width=195;this.height=90;this.radius=130;}
+  if(this.caseStudy){this.center=v(-47.5,5.5,26);this.width=106;this.height=57;}
   this.ground.position.copy(this.center);const urbanBox=this.city?new T.Box3().setFromObject(this.city):null;
   this.ground.position.y=Math.min(b.min.y,urbanBox?.min.y??b.min.y,city==='./models/ann-arbor.glb'?-13.6:Infinity)-this.radius*.001;
   this.ground.scale.setScalar(Math.max(this.radius*100,urbanBox?urbanBox.getSize(v()).length()*3:0));
@@ -217,7 +224,7 @@ export class AtlasViewer{
    this.controls.target.fromArray(this.contextView.target);
    this.controls.update();this.resize();return;
   }
-  const dirs={perspective:this.overview?v(1.0,.98,1.66):v(1.05,.77,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
+  const dirs={perspective:this.overview?v(1.0,.98,1.66):this.caseStudy?v(-.74,1.46,1.12):v(1.05,.77,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
   const aspect=this.host.clientWidth/Math.max(this.host.clientHeight,1)||1;
   this.perspectiveCamera.aspect=aspect;
   const height=Math.max(this.height,this.width/aspect);

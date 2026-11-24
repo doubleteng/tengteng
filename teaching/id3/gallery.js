@@ -11,6 +11,7 @@ const samples=[
 ].map(x=>({...x,demo:true,url:'./models/'+x.key+'.glb',cover:'./models/'+x.key+'.webp'}));
 const defaults=['Structure','Enclosure','Site','Interior'];
 const colorSet={'Design site':'#c6815c',Structure:'#b67249',Enclosure:'#7d897b',Site:'#9fa581',Interior:'#b1a185','Urban context':'#b7b9af'};
+let cases=[],caseHidden=null;
 let actual=[],cityRecord=null,items=samples,current,viewer,version=0,expanded=false;
 let activeLoad;
 const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
@@ -41,11 +42,12 @@ function drawCards(){
   const btn=txt('button','','card');btn.setAttribute('aria-pressed',String(x.key===current?.key));btn.setAttribute('aria-label','View '+x.title);
   const art=txt('span','','card-art');if(x.cover){const img=new Image();img.src=x.cover;img.alt='';img.loading='lazy';art.append(img);}else art.append(txt('span','3D model','fallback-art'));
   if(x.key===current?.key)art.append(txt('span','IN VIEW','card-active'));
-  btn.append(art,txt('span',x.title,'card-title'),txt('span',x.overview?'Kerrytown / Ann Arbor, Michigan':x.demo?x.material+' / '+x.type:x.author+' · '+x.material,'card-meta'));
+  btn.append(art,txt('span',x.title,'card-title'),txt('span',x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?'Teaching case · '+x.material:x.demo?x.material+' / '+x.type:x.author+' · '+x.material,'card-meta'));
   btn.onclick=()=>{selectModel(x);$('gallery').scrollIntoView({block:'start',behavior:'smooth'});};container.append(btn);
  }
- $('index-title').textContent=actual.length?'Student projects':'Model studies';
- $('count').textContent=actual.length?actual.length+' / 14 projects':'3 demonstration models';
+ $('index-title').textContent=actual.length?'Student projects and cases':'Projects and studies';
+ const caseCount=cases.length?' · '+cases.length+' teaching '+(cases.length===1?'case':'cases'):'';
+ $('count').textContent=(actual.length?actual.length+' / 14 student projects':samples.length+' demonstration models')+caseCount;
 }
 function grouped(paths){
  const groups=new Map();
@@ -85,9 +87,11 @@ function saveViewLink(){
  history.replaceState(null,'','#model-'+current.key+preset);
 }
 async function selectModel(x,initialView='perspective',updateLink=true){
- const seq=++version;current=x;expanded=false;setPoster(x);status('');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
- $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.demo?'DEMONSTRATION MODEL':'STUDIO PROJECT '+x.key;
- $('model-author').textContent=x.overview?'Kerrytown / Ann Arbor, Michigan':x.demo?x.material+' / '+x.type:x.author+' · '+x.material;
+ const seq=++version;current=x;caseHidden=null;
+ $('case-actions').hidden=!x.caseStudy;$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent='Isolate structure';
+ $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;setPoster(x);status('');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
+ $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':'STUDIO PROJECT '+x.key;
+ $('model-author').textContent=x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?'Structural steel · Market and public institution':x.demo?x.material+' / '+x.type:x.author+' · '+x.material;
  $('camera').disabled=true;$('camera').value='perspective';$('viewport').setAttribute('aria-busy','true');
  const city=cityRecord?.url || originalCity;
  $('context-cameras').disabled=$('context-cameras').hidden=city!==originalCity;
@@ -158,6 +162,21 @@ const guides={
 };
 function info(which){$('info-content').innerHTML=guides[which];$('info').showModal();}
 $('guideBtn').onclick=()=>info('guide');
+$('case-notes').onclick=()=>{
+ if(!current?.caseStudy)return;
+ $('info-content').replaceChildren($('market-switchback-notes').content.cloneNode(true));$('info').showModal();
+};
+$('case-frame').onclick=()=>withModel(v=>{
+ if(!current?.caseStudy)return;
+ if(caseHidden){v.hidden=caseHidden;caseHidden=null;}
+ else{
+  caseHidden=new Set(v.hidden);
+  v.hidden=new Set([...v.paths.keys()].filter(p=>!p.startsWith('Structure /')));
+ }
+ v.applyModes();fillLayers();
+ $('case-frame').setAttribute('aria-pressed',String(!!caseHidden));
+ $('case-frame').textContent=caseHidden?'Restore layers':'Isolate structure';
+});
 document.querySelectorAll('[data-close]').forEach(button => {
   button.onclick = () => button.closest('dialog').close();
 });
@@ -170,7 +189,8 @@ async function refresh() {
   const catalog = await response.json();
   cityRecord = catalog.city || null;
   actual = catalog.projects.slice().sort((a, b) => a.key.localeCompare(b.key));
-  items = actual.length ? actual : samples;
+  cases = (catalog.cases || []).map(x=>({...x,caseStudy:true}));
+  items = actual.length ? [...actual,...cases] : [...cases,...samples];
 }
 async function init(){
  let error=false;try{await refresh();}catch{error=true;}

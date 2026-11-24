@@ -1,4 +1,4 @@
-import {AtlasViewer} from './viewer.js?v=50c5ea565c';
+import {AtlasViewer} from './viewer.js?v=084f12ae81';
 import {SiteAnnotations} from './annotations.js';
 import {bindSunlight} from './sun-controls.js';
 const originalCity='./models/ann-arbor.glb';
@@ -116,7 +116,12 @@ async function selectModel(x,initialView='perspective',updateLink=true){
 $('details-btn').onclick=()=>{expanded=!expanded;fillLayers();};
 async function withModel(fn){try{await activeLoad;if(viewer?.project)fn(viewer);}catch{status('The interactive model is unavailable.');}}
 $('camera').onchange=()=>withModel(v=>{v.view($('camera').value);saveViewLink();});
-$('fit').onclick=()=>withModel(v=>{v.view($('camera').value);});
+function fitProject(v){
+ const camera=$('camera');
+ if(v.caseStudy)camera.value='perspective';
+ v.view(camera.value);saveViewLink();
+}
+$('fit').onclick=()=>withModel(fitProject);
 $('zin').onclick=()=>withModel(v=>v.changeZoom(1.22));$('zout').onclick=()=>withModel(v=>v.changeZoom(1/1.22));
 $('material-mode').onchange=()=>withModel(v=>v.setMode($('material-mode').value));
 const sunControls=bindSunlight((azimuth,altitude,interactive)=>viewer?.setSun(azimuth,altitude,interactive));
@@ -124,7 +129,7 @@ $('site-view').onclick=()=>{selectModel(overview);$('gallery').scrollIntoView({b
 $('shadows').onchange=()=>withModel(v=>v.setShadows($('shadows').checked));
 $('full').onclick=async()=>{const el=$('viewport');if(document.fullscreenElement){await document.exitFullscreen();return;}if(el.classList.contains('expanded')){el.classList.remove('expanded');return;}try{await el.requestFullscreen();}catch{el.classList.add('expanded');}};
 $('viewport').onkeydown=e=>{if(e.target!==$('viewport'))return;
- const actions={ArrowLeft:v=>v.orbit(-.1,0),ArrowRight:v=>v.orbit(.1,0),ArrowUp:v=>v.orbit(0,-.08),ArrowDown:v=>v.orbit(0,.08),'+':v=>v.changeZoom(1.2),'=':v=>v.changeZoom(1.2),'-':v=>v.changeZoom(1/1.2),'0':v=>v.view($('camera').value)};
+ const actions={ArrowLeft:v=>v.orbit(-.1,0),ArrowRight:v=>v.orbit(.1,0),ArrowUp:v=>v.orbit(0,-.08),ArrowDown:v=>v.orbit(0,.08),'+':v=>v.changeZoom(1.2),'=':v=>v.changeZoom(1.2),'-':v=>v.changeZoom(1/1.2),'0':fitProject};
  if(actions[e.key]){e.preventDefault();withModel(actions[e.key]);}if(e.key==='Escape')$('viewport').classList.remove('expanded');
 };
 $('viewport').addEventListener('pointerdown',e=>{if(!e.target.closest('button,select')&&!viewer?.project)status('Loading the 3D model…');});
@@ -171,7 +176,7 @@ $('case-frame').onclick=()=>withModel(v=>{
  if(caseHidden){v.hidden=caseHidden;caseHidden=null;}
  else{
   caseHidden=new Set(v.hidden);
-  v.hidden=new Set([...v.paths.keys()].filter(p=>!p.startsWith('Structure /') || /CLT.*roof|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i.test(p)));
+  v.hidden=new Set([...v.paths.keys()].filter(p=>!p.startsWith('Structure /') || /CLT.*roof|cross laminated roof panels|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i.test(p)));
  }
  v.applyModes();fillLayers();
  $('case-frame').setAttribute('aria-pressed',String(!!caseHidden));
@@ -195,8 +200,11 @@ async function refresh() {
 async function init(){
  let error=false;try{await refresh();}catch{error=true;}
  const [key,query]=location.hash.startsWith('#model-')?location.hash.slice(7).split('?'):[];
- if(key)$('gallery').scrollIntoView({block:'start'});
  const initialView=new URLSearchParams(query).get('view')||'perspective';
- await selectModel(key==='city'||key==='site'?overview:items.find(x=>x.key===key)||(actual.length?items[0]:overview),initialView,Boolean(key));if(error)status('The student catalog is unavailable. Showing demonstration models.');
+ const selected=key==='city'||key==='site'?overview:items.find(x=>x.key===key)||(actual.length?items[0]:overview);
+ const ready=selectModel(selected,initialView,Boolean(key));
+ if(key)$('gallery').scrollIntoView({block:'start',behavior:'instant'});
+ await ready;
+ if(error)status('The student catalog is unavailable. Showing demonstration models.');
 }
 init();

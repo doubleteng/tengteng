@@ -1,4 +1,5 @@
 import * as T from './lib/three.module.min.js';
+import {CameraClearance} from './camera-clearance.js?v=0ffcc478e9';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
@@ -10,6 +11,7 @@ const loader=new GLTFLoader();
 // Street perspectives are 1.65 m above the registered Rhino street or sidewalk.
 // The target stays level with the eye. A vertical lens shift frames the roofline.
 const contextViews = {
+ 'case-roof': {eye:[4.094,35,40],target:[-33.906,10.5,11],shift:0,fov:53},
  'case-west': {eye:[-86.40,2.12,16.44],target:[-63.0,4.05,12.95],shift:.08,fov:65},
  'case-market': {eye:[-81.21,2.10,30.58],target:[-47.8,2.85,30.95],shift:.045,fov:68},
  'case-ramp': {eye:[-64.90,9.18,19.88],target:[-88.6,9.00,19.10],shift:.04,fov:65},
@@ -17,7 +19,7 @@ const contextViews = {
  'case-forum': {eye:[-24.5,8.08,11.80],target:[-14.35,8.56,4.01],shift:.055,fov:73},
  'case-court': {eye:[-36.28,8.02,15.30],target:[-41.55,8.4,7.98],shift:.13,fov:72},
  'case-studios': {eye:[-75.89,12.30,7.74],target:[-78.15,12.22,2.40],shift:.03,fov:70},
- 'case-node': {eye:[-74.1,5.25,-4.10],target:[-69.51,6.08,1.65],shift:.06,fov:56},
+ 'case-node': {eye:[-74.906,4.12,5.50],target:[-69.506,3.98,1.65],shift:0,fov:54},
  fourth: {eye:[-94,1.802,38],target:[-73,1.802,68],shift:.25},
  detroit: {eye:[-27,4.088,42],target:[-60,4.088,70],shift:.19},
  dunbar: {eye:[-84,3.479,117],target:[-122,3.479,81],shift:.20},
@@ -56,8 +58,8 @@ export class AtlasViewer{
   this.scene=new T.Scene();this.scene.background=new T.Color(0xe0e1da);this.parallelCamera=new T.OrthographicCamera(-1,1,1,-1,.005,100000);
   this.perspectiveCamera=new T.PerspectiveCamera(44,1,.05,10000);
   this.inkViewHeight={value:1};this.camera=this.perspectiveCamera;this.contextEdges=true;this.buildingColors=true;
-  this.controls=new OrbitControls(this.camera,r.domElement);this.controls.maxPolarAngle=Math.PI*.495;this.controls.minZoom=.001;this.controls.maxZoom=100;this.controls.addEventListener('start',()=>this.activate());
-  this.controls.addEventListener('change',()=>this.draw());this.controls.enableDamping=false;
+  this.controls=new OrbitControls(this.camera,r.domElement);this.controls.maxPolarAngle=Math.PI*.495;this.controls.minZoom=.001;this.controls.maxZoom=100;this.controls.addEventListener('start',()=>{this.userNavigated=true;this.activate();});
+  this.controls.addEventListener('change',()=>this.cameraChanged());this.controls.enableDamping=false;
   this.scene.add(new T.HemisphereLight(0xfffdf2,0xaeb1a1,1.76));
   this.sun=new T.DirectionalLight(0xfff3df,2.84);this.sun.castShadow=true;this.scene.add(this.sun,this.sun.target);
   this.sun.shadow.mapSize.setScalar(small?1024:2048);this.sun.shadow.bias=-.00022;
@@ -68,6 +70,13 @@ export class AtlasViewer{
   this.width=65;this.height=40;this.radius=40;this.center=v(0,1.2,0);this.solar=[315,40];this.mode='material';
   this.hidden=new Set();this.cityVisible=true;this.cityPaths=new Set();this.hiddenCity=new Set();this.key=0;this.pendingCity=null;
   this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.resize();
+ }
+ cameraChanged(){
+  if(this.clearance&&!this.settingView&&this.camera.isPerspectiveCamera){
+   this.clearance.constrain(this.camera.position,this.controls.target);
+   this.camera.lookAt(this.controls.target);
+  }
+  this.draw();
  }
  activate(){if(this.project)this.onInteract();}
  draw(){
@@ -128,7 +137,7 @@ export class AtlasViewer{
   Object.assign(this.parallelCamera,{left:-height*aspect/2,right:height*aspect/2,top:height/2,bottom:-height/2});
   this.parallelCamera.updateProjectionMatrix();
   const previousAspect=this.perspectiveCamera.aspect;
-  if(this.project&&!this.contextView&&this.camera.isPerspectiveCamera&&previousAspect!==aspect){
+  if(this.project&&!this.userNavigated&&!this.contextView&&this.camera.isPerspectiveCamera&&previousAspect!==aspect){
    const oldHeight=Math.max(this.height,this.width/previousAspect);
    this.camera.position.sub(this.controls.target).multiplyScalar(height/oldHeight).add(this.controls.target);
    this.controls.update();
@@ -165,6 +174,7 @@ export class AtlasViewer{
  }
  async show(model,city){
   const key=++this.key;
+  this.clearance=null;
   if(this.project){this.scene.remove(this.project);disposeModel(this.project);this.project=null;}
   if(this.cityURL!==city){
    if(this.city){this.scene.remove(this.city);disposeModel(this.city);this.city=null;}
@@ -202,7 +212,10 @@ export class AtlasViewer{
    this.prepare(base);this.project.add(base);this.paths.set('Site / Ground',true);
    this.width=67;this.height=31;this.center=demoOrigin.clone().add(v(0,1.2,0));}
   if(model.overview){this.center=v(-47,1.4,24);this.width=195;this.height=90;this.radius=130;}
-  if(this.caseStudy){this.center=v(-47.5,5.5,26);this.width=106;this.height=57;}
+  if(this.caseStudy){
+   this.center=v(-47.5,5.5,26);this.width=106;this.height=57;
+   this.clearance=new CameraClearance([this.project,this.city]);
+  }
   this.ground.position.copy(this.center);const urbanBox=this.city?new T.Box3().setFromObject(this.city):null;
   this.ground.position.y=Math.min(b.min.y,urbanBox?.min.y??b.min.y,city==='./models/ann-arbor.glb'?-13.6:Infinity)-this.radius*.001;
   this.ground.scale.setScalar(Math.max(this.radius*100,urbanBox?urbanBox.getSize(v()).length()*3:0));
@@ -210,9 +223,12 @@ export class AtlasViewer{
  }
  view(name,interact=true){
   if(interact)this.activate();
+  this.settingView=true;this.userNavigated=false;
   this.contextView=contextViews[name]||null;
   this.camera=(this.contextView||name==='perspective')?this.perspectiveCamera:this.parallelCamera;
-  this.controls.maxPolarAngle=this.contextView?Math.PI*.5:Math.PI*.495;
+  // Some interior viewpoints look up into the daylight. Preserve their specified eye heights.
+  this.controls.maxPolarAngle=this.caseStudy&&name.startsWith('case-')?Math.PI-.01:
+   this.contextView?Math.PI*.5:Math.PI*.495;
   this.perspectiveCamera.clearViewOffset();
   this.perspectiveCamera.fov=this.contextView?(this.contextView.fov||55):44;
   this.controls.object=this.camera;
@@ -224,7 +240,7 @@ export class AtlasViewer{
   if(this.contextView){
    this.camera.position.fromArray(this.contextView.eye);
    this.controls.target.fromArray(this.contextView.target);
-   this.controls.update();this.resize();return;
+   this.finishView();return;
   }
   const dirs={perspective:this.overview?v(1.0,.98,1.66):this.caseStudy?v(-.80,.88,-1.08):v(1.05,.77,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
   const aspect=this.host.clientWidth/Math.max(this.host.clientHeight,1)||1;
@@ -234,10 +250,15 @@ export class AtlasViewer{
   const distance=name==='district'?730:this.camera.isPerspectiveCamera?height/(2*Math.tan(T.MathUtils.degToRad(this.perspectiveCamera.fov/2)))+this.radius*.29:this.radius*4;
   this.controls.target.copy(name==='district'?siteCenter:this.center);
   this.camera.position.copy(this.controls.target).addScaledVector(dirs[name].normalize(),distance);
-  this.camera.updateProjectionMatrix();this.controls.update();this.resize();
+  this.camera.updateProjectionMatrix();this.finishView();
+ }
+ finishView(){
+  this.controls.update();this.resize();
+  this.clearance?.reset(this.camera.position,this.controls.target);
+  this.settingView=false;
  }
  changeZoom(f){
-  this.activate();
+  this.userNavigated=true;this.activate();
   if(this.camera.isPerspectiveCamera){
    const offset=this.camera.position.clone().sub(this.controls.target);
    offset.setLength(T.MathUtils.clamp(offset.length()/f,this.controls.minDistance,this.controls.maxDistance));
@@ -247,7 +268,7 @@ export class AtlasViewer{
   }
   this.draw();
  }
- orbit(dx,dy){this.activate();const p=this.camera.position.clone().sub(this.controls.target),s=new T.Spherical().setFromVector3(p);
+ orbit(dx,dy){this.userNavigated=true;this.activate();const p=this.camera.position.clone().sub(this.controls.target),s=new T.Spherical().setFromVector3(p);
   s.theta+=dx;s.phi=T.MathUtils.clamp(s.phi+dy,.001,this.controls.maxPolarAngle);this.camera.position.copy(this.controls.target).add(v().setFromSpherical(s));this.controls.update();}
  setSun(az,alt,interactive=true){
   if(interactive)this.activate();this.solar=[Number(az),Number(alt)];const [a,h]=this.solar.map(T.MathUtils.degToRad);

@@ -7,7 +7,7 @@ share a south orientation; the folded west entrance pieces remain unpowered.
 from dataclasses import dataclass
 import math
 
-from geometry import beam, box, grade, plate, rect, solid
+from geometry import beam, box, clip, grade, plate, rect, solid
 
 
 STEEL = 'Graphite steel'
@@ -155,6 +155,20 @@ def build_bank(index, study, counts, frame):
                 if study.west_fold else 0.)
     def roof(u,v,high):
         return h-TAN*(v-north)+(rise if high else 0.)+folded(u)
+    def seated_member(layer, material, a, b, width, depth, offset, high):
+        # A pitched bearing is a plane over the *whole* rectangular member.
+        # Split at the ridge so a single diagonal face never bridges the fold.
+        dx,dy=b[0]-a[0],b[1]-a[1]
+        scale=width/(2*math.hypot(dx,dy))
+        nx,ny=-dy*scale,dx*scale
+        poly=[(a[0]+nx,a[1]+ny),(b[0]+nx,b[1]+ny),
+              (b[0]-nx,b[1]-ny),(a[0]-nx,a[1]-ny)]
+        pieces=[poly]
+        if min(u for u,v in poly)<west-1e-8 and max(u for u,v in poly)>west+1e-8:
+            pieces=[clip(poly,0,west,side) for side in (False,True)]
+        for piece in pieces:
+            plate(layer,material,piece,lambda u,v:roof(u,v,high)-offset,depth)
+
     edge=.12
     ya=north+edge;yb=south-edge
     zone_list=[(ya,monitor-.04,False),(monitor+.04,yb,True)]
@@ -205,7 +219,12 @@ def build_bank(index, study, counts, frame):
                 near=rail(k,A[0],B[0]);far=rail(k,D[0],C[0])
                 near1=rail(k+1,A[0],B[0]);far1=rail(k+1,D[0],C[0])
                 gap=.002
-                panel=[(near+gap,a),(near1-gap,a),(far1-gap,b),(far+gap,b)]
+                # Fit both terminal deck edges inside the plumb metal return.
+                start_gap = .033 if k==0 and A[0]==left else gap
+                end_gap = (.032*math.hypot(1,study.east_taper)
+                           if k==panels-1 and B[0]!=west else gap)
+                panel=[(near+start_gap,a),(near1-end_gap,a),
+                       (far1-end_gap,b),(far+start_gap,b)]
                 plate('Structure / CLT market roof deck',CLT,panel,
                       lambda x,y:top(x,y)-SKIN_DEPTH-.001,CLT_DEPTH)
             for k in range(panels+1):
@@ -221,10 +240,8 @@ def build_bank(index, study, counts, frame):
                 trim=frame.girder[0]*.47
                 v0=(a+.055 if high and rise else near_y+trim);v1=far_y-trim
                 loc=lambda v:xa+(xb-xa)*(v-a)/(b-a)
-                za=top(loc(v0),v0)-DECK_BOTTOM-.001
-                zb=top(loc(v1),v1)-DECK_BOTTOM-.001
-                web('Structure / Glulam market rafters',GLULAM,(loc(v0),v0),
-                    (loc(v1),v1),RAFTER[0],za,zb,RAFTER[1],RAFTER[1])
+                seated_member('Structure / Glulam market rafters',GLULAM,
+                              (loc(v0),v0),(loc(v1),v1),*RAFTER,DECK_BOTTOM+.001,high)
                 rafter_design_span=max(rafter_design_span,
                     math.hypot(loc(far_y)-loc(near_y),far_y-near_y)/math.cos(PITCH))
                 if high and rise:
@@ -240,8 +257,7 @@ def build_bank(index, study, counts, frame):
             for k in range(5):
                 u=left+.38+k*.65
                 yy0=a+.07;yy1=b-.07
-                beam(portal,TIMBER,(u,yy0,top(u,yy0)-.177),
-                     (u,yy1,top(u,yy1)-.177),.064,.08)
+                seated_member(portal,TIMBER,(u,yy0),(u,yy1),.064,.08,DECK_BOTTOM+.001,high)
         # Each field exposes its lower eave. Split slope gutter falls to a
         # downpipe on an actual steel portal at approximately 9.75 m centres.
         ydrain=b+.044
@@ -284,8 +300,7 @@ def build_bank(index, study, counts, frame):
             max_overhang=max(max_overhang,stations[0]-cut[0],cut[-1]-stations[-1])
             girder_offset=DECK_BOTTOM+(RAFTER[1] if v==high_collector and rise else 0.)
             for x,X in zip(cut,cut[1:]):
-                web(primary,GLULAM,(x,v),(X,v),g_width,
-                    top(x,v)-girder_offset,top(X,v)-girder_offset,g_depth,g_depth)
+                seated_member(primary,GLULAM,(x,v),(X,v),g_width,g_depth,girder_offset+.001,high)
     # Every fourth glazed panel is a top-hung, partially opened sash.
     if rise:
         u=left+.12;right=end(monitor)-.12
@@ -316,8 +331,10 @@ def build_bank(index, study, counts, frame):
     yN=north+.36;yS=south-.36
     for x in stations:
         # The shallowest roof point sets the continuous transfer elevation.
-        member_top=min(roof(x,yN,False),roof(x,monitor-.12,False),
-                       roof(x,yS,True))-DECK_BOTTOM
+        # A horizontal transfer must clear the low edge of both roof
+        # panels across its full width, including the sloped west portal.
+        low_edge=x+p_width/2
+        member_top=min(roof(low_edge,monitor-.04,False),roof(low_edge,yS,True))-DECK_BOTTOM-.001
         underside=member_top-p_depth
         frame_lows.append((x,underside))
         # Horizontal beam terminates on both timber post bearing faces.
@@ -343,8 +360,10 @@ def build_bank(index, study, counts, frame):
             bearing=roof(x,v,high)-DECK_BOTTOM-g_depth-(RAFTER[1] if high and rise else 0.)
             if bearing>member_top:
                 box(transverse,GLULAM,x-.12,v-.09,member_top,x+.12,v+.09,bearing)
+            knife_top=min(max(member_top,bearing)+.12,
+                          roof(x+.012,v+.065,high)-DECK_BOTTOM-.006)
             box(fittings,STEEL,x-.012,v-.065,min(member_top,bearing)-.15,
-                x+.012,v+.065,max(member_top,bearing)+.12)
+                x+.012,v+.065,knife_top)
         for outlet,post,high in ((monitor+.004,yN,False),(yb+.044,yS,True)):
             drop=roof(x,outlet,high)-.20
             beam(drainage,STEEL,(x+.19,outlet,drop+.105),(x+.19,outlet,drop),.08,.09)

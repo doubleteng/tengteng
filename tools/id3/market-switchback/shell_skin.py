@@ -27,10 +27,23 @@ BAND = 'Vermilion steel'
 G, L2, L3 = 2.5, 6.4116, 10.6788
 TILT = math.radians(8.5)
 COURT = (39.85, 6.9, 47.95, 16.9)
-MAIN = (2.38, 1.26, 56.72, 19.02)
-ANNEX = (56.72, 1.30, 69.95, 18.05)
+MAIN = (2.01, 1.08, 57.17, 19.02)
+ANNEX = (57.17, 1.30, 69.95, 18.05)
 SEAM = 8.60
-NORTH_SKIN, SOUTH_SKIN = 2.17, 18.875
+ZINC_DEPTH, INSULATION_DEPTH, CLT_DEPTH = .035, .145, .175
+ROOF_DEPTH = ZINC_DEPTH + INSULATION_DEPTH + CLT_DEPTH
+MAIN_GIRDER_TOP = 13.52
+WEST_SKIN, EAST_SKIN = 2.15, 57.06
+NORTH_SKIN, SOUTH_SKIN = 1.235, 18.875
+
+# At the occupied school end, the timber truss and reading-room collectors
+# sit above one continuous folded soffit. The other end has a recessed loggia.
+def wall_foot(x):
+    drop = 1.24 if x <= 13.4 else .58
+    if 13.4 < x < 17.0:
+        drop = 1.24-(x-13.4)*(.66/3.6)
+    return base(x)-drop-.065
+
 FACES = [[0,1,2,3],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]]
 
 @dataclass(frozen=True)
@@ -55,9 +68,17 @@ def base(x):
     return 6.05
 
 def roof(y, north, annex, study):
-    if annex: return 15.27-math.tan(TILT)*(y-1.30)
+    if annex: return 16.90-math.tan(TILT)*(y-ANNEX[1])
     if north: return 15.63-math.tan(TILT)*(y-MAIN[1])
     return roof(SEAM,True,False,study)+study.monitor-math.tan(TILT)*(y-SEAM)
+
+def deck_soffit(v, north=True, annex=False, study=OPTIONS[-1]):
+    return roof(v, north, annex, study)-ROOF_DEPTH
+
+def tapered_post(layer, material, footprint, bottom, top):
+    """A plumb solid with independent lower and upper bearing planes."""
+    vs=[(u,v,fn(u,v)) for fn in (bottom,top) for u,v in footprint]
+    g.solid(layer,material,vs,FACES)
 
 def flange_layer(label): return 'Enclosure / '+label
 
@@ -73,11 +94,11 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
         direction='north' if any(abs(ay-q)<.015 for q in (NORTH_SKIN,3.65,1.43,16.90)) else 'south'
         if (direction=='north' and ny>0) or (direction=='south' and ny<0):nx,ny=-nx,-ny
     else:
-        direction='west' if any(abs(ax-q)<.015 for q in (2.48,13.8,COURT[2])) else 'east'
+        direction='west' if any(abs(ax-q)<.015 for q in (WEST_SKIN,14.04,COURT[2])) else 'east'
         if (direction=='west' and nx>0) or (direction=='east' and nx<0):nx,ny=-nx,-ny
     breaks={0.,length}
     if abs(ux)>.95:
-        breaks.update((x-ax)/ux for x in (2.6,7.0,13.4,39.8,45.8,56.6) if 0<(x-ax)/ux<length)
+        breaks.update((x-ax)/ux for x in (2.6,7.0,13.4,17.0,39.8,45.8,56.6) if 0<(x-ax)/ux<length)
     for s,e,_,_ in portals: breaks.update((max(0,s),min(length,e)))
     sections=sorted(breaks)
     def xyz(i,d,h):return (ax+ux*i+nx*d,ay+uy*i+ny*d,h)
@@ -175,16 +196,21 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
                         if min(hiA-loA,hiB-loB)>.001:surface(s,e,loA,loB,hiA,hiB,m,tag,d)
                 else:surface(s,e,z,Z,h,H,m,tag,d)
             if draw and not portal:
+                # North-side covers remain flush with the cassette face to
+                # preserve the clear width of the gently rising promenade.
+                trim_d=.005 if abs(ay-NORTH_SKIN)<.001 and abs(ux)>.95 else .04
+                seam_d=.045 if abs(ay-NORTH_SKIN)<.001 and abs(ux)>.95 else .09
                 # Recessed stop and outward folded seams give grazing light a profile.
                 for z,Z in ((u0,u1),(v0,v1)):
-                    g.beam(flange_layer('Window heads and sills'),INNER,xyz(s,.04,z),xyz(e,.04,Z),.13,.055)
-                g.beam(flange_layer('Extruded mullions and seams'),ZINC,xyz(s,.09,lo0+.07),xyz(s,.09,hi0-.07),.046,.065)
+                    g.beam(flange_layer('Window heads and sills'),INNER,xyz(s,trim_d,z),xyz(e,trim_d,Z),.13,.055)
+                g.beam(flange_layer('Extruded mullions and seams'),ZINC,xyz(s,seam_d,lo0+.07),xyz(s,seam_d,hi0-.07),.046,.065)
                 if treatment in ('school','hall','lantern') and ny>.25 and study.fins and n%2==0 and not on_gallery:
                     g.beam(flange_layer('South sun fins'),ZINC,xyz(s,.15,u0-.06),xyz(s+.14,study.fins+.12,v0+.10),.065,study.fins)
             if portal:
                 if draw:
                     for q in ((s,) if abs(s-start)<1e-8 else ()) + ((e,) if abs(e-end)<1e-8 else ()):
-                        g.beam(flange_layer('Portal reveals'),ZINC,xyz(q,.01,portal[0]+.06),xyz(q,.01,portal[1]-.06),.12,.19)
+                        jamb_d=-.035 if abs(ay-NORTH_SKIN)<.001 and abs(ux)>.95 else .01
+                        g.beam(flange_layer('Portal reveals'),ZINC,xyz(q,jamb_d,portal[0]+.06),xyz(q,jamb_d,portal[1]-.06),.12,.19)
                 if external:
                     clear=max(0,(e-s)*(min((hi0+hi1)/2,portal[1])-max((lo0+lo1)/2,portal[0])))
                     stats['portal_clear_m2']+=clear;stats[direction+'_gross_m2']+=clear
@@ -212,9 +238,9 @@ def build(study,draw=False):
                     if draw:
                         footprint=g.rect(left,v,right,V)
                         if not lit:
-                            g.plate(flange_layer('Standing seam zinc and membrane'),ZINC,footprint,z,.035)
-                            g.plate(flange_layer('Continuous roof insulation'),INNER,footprint,lambda u,q:z(u,q)-.035,.145)
-                            g.plate('Structure / Exposed cross laminated roof panels',CLT,footprint,lambda u,q:z(u,q)-.180,.175)
+                            g.plate(flange_layer('Standing seam zinc and membrane'),ZINC,footprint,z,ZINC_DEPTH)
+                            g.plate(flange_layer('Continuous roof insulation'),INNER,footprint,lambda u,q:z(u,q)-ZINC_DEPTH,INSULATION_DEPTH)
+                            g.plate('Structure / Exposed cross laminated roof panels',CLT,footprint,lambda u,q:z(u,q)-ZINC_DEPTH-INSULATION_DEPTH,CLT_DEPTH)
                         else:
                             g.plate('Energy / Roof daylight apertures',CHANNEL,footprint,z,.08)
                         if lit:
@@ -232,6 +258,20 @@ def build(study,draw=False):
                                 for rr in (r+.21,r+d-.21):
                                     g.beam('Energy / Roof PV carrier rails',ZINC,(left+.10,rr,z(left+.10,rr)+.110),(last,rr,z(last,rr)+.110),.05,.09)
                             r+=d+.025
+            if draw:
+                # Two glazing rails transfer rooflight loads through short stools
+                # to the timber below. Both lines stop at the actual open court.
+                spans=[(x+.30,X-.30)] if annex or north else [(x+.30,COURT[0]-.20),(COURT[2]+.20,X-.30)]
+                positions=(57.42,60.34,63.25,66.24,69.23) if annex else [2.6+3.6*i for i in range(16)]
+                first=(1.90 if annex else (1.70 if north else a+.30))
+                for q in (min(first,ym-.18),ym-.12):
+                    for u,U in spans:
+                        rail_top=lambda xx,yy:z(xx,yy)-.08
+                        g.plate(flange_layer('Rooflight glazing rails'),ZINC,g.rect(u,q-.04,U,q+.04),rail_top,.12)
+                        for xx in positions:
+                            if u<xx<U:
+                                g.plate(flange_layer('Rooflight bearing stools'),STEEL,g.rect(xx-.045,q-.04,xx+.045,q+.04),
+                                        lambda X,Y:rail_top(X,Y)-.12,ROOF_DEPTH-.20)
             if not annex and not north and study.monitor:
                 for xa,xb in ((x,COURT[0]),(COURT[2],X)):
                     for u,U in zip(gridcuts(xa,xb,1.80),gridcuts(xa,xb,1.80)[1:]):
@@ -244,51 +284,82 @@ def build(study,draw=False):
             if draw:
                 # Ends have upstands; exposed low eaves discharge into a box gutter.
                 for xx in (x+.04,X-.04):
-                    g.beam(flange_layer('Folded roof edge trims'),ZINC,(xx,a,z(xx,a)),(xx,b,z(xx,b)),.12,.28)
+                    runs=[(a,b)]
+                    if annex and xx < x+.05:
+                        runs=[]
+                    elif not annex and xx > X-.05:
+                        runs=[(lo,hi) for lo,hi in ((a,min(b,ANNEX[1])),(max(a,ANNEX[3]),b)) if hi>lo]
+                    for lo,hi in runs:
+                        g.beam(flange_layer('Folded roof edge trims'),ZINC,(xx,lo,z(xx,lo)),(xx,hi,z(xx,hi)),.12,.28)
                 for u,U in ((x,X),) if annex or b<=COURT[1] or b>=COURT[3] else ((x,COURT[0]),(COURT[2],X)):
                     g.beam(flange_layer('Low-eave gutters'),ZINC,(u,b-.06,z(u,b)-.065),(U,b-.06,z(U,b)-.065),.18,.21)
 
+    if draw:
+        # Fold the high field over an insulated vertical return to the lower roof.
+        for a,b,north in ((ANNEX[1],SEAM,True),(SEAM,ANNEX[3],False)):
+            roof1=lambda u,v:roof(v,north,False,study)
+            roof2=lambda u,v:roof(v,True,True,study)
+            low,high=sorted((roof1,roof2),key=lambda f:f(ANNEX[0],a))
+            sign=1 if high is roof2 else -1
+            x=ANNEX[0]
+            def strip(f0,f1):
+                return g.rect(min(f0,f1),a,max(f0,f1),b)
+            tapered_post(flange_layer('Insulated roof step'),INNER,strip(x,x+.085*sign),low,high)
+            tapered_post(flange_layer('Folded roof step flashing'),ZINC,strip(x-.014*sign,x),low,high)
+            g.plate(flange_layer('Folded roof step flashing'),ZINC,strip(x-.060*sign,x+.09*sign),
+                    lambda u,v:high(u,v)+.012,.012)
+            g.plate(flange_layer('Folded roof step flashing'),ZINC,strip(x-.085*sign,x),
+                    lambda u,v:low(u,v)+.012,.012)
+
     def W(label,a,b,lo,hi,t,doors=(),max_width=1.8,ext=True):
         wall(study,stats,draw,label,a,b,lo,hi,t,doors,max_width,ext)
+    def roof_wall(label,a,b,low,north,annex,treatment,doors=(),max_width=1.8):
+        # End the glass at its head channel below timber. Across rooflights
+        # a deeper metal head closes the space up to the glazing gasket.
+        sill=lambda u,v:deck_soffit(v,north,annex,study)-.026
+        W(label,a,b,low,sill,treatment,doors,max_width)
+        if not draw:return
+        start,end=(ANNEX[1],ANNEX[3]) if annex else ((MAIN[1],SEAM) if north else (SEAM,MAIN[3]))
+        limit=start+study.skylight*(end-start)
+        x,y=a;X,Y=b
+        ts=[0,1]
+        if abs(Y-y)>.00001 and 0<(limit-y)/(Y-y)<1:
+            ts.insert(1,(limit-y)/(Y-y))
+        for t,T in zip(ts,ts[1:]):
+            ax,ay=x+t*(X-x),y+t*(Y-y)
+            bx,by=x+T*(X-x),y+T*(Y-y)
+            glazed=(ay+by)*.5<limit
+            top=lambda u,v:roof(v,north,annex,study)-(.08 if glazed else ROOF_DEPTH)
+            if abs(ax-bx)<.00001:
+                fp=g.rect(ax-.042,min(ay,by),ax+.042,max(ay,by))
+            else:
+                fp=g.rect(min(ax,bx),ay-.042,max(ax,bx),ay+.042)
+            tapered_post(flange_layer('Metal heads at roof and glazing'),ZINC,fp,sill,top)
+
     # Long street sides rise clear of the pedestrian entrances at both ends.
     for yy,north in [(NORTH_SKIN,True),(SOUTH_SKIN,False)]:
-        h=roof(yy,north,False,study)-.12
-        long_bays=[(2.6,13.4,'school'),(13.4,39.8,'hall'),(39.8,56.6,'lantern')]
-        if north:
-            # The north side of the enclosed exit stair already forms the
-            # thermal boundary in this bay. Keep the occupied stair free of panels.
-            long_bays[1:2]=[(13.4,14.0,'hall'),(14.0,21.4,'core'),(21.4,39.8,'hall')]
+        long_bays=[(WEST_SKIN,13.4,'school'),(13.4,39.8,'hall'),(39.8,EAST_SKIN,'lantern')]
         for left,right,kind in long_bays:
             doors=[]
-            if left<7:doors.append((0,4.40,base(2.6)-.25,L3-.27))
             if right>45.8 and north:
                 doors.append((46.35-left,47.55-left,L3-.25,L3+2.57))
-            if kind=='core':
-                top=L3+2.86
-                # The recessed thermal line meets the core below. The opaque
-                # core itself lives in the Structure layer and is counted once.
-                wall_area=(right-left)*(top-base(left)+.06)
-                stats['gross_wall_m2']+=wall_area;stats['north_gross_m2']+=wall_area
-                if draw:
-                    g.plate(flange_layer('Stair-head flashing'),ZINC,g.rect(left,1.685,right,yy+.03),
-                            lambda u,q:top+.030+.014*(q-1.685)/(yy-1.685),.045)
-                W('Stair-head transom',(left,yy),(right,yy),top,h,'hall',[])
-                continue
-            W('Long bay', (left,yy),(right,yy),lambda x,y:base(x)-.06,h,kind,doors)
-    for x,kind in [(2.48,'end'),(56.65,'lantern')]:
-        for a,b,north in [(NORTH_SKIN,SEAM,True),(SEAM,SOUTH_SKIN,False)]:
-            doors=[]
-            if x>50:
-                # Gallery thresholds connecting to the auditorium foyer.
-                if a<8:doors=[(3.12-a,5.35-a,L2-.28,L3+2.70)]
-            W('Short end',(x,a),(x,b),base(max(2.6,min(56.6,x)))-.04,
-              lambda xx,yy:roof(yy,north,False,study)-.12,kind,doors)
+            roof_wall('Long bay',(left,yy),(right,yy),lambda x,y:wall_foot(x),north,False,kind,doors)
+    for a,b,north in [(NORTH_SKIN,SEAM,True),(SEAM,SOUTH_SKIN,False)]:
+        roof_wall('Fourth Avenue end',(WEST_SKIN,a),(WEST_SKIN,b),wall_foot(WEST_SKIN),north,False,'end')
+    # The annex meets most of the east end. Only exposed returns and the
+    # band between the two roof levels are exterior walls at this shared seam.
+    for a,b,north in [(NORTH_SKIN,1.43,True),(17.94,SOUTH_SKIN,False)]:
+        roof_wall('East end return',(EAST_SKIN,a),(EAST_SKIN,b),wall_foot(EAST_SKIN),north,False,'lantern')
     # Recessed assembly lobby and folding portals leave an uninterrupted ground-level hall.
-    for a,b,kind,doors in [((13.8,3.65),(39.8,3.65),'plinth',[(8.50,10.65,G,5.37)]),
-                            ((13.8,18.32),(40.00,18.32),'plinth',[(2.15,8.35,G,5.67),(15.5,21.7,G,5.67)]),
-                            ((13.8,3.65),(13.8,18.32),'plinth',[(1.4,2.9,G,5.59),(11.95,13.55,G,5.59)])]:
-        W('Retractable hall wall',a,b,G,6.04,kind,doors)
-    for a,b,doors in [((56.68,1.43),(69.85,1.43),()),((56.68,17.94),(69.85,17.94),[(4.0,7.1,G,G+2.5)]),
+    # At the north-west notch the concrete stair wall already forms the perimeter.
+    # Butt the hall panels to its exterior face, keeping the plinth head under
+    # the truss shoes and the continuous external soffit.
+    for a,b,doors in [((21.4,3.65),(39.8,3.65),[(.90,3.05,G,5.37)]),
+                      ((14.04,18.32),(40.00,18.32),[(1.91,8.11,G,5.67),(15.26,21.46,G,5.67)]),
+                      ((14.04,4.90),(14.04,18.32),[(.15,1.65,G,5.59),(10.70,12.30,G,5.59)])]:
+        W('Retractable hall wall',a,b,G,lambda x,y:wall_foot(x),'plinth',doors)
+    for a,b,doors in [((EAST_SKIN,1.43),(69.85,1.43),()),
+                      ((EAST_SKIN,17.94),(69.85,17.94),[(60.68-EAST_SKIN,63.78-EAST_SKIN,G,G+2.5)]),
                       ((69.85,1.43),(69.85,17.94),[(5.35,8.2,G,G+2.65)])]:
         gallery_side=a[1]==b[1]==17.94
         joint=L2-.12 if gallery_side else L2-.10
@@ -296,45 +367,38 @@ def build(study,draw=False):
         # a 1.70 m open bay meets the gallery within the east annex.
         upper_doors=[(62.5-a[0],64.2-a[0],joint,L2+2.45)] if gallery_side else []
         W('Street annex',a,b,G,joint,'plinth',doors)
-        W('Street annex',a,b,joint,lambda x,y:roof(y,True,True,study)-.12,'lantern',upper_doors)
+        roof_wall('Street annex',a,b,joint,True,True,'lantern',upper_doors)
     # Seal the court to all occupied sides; one physically clear pair of entry openings.
     x,y,X,Y=COURT
     for a,b in [((x,y),(X,y)),((x,Y),(X,Y)),((x,y),(x,SEAM)),((x,SEAM),(x,Y)),
                 ((X,y),(X,SEAM)),((X,SEAM),(X,Y))]:
         north=(a[1]+b[1])/2<=SEAM
         doors=[(1.45,3.35,L2-.15,L2+2.35)] if a[1]==b[1] else []
-        W('Court glass',(a[0],a[1]),(b[0],b[1]),L2,
-          lambda xx,yy:roof(yy,north,False,study)-.16,'court',doors,1.65)
+        roof_wall('Court glass',a,b,L2,north,False,'court',doors,1.65)
     if draw:
-        # The north thermal boundary steps behind the sheltered timber frame.
+        # Both weather walls enclose the primary timber frames.
         # Portal/bay widths set the REAL bolt-face position; the plate and its
         # rectangular slip slot are modeled as independent, closed parts.
         stations=[2.6+3.6*i for i in range(16)]
         for truss,face in ((1.65,NORTH_SKIN),(18.35,SOUTH_SKIN)):
-            inside=face-.130
+            out=1 if truss>5 else -1
+            inside=face-out*.135
             for level in (L3+.25,12.40):
-                for x,X in zip(stations,stations[1:]):
-                    if truss<5 and ((x<49.8 and X>45.8) or (x<21.4 and X>14.0)):continue
-                    g.beam(flange_layer('Glulam secondary girts'),GLULAM,(x,inside,level),(X,inside,level),.092,.145)
+                for i,(x,X) in enumerate(zip(stations,stations[1:])):
+                    if truss<5 and x<47.55 and X>46.35:continue
+                    left=.45 if i in (3,12) else .225
+                    right=.45 if i+1 in (3,12) else .225
+                    g.beam(flange_layer('Glulam secondary girts'),GLULAM,(x+left,inside,level),(X-right,inside,level),.090,.145)
                 for i,u in enumerate(stations):
-                    if truss<5 and (45.7<u<49.81 or 14.0<u<21.4):continue
+                    if truss<5 and 45.7<u<49.81:continue
                     width=.630 if i in (3,12) else .315
-                    seat=truss+width/2
-                    foot=level-.085
-                    # Back plate with a 20 x 42 mm open slot. The steel seat folds
-                    # back to the spruce girt and the slot allows vertical movement.
-                    for a,A,h,H in ((-.080,-.010,-.065,.065),(.010,.080,-.065,.065),
-                                     (-.010,.010,-.065,-.021),(-.010,.010,.021,.065)):
-                        g.box(flange_layer('Slotted steel saddle cleats'),STEEL,
-                              u+a,seat,foot+h,u+A,seat+.016,foot+H)
-                    g.box(flange_layer('Slotted steel saddle cleats'),STEEL,u-.08,seat+.016,foot-.064,
-                          u+.08,inside+.046,foot-.048)
-                    # Two through-bolt nut/washer pairs remain visible on the
-                    # outer face of the sheltered north glulam frame.
-                    for dx in (-.054,.054):
-                        for y0,y1 in ((truss-width/2-.014,truss-width/2),(seat+.016,seat+.03)):
-                            g.box(flange_layer('Exposed saddle fasteners'),ZINC,u+dx-.018,y0,foot-.008,
-                                  u+dx+.018,y1,foot+.028)
+                    near=truss+out*width/2
+                    for sense in ([1] if i==0 else [-1] if i==15 else [-1,1]):
+                        edge=u+sense*(.45 if i in (3,12) else .225)
+                        x0,x1=sorted((edge,edge+sense*.105))
+                        yt,Yt=sorted((inside-out*.045,near))
+                        g.box(flange_layer('Inboard girt seats'),STEEL,x0,yt,level-.09,x1,Yt,level-.07)
+                        g.box(flange_layer('Inboard girt seats'),STEEL,x0,yt,level-.09,x0+.014,Yt,level+.05)
             if truss<5:continue
             for u in (13.4,35,53):
                 top=roof(MAIN[3]-.06,False,False,study)-.16
@@ -343,22 +407,18 @@ def build(study,draw=False):
                        (u,drop,top-.33),.13,.13)
                 g.beam(flange_layer('Rain leaders and outlets'),ZINC,(u,drop,top-.33),
                        (u,drop,base(u)+.31),.115,.115)
-        # A sloped secondary timber rafter at each cross frame bears on upstands
-        # rising from the main roof framing. The CLT spans between these axes.
-        for annex in (False,True):
-            xx=stations if not annex else (56.85,60.,63.25,66.50,69.7)
-            for x in xx:
-                fields=[(MAIN[1]+.08,SEAM,True),(SEAM,MAIN[3]-.08,False)] if not annex else [(ANNEX[1]+.08,ANNEX[3]-.08,True)]
-                if not annex and COURT[0]<x<COURT[2]:
-                    fields=[(MAIN[1]+.08,COURT[1]-.09,True),(COURT[3]+.09,MAIN[3]-.08,False)]
-                for a,b,north in fields:
-                    h=roof(a,north,annex,study)-.515;H=roof(b,north,annex,study)-.515
-                    g.beam('Structure / Glulam secondary roof rafters',GLULAM,(x,a,h),(x,b,H),.155,.320)
-                    for q in (a+.34,b-.34):
-                        z=roof(q,north,annex,study)-.675
-                        sill=13.80 if annex else 13.62
-                        if z>sill:
-                            g.box('Structure / Glulam roof upstands',GLULAM,x-.077,q-.105,sill,x+.077,q+.105,z)
+        # Plumb-ended rafters stop on each side of the roof monitor and the court glass.
+        for x in stations:
+            fields=[(1.42,SEAM-.11,True),(SEAM+.11,18.68,False)]
+            if COURT[0]<x<COURT[2]:
+                fields=[(1.42,COURT[1]-.22,True),(COURT[3]+.22,18.68,False)]
+            for a,b,north in fields:
+                top=lambda u,v:deck_soffit(v,north,False,study)
+                g.plate('Structure / Glulam secondary roof rafters',GLULAM,g.rect(x-.0775,a,x+.0775,b),top,.32)
+                for q in (max(a+.25,2.12),min(b-.25,17.88)):
+                    if a+.1<q<b-.1:
+                        tapered_post('Structure / Glulam roof upstands',GLULAM,g.rect(x-.077,q-.10,x+.077,q+.10),
+                                     lambda u,v:MAIN_GIRDER_TOP,lambda u,v:top(u,v)-.32)
         # Twenty-centimetre insulated kerbs and a metal coping turn up around the
         # actual opening, split where the high monitor changes roof elevation.
         x,y,X,Y=COURT

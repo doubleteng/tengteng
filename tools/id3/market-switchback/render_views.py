@@ -44,6 +44,6 @@ take('market-switchback-aisle',(1.72,30.58,2.05),(41,30.90,3.10),lens=26)
 for o in s.objects:
     if o.type!='MESH':continue
     if o.name.startswith('Structure /'):
-        o.hide_render=any(q in o.name.lower() for q in ['clt market roof','clt roof','studios and bridges','forum and terraces','lower-ground slab','arcade clt'])
+        o.hide_render=any(q in o.name.lower() for q in ['clt market roof','clt roof','cross laminated roof panels','studios and bridges','forum and terraces','lower-ground slab','arcade clt'])
     elif o.name!='Plane':o.hide_render=True
 take('market-crossing-frame',(-38,-68,40),(33,24,4.4),101)

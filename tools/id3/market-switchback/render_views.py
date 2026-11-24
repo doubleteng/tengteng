@@ -38,7 +38,8 @@ def take(name,eye,target,scale=None,lens=29):
     s.render.resolution_percentage=50 if draft else 100
     s.render.filepath=str(out/(name+'.webp'));bpy.ops.render.render(write_still=True)
 take('market-switchback',(-48,-62,49),(33,26,4.20),102)
-take('market-switchback-ramp',(-8.2,-8.0,2.18),(19,5.35,6.15),lens=27)
+# Street-level view across Fourth Avenue, wide enough to show both returning gallery edges.
+take('market-switchback-ramp',(-10,-11.5,2.08),(20,9.1,7.4),lens=22.5)
 take('market-switchback-aisle',(1.72,30.58,2.05),(41,30.90,3.10),lens=26)
 # This didactic plate uses the same complete model with all cladding and loose furnishing hidden.
 for o in s.objects:

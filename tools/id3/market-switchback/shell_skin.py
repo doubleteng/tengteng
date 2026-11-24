@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import geometry as g
+from gallery_cantilevers import ARMS, SIDES, NORTH_SKIN, SOUTH_SKIN, WEST_SKIN
 
 STEEL = 'Graphite steel'
 ZINC = 'Galvanized silver'
@@ -33,8 +34,7 @@ SEAM = 8.60
 ZINC_DEPTH, INSULATION_DEPTH, CLT_DEPTH = .035, .145, .175
 ROOF_DEPTH = ZINC_DEPTH + INSULATION_DEPTH + CLT_DEPTH
 MAIN_GIRDER_TOP = 13.52
-WEST_SKIN, EAST_SKIN = 2.15, 57.06
-NORTH_SKIN, SOUTH_SKIN = 1.235, 18.875
+EAST_SKIN = 57.06
 
 # At the occupied school end, the timber truss and reading-room collectors
 # sit above one continuous folded soffit. The other end has a recessed loggia.
@@ -86,6 +86,46 @@ def gridcuts(a,b,step):
     n=max(1,math.ceil((b-a)/step-1e-9))
     return [a+(b-a)*i/n for i in range(n+1)]
 
+def gallery_openings(a,b):
+    # Open only the actual outer facade (including the end-wall split at its roof monitor).
+    openings=[]
+    for arm in ARMS:
+        axis,face,_=SIDES[arm.side]
+        across=1-axis
+        if abs(a[axis]-face)>.000001 or abs(b[axis]-face)>.000001:
+            continue
+        left,right,bottom,top=arm.opening
+        lo,hi=sorted((a[across],b[across]))
+        if left>=hi or right<=lo:
+            continue
+        sign=1 if b[across]>a[across] else -1
+        u,U=sorted(((left-a[across])*sign,(right-a[across])*sign))
+        openings.append((u,U,bottom,top))
+    return openings
+
+
+def clean_panel(poly):
+    points=[]
+    for p in poly:
+        if not points or math.dist(p,points[-1])>1e-8:
+            points.append(p)
+    if len(points)>1 and math.dist(points[-1],points[0])<1e-8:
+        points.pop()
+    return [b for a,b,c in zip(points[-1:]+points[:-1],points,points[1:]+points[:1])
+            if abs((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]))>1e-9]
+
+
+def cut_panel(outline,opening):
+    left,right,low,high=opening
+    if (min(u for u,z in outline)>=right or max(u for u,z in outline)<=left
+            or min(z for u,z in outline)>=high or max(z for u,z in outline)<=low):
+        return [outline]
+    middle=g.clip(g.clip(outline,1,low,True),1,high,False)
+    parts=[g.clip(outline,1,low,False),g.clip(outline,1,high,True),
+           g.clip(middle,0,left,False),g.clip(middle,0,right,True)]
+    return [clean for part in parts if len(clean:=clean_panel(part))>=3]
+
+
 def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_width=1.8, external=True):
     """Clad an oriented plane in thermal cassettes. Portals trim all band geometry."""
     ax,ay=a; bx,by=b
@@ -103,18 +143,44 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
     sections=sorted(breaks)
     def xyz(i,d,h):return (ax+ux*i+nx*d,ay+uy*i+ny*d,h)
     def val(f,t):return f(ax+ux*t,ay+uy*t) if callable(f) else f
+    holes=gallery_openings(a,b)
     def surface(s,e,u,v,U,V,m,tag,depth):
-        area=(e-s)*(U+V-u-v)/2
-        if area<.00001:return
-        if external:
-            stats['gross_wall_m2']+=area
-            stats[direction+'_gross_m2']+=area
-            if m in (CLEAR,CHANNEL):stats[direction+'_glass_m2']+=area
-            if m==CLEAR:stats['vision_m2']+=area
-            if m==CHANNEL:stats['diffuse_m2']+=area
-        if not draw:return
-        vv=[xyz(q,d,h) for d in (-depth/2,depth/2) for q,h in ((s,u),(e,v),(e,V),(s,U))]
-        g.solid(flange_layer(tag),m,vv,FACES)
+        regions=[[(s,u),(e,v),(e,V),(s,U)]]
+        for hole in holes:
+            regions=[piece for poly in regions for piece in cut_panel(poly,hole)]
+        for poly in regions:
+            area=.5*abs(sum(q*Z-Q*z for (q,z),(Q,Z) in zip(poly,poly[1:]+poly[:1])))
+            if area<.00001:continue
+            if external:
+                stats['gross_wall_m2']+=area
+                stats[direction+'_gross_m2']+=area
+                if m in (CLEAR,CHANNEL):stats[direction+'_glass_m2']+=area
+                if m==CLEAR:stats['vision_m2']+=area
+                if m==CHANNEL:stats['diffuse_m2']+=area
+            if not draw:continue
+            n=len(poly)
+            vv=[xyz(q,d,z) for d in (-depth/2,depth/2) for q,z in poly]
+            faces=[list(range(n)),list(range(n,2*n))]+[
+                [i,(i+1)%n,(i+1)%n+n,i+n] for i in range(n)]
+            g.solid(flange_layer(tag),m,vv,faces)
+
+    def trim_line(tag,mat,s,z,e,h,d,width,depth):
+        # Stop exposed cover sections at the sleeve frame, including their end caps.
+        intervals=[(0.,1.)]
+        for left,right,low,high in holes:
+            entry,exit=0.,1.
+            for start,delta,lo,hi in ((s,e-s,left-width/2,right+width/2),(z,h-z,low-depth/2,high+depth/2)):
+                if abs(delta)<1e-9:
+                    if start<lo or start>hi:entry,exit=1.,0.;break
+                else:
+                    A,B=sorted(((lo-start)/delta,(hi-start)/delta))
+                    entry=max(entry,A);exit=min(exit,B)
+            if entry<exit:
+                intervals=[(A,B) for a,b in intervals for A,B in
+                           ((a,min(b,entry)),(max(a,exit),b)) if B-A>1e-6]
+        for A,B in intervals:
+            g.beam(flange_layer(tag),mat,xyz(s+(e-s)*A,d,z+(h-z)*A),
+                   xyz(s+(e-s)*B,d,z+(h-z)*B),width,depth)
     module=0
     for start,end in zip(sections,sections[1:]):
         cuts=gridcuts(start,end,max_width)
@@ -202,8 +268,8 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
                 seam_d=.045 if abs(ay-NORTH_SKIN)<.001 and abs(ux)>.95 else .09
                 # Recessed stop and outward folded seams give grazing light a profile.
                 for z,Z in ((u0,u1),(v0,v1)):
-                    g.beam(flange_layer('Window heads and sills'),INNER,xyz(s,trim_d,z),xyz(e,trim_d,Z),.13,.055)
-                g.beam(flange_layer('Extruded mullions and seams'),ZINC,xyz(s,seam_d,lo0+.07),xyz(s,seam_d,hi0-.07),.046,.065)
+                    trim_line('Window heads and sills',INNER,s,z,e,Z,trim_d,.13,.055)
+                trim_line('Extruded mullions and seams',ZINC,s,lo0+.07,s,hi0-.07,seam_d,.046,.065)
                 if treatment in ('school','hall','lantern') and ny>.25 and study.fins and n%2==0 and not on_gallery:
                     g.beam(flange_layer('South sun fins'),ZINC,xyz(s,.15,u0-.06),xyz(s+.14,study.fins+.12,v0+.10),.065,study.fins)
             if portal:

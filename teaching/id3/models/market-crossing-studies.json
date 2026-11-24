@@ -2736,28 +2736,28 @@
       "opaque_roof_plan_m2": 1038.693,
       "modules": 379,
       "classroom_eye_level_window_line_m": 22.5,
-      "gross_wall_m2": 1909.855,
-      "north_gross_m2": 809.876,
-      "north_glass_m2": 620.721,
-      "vision_m2": 1418.278,
+      "gross_wall_m2": 1907.772,
+      "north_gross_m2": 808.965,
+      "north_glass_m2": 620.038,
+      "vision_m2": 1417.377,
       "diffuse_m2": 97.37,
       "portal_clear_m2": 81.4,
       "south_sample_vision_m2": 442.701,
       "june_noon_shade_m2": 0.0,
       "december_noon_shade_m2": 0.0,
-      "south_gross_m2": 666.822,
-      "south_glass_m2": 501.337,
-      "west_gross_m2": 224.897,
+      "south_gross_m2": 665.975,
+      "south_glass_m2": 501.119,
+      "west_gross_m2": 224.572,
       "west_glass_m2": 151.871,
       "east_gross_m2": 289.66,
       "east_glass_m2": 241.719,
-      "north_wwr_pct": 76.644,
+      "north_wwr_pct": 76.646,
       "east_wwr_pct": 83.449,
-      "south_wwr_pct": 75.183,
-      "west_wwr_pct": 67.529,
+      "south_wwr_pct": 75.246,
+      "west_wwr_pct": 67.627,
       "june_south_noon_hood_shade_pct": 0.0,
       "december_south_noon_hood_shade_pct": 0.0,
-      "wwr_pct": 76.115,
+      "wwr_pct": 76.15,
       "skylight_plan_pct": 7.477
     },
     {
@@ -2767,28 +2767,28 @@
       "modules": 342,
       "north_monitor_m2": 30.118,
       "classroom_eye_level_window_line_m": 11.25,
-      "gross_wall_m2": 1967.98,
-      "north_gross_m2": 815.06,
-      "north_glass_m2": 249.917,
-      "vision_m2": 473.469,
+      "gross_wall_m2": 1965.897,
+      "north_gross_m2": 814.149,
+      "north_glass_m2": 249.534,
+      "vision_m2": 473.086,
       "diffuse_m2": 147.666,
       "portal_clear_m2": 81.4,
       "south_sample_vision_m2": 142.798,
       "june_noon_shade_m2": 142.798,
       "december_noon_shade_m2": 56.157,
-      "south_gross_m2": 701.964,
+      "south_gross_m2": 701.118,
       "south_glass_m2": 197.949,
-      "west_gross_m2": 236.785,
+      "west_gross_m2": 236.46,
       "west_glass_m2": 76.624,
       "east_gross_m2": 295.57,
       "east_glass_m2": 96.645,
-      "north_wwr_pct": 30.662,
+      "north_wwr_pct": 30.65,
       "east_wwr_pct": 32.698,
-      "south_wwr_pct": 28.199,
-      "west_wwr_pct": 32.36,
+      "south_wwr_pct": 28.233,
+      "west_wwr_pct": 32.405,
       "june_south_noon_hood_shade_pct": 100.0,
       "december_south_noon_hood_shade_pct": 39.326,
-      "wwr_pct": 30.308,
+      "wwr_pct": 30.321,
       "skylight_plan_pct": 18.743
     },
     {
@@ -2798,8 +2798,8 @@
       "modules": 348,
       "north_monitor_m2": 60.237,
       "classroom_eye_level_window_line_m": 11.25,
-      "gross_wall_m2": 2026.105,
-      "north_gross_m2": 820.244,
+      "gross_wall_m2": 2024.022,
+      "north_gross_m2": 819.333,
       "north_glass_m2": 303.635,
       "vision_m2": 553.883,
       "diffuse_m2": 109.624,
@@ -2807,19 +2807,19 @@
       "south_sample_vision_m2": 156.747,
       "june_noon_shade_m2": 148.729,
       "december_noon_shade_m2": 34.419,
-      "south_gross_m2": 737.107,
+      "south_gross_m2": 736.26,
       "south_glass_m2": 192.52,
-      "west_gross_m2": 248.673,
+      "west_gross_m2": 248.348,
       "west_glass_m2": 72.649,
       "east_gross_m2": 301.481,
       "east_glass_m2": 94.703,
-      "north_wwr_pct": 37.018,
+      "north_wwr_pct": 37.059,
       "east_wwr_pct": 31.413,
-      "south_wwr_pct": 26.118,
-      "west_wwr_pct": 29.215,
+      "south_wwr_pct": 26.148,
+      "west_wwr_pct": 29.253,
       "june_south_noon_hood_shade_pct": 94.885,
       "december_south_noon_hood_shade_pct": 21.958,
-      "wwr_pct": 31.483,
+      "wwr_pct": 31.514,
       "skylight_plan_pct": 14.955
     }
   ],
@@ -2912,7 +2912,7 @@
     "max_days_per_time_bin": 3,
     "sky_directions": 384,
     "triangles": {
-      "market-switchback.glb": 121920,
+      "round3.glb": 131668,
       "urban-core-materials.glb": 98306,
       "urban-near.glb": 19628,
       "urban-outer.glb": 54721
@@ -3414,23 +3414,23 @@
     "local_loss_pct": 8.95
   },
   "geometry": {
-    "glbBytes": 1815492,
-    "parts": 10184,
-    "triangles": 121920,
-    "batches": 175,
+    "glbBytes": 1957436,
+    "parts": 10996,
+    "triangles": 131668,
+    "batches": 184,
     "stalls": 120,
     "pv": 950,
     "courtM2": 81.0,
     "marketRampSlope": 0.04781907090464547,
-    "upperRampSlope": 0.04000374988281615,
+    "upperRampSlope": 0.040003749882816166,
     "gradeWalkSlope": 0.04661654135338346
   },
   "checks": {
     "geometry": "Reopened the serialized GLB. Checked finite coordinates, face areas, outward winding, positive volume and two opposite directed edges per shell edge; all parts within the registered parcel. Shell intersections at structural connections are intentional.",
     "walks": "Ten circulation segments checked using vertical rays in the exported GLB, at three lateral positions and about 0.22 m along each route. All probes cleared 2 m above the route. The modeled north promenade has a minimum 1.105 m clear width across 800 sample sections. These are geometric checks.",
     "envelope": {
-      "tested_members": 2522,
-      "tested_weather_panels": 1891,
+      "tested_members": 2953,
+      "tested_weather_panels": 1998,
       "tolerance_m": 0.0005,
       "pair_count": 0
     },
@@ -3445,13 +3445,13 @@
         "West portal fascia": 6,
         "Vendor photovoltaics": 518
       },
-      "members": 1448,
+      "members": 1464,
       "pair_count": 0
     },
     "solids": {
-      "parts": 10184,
-      "triangles": 121920,
-      "vertices": 81328,
+      "parts": 10996,
+      "triangles": 131668,
+      "vertices": 87826,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "inconsistent_edge_winding": 0,
@@ -3460,12 +3460,637 @@
       "degenerate_or_nonfinite_triangles": 0,
       "nonpositive_or_nonfinite_volume_parts": 0,
       "parcel_outlier_vertices": 0,
-      "batches": 175,
+      "batches": 184,
       "smallest_triangle_area_m2": 1.4225462078366107e-05,
       "smallest_signed_volume_m3": 1.92934420314983e-06,
       "failed_parts": 0,
       "problems": []
     },
-    "forum_roof": "The forum slopes 8.5 degrees. Plumb-ended rafters frame into pitched girder tops, the columns meet the girder soffits, and the metal heads terminate the facade glazing below the deck."
+    "forum_roof": "The forum slopes 8.5 degrees. Plumb-ended rafters frame into pitched girder tops, the columns meet the girder soffits, and the metal heads terminate the facade glazing below the deck.",
+    "upper_promenade": {
+      "former_parts": {
+        "Structure / Exterior gallery brackets": 0,
+        "Structure / Exterior gallery pedestals": 0,
+        "Structure / Independent gallery posts": 0
+      },
+      "flights": [
+        {
+          "layer": "Circulation / South overlook ramp",
+          "run_m": 45.29,
+          "rise_m": 1.8118,
+          "grade_percent": 4.0004,
+          "deck_width_m": 1.42
+        },
+        {
+          "layer": "Circulation / Fourth Avenue belvedere",
+          "run_m": 16.64,
+          "rise_m": 0.6657,
+          "grade_percent": 4.0004,
+          "deck_width_m": 1.83
+        },
+        {
+          "layer": "Circulation / North learning gallery",
+          "run_m": 44.74,
+          "rise_m": 1.7898,
+          "grade_percent": 4.0004,
+          "deck_width_m": 1.14
+        }
+      ],
+      "checked_central_corridor_m": [
+        0.78,
+        2.0
+      ],
+      "hardware": {
+        "Structure / Gallery threshold trimmer": 1,
+        "Structure / Gallery timber connection plates": 113,
+        "Structure / Gallery connection bolts": 136,
+        "Structure / Gallery cantilever arms": 33,
+        "Structure / Gallery bearing pads": 66,
+        "Structure / Gallery transfer links": 10,
+        "Structure / Gallery landing beams": 16,
+        "Structure / Gallery landing splice plates": 32,
+        "Structure / Gallery landing bolts": 104,
+        "Structure / Gallery landing beam seats": 12
+      },
+      "anchored_hardware": 523,
+      "stations": [
+        {
+          "side": "north",
+          "at_m": 2.6,
+          "local_anchors_x_m": [
+            2.6
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 6.2,
+          "local_anchors_x_m": [
+            6.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 9.8,
+          "local_anchors_x_m": [
+            9.8
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 13.4,
+          "local_anchors_x_m": [
+            13.4
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 17.0,
+          "local_anchors_x_m": [
+            17.0
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 20.6,
+          "local_anchors_x_m": [
+            20.6
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 24.2,
+          "local_anchors_x_m": [
+            24.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 27.8,
+          "local_anchors_x_m": [
+            27.8
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 31.4,
+          "local_anchors_x_m": [
+            31.4
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 35.0,
+          "local_anchors_x_m": [
+            35.0
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 38.6,
+          "local_anchors_x_m": [
+            38.6
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 42.2,
+          "local_anchors_x_m": [
+            42.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 45.8,
+          "local_anchors_x_m": [
+            45.8
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "north",
+          "at_m": 48.1,
+          "local_anchors_x_m": [
+            45.8,
+            49.4
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 2.6,
+          "local_anchors_x_m": [
+            2.6
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 6.2,
+          "local_anchors_x_m": [
+            6.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 9.8,
+          "local_anchors_x_m": [
+            9.8
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 13.4,
+          "local_anchors_x_m": [
+            13.4
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 17.0,
+          "local_anchors_x_m": [
+            17.0
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 20.6,
+          "local_anchors_x_m": [
+            20.6
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 24.2,
+          "local_anchors_x_m": [
+            24.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 27.8,
+          "local_anchors_x_m": [
+            27.8
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 31.4,
+          "local_anchors_x_m": [
+            31.4
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 35.0,
+          "local_anchors_x_m": [
+            35.0
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 38.6,
+          "local_anchors_x_m": [
+            38.6
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 42.2,
+          "local_anchors_x_m": [
+            42.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 45.8,
+          "local_anchors_x_m": [
+            45.8
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "south",
+          "at_m": 49.4,
+          "local_anchors_x_m": [
+            49.4
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "west",
+          "at_m": 2.1,
+          "local_anchors_x_m": [
+            2.6,
+            6.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "west",
+          "at_m": 5.85,
+          "local_anchors_x_m": [
+            2.6,
+            6.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "west",
+          "at_m": 10.0,
+          "local_anchors_x_m": [
+            2.6,
+            6.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "west",
+          "at_m": 14.15,
+          "local_anchors_x_m": [
+            2.6,
+            6.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        },
+        {
+          "side": "west",
+          "at_m": 17.9,
+          "local_anchors_x_m": [
+            2.6,
+            6.2
+          ],
+          "sleeve_faces": 4,
+          "seal_faces": 4
+        }
+      ],
+      "building_contacts": {
+        "Structure / Glulam posts": 176,
+        "Structure / Glulam chords": 20,
+        "Structure / Glulam floor girders": 58
+      },
+      "bearings": [
+        {
+          "walk": "Circulation / South overlook ramp",
+          "stringer": 4,
+          "seats": [
+            2.6,
+            6.2,
+            9.8,
+            13.4,
+            17.0,
+            20.6,
+            24.2,
+            27.8,
+            31.4,
+            35.0,
+            38.6,
+            42.2,
+            45.8
+          ],
+          "max_interval_m": 3.6,
+          "smallest_pad_bearing_cm2": 176.4
+        },
+        {
+          "walk": "Circulation / South overlook ramp",
+          "stringer": 5,
+          "seats": [
+            2.6,
+            6.2,
+            9.8,
+            13.4,
+            17.0,
+            20.6,
+            24.2,
+            27.8,
+            31.4,
+            35.0,
+            38.6,
+            42.2,
+            45.8
+          ],
+          "max_interval_m": 3.6,
+          "smallest_pad_bearing_cm2": 176.4
+        },
+        {
+          "walk": "Circulation / Fourth Avenue belvedere",
+          "stringer": 6,
+          "seats": [
+            2.1,
+            5.85,
+            10.0,
+            14.15,
+            17.9
+          ],
+          "max_interval_m": 4.15,
+          "smallest_pad_bearing_cm2": 176.4
+        },
+        {
+          "walk": "Circulation / Fourth Avenue belvedere",
+          "stringer": 7,
+          "seats": [
+            2.1,
+            5.85,
+            10.0,
+            14.15,
+            17.9
+          ],
+          "max_interval_m": 4.15,
+          "smallest_pad_bearing_cm2": 176.4
+        },
+        {
+          "walk": "Circulation / North learning gallery",
+          "stringer": 8,
+          "seats": [
+            2.6,
+            6.2,
+            9.8,
+            13.4,
+            17.0,
+            20.6,
+            24.2,
+            27.8,
+            31.4,
+            35.0,
+            38.6,
+            42.2,
+            45.8
+          ],
+          "max_interval_m": 3.6,
+          "smallest_pad_bearing_cm2": 176.4
+        },
+        {
+          "walk": "Circulation / North learning gallery",
+          "stringer": 9,
+          "seats": [
+            2.6,
+            6.2,
+            9.8,
+            13.4,
+            17.0,
+            20.6,
+            24.2,
+            27.8,
+            31.4,
+            35.0,
+            38.6,
+            42.2,
+            45.8
+          ],
+          "max_interval_m": 3.6,
+          "smallest_pad_bearing_cm2": 176.4
+        }
+      ],
+      "verified_splices": [
+        {
+          "plate": 25,
+          "stringer": 4,
+          "bolts": 6
+        },
+        {
+          "plate": 27,
+          "stringer": 4,
+          "bolts": 6
+        },
+        {
+          "plate": 29,
+          "stringer": 5,
+          "bolts": 6
+        },
+        {
+          "plate": 31,
+          "stringer": 5,
+          "bolts": 6
+        },
+        {
+          "plate": 0,
+          "stringer": 6,
+          "bolts": 8
+        },
+        {
+          "plate": 2,
+          "stringer": 6,
+          "bolts": 8
+        },
+        {
+          "plate": 16,
+          "stringer": 6,
+          "bolts": 8
+        },
+        {
+          "plate": 18,
+          "stringer": 6,
+          "bolts": 8
+        },
+        {
+          "plate": 4,
+          "stringer": 7,
+          "bolts": 8
+        },
+        {
+          "plate": 6,
+          "stringer": 7,
+          "bolts": 8
+        },
+        {
+          "plate": 20,
+          "stringer": 7,
+          "bolts": 8
+        },
+        {
+          "plate": 22,
+          "stringer": 7,
+          "bolts": 8
+        },
+        {
+          "plate": 9,
+          "stringer": 8,
+          "bolts": 6
+        },
+        {
+          "plate": 11,
+          "stringer": 8,
+          "bolts": 6
+        },
+        {
+          "plate": 13,
+          "stringer": 9,
+          "bolts": 6
+        },
+        {
+          "plate": 15,
+          "stringer": 9,
+          "bolts": 6
+        }
+      ],
+      "corner_bearings": [
+        {
+          "landing": "southwest",
+          "panels": 3,
+          "directly_supported": 3,
+          "connected": 3
+        },
+        {
+          "landing": "northwest",
+          "panels": 3,
+          "directly_supported": 3,
+          "connected": 3
+        },
+        {
+          "landing": "forum threshold",
+          "panels": 1,
+          "directly_supported": 1,
+          "connected": 1
+        },
+        {
+          "landing": "studio threshold",
+          "panels": 2,
+          "directly_supported": 1,
+          "connected": 2
+        }
+      ],
+      "facade_hits": [],
+      "ground_hits": [],
+      "freestanding_posts": [],
+      "mesh_faults": 0,
+      "failures": []
+    }
+  },
+  "upper_promenade_gravity": {
+    "model_basis": "Horizontal projected area of the three upper flights, both corner landings and upper studio threshold/link, measured from the loaded GLB.",
+    "assumptions": "One fully occupied walk at the same 2.70 kPa dead and 4.80 kPa live study pressures as the main decks. North and south flights load their adjoining truss. The west return and both corner landings are taken wholly by its transverse frames for this comparison. Their supports divide load by transverse position. Sign convention is positive downward on the supporting member.",
+    "limits": "Gravity reaction comparison only. Local connection strength and stiffness, eccentric torque, railing loads, snow, wind, vibration and foundation design require separate engineering.",
+    "projected_area_m2": {
+      "South overlook ramp": 64.312,
+      "North learning gallery": 51.004,
+      "Studios threshold": 1.801,
+      "Studios entrance": 0.204,
+      "Fourth Avenue belvedere": 30.451,
+      "West corner landings": 7.749
+    },
+    "total_area_m2": 155.521,
+    "added_vertical_kN": 1166.41,
+    "west_return_frame_reactions_kN": {
+      "outer_frame_at_x_2_60": 406.71,
+      "backspan_at_x_6_20": -120.21
+    },
+    "full_load_reference_kN_per_truss": {
+      "west": 4396.28,
+      "east": 4396.27
+    },
+    "additional_principal_bearing_kN": {
+      "north": {
+        "west": 440.61,
+        "east": 94.87
+      },
+      "south": {
+        "west": 517.58,
+        "east": 113.34
+      }
+    },
+    "combined_full_load_principal_bearing_kN": {
+      "north": {
+        "west": 4836.89,
+        "east": 4491.15
+      },
+      "south": {
+        "west": 4913.85,
+        "east": 4509.62
+      }
+    }
   }
 }

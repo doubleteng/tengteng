@@ -14,6 +14,7 @@ const maxPerspectivePolarAngle=Math.PI-.01;
 // The target stays level with the eye. A vertical lens shift frames the roofline.
 const contextViews = {
  'case-roof': {eye:[4.094,35,40],target:[-33.906,10.5,11],shift:0,fov:53},
+ 'case-promenade': {eye:[-92.906,2.08,-3.5],target:[-65.906,8.10,11.1],shift:0,fov:65},
  'case-west': {eye:[-86.40,2.12,16.44],target:[-63.0,4.05,12.95],shift:.08,fov:65},
  'case-market': {eye:[-81.21,2.10,30.58],target:[-47.8,2.85,30.95],shift:.045,fov:68},
  'case-ramp': {eye:[-64.90,9.18,19.88],target:[-88.6,9.00,19.10],shift:.04,fov:65},

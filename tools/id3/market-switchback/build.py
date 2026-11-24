@@ -4,6 +4,7 @@ import math
 from pathlib import Path
 import sys
 import geometry as geo
+import gallery_cantilevers as gallery
 from geometry import beam,box,clip,grade,plate,rect
 from shell_skin import WEST_SKIN,EAST_SKIN,NORTH_SKIN,SOUTH_SKIN,wall_foot,deck_soffit,tapered_post,MAIN_GIRDER_TOP
 
@@ -338,7 +339,7 @@ for a,b in zip(guard,guard[1:]+guard[:1]):handrail(a,b,L3,L3,A+'Court overlook',
 
 # Three different ascents: the public graded ground, the paired arcade inclines,
 # and a quieter upper walk winding around the lifted western end.
-def flight(label,axis,start,end,center,width,lo,hi,wall_side=False):
+def flight(label,axis,start,end,center,width,lo,hi,wall_side=False,gallery_side=None):
     run=abs(end-start)
     height=lambda v:lo+(hi-lo)*(v-start)/(end-start)
     def point(v,ac,h):return (v,ac,h) if axis==0 else (ac,v,h)
@@ -346,14 +347,24 @@ def flight(label,axis,start,end,center,width,lo,hi,wall_side=False):
     bounds=(a,c,b,d) if axis==0 else (c,a,d,b)
     top=lambda x,y:height((x,y)[axis])
     plate(A+label,CLT,rect(*bounds),top,.145)
-    for off in [c+(.0125 if wall_side else .065),d-.065]:
+    for i,off in enumerate([c+(.0125 if wall_side else .065),d-.065]):
         left,right=point(start,off,lo-.22),point(end,off,hi-.22)
-        joist_off=max(.085,off) if wall_side else off
-        beam(S+'Promenade glulam stringers',GLULAM,point(start,joist_off,lo-.22),point(end,joist_off,hi-.22),.15,.31)
+        if gallery_side:
+            q=gallery.STRINGERS[gallery_side][i]
+            poly=rect(a,q-.075,b,q+.075) if axis==0 else rect(q-.075,a,q+.075,b)
+            plate(S+'Promenade glulam stringers',GLULAM,poly,lambda x,y:top(x,y)-.145,.310)
+        else:
+            joist_off=max(.085,off) if wall_side else off
+            beam(S+'Promenade glulam stringers',GLULAM,point(start,joist_off,lo-.22),point(end,joist_off,hi-.22),.15,.31)
         if not wall_side or off<center:
             handrail(left[:2],right[:2],lo,hi,A+'Promenade rails',ST,curbside=wall_side)
     for v in frange(a+3.6,b-.3,3.6):
-        beam(S+'Walk cross blocking',GLULAM,point(v,c,height(v)-.16),point(v,d,height(v)-.16),.12,.20)
+        if gallery_side:
+            q,Q=gallery.STRINGERS[gallery_side]
+            poly=rect(v-.06,q+.075,v+.06,Q-.075) if axis==0 else rect(q+.075,v-.06,Q-.075,v+.06)
+            plate(S+'Walk cross blocking',GLULAM,poly,lambda x,y:top(x,y)-.145,.20)
+        else:
+            beam(S+'Walk cross blocking',GLULAM,point(v,c,height(v)-.16),point(v,d,height(v)-.16),.12,.20)
     return run
 walks=[]
 x0,x1=6.55,47.45
@@ -378,40 +389,19 @@ for xx in [50,54.2,58.4,62.6]:
         box(S+'Forum gallery plinths',RC,xx-.16,yy-.16,z-.10,xx+.16,yy+.16,z+.18)
     beam(S+'Forum gallery joists',GLULAM,(xx,20.00,L2-.28),(xx,21.99,L2-.28),.15,.32)
 # West return stays outside the occupied studios; north side is a narrow city balcony.
-xa,xb=2.16,47.45
-us=[xb-xa,18.46-1.82,46.9-xa]
-unit=(L3-L2)/sum(us);h1=L2+us[0]*unit;h2=h1+us[1]*unit
-walks.append(flight('South overlook ramp',0,xb,xa,19.87,1.42,L2,h1))
+xa,xb=gallery.XA,gallery.XB
+unit,h1,h2=gallery.SLOPE,gallery.WEST_LOW,gallery.WEST_HIGH
+walks.append(flight('South overlook ramp',0,xb,xa,19.87,1.42,L2,h1,gallery_side='south'))
 floor_with_voids(A+'West corner landings',CLT,(.16,18.46,xa,20.58),[(WEST_SKIN-.085,18.46,xa,SOUTH_SKIN+.085)],h1,.17)
-walks.append(flight('Fourth Avenue belvedere',1,18.46,1.82,1.075,1.83,h1,h2))
+walks.append(flight('Fourth Avenue belvedere',1,18.46,1.82,1.075,1.83,h1,h2,gallery_side='west'))
 floor_with_voids(A+'West corner landings',CLT,(.16,.01,xa,1.82),[(WEST_SKIN-.085,NORTH_SKIN-.085,xa,1.82)],h2,.17)
-walks.append(flight('North learning gallery',0,xa,46.90,.58,1.14,h2,L3,wall_side=True))
+walks.append(flight('North learning gallery',0,xa,46.90,.58,1.14,h2,L3,wall_side=True,gallery_side='north'))
 slab(A+'Studios threshold',CLT,46.9,.01,48.48,1.15,L3,.17)
 slab(A+'Studios entrance',CLT,46.35,1.15,47.55,NORTH_SKIN+.085,L3,.17)
-for a,b,z in [((.21,20.30),(.21,18.47),h1),((.21,.16),(2.12,.16),h2),((48.94,.17),(48.94,1.30),L3)]:
+for a,b,z in [((.21,20.30),(.21,18.47),h1),((.21,.10),(2.12,.10),h2),((48.94,.17),(48.94,1.30),L3)]:
     handrail(a,b,z,z,A+'Promenade rails',ST)
-# The public promenade is an independent exterior structure. Each steel
-# frame sits on its own curbside pedestal; the short triangular bracket
-# supports the deck from below and no arm enters an insulated facade panel.
-def gallery_bent(x,y,h,tip,across_y):
-    plinth=terrain(x,y)
-    if across_y:
-        # North boundary is a registered parcel limit.
-        width=.30 if y<1 else .28
-        x0,X=x-.14,x+.14;y0,Y=y-width/2,y+width/2
-        end=(x,tip,h-.34)
-    else:
-        x0,X=x-.105,x+.105;y0,Y=y-.14,y+.14
-        end=(tip,y,h-.34)
-    box(S+'Exterior gallery pedestals',RC,x0-.035,max(.001,y0-.035),plinth-.26,X+.035,Y+.035,plinth+.13)
-    box(S+'Independent gallery posts',ST,x0,y0,plinth+.13,X,Y,h-.18)
-    beam(S+'Exterior gallery brackets',ST,(x,y,h-.34),end,.16,.20)
-    beam(S+'Exterior gallery brackets',ST,(x,y,h-1.04),end,.095,.115)
-for u in (2.76,8.45,14.15,19.85,25.55,31.25,36.95,42.65,46.65):
-    gallery_bent(u,.205,h2+(L3-h2)*(u-xa)/us[2],1.09,True)
-    gallery_bent(u,20.46,L2+(h1-L2)*(xb-u)/us[0],19.29,True)
-for v in (1.85,5.90,10.00,14.1,18.40):
-    gallery_bent(.16,v,h1+(h2-h1)*(18.46-v)/us[1],1.92,False)
+# The upper promenade takes its reactions directly to the timber building.
+gallery.build_gallery(soffit)
 for xx in frange(6.55,47.45,5.1):
     for yy in [20.37,22.75,25.15]:
         low=terrain(xx,yy)

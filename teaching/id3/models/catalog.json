@@ -9,7 +9,8 @@
       "material": "Mass timber",
       "type": "Covered market and civic hall",
       "url": "./models/market-switchback.glb?v=89d79be4bd",
-      "cover": "./models/market-switchback.webp?v=634349fa02"
+      "cover": "./models/market-switchback.webp?v=5b4b58fe28",
+      "lightVolume": "./models/market-switchback.light.gz?v=9b4690300b"
     }
   ]
 }

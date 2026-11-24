@@ -61,3 +61,4 @@
  .view-command {font-size:12px;gap:4px;padding:5px 6px;}
 }
 @media(max-height:540px) {#sun-options{max-height:min(46dvh,calc(var(--viewport-height, 310px) - 115px));}}
+.viewport[aria-busy="true"] #canvas-box,.viewport[aria-busy="true"] #annotation-map{visibility:hidden}

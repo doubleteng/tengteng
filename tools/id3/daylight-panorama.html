@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kerrytown daylight panorama</title>
+<style>
+body{margin:2rem auto;padding:0 1rem;max-width:52rem;background:#f9faf4;color:#293e40;font:1rem/1.5 system-ui,sans-serif}
+h1{font-size:1.6rem;margin:0 0 .5rem}img{display:block;max-width:100%;width:100%;height:auto;margin:1rem 0}
+img[hidden],a[hidden]{display:none}a{color:inherit}
+</style>
+<h1>Kerrytown daylight panorama</h1>
+<p id="status" role="status">Reading the district models…</p>
+<img hidden alt="A spherical view of the Kerrytown streetscape from the market site.">
+<a hidden download="kerrytown-daylight.webp">Download daylight panorama</a>
+<script type="module">
+const status=document.querySelector('#status');
+const worker=new Worker(new URL('./daylight-panorama.mjs',location.href),{type:'module'});
+worker.onmessage=({data})=>{
+ if(data.status){status.textContent=data.status;return;}
+ const link=document.querySelector('a');
+ const image=document.querySelector('img');
+ link.href=image.src=URL.createObjectURL(data.image);
+ image.hidden=link.hidden=false;
+ status.textContent=`Rendered ${data.triangles.toLocaleString()} district triangles into a 512 × 256 panorama.`;
+ worker.terminate();
+};
+worker.onerror=event=>{status.textContent='The panorama could not be drawn. '+event.message;};
+</script>
+</html>

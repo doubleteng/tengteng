@@ -1,10 +1,13 @@
 import * as T from './lib/three.module.min.js';
+import {applyProposalFinishes} from './proposal-finishes.js?v=f856cfc70e';
+import {applyProposalEnvironment,loadProposalEnvironment,proposalSkyTexture} from './proposal-environment.js?v=262656718b';
+import {applyProjectLightVolume,loadProjectLightVolume} from './project-light-volume.js?v=20cde4c284';
 import {CameraClearance} from './camera-clearance.js?v=eafede3e14';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js';
-import {makeRenderer} from './software-view.js?v=febcd67980';
+import {makeRenderer} from './software-view.js?v=437b091705';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
 const loader=new GLTFLoader();
@@ -43,7 +46,7 @@ export function disposeModel(root){
   if(o.geometry)geometries.add(o.geometry);
   if(o.userData.neutralMaterial)materials.add(o.userData.neutralMaterial);
   for(const m of [].concat(o.userData.sourceMaterial||o.material||[])){
-   materials.add(m);for(const t of Object.values(m))if(t?.isTexture)textures.add(t);
+   materials.add(m);for(const t of Object.values(m))if(t?.isTexture&&!t.userData.viewerShared&&!t.userData.proposalShared)textures.add(t);
   }
  });
  geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>{t.dispose();t.source?.data?.close?.()});
@@ -51,14 +54,31 @@ export function disposeModel(root){
 export function layerOf(o){for(let n=o;n;n=n.parent){if(n.userData.layer)return n.userData.layer;}return o.parent?.name||o.name||'Model';}
 export function loadGLB(url){return loader.loadAsync(url).then(x=>x.scene);}
 export function parseGLB(bytes){return loader.parseAsync(bytes,'').then(x=>x.scene);}
+async function loadProject(model,renderer){
+ if(model.overview)return {root:siteFootprint()};
+ const version=new URL(model.url,document.baseURI).searchParams.get('v');
+ const volume=model.lightVolume&&version?loadProjectLightVolume(model.lightVolume,version).catch(()=>null):null;
+ const modelReady=loadGLB(model.url).then(async root=>{
+  root.traverse(object=>{if(object.isMesh)object.userData.projectSurface=true;});
+  await applyProposalFinishes(root,{caseStudy:!!model.caseStudy,maxAnisotropy:renderer.capabilities?.getMaxAnisotropy?.()||1});
+  return root;
+ });
+ const [root,environment,lightVolume]=await Promise.all([modelReady,loadProposalEnvironment().catch(()=>null),volume]);
+ if(environment)applyProposalEnvironment(root,environment);
+ if(lightVolume)applyProjectLightVolume(root,lightVolume);
+ return {root,environment,lightVolume};
+}
+
 export class AtlasViewer{
  constructor(host,onInteract){
   this.host=host;this.onInteract=onInteract;
   const small=matchMedia('(max-width:700px)').matches;
-  this.renderer=makeRenderer({antialias:true,alpha:false,powerPreference:'high-performance',logarithmicDepthBuffer:true});
-  const r=this.renderer;r.setPixelRatio(Math.min(devicePixelRatio,small?1.4:1.8));r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;r.shadowMap.autoUpdate=false;
+  this.renderer=makeRenderer({antialias:true,alpha:false,powerPreference:'low-power',logarithmicDepthBuffer:true});
+  const r=this.renderer;this.preferredPixelRatio=Math.min(devicePixelRatio,small?1.25:1.5);
+  this.fullPixelRatio=this.preferredPixelRatio;r.setPixelRatio(this.fullPixelRatio);
+  r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;r.shadowMap.autoUpdate=false;
   r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.14;host.append(r.domElement);
-  this.scene=new T.Scene();this.scene.background=new T.Color(0xe0e1da);this.parallelCamera=new T.OrthographicCamera(-1,1,1,-1,.005,100000);
+  this.scene=new T.Scene();this.paperBackground=new T.Color(0xe0e1da);this.scene.background=this.paperBackground;this.parallelCamera=new T.OrthographicCamera(-1,1,1,-1,.005,100000);
   this.perspectiveCamera=new T.PerspectiveCamera(44,1,.05,10000);
   this.inkViewHeight={value:1};this.camera=this.perspectiveCamera;this.contextEdges=true;this.buildingColors=true;
   this.controls=new OrbitControls(this.camera,r.domElement);this.controls.maxPolarAngle=maxPerspectivePolarAngle;this.controls.minZoom=.001;this.controls.maxZoom=100;this.controls.addEventListener('start',()=>{this.userNavigated=true;this.activate();});
@@ -81,14 +101,36 @@ export class AtlasViewer{
    this.clearance.constrain(this.camera.position,this.controls.target);
    this.camera.lookAt(this.controls.target);
   }
+  if(!this.settingView&&this.project)this.movingFrame=true;
   this.draw();
  }
- activate(){if(this.project)this.onInteract();}
+ activate(){if(this.project)this.onInteract?.();}
+ adaptMovingResolution(now){
+  if(!this.renderer.isWebGLRenderer||!this.movingFrame)return;
+  this.movingFrame=false;
+  const elapsed=now-(this.lastMovingFrame??-Infinity);
+  this.lastMovingFrame=now;
+  // Isolated mouse-wheel ticks and the first frame after loading are not a
+  // performance measurement. Require successive late frames during navigation.
+  const continuous=elapsed<Math.max(220,(this.lastRenderDuration||0)*1.8);
+  this.slowFrames=elapsed>32&&continuous?(this.slowFrames||0)+1:0;
+  if(this.slowFrames>=2&&!this.reducedResolution){
+   this.reducedResolution=true;
+   this.renderer.setPixelRatio(Math.min(this.fullPixelRatio,Math.max(.65,this.fullPixelRatio*.65)));
+  }
+  if(this.reducedResolution){
+   clearTimeout(this.settleTimer);
+   this.settleTimer=setTimeout(()=>{
+    this.reducedResolution=false;this.slowFrames=0;this.lastMovingFrame=undefined;
+    this.renderer.setPixelRatio(this.fullPixelRatio);this.draw();
+   },Math.min(900,Math.max(260,2*(this.lastRenderDuration||0))));
+  }
+ }
  draw(){
   if(this.frame)return;
-  this.frame=requestAnimationFrame(()=>{
-   this.frame=0;this.updateCameraRange();this.updateLightCoverage();
-   this.renderer.render(this.scene,this.camera);
+  this.frame=requestAnimationFrame(now=>{
+   this.frame=0;this.adaptMovingResolution(now);this.updateCameraRange();this.updateLightCoverage();this.updateBackdrop();
+   const start=performance.now();this.renderer.render(this.scene,this.camera);this.lastRenderDuration=performance.now()-start;
    this.annotations?.draw(this.camera,this.host.clientWidth,this.host.clientHeight);
   });
  }
@@ -133,10 +175,23 @@ export class AtlasViewer{
    this.wideLighting=wide;this.setSun(...this.solar,false);
   }
  }
+ updateBackdrop(){
+  const daylight=!!(this.project&&!this.overview&&this.mode==='material'&&this.camera.isPerspectiveCamera&&this.solar[1]>0);
+  this.renderer.proposalSky=daylight;
+  this.scene.background=daylight&&this.renderer.isWebGLRenderer?proposalSkyTexture():this.paperBackground;
+ }
  refreshShadow(){this.renderer.shadowMap.needsUpdate=true;this.draw();}
  resize(){
   const w=this.host.clientWidth,h=this.host.clientHeight;
   if(!w||!h)return;
+  if(this.renderer.isWebGLRenderer){
+   // Keep a large or high-density display from multiplying fragment work.
+   const ratio=Math.min(this.preferredPixelRatio,Math.sqrt(1800000/(w*h)));
+   if(ratio!==this.fullPixelRatio){
+    this.fullPixelRatio=ratio;
+    if(!this.reducedResolution)this.renderer.setPixelRatio(ratio);
+   }
+  }
   this.host.parentElement?.style.setProperty('--viewport-height', h+'px');
   this.renderer.setSize(w,h,false);this.inkViewHeight.value=h;
   const aspect=w/h, height=Math.max(this.height,this.width/aspect);
@@ -186,6 +241,7 @@ export class AtlasViewer{
  async show(model,city){
   const key=++this.key;
   this.clearance=null;
+  this.proposalVolume=null;this.renderer.proposalLightVolume=null;this.renderer.proposalEnvironment=null;
   if(this.project){this.scene.remove(this.project);disposeModel(this.project);this.project=null;}
   if(this.cityURL!==city){
    if(this.city){this.scene.remove(this.city);disposeModel(this.city);this.city=null;}
@@ -208,10 +264,12 @@ export class AtlasViewer{
   }
   const cityPromise=this.pendingCity||Promise.resolve();
   // Collect both promises immediately so a failed context cannot become an unhandled rejection.
-  const [res,ctx]=await Promise.allSettled([model.overview?Promise.resolve(siteFootprint()):loadGLB(model.url),cityPromise]);
-  if(key!==this.key){if(res.status==='fulfilled')disposeModel(res.value);return null;}
+  const [res,ctx]=await Promise.allSettled([loadProject(model,this.renderer),cityPromise]);
+  if(key!==this.key){if(res.status==='fulfilled')disposeModel(res.value.root);return null;}
   if(res.status==='rejected')throw res.reason;
-  this.overview=!!model.overview;this.caseStudy=!!model.caseStudy;this.project=res.value;if(model.demo)this.project.position.copy(demoOrigin);this.prepare(this.project);this.scene.add(this.project);
+  this.overview=!!model.overview;this.caseStudy=!!model.caseStudy;
+  this.proposalVolume=res.value.lightVolume||null;this.renderer.proposalEnvironment=res.value.environment||null;
+  this.project=res.value.root;if(model.demo)this.project.position.copy(demoOrigin);this.prepare(this.project);this.scene.add(this.project);
   this.hidden.clear();this.paths=new Map();
   this.project.traverse(o=>{if(o.geometry){const path=o.userData.atlasPath;this.paths.set(path,(this.paths.get(path)||false)||!o.userData.initialHidden);}});
   for(const [path,visible] of this.paths){if(!visible)this.hidden.add(path);}
@@ -317,7 +375,7 @@ export class AtlasViewer{
  orbit(dx,dy){this.userNavigated=true;this.activate();const p=this.camera.position.clone().sub(this.controls.target),s=new T.Spherical().setFromVector3(p);
   s.theta+=dx;s.phi=T.MathUtils.clamp(s.phi+dy,.001,this.controls.maxPolarAngle);this.camera.position.copy(this.controls.target).add(v().setFromSpherical(s));this.controls.update();}
  setSun(az,alt,interactive=true){
-  if(interactive)this.activate();this.solar=[Number(az),Number(alt)];const [a,h]=this.solar.map(T.MathUtils.degToRad);
+  if(interactive){this.activate();this.movingFrame=true;}this.solar=[Number(az),Number(alt)];const [a,h]=this.solar.map(T.MathUtils.degToRad);
   const scope=this.wideLighting?Math.max(this.radius,310):this.radius;
   const aim=this.wideLighting?siteCenter:this.center;
   this.sun.visible=this.solar[1]>0;this.sun.castShadow=this.sun.visible&&this.shadowChoice!==false;this.sun.target.position.copy(aim);this.sun.position.copy(aim).addScaledVector(v(Math.sin(a)*Math.cos(h),Math.sin(h),-Math.cos(a)*Math.cos(h)),scope*3);
@@ -341,6 +399,16 @@ export class AtlasViewer{
  }
  setShadows(yes){this.activate();this.shadowChoice=yes;this.sun.castShadow=yes&&this.solar[1]>0;this.refreshShadow();}
  applyModes(){
+  const original=this.mode==='material';
+  const proposal=!!this.project&&!this.overview&&original;
+  this.sky.color.set(proposal?0xdbebff:0xfffdf2);this.sky.groundColor.set(proposal?0xbba68e:0xaeb1a1);
+  this.sun.color.set(proposal?0xffe7c6:0xfff3df);
+  if(this.proposalVolume){
+   // A hidden roof or wall must also remove its baked obstruction.
+   const intact=original&&![...this.paths].some(([name,visible])=>visible&&this.hidden.has(name));
+   this.proposalVolume.strength.value=intact?1:0;
+   this.renderer.proposalLightVolume=intact?this.proposalVolume:null;
+  }
   for(const root of [this.project,this.city])root?.traverse(o=>{if(o.geometry){
    if(o.userData.contextOutline){o.visible=this.contextEdges;return;}
    const path=o.userData.atlasPath;
@@ -348,6 +416,11 @@ export class AtlasViewer{
    if(o.isMesh){
     const display=o.geometry.hasAttribute('normal')?this.clay:this.flatClay;
     o.material=this.mode==='clay'?display:(!this.buildingColors&&o.userData.neutralMaterial)||o.userData.sourceMaterial;
+    if(root===this.project){
+     const transparentPane=original&&[].concat(o.material).every(m=>
+      (m.userData.proposalReflection==='glass'||['glass','frosted'].includes(m.userData.proposalFinish))&&m.transparent&&m.opacity<1);
+     o.castShadow=!o.userData.groundSurface&&!o.userData.noShadowCast&&!transparentPane;
+    }
    }
   }});if(this.city)this.city.visible=this.cityVisible;this.refreshShadow();
  }

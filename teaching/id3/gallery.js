@@ -1,5 +1,3 @@
-import {AtlasViewer} from './viewer.js?v=5f758ade38';
-import {SiteAnnotations} from './annotations.js';
 import {bindSunlight} from './sun-controls.js?v=cf14de4ba5';
 const originalCity='./models/ann-arbor.glb';
 const overview={key:'site',title:'Ann Arbor Farmers Market',type:'Urban context',overview:true,cover:'./models/ann-arbor.webp'};
@@ -48,13 +46,16 @@ $('open-drawings').onclick=async()=>{
  }catch{deskPromise=null;status('The drawing tools could not load. Please try again.');}
 };
 const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
-const activate=()=>{if(viewer?.project)$('poster').hidden=true;};
+let viewerReady;
 function getViewer(){
- if(!viewer){
-  viewer=new AtlasViewer($('canvas-box'),activate);
-  viewer.annotations=new SiteAnnotations(viewer,layerRow);
+ if(!viewerReady){
+  viewerReady=Promise.all([import('./viewer.js?v=aed26ef628'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
+   viewer=new AtlasViewer($('canvas-box'));
+   viewer.annotations=new SiteAnnotations(viewer,layerRow);
+   return viewer;
+  }).catch(error=>{viewerReady=null;throw error;});
  }
- return viewer;
+ return viewerReady;
 }
 function txt(tag,text,cls){const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e;}
 function tab(which){
@@ -63,17 +64,14 @@ function tab(which){
  }
 }
 $('tab-layers').onclick=()=>tab('layers');
-$('tab-annotations').onclick=()=>{tab('annotations');getViewer().activate();};
+$('tab-annotations').onclick=()=>{tab('annotations');viewer?.activate();};
 $('district-plan').onclick=()=>withModel(v=>{$('camera').value='district';v.view('district');syncLens();saveViewLink();});
 $('annotation-sources').onclick=()=>info('sources');
-function setPoster(model){
- const p=$('poster');p.hidden=!model.cover;if(model.cover){p.src=model.cover;p.alt=model.title+' architectural model';}
-}
 function drawCards(){
  const container=$('cards');container.replaceChildren();
  for(const x of items){
   const btn=txt('button','','card');btn.setAttribute('aria-pressed',String(x.key===current?.key));btn.setAttribute('aria-label','View '+x.title);
-  const art=txt('span','','card-art');if(x.cover){const img=new Image();img.src=x.cover;img.alt='';img.loading='lazy';art.append(img);}else art.append(txt('span','3D model','fallback-art'));
+  const art=txt('span','','card-art');if(x.cover){const img=new Image();img.loading='lazy';img.decoding='async';img.alt='';img.src=x.cover;art.append(img);}else art.append(txt('span','3D model','fallback-art'));
   if(x.key===current?.key)art.append(txt('span','IN VIEW','card-active'));
   btn.append(art,txt('span',x.title,'card-title'),txt('span',x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?'Teaching case · '+x.material:x.demo?x.material+' / '+x.type:x.author+' · '+x.material,'card-meta'));
   btn.onclick=()=>{selectModel(x);$('gallery').scrollIntoView({block:'start',behavior:'smooth'});};container.append(btn);
@@ -122,27 +120,26 @@ function saveViewLink(){
 async function selectModel(x,initialView='perspective',updateLink=true){
  const seq=++version;current=x;caseHidden=null;closeLens();dollyButton.disabled=true;
  $('case-actions').hidden=!x.caseStudy;$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent='Isolate timber frame';
- $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;setPoster(x);status('');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
+ $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;status('Loading 3D model…');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
  $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':'STUDIO PROJECT '+x.key;
  $('model-author').textContent=x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?x.material+' · Market and public institution':x.demo?x.material+' / '+x.type:x.author+' · '+x.material;
  $('camera').disabled=true;$('camera').value='perspective';$('viewport').setAttribute('aria-busy','true');
  const city=cityRecord?.url || originalCity;
  $('context-cameras').disabled=$('context-cameras').hidden=city!==originalCity;
  try{
-  const view=getViewer();const job=view.show(x,city);activeLoad=job;fillLayers();const result=await job;if(!result||seq!==version)return;
+  activeLoad=getViewer().then(view=>seq===version?view.show(x,city):null);
+  fillLayers();const result=await activeLoad;if(!result||seq!==version)return;
+  const view=viewer;
   $('material-mode').value=view.mode;$('material-references').hidden=city!==originalCity;fillLayers();
-  // Keep the cover during loading, then reveal the first frame of the true perspective view.
-  requestAnimationFrame(async()=>{
-   if(view.renderer.wait)await view.renderer.wait();
-   if(seq===version)activate();
-  });
   sunControls.apply(false);updateTones();updateReceivers();
-  if(result.cityError)status('The urban model could not load. Reload to try again.');
   const option=Array.from($('camera').options).find(o=>o.value===initialView);
   if(option&&initialView!=='perspective'&&!option.parentElement.disabled){
    $('camera').value=initialView;view.view(initialView,false);
   }
   syncLens();if(updateLink)saveViewLink();
+  // Show the requested camera's first completed frame, including the worker path.
+  view.draw();await new Promise(requestAnimationFrame);await view.renderer.wait?.();
+  if(seq===version)status(result.cityError?'The urban model could not load. Reload to try again.':'');
  }catch(e){if(seq===version)status('Interactive view unavailable. '+(e.message?.includes('WebGL')?'Enable WebGL in your browser to orbit the model.':'Reload to try again.'));}
  finally{if(seq===version){$('open-drawings').disabled=!items.length;$('camera').disabled=false;$('viewport').setAttribute('aria-busy','false');}}
 }
@@ -247,6 +244,16 @@ async function init(){
  const [key,query]=location.hash.startsWith('#model-')?location.hash.slice(7).split('?'):[];
  const initialView=new URLSearchParams(query).get('view')||'perspective';
  const selected=key==='city'||key==='site'?overview:items.find(x=>x.key===key)||(actual.length?items[0]:overview);
+ if(!key&&'IntersectionObserver' in window){
+  drawCards();
+  await new Promise(resolve=>{
+   const observer=new IntersectionObserver(entries=>{
+    if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();resolve();}
+   },{rootMargin:'100px'});
+   observer.observe($('viewport'));
+  });
+  if(current)return;
+ }
  const ready=selectModel(selected,initialView,Boolean(key));
  if(key)$('gallery').scrollIntoView({block:'start',behavior:'instant'});
  await ready;

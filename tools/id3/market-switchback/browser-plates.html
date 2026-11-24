@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Crossing · browser plates</title>
+<style>
+  body{font:16px system-ui;background:#f6f6f1;color:#243434;margin:18px}
+  h1{font-size:20px} #view{width:1092px;height:590px;background:#deded5}
+  canvas{display:block;width:100%;height:100%}nav{display:flex;gap:18px;align-items:center;min-height:36px}
+</style>
+<h1>Market Crossing · browser plates</h1>
+<p role="status">Opening the model…</p>
+<nav aria-label="Rendered images"></nav>
+<div id="view"></div>
+<script type="module">
+// Serve this authoring page from the repository root. For the isolated ID3 preview,
+// copy it next to the gallery index. Both locations load the production viewer.
+const base = document.createElement('base');
+base.href = location.pathname.includes('/tools/id3/market-switchback/') ? '../../../teaching/id3/' : './';
+document.head.append(base);
+const nextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
+const status = document.querySelector('[role=status]');
+const nav = document.querySelector('nav');
+const plates = [
+  ['market-switchback', 'perspective', 'Overall'],
+  ['market-switchback-ramp', 'case-promenade', 'Street corner'],
+  ['market-switchback-aisle', 'case-market', 'Market aisle'],
+  ['market-crossing-frame', 'axon', 'Timber frame'],
+];
+
+async function capture(viewer) {
+  await nextFrame();
+  await viewer.renderer.wait?.();
+  const canvas = document.createElement('canvas');
+  if (viewer.renderer.isWebGLRenderer && viewer.renderer.getPixelRatio() !== viewer.fullPixelRatio) {
+    viewer.renderer.setPixelRatio(viewer.fullPixelRatio);
+  }
+  const source = viewer.renderer.domElement;
+  // Render and copy in one turn before the browser releases the WebGL buffer.
+  viewer.updateCameraRange();
+  viewer.updateLightCoverage();
+  viewer.updateBackdrop();
+  viewer.renderer.render(viewer.scene, viewer.camera);
+  if (viewer.renderer.wait) await viewer.renderer.wait();
+  canvas.width = source.width;
+  canvas.height = source.height;
+  canvas.getContext('2d', {alpha:false}).drawImage(source,0,0);
+  for (const quality of [.88,.83,.78,.72]) {
+    const result = await new Promise(resolve => canvas.toBlob(resolve,'image/webp',quality));
+    if (!result) throw new Error('The canvas could not export this image.');
+    if (result.size <= 180000 || quality === .72) return result;
+  }
+}
+
+async function run() {
+  const {AtlasViewer} = await import(new URL('viewer.js',document.baseURI));
+  const catalog = await (await fetch('models/catalog.json')).json();
+  const model = catalog.cases.find(project => project.key === 'market-switchback');
+  const viewer = new AtlasViewer(document.querySelector('#view'),()=>{});
+  viewer.renderer.setPixelRatio(1);
+  viewer.fullPixelRatio = 1;
+  const result = await viewer.show(model,'./models/ann-arbor.glb');
+  if (result.cityError || !viewer.proposalVolume || !viewer.renderer.proposalEnvironment) {
+    throw new Error('The model, registered district and daylight assets must finish loading.');
+  }
+  viewer.setSun(212,43,false);
+  for (const [name, preset, label] of plates) {
+    status.textContent = `Rendering ${label}…`;
+    if (preset === 'axon') {
+      // Identical to the public gallery’s Isolate timber frame filter.
+      const slabs = /CLT.*roof|cross laminated roof panels|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i;
+      viewer.hidden = new Set([...viewer.paths.keys()].filter(p => !p.startsWith('Structure /') || slabs.test(p)));
+      viewer.applyModes();
+      viewer.setCity(false);
+    }
+    viewer.view(preset,false);
+    if (preset === 'case-promenade') {
+      // Stand just inside the real street tree row so the bearing remains visible.
+      viewer.camera.position.set(-86.906,2.08,-4);
+      viewer.controls.target.set(-68.906,7.7,10);
+      viewer.controls.update();
+    }
+    const blob = await capture(viewer);
+    const link = document.createElement('a');
+    link.download = `${name}.webp`;
+    link.href = URL.createObjectURL(blob);
+    link.textContent = `${label} (${Math.round(blob.size/1024)} KB)`;
+    nav.append(link);
+  }
+  status.textContent = `4 images ready · ${viewer.renderer.isWebGLRenderer?'WebGL':'browser rasterizer'} · ${viewer.renderer.domElement.width} × ${viewer.renderer.domElement.height}`;
+}
+run().catch(error => { status.textContent = `Capture failed · ${error.message}`; console.error(error); });
+</script>
+</html>

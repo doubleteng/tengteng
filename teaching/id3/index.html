@@ -5,7 +5,7 @@
 <meta name="description" content="Fourteen proposals for a public institution and covered market in Ann Arbor. Explore the buildings, their assemblies and their shared Kerrytown site in Teng Teng’s Fall 2026 studio.">
 <link rel="icon" href="./exhibition/ltu-favicon.png" type="image/png" sizes="32x32">
 <link rel="stylesheet" href="./globals.css"><link rel="stylesheet" href="./exhibition.css?v=f5549c486e">
-<link rel="stylesheet" href="./viewer-tools.css?v=bb691b3c99">
+<link rel="stylesheet" href="./viewer-tools.css?v=b081aa6e2d">
 </head><body>
 
 <a class="ex-skip" href="#collection">Skip to projects</a>
@@ -32,7 +32,7 @@
 </section>
 <div class="ex-view-shell ex-shell"><div class="ex-view-head"><h2>Model viewer</h2><div><button id="site-view">View shared site</button><button id="guideBtn">Model guide</button></div></div>
 <section id="gallery" class="viewer-frame" aria-label="Interactive architectural exhibition">
-<div class="viewport" id="viewport" tabindex="0" aria-label="Architectural model. Drag to orbit, use arrow keys to rotate, plus and minus to zoom.">
+<div class="viewport" id="viewport" tabindex="0" aria-label="Architectural model. Drag to orbit. Double-click the ground or a floor to walk. Press Enter to walk at the center of the view.">
 <div id="canvas-box"></div><svg id="annotation-map" aria-hidden="true"></svg>
 <div class="view-top"><div class="sun-widget" id="sun-widget" role="group" aria-label="Sunlight">
  <button type="button" id="sun-settings" aria-expanded="false" aria-controls="sun-options"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4.2 4.2l2.1 2.1m11.4 11.4 2.1 2.1m0-15.6-2.1 2.1M6.3 17.7l-2.1 2.1"/></svg><span>Sunlight</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
@@ -57,6 +57,16 @@
  <label class="shadow-row">Cast shadows<input type="checkbox" id="shadows" checked></label>
  <div class="shadow-receivers"><label><input type="checkbox" id="shade-faces" checked>On faces</label><label><input type="checkbox" id="shade-ground" checked>On ground</label></div></div>
 </div><div class="camera-tools"><select id="camera" aria-label="Camera view" disabled><option value="perspective" selected>Perspective</option><option value="axon">Axonometric</option><option value="plan">Plan</option><option value="district">District plan</option><option value="front">Front elevation</option><option value="side">Side elevation</option><optgroup id="case-cameras" label="Market Crossing" hidden disabled><option value="case-roof">Forum roof junction</option><option value="case-promenade">Fourth Avenue · cantilevered ramp</option><option value="case-west">Fourth Avenue · cantilever</option><option value="case-market">Inside the covered market</option><option value="case-ramp">On the public ramp</option><option value="case-hall">Inside the large hall</option><option value="case-forum">Inside the small hall</option><option value="case-court">Upper sky court</option><option value="case-studios">Inside a west classroom</option><option value="case-node">North timber bearing</option></optgroup><optgroup id="context-cameras" label="Site perspectives"><option value="fourth">N Fourth · Market Place</option><option value="detroit">Detroit St · Market Place</option><option value="dunbar">Fourth &amp; Catherine · Dunbar Tower</option><option value="dunbar-roof">Dunbar Tower · rooftop PV</option><option value="330-detroit">330 Detroit · market frontage</option><option value="330-fifth">330 Detroit · Fifth Avenue corner</option><option value="330-roof">330 Detroit · green roof</option><option value="market-shops">Fifth Avenue · Kerrytown Market &amp; Shops</option><option value="detroit-deli">Detroit Street · Zingerman’s Deli</option><option value="concert-house">Fourth Avenue · Kerrytown Concert House</option><option value="division-school">Division Street · Community High School</option><option value="ann-museum">Ann Street · Hands-On Museum</option></optgroup></select><button id="full" title="Expand viewer" aria-label="Expand viewer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button></div></div>
+<p id="walk-help"><span id="walk-entry-text" role="status">Double-click a floor to walk</span></p>
+<div id="walk-hud" hidden>
+ <span class="walk-reticle" aria-hidden="true"></span>
+ <span id="walk-door-hint" hidden>F · Use door</span>
+ <div class="walk-bar"><strong>Walk</strong><span class="walk-instructions">WASD move · Q/E turn · Shift run · Space jump · F door</span><button id="walk-exit" type="button" title="Return to orbit (Esc)">Exit walk <kbd>Esc</kbd></button></div>
+ <div class="walk-touch" aria-label="Walking controls">
+  <div class="walk-pad"><button data-walk-key="KeyW" aria-label="Walk forward">↑</button><button data-walk-key="KeyA" aria-label="Step left">←</button><button data-walk-key="KeyS" aria-label="Walk back">↓</button><button data-walk-key="KeyD" aria-label="Step right">→</button></div>
+  <div class="walk-actions"><button data-walk-key="ShiftLeft">Run</button><button data-walk-key="Space">Jump</button><button data-walk-key="KeyF">Door</button></div>
+ </div>
+</div>
 <div class="view-bottom">
   <div class="drawing-launchers">
    <button type="button" id="open-drawings" class="view-command" aria-haspopup="dialog" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM11 4v8h10M3 14h5m3 2v4"/></svg>Drawings</button>
@@ -181,5 +191,5 @@
 
 <dialog id="info"><div class="dialog-body"><button class="close" data-close aria-label="Close"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 5 14 14M19 5 5 19"/></svg></button><div id="info-content"></div></div></dialog>
 
-<script type="module" src="./exhibition/navigation.js"></script><script type="module" src="./gallery.js?v=b367698a1e"></script>
+<script type="module" src="./exhibition/navigation.js"></script><script type="module" src="./gallery.js?v=397d6804a5"></script>
 </body></html>

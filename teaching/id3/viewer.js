@@ -2,7 +2,8 @@ import * as T from './lib/three.module.min.js';
 import {applyProposalFinishes} from './proposal-finishes.js?v=f856cfc70e';
 import {applyProposalEnvironment,loadProposalEnvironment,proposalSkyTexture} from './proposal-environment.js?v=262656718b';
 import {applyProjectLightVolume,loadProjectLightVolume} from './project-light-volume.js?v=20cde4c284';
-import {CameraClearance} from './camera-clearance.js?v=eafede3e14';
+import {CameraClearance} from './camera-clearance.js?v=5e0d138cc1';
+import {WalkDoors} from './walk-doors.js?v=92386fb6fd';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
@@ -82,6 +83,7 @@ export class AtlasViewer{
   this.perspectiveCamera=new T.PerspectiveCamera(44,1,.05,10000);
   this.inkViewHeight={value:1};this.camera=this.perspectiveCamera;this.contextEdges=true;this.buildingColors=true;
   this.controls=new OrbitControls(this.camera,r.domElement);this.controls.maxPolarAngle=maxPerspectivePolarAngle;this.controls.minZoom=.001;this.controls.maxZoom=100;this.controls.addEventListener('start',()=>{this.userNavigated=true;this.activate();});
+  this.enableWalkEntry();
   this.controls.addEventListener('change',()=>this.cameraChanged());this.controls.enableDamping=false;
   this.receiveFaces=true;this.receiveGround=true;
   this.sky=new T.HemisphereLight(0xfffdf2,0xaeb1a1);
@@ -95,6 +97,57 @@ export class AtlasViewer{
   this.width=65;this.height=40;this.radius=40;this.center=v(0,1.2,0);this.solar=[315,40];this.mode='material';
   this.hidden=new Set();this.cityVisible=true;this.cityPaths=new Set();this.hiddenCity=new Set();this.key=0;this.pendingCity=null;
   this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.resize();
+ }
+ enableWalkEntry(){
+  const canvas=this.renderer.domElement,area=this.host.parentElement;
+  // The authoring views use the same renderer with no navigation interface.
+  if(!area?.querySelector('#walk-hud'))return;
+  this.entryLabel=matchMedia('(pointer:coarse)').matches?'Double-tap a floor to walk':'Double-click a floor to walk';
+  area.querySelector('#walk-entry-text').textContent=this.entryLabel;
+  const enter=(x,y,touch)=>{
+   if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
+   const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
+   const ndc={x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
+   this.walkModule??=import('./walk-mode.js?v=9f814f1078').catch(error=>{this.walkModule=null;throw error;});
+   this.walkModule.then(({WalkMode})=>{
+    if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
+    this.walkMode??=new WalkMode(this);
+    if(!this.walkMode.enter(ndc,touch))this.walkHint('Choose a clear spot on the ground or a floor.');
+   }).catch(()=>this.walkHint('Walk mode could not start. Double-click a floor to retry.'));
+  };
+  this.walkRequest=0;
+  canvas.addEventListener('dblclick',e=>{
+   if(e.button!==0||e.sourceCapabilities?.firesTouchEvents)return;
+   e.preventDefault();enter(e.clientX,e.clientY,false);
+  });
+  let tap=null,lastTap=null;
+  canvas.addEventListener('pointerdown',e=>{
+   if(e.pointerType!=='touch')return;
+   if(!e.isPrimary){tap=lastTap=null;return;}
+   tap={id:e.pointerId,x:e.clientX,y:e.clientY,at:performance.now()};
+  });
+  canvas.addEventListener('pointermove',e=>{
+   if(tap?.id===e.pointerId&&Math.hypot(tap.x-e.clientX,tap.y-e.clientY)>10)tap=lastTap=null;
+  });
+  canvas.addEventListener('pointercancel',()=>{tap=lastTap=null;});
+  canvas.addEventListener('pointerup',e=>{
+   if(e.pointerType!=='touch'||tap?.id!==e.pointerId)return;
+   const now=performance.now(),p=tap;tap=null;
+   if(now-p.at>330){lastTap=null;return;}
+   if(lastTap&&now-lastTap.at<370&&Math.hypot(lastTap.x-p.x,lastTap.y-p.y)<25){
+    lastTap=null;enter(e.clientX,e.clientY,true);
+   }else lastTap={x:p.x,y:p.y,at:now};
+  });
+  area.addEventListener('keydown',e=>{
+   if(e.target===area&&e.key==='Enter'&&!this.walkMode?.active&&!e.repeat){
+    e.preventDefault();const r=canvas.getBoundingClientRect();enter(r.left+r.width/2,r.top+r.height/2,true);
+   }
+  });
+ }
+ walkHint(message){
+  const hint=this.host.parentElement.querySelector('#walk-entry-text');if(!hint)return;
+  clearTimeout(this.hintTimer);hint.textContent=message;
+  this.hintTimer=setTimeout(()=>{hint.textContent=this.entryLabel;},3000);
  }
  cameraChanged(){
   if(this.clearance&&!this.settingView){
@@ -239,6 +292,7 @@ export class AtlasViewer{
   });
  }
  async show(model,city){
+  this.walkMode?.release();this.walkRequest=(this.walkRequest||0)+1;
   const key=++this.key;
   this.clearance=null;
   this.proposalVolume=null;this.renderer.proposalLightVolume=null;this.renderer.proposalEnvironment=null;
@@ -269,7 +323,8 @@ export class AtlasViewer{
   if(res.status==='rejected')throw res.reason;
   this.overview=!!model.overview;this.caseStudy=!!model.caseStudy;
   this.proposalVolume=res.value.lightVolume||null;this.renderer.proposalEnvironment=res.value.environment||null;
-  this.project=res.value.root;if(model.demo)this.project.position.copy(demoOrigin);this.prepare(this.project);this.scene.add(this.project);
+  this.project=res.value.root;if(model.demo)this.project.position.copy(demoOrigin);
+  this.walkDoors=new WalkDoors(this.project,{caseStudy:this.caseStudy});this.prepare(this.project);this.scene.add(this.project);
   this.hidden.clear();this.paths=new Map();
   this.project.traverse(o=>{if(o.geometry){const path=o.userData.atlasPath;this.paths.set(path,(this.paths.get(path)||false)||!o.userData.initialHidden);}});
   for(const [path,visible] of this.paths){if(!visible)this.hidden.add(path);}
@@ -307,6 +362,7 @@ export class AtlasViewer{
   return distance;
  }
  view(name,interact=true){
+  this.walkMode?.exit();
   if(interact)this.activate();
   this.settingView=true;this.userNavigated=false;
   this.contextView=contextViews[name]||null;
@@ -399,6 +455,7 @@ export class AtlasViewer{
  }
  setShadows(yes){this.activate();this.shadowChoice=yes;this.sun.castShadow=yes&&this.solar[1]>0;this.refreshShadow();}
  applyModes(){
+  this.walkMode?.exit();
   const original=this.mode==='material';
   const proposal=!!this.project&&!this.overview&&original;
   this.sky.color.set(proposal?0xdbebff:0xfffdf2);this.sky.groundColor.set(proposal?0xbba68e:0xaeb1a1);

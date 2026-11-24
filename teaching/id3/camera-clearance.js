@@ -9,7 +9,7 @@ const runsPerBlock = 16;
 const clearance = .25;
 const identity = new Matrix4();
 
-function indexMesh(mesh) {
+export function indexMesh(mesh) {
  const {position} = mesh.geometry.attributes, index = mesh.geometry.index;
  const vertex = new Vector3();
  let vertices = position;

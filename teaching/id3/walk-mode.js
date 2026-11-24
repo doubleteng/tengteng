@@ -1,5 +1,5 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
-import {WalkSurfaces} from './walk-surfaces.js?v=ef14705580';
+import {WalkSurfaces} from './walk-surfaces.js?v=992a1d3cd2';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
 const GRAVITY=10.5, JUMP_SPEED=4.4, SUPER_LIFT=13, SUPER_TRAVEL=6.6;
@@ -8,7 +8,7 @@ const UP=new Vector3(0,1,0);
 
 export class Walker {
  constructor(surface,point,direction){
-  this.surface=surface;this.feet=point.clone();this.next=new Vector3();
+  this.surface=surface;this.feet=point.clone();this.next=new Vector3();this.contactNormal=new Vector3();
   this.yaw=direction.x*direction.x+direction.z*direction.z>1e-5?Math.atan2(direction.x,-direction.z):0;
   this.pitch=0;this.grounded=true;this.verticalSpeed=0;
   this.motion=new Vector3();this.launch=new Vector3();this.takeoff=point.clone();this.boosted=false;
@@ -37,18 +37,23 @@ export class Walker {
  }
  stepAcross(dx,dz){
   if(!dx&&!dz)return true;
+  this.contactNormal.set(0,0,0);
   const feet=this.feet,s=this.surface,x=feet.x+dx,z=feet.z+dz;
   const ceiling=feet.y+(this.grounded?STEP:.015);
   let floor=null;
   if(!this.boosted){
-   if(this.grounded)floor=s.floorAt(x,z,feet.y-STEP,ceiling,true);
+   if(this.grounded){
+    floor=s.floorAt(x,z,feet.y-STEP,ceiling,true);
+    if(floor===null)floor=s.rimFloorAt(x,z,feet.y-STEP,feet.y+.012,RADIUS);
+   }
    if(floor===null)floor=s.floorAt(x,z,-Infinity,ceiling,true);
    if(floor===null)return false;
   }
   this.next.set(x,feet.y,z);
   if(this.grounded&&Math.abs(floor-feet.y)<=STEP)this.next.y=floor;
-  if(!s.canMove(feet,this.next,RADIUS,BODY,this.grounded?STEP:.025))return false;
-  if(this.next.y>feet.y&& !s.canStand(this.next,RADIUS,BODY))return false;
+  if(!s.canMove(feet,this.next,RADIUS,BODY,this.grounded?STEP:.025,this.contactNormal))return false;
+  // Stepping up must not create a fresh overlap under a low soffit.
+  if(this.next.y>feet.y&&!s.canStand(this.next,RADIUS,BODY)&&s.canStand(feet,RADIUS,BODY))return false;
   if(this.grounded&&floor<feet.y-STEP)this.grounded=false;
   feet.copy(this.next);return true;
  }
@@ -64,7 +69,13 @@ export class Walker {
   }
   const dx=heading.x*pace*dt,dz=heading.z*pace*dt;
   const oldX=this.feet.x,oldY=this.feet.y,oldZ=this.feet.z;
-  if(!this.stepAcross(dx,dz)&&dx&&dz){this.stepAcross(dx,0);this.stepAcross(0,dz);}
+  if(!this.stepAcross(dx,dz)){
+   // Slide on the actual wall tangent, including walls oblique to the site grid.
+   const n=this.contactNormal,inward=dx*n.x+dz*n.z;
+   const sx=dx-inward*n.x,sz=dz-inward*n.z;
+   const slid=inward<0&&sx*sx+sz*sz>1e-12&&this.stepAcross(sx,sz);
+   if(!slid&&dx&&dz){this.stepAcross(dx,0);this.stepAcross(0,dz);}
+  }
   if(!this.grounded){
    this.verticalSpeed-=GRAVITY*dt;
    let nextY=this.feet.y+this.verticalSpeed*dt;

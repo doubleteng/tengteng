@@ -61,3 +61,25 @@ assert.equal(measure(gap,true,new Set()).range,0,'A miss beyond the modeled worl
 const lowCeiling=visitor(0,0,-6);lowCeiling.jump(true);
 let peak=0;for(let i=0;i<45;i++){lowCeiling.step(1/60,new Set());peak=Math.max(peak,lowCeiling.feet.y);}
 assert.ok(peak<.18&&lowCeiling.grounded,'The boosted launch obeys the existing overhead slab');
+
+// Sweep a rotated wall. An approach at an oblique angle should carry the
+// visitor along its tangent. Reversing should disengage without crossing it.
+const alley=new Group(),paving=new Mesh(new BoxGeometry(30,.2,30));
+paving.name='Paving';paving.position.y=-.1;alley.add(paving);
+const partition=new Mesh(new BoxGeometry(.08,3,16));
+partition.name='Partition';partition.position.y=1.5;partition.rotation.y=.6;alley.add(partition);
+const strip=new WalkSurfaces([alley]);
+const n=new Vector3(Math.cos(.6),0,-Math.sin(.6)),t=new Vector3(Math.sin(.6),0,Math.cos(.6));
+const start=n.clone().multiplyScalar(-.27);
+const glide=new Walker(strip,start,n.clone().add(t).normalize());
+advance(glide,['KeyW'],1);
+assert(glide.feet.dot(t)>1.4&&glide.feet.dot(n)<-.25,'Slide along the rotated face on the approach side.');
+glide.yaw=Math.atan2(n.x,-n.z);
+advance(glide,['KeyW'],.4);
+assert(glide.feet.dot(n)<-.25,'Pushing directly into the wall cannot cross it.');
+advance(glide,['KeyS'],.35);assert(glide.feet.dot(n)<-.95,'Backing away on the same side is clear.');
+const pressed=new Walker(strip,n.clone().multiplyScalar(-.17),n);
+advance(pressed,['KeyW'],.5);
+assert(pressed.feet.dot(n)<-.16,'An existing contact must never permit an inward sweep.');
+advance(pressed,['KeyS'],.5);assert(pressed.feet.dot(n)<-1.1&&strip.canStand(pressed.feet));
+console.log('Oblique wall slide, inward blocking and near-contact retreat passed.');

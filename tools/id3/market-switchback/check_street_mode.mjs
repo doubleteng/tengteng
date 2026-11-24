@@ -94,3 +94,35 @@ for(const [type,x,z,dx,dz] of [['vault',-74.9,7.4,0,1],['climb',-95,26.4,1,0]]){
  console.log(type,samples+' planted palm samples','max error '+worst.toFixed(4)+' m','landing',w.feet.toArray());
  avatar.dispose();
 }
+
+// At the west end of the raised hall porch, the former controller dropped
+// while its body disk still crossed the vertical end face. At the lower
+// paving it then rejected W, A, S and D, including moves away from the porch.
+const west=new Vector3(-1,0,0);
+for(const hz of [30,60,120]){
+ const w=new Walker(geometry,new Vector3(-82.906+15.45,2.5,19.42),west);
+ const motion=new StreetTraversal(geometry);
+ const advance=(held,seconds)=>{
+  for(let frame=0;frame<Math.round(seconds*hz);frame++){
+   // The viewer substeps frames longer than 1/60 s.
+   const n=Math.ceil(60/hz);
+   for(let i=0;i<n;i++)motion.step(w,1/(hz*n),held);
+  }
+ };
+ advance(walk,.27);
+ assert(w.grounded&&w.feet.y===2.5,'The foot disk still has purchase on the upper porch.');
+ const paused=w.feet.clone();advance(new Set(),.4);assert(w.feet.equals(paused));
+ advance(walk,.95);
+ assert(w.feet.x<-69.8&&w.grounded&&w.feet.y<1&&geometry.canStand(w.feet),'Clear the end face and land on paving.');
+ for(const key of ['KeyA','KeyD','KeyS','KeyW']){
+  const before=w.feet.clone();advance(new Set([key]),.22);
+  assert(w.feet.distanceTo(before)>.4,'Can move '+key+' on the lower paving at '+hz+' Hz.');
+ }
+}
+const stuckX=-68.02933333333,stuckZ=19.42;
+const previousJam=new Vector3(stuckX,geometry.floorAt(stuckX,stuckZ,.5,1.5,true),stuckZ);
+assert(!geometry.canStand(previousJam),'Recreate the former shallow side contact.');
+const escape=new Walker(geometry,previousJam,west);
+for(let i=0;i<18;i++)escape.step(1/60,walk);
+assert(geometry.canStand(escape.feet)&&escape.feet.x<stuckX-.6,'Can walk out even when already touching the end wall.');
+console.log('Market Crossing porch end: rim pause, descent, four walking directions and existing-contact recovery passed.');

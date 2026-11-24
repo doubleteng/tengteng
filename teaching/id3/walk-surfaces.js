@@ -72,6 +72,20 @@ function pointDist2(x,z,ax,az,bx,bz) {
  const rx=x-ax-t*dx,rz=z-az-t*dz;
  return rx*rx+rz*rz;
 }
+// Closest point on a convex XZ footprint. Vertical faces project to segments.
+function footprintDistance(p,n,x,z,out){
+ let nearest=Infinity,positive=false,negative=false,area=0;
+ for(let i=0,j=3*(n-1);i<3*n;j=i,i+=3){
+  const ax=p[j],az=p[j+2],ex=p[i]-ax,ez=p[i+2]-az;
+  const ox=x-ax,oz=z-az,side=ox*ez-oz*ex,len=ex*ex+ez*ez;
+  positive ||= side>epsilon;negative ||= side< -epsilon;area+=ax*ez-az*ex;
+  const t=len?Math.max(0,Math.min(1,(ox*ex+oz*ez)/len)):0;
+  const dx=ox-t*ex,dz=oz-t*ez,d2=dx*dx+dz*dz;
+  if(d2<nearest){nearest=d2;out.set(ax+t*ex,0,az+t*ez);}
+ }
+ if(Math.abs(area)>epsilon&&!(positive&&negative)){out.set(x,0,z);return 0;}
+ return nearest;
+}
 function touched(p,n,from,to,radius){
  let positive=false,negative=false,area=0,old=3*(n-1);
  const dx=to.x-from.x,dz=to.z-from.z,r2=radius*radius;
@@ -129,7 +143,7 @@ export class WalkSurfaces {
  constructor(roots,{clearance=null,doors=null}={}) {
   this.entries=[];this.grid=new RunGrid();this.doors=doors;this.lowestSupport=Infinity;
   this.box=new Box3();this.a=new Vector3();this.b=new Vector3();this.c=new Vector3();
-  this.rayPoint=new Vector3();this.clipIn=new Float64Array(24);this.clipOut=new Float64Array(24);
+  this.rayPoint=new Vector3();this.footprintPoint=new Vector3();this.clipIn=new Float64Array(24);this.clipOut=new Float64Array(24);
   const reuse=new Map((clearance?.meshes||[]).map(r=>[r.mesh,r]));
   roots.forEach((root,which)=>{
    if(!root)return;
@@ -226,6 +240,22 @@ export class WalkSurfaces {
   },true);
   return Number.isFinite(highest)?highest:null;
  }
+ rimFloorAt(x,z,minY,maxY,radius){
+  // A visitor can still be standing on a ledge after the center passes it.
+  // Query the actual upward triangles under the foot disk only at a drop.
+  const box=this.box,p=this.clipIn,point=this.footprintPoint;
+  box.min.set(x-radius,minY,z-radius);box.max.set(x+radius,maxY,z+radius);
+  let highest=-Infinity;
+  this.eachNearby(box,(entry,_i,a,b,c)=>{
+   if(Math.max(a.y,b.y,c.y)<minY||Math.min(a.y,b.y,c.y)>maxY||!walkFace(entry,a,b,c,true))return false;
+   a.toArray(p,0);b.toArray(p,3);c.toArray(p,6);
+   if(footprintDistance(p,3,x,z,point)>radius*radius)return false;
+   const y=planeHeight(a,b,c,point.x,point.z);
+   if(y!==null&&y>=minY-epsilon&&y<=maxY+epsilon)highest=Math.max(highest,y);
+   return false;
+  },true);
+  return Number.isFinite(highest)?highest:null;
+ }
  ceilingAt(x,z,minY,maxY,radius=.20){
   const box=this.box;box.min.set(x-radius,minY,z-radius);box.max.set(x+radius,maxY,z+radius);
   let lowest=Infinity;
@@ -239,7 +269,7 @@ export class WalkSurfaces {
   });
   return Number.isFinite(lowest)?lowest:null;
  }
- canMove(from,to,radius=bodyRadius,height=bodyHeight,step=stepHeight){
+ canMove(from,to,radius=bodyRadius,height=bodyHeight,step=stepHeight,contactNormal=null){
   // The controller substeps movement. Ankle clearance admits ordinary risers;
   // floorAt separately limits how far that substep can rise.
   const lo=Math.max(from.y,to.y)+step+epsilon,hi=Math.max(from.y,to.y)+height-epsilon;
@@ -254,7 +284,19 @@ export class WalkSurfaces {
    const count=clipY(p,3,q,lo,true);
    if(!count)return false;
    const n=clipY(q,count,p,hi,false);
-   return n>0&&touched(p,n,from,to,radius);
+   if(!n||!touched(p,n,from,to,radius))return false;
+   if(contactNormal){
+    const q=this.footprintPoint,d2=footprintDistance(p,n,from.x,from.z,q);
+    if(d2>1e-14){
+     const nx=from.x-q.x,nz=from.z-q.z;
+     const toward=(to.x-from.x)*nx+(to.z-from.z)*nz;
+     // An existing shallow contact may recede or move tangentially. The
+     // supporting line of a convex face proves the entire sweep stays outside.
+     if(d2<=radius*radius+1e-10&&toward>=-1e-12)return false;
+     contactNormal.set(nx,0,nz).multiplyScalar(1/Math.sqrt(d2));
+    }else contactNormal.set(0,0,0);
+   }
+   return true;
   });
   return !blocked;
  }

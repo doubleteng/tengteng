@@ -1,5 +1,5 @@
 import {Vector3,Ray,Group,Mesh,CircleGeometry,Float32BufferAttribute,MeshBasicMaterial,MathUtils} from './lib/three.module.min.js';
-import {createStreetAvatar,strideLength} from './street-avatar.js?v=bc96f4d210';
+import {createStreetAvatar,strideLength} from './street-avatar.js?v=7fcd795d53';
 import {enterStreetAtmosphere} from './street-atmosphere.js?v=b8acbb84d1';
 import {StreetTraversal} from './street-traversal.js?v=07ddaf8769';
 

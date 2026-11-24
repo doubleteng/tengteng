@@ -8,7 +8,7 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js';
-import {makeRenderer} from './software-view.js?v=1e8f2da548';
+import {makeRenderer} from './software-view.js?v=b4a52a2f98';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -116,7 +116,7 @@ export class AtlasViewer{
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
    this.walkModule??=import('./walk-mode.js?v=25417eea50').catch(error=>{this.walkModule=null;throw error;});
-   if(thirdPerson)this.streetModule??=import('./street-mode.js?v=fb6ced5fc4').catch(error=>{this.streetModule=null;throw error;});
+   if(thirdPerson)this.streetModule??=import('./street-mode.js?v=63143bb2f4').catch(error=>{this.streetModule=null;throw error;});
    Promise.all([this.walkModule,thirdPerson?this.streetModule:null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
     this.walkMode??=new WalkMode(this);

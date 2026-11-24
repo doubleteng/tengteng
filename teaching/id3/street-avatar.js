@@ -1,6 +1,6 @@
 // Distances are metres. The figure faces local -Z, with its soles at the origin.
 import * as T from './lib/three.module.min.js';
-import {readAnatomy} from './street-anatomy.js?v=b9a9548803';
+import {readAnatomy} from './street-anatomy.js?v=f2f8b5f49c';
 
 const C = {
   skin: 0xb77c60, lips: 0x965956, hair: 0x362b2a, hairLight: 0x4a3933,
@@ -175,7 +175,7 @@ function jacket(part) {
   part.shell([0,0,-.002],[[-.060,.130,.087],[-.045,.141,.087],[.07,.139,.084],
     [.24,.141,.088,-.003],[.37,.155,.092,-.002],[.425,.160,.083],[.463,.071,.061]],C.knit,18);
   part.shell([0,0,0],[[.442,.071,.065],[.453,.066,.060],[.467,.061,.054]],0xd6cab2,16);
-  part.shell([0,0,0],[[.448,.055,.053],[.49,.052,.052],[.54,.048,.049],[.575,.06,.052]],C.skin,16);
+  part.shell([0,0,0],[[.448,.055,.053],[.49,.052,.052],[.531,.047,.047],[.552,.047,.043]],C.skin,16);
   const rows=[[-.077,.166,.108,.003],[-.066,.168,.110,.004],[.008,.164,.109,.004],
     [.08,.157,.109,.005],[.148,.154,.100,.006],[.244,.159,.110],[.33,.170,.116,-.004],
     [.39,.187,.113],[.427,.193,.102,.002],[.454,.164,.092,.008],[.478,.095,.071,.008]];
@@ -219,20 +219,20 @@ function backpack(part){
 }
 
 function face(part) {
+  const base=new T.Color(C.skin),lip=new T.Color(C.lips),cheek=new T.Color(0xc1826a),tint=new T.Color();
   part.anatomy('head',1,(x,y,z)=>{
     const ax=Math.abs(x);
-    if(z<-.091&&ax<.027&&y>.039&&y<.070&&y>.041+ax*.33&&y<.066-ax*.31)return C.lips;
-    if(z<-.045&&ax>.040&&y>.085&&y<.110)return 0xbd8066;
-    if(y<.003)return 0xa66e55;
-    return C.skin;
+    const blush=Math.exp(-(((ax-.049)/.024)**2+((y-.089)/.020)**2))*smooth(.045,.075,-z);
+    const mouth=Math.exp(-((x/.024)**4+((y-.054)/.008)**4))*smooth(.091,.100,-z);
+    return tint.copy(base).lerp(cheek,.42*blush).lerp(lip,.72*mouth).getHex();
   });
   for(const side of [-1,1]){
     const x=side*.0322;
     part.oval([x,.120,-.0677],.0142,.0134,.0142,0xd4c9b1,14);
     part.oval([x,.1195,-.0803],.0061,.0063,.0024,0x513d31,12);
     part.oval([x,.1195,-.0823],.0028,.0034,.0012,0x261f1d,10);
-    part.cord([[side*.014,.136,-.087,.42],[side*.026,.140,-.088],[side*.040,.141,-.081],
-      [side*.053,.137,-.070,.25]],.0028,C.hair);
+    part.cord([[side*.014,.136,-.095,.42],[side*.026,.140,-.093],[side*.040,.141,-.086],
+      [side*.053,.137,-.075,.25]],.0028,C.hair);
   }
   // A swept crown changes depth toward the nape, with a loose chignon and temple curls.
   const rows=[[.101,.091,.102,.012],[.145,.099,.111,.010],[.181,.097,.110,.010],
@@ -363,7 +363,7 @@ export function createStreetAvatar() {
   const torso = joint('Jacket and backpack',hips,0,.066,0);
   mount(torso,jacket);
   const bag=joint('Canvas daypack',torso,0,0,0);mount(bag,backpack);
-  const head = joint('Head',torso,0,.545,0);
+  const head = joint('Head',torso,0,.520,-.002);
   mount(head,face);
 
   // At the broad palm ring this point lies on the skin. Pitching the hand
@@ -485,7 +485,7 @@ export function createStreetAvatar() {
       shoulder.rotation.z=s*(.075+.055*walking+.018*Math.sin(phase)*walking)+.015*rest;
       shoulder.rotation.y=s*.055-.10*walking*Math.sin(phase);
       elbow.rotation.x=.30+s*.14*rest+.32*walking+.53*run*walking+.18*walking*Math.max(0,-reach);
-      wrist.rotation.set(.03-.07*walking*Math.sin(phase),-s*(1.04-.23*walking),s*.044);
+      wrist.rotation.set(.03-.07*walking*Math.sin(phase),s*(1.04-.23*walking),s*.044);
       if (airborne) {
         hip.rotation.x = s > 0 ? .51+.34*landing : .20-.41*landing;
         knee.rotation.x = s > 0 ? -.98-.22*landing : -.56-.48*landing;

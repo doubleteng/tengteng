@@ -409,6 +409,11 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
     }
     const off=p*4;if(paving){depth[p]=z;pavingPixel(paving,u,v,shade,pixels,off);continue;}
     let rr=red,gg=green,bb=blue;
+    if(smoothLight&&finish){
+     rr=l0*red+l1*finish[b]+l2*finish[c];
+     gg=l0*green+l1*finish[b+1]+l2*finish[c+1];
+     bb=l0*blue+l1*finish[b+2]+l2*finish[c+2];
+    }
     if(photo){
      const ua=(a/3)*2,ub=(b/3)*2,uc=(c/3)*2;
      imageSample(photo,uv[ua]*l0+uv[ub]*l1+uv[uc]*l2,uv[ua+1]*l0+uv[ub+1]*l1+uv[uc+1]*l2,texel);

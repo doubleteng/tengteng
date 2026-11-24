@@ -50,7 +50,7 @@ const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
 let viewerReady;
 function getViewer(){
  if(!viewerReady){
-  viewerReady=Promise.all([import('./viewer.js?v=2312460abb'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
+  viewerReady=Promise.all([import('./viewer.js?v=4e29cd3c24'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
    viewer=new AtlasViewer($('canvas-box'));
    viewer.annotations=new SiteAnnotations(viewer,layerRow);
    return viewer;

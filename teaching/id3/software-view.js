@@ -44,7 +44,7 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=ccf3ac1e73', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=2ca39cd8fd', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
@@ -72,13 +72,21 @@ export class SoftwareRenderer {
   this.pending=true;this.scale=scale;this.started=performance.now();this.lastScene=scene;this.lastCamera=cam;
   const w=Math.max(1,Math.round(this.width*scale)),h=Math.max(1,Math.round(this.height*scale));
   scene.updateMatrixWorld(true);cam.updateMatrixWorld();const matrix=new T.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse).elements;
-  const draws=[],fresh=[],transfer=[],used=new Set(),tiles=[],usedTiles=new Set();
+  const draws=[],fresh=[],deformed=[],transfer=[],used=new Set(),tiles=[],usedTiles=new Set();
   this.knownTiles??=new Set();this.sharedTileIds??=new Set();
   let light,sky;
   scene.traverseVisible(o=>{
    if(o.isHemisphereLight){sky=o;return;}
    if(o.isDirectionalLight){light=o;return;}if(!o.geometry||!(o.isMesh||o.isLine||o.isPoints))return;
    const g=o.geometry,id=g.uuid,position=g.getAttribute('position');if(!position)return;used.add(id);
+   if(g.userData.posedCloth){
+    this.clothVersions??=new WeakMap();
+    if(this.known.has(id)&&this.clothVersions.get(g)!==position.version){
+     const xyz=new Float32Array(position.array);const normals=new Float32Array(g.attributes.normal.array);
+     deformed.push({id,xyz,normals});transfer.push(xyz.buffer,normals.buffer);
+    }
+    this.clothVersions.set(g,position.version);
+   }
    if(!this.known.has(id)){
     const xyz=new Float32Array(position.count*3);for(let i=0;i<position.count;i++){xyz[i*3]=position.getX(i);xyz[i*3+1]=position.getY(i);xyz[i*3+2]=position.getZ(i);}
     const index=g.index?new Uint32Array(g.index.array):null;
@@ -116,7 +124,11 @@ export class SoftwareRenderer {
     const factor=g.getAttribute('districtAmbient');
     const ambient=factor?new Uint8Array(factor.array):null;
     if(ambient)transfer.push(ambient.buffer);
-    fresh.push({id,xyz,index,widths,paving,finishes,ambient,finishUVs});transfer.push(xyz.buffer);
+    const normals=g.userData.figureLighting?new Float32Array(g.attributes.normal.array):null;
+    const contactFade=g.userData.contactShadow?Float32Array.from({length:color.count},(_,i)=>color.getW(i)):null;
+    if(normals)transfer.push(normals.buffer);
+    if(contactFade)transfer.push(contactFade.buffer);
+    fresh.push({id,xyz,index,widths,paving,finishes,ambient,finishUVs,normals,contactFade});transfer.push(xyz.buffer);
     if(index)transfer.push(index.buffer);if(widths)transfer.push(widths.buffer);this.known.add(id);
    }
    const mats=[].concat(o.material);const groups=Array.isArray(o.material)?g.groups:[{start:0,count:g.index?.count||position.count,materialIndex:0}];
@@ -176,7 +188,7 @@ export class SoftwareRenderer {
   const streetView=street?{world:cam.matrixWorld.elements,projection:[p[0],p[5],p[8],p[9]]}:null;
   const skyRow=this.proposalSky&&cam.isPerspectiveCamera?
    [-cam.matrixWorld.elements[9],cam.matrixWorld.elements[5],cam.projectionMatrix.elements[9],1/cam.projectionMatrix.elements[5]]:null;
-  this.worker.postMessage({resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
+  this.worker.postMessage({resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,deformed,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
   this.shadowMap.needsUpdate=false;
  }
  wait(){return this.pending?(this.settled??=new Promise(resolve=>{this.finish=resolve;})):Promise.resolve();}

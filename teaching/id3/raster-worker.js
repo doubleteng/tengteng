@@ -200,7 +200,7 @@ function project(xyz,m,w,h,perspective=false){
 function drawNearClipped(pass,coords,offsets,d,lightCoords,world,uv){
  const near=pass.near,polygon=offsets.length===3;
  const vertices=offsets.map(i=>[coords.clip[i],coords.clip[i+1],coords.clip[i+2],coords.cameraW[i/3],
-  world[i],world[i+1],world[i+2],lightCoords?.[i]||0,lightCoords?.[i+1]||0,lightCoords?.[i+2]||0,uv?.[(i/3)*2]||0,uv?.[(i/3)*2+1]||0,d.ambient?.[i/3]??255]);
+  world[i],world[i+1],world[i+2],lightCoords?.[i]||0,lightCoords?.[i+1]||0,lightCoords?.[i+2]||0,uv?.[(i/3)*2]||0,uv?.[(i/3)*2+1]||0,d.ambient?.[i/3]??255,d.figureLight?.[i/3]??0,d.contactFade?.[i/3]??0]);
  const out=[];
  for(let i=0;i<vertices.length;i++){
   const a=vertices[i],b=vertices[(i+1)%vertices.length];
@@ -218,7 +218,7 @@ function drawNearClipped(pass,coords,offsets,d,lightCoords,world,uv){
   wpos.push(...a.slice(4,7));light.push(...a.slice(7,10));clippedUV.push(a[10],a[11]);clippedAmbient.push(a[12]);
  });
  const indices=polygon?(out.length===4?[0,1,2,0,2,3]:[0,1,2]):[0,1];
- paint(pass,screen,indices,{...d,chunkBounds:null,localVisibility:null,ambient:d.ambient?clippedAmbient:null,widths:d.widths&&!polygon?[d.widths[offsets[0]/3],d.widths[offsets[1]/3]]:null,start:0,count:indices.length,kind:polygon?'tri':'segments'},lightCoords?light:null,wpos,uv?clippedUV:null);
+ paint(pass,screen,indices,{...d,chunkBounds:null,localVisibility:null,ambient:d.ambient?clippedAmbient:null,figureLight:d.figureLight?out.map(a=>a[13]):null,contactFade:d.contactFade?out.map(a=>a[14]):null,widths:d.widths&&!polygon?[d.widths[offsets[0]/3],d.widths[offsets[1]/3]]:null,start:0,count:indices.length,kind:polygon?'tri':'segments'},lightCoords?light:null,wpos,uv?clippedUV:null);
 }
 function paintLine(pass,coords,a,b,d){
  const {w,h,depth,pixels}=pass,ax=coords[a],ay=coords[a+1],dx=coords[b]-ax,dy=coords[b+1]-ay;
@@ -252,6 +252,7 @@ function paintLine(pass,coords,a,b,d){
 function paint(pass,coords,indices,d,lightCoords,world,uv){
  const {w,h,depth,pixels,shadowDepth,ss,dir}=pass;
  const end=d.start+d.count;
+ const smoothLight=pixels&&d.figureLight,contact=pixels&&d.contactFade;
  const idx=i=>3*(indices?indices[i]:i);
  if(d.kind!=='tri'){
   if(!pixels)return;
@@ -310,7 +311,7 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
    direct=Math.sqrt(fill*fill+pass.keyGain*diffuse)-fill;
    occlusion=.50*fill;
    lum=fill+direct-occlusion*(1-ambientC/255);
-   if(lightCoords&&d.receive&&direct>0){
+   if(lightCoords&&d.receive&&(direct>0||smoothLight)){
     const du=lightCoords[b]-lightCoords[a],dv=lightCoords[b+1]-lightCoords[a+1],
           eu=lightCoords[c]-lightCoords[a],ev=lightCoords[c+1]-lightCoords[a+1];
     const determinant=du*ev-eu*dv;
@@ -360,21 +361,31 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
     const t=1-u-v;if(u<-.00001||v<-.00001||t<-.00001)continue;
     const z=u*coords[a+2]+v*coords[b+2]+t*coords[c+2];const p=y*w+x;
     if(z< -1||z>1||z>=depth[p])continue;
-    if(pixels&&!wet&&d.alpha<.98&&((x*13+y*7)%17)>=d.alpha*17)continue;
+    if(pixels&&!contact&&!wet&&d.alpha<.98&&((x*13+y*7)%17)>=d.alpha*17)continue;
     if(!pixels){depth[p]=z;continue;}let shade=lum;
-    const hasShadow=lightCoords&&d.receive&&direct>0;
+    const hasShadow=lightCoords&&d.receive&&(direct>0||smoothLight);
     let l0=u,l1=v,l2=t;
-    if(coords.cameraW&&(photo||reflection||largeFace||hasShadow||varied)){
+    if(coords.cameraW&&(photo||reflection||largeFace||hasShadow||varied||smoothLight||contact)){
      l0/=coords.cameraW[a/3];l1/=coords.cameraW[b/3];l2/=coords.cameraW[c/3];
      const invW=1/(l0+l1+l2);l0*=invW;l1*=invW;l2*=invW;
     }
     if(varied)shade+=occlusion/255*(l0*(ambientA-ambientC)+l1*(ambientB-ambientC));
+    if(contact){
+     const alpha=d.alpha*(l0*contact[a/3]+l1*contact[b/3]+l2*contact[c/3]);
+     for(let k=0;k<3;k++)pixels[p*4+k]+=alpha*(d.color[k]*255-pixels[p*4+k]);
+     continue;
+    }
     let key=direct;
+    if(smoothLight){
+     const diffuse=l0*smoothLight[a/3]+l1*smoothLight[b/3]+l2*smoothLight[c/3];
+     key=Math.sqrt(fillLight*fillLight+pass.keyGain*diffuse)-fillLight;
+     shade+=key-direct;
+    }
     if(hasShadow){
      const lx=l0*lightCoords[a]+l1*lightCoords[b]+l2*lightCoords[c];
      const ly=l0*lightCoords[a+1]+l1*lightCoords[b+1]+l2*lightCoords[c+1];
      const lz=l0*lightCoords[a+2]+l1*lightCoords[b+2]+l2*lightCoords[c+2];
-     const blocked=direct*shadowCoverage(shadowDepth,ss,lx,ly,lz,slopeX,slopeY);shade-=blocked;key-=blocked;
+     const blocked=key*shadowCoverage(shadowDepth,ss,lx,ly,lz,slopeX,slopeY);shade-=blocked;key-=blocked;
     }
     if(volume){
      let skyVis=centerVisibility;
@@ -484,6 +495,15 @@ function prepareScreen(length,perspective){
 function paintVisible(pass,g,d,transform,light,world){
  const frustum=planes(transform);
  if(outside(g.bounds,0,frustum))return;
+ if(g.normals){
+  // The figure has rigid, unit-scale joint transforms. Rotate the sun into
+  // each joint's frame once, then interpolate its vertex lighting on screen.
+  const n=g.normals,m=d.m,[sx,sy,sz]=pass.dir;
+  const x=sx*m[0]+sy*m[1]+sz*m[2],y=sx*m[4]+sy*m[5]+sz*m[6],z=sx*m[8]+sy*m[9]+sz*m[10];
+  const light=g.figureLight??=new Float32Array(n.length/3);
+  for(let i=0;i<light.length;i++)light[i]=Math.max(0,x*n[3*i]+y*n[3*i+1]+z*n[3*i+2]);
+  d.figureLight=light;
+ }
  const near=!!pass.near,start=d.start,end=start+d.count;
  const uv=d.tile?g.paving.coords:d.finishTile?transformedUV(g,d):null;
  prepareScreen(g.xyz.length,near);
@@ -563,6 +583,13 @@ function paintStreetSky(pixels,w,h,view){
   }
  }
 }
+function refitBounds(g){
+  g.chunkBounds=meshBounds(g);
+  g.bounds=[Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
+  for(let i=0;i<g.chunkBounds.length;i+=6)for(let k=0;k<3;k++){
+   g.bounds[k]=Math.min(g.bounds[k],g.chunkBounds[i+k]);g.bounds[k+3]=Math.max(g.bounds[k+3],g.chunkBounds[i+k+3]);
+  }
+}
 onmessage=({data:q})=>{
  for(const id of q.removedTiles||[])finishTiles.delete(id);
  for(const tile of q.tiles||[])finishTiles.set(tile.id,imagePyramid(tile));
@@ -571,12 +598,12 @@ onmessage=({data:q})=>{
  if(q.resources?.streetSky)streetSky=q.resources.streetSky;
  for(const k of q.removed)geometries.delete(k);for(const g of q.fresh){
   if(g.paving)g.paving.levels=pavingMips(g.paving);
-  g.chunkBounds=meshBounds(g);
-  g.bounds=[Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
-  for(let i=0;i<g.chunkBounds.length;i+=6)for(let k=0;k<3;k++){
-   g.bounds[k]=Math.min(g.bounds[k],g.chunkBounds[i+k]);g.bounds[k+3]=Math.max(g.bounds[k+3],g.chunkBounds[i+k+3]);
-  }
+  refitBounds(g);
   geometries.set(g.id,g);
+ }
+ for(const {id,xyz,normals} of q.deformed||[]){
+  const g=geometries.get(id);if(!g)continue;
+  g.xyz=xyz;g.normals=normals;g.worldMatrix=null;refitBounds(g);
  }
  const ss=shadowSize,shadowDepth=cachedShadow;
  const objs=q.draws.map(d=>{
@@ -609,6 +636,7 @@ onmessage=({data:q})=>{
    }
    d.localVisibility=g.localVisibility;
   }
+  if(g.contactFade)d.contactFade=g.contactFade;
   if(d.baked)d.ambient=g.ambient;
   if(d.paving)d.tile=g.paving;
   if(d.vertexColors)d.finishes=g.finishes;
@@ -633,7 +661,7 @@ onmessage=({data:q})=>{
  }
  const pass={volume:q.useVolume?lightVolume:null,environment:q.useEnvironment?daylight:null,w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,skyGain:Math.sqrt(.33*q.skyPower),keyGain:.21*q.sunPower,near:q.perspectiveNear,inkProjection:q.inkProjection};
  // Resolve solid depth before compositing visible linework.
- const order=d=>d.kind!=='tri'?2:d.blendPane?1:0;
+ const order=d=>d.kind!=='tri'?3:d.blendPane?2:d.contactFade?1:0;
  objs.sort((a,b)=>order(a.d)-order(b.d));
  for(const {d,g,l,world} of objs){
   if(d.blendPane&&!pass.opaque)pass.opaque=pixels.slice();

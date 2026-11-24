@@ -1,5 +1,5 @@
-import {Vector3,Ray,Group,Mesh,CircleGeometry,MeshBasicMaterial,MathUtils} from './lib/three.module.min.js';
-import {createStreetAvatar} from './street-avatar.js?v=469c681a5c';
+import {Vector3,Ray,Group,Mesh,CircleGeometry,Float32BufferAttribute,MeshBasicMaterial,MathUtils} from './lib/three.module.min.js';
+import {createStreetAvatar,strideLength} from './street-avatar.js?v=bc96f4d210';
 import {enterStreetAtmosphere} from './street-atmosphere.js?v=b8acbb84d1';
 import {StreetTraversal} from './street-traversal.js?v=07ddaf8769';
 
@@ -70,8 +70,12 @@ export class StreetMode {
   this.traversal=new StreetTraversal(walker.surface);this.camera=new ChaseCamera(walker.surface);
   this.atmosphere=enterStreetAtmosphere(viewer);this.last=walker.feet.clone();this.gripLocal=new Vector3();this.palmsLocal=[new Vector3(),new Vector3()];this.contactRoot=new Vector3();this.gait=0;this.rotation=walker.yaw;
   this.root=new Group();this.root.add(this.avatar.root);
-  const material=new MeshBasicMaterial({color:0x382c35,transparent:true,opacity:.23,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
-  this.contact=new Mesh(new CircleGeometry(1,20),material);
+  const material=new MeshBasicMaterial({color:0x382c35,vertexColors:true,transparent:true,opacity:.32,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+  const disk=new CircleGeometry(1,20),fade=new Float32Array(disk.attributes.position.count*4).fill(1);
+  for(let i=1;i<disk.attributes.position.count;i++)fade[4*i+3]=0;
+  disk.setAttribute('color',new Float32BufferAttribute(fade,4));
+  disk.userData.contactShadow=true;
+  this.contact=new Mesh(disk,material);
   this.contact.scale.set(.30,.22,1);this.contact.rotation.x=-Math.PI/2;
   this.root.add(this.contact);viewer.scene.add(this.root);
  }
@@ -81,7 +85,13 @@ export class StreetMode {
   const dx=walker.feet.x-this.last.x,dz=walker.feet.z-this.last.z;
   const distance=Math.hypot(dx,dz),action=this.traversal.action,wall=this.traversal.wall;
   const speed=Math.min(7,distance/Math.max(dt,1e-4));
-  if(walker.grounded)this.gait+=distance*5.2;
+  const motion=walker.grounded&&!action&&!wall?speed:0;
+  this.visualSpeed=MathUtils.lerp(this.visualSpeed??0,motion,1-Math.exp(-11*dt));
+  this.poseTime=(this.poseTime??0)+dt;
+  if(walker.grounded)this.gait+=distance*2*Math.PI/strideLength(speed);
+  this.impact=(this.impact??0)*Math.exp(-10*dt);
+  if(walker.grounded&&this.wasAirborne)this.impact=MathUtils.clamp(-(this.lastFall??0)/6,0,1);
+  this.wasAirborne=!walker.grounded;this.lastFall=walker.verticalSpeed;
   const face=action?action.face:wall?wall.face:distance>.001?Math.atan2(dx,-dz):this.rotation;
   const delta=Math.atan2(Math.sin(face-this.rotation),Math.cos(face-this.rotation));
   this.rotation+=delta*(action||wall?1:(1-Math.exp(-18*dt)));
@@ -108,13 +118,13 @@ export class StreetMode {
      .sub(this.avatar.root.position).applyAxisAngle(up,this.rotation);
    });
   }
-  this.avatar.pose({grip:action?this.gripLocal:null,palms:wall||action?.palms?this.palmsLocal:null,gait:this.gait,speed,grounded:walker.grounded,verticalSpeed:walker.verticalSpeed,
+  this.avatar.pose({grip:action?this.gripLocal:null,palms:wall||action?.palms?this.palmsLocal:null,gait:this.gait,speed:this.visualSpeed,time:this.poseTime,turn:MathUtils.clamp(delta,-1,1),look:walker.pitch,impact:this.impact,grounded:walker.grounded,verticalSpeed:walker.verticalSpeed,
    action:wall?'wall':action?.type??null,progress:wall?wall.travel:action?.progress??0});
   this.last.copy(walker.feet);
   this.contact.position.copy(walker.feet);this.contact.position.y+=.018;
   this.contact.visible=walker.grounded;
   this.avatar.root.visible=this.camera.update(walker,cam,target,dt,this.avatar.root.position)>.44;
-  this.needsFrame=this.camera.settling||(walker.grounded&&speed>.03);
+  this.needsFrame=this.camera.settling||(walker.grounded&&(speed>.03||this.visualSpeed>.018||this.impact>.01));
  }
  dispose(){
   this.root.removeFromParent();this.avatar.dispose();this.contact.geometry.dispose();this.contact.material.dispose();this.atmosphere.dispose();

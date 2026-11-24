@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Integrated Design 3 | LTU College of Architecture and Design</title>
+<meta name="description" content="Fourteen proposals for a public institution and covered market in Ann Arbor. Explore the buildings, their assemblies and their shared Kerrytown site in Teng Teng’s Fall 2026 studio.">
+<link rel="icon" href="./exhibition/ltu-favicon.png" type="image/png" sizes="32x32">
+<link rel="stylesheet" href="./globals.css"><link rel="stylesheet" href="./exhibition.css">
+</head><body>
+
+<a class="ex-skip" href="#collection">Skip to projects</a>
+<header class="ex-header" id="top">
+  <div class="ex-shell ex-header-row"><a class="ex-school" href="#top" aria-label="LTU College of Architecture and Design, exhibition home"><img src="./exhibition/ltu-coad-blue.svg" width="400" height="86" alt="Lawrence Technological University, College of Architecture and Design"></a>
+    <nav aria-label="Exhibition navigation"><a href="#collection">Projects</a><a href="#studio">The studio</a><a class="ex-view-link" href="#gallery">3D viewer</a></nav>
+  </div>
+</header>
+<main class="ex-main">
+  <section class="ex-hero" aria-labelledby="ex-title"><div class="ex-shell ex-hero-grid">
+    <div class="ex-poster-text"><div class="ex-term">ARC 3114 <span>/</span> Fall 2026</div>
+      <h1 id="ex-title">Integrated<br>Design 3</h1>
+      <p class="ex-subject">Ann Arbor Farmers Market</p>
+      <p class="ex-lede">Fourteen students pair a covered market with a public building for gatherings, exhibitions and classes in Kerrytown. Each proposal begins with a span in mass timber, steel or precast concrete.</p>
+      <a class="ex-action" href="#collection">Explore the projects</a>
+    </div>
+    <figure class="ex-poster-figure">
+      <img class="ex-axon" src="./exhibition/northlight-assembly.webp" srcset="./exhibition/northlight-assembly-950.webp 950w, ./exhibition/northlight-assembly.webp 1750w" sizes="(max-width: 660px) 90vw, (max-width: 1690px) 51vw, 850px" width="1750" height="1295" alt="Exploded axonometric of Northlight Hall. Six coral sawtooth roofs and yellow clerestories lift above a timber frame and market counters." fetchpriority="high">
+      <figcaption><strong>Northlight Hall</strong><span>Exploded axonometric · Demonstration model</span></figcaption>
+    </figure>
+  </div></section>
+<section class="collection ex-shell" id="collection" aria-labelledby="index-title">
+  <div class="collection-top"><div><p class="ex-label">Project gallery</p><h2 id="index-title">Model studies</h2></div><div class="index-commands"><span id="count">3 demonstration models</span></div></div><div class="cards" id="cards"></div>
+</section>
+<div class="ex-view-shell ex-shell"><div class="ex-view-head"><h2>Model viewer</h2><div><button id="site-view">View shared site</button><button id="guideBtn">Model guide</button></div></div>
+<section id="gallery" class="viewer-frame" aria-label="Interactive architectural exhibition">
+<div class="viewport" id="viewport" tabindex="0" aria-label="Architectural model. Drag to orbit, use arrow keys to rotate, plus and minus to zoom.">
+<img id="poster" src="./models/ann-arbor.webp" alt="Perspective view of the Ann Arbor Farmers Market site and surrounding blocks." draggable="false">
+<div id="canvas-box"></div><svg id="annotation-map" aria-hidden="true"></svg>
+<div class="view-top"><div class="sun-widget" id="sun-widget" role="group" aria-label="Sunlight">
+ <button type="button" id="sun-settings" aria-expanded="false" aria-controls="sun-options"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4.2 4.2l2.1 2.1m11.4 11.4 2.1 2.1m0-15.6-2.1 2.1M6.3 17.7l-2.1 2.1"/></svg><span>Sunlight</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
+ <div class="sun-dials">
+ <div><svg class="sun-slider" id="sun-direction" viewBox="0 0 80 70" role="slider" tabindex="0" aria-label="Sun direction" aria-valuemin="0" aria-valuemax="359" aria-valuenow="225"><title>Drag the sun around the compass</title>
+ <circle class="sun-track" cx="40" cy="35" r="23"/><path class="sun-axis" d="M40 26v18 M31 35h18"/><path class="sun-pointer" id="sun-bearing"/><circle class="sun-handle" id="sun-direction-handle" r="5"/>
+ <g class="sun-cardinals"><text x="40" y="8">N</text><text x="72" y="38">E</text><text x="40" y="69">S</text><text x="7" y="38">W</text></g></svg><span>Direction</span></div>
+ <div><svg class="sun-slider" id="sun-height" viewBox="0 0 70 70" role="slider" tabindex="0" aria-label="Sun height" aria-valuemin="0" aria-valuemax="90" aria-valuenow="40"><title>Drag the sun from the horizon to overhead</title>
+ <path class="sun-axis" d="M8 58h57 M12 60V11"/><path class="sun-track" d="M56 58A44 44 0 0 0 12 14"/><path class="sun-pointer" id="sun-elevation"/><circle class="sun-handle" id="sun-height-handle" r="5"/></svg><span>Height</span></div>
+ </div>
+ <div id="sun-options" hidden><button type="button" id="use-site-sun" aria-pressed="true">Use Ann Arbor date &amp; time</button>
+ <div class="sun-fields"><label>Date<input type="date" id="sun-date" value="2026-09-22"></label><label>Local time<input type="time" id="sun-time" value="15:00"></label></div>
+ <p id="sun-readout" role="status"></p><label class="shadow-row">Cast shadows<input type="checkbox" id="shadows" checked></label></div>
+</div><div class="camera-tools"><select id="camera" aria-label="Camera view" disabled><option value="perspective" selected>Perspective</option><option value="axon">Axonometric</option><option value="plan">Plan</option><option value="district">District plan</option><option value="front">Front elevation</option><option value="side">Side elevation</option><optgroup id="context-cameras" label="Site perspectives"><option value="fourth">N Fourth · Market Place</option><option value="detroit">Detroit St · Market Place</option><option value="dunbar">Fourth &amp; Catherine · Dunbar Tower</option><option value="dunbar-roof">Dunbar Tower · rooftop PV</option><option value="330-detroit">330 Detroit · market frontage</option><option value="330-fifth">330 Detroit · Fifth Avenue corner</option><option value="330-roof">330 Detroit · green roof</option><option value="market-shops">Fifth Avenue · Kerrytown Market &amp; Shops</option><option value="detroit-deli">Detroit Street · Zingerman’s Deli</option><option value="concert-house">Fourth Avenue · Kerrytown Concert House</option><option value="division-school">Division Street · Community High School</option><option value="ann-museum">Ann Street · Hands-On Museum</option></optgroup></select><button id="full" title="Expand viewer" aria-label="Expand viewer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button></div></div>
+<div class="view-bottom"><span class="hint"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-32 12 12)"/><circle cx="12" cy="12" r="2"/></svg> Drag to orbit <b>·</b> Scroll to zoom</span><div class="view-tools"><button id="zout" title="Zoom out" aria-label="Zoom out"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></button><button id="zin" title="Zoom in" aria-label="Zoom in"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg></button><button id="fit" title="Fit project" aria-label="Fit project"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V3h6m6 0h6v6m0 6v6h-6m-6 0H3v-6"/><circle cx="12" cy="12" r="2.7"/></svg></button></div></div>
+<div id="viewer-message" role="status" hidden></div></div>
+<aside class="inspector">
+<div class="project-heading"><p class="kicker"><i></i><span id="model-kind">SHARED URBAN MODEL</span></p><h2 id="model-title">Ann Arbor Farmers Market</h2><div id="model-author">Kerrytown <span> / </span> Ann Arbor, MI</div></div>
+<div class="tabs" role="tablist" aria-label="Model settings"><button role="tab" aria-selected="true" aria-controls="layer-panel" id="tab-layers"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-5 9 5-9 5zM3 13l9 5 9-5M3 17l9 5 9-5"/></svg>Layers</button><button role="tab" aria-selected="false" aria-controls="annotations-panel" id="tab-annotations">Annotations</button></div>
+<div id="layer-panel" class="panel" role="tabpanel"><div class="panel-head"><span>Model layers</span><button type="button" id="details-btn">Expand</button></div><div id="layer-list"></div><label class="display-select">Display<select id="material-mode"><option value="material">Original materials</option><option value="clay">White model</option></select></label><button type="button" hidden id="material-references" class="sources-button">Material references</button></div>
+<div id="annotations-panel" class="panel" hidden role="tabpanel" aria-labelledby="tab-annotations">
+<div class="panel-head"><span>Site annotations</span><button type="button" id="district-plan">District plan</button></div>
+<div id="annotation-controls"></div>
+<ul id="parking-key" class="parking-key" aria-label="Parking legend" hidden></ul>
+<label class="display-select" id="lane-row" hidden>Total lanes<select id="lane-filter"><option value="">All recorded directions</option><option value="1">1 lane</option><option value="2">2 lanes</option><option value="3">3 lanes</option><option value="4">4+ lanes</option></select></label>
+<label id="feature-row" class="feature-select" hidden>Inspect a feature<select id="annotation-feature"></select></label>
+<div id="annotation-detail" aria-live="polite" hidden></div><p class="annotation-note" id="annotation-state" role="status">Select a layer to see it on the model.</p>
+<p id="curb-access" class="annotation-note" hidden>Marked street spaces around the market are metered Mon–Sat, 8 am–6 pm, unless posted otherwise.</p>
+<details id="walk-parking" class="walk-access" hidden><summary>Parking beyond the model</summary>
+<p><a href="https://www.google.com/maps/search/?api=1&amp;query=Fourth+and+Washington+Parking+Structure+123+E+Washington+Ann+Arbor+MI" target="_blank" rel="noopener">Fourth &amp; Washington garage</a><br>123 E Washington St · Paid garage.</p>
+<p><a href="https://www.google.com/maps/search/?api=1&amp;query=201+W+Huron+St+Ann+Arbor+MI" target="_blank" rel="noopener">First &amp; Huron · Huron Ashley lot</a><br>201 W Huron St · Privately operated paid lot. Construction restricts access from S First St.</p></details>
+<details id="walk-transit" class="walk-access" hidden><summary>Blake Transit Center · temporary stops</summary>
+<p>The transit center, about four blocks from the market, is closed during Fourth Avenue construction. For fall 2026, board at these temporary stops.</p>
+<p><strong>S Fifth Ave near Washington</strong><br>22, 25, 26, 27, 28, 32, 33, 34, 104</p>
+<p><strong>E Washington St</strong><br>3, 4, 5, 6, 23, 30, 31</p>
+<a href="https://www.theride.org/btc" target="_blank" rel="noopener">TheRide temporary boarding map</a></details>
+<p class="annotation-credit" id="transit-credit" hidden>Transit scheduling, geographic, and real-time data provided by permission of AAATA/TheRide</p>
+<button class="sources-button" type="button" id="annotation-sources">Map sources</button></div>
+</aside></section>
+</div>
+
+<section id="studio" class="ex-studio ex-shell" aria-labelledby="studio-title">
+  <div class="ex-studio-intro"><div><p class="ex-label">ARC 3114 · Teng Teng Studio</p><h2 id="studio-title">Inside the studio</h2></div>
+  <p>How can a building accommodate a Saturday market, a public lecture and an evening class as its uses change? Students begin with a repeatable structural bay. Across five modules they test how changes to that bay affect the clear span of a hall, the joints between façade panels, the daylight that reaches a classroom and the route in from the street.</p></div>
+  <div class="ex-stages" role="tablist" aria-label="Design brief and studio modules"><button type="button" role="tab" id="stage-program" aria-controls="study-program" aria-selected="true" tabindex="0">Design brief</button><button type="button" role="tab" id="stage-morphology" aria-controls="study-morphology" aria-selected="false" tabindex="-1">Morphology</button><button type="button" role="tab" id="stage-enclosure" aria-controls="study-enclosure" aria-selected="false" tabindex="-1">Enclosure</button><button type="button" role="tab" id="stage-energy" aria-controls="study-energy" aria-selected="false" tabindex="-1">Energy</button><button type="button" role="tab" id="stage-site-program" aria-controls="study-site-program" aria-selected="false" tabindex="-1">Site & program</button><button type="button" role="tab" id="stage-final-synthesis" aria-controls="study-final-synthesis" aria-selected="false" tabindex="-1">Final synthesis</button></div>
+  <div class="ex-study" id="study-program" role="tabpanel" tabindex="0" aria-labelledby="stage-program" >
+    <div class="ex-reading"><h3>A public building for market day and beyond.</h3><p>A gallery and café open at street level. Four classrooms and two column-free event halls give the building a life between market days. The triple-height hall seats 360 people. The double-height hall seats 100. The brief asks students to connect these rooms to the outdoor market and leave a space open to the sky within the building’s footprint.</p></div>
+    <figure><img src="./exhibition/program.webp" alt="Squares compare floor areas. The roof-covered exterior totals about 16,200 square feet, the large event floor 4,000 and the small event floor 1,600." width="1760" height="1056" loading="lazy" decoding="async"><figcaption>Selected program areas · Footprints shown to the same scale</figcaption></figure>
+  </div><div class="ex-study" id="study-morphology" role="tabpanel" tabindex="0" aria-labelledby="stage-morphology" hidden>
+    <div class="ex-reading"><h3>Give the hall its span.</h3><p>Each student studies a built precedent in steel, mass timber or precast concrete, then tests the structural bay against two different ways of organizing the program. A 4,000-square-foot, triple-height hall has to remain free of columns. Where can the building carry that span, and what kind of room does it make?</p></div>
+    <figure><img src="./exhibition/morphology.webp" alt="Repeated structural bays compare short, medium and long clear spans." width="1760" height="1056" loading="lazy" decoding="async"><figcaption>Teaching diagram · Morphology</figcaption></figure>
+  </div><div class="ex-study" id="study-enclosure" role="tabpanel" tabindex="0" aria-labelledby="stage-enclosure" hidden>
+    <div class="ex-reading"><h3>Work from bay to joint.</h3><p>The structural grid sets out the façade. Students divide it into prefabricated panels, locate the joints and trace how each panel transfers its load to the frame. A corner or roof edge tests whether the same assembly can turn, drain and close.</p></div>
+    <figure><img src="./exhibition/enclosure.webp" alt="Prefabricated panel joints align with horizontal girts and the primary frame." width="1760" height="1056" loading="lazy" decoding="async"><figcaption>Teaching diagram · Enclosure</figcaption></figure>
+  </div><div class="ex-study" id="study-energy" role="tabpanel" tabindex="0" aria-labelledby="stage-energy" hidden>
+    <div class="ex-reading"><h3>Find room for light.</h3><p>Students study how daylight reaches the occupied spaces at different times of day. On the roof, apertures and photovoltaic arrays compete for the same surface. Each proposal tests their layout against an annual generation target of 500,000 kWh.</p></div>
+    <figure><img src="./exhibition/energy.webp" alt="A south-facing photovoltaic array and north-facing clerestory share a sawtooth roof." width="1760" height="1056" loading="lazy" decoding="async"><figcaption>Teaching diagram · Energy</figcaption></figure>
+  </div><div class="ex-study" id="study-site-program" role="tabpanel" tabindex="0" aria-labelledby="stage-site-program" hidden>
+    <div class="ex-reading"><h3>Make the market work.</h3><p>At least 120 vendor stalls occupy the covered market. A sheltered public entry and a separate service area connect this outdoor program to the building at grade. Students draw how a visitor reaches a stall from the sidewalk and how a vendor reaches it from a loading area. Those routes shape entrances, aisles and the edge of the public building.</p></div>
+    <figure><img src="./exhibition/site-program.webp" alt="A schematic public route links Detroit Street, market stalls and the hall. A separate service route enters from Fourth Avenue." width="1760" height="1056" loading="lazy" decoding="async"><figcaption>Teaching diagram · Site & program</figcaption></figure>
+  </div><div class="ex-study" id="study-final-synthesis" role="tabpanel" tabindex="0" aria-labelledby="stage-final-synthesis" hidden>
+    <div class="ex-reading"><h3>Show how it comes together.</h3><p>An assembly sequence and a physical model of one-third of the building reveal how the frame, enclosure and energy systems fit together. Sections and eye-level views follow those decisions back into the market and assembly halls.</p></div>
+    <figure><img src="./exhibition/final-synthesis.webp" alt="A market canopy meets a long-span assembly hall beneath a glazed clerestory." width="1760" height="1056" loading="lazy" decoding="async"><figcaption>Teaching diagram · Final synthesis</figcaption></figure>
+  </div>
+</section>
+</main>
+
+<footer class="ex-footer"><div class="ex-shell ex-foot-row"><div><strong>Integrated Design 3</strong><span>Teng Teng Studio · Fall 2026</span></div><a href="#top">Back to top</a></div></footer>
+<dialog id="info"><div class="dialog-body"><button class="close" data-close aria-label="Close"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 5 14 14M19 5 5 19"/></svg></button><div id="info-content"></div></div></dialog>
+
+<script type="module" src="./exhibition/navigation.js"></script><script type="module" src="./gallery.js"></script>
+</body></html>

@@ -1,0 +1,638 @@
+[
+  {
+    "name": "330 Detroit Street Condominiums",
+    "material": "Five-story flatiron condominium at Detroit Street and North Fifth Avenue. The brick and metal elevations frame recessed terraces and balconies. Planted roof areas, pale membrane and mechanical equipment follow the 2026 municipal orthophoto.",
+    "wallColor": "#957865",
+    "source": "https://www.330detroitstreet.com/",
+    "links": [
+      [
+        "Market-facing elevation · project photograph",
+        "https://static.wixstatic.com/media/467d90_e481b519448443e59362964a6056e24e~mv2.jpg"
+      ],
+      [
+        "Planted roof · project photograph",
+        "https://static.wixstatic.com/media/467d90_915230102b7044259d3aeb134c2ca9ca~mv2.jpg"
+      ],
+      [
+        "City plans and elevations · SP21-046",
+        "https://a2gov.legistar.com/LegislationDetail.aspx?ID=5651081&GUID=1236D5ED-EF43-4AF7-AE04-0E3DC617544E"
+      ],
+      [
+        "2026 orthophoto · City of Ann Arbor",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "name": "Dunbar Tower, 121 Catherine Street",
+    "material": "Two-story red-brown brick base with glazed street-level entrances. The upper residential stories combine pale metal panels, blue-gray cladding and yellow accents. The broad rooftop photovoltaic canopy and its supporting rack follow the original studio Rhino model.",
+    "wallColor": "#8b524d",
+    "source": "https://www.a2gov.org/housing-commission/development-of-city-owned-properties-as-affordable-housing/dunbar-tower/",
+    "links": [
+      [
+        "Completed building · LBBA",
+        "https://www.lbba.com/projects/4/dunbar-tower"
+      ],
+      [
+        "Floor plans · City of Ann Arbor",
+        "https://www.a2gov.org/media/2qpeeydv/20240522_catherine-st_floor-plans-1.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-035156",
+    "name": "Kerrytown Market, Fifth Avenue clock tower wing",
+    "wallColor": "#C18B6F",
+    "material": "Salmon brick clock tower, bronze bells, flower-shaped clock faces, steel chime frame and glazed Fifth Avenue vestibule.",
+    "source": "https://kerrytown.com/wp-content/uploads/2023/02/210529_Kerrytown_Abarnes-29.png",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&pano=1UklOLw_1T3kFXmlIshSAA&heading=270",
+    "note": "Brick tower with a pale green cap. The street and market-facing brick walls carry the sampled material.",
+    "surfaceHeading": [
+      90,
+      180
+    ],
+    "application": "primary-envelope",
+    "components": [
+      {
+        "rhinoDefinition": "SKP_34351_NURBS_001",
+        "name": "Clock tower masonry shaft",
+        "color": "#C18B6F",
+        "kind": "Facade",
+        "material": "warm salmon-buff brick",
+        "note": "Verified on the Fifth Avenue panorama and the market operator’s exterior photo."
+      },
+      {
+        "rhinoDefinition": "SKP_43840_NURBS_001",
+        "name": "Open belfry posts and framing",
+        "color": "#827D70",
+        "kind": "Facade",
+        "material": "weathered neutral-brown belfry frame",
+        "note": "Verified on the Fifth Avenue panorama and the market operator’s exterior photo."
+      },
+      {
+        "rhinoDefinition": "SKP_44258_NURBS_001",
+        "name": "Clock tower pyramidal cap",
+        "color": "#AEC4AC",
+        "kind": "Roof",
+        "material": "pale green metal roof",
+        "note": "Verified on the Fifth Avenue panorama and the market operator’s exterior photo."
+      }
+    ],
+    "links": [
+      [
+        "District photo 11",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1744986431125-OVUJJL3GBEIPJRODG2OS/IMG_9738%7E2.JPG"
+      ],
+      [
+        "District photo 72",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793048946-N5MOX23XNZJDBSR2SO5O/kerrytown.jpg"
+      ],
+      [
+        "District photo 59",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408452311-RIAY97BNO4MGQ955LTAD/kerrytown-11-2020-469.jpg"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-021767",
+    "name": "Kerrytown Market, Fifth Avenue and Kingsley wing",
+    "wallColor": "#D3C6A5",
+    "material": "Whitewashed warehouse masonry, contrasting sash and the enclosed red courtyard bridge.",
+    "source": "https://kerrytown.com/wp-content/uploads/2023/01/210529_Kerrytown_Abarnes-84.png",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28486,-83.74586&heading=220",
+    "note": "Weathered cream paint with exposed brick in patches. Verified on the Kingsley and Fifth street facades.",
+    "surfaceHeading": [
+      0,
+      90
+    ],
+    "application": "primary-envelope",
+    "links": [
+      [
+        "District photo 11",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1744986431125-OVUJJL3GBEIPJRODG2OS/IMG_9738%7E2.JPG"
+      ],
+      [
+        "District photo 72",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793048946-N5MOX23XNZJDBSR2SO5O/kerrytown.jpg"
+      ],
+      [
+        "District photo 59",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408452311-RIAY97BNO4MGQ955LTAD/kerrytown-11-2020-469.jpg"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-031136",
+    "name": "Zingerman’s Delicatessen, 422 Detroit Street",
+    "wallColor": "#A95E45",
+    "material": "Red and ochre brick, three upper casements with divided lights, a dark projecting awning and a recessed storefront entrance.",
+    "source": "https://www.a2gov.org/media/1wzn3p5z/ddg-master-020711.pdf",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&pano=FPKk9Zr58eOxxX3eMTTatg&heading=135",
+    "note": "April 2024 corner panorama shows red-orange brick on both visible historic elevations and a dark storefront fascia.",
+    "surfaceHeading": [
+      0,
+      300
+    ],
+    "application": "primary-envelope",
+    "links": [
+      [
+        "District photo 53",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408439984-61LE5LZ39O03UNQNSBL9/kerrytown-11-2020-5.jpg"
+      ],
+      [
+        "District photo 74",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793075295-KF0N9HKZFYOS1NFC0WDR/a2CVB_zingermans.jpg"
+      ],
+      [
+        "City architectural record",
+        "https://www.a2gov.org/departments/planning/historic-preservation/PublishingImages/Pages/default/Detroit%20Street.pdf"
+      ],
+      [
+        "kerrytowndistrict.org",
+        "https://kerrytowndistrict.org/blog/zingermans-delicatessen-architectural-tour"
+      ],
+      [
+        "kerrytowndistrict.org",
+        "https://kerrytowndistrict.org/photo-gallery"
+      ],
+      [
+        "zingermansdeli.com",
+        "https://www.zingermansdeli.com/about-us/take-a-virtual-tour/"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-031866",
+    "name": "Zingerman’s Next Door Café, 418 Detroit Street",
+    "wallColor": "#CCA773",
+    "material": "Painted siding, contrasting sash, porch supports and storefront glazing below the cross-gabled roof.",
+    "source": "https://a2gov.org.legistar.com/View.ashx?GUID=D4CE7152-3C07-450D-A7F4-96F4F0D22D59&ID=983877&M=F",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&pano=mZHzRxMjOK8Tqu5PvRakoQ&heading=100",
+    "note": "Yellow-ochre clapboard wraps the gabled front and visible side, with mauve porch trim. The blue house farther south has a separate footprint.",
+    "application": "primary-envelope",
+    "links": [
+      [
+        "District photo 52",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408439173-SV2U1HKJHCWNP6YDQNF4/kerrytown-11-2020-1.jpg"
+      ],
+      [
+        "City architectural record",
+        "https://www.a2gov.org/departments/planning/historic-preservation/PublishingImages/Pages/default/Detroit%20Street.pdf"
+      ],
+      [
+        "zingermansdeli.com",
+        "https://www.zingermansdeli.com/next-door/"
+      ],
+      [
+        "kerrytowndistrict.org",
+        "https://kerrytowndistrict.org/photo-gallery"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-017809",
+    "name": "Community High School",
+    "wallColor": "#A15E50",
+    "material": "Red school brick, classroom windows and contrasting masonry trim. The formal entrance faces Division Street.",
+    "source": "https://commons.wikimedia.org/wiki/File:Community_High_School_Ann_Arbor.JPG",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28398,-83.74592&heading=88",
+    "note": "Red-brown masonry is visible in the school photograph and across the west lawn. Pale stone accent panels remain secondary.",
+    "application": "primary-envelope",
+    "links": [
+      [
+        "District photo 65",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457792880324-XRUPF6L95Q1WG0U7G3SG/commie_high.jpg"
+      ],
+      [
+        "a2schools.org",
+        "https://www.a2schools.org/chs"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-034651",
+    "name": "Kerrytown Market, Godfrey warehouse on Fourth Avenue",
+    "wallColor": "#B7A184",
+    "material": "Godfrey warehouse masonry, multi-light windows in the existing arched reveals and a metal entrance canopy.",
+    "source": "https://annarborobserver.com/godfrey-moving-and-storage/",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28425,-83.74719&heading=80",
+    "note": "The Fourth Avenue street wall has buff masonry, a raised dark entrance and regularly spaced dark window awnings.",
+    "surfaceHeading": 270,
+    "application": "primary-envelope",
+    "links": [
+      [
+        "District photo 19",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408376961-KPK4RS1VGAFYVD66NXHK/kerrytown-11-2020-182.jpg"
+      ],
+      [
+        "District photo 85",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1472591287108-YUZW8SY665SLLPN3Y8XK/photo1.jpg"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-008934",
+    "name": "Brauer Building, North Fifth Avenue",
+    "wallColor": "#A38571",
+    "material": "Brown brick with soldier courses, recessed aluminum one-over-one windows and asphalt-shingle gables.",
+    "source": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28343,-83.74588&heading=90",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28343,-83.74588&heading=90",
+    "note": "Fifth Avenue elevation shows brown and tan brick, a dark pitched roof and brick front gables.",
+    "surfaceHeading": 270,
+    "application": "primary-envelope",
+    "links": [
+      [
+        "City architectural record",
+        "https://www.a2gov.org/media/2w3dd0g5/2a_j-1803_idforms_412ndivision-811ehuron_202412.pdf#page=158"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-013299",
+    "name": "Market Place, 303 Detroit Street",
+    "wallColor": "#B68061",
+    "material": "Warm red-brown brick, blue-gray curtain glazing and darker punched windows",
+    "source": "https://303detroitstreet.com/story",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28377,-83.74716&heading=135",
+    "note": "The taller wing has a continuous glazed upper band on the surveyed faces and full-height glazing at its market-facing corners. The Fourth Avenue and Detroit ends each have a brick field with three columns of punched windows. The shorter historic wing has warm brick and separate punched windows. The courtyard silo is burgundy with a light gray cap.",
+    "observations": [
+      "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28319,-83.74670&heading=337",
+      "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28349,-83.74718&heading=90"
+    ],
+    "components": [
+      {
+        "rhinoDefinition": "SKP_39277_NURBS_001",
+        "name": "Market Place silo stair tower",
+        "wallColor": "#784A54",
+        "material": "burgundy metal-clad cylindrical shell",
+        "capColor": "#B3B2AB",
+        "capMaterial": "light gray circular cap",
+        "note": "The drum wraps in dark burgundy below a darker upper rim. The complete circular upper cap appears light gray in both city orthoimages. The roof disk is visibly offset in the orthophotos by image relief."
+      },
+      {
+        "name": "Contemporary glazed upper band and market corner returns",
+        "material": "blue-gray curtain glazing",
+        "wallColor": "#617D87",
+        "note": "The glazed band wraps the surveyed taller wing. Full-height glazed returns occupy about 10 m along the northern façade at Fourth, 5.4 m on the western end, and 4.9 m on the eastern end. The remainder of either end is predominantly brick with punched windows.",
+        "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.283586,-83.74633&heading=245"
+      },
+      {
+        "name": "Taller wing, brick fields and windows",
+        "material": "red-brown brick with punched blue-gray windows",
+        "wallColor": "#856055",
+        "note": "Window and mullion positions are schematic, rectified from the two street views to the existing Rhino wall planes."
+      },
+      {
+        "name": "Shorter historic wing",
+        "material": "warm weathered brick and separate punched windows",
+        "wallColor": "#946B54",
+        "note": "The historic wing has three discernible storeys, punched windows on Fourth and in the courtyard, and a glazed ground-level entrance on Catherine Street."
+      }
+    ],
+    "application": "primary-envelope",
+    "detailedElevations": "marketplace-elevations.json",
+    "links": [
+      [
+        "2026 district photograph",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1788874614242-PUI61188P0MAOS9GTBP0/carter_KDA_September_2026_0003.jpg"
+      ],
+      [
+        "Detroit Street entrance",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793115404-5X7CBIMB12CS7T9SMXDL/concentrate_Kerrytown-tower.jpg"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-010087",
+    "name": "Kerrytown Concert House, 415 North Fourth Avenue",
+    "wallColor": "#E1D8B9",
+    "material": "Pale horizontal clapboards, olive trim, sash windows and the burgundy entry below the front gable.",
+    "source": "https://kerrytownconcerthouse.com/venue/kerrytown-concert-house/",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.28452,-83.74721&heading=270",
+    "note": "The street-facing gable and side wing share light yellow-cream siding. Dark green trim picks out the porch and window casings.",
+    "application": "primary-envelope",
+    "links": [
+      [
+        "District photo 58",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408450439-MA9X3QZGC4QO3LRP4QPF/kerrytown-11-2020-461.jpg"
+      ],
+      [
+        "District photo 71",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793021137-VT1T31TGPEQ2E2X6E1RV/Kerrytown-Concert-House.jpg"
+      ],
+      [
+        "kerrytownconcerthouse.com",
+        "https://kerrytownconcerthouse.com/our-story/"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-011511",
+    "name": "414 Detroit Street",
+    "wallColor": "#5F91B5",
+    "material": "Blue siding and contrasting window surrounds on the two-storey Detroit Street house.",
+    "source": "https://www.a2gov.org/media/5z0pqxcm/1b-1_j-1803_idform_601catherine-417detroit_202412.pdf",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&pano=fI54lZimf-bdOZQu3VY-XQ&heading=100",
+    "note": "The primary street facade and side are painted blue. The porch and steps have green trim. Confirmed by the architectural survey and April 2024 panorama.",
+    "application": "primary-envelope",
+    "links": [
+      [
+        "City architectural record",
+        "https://www.a2gov.org/departments/planning/historic-preservation/PublishingImages/Pages/default/Detroit%20Street.pdf"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-016126",
+    "name": "Zingerman’s 420 Building, recessed courtyard annex",
+    "wallColor": "#69959B",
+    "material": "The courtyard elevation retains the pitched roof and the photographed siding, window frames and entry surrounds.",
+    "source": "https://www.zingermansdeli.com/2024/10/zingermans-deli-building/",
+    "streetView": "https://www.google.com/maps/@?api=1&map_action=pano&pano=9w0X7KkrEiCzXz2UY9VR7g&heading=140",
+    "note": "Recessed wall of the historic annex inside the courtyard between Deli and Next Door. The larger addition behind has its own city footprint.",
+    "surfaceHeading": 290,
+    "application": "observed-elevation",
+    "links": [
+      [
+        "City architectural record",
+        "https://www.a2gov.org/departments/planning/historic-preservation/PublishingImages/Pages/default/Detroit%20Street.pdf"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-035175",
+    "name": "Zingerman’s 2012 Kingsley addition and glazed link",
+    "wallColor": "#98644F",
+    "material": "Masonry and dark-framed windows distinguish the Kingsley addition from the red connector and its nine-pane glazing.",
+    "links": [
+      [
+        "City architectural record",
+        "https://www.a2gov.org/departments/planning/historic-preservation/PublishingImages/Pages/default/Detroit%20Street.pdf"
+      ],
+      [
+        "zingermansdeli.com",
+        "https://www.zingermansdeli.com/about-us/take-a-virtual-tour/"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-030726",
+    "name": "415, 417 and 419 Detroit Street, commercial wedge",
+    "wallColor": "#505B61",
+    "material": "The three storefronts use separate material fields: dark painted brick at 415, brick and light arch surrounds at 417, and green stucco with purple trim at 419.",
+    "links": [
+      [
+        "City architectural record",
+        "https://www.a2gov.org/media/5z0pqxcm/1b-1_j-1803_idform_601catherine-417detroit_202412.pdf"
+      ],
+      [
+        "City architectural record",
+        "https://www.a2gov.org/departments/planning/historic-preservation/PublishingImages/Pages/default/Detroit%20Street.pdf"
+      ],
+      [
+        "330detroitstreet.com",
+        "https://www.330detroitstreet.com/"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-013358",
+    "name": "Detroit Street Filling Station · 300 Detroit Street",
+    "wallColor": "#9a593e",
+    "material": "Brick garage piers, dark steel storefront frames and black patio canopy at the former filling station.",
+    "links": [
+      [
+        "District photo 20",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408382856-YVMIFAVXILURK13D5G7T/kerrytown-11-2020-311.jpg"
+      ],
+      [
+        "District photo 21",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408384999-LP5GR3DJHNUO325KSYVH/kerrytown-11-2020-314.jpg"
+      ],
+      [
+        "City architectural record",
+        "https://www.a2gov.org/media/5z0pqxcm/1b-1_j-1803_idform_601catherine-417detroit_202412.pdf"
+      ],
+      [
+        "thelunchrooma2.com",
+        "https://thelunchrooma2.com/dsfs"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-034650",
+    "name": "People’s Food Co-op and North Fourth Avenue storefront row",
+    "wallColor": "#a27652",
+    "material": "Red and buff brick, light stone arch surrounds and the green co-op canopy. Thistle & Bess, Encore Records and the TeaHaus corner have separate window, shutter and awning treatments.",
+    "links": [
+      [
+        "District photo 13",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1744985928159-9YET292HZ8ELWWM3OXQS/carter_Kerrytown_Kindlefest_2024_0017.jpg"
+      ],
+      [
+        "District photo 22",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408386181-K3578NGRCZM1E2JSUYDJ/kerrytown-11-2020-316.jpg"
+      ],
+      [
+        "District photo 49",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408432763-27V3X5AAVREFEQJ8FM0Z/kerrytown-11-2020-415.jpg"
+      ],
+      [
+        "District photo 55",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408442728-0UMU1AZN5U70TOD6UDOK/kerrytown-11-2020-429.jpg"
+      ],
+      [
+        "District photo 56",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408446614-5Q28C0PFICBGB1EJSBRW/kerrytown-11-2020-435.jpg"
+      ],
+      [
+        "District photo 63",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606407606989-L2Y1VS1EHI0W1V8I2LDW/kerrytown-11-2020-341.jpg"
+      ],
+      [
+        "District photo 80",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793249674-6GS3XDMUBAF2UG8Z5QE9/toledo_blade_peoples_coop.jpg"
+      ],
+      [
+        "District photo 81",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793292282-JMA4RIZUEFHB5RK74W9S/my_4thave_streetscape.jpg"
+      ],
+      [
+        "kerrytowndistrict.org",
+        "https://kerrytowndistrict.org/all-businesses"
+      ],
+      [
+        "peoplesfood.coop",
+        "https://peoplesfood.coop/"
+      ],
+      [
+        "thistleandbess.com",
+        "https://www.thistleandbess.com/visit"
+      ],
+      [
+        "teahaus.com",
+        "https://teahaus.com/pages/visit-us-and-contact-information"
+      ],
+      [
+        "google.com",
+        "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.2824,-83.7472&heading=90"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-014725",
+    "name": "Fourth Ave Footwear · 209 N Fourth Avenue",
+    "wallColor": "#b16b50",
+    "material": "Rust-toned three-storey shopfront with dark recessed window divisions.",
+    "links": [
+      [
+        "District photo 79",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1457793219834-GRKWUQAJ31U5YRIRMQFX/andy_piper_flickr_photo_of_birkenstock.jpg"
+      ],
+      [
+        "annarborobserver.com",
+        "https://annarborobserver.com/the-tinkerhesses-sell-fourth-ave-birkenstock/"
+      ],
+      [
+        "fourthavefootwear.com",
+        "https://fourthavefootwear.com/"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-030416",
+    "name": "Ann Ashley Parking Structure, Miller Avenue frontage",
+    "wallColor": "#AC896D",
+    "material": "Exposed concrete parking decks, brick stair towers and simplified ochre, red and brown paint fields along Miller Avenue. The district photograph records the full mural.",
+    "links": [
+      [
+        "District photo 7",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1788874496638-6WW07D0YRNPC2FEALOZ1/image-asset.jpeg"
+      ],
+      [
+        "Downtown Development Authority",
+        "https://www.a2dda.org/kerrytown-wayfinding/"
+      ],
+      [
+        "Parking operator",
+        "https://pcia2.com/ann-ashley/"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BRAUN-NE-844",
+    "name": "Braun Court · remaining northeast stucco house",
+    "wallColor": "#d8d0ba",
+    "material": "Light stucco and paired sash on the northeast house, with the projecting east bay and gabled courtyard frontage.",
+    "links": [
+      [
+        "District photo 57",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606408447607-9L1PRSHRXM41TB31F6TM/kerrytown-11-2020-451.jpg"
+      ],
+      [
+        "google.com",
+        "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.2839651,-83.7471399&heading=270"
+      ],
+      [
+        "google.com",
+        "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.2837766,-83.7471499&heading=304"
+      ],
+      [
+        "a2maps.a2gov.org",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  },
+  {
+    "id": "BLD-035082",
+    "name": "Ann Arbor Hands-On Museum",
+    "wallColor": "#CAC8BD",
+    "material": "Curved pale-clad entrance, red glazing frames and a separate north entrance canopy.",
+    "links": [
+      [
+        "District photo 6",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1788874556147-JCVBMSW00JIT5X2BT6SX/image-asset.jpeg"
+      ],
+      [
+        "District photo 64",
+        "https://images.squarespace-cdn.com/content/v1/5575be38e4b006cb2f328a93/1606407611268-NC90M7TF3KVR1SR50KM2/kerrytown-11-2020-410.jpg"
+      ],
+      [
+        "discoverscienceandnature.org",
+        "https://discoverscienceandnature.org/directions"
+      ],
+      [
+        "static1.squarespace.com",
+        "https://static1.squarespace.com/static/5f73ca8db43a982332ef42a7/t/68d5725addf487626303aa87/1758818906930/Social%2BStory-AAHOM_Fall2025.pdf"
+      ],
+      [
+        "2026 municipal aerial",
+        "https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer"
+      ]
+    ]
+  }
+]

@@ -97,23 +97,28 @@ export class WalkMode {
   this.held=new Set();this.forward=new Vector3();this.ray=new Raycaster();
   this.hud=this.area.querySelector('#walk-hud');this.hint=this.area.querySelector('#walk-door-hint');
  }
- enter(ndc,touch=false){
+ enter(ndc,touch=false,streetModule=null){
   const v=this.v;if(this.active||!v.project)return false;
   v.camera.updateMatrixWorld();
   if(this.project!==v.project){
    this.project=v.project;this.doors=v.walkDoors;
    this.surfaces=new WalkSurfaces([v.project,v.city],{clearance:v.clearance,doors:this.doors});
   }
-  this.ray.setFromCamera(ndc,v.camera);
-  const hit=this.surfaces.pick(this.ray.ray);
+  let hit;
+  if(streetModule)hit=streetModule.streetSpawn(v,this.surfaces,this.ray);
+  else{
+   this.ray.setFromCamera(ndc,v.camera);
+   hit=this.surfaces.pick(this.ray.ray);
+  }
   if(!hit)return false;
-  this.walker=new Walker(this.surfaces,hit.point,v.camera.getWorldDirection(this.forward));
+  this.walker=new Walker(this.surfaces,hit.point,hit.direction||v.camera.getWorldDirection(this.forward));
   this.saved={camera:v.camera,settings:v.perspectiveCamera.clone(),target:v.controls.target.clone(),
    context:v.contextView,navigated:v.userNavigated};
-  this.active=true;this.area.dataset.walking='true';
+  this.street=streetModule?new streetModule.StreetMode(v,this.walker):null;
+  this.active=true;this.area.dataset.walking=this.street?'street':'first';
   this.area.querySelector('#walk-help').hidden=true;this.hud.hidden=false;
   v.controls.enabled=false;v.userNavigated=true;v.contextView=null;
-  v.camera=v.perspectiveCamera;v.camera.clearViewOffset();v.camera.fov=72;v.camera.zoom=1;
+  v.camera=v.perspectiveCamera;v.camera.clearViewOffset();v.camera.fov=this.street?57:72;v.camera.zoom=1;
   v.camera.updateProjectionMatrix();this.attach();this.pose();
   this.area.focus({preventScroll:true});
   if(!touch)this.capture();
@@ -184,22 +189,22 @@ export class WalkMode {
    this.frame=0;if(!this.active)return;
    let time=Math.min(.12,Math.max(0,(now-this.previous)*.001));this.previous=now;
    if(this.queuedJump){
-    this.walker.jump(this.queuedJump==='super',this.held);this.queuedJump=null;
+    this.street?.jump(this.walker);this.walker.jump(this.queuedJump==='super',this.held);this.queuedJump=null;
    }
    let moved=false;const doorDt=time;
    // Short steps keep the body on the correct side of thin slabs and walls.
-   while(time>1e-7){const dt=Math.min(time,1/60);moved=this.walker.step(dt,this.held)||moved;time-=dt;}
-   const poseChanged=moved||this.lookPending;
-   if(poseChanged)this.syncCamera();
+   while(time>1e-7){const dt=Math.min(time,1/60);moved=(this.street?this.street.step(this.walker,dt,this.held):this.walker.step(dt,this.held))||moved;time-=dt;}
+   const poseChanged=moved||this.lookPending||this.street?.needsFrame;
+   if(poseChanged)this.syncCamera(doorDt);
    const wasMoving=this.doors.moving;
-   const doorChanged=wasMoving&&this.doors.update(doorDt,this.v.camera.position);
+   const doorChanged=wasMoving&&this.doors.update(doorDt,this.interactionOrigin());
    if(wasMoving&&(now>=this.nextShadow||!this.doors.moving)){
     this.v.renderer.shadowMap.needsUpdate=true;this.nextShadow=now+90;
    }
    if(poseChanged||doorChanged||wasMoving){
     this.updateTarget();this.v.movingFrame=true;this.v.drawNow(now);
    }
-   if(this.doors.moving||!this.walker.grounded||[...this.held].some(key=>!key.startsWith('Shift')))
+   if(this.doors.moving||this.street?.needsFrame||!this.walker.grounded||[...this.held].some(key=>!key.startsWith('Shift')))
     this.frame=requestAnimationFrame(advance);
   };
   this.frame=requestAnimationFrame(advance);
@@ -209,22 +214,31 @@ export class WalkMode {
   const radiansPerPixel=pointerType==='mouse' ? .00165 : .0022;
   this.walker.look(dx*radiansPerPixel,-dy*radiansPerPixel);this.lookPending=true;this.start();
  }
- syncCamera(){
+ syncCamera(dt=1/60){
   this.lookPending=false;
-  const v=this.v,cam=v.camera;cam.position.copy(this.walker.feet).addScaledVector(UP,EYE);
+  const v=this.v,cam=v.camera;
+  if(this.street){
+   this.walker.direction(this.forward);
+   this.street.present(this.walker,cam,v.controls.target,dt);return;
+  }
+  cam.position.copy(this.walker.feet).addScaledVector(UP,EYE);
   this.walker.direction(this.forward);v.controls.target.copy(cam.position).addScaledVector(this.forward,6);
   cam.lookAt(v.controls.target);cam.updateMatrixWorld();
  }
  pose(){
   this.syncCamera();this.updateTarget();this.v.movingFrame=true;this.v.draw();
  }
+ interactionOrigin(){
+  if(!this.street)return this.v.camera.position;
+  this.eye??=new Vector3();return this.eye.copy(this.walker.feet).addScaledVector(UP,EYE);
+ }
  updateTarget(){
-  const cam=this.v.camera;
-  let target=this.doors.target(cam.position,this.forward);
+  const origin=this.interactionOrigin();
+  let target=this.doors.target(origin,this.forward);
   if(target){
-   this.ray.ray.set(cam.position,this.forward);
+   this.ray.ray.set(origin,this.forward);
    const hit=this.surfaces.firstHit(this.ray.ray,2.8);
-   if(hit&&!hit.object.userData.walkDoor)target=this.doors.target(cam.position,this.forward,hit.distance+.015);
+   if(hit&&!hit.object.userData.walkDoor)target=this.doors.target(origin,this.forward,hit.distance+.015);
   }
   if(target!==this.door){
    this.door=target;
@@ -233,9 +247,10 @@ export class WalkMode {
   if(target){const text=target.open?'F · Close door':'F · Open door';if(hint.textContent!==text)hint.textContent=text;}
  }
  useDoor(){
+  if(this.street?.traversal.action)return;
   if(this.lookPending)this.pose();
   this.updateTarget();
-  if(this.door&&this.doors.toggle(this.door,this.v.camera.position)!==false){
+  if(this.door&&this.doors.toggle(this.door,this.interactionOrigin())!==false){
    this.nextShadow=0;this.updateTarget();this.start();
   }
  }
@@ -247,7 +262,7 @@ export class WalkMode {
   this.active=false;this.lookPending=false;this.queuedJump=null;this.listeners.abort();this.wasLocked=false;this.drag=null;
   if(document.pointerLockElement===this.canvas)document.exitPointerLock();
   cancelAnimationFrame(this.frame);this.frame=0;this.held.clear();
-  const v=this.v,s=this.saved;this.doors.reset();this.door=null;
+  const v=this.v,s=this.saved;const street=this.street;this.street=null;street?.dispose();this.doors.reset();this.door=null;
   this.area.querySelector('#walk-door-hint').hidden=true;
   delete this.area.dataset.walking;this.hud.hidden=true;this.area.querySelector('#walk-help').hidden=false;
   v.perspectiveCamera.copy(s.settings,false);v.camera=s.camera;v.contextView=s.context;v.userNavigated=s.navigated;

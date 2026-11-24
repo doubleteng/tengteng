@@ -1,6 +1,6 @@
 const geometries=new Map();
 const finishTiles=new Map();
-let lightVolume=null,daylight=null;
+let lightVolume=null,daylight=null,streetSky=null;
 
 // Repeating photographic finishes and equirectangular reflection probes use
 // independent width and height. Build their mip levels once per asset.
@@ -522,11 +522,53 @@ function outside(bounds,offset,frustum){
  return false;
 }
 function sameMatrix(a,b){return !!a&&a.every((x,i)=>x===b[i]);}
+function paintStreetSky(pixels,w,h,view){
+ const world=view.world,[fx,fy,offsetX,offsetY]=view.projection;
+ // Raycast a sparse grid through the camera and interpolate adjacent samples
+ // along each scanline. The equirectangular lookup wraps across due west.
+ const stepX=Math.max(4,Math.min(16,Math.floor(w/60)));
+ const stepY=Math.max(2,Math.min(6,Math.floor(h/60)));
+ const columns=Math.ceil(w/stepX)+1, rgb=[0,0,0];
+ let upper=new Float32Array(3*columns),lower=new Float32Array(3*columns);
+ function sampleRow(y,colors){
+  const sy=(1-2*(y+.5)/h+offsetY)/fy;
+  const bx=world[4]*sy-world[8],by=world[5]*sy-world[9],bz=world[6]*sy-world[10];
+  for(let j=0;j<columns;j++){
+   const sx=(2*(j*stepX+.5)/w-1+offsetX)/fx;
+   const dx=bx+world[0]*sx,dy=by+world[1]*sx,dz=bz+world[2]*sx;
+   const u=.5+Math.atan2(dz,dx)/(2*Math.PI),v=.5+Math.atan2(dy,Math.sqrt(dx*dx+dz*dz))/Math.PI;
+   imageSample(streetSky,u,v,rgb,true);
+   colors[3*j]=rgb[0];colors[3*j+1]=rgb[1];colors[3*j+2]=rgb[2];
+  }
+ }
+ sampleRow(0,lower);
+ for(let y=0;y<h;y++){
+  const row=y%stepY;
+  if(!row){
+   const swap=upper;upper=lower;lower=swap;
+   sampleRow(y+stepY,lower);
+  }
+  const t=row/stepY;
+  let r=upper[0]+t*(lower[0]-upper[0]),g=upper[1]+t*(lower[1]-upper[1]),b=upper[2]+t*(lower[2]-upper[2]);
+  let i=4*y*w;
+  for(let x=0,j=3;x<w;x+=stepX,j+=3){
+   const r1=upper[j]+t*(lower[j]-upper[j]),g1=upper[j+1]+t*(lower[j+1]-upper[j+1]),b1=upper[j+2]+t*(lower[j+2]-upper[j+2]);
+   const dr=(r1-r)/stepX,dg=(g1-g)/stepX,db=(b1-b)/stepX;
+   const end=i+4*Math.min(stepX,w-x);
+   for(;i<end;i+=4){
+    pixels[i]=r;pixels[i+1]=g;pixels[i+2]=b;pixels[i+3]=255;
+    r+=dr;g+=dg;b+=db;
+   }
+   r=r1;g=g1;b=b1;
+  }
+ }
+}
 onmessage=({data:q})=>{
  for(const id of q.removedTiles||[])finishTiles.delete(id);
  for(const tile of q.tiles||[])finishTiles.set(tile.id,imagePyramid(tile));
  if(q.resources?.volume)lightVolume=prepareVolume(q.resources.volume);
  if(q.resources?.environment)daylight=imagePyramid(q.resources.environment);
+ if(q.resources?.streetSky)streetSky=q.resources.streetSky;
  for(const k of q.removed)geometries.delete(k);for(const g of q.fresh){
   if(g.paving)g.paving.levels=pavingMips(g.paving);
   g.chunkBounds=meshBounds(g);
@@ -578,7 +620,8 @@ onmessage=({data:q})=>{
   for(const {d,g,l} of objs)if(d.cast&&!d.blendPane)paint({w:ss,h:ss,depth:shadowDepth},l,g.index,d);
  }
  const pixels=new Uint8ClampedArray(q.w*q.h*4);
- for(let y=0;y<q.h;y++){
+ if(q.streetView&&streetSky)paintStreetSky(pixels,q.w,q.h,q.streetView);
+ else for(let y=0;y<q.h;y++){
   let r=q.background[0]*255,g=q.background[1]*255,b=q.background[2]*255;
   if(q.skyRow){
    const [forward,up,offset,invFocal]=q.skyRow,slope=(1-2*(y+.5)/q.h+offset)*invFocal;

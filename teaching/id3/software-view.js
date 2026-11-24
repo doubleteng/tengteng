@@ -44,7 +44,7 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=7c583852ca', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=ccf3ac1e73', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
@@ -166,9 +166,17 @@ export class SoftwareRenderer {
    resources.environment={pixels,width:env.width,height:env.height};
    transfer.push(pixels.buffer);this.sentEnvironment=env;
   }
+  const street=cam.isPerspectiveCamera&&this.streetSky;
+  if(street&&this.sentStreetSky!==street){
+   const pixels=new Uint8Array(street.pixels);
+   resources.streetSky={pixels,width:street.width,height:street.height};
+   transfer.push(pixels.buffer);this.sentStreetSky=street;
+  }
+  const p=cam.projectionMatrix.elements;
+  const streetView=street?{world:cam.matrixWorld.elements,projection:[p[0],p[5],p[8],p[9]]}:null;
   const skyRow=this.proposalSky&&cam.isPerspectiveCamera?
    [-cam.matrixWorld.elements[9],cam.matrixWorld.elements[5],cam.projectionMatrix.elements[9],1/cam.projectionMatrix.elements[5]]:null;
-  this.worker.postMessage({resources,skyRow,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
+  this.worker.postMessage({resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
   this.shadowMap.needsUpdate=false;
  }
  wait(){return this.pending?(this.settled??=new Promise(resolve=>{this.finish=resolve;})):Promise.resolve();}

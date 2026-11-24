@@ -5,7 +5,7 @@
 <meta name="description" content="Fourteen proposals for a public institution and covered market in Ann Arbor. Explore the buildings, their assemblies and their shared Kerrytown site in Teng Teng’s Fall 2026 studio.">
 <link rel="icon" href="./exhibition/ltu-favicon.png" type="image/png" sizes="32x32">
 <link rel="stylesheet" href="./globals.css"><link rel="stylesheet" href="./exhibition.css?v=f5549c486e">
-<link rel="stylesheet" href="./viewer-tools.css?v=b081aa6e2d">
+<link rel="stylesheet" href="./viewer-tools.css?v=00752c7d52">
 </head><body>
 
 <a class="ex-skip" href="#collection">Skip to projects</a>
@@ -61,7 +61,7 @@
 <div id="walk-hud" hidden>
  <span class="walk-reticle" aria-hidden="true"></span>
  <span id="walk-door-hint" hidden>F · Use door</span>
- <div class="walk-bar"><strong>Walk</strong><span class="walk-instructions">WASD move · Q/E turn · Shift run · Space jump · Shift + Space super jump · F door</span><button id="walk-exit" type="button" title="Return to orbit (Esc)">Exit walk <kbd>Esc</kbd></button></div>
+ <div class="walk-bar"><strong class="walk-title">Walk</strong><strong class="street-title">GTA6 mode</strong><span class="walk-instructions">WASD move · Q/E turn · Shift run · Space jump · Shift + Space super jump · F door</span><span class="street-instructions">WASD move · Shift run · Space jump · Approach rails to vault · Jump toward ledges to climb</span><button id="walk-exit" type="button" title="Return to orbit (Esc)">Exit walk <kbd>Esc</kbd></button></div>
  <div class="walk-touch" aria-label="Walking controls">
   <div class="walk-pad"><button data-walk-key="KeyW" aria-label="Walk forward">↑</button><button data-walk-key="KeyA" aria-label="Step left">←</button><button data-walk-key="KeyS" aria-label="Walk back">↓</button><button data-walk-key="KeyD" aria-label="Step right">→</button></div>
   <div class="walk-actions"><button data-walk-key="ShiftLeft">Run</button><button data-walk-key="Space">Jump</button><button data-walk-key="KeyF">Door</button></div>
@@ -69,6 +69,7 @@
 </div>
 <div class="view-bottom">
   <div class="drawing-launchers">
+   <button type="button" id="street-start" class="view-command" title="Explore the street in third person" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="15" cy="4.5" r="2"/><path d="m6 10 4-3 4 2 3 4 4 1m-8-5-3 6 5 3-1 4m-4-7-3 5H3"/></svg>GTA6 mode</button>
    <button type="button" id="open-drawings" class="view-command" aria-haspopup="dialog" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM11 4v8h10M3 14h5m3 2v4"/></svg>Drawings</button>
    <button type="button" id="dolly-toggle" class="view-command" aria-expanded="false" aria-controls="dolly-panel" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 10l6-3v10l-6-3"/></svg>Dolly zoom</button>
    <div id="dolly-panel" class="lens-panel" hidden>
@@ -196,5 +197,5 @@
 
 <dialog id="info"><div class="dialog-body"><button class="close" data-close aria-label="Close"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 5 14 14M19 5 5 19"/></svg></button><div id="info-content"></div></div></dialog>
 
-<script type="module" src="./exhibition/navigation.js"></script><script type="module" src="./gallery.js?v=15169b0423"></script>
+<script type="module" src="./exhibition/navigation.js"></script><script type="module" src="./gallery.js?v=4ee703ddb9"></script>
 </body></html>

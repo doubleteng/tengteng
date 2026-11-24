@@ -8,7 +8,7 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js';
-import {makeRenderer} from './software-view.js?v=6feae1485e';
+import {makeRenderer} from './software-view.js?v=0cc176b316';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -111,18 +111,22 @@ export class AtlasViewer{
   if(!area?.querySelector('#walk-hud'))return;
   this.entryLabel=matchMedia('(pointer:coarse)').matches?'Double-tap a floor to walk':'Double-click a floor to walk';
   area.querySelector('#walk-entry-text').textContent=this.entryLabel;
-  const enter=(x,y,touch)=>{
+  const enter=(x,y,touch,thirdPerson=false)=>{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
-   const ndc={x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=a877d3598c').catch(error=>{this.walkModule=null;throw error;});
-   this.walkModule.then(({WalkMode})=>{
+   const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
+   this.walkModule??=import('./walk-mode.js?v=0990b340e3').catch(error=>{this.walkModule=null;throw error;});
+   if(thirdPerson)this.streetModule??=import('./street-mode.js?v=3ccf9d9d41').catch(error=>{this.streetModule=null;throw error;});
+   Promise.all([this.walkModule,thirdPerson?this.streetModule:null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
     this.walkMode??=new WalkMode(this);
-    if(!this.walkMode.enter(ndc,touch))this.walkHint('Choose a clear spot on the ground or a floor.');
-   }).catch(()=>this.walkHint('Walk mode could not start. Double-click a floor to retry.'));
+    if(!this.walkMode.enter(ndc,touch,street))this.walkHint(street?'Choose a street view and try GTA6 mode again.':'Choose a clear spot on the ground or a floor.');
+   }).catch(()=>this.walkHint(thirdPerson?'GTA6 mode could not load. Try the button again.':'Walk mode could not start. Double-click a floor to retry.'));
   };
   this.walkRequest=0;
+  area.querySelector('#street-start')?.addEventListener('click',()=>{
+   enter(0,0,matchMedia('(pointer:coarse)').matches,true);
+  });
   canvas.addEventListener('dblclick',e=>{
    if(e.button!==0||e.sourceCapabilities?.firesTouchEvents)return;
    e.preventDefault();enter(e.clientX,e.clientY,false);
@@ -238,6 +242,9 @@ export class AtlasViewer{
   }
  }
  updateBackdrop(){
+  if(this.walkMode?.street){
+   this.renderer.proposalSky=false;this.scene.background=this.walkMode.street.atmosphere.background;return;
+  }
   const daylight=!!(this.project&&!this.overview&&this.mode==='material'&&this.camera.isPerspectiveCamera&&this.solar[1]>0);
   this.renderer.proposalSky=daylight;
   this.scene.background=daylight&&this.renderer.isWebGLRenderer?proposalSkyTexture():this.paperBackground;

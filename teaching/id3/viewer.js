@@ -1,13 +1,15 @@
 import * as T from './lib/three.module.min.js';
-import {CameraClearance} from './camera-clearance.js?v=0ffcc478e9';
+import {CameraClearance} from './camera-clearance.js?v=eafede3e14';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js';
-import {makeRenderer} from './software-view.js';
+import {makeRenderer} from './software-view.js?v=febcd67980';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
 const loader=new GLTFLoader();
+const registeredSite=siteFootprint();
+const maxPerspectivePolarAngle=Math.PI-.01;
 // Street perspectives are 1.65 m above the registered Rhino street or sidewalk.
 // The target stays level with the eye. A vertical lens shift frames the roofline.
 const contextViews = {
@@ -58,11 +60,13 @@ export class AtlasViewer{
   this.scene=new T.Scene();this.scene.background=new T.Color(0xe0e1da);this.parallelCamera=new T.OrthographicCamera(-1,1,1,-1,.005,100000);
   this.perspectiveCamera=new T.PerspectiveCamera(44,1,.05,10000);
   this.inkViewHeight={value:1};this.camera=this.perspectiveCamera;this.contextEdges=true;this.buildingColors=true;
-  this.controls=new OrbitControls(this.camera,r.domElement);this.controls.maxPolarAngle=Math.PI*.495;this.controls.minZoom=.001;this.controls.maxZoom=100;this.controls.addEventListener('start',()=>{this.userNavigated=true;this.activate();});
+  this.controls=new OrbitControls(this.camera,r.domElement);this.controls.maxPolarAngle=maxPerspectivePolarAngle;this.controls.minZoom=.001;this.controls.maxZoom=100;this.controls.addEventListener('start',()=>{this.userNavigated=true;this.activate();});
   this.controls.addEventListener('change',()=>this.cameraChanged());this.controls.enableDamping=false;
-  this.scene.add(new T.HemisphereLight(0xfffdf2,0xaeb1a1,1.76));
-  this.sun=new T.DirectionalLight(0xfff3df,2.84);this.sun.castShadow=true;this.scene.add(this.sun,this.sun.target);
-  this.sun.shadow.mapSize.setScalar(small?1024:2048);this.sun.shadow.bias=-.00022;
+  this.receiveFaces=true;this.receiveGround=true;
+  this.sky=new T.HemisphereLight(0xfffdf2,0xaeb1a1);
+  this.sun=new T.DirectionalLight(0xfff3df);this.sun.castShadow=true;this.scene.add(this.sky,this.sun,this.sun.target);
+  this.setShadowTones(80,35);
+  this.sun.shadow.mapSize.setScalar(small?1024:2048);this.sun.shadow.bias=-.00009;
   this.ground=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshStandardMaterial({color:0xdddcd4,roughness:1}));
   this.ground.rotation.x=-Math.PI/2;this.ground.receiveShadow=true;this.scene.add(this.ground);
   this.clay=new T.MeshStandardMaterial({color:0xeae6d9,roughness:.94,side:T.DoubleSide});
@@ -72,7 +76,7 @@ export class AtlasViewer{
   this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.resize();
  }
  cameraChanged(){
-  if(this.clearance&&!this.settingView&&this.camera.isPerspectiveCamera){
+  if(this.clearance&&!this.settingView){
    this.clearance.constrain(this.camera.position,this.controls.target);
    this.camera.lookAt(this.controls.target);
   }
@@ -111,7 +115,7 @@ export class AtlasViewer{
   const toSite=cam.position.distanceTo(siteCenter), toModel=cam.position.distanceTo(this.center);
   // Adapt the depth range when moving from a connection detail to the district.
   // Keep geometry immediately in front of the eye while close to the scene.
-  const near=cam.isPerspectiveCamera?Math.max(.002,Math.min(distance*.002,1)):.02;
+  const near=cam.isPerspectiveCamera?Math.max(.002,Math.min(distance*.002,this.clearance ? .10 : 1)):.02;
   const far=Math.max(distance+500,toSite+600,toModel+this.radius*3);
   if(cam.near!==near||cam.far!==far){
    cam.near=near;cam.far=far;cam.updateProjectionMatrix();
@@ -138,8 +142,8 @@ export class AtlasViewer{
   this.parallelCamera.updateProjectionMatrix();
   const previousAspect=this.perspectiveCamera.aspect;
   if(this.project&&!this.userNavigated&&!this.contextView&&this.camera.isPerspectiveCamera&&previousAspect!==aspect){
-   const oldHeight=Math.max(this.height,this.width/previousAspect);
-   this.camera.position.sub(this.controls.target).multiplyScalar(height/oldHeight).add(this.controls.target);
+   const direction=this.camera.position.clone().sub(this.controls.target).normalize();
+   this.camera.position.copy(this.controls.target).addScaledVector(direction,this.perspectiveFitDistance(aspect,direction));
    this.controls.update();
   }
   this.perspectiveCamera.aspect=aspect;
@@ -168,7 +172,12 @@ export class AtlasViewer{
   root.traverse(o=>{
    if(!o.geometry)return;
    o.userData.atlasPath=layerOf(o);o.userData.sourceMaterial=o.material;
-   o.castShadow=!!o.isMesh&&!o.userData.groundSurface&&!o.userData.noShadowCast;o.receiveShadow=!!o.isMesh;
+   const path=o.userData.atlasPath;
+   const surface=path.split(/::|[/>]/).at(-1).trim();
+   o.userData.groundReceiver=o.userData.groundSurface ??
+    /^(?:ground(?: surface)?|terrain|topography|paving|market court paving|road(?:s|way)?|street pavement|sidewalks?|crosswalks?|curbs?|parking lot(?: paving)?|parcel (?:footprint|perimeter)|地面|地形|道路|人行道)$/i.test(surface);
+   o.castShadow=!!o.isMesh&&!o.userData.groundSurface&&!o.userData.noShadowCast;
+   o.receiveShadow=!!o.isMesh&&(o.userData.groundReceiver?this.receiveGround:this.receiveFaces);
    o.visible=!o.userData.initialHidden;
   });
  }
@@ -205,30 +214,44 @@ export class AtlasViewer{
   this.project.traverse(o=>{if(o.geometry){const path=o.userData.atlasPath;this.paths.set(path,(this.paths.get(path)||false)||!o.userData.initialHidden);}});
   for(const [path,visible] of this.paths){if(!visible)this.hidden.add(path);}
   const b=new T.Box3().setFromObject(this.project);if(b.isEmpty())throw Error('This file has no viewable geometry.');
+  this.projectBounds=b;
   const size=b.getSize(v());this.center=b.getCenter(v());this.radius=Math.max(size.length()*.54,.01);
   this.width=Math.max(size.x,size.z,size.y)*1.42;this.height=this.radius*.96;
   if(model.demo){
-   const base=siteFootprint(false);base.position.copy(demoOrigin).negate();
+   const base=siteFootprint(false);base.userData.drawingSupport=true;base.position.copy(demoOrigin).negate();
    this.prepare(base);this.project.add(base);this.paths.set('Site / Ground',true);
    this.width=67;this.height=31;this.center=demoOrigin.clone().add(v(0,1.2,0));}
   if(model.overview){this.center=v(-47,1.4,24);this.width=195;this.height=90;this.radius=130;}
   if(this.caseStudy){
    this.center=v(-47.5,5.5,26);this.width=106;this.height=57;
-   this.clearance=new CameraClearance([this.project,this.city]);
   }
   this.ground.position.copy(this.center);const urbanBox=this.city?new T.Box3().setFromObject(this.city):null;
   this.ground.position.y=Math.min(b.min.y,urbanBox?.min.y??b.min.y,city==='./models/ann-arbor.glb'?-13.6:Infinity)-this.radius*.001;
   this.ground.scale.setScalar(Math.max(this.radius*100,urbanBox?urbanBox.getSize(v()).length()*3:0));
+  this.clearance=new CameraClearance([this.project,this.city],{registeredSite,fallback:this.ground.position.y});
   this.applyModes();this.view('perspective',false);this.setSun(...this.solar,false);return {paths:this.paths,cityError:ctx.status==='rejected'};
+ }
+ perspectiveFitDistance(aspect,direction){
+  const tangent=Math.tan(T.MathUtils.degToRad(this.perspectiveCamera.fov/2));
+  const height=Math.max(this.height,this.width/aspect);
+  let distance=height/(2*tangent)+this.radius*.29;
+  if(!this.projectBounds)return distance;
+  const right=v().crossVectors(this.perspectiveCamera.up,direction).normalize();
+  const up=v().crossVectors(direction,right);
+  const {min,max}=this.projectBounds;
+  for(const x of [min.x,max.x])for(const y of [min.y,max.y])for(const z of [min.z,max.z]){
+   const p=v(x,y,z).sub(this.center);
+   const projected=Math.max(Math.abs(p.dot(right))/aspect,Math.abs(p.dot(up)));
+   distance=Math.max(distance,p.dot(direction)+projected/(.90*tangent));
+  }
+  return distance;
  }
  view(name,interact=true){
   if(interact)this.activate();
   this.settingView=true;this.userNavigated=false;
   this.contextView=contextViews[name]||null;
   this.camera=(this.contextView||name==='perspective')?this.perspectiveCamera:this.parallelCamera;
-  // Some interior viewpoints look up into the daylight. Preserve their specified eye heights.
-  this.controls.maxPolarAngle=this.caseStudy&&name.startsWith('case-')?Math.PI-.01:
-   this.contextView?Math.PI*.5:Math.PI*.495;
+  this.controls.maxPolarAngle=this.camera.isPerspectiveCamera?maxPerspectivePolarAngle:Math.PI*.495;
   this.perspectiveCamera.clearViewOffset();
   this.perspectiveCamera.fov=this.contextView?(this.contextView.fov||55):44;
   this.controls.object=this.camera;
@@ -242,20 +265,41 @@ export class AtlasViewer{
    this.controls.target.fromArray(this.contextView.target);
    this.finishView();return;
   }
-  const dirs={perspective:this.overview?v(1.0,.98,1.66):this.caseStudy?v(-.80,.88,-1.08):v(1.05,.77,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
+  const dirs={perspective:this.overview?v(1.0,.68,1.66):this.caseStudy?v(-.80,.66,-1.08):v(1.05,.49,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
   const aspect=this.host.clientWidth/Math.max(this.host.clientHeight,1)||1;
   this.perspectiveCamera.aspect=aspect;
   const height=Math.max(this.height,this.width/aspect);
   if(name==='district')this.camera.zoom=height/(516*Math.max(1,1/aspect));
-  const distance=name==='district'?730:this.camera.isPerspectiveCamera?height/(2*Math.tan(T.MathUtils.degToRad(this.perspectiveCamera.fov/2)))+this.radius*.29:this.radius*4;
+  const direction=dirs[name].normalize();
+  const distance=name==='district'?730:this.camera.isPerspectiveCamera?this.perspectiveFitDistance(aspect,direction):this.radius*4;
   this.controls.target.copy(name==='district'?siteCenter:this.center);
-  this.camera.position.copy(this.controls.target).addScaledVector(dirs[name].normalize(),distance);
+  this.camera.position.copy(this.controls.target).addScaledVector(direction,distance);
   this.camera.updateProjectionMatrix();this.finishView();
  }
  finishView(){
+  this.clearance?.place(this.camera.position,this.controls.target);
   this.controls.update();this.resize();
   this.clearance?.reset(this.camera.position,this.controls.target);
   this.settingView=false;
+ }
+ getDollyZoom(){return this.camera.isPerspectiveCamera?this.camera.fov:null;}
+ setDollyZoom(degrees){
+  const cam=this.camera,requested=Number(degrees);
+  if(!cam.isPerspectiveCamera||!Number.isFinite(requested))return this.getDollyZoom();
+  const fov=T.MathUtils.clamp(requested,20,85);
+  this.userNavigated=true;this.activate();
+  const target=this.controls.target, offset=cam.position.clone().sub(target);
+  const distance=offset.length();
+  if(distance<1e-8)return cam.fov;
+  // The physical half-height at the target plane stays constant. Collision or
+  // zoom limits reduce both travel and change in FOV by the matching amount.
+  const halfHeight=distance*Math.tan(T.MathUtils.degToRad(cam.fov/2));
+  const desired=T.MathUtils.clamp(halfHeight/Math.tan(T.MathUtils.degToRad(fov/2)),this.controls.minDistance,this.controls.maxDistance);
+  cam.position.copy(target).addScaledVector(offset,desired/distance);
+  this.clearance?.constrain(cam.position,target);
+  cam.fov=T.MathUtils.radToDeg(2*Math.atan2(halfHeight,cam.position.distanceTo(target)));
+  cam.updateProjectionMatrix();this.controls.update();this.draw();
+  return cam.fov;
  }
  changeZoom(f){
   this.userNavigated=true;this.activate();
@@ -275,7 +319,23 @@ export class AtlasViewer{
   const scope=this.wideLighting?Math.max(this.radius,310):this.radius;
   const aim=this.wideLighting?siteCenter:this.center;
   this.sun.visible=this.solar[1]>0;this.sun.castShadow=this.sun.visible&&this.shadowChoice!==false;this.sun.target.position.copy(aim);this.sun.position.copy(aim).addScaledVector(v(Math.sin(a)*Math.cos(h),Math.sin(h),-Math.cos(a)*Math.cos(h)),scope*3);
-  const c=this.sun.shadow.camera, r=scope*1.4;c.left=c.bottom=-r;c.right=c.top=r;c.near=scope*.04;c.far=scope*7;c.updateProjectionMatrix();this.sun.shadow.normalBias=scope*.0005;this.refreshShadow();
+  const c=this.sun.shadow.camera, r=scope*1.4;c.left=c.bottom=-r;c.right=c.top=r;c.near=scope*.04;c.far=scope*7;c.updateProjectionMatrix();this.sun.shadow.normalBias=scope*.00025;this.refreshShadow();
+ }
+ setShadowTones(light,dark){
+  if(!Number.isFinite(+light)||!Number.isFinite(+dark))return;
+  const l=T.MathUtils.clamp(+light,0,100)/100,d=T.MathUtils.clamp(+dark,0,100)/100;
+  // Sky fill sets the shadow floor. Compensate the key when fill changes to
+  // keep a sun-facing surface at the chosen Light value, within physical limits.
+  this.sky.intensity=.23+2.55*d;
+  this.sun.intensity=l*(5.84-1.25*this.sky.intensity);
+  this.draw();
+ }
+ setShadowReceivers(faces,ground){
+  this.receiveFaces=!!faces;this.receiveGround=!!ground;this.ground.receiveShadow=this.receiveGround;
+  for(const root of [this.project,this.city])root?.traverse(o=>{
+   if(o.isMesh)o.receiveShadow=o.userData.groundReceiver?this.receiveGround:this.receiveFaces;
+  });
+  this.draw();
  }
  setShadows(yes){this.activate();this.shadowChoice=yes;this.sun.castShadow=yes&&this.solar[1]>0;this.refreshShadow();}
  applyModes(){

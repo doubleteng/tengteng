@@ -49,14 +49,17 @@ function pavingPixel(tex,bu,bv,shade,pixels,off){
  for(let k=0;k<3;k++)pixels[off+k]=shade*(first[k]+(second[k]-first[k])*t);
 }
 
-function shadowCoverage(depth,size,x,y,z){
+function shadowCoverage(depth,size,x,y,z,slopeX,slopeY){
  // Interpolate four depth comparisons in shadow-texel space.
  x-=.5;y-=.5;
  const ix=Math.floor(x),iy=Math.floor(y);
- if(ix<0||iy<0||ix+1>=size||iy+1>=size)return 0;
+ if(z< -1||z>1||ix<0||iy<0||ix+1>=size||iy+1>=size)return 0;
  const i=iy*size+ix,fx=x-ix,fy=y-iy;
- const top=(1-fx)*(z>depth[i])+fx*(z>depth[i+1]);
- const bottom=(1-fx)*(z>depth[i+size])+fx*(z>depth[i+size+1]);
+ // Compare each tap at the depth of this receiver plane. A large constant
+ // bias separates posts and feet from their shadows on sloping pavement.
+ const z00=z-fx*slopeX-fy*slopeY-.000012;
+ const top=(1-fx)*(z00>depth[i])+fx*(z00+slopeX>depth[i+1]);
+ const bottom=(1-fx)*(z00+slopeY>depth[i+size])+fx*(z00+slopeX+slopeY>depth[i+size+1]);
  return top*(1-fy)+bottom*fy;
 }
 function multiply(a,b){const c=new Float64Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++)for(let k=0;k<4;k++)c[4*i+j]+=a[4*k+j]*b[4*i+k];return c;}
@@ -165,15 +168,29 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
   if(xmax<xmin||ymax<ymin)continue;
   const inv=1/den,A=(by-cy)*inv,B=(cx-bx)*inv,C=(cy-ay)*inv,D=(ax-cx)*inv;
   const paving=pixels&&d.tile&&uv?pavingTriangle(d.tile,uv,coords,a,b,c,A,B,C,D):null;
-  let lum=1, sky=0;
+  let lum=1, direct=0, sky=0, slopeX=0, slopeY=0, occlusion=0;
   const ambient=pixels?d.ambient:null;
   const ambientA=ambient?ambient[a/3]:255,ambientB=ambient?ambient[b/3]:255,ambientC=ambient?ambient[c/3]:255;
   const varied=ambientA!==ambientC||ambientB!==ambientC;
   if(pixels){
    const ux=world[b]-world[a],uy=world[b+1]-world[a+1],uz=world[b+2]-world[a+2],vx=world[c]-world[a],vy=world[c+1]-world[a+1],vz=world[c+2]-world[a+2];
    const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;const n=Math.hypot(nx,ny,nz)||1;
-   lum=.70+(pass.sunVisible?.30:0)*Math.max(0,(nx*dir[0]+ny*dir[1]+nz*dir[2])/n)+.035*Math.max(0,ny/n);
-   lum-=.39*(1-ambientC/255);
+   const diffuse=Math.max(0,(nx*dir[0]+ny*dir[1]+nz*dir[2])/n);
+   const fill=pass.skyGain*(.93+.07*ny/n);
+   // The worker shades sRGB colors. Combine sky and sun in approximate
+   // linear light once per triangle; only the solar component is occluded.
+   direct=Math.sqrt(fill*fill+pass.keyGain*diffuse)-fill;
+   occlusion=.50*fill;
+   lum=fill+direct-occlusion*(1-ambientC/255);
+   if(lightCoords&&d.receive&&direct>0){
+    const du=lightCoords[b]-lightCoords[a],dv=lightCoords[b+1]-lightCoords[a+1],
+          eu=lightCoords[c]-lightCoords[a],ev=lightCoords[c+1]-lightCoords[a+1];
+    const determinant=du*ev-eu*dv;
+    if(Math.abs(determinant)>1e-8){
+     const dz=lightCoords[b+2]-lightCoords[a+2],ez=lightCoords[c+2]-lightCoords[a+2];
+     slopeX=(dz*ev-ez*dv)/determinant;slopeY=(du*ez-eu*dz)/determinant;
+    }
+   }
    if(d.glass){
     let [ex,ey,ez]=pass.eyeDirection;
     if(pass.near){
@@ -195,18 +212,18 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
     if(z< -1||z>1||z>=depth[p])continue;
     if(pixels&&d.alpha<.98&&((x*13+y*7)%17)>=d.alpha*17)continue;
     depth[p]=z;if(!pixels)continue;let shade=lum;
-    if((lightCoords&&d.receive)||varied){
+    if((lightCoords&&d.receive&&direct>0)||varied){
      let l0=u,l1=v,l2=t;
      if(coords.cameraW){
       l0/=coords.cameraW[a/3];l1/=coords.cameraW[b/3];l2/=coords.cameraW[c/3];
       const inv=1/(l0+l1+l2);l0*=inv;l1*=inv;l2*=inv;
      }
-     if(varied)shade+=.39/255*(l0*(ambientA-ambientC)+l1*(ambientB-ambientC));
-     if(lightCoords&&d.receive){
+     if(varied)shade+=occlusion/255*(l0*(ambientA-ambientC)+l1*(ambientB-ambientC));
+     if(lightCoords&&d.receive&&direct>0){
      const lx=l0*lightCoords[a]+l1*lightCoords[b]+l2*lightCoords[c];
      const ly=l0*lightCoords[a+1]+l1*lightCoords[b+1]+l2*lightCoords[c+1];
-     const lz=l0*lightCoords[a+2]+l1*lightCoords[b+2]+l2*lightCoords[c+2]-.0015;
-     shade*=1-.26*shadowCoverage(shadowDepth,ss,lx,ly,lz);
+     const lz=l0*lightCoords[a+2]+l1*lightCoords[b+2]+l2*lightCoords[c+2];
+     shade-=direct*shadowCoverage(shadowDepth,ss,lx,ly,lz,slopeX,slopeY);
      }
     }
     const off=p*4;if(paving){pavingPixel(paving,u,v,shade,pixels,off);continue;}
@@ -253,7 +270,7 @@ onmessage=({data:q})=>{
   for(const {d,g,l} of objs)if(d.cast)paint({w:ss,h:ss,depth:shadowDepth},l,g.index,d);
  }
  const pixels=new Uint8ClampedArray(q.w*q.h*4);for(let i=0;i<pixels.length;i+=4){pixels[i]=q.background[0]*255;pixels[i+1]=q.background[1]*255;pixels[i+2]=q.background[2]*255;pixels[i+3]=255;}
- const pass={w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,sunVisible:q.sunVisible,near:q.perspectiveNear,inkProjection:q.inkProjection};
+ const pass={w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,skyGain:Math.sqrt(.33*q.skyPower),keyGain:.21*q.sunPower,near:q.perspectiveNear,inkProjection:q.inkProjection};
  // Resolve solid depth before compositing visible linework.
  objs.sort((a,b)=>Number(a.d.kind!=='tri')-Number(b.d.kind!=='tri'));
  for(const {d,g,l,world} of objs)paint(pass,project(g.xyz,multiply(q.view,d.m),q.w,q.h,!!q.perspectiveNear),g.index,d,l,world,g.paving?.coords);

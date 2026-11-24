@@ -1,6 +1,6 @@
-import {AtlasViewer} from './viewer.js?v=084f12ae81';
+import {AtlasViewer} from './viewer.js?v=8b42cc34ee';
 import {SiteAnnotations} from './annotations.js';
-import {bindSunlight} from './sun-controls.js';
+import {bindSunlight} from './sun-controls.js?v=cf14de4ba5';
 const originalCity='./models/ann-arbor.glb';
 const overview={key:'site',title:'Ann Arbor Farmers Market',type:'Urban context',overview:true,cover:'./models/ann-arbor.webp'};
 const $=id=>document.getElementById(id);
@@ -14,6 +14,39 @@ const colorSet={'Design site':'#c6815c',Structure:'#b67249',Enclosure:'#7d897b',
 let cases=[],caseHidden=null;
 let actual=[],cityRecord=null,items=samples,current,viewer,version=0,expanded=false;
 let activeLoad;
+let deskPromise;
+const dollyButton=$('dolly-toggle'),dollyPanel=$('dolly-panel'),lens=$('dolly-lens');
+function closeLens(){
+ dollyPanel.hidden=true;dollyButton.setAttribute('aria-expanded','false');
+}
+function syncLens(){
+ const value=viewer?.project?viewer.getDollyZoom():null;
+ dollyButton.disabled=value==null;
+ if(value==null){closeLens();return;}
+ lens.value=value;$('lens-value').textContent=Math.round(value)+'°';
+ lens.setAttribute('aria-valuetext',Math.round(value)+' degree field of view');
+}
+dollyButton.onclick=()=>{
+ dollyPanel.hidden=!dollyPanel.hidden;
+ dollyButton.setAttribute('aria-expanded',String(!dollyPanel.hidden));
+ if(!dollyPanel.hidden){syncLens();lens.focus({preventScroll:true});}
+};
+lens.oninput=()=>{if(viewer?.project){viewer.setDollyZoom(Number(lens.value));syncLens();}};
+document.addEventListener('pointerdown',e=>{if(!dollyPanel.hidden&&!dollyPanel.contains(e.target)&&!dollyButton.contains(e.target))closeLens();});
+dollyPanel.onkeydown=e=>{if(e.key==='Escape'){e.stopPropagation();closeLens();dollyButton.focus();}};
+$('open-drawings').onclick=async()=>{
+ try{
+  deskPromise??=import('./drawing-desk.js?v=6e490f8e05').then(({bindDrawingDesk})=>bindDrawingDesk({
+   getModel:()=>viewer?.project?{root:viewer.project,item:current}:null,
+   getProjects:()=>items,
+   selectProject:async key=>{
+    if(current?.key===key&&activeLoad)await activeLoad;
+    else {const project=items.find(p=>p.key===key);if(project)await selectModel(project);}
+   }
+  }));
+  (await deskPromise).show();
+ }catch{deskPromise=null;status('The drawing tools could not load. Please try again.');}
+};
 const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
 const activate=()=>{if(viewer?.project)$('poster').hidden=true;};
 function getViewer(){
@@ -31,7 +64,7 @@ function tab(which){
 }
 $('tab-layers').onclick=()=>tab('layers');
 $('tab-annotations').onclick=()=>{tab('annotations');getViewer().activate();};
-$('district-plan').onclick=()=>withModel(v=>{$('camera').value='district';v.view('district');saveViewLink();});
+$('district-plan').onclick=()=>withModel(v=>{$('camera').value='district';v.view('district');syncLens();saveViewLink();});
 $('annotation-sources').onclick=()=>info('sources');
 function setPoster(model){
  const p=$('poster');p.hidden=!model.cover;if(model.cover){p.src=model.cover;p.alt=model.title+' architectural model';}
@@ -87,7 +120,7 @@ function saveViewLink(){
  history.replaceState(null,'','#model-'+current.key+preset);
 }
 async function selectModel(x,initialView='perspective',updateLink=true){
- const seq=++version;current=x;caseHidden=null;
+ const seq=++version;current=x;caseHidden=null;closeLens();dollyButton.disabled=true;
  $('case-actions').hidden=!x.caseStudy;$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent='Isolate timber frame';
  $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;setPoster(x);status('');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
  $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':'STUDIO PROJECT '+x.key;
@@ -103,30 +136,42 @@ async function selectModel(x,initialView='perspective',updateLink=true){
    if(view.renderer.wait)await view.renderer.wait();
    if(seq===version)activate();
   });
-  sunControls.apply(false);
+  sunControls.apply(false);updateTones();updateReceivers();
   if(result.cityError)status('The urban model could not load. Reload to try again.');
   const option=Array.from($('camera').options).find(o=>o.value===initialView);
   if(option&&initialView!=='perspective'&&!option.parentElement.disabled){
    $('camera').value=initialView;view.view(initialView,false);
   }
-  if(updateLink)saveViewLink();
+  syncLens();if(updateLink)saveViewLink();
  }catch(e){if(seq===version)status('Interactive view unavailable. '+(e.message?.includes('WebGL')?'Enable WebGL in your browser to orbit the model.':'Reload to try again.'));}
- finally{if(seq===version){$('camera').disabled=false;$('viewport').setAttribute('aria-busy','false');}}
+ finally{if(seq===version){$('open-drawings').disabled=!items.length;$('camera').disabled=false;$('viewport').setAttribute('aria-busy','false');}}
 }
 $('details-btn').onclick=()=>{expanded=!expanded;fillLayers();};
 async function withModel(fn){try{await activeLoad;if(viewer?.project)fn(viewer);}catch{status('The interactive model is unavailable.');}}
-$('camera').onchange=()=>withModel(v=>{v.view($('camera').value);saveViewLink();});
+$('camera').onchange=()=>withModel(v=>{v.view($('camera').value);syncLens();saveViewLink();});
 function fitProject(v){
  const camera=$('camera');
  if(v.caseStudy)camera.value='perspective';
- v.view(camera.value);saveViewLink();
+ v.view(camera.value);syncLens();saveViewLink();
 }
 $('fit').onclick=()=>withModel(fitProject);
 $('zin').onclick=()=>withModel(v=>v.changeZoom(1.22));$('zout').onclick=()=>withModel(v=>v.changeZoom(1/1.22));
 $('material-mode').onchange=()=>withModel(v=>v.setMode($('material-mode').value));
 const sunControls=bindSunlight((azimuth,altitude,interactive)=>viewer?.setSun(azimuth,altitude,interactive));
+function updateTones(){
+ const light=Number($('shadow-light').value),dark=Number($('shadow-dark').value);
+ $('light-value').textContent=light;$('dark-value').textContent=dark;
+ viewer?.setShadowTones(light,dark);
+}
+$('shadow-light').oninput=$('shadow-dark').oninput=updateTones;
+function updateReceivers(){
+ const enabled=$('shadows').checked;
+ $('shade-faces').disabled=$('shade-ground').disabled=!enabled;
+ viewer?.setShadowReceivers($('shade-faces').checked,$('shade-ground').checked);
+}
+$('shade-faces').onchange=$('shade-ground').onchange=updateReceivers;
 $('site-view').onclick=()=>{selectModel(overview);$('gallery').scrollIntoView({block:'start',behavior:'smooth'});};
-$('shadows').onchange=()=>withModel(v=>v.setShadows($('shadows').checked));
+$('shadows').onchange=()=>withModel(v=>{v.setShadows($('shadows').checked);updateReceivers();});
 $('full').onclick=async()=>{const el=$('viewport');if(document.fullscreenElement){await document.exitFullscreen();return;}if(el.classList.contains('expanded')){el.classList.remove('expanded');return;}try{await el.requestFullscreen();}catch{el.classList.add('expanded');}};
 $('viewport').onkeydown=e=>{if(e.target!==$('viewport'))return;
  const actions={ArrowLeft:v=>v.orbit(-.1,0),ArrowRight:v=>v.orbit(.1,0),ArrowUp:v=>v.orbit(0,-.08),ArrowDown:v=>v.orbit(0,.08),'+':v=>v.changeZoom(1.2),'=':v=>v.changeZoom(1.2),'-':v=>v.changeZoom(1/1.2),'0':fitProject};
@@ -163,7 +208,7 @@ $('material-references').onclick=async()=>{
 };
 const guides={
  sources:'<p class="kicker"><i></i> KERRYTOWN</p><h2>Map sources</h2><p>The 500 × 500 m district is registered to the studio Rhino model using surrounding building outlines. The original model defines the design-site boundary. Municipal footprint and average-height records supply the additional building masses.</p><p>Street trees use municipal inventory locations. Tree crowns are schematic. The original Rhino surfaces define the streets, curbs and planting beds around the market. Municipal pavement edges and city orthophotos supply the ground surfaces farther out. Road direction and total lane count come from individual municipal road segments.</p><p>TheRide stops and routes reflect the November 15, 2026 – January 23, 2027 schedule. Parking outlines show public facilities outside the studio site. County lot boundaries follow the 2026 city aerial, and access hours follow the county facility records. The Fourth &amp; Catherine lot was redeveloped as Dunbar Tower. The curbside layer shows angled parking on Detroit Street and parallel parking on North Fourth Avenue. Bike rack dots follow individual DDA inventory points on Fourth, Fifth and Detroit. Select a bicycle symbol for the number of racks and spaces at that address.</p><div class="map-source-links"><a target="_blank" rel="noopener" href="https://a2maps.a2gov.org/a2arcgis/rest/services/OSI/BuildingFootprints/MapServer/0">Building footprints · Woolpert and City of Ann Arbor</a><a target="_blank" rel="noopener" href="https://a2maps.a2gov.org/a2arcgis/rest/services/CachedBasemaps/BaseMap/MapServer/13">Road centerlines · City of Ann Arbor</a><a target="_blank" rel="noopener" href="https://a2maps.a2gov.org/a2arcgis/rest/services/CachedBasemaps/BaseMap/MapServer/15">Pavement edges · City of Ann Arbor</a><a target="_blank" rel="noopener" href="https://data.a2gov.org/city-of-ann-arbor/street-trees">Street tree inventory · City of Ann Arbor</a><a target="_blank" rel="noopener" href="https://a2maps.a2gov.org/a2arcgis/rest/services/CachedAerials/2026Color/MapServer">2026 orthophoto · City of Ann Arbor</a><a target="_blank" rel="noopener" href="https://kerrytowndistrict.org/photo-gallery">Exterior photographs · Kerrytown District Association</a><a target="_blank" rel="noopener" href="https://www.a2dda.org/parking-map/">Public parking · Ann Arbor DDA</a><a target="_blank" rel="noopener" href="https://a2-mi.maps.arcgis.com/apps/instant/sidebar/index.html?appid=5fc85727c32b4fad997fd8cc42fa7d40">Bicycle parking inventory · Ann Arbor DDA</a><a target="_blank" rel="noopener" href="https://kerrytown.com/visit/">Market-day parking access · Kerrytown</a><a target="_blank" rel="noopener" href="https://www.a2gov.org/parks-and-recreation/parks-and-places/ann-arbor-farmers-market/">Getting to the market · City of Ann Arbor</a><a target="_blank" rel="noopener" href="https://content.civicplus.com/api/assets/69dbdba8-a300-4ecc-8b24-b57276bc9fed">County parking hours · Washtenaw County</a><a target="_blank" rel="noopener" href="https://www.theride.org/business/software-developers">Stops and routes · TheRide</a><a target="_blank" rel="noopener" href="https://www.google.com/maps/@42.2841888,-83.7468859,417m/data=!3m1!1e3">Site location · Google Maps</a></div><p class="annotation-credit">Transit scheduling, geographic, and real-time data provided by permission of AAATA/TheRide</p>',
- guide:'<p class="kicker"><i></i> RHINO SUBMISSION</p><h2>Model guide</h2><h3>One city, fourteen projects</h3><p>The surrounding 500 × 500 m district stays in view across camera settings and student projects. Each student submits one Rhino file containing their building and designed site. Keep the studio template’s origin, north direction and site elevation. Use standard document units such as feet, inches, millimeters or meters.</p><h3>Organize the Rhino layers</h3><p>Use parent layers such as Structure, Enclosure, Site and Interior. Keep specific elements on sublayers, for example Structure::Glulam beams and Enclosure::Glazing. Assign render materials and embed image textures.</p><h3>Prepare the display geometry</h3><p>Open a Shaded viewport and save the .3dm with render meshes. Inspect curved members, panel edges and thin connections before submitting. Avoid “Save small,” which omits the cached meshes. For features the importer cannot reproduce, export a self-contained GLB with materials and layer groups.</p><h3>Explore the model</h3><p>Drag to orbit, right-drag to pan and scroll to zoom. On a touchscreen, drag with one finger or pinch with two. Select Expand under Layers for individual Rhino sublayers. Drag the sun around the compass to change its direction. Drag the sun along the arc to raise or lower it. Open Sunlight above the compass to use an Ann Arbor date and local time. The site center is approximate. The highlighted footprint traces the opening in the Rhino model. True north is estimated from the municipal building footprints at 2.25° west of Rhino +Y. Use Annotations to inspect transit, parking and street segments, or District plan to see the surrounding blocks.</p>'
+ guide:'<p class="kicker"><i></i> RHINO SUBMISSION</p><h2>Model guide</h2><h3>One city, fourteen projects</h3><p>The surrounding 500 × 500 m district stays in view across camera settings and student projects. Each student submits one Rhino file containing their building and designed site. Keep the studio template’s origin, north direction and site elevation. Use standard document units such as feet, inches, millimeters or meters.</p><h3>Organize the Rhino layers</h3><p>Use parent layers such as Structure, Enclosure, Site and Interior. Keep specific elements on sublayers, for example Structure::Glulam beams and Enclosure::Glazing. Assign render materials and embed image textures.</p><h3>Prepare the display geometry</h3><p>Open a Shaded viewport and save the .3dm with render meshes. Inspect curved members, panel edges and thin connections before submitting. Avoid “Save small,” which omits the cached meshes. For features the importer cannot reproduce, export a self-contained GLB with materials and layer groups.</p><h3>Explore the model</h3><p>Drag to orbit, right-drag to pan and scroll to zoom. On a touchscreen, drag with one finger or pinch with two. Dolly zoom varies the lens and camera distance together. Open Drawings for a floor plan, elevation or movable section through the visible project layers. Download SVG saves the drawing with a graphic scale. Select Expand under Layers for individual Rhino sublayers. Drag the sun around the compass to change its direction. Drag the sun along the arc to raise or lower it. Open Sunlight above the compass to use an Ann Arbor date and local time. The site center is approximate. The highlighted footprint traces the opening in the Rhino model. True north is estimated from the municipal building footprints at 2.25° west of Rhino +Y. Use Annotations to inspect transit, parking and street segments, or District plan to see the surrounding blocks.</p>'
 };
 function info(which){$('info-content').innerHTML=guides[which];$('info').showModal();}
 $('guideBtn').onclick=()=>info('guide');

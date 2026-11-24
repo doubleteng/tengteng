@@ -12,6 +12,28 @@ export function bindSunlight(setSun){
  const direction=get('sun-direction'),height=get('sun-height');
  let azimuth=225,altitude=40,geographic=true,frame=0;
 
+ const dayRange=get('sun-day-range'),timeRange=get('sun-time-range');
+ function syncCalendar(){
+  const year=Number(date.value.slice(0,4));
+  if(date.value && year){
+   const jan=Date.UTC(year,0,1),day=Date.parse(date.value+'T00:00:00Z');
+   dayRange.max=(Date.UTC(year+1,0,1)-jan)/86400000;
+   dayRange.value=1+(day-jan)/86400000;dayRange.setAttribute('aria-valuetext',date.value);
+  }
+  if(time.value){const [h,m]=time.value.split(':').map(Number);timeRange.value=h*60+m;timeRange.setAttribute('aria-valuetext',time.value);}
+ }
+ function calendarInput(){geographic=true;syncCalendar();
+  if(!frame)frame=requestAnimationFrame(()=>{frame=0;apply();});
+ }
+ dayRange.oninput=()=>{
+  const year=Number(date.value.slice(0,4))||2026;
+  date.value=new Date(Date.UTC(year,0,Number(dayRange.value))).toISOString().slice(0,10);
+  calendarInput();
+ };
+ timeRange.oninput=()=>{
+  const m=Number(timeRange.value);time.value=[Math.floor(m/60),m%60].map(x=>String(x).padStart(2,'0')).join(':');calendarInput();
+ };
+ syncCalendar();
  function handle(id,x,y){
   const node=get(id);
   node.setAttribute('cx',x);node.setAttribute('cy',y);
@@ -76,7 +98,7 @@ export function bindSunlight(setSun){
  function panel(open){options.hidden=!open;settings.setAttribute('aria-expanded',String(open));}
  settings.onclick=()=>panel(options.hidden);
  site.onclick=()=>{geographic=true;apply();};
- date.oninput=time.oninput=()=>{geographic=true;apply();};
+ date.oninput=time.oninput=calendarInput;
  get('sun-widget').addEventListener('keydown',e=>{
   if(e.key==='Escape'&&!options.hidden){e.stopPropagation();panel(false);settings.focus();}
  });

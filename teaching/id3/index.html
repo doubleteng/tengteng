@@ -5,6 +5,7 @@
 <meta name="description" content="Fourteen proposals for a public institution and covered market in Ann Arbor. Explore the buildings, their assemblies and their shared Kerrytown site in Teng Teng’s Fall 2026 studio.">
 <link rel="icon" href="./exhibition/ltu-favicon.png" type="image/png" sizes="32x32">
 <link rel="stylesheet" href="./globals.css"><link rel="stylesheet" href="./exhibition.css?v=f5549c486e">
+<link rel="stylesheet" href="./viewer-tools.css?v=4b84d3341f">
 </head><body>
 
 <a class="ex-skip" href="#collection">Skip to projects</a>
@@ -44,10 +45,48 @@
  <path class="sun-axis" d="M8 58h57 M12 60V11"/><path class="sun-track" d="M56 58A44 44 0 0 0 12 14"/><path class="sun-pointer" id="sun-elevation"/><circle class="sun-handle" id="sun-height-handle" r="5"/></svg><span>Height</span></div>
  </div>
  <div id="sun-options" hidden><button type="button" id="use-site-sun" aria-pressed="true">Use Ann Arbor date &amp; time</button>
- <div class="sun-fields"><label>Date<input type="date" id="sun-date" value="2026-09-22"></label><label>Local time<input type="time" id="sun-time" value="15:00"></label></div>
- <p id="sun-readout" role="status"></p><label class="shadow-row">Cast shadows<input type="checkbox" id="shadows" checked></label></div>
+ <div class="sun-calendar">
+  <label for="sun-date">Date</label><input type="date" id="sun-date" value="2026-09-22">
+  <input type="range" id="sun-day-range" min="1" max="365" step="1" value="265" aria-label="Day of year">
+  <label for="sun-time">Local time</label><input type="time" id="sun-time" value="15:00">
+  <input type="range" id="sun-time-range" min="0" max="1439" step="1" value="900" aria-label="Time of day">
+ </div><p id="sun-readout" role="status"></p>
+ <div class="tone-controls">
+  <label for="shadow-light">Light</label><input type="range" id="shadow-light" min="0" max="100" value="80" aria-label="Light – brightness of sunlit faces"><output for="shadow-light" id="light-value">80</output>
+  <label for="shadow-dark">Dark</label><input type="range" id="shadow-dark" min="0" max="100" value="35" aria-label="Dark – brightness of shaded areas"><output for="shadow-dark" id="dark-value">35</output>
+ </div>
+ <label class="shadow-row">Cast shadows<input type="checkbox" id="shadows" checked></label>
+ <div class="shadow-receivers"><label><input type="checkbox" id="shade-faces" checked>On faces</label><label><input type="checkbox" id="shade-ground" checked>On ground</label></div></div>
 </div><div class="camera-tools"><select id="camera" aria-label="Camera view" disabled><option value="perspective" selected>Perspective</option><option value="axon">Axonometric</option><option value="plan">Plan</option><option value="district">District plan</option><option value="front">Front elevation</option><option value="side">Side elevation</option><optgroup id="case-cameras" label="Market Crossing" hidden disabled><option value="case-roof">Forum roof junction</option><option value="case-west">Fourth Avenue · cantilever</option><option value="case-market">Inside the covered market</option><option value="case-ramp">On the public ramp</option><option value="case-hall">Inside the large hall</option><option value="case-forum">Inside the small hall</option><option value="case-court">Upper sky court</option><option value="case-studios">Inside a west classroom</option><option value="case-node">North timber bearing</option></optgroup><optgroup id="context-cameras" label="Site perspectives"><option value="fourth">N Fourth · Market Place</option><option value="detroit">Detroit St · Market Place</option><option value="dunbar">Fourth &amp; Catherine · Dunbar Tower</option><option value="dunbar-roof">Dunbar Tower · rooftop PV</option><option value="330-detroit">330 Detroit · market frontage</option><option value="330-fifth">330 Detroit · Fifth Avenue corner</option><option value="330-roof">330 Detroit · green roof</option><option value="market-shops">Fifth Avenue · Kerrytown Market &amp; Shops</option><option value="detroit-deli">Detroit Street · Zingerman’s Deli</option><option value="concert-house">Fourth Avenue · Kerrytown Concert House</option><option value="division-school">Division Street · Community High School</option><option value="ann-museum">Ann Street · Hands-On Museum</option></optgroup></select><button id="full" title="Expand viewer" aria-label="Expand viewer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button></div></div>
-<div class="view-bottom"><span class="hint"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-32 12 12)"/><circle cx="12" cy="12" r="2"/></svg> Drag to orbit <b>·</b> Scroll to zoom</span><div class="view-tools"><button id="zout" title="Zoom out" aria-label="Zoom out"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></button><button id="zin" title="Zoom in" aria-label="Zoom in"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg></button><button id="fit" title="Fit project" aria-label="Fit project"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V3h6m6 0h6v6m0 6v6h-6m-6 0H3v-6"/><circle cx="12" cy="12" r="2.7"/></svg></button></div></div>
+<div class="view-bottom">
+  <div class="drawing-launchers">
+   <button type="button" id="open-drawings" class="view-command" aria-haspopup="dialog" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM11 4v8h10M3 14h5m3 2v4"/></svg>Drawings</button>
+   <button type="button" id="dolly-toggle" class="view-command" aria-expanded="false" aria-controls="dolly-panel" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 10l6-3v10l-6-3"/></svg>Dolly zoom</button>
+   <div id="dolly-panel" class="lens-panel" hidden>
+    <label for="dolly-lens">Dolly zoom <output id="lens-value" for="dolly-lens"></output></label>
+    <input id="dolly-lens" type="range" min="20" max="85" step="0.1" value="44" aria-label="Dolly zoom field of view">
+    <div class="lens-extents"><span>Telephoto</span><span>Wide angle</span></div>
+   </div>
+  </div><div class="view-tools"><button id="zout" title="Zoom out" aria-label="Zoom out"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></button><button id="zin" title="Zoom in" aria-label="Zoom in"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg></button><button id="fit" title="Fit project" aria-label="Fit project"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V3h6m6 0h6v6m0 6v6h-6m-6 0H3v-6"/><circle cx="12" cy="12" r="2.7"/></svg></button></div></div>
+<dialog id="drawing-dialog" aria-labelledby="drawing-title">
+ <div class="drawing-desk">
+  <header class="drawing-head"><div><label for="drawing-project">Model drawings</label><select id="drawing-project" aria-label="Drawing project"></select></div>
+   <button type="button" id="drawing-close" class="drawing-close" aria-label="Close drawings" title="Return to 3D">×</button></header>
+  <div class="drawing-toolbar">
+   <div class="drawing-types" role="group" aria-label="Drawing type"><button type="button" data-drawing="plan" aria-pressed="true">Plan</button><button type="button" data-drawing="elevation" aria-pressed="false">Elevation</button><button type="button" data-drawing="section" aria-pressed="false">Section</button></div>
+   <label id="drawing-direction-row" hidden>View from<select id="drawing-direction"><option value="front">Front (+Z)</option><option value="back">Back (−Z)</option><option value="right">Right (+X)</option><option value="left">Left (−X)</option></select></label>
+   <label id="drawing-level-row" hidden>Floor<select id="drawing-level"></select></label>
+   <div id="drawing-cut-row"><label for="drawing-cut" id="drawing-cut-label">Cut height</label><input type="range" id="drawing-cut" step="0.01"><output id="drawing-cut-value" for="drawing-cut"></output></div>
+  </div>
+  <div id="drawing-paper" tabindex="0" aria-label="Model drawing. Scroll to zoom and drag to pan.">
+   <div id="drawing-image"></div>
+   <div id="drawing-scale" hidden><span id="drawing-scale-line"></span><span id="drawing-scale-label"></span></div>
+   <p id="drawing-status" role="status" hidden></p>
+   <div class="drawing-zoom"><button type="button" id="drawing-zoom-out" aria-label="Zoom out drawing">−</button><button type="button" id="drawing-fit">Fit</button><button type="button" id="drawing-zoom-in" aria-label="Zoom in drawing">+</button></div>
+  </div>
+  <footer class="drawing-footer"><div><h2 id="drawing-title">Floor plan</h2><p id="drawing-meta"></p></div><button type="button" id="drawing-save" disabled>Download SVG</button></footer>
+ </div>
+</dialog>
 <div id="viewer-message" role="status" hidden></div></div>
 <aside class="inspector">
 <div class="project-heading"><p class="kicker"><i></i><span id="model-kind">SHARED URBAN MODEL</span></p><h2 id="model-title">Ann Arbor Farmers Market</h2><div id="model-author">Kerrytown <span> / </span> Ann Arbor, MI</div><div id="case-actions" hidden><button id="case-notes" type="button">Design studies</button><button id="case-frame" type="button" aria-pressed="false">Isolate timber frame</button></div></div>
@@ -143,5 +182,5 @@
 
 <dialog id="info"><div class="dialog-body"><button class="close" data-close aria-label="Close"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 5 14 14M19 5 5 19"/></svg></button><div id="info-content"></div></div></dialog>
 
-<script type="module" src="./exhibition/navigation.js"></script><script type="module" src="./gallery.js?v=608cd0edfa"></script>
+<script type="module" src="./exhibition/navigation.js"></script><script type="module" src="./gallery.js?v=9fc316dc82"></script>
 </body></html>

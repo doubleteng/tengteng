@@ -1665,7 +1665,8 @@
           "Market / Table trestles": 480,
           "Market / Produce trays": 160
         }
-      }
+      },
+      "basis": "Independent vendor roof frames before column sharing."
     },
     {
       "frame_spacing_bays": 5,
@@ -1877,7 +1878,8 @@
           "Market / Table trestles": 480,
           "Market / Produce trays": 160
         }
-      }
+      },
+      "basis": "Independent vendor roof frames before column sharing."
     },
     {
       "frame_spacing_bays": 4,
@@ -2089,7 +2091,8 @@
           "Market / Table trestles": 480,
           "Market / Produce trays": 160
         }
-      }
+      },
+      "basis": "Independent vendor roof frames before column sharing."
     }
   ],
   "roof_form_alternatives": [
@@ -2800,26 +2803,26 @@
       "gross_wall_m2": 2163.55,
       "north_gross_m2": 879.452,
       "north_glass_m2": 216.636,
-      "vision_m2": 430.904,
+      "vision_m2": 430.92,
       "classroom_eye_level_window_line_m": 6.831,
       "diffuse_m2": 108.15,
       "portal_clear_m2": 81.778,
       "south_gross_m2": 795.798,
-      "south_glass_m2": 137.297,
-      "south_sample_vision_m2": 123.986,
-      "june_noon_shade_m2": 81.722,
-      "december_noon_shade_m2": 20.239,
+      "south_glass_m2": 137.312,
+      "south_sample_vision_m2": 124.002,
+      "june_noon_shade_m2": 81.738,
+      "december_noon_shade_m2": 20.244,
       "west_gross_m2": 263.991,
       "west_glass_m2": 88.774,
       "east_gross_m2": 306.087,
       "east_glass_m2": 96.347,
       "north_wwr_pct": 24.633,
       "east_wwr_pct": 31.477,
-      "south_wwr_pct": 17.253,
+      "south_wwr_pct": 17.255,
       "west_wwr_pct": 33.628,
-      "june_south_noon_hood_shade_pct": 65.912,
-      "december_south_noon_hood_shade_pct": 16.323,
-      "wwr_pct": 24.008,
+      "june_south_noon_hood_shade_pct": 65.917,
+      "december_south_noon_hood_shade_pct": 16.325,
+      "wwr_pct": 24.009,
       "skylight_plan_pct": 10.514
     }
   ],
@@ -2917,7 +2920,7 @@
     "max_days_per_time_bin": 10,
     "sky_directions": 128,
     "triangles": {
-      "final.glb": 197604,
+      "final.glb": 226732,
       "urban-core-materials.glb": 98306,
       "urban-near.glb": 19628,
       "urban-outer.glb": 54721
@@ -3156,42 +3159,42 @@
           {
             "month": 4,
             "open_kwh": 12941.46,
-            "beam_loss_kwh": 14.03,
+            "beam_loss_kwh": 13.8,
             "diffuse_loss_kwh": 695.72,
-            "shaded_kwh": 12231.72
+            "shaded_kwh": 12231.95
           },
           {
             "month": 5,
             "open_kwh": 14340.63,
-            "beam_loss_kwh": 54.42,
+            "beam_loss_kwh": 53.75,
             "diffuse_loss_kwh": 787.75,
-            "shaded_kwh": 13498.46
+            "shaded_kwh": 13499.14
           },
           {
             "month": 6,
             "open_kwh": 15827.51,
-            "beam_loss_kwh": 86.37,
+            "beam_loss_kwh": 86.29,
             "diffuse_loss_kwh": 800.29,
-            "shaded_kwh": 14940.85
+            "shaded_kwh": 14940.93
           },
           {
             "month": 7,
             "open_kwh": 16086.42,
-            "beam_loss_kwh": 90.47,
+            "beam_loss_kwh": 90.0,
             "diffuse_loss_kwh": 824.25,
-            "shaded_kwh": 15171.7
+            "shaded_kwh": 15172.17
           },
           {
             "month": 8,
             "open_kwh": 13849.54,
-            "beam_loss_kwh": 31.39,
+            "beam_loss_kwh": 31.27,
             "diffuse_loss_kwh": 688.98,
-            "shaded_kwh": 13129.16
+            "shaded_kwh": 13129.28
           },
           {
             "month": 9,
             "open_kwh": 11859.52,
-            "beam_loss_kwh": 127.25,
+            "beam_loss_kwh": 127.24,
             "diffuse_loss_kwh": 481.56,
             "shaded_kwh": 11250.72
           },
@@ -3341,42 +3344,42 @@
       },
       {
         "open_kwh": 60863.31,
-        "beam_loss_kwh": 808.2,
+        "beam_loss_kwh": 807.97,
         "diffuse_loss_kwh": 2198.47,
-        "shaded_kwh": 57856.63,
+        "shaded_kwh": 57856.86,
         "month": 4
       },
       {
         "open_kwh": 67443.58,
-        "beam_loss_kwh": 198.93,
+        "beam_loss_kwh": 198.26,
         "diffuse_loss_kwh": 2489.31,
-        "shaded_kwh": 64755.35,
+        "shaded_kwh": 64756.03,
         "month": 5
       },
       {
         "open_kwh": 74436.32,
-        "beam_loss_kwh": 169.98,
+        "beam_loss_kwh": 169.9,
         "diffuse_loss_kwh": 2528.94,
-        "shaded_kwh": 71737.41,
+        "shaded_kwh": 71737.49,
         "month": 6
       },
       {
         "open_kwh": 75653.96,
-        "beam_loss_kwh": 177.76,
+        "beam_loss_kwh": 177.29,
         "diffuse_loss_kwh": 2604.64,
-        "shaded_kwh": 72871.54,
+        "shaded_kwh": 72872.01,
         "month": 7
       },
       {
         "open_kwh": 65133.97,
-        "beam_loss_kwh": 394.16,
+        "beam_loss_kwh": 394.04,
         "diffuse_loss_kwh": 2177.19,
-        "shaded_kwh": 62562.6,
+        "shaded_kwh": 62562.72,
         "month": 8
       },
       {
         "open_kwh": 55774.98,
-        "beam_loss_kwh": 2042.91,
+        "beam_loss_kwh": 2042.9,
         "diffuse_loss_kwh": 1521.74,
         "shaded_kwh": 52210.36,
         "month": 9
@@ -3405,9 +3408,9 @@
     ],
     "annual": {
       "open_kwh": 596068.7,
-      "beam_loss_kwh": 25666.5,
+      "beam_loss_kwh": 25664.9,
       "diffuse_loss_kwh": 20249.6,
-      "shaded_kwh": 550152.6,
+      "shaded_kwh": 550154.2,
       "local_loss_pct": 7.7
     }
   },
@@ -3419,10 +3422,10 @@
     "local_loss_pct": 8.95
   },
   "geometry": {
-    "glbBytes": 2947452,
-    "parts": 16814,
-    "triangles": 197604,
-    "batches": 281,
+    "glbBytes": 3390976,
+    "parts": 19257,
+    "triangles": 226732,
+    "batches": 339,
     "stalls": 120,
     "pv": 950,
     "courtM2": 81.0,
@@ -3434,12 +3437,12 @@
     "geometry": "Reopened the serialized GLB. Checked finite coordinates, face areas, outward winding, positive volume and two opposite directed edges per shell edge; all parts within the registered parcel. Shell intersections at structural connections are intentional.",
     "walks": {
       "stairs": "Passed 12 floor-to-floor routes in the two stair cores, ascending and descending.",
-      "street": "11 bidirectional street routes passed across 11026 grade and clearance samples.",
+      "street": "11 bidirectional street routes and the continuous switchback to the forum passed across 13924 grade and clearance samples.",
       "interior": "23 mapped interior corridor routes support 1.2192 m with doors shut and fully open. The open hall threshold and six washroom fixture approaches are clear.",
       "doors_and_worktables": "52/52 portals connect to the street; 32 worktables and four freight landings checked; 0 clearance or route issues."
     },
     "envelope": {
-      "tested_members": 3735,
+      "tested_members": 6175,
       "tested_weather_panels": 3130,
       "tolerance_m": 0.002,
       "pair_count": 0
@@ -3455,13 +3458,13 @@
         "West portal fascia": 6,
         "Vendor photovoltaics": 518
       },
-      "members": 1588,
+      "members": 1538,
       "pair_count": 0
     },
     "solids": {
-      "parts": 16814,
-      "triangles": 197604,
-      "vertices": 132430,
+      "parts": 19257,
+      "triangles": 226732,
+      "vertices": 151880,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "inconsistent_edge_winding": 0,
@@ -3470,7 +3473,7 @@
       "degenerate_or_nonfinite_triangles": 0,
       "nonpositive_or_nonfinite_volume_parts": 0,
       "parcel_outlier_vertices": 0,
-      "batches": 281,
+      "batches": 339,
       "smallest_triangle_area_m2": 1.5120564415423735e-05,
       "smallest_signed_volume_m3": 1.0801113524121914e-06,
       "failed_parts": 0,
@@ -3978,8 +3981,8 @@
       "failures": []
     },
     "doors_and_windows": {
-      "model_sha256": "ea9175eef0180ee9f55f96e041fa0834c59fb9b530bd77de868d4500b6dfa568",
-      "parts_tested": 4912,
+      "model_sha256": "e8ad52374cb369690fb86b003002e81cb553424343a60f3154bd7fe3a53d1369",
+      "parts_tested": 7352,
       "panes_tested": 568,
       "panes_by_layer": {
         "Enclosure / Promenade vestibule": 1,
@@ -4035,9 +4038,9 @@
       "bearings_carried_by_core_lintels": 3,
       "modeled_minimum_bearing_contact_m2": 0.091,
       "core_embed_anchors": 40,
-      "basement_beams": 17,
-      "basement_columns": 20,
-      "basement_beam_ends_verified": 34
+      "basement_beams": 16,
+      "basement_columns": 7,
+      "basement_beam_ends_verified": 32
     },
     "roof_and_windows": {
       "daylight": {
@@ -4159,9 +4162,9 @@
       "staff_infill_m2": 15.872,
       "staff_infill_rim_beams": 2
     },
-    "arcade_bearings": "9 continuous cantilever crossheads, 18 canopy posts to spread footings, 17 ramp bents and two west entrance landings have bearing contact.",
+    "arcade_bearings": "14 founded common masts, 10 canopy frames, 21 roof rafters, 17 ramp cantilevers, 2 low-level concrete outrigger caps, 5 bridge cantilevers, two turn joists and 18 bridge joists. Roof, flights, turning deck, threshold, bridge and vestibule have continuous bearings.",
     "weather_boundary": {
-      "model_sha256": "ea9175eef0180ee9f55f96e041fa0834c59fb9b530bd77de868d4500b6dfa568",
+      "model_sha256": "e8ad52374cb369690fb86b003002e81cb553424343a60f3154bd7fe3a53d1369",
       "joint_diameter_m": 0.04,
       "elevations": {
         "west hall": {
@@ -4612,6 +4615,292 @@
           "largest_open_interval_m": 1.54
         }
       }
+    },
+    "substructure": {
+      "concrete_pieces": 219,
+      "overlapping_solid_pairs": 0,
+      "perimeter_sections_to_foundation": 1378,
+      "freestanding_basement_columns": 7,
+      "beam_end_faces": {
+        "Concrete stair cores": 3,
+        "Basement columns": 14,
+        "Retaining walls": 11,
+        "Primary bearing pedestals": 2,
+        "Freight lift core": 2
+      },
+      "smallest_beam_end_area_m2": 0.0736
+    },
+    "vendor_load_paths": {
+      "market_roof_banks": 3,
+      "roof_plane_patches": 12,
+      "clt_panels": 135,
+      "transverse_frames": 18,
+      "frame_end_bearings": 36,
+      "posts": 26,
+      "footings": 26,
+      "shared_capitals": 10,
+      "separate_end_seats": 20,
+      "collector_to_transverse_nodes": 72,
+      "rafter_solids_with_two_bearing_lines": 147,
+      "slotted_eave_guides": 20,
+      "minimum_sliding_clearance_each_direction_mm": 29.0,
+      "arrangements": {
+        "north post side hanger": 7,
+        "independent seat on shared capital": 20,
+        "direct on post": 9
+      }
+    },
+    "shared_arcade": {
+      "cases_per_station": 8,
+      "stations": [
+        {
+          "x_m": 6.86,
+          "max_kern_fraction": 0.514,
+          "max_soil_pressure_kPa": 36.9,
+          "max_mast_moment_kNm": 33.0,
+          "tension_per_anchor_kN": 35.1
+        },
+        {
+          "x_m": 10.65,
+          "max_kern_fraction": 0.792,
+          "max_soil_pressure_kPa": 41.5,
+          "max_mast_moment_kNm": 55.5,
+          "tension_per_anchor_kN": 59.1
+        },
+        {
+          "x_m": 14.35,
+          "max_kern_fraction": 0.869,
+          "max_soil_pressure_kPa": 46.6,
+          "max_mast_moment_kNm": 65.7,
+          "tension_per_anchor_kN": 69.9
+        },
+        {
+          "x_m": 19.48,
+          "max_kern_fraction": 0.864,
+          "max_soil_pressure_kPa": 48.0,
+          "max_mast_moment_kNm": 65.8,
+          "tension_per_anchor_kN": 70.0
+        },
+        {
+          "x_m": 23.046,
+          "max_kern_fraction": 0.853,
+          "max_soil_pressure_kPa": 49.0,
+          "max_mast_moment_kNm": 65.0,
+          "tension_per_anchor_kN": 69.2
+        },
+        {
+          "x_m": 27.922,
+          "max_kern_fraction": 0.92,
+          "max_soil_pressure_kPa": 54.6,
+          "max_mast_moment_kNm": 75.1,
+          "tension_per_anchor_kN": 79.9
+        },
+        {
+          "x_m": 32.799,
+          "max_kern_fraction": 0.92,
+          "max_soil_pressure_kPa": 54.5,
+          "max_mast_moment_kNm": 75.1,
+          "tension_per_anchor_kN": 79.9
+        },
+        {
+          "x_m": 37.676,
+          "max_kern_fraction": 0.92,
+          "max_soil_pressure_kPa": 54.6,
+          "max_mast_moment_kNm": 75.1,
+          "tension_per_anchor_kN": 79.9
+        },
+        {
+          "x_m": 42.553,
+          "max_kern_fraction": 0.909,
+          "max_soil_pressure_kPa": 53.9,
+          "max_mast_moment_kNm": 73.6,
+          "tension_per_anchor_kN": 78.3
+        },
+        {
+          "x_m": 47.45,
+          "max_kern_fraction": 0.858,
+          "max_soil_pressure_kPa": 49.3,
+          "max_mast_moment_kNm": 137.0,
+          "tension_per_anchor_kN": 117.1
+        },
+        {
+          "x_m": 53.12,
+          "max_kern_fraction": 0.896,
+          "max_soil_pressure_kPa": 42.5,
+          "max_mast_moment_kNm": 107.8,
+          "tension_per_anchor_kN": 114.7
+        },
+        {
+          "x_m": 57.183,
+          "max_kern_fraction": 0.8,
+          "max_soil_pressure_kPa": 38.0,
+          "max_mast_moment_kNm": 91.1,
+          "tension_per_anchor_kN": 96.9
+        },
+        {
+          "x_m": 62.06,
+          "max_kern_fraction": 0.827,
+          "max_soil_pressure_kPa": 37.8,
+          "max_mast_moment_kNm": 89.4,
+          "tension_per_anchor_kN": 95.1
+        },
+        {
+          "x_m": 65.3,
+          "max_kern_fraction": 0.841,
+          "max_soil_pressure_kPa": 39.7,
+          "max_mast_moment_kNm": 128.0,
+          "tension_per_anchor_kN": 136.2
+        }
+      ]
+    },
+    "column_coordination": {
+      "axis_search_m": 2.1,
+      "column_families": {
+        "annex concrete pier": 9,
+        "annex timber column": 9,
+        "arcade roof column": 14,
+        "basement column": 7,
+        "market column": 26,
+        "primary concrete pier": 4,
+        "primary timber bearing": 4,
+        "roof jack": 64,
+        "suspended studio landing": 2,
+        "truss-panel upright": 32,
+        "west terrace rib": 5
+      },
+      "close_axis_classifications": {
+        "terrace retaining/bearing rib; check concrete intersection at the wall": 1,
+        "upright is part of a longitudinal truss, not a freestanding street column": 2,
+        "short roof bearings; compare the roof planes they carry": 17
+      },
+      "overlapping_column_axes": [],
+      "concrete_overlaps": [],
+      "coupling_beam_embeds": [
+        {
+          "a": {
+            "layer": "Concrete stair cores",
+            "part": 19,
+            "center_xy_m": [
+              51.975,
+              14.08
+            ],
+            "height_range_m": [
+              2.5,
+              6.4116
+            ]
+          },
+          "b": {
+            "layer": "Lift and stair coupling beams",
+            "part": 1,
+            "center_xy_m": [
+              53.0,
+              13.8
+            ],
+            "height_range_m": [
+              5.6516,
+              6.2116
+            ]
+          },
+          "overlap_extent_m": [
+            0.36,
+            0.08,
+            0.56
+          ]
+        },
+        {
+          "a": {
+            "layer": "Concrete stair cores",
+            "part": 24,
+            "center_xy_m": [
+              51.975,
+              14.08
+            ],
+            "height_range_m": [
+              9.0916,
+              10.6788
+            ]
+          },
+          "b": {
+            "layer": "Lift and stair coupling beams",
+            "part": 0,
+            "center_xy_m": [
+              53.0,
+              13.8
+            ],
+            "height_range_m": [
+              9.2588,
+              10.4788
+            ]
+          },
+          "overlap_extent_m": [
+            0.38,
+            0.08,
+            1.22
+          ]
+        },
+        {
+          "a": {
+            "layer": "Freight lift core",
+            "part": 2,
+            "center_xy_m": [
+              53.88,
+              13.52
+            ],
+            "height_range_m": [
+              -2.176,
+              13.6788
+            ]
+          },
+          "b": {
+            "layer": "Lift and stair coupling beams",
+            "part": 0,
+            "center_xy_m": [
+              53.0,
+              13.8
+            ],
+            "height_range_m": [
+              9.2588,
+              10.4788
+            ]
+          },
+          "overlap_extent_m": [
+            0.38,
+            0.08,
+            1.22
+          ]
+        },
+        {
+          "a": {
+            "layer": "Freight lift core",
+            "part": 2,
+            "center_xy_m": [
+              53.88,
+              13.52
+            ],
+            "height_range_m": [
+              -2.176,
+              13.6788
+            ]
+          },
+          "b": {
+            "layer": "Lift and stair coupling beams",
+            "part": 1,
+            "center_xy_m": [
+              53.0,
+              13.8
+            ],
+            "height_range_m": [
+              5.6516,
+              6.2116
+            ]
+          },
+          "overlap_extent_m": [
+            0.36,
+            0.08,
+            0.56
+          ]
+        }
+      ]
     }
   },
   "upper_promenade_gravity": {
@@ -4661,5 +4950,4656 @@
     "previous_model_sha256": "459fa89211a4e9528efda8a757dfb173dab5efbe5df79ed8492b91917b7d3519",
     "previous_exposed_fixtures": 10,
     "current_exposed_fixtures": 0
+  },
+  "ground_support_revision": {
+    "scope": "Market arcade, two switchback flights, turning and bridge landings, forum bridge, vendor roofs and basement.",
+    "previous_model_sha256": "ea9175eef0180ee9f55f96e041fa0834c59fb9b530bd77de868d4500b6dfa568",
+    "model_sha256": "e8ad52374cb369690fb86b003002e81cb553424343a60f3154bd7fe3a53d1369",
+    "previous_timber_axes_at_grade": {
+      "arcade_ramps_landings_bridge": 68,
+      "vendor_roofs": 36
+    },
+    "current_timber_axes_at_grade": {
+      "arcade_ramps_landings_bridge": 14,
+      "vendor_roofs": 26
+    },
+    "vendor_shared_columns": 10,
+    "vendor_roof_bearing_points": 36,
+    "vendor_support_schedule": [
+      {
+        "axis_m": [
+          3.538,
+          25.76
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.2,
+        "service_gravity_kn": 133.98,
+        "footing_area_m2": 1.44,
+        "footing_eccentricity_m": [
+          0.0,
+          0.0
+        ],
+        "gravity_contact_min_kpa": 106.78,
+        "gravity_contact_envelope_kpa": 106.78,
+        "gravity_column_mpa": 1.42,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          5.267
+        ]
+      },
+      {
+        "axis_m": [
+          3.528,
+          36.146
+        ],
+        "banks": [
+          1,
+          2
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.6,
+        "service_gravity_kn": 267.65,
+        "footing_area_m2": 2.56,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 117.79,
+        "gravity_contact_envelope_kpa": 117.79,
+        "gravity_column_mpa": 1.62,
+        "capital_root_bending_knm": 20.1,
+        "capital_root_bending_mpa": 1.54,
+        "separate_bearing_levels_m": [
+          5.267,
+          5.042
+        ]
+      },
+      {
+        "axis_m": [
+          13.292,
+          25.76
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.3,
+        "service_gravity_kn": 159.5,
+        "footing_area_m2": 1.69,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 107.35,
+        "gravity_contact_envelope_kpa": 107.35,
+        "gravity_column_mpa": 1.69,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          13.282,
+          36.146
+        ],
+        "banks": [
+          1,
+          2
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.8,
+        "service_gravity_kn": 318.99,
+        "footing_area_m2": 3.24,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 110.83,
+        "gravity_contact_envelope_kpa": 110.83,
+        "gravity_column_mpa": 1.92,
+        "capital_root_bending_knm": 23.92,
+        "capital_root_bending_mpa": 1.83,
+        "separate_bearing_levels_m": [
+          4.989,
+          4.847
+        ]
+      },
+      {
+        "axis_m": [
+          23.046,
+          25.76
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.3,
+        "service_gravity_kn": 159.5,
+        "footing_area_m2": 1.69,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 107.29,
+        "gravity_contact_envelope_kpa": 107.29,
+        "gravity_column_mpa": 1.68,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          23.036,
+          36.146
+        ],
+        "banks": [
+          1,
+          2
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.8,
+        "service_gravity_kn": 318.99,
+        "footing_area_m2": 3.24,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 110.77,
+        "gravity_contact_envelope_kpa": 110.77,
+        "gravity_column_mpa": 1.92,
+        "capital_root_bending_knm": 23.92,
+        "capital_root_bending_mpa": 1.83,
+        "separate_bearing_levels_m": [
+          4.989,
+          4.847
+        ]
+      },
+      {
+        "axis_m": [
+          32.799,
+          25.76
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.3,
+        "service_gravity_kn": 159.5,
+        "footing_area_m2": 1.69,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 107.22,
+        "gravity_contact_envelope_kpa": 107.22,
+        "gravity_column_mpa": 1.68,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          32.789,
+          36.146
+        ],
+        "banks": [
+          1,
+          2
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.8,
+        "service_gravity_kn": 318.99,
+        "footing_area_m2": 3.24,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 110.7,
+        "gravity_contact_envelope_kpa": 110.7,
+        "gravity_column_mpa": 1.92,
+        "capital_root_bending_knm": 23.92,
+        "capital_root_bending_mpa": 1.83,
+        "separate_bearing_levels_m": [
+          4.989,
+          4.847
+        ]
+      },
+      {
+        "axis_m": [
+          42.553,
+          25.76
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.3,
+        "service_gravity_kn": 159.5,
+        "footing_area_m2": 1.69,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 107.16,
+        "gravity_contact_envelope_kpa": 107.16,
+        "gravity_column_mpa": 1.68,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          42.543,
+          36.146
+        ],
+        "banks": [
+          1,
+          2
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.7,
+        "service_gravity_kn": 299.77,
+        "footing_area_m2": 2.89,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 116.17,
+        "gravity_contact_envelope_kpa": 116.17,
+        "gravity_column_mpa": 1.8,
+        "capital_root_bending_knm": 23.92,
+        "capital_root_bending_mpa": 1.83,
+        "separate_bearing_levels_m": [
+          4.989,
+          4.847
+        ]
+      },
+      {
+        "axis_m": [
+          52.306,
+          25.76
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.1,
+        "service_gravity_kn": 121.05,
+        "footing_area_m2": 1.21,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 113.95,
+        "gravity_contact_envelope_kpa": 113.95,
+        "gravity_column_mpa": 1.28,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          52.306,
+          35.786
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.1,
+        "service_gravity_kn": 121.05,
+        "footing_area_m2": 1.21,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 113.36,
+        "gravity_contact_envelope_kpa": 113.36,
+        "gravity_column_mpa": 1.27,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          57.183,
+          25.76
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.1,
+        "service_gravity_kn": 109.6,
+        "footing_area_m2": 1.21,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 104.4,
+        "gravity_contact_envelope_kpa": 104.4,
+        "gravity_column_mpa": 1.16,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          57.183,
+          35.786
+        ],
+        "banks": [
+          1
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.1,
+        "service_gravity_kn": 47.96,
+        "footing_area_m2": 1.149,
+        "footing_eccentricity_m": [
+          0.024,
+          0.022
+        ],
+        "gravity_contact_min_kpa": 42.22,
+        "gravity_contact_envelope_kpa": 65.48,
+        "gravity_column_mpa": 0.51,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.989
+        ]
+      },
+      {
+        "axis_m": [
+          3.288,
+          46.892
+        ],
+        "banks": [
+          2,
+          3
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.6,
+        "service_gravity_kn": 260.08,
+        "footing_area_m2": 2.56,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 115.11,
+        "gravity_contact_envelope_kpa": 115.11,
+        "gravity_column_mpa": 1.58,
+        "capital_root_bending_knm": 20.05,
+        "capital_root_bending_mpa": 0.9,
+        "separate_bearing_levels_m": [
+          5.042,
+          5.096
+        ]
+      },
+      {
+        "axis_m": [
+          13.042,
+          46.892
+        ],
+        "banks": [
+          2,
+          3
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.8,
+        "service_gravity_kn": 318.99,
+        "footing_area_m2": 3.24,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 111.05,
+        "gravity_contact_envelope_kpa": 111.05,
+        "gravity_column_mpa": 1.92,
+        "capital_root_bending_knm": 23.92,
+        "capital_root_bending_mpa": 1.07,
+        "separate_bearing_levels_m": [
+          4.847,
+          4.911
+        ]
+      },
+      {
+        "axis_m": [
+          22.796,
+          46.892
+        ],
+        "banks": [
+          2,
+          3
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.8,
+        "service_gravity_kn": 318.99,
+        "footing_area_m2": 3.24,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 110.95,
+        "gravity_contact_envelope_kpa": 110.95,
+        "gravity_column_mpa": 1.92,
+        "capital_root_bending_knm": 23.92,
+        "capital_root_bending_mpa": 1.07,
+        "separate_bearing_levels_m": [
+          4.847,
+          4.911
+        ]
+      },
+      {
+        "axis_m": [
+          32.549,
+          46.892
+        ],
+        "banks": [
+          2,
+          3
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.8,
+        "service_gravity_kn": 318.99,
+        "footing_area_m2": 3.24,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 110.83,
+        "gravity_contact_envelope_kpa": 110.83,
+        "gravity_column_mpa": 1.92,
+        "capital_root_bending_knm": 23.92,
+        "capital_root_bending_mpa": 1.07,
+        "separate_bearing_levels_m": [
+          4.847,
+          4.911
+        ]
+      },
+      {
+        "axis_m": [
+          42.303,
+          46.892
+        ],
+        "banks": [
+          2,
+          3
+        ],
+        "column_mm": [
+          400,
+          420
+        ],
+        "footing_m": 1.7,
+        "service_gravity_kn": 288.32,
+        "footing_area_m2": 2.89,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 112.35,
+        "gravity_contact_envelope_kpa": 112.35,
+        "gravity_column_mpa": 1.74,
+        "capital_root_bending_knm": 22.21,
+        "capital_root_bending_mpa": 0.99,
+        "separate_bearing_levels_m": [
+          4.847,
+          4.911
+        ]
+      },
+      {
+        "axis_m": [
+          49.848,
+          36.506
+        ],
+        "banks": [
+          2
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.2,
+        "service_gravity_kn": 128.82,
+        "footing_area_m2": 1.44,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 102.17,
+        "gravity_contact_envelope_kpa": 102.17,
+        "gravity_column_mpa": 1.35,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.847
+        ]
+      },
+      {
+        "axis_m": [
+          49.848,
+          46.532
+        ],
+        "banks": [
+          2
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.1,
+        "service_gravity_kn": 67.18,
+        "footing_area_m2": 1.046,
+        "footing_eccentricity_m": [
+          0.061,
+          0.05
+        ],
+        "gravity_contact_min_kpa": 23.11,
+        "gravity_contact_envelope_kpa": 116.34,
+        "gravity_column_mpa": 0.71,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.847
+        ]
+      },
+      {
+        "axis_m": [
+          3.058,
+          57.278
+        ],
+        "banks": [
+          3
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.1,
+        "service_gravity_kn": 126.41,
+        "footing_area_m2": 1.21,
+        "footing_eccentricity_m": [
+          -0.0,
+          -0.0
+        ],
+        "gravity_contact_min_kpa": 118.45,
+        "gravity_contact_envelope_kpa": 118.45,
+        "gravity_column_mpa": 1.34,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          5.096
+        ]
+      },
+      {
+        "axis_m": [
+          12.812,
+          57.278
+        ],
+        "banks": [
+          3
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.3,
+        "service_gravity_kn": 159.5,
+        "footing_area_m2": 1.69,
+        "footing_eccentricity_m": [
+          -0.0,
+          0.058
+        ],
+        "gravity_contact_min_kpa": 80.88,
+        "gravity_contact_envelope_kpa": 132.99,
+        "gravity_column_mpa": 1.68,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.911
+        ]
+      },
+      {
+        "axis_m": [
+          22.566,
+          57.278
+        ],
+        "banks": [
+          3
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.3,
+        "service_gravity_kn": 159.5,
+        "footing_area_m2": 1.69,
+        "footing_eccentricity_m": [
+          -0.0,
+          0.058
+        ],
+        "gravity_contact_min_kpa": 80.79,
+        "gravity_contact_envelope_kpa": 132.83,
+        "gravity_column_mpa": 1.68,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.911
+        ]
+      },
+      {
+        "axis_m": [
+          32.319,
+          57.278
+        ],
+        "banks": [
+          3
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.3,
+        "service_gravity_kn": 159.5,
+        "footing_area_m2": 1.69,
+        "footing_eccentricity_m": [
+          -0.0,
+          0.058
+        ],
+        "gravity_contact_min_kpa": 80.69,
+        "gravity_contact_envelope_kpa": 132.67,
+        "gravity_column_mpa": 1.67,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.911
+        ]
+      },
+      {
+        "axis_m": [
+          42.073,
+          57.278
+        ],
+        "banks": [
+          3
+        ],
+        "column_mm": [
+          300,
+          320
+        ],
+        "footing_m": 1.1,
+        "service_gravity_kn": 86.4,
+        "footing_area_m2": 1.173,
+        "footing_eccentricity_m": [
+          0.015,
+          0.014
+        ],
+        "gravity_contact_min_kpa": 73.85,
+        "gravity_contact_envelope_kpa": 97.89,
+        "gravity_column_mpa": 0.91,
+        "capital_root_bending_knm": 0,
+        "capital_root_bending_mpa": 0.0,
+        "separate_bearing_levels_m": [
+          4.911
+        ]
+      }
+    ],
+    "previous_independent_basement_columns": 20,
+    "current_independent_basement_columns": 7,
+    "modelled_beam_end_faces": {
+      "Concrete stair cores": 3,
+      "Basement columns": 14,
+      "Retaining walls": 11,
+      "Primary bearing pedestals": 2,
+      "Freight lift core": 2
+    },
+    "ground_reaction_chains_checked": 60,
+    "previous_concrete_solid_overlaps": 162,
+    "current_concrete_solid_overlaps": 0,
+    "detailed_ground_connections": [
+      {
+        "support": {
+          "layer": "Glulam bearing columns",
+          "part": 0,
+          "center_xy_m": [
+            13.4,
+            1.65
+          ],
+          "height_range_m": [
+            2.91,
+            5.74
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Glulam bearing columns",
+            "part": 0,
+            "center_xy_m": [
+              13.4,
+              1.65
+            ],
+            "height_range_m": [
+              2.91,
+              5.74
+            ]
+          },
+          {
+            "layer": "Hold-down shoes",
+            "part": 0,
+            "center_xy_m": [
+              13.4,
+              1.65
+            ],
+            "height_range_m": [
+              2.83,
+              2.91
+            ]
+          },
+          {
+            "layer": "Primary bearing pedestals",
+            "part": 0,
+            "center_xy_m": [
+              13.4,
+              1.65
+            ],
+            "height_range_m": [
+              -1.306,
+              2.83
+            ]
+          },
+          {
+            "layer": "Indicative pile caps",
+            "part": 0,
+            "center_xy_m": [
+              13.4,
+              1.65
+            ],
+            "height_range_m": [
+              -2.166,
+              -1.306
+            ]
+          },
+          {
+            "layer": "Drilled shaft heads",
+            "part": 0,
+            "center_xy_m": [
+              12.78,
+              1.11
+            ],
+            "height_range_m": [
+              -3.206,
+              -2.166
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Glulam bearing columns",
+          "part": 1,
+          "center_xy_m": [
+            45.8,
+            1.65
+          ],
+          "height_range_m": [
+            2.91,
+            5.74
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Glulam bearing columns",
+            "part": 1,
+            "center_xy_m": [
+              45.8,
+              1.65
+            ],
+            "height_range_m": [
+              2.91,
+              5.74
+            ]
+          },
+          {
+            "layer": "Hold-down shoes",
+            "part": 1,
+            "center_xy_m": [
+              45.8,
+              1.65
+            ],
+            "height_range_m": [
+              2.83,
+              2.91
+            ]
+          },
+          {
+            "layer": "Primary bearing pedestals",
+            "part": 1,
+            "center_xy_m": [
+              45.8,
+              1.65
+            ],
+            "height_range_m": [
+              -1.306,
+              2.83
+            ]
+          },
+          {
+            "layer": "Indicative pile caps",
+            "part": 1,
+            "center_xy_m": [
+              45.8,
+              1.65
+            ],
+            "height_range_m": [
+              -2.166,
+              -1.306
+            ]
+          },
+          {
+            "layer": "Drilled shaft heads",
+            "part": 4,
+            "center_xy_m": [
+              45.18,
+              1.11
+            ],
+            "height_range_m": [
+              -3.206,
+              -2.166
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Glulam bearing columns",
+          "part": 2,
+          "center_xy_m": [
+            13.4,
+            18.35
+          ],
+          "height_range_m": [
+            2.91,
+            5.74
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Glulam bearing columns",
+            "part": 2,
+            "center_xy_m": [
+              13.4,
+              18.35
+            ],
+            "height_range_m": [
+              2.91,
+              5.74
+            ]
+          },
+          {
+            "layer": "Hold-down shoes",
+            "part": 2,
+            "center_xy_m": [
+              13.4,
+              18.35
+            ],
+            "height_range_m": [
+              2.83,
+              2.91
+            ]
+          },
+          {
+            "layer": "Primary bearing pedestals",
+            "part": 2,
+            "center_xy_m": [
+              13.4,
+              18.35
+            ],
+            "height_range_m": [
+              -1.306,
+              2.83
+            ]
+          },
+          {
+            "layer": "Indicative pile caps",
+            "part": 2,
+            "center_xy_m": [
+              13.4,
+              18.35
+            ],
+            "height_range_m": [
+              -2.166,
+              -1.306
+            ]
+          },
+          {
+            "layer": "Drilled shaft heads",
+            "part": 8,
+            "center_xy_m": [
+              12.78,
+              17.81
+            ],
+            "height_range_m": [
+              -3.206,
+              -2.166
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Glulam bearing columns",
+          "part": 3,
+          "center_xy_m": [
+            45.8,
+            18.35
+          ],
+          "height_range_m": [
+            2.91,
+            5.74
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Glulam bearing columns",
+            "part": 3,
+            "center_xy_m": [
+              45.8,
+              18.35
+            ],
+            "height_range_m": [
+              2.91,
+              5.74
+            ]
+          },
+          {
+            "layer": "Hold-down shoes",
+            "part": 3,
+            "center_xy_m": [
+              45.8,
+              18.35
+            ],
+            "height_range_m": [
+              2.83,
+              2.91
+            ]
+          },
+          {
+            "layer": "Primary bearing pedestals",
+            "part": 3,
+            "center_xy_m": [
+              45.8,
+              18.35
+            ],
+            "height_range_m": [
+              -1.306,
+              2.83
+            ]
+          },
+          {
+            "layer": "Indicative pile caps",
+            "part": 3,
+            "center_xy_m": [
+              45.8,
+              18.35
+            ],
+            "height_range_m": [
+              -2.166,
+              -1.306
+            ]
+          },
+          {
+            "layer": "Drilled shaft heads",
+            "part": 12,
+            "center_xy_m": [
+              45.18,
+              17.81
+            ],
+            "height_range_m": [
+              -3.206,
+              -2.166
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Basement columns",
+          "part": 0,
+          "center_xy_m": [
+            16.8,
+            9.4
+          ],
+          "height_range_m": [
+            -1.056,
+            1.82
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Basement columns",
+            "part": 0,
+            "center_xy_m": [
+              16.8,
+              9.4
+            ],
+            "height_range_m": [
+              -1.056,
+              1.82
+            ]
+          },
+          {
+            "layer": "Lower-ground slab",
+            "part": 0,
+            "center_xy_m": [
+              29.6,
+              10.1
+            ],
+            "height_range_m": [
+              -1.2084,
+              -1.056
+            ]
+          },
+          {
+            "layer": "Basement column pads",
+            "part": 0,
+            "center_xy_m": [
+              16.8,
+              9.4
+            ],
+            "height_range_m": [
+              -1.7084,
+              -1.2084
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Basement columns",
+          "part": 1,
+          "center_xy_m": [
+            24.0,
+            9.4
+          ],
+          "height_range_m": [
+            -1.056,
+            1.82
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Basement columns",
+            "part": 1,
+            "center_xy_m": [
+              24.0,
+              9.4
+            ],
+            "height_range_m": [
+              -1.056,
+              1.82
+            ]
+          },
+          {
+            "layer": "Lower-ground slab",
+            "part": 0,
+            "center_xy_m": [
+              29.6,
+              10.1
+            ],
+            "height_range_m": [
+              -1.2084,
+              -1.056
+            ]
+          },
+          {
+            "layer": "Basement column pads",
+            "part": 1,
+            "center_xy_m": [
+              24.0,
+              9.4
+            ],
+            "height_range_m": [
+              -1.7084,
+              -1.2084
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Basement columns",
+          "part": 2,
+          "center_xy_m": [
+            31.2,
+            9.4
+          ],
+          "height_range_m": [
+            -1.056,
+            1.82
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Basement columns",
+            "part": 2,
+            "center_xy_m": [
+              31.2,
+              9.4
+            ],
+            "height_range_m": [
+              -1.056,
+              1.82
+            ]
+          },
+          {
+            "layer": "Lower-ground slab",
+            "part": 0,
+            "center_xy_m": [
+              29.6,
+              10.1
+            ],
+            "height_range_m": [
+              -1.2084,
+              -1.056
+            ]
+          },
+          {
+            "layer": "Basement column pads",
+            "part": 2,
+            "center_xy_m": [
+              31.2,
+              9.4
+            ],
+            "height_range_m": [
+              -1.7084,
+              -1.2084
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Basement columns",
+          "part": 3,
+          "center_xy_m": [
+            38.4,
+            9.4
+          ],
+          "height_range_m": [
+            -1.056,
+            1.82
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Basement columns",
+            "part": 3,
+            "center_xy_m": [
+              38.4,
+              9.4
+            ],
+            "height_range_m": [
+              -1.056,
+              1.82
+            ]
+          },
+          {
+            "layer": "Lower-ground slab",
+            "part": 0,
+            "center_xy_m": [
+              29.6,
+              10.1
+            ],
+            "height_range_m": [
+              -1.2084,
+              -1.056
+            ]
+          },
+          {
+            "layer": "Basement column pads",
+            "part": 3,
+            "center_xy_m": [
+              38.4,
+              9.4
+            ],
+            "height_range_m": [
+              -1.7084,
+              -1.2084
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Basement columns",
+          "part": 4,
+          "center_xy_m": [
+            45.6,
+            9.4
+          ],
+          "height_range_m": [
+            -1.056,
+            1.82
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Basement columns",
+            "part": 4,
+            "center_xy_m": [
+              45.6,
+              9.4
+            ],
+            "height_range_m": [
+              -1.056,
+              1.82
+            ]
+          },
+          {
+            "layer": "Lower-ground slab",
+            "part": 2,
+            "center_xy_m": [
+              45.8,
+              10.0
+            ],
+            "height_range_m": [
+              -1.2084,
+              -1.056
+            ]
+          },
+          {
+            "layer": "Basement column pads",
+            "part": 4,
+            "center_xy_m": [
+              45.6,
+              9.4
+            ],
+            "height_range_m": [
+              -1.7084,
+              -1.2084
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Basement columns",
+          "part": 5,
+          "center_xy_m": [
+            52.8,
+            9.4
+          ],
+          "height_range_m": [
+            -1.056,
+            1.82
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Basement columns",
+            "part": 5,
+            "center_xy_m": [
+              52.8,
+              9.4
+            ],
+            "height_range_m": [
+              -1.056,
+              1.82
+            ]
+          },
+          {
+            "layer": "Lower-ground slab",
+            "part": 15,
+            "center_xy_m": [
+              53.8,
+              6.025
+            ],
+            "height_range_m": [
+              -1.2084,
+              -1.056
+            ]
+          },
+          {
+            "layer": "Basement column pads",
+            "part": 5,
+            "center_xy_m": [
+              52.8,
+              9.4
+            ],
+            "height_range_m": [
+              -1.7084,
+              -1.2084
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Basement columns",
+          "part": 6,
+          "center_xy_m": [
+            60.0,
+            9.4
+          ],
+          "height_range_m": [
+            -1.056,
+            1.82
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Basement columns",
+            "part": 6,
+            "center_xy_m": [
+              60.0,
+              9.4
+            ],
+            "height_range_m": [
+              -1.056,
+              1.82
+            ]
+          },
+          {
+            "layer": "Lower-ground slab",
+            "part": 5,
+            "center_xy_m": [
+              60.335,
+              10.1
+            ],
+            "height_range_m": [
+              -1.2084,
+              -1.056
+            ]
+          },
+          {
+            "layer": "Basement column pads",
+            "part": 6,
+            "center_xy_m": [
+              60.0,
+              9.4
+            ],
+            "height_range_m": [
+              -1.7084,
+              -1.2084
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 0,
+          "center_xy_m": [
+            57.42,
+            1.9
+          ],
+          "height_range_m": [
+            2.64,
+            15.7592
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 0,
+            "center_xy_m": [
+              57.42,
+              1.9
+            ],
+            "height_range_m": [
+              2.64,
+              15.7592
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 0,
+            "center_xy_m": [
+              57.42,
+              1.9
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 0,
+            "center_xy_m": [
+              57.42,
+              1.9
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 1,
+          "center_xy_m": [
+            63.25,
+            1.9
+          ],
+          "height_range_m": [
+            2.64,
+            15.7592
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 1,
+            "center_xy_m": [
+              63.25,
+              1.9
+            ],
+            "height_range_m": [
+              2.64,
+              15.7592
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 1,
+            "center_xy_m": [
+              63.25,
+              1.9
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 1,
+            "center_xy_m": [
+              63.25,
+              1.9
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 2,
+          "center_xy_m": [
+            69.23,
+            1.9
+          ],
+          "height_range_m": [
+            2.64,
+            15.7592
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 2,
+            "center_xy_m": [
+              69.23,
+              1.9
+            ],
+            "height_range_m": [
+              2.64,
+              15.7592
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 2,
+            "center_xy_m": [
+              69.23,
+              1.9
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 2,
+            "center_xy_m": [
+              69.23,
+              1.9
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 3,
+          "center_xy_m": [
+            57.42,
+            13.12
+          ],
+          "height_range_m": [
+            2.64,
+            14.0824
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 3,
+            "center_xy_m": [
+              57.42,
+              13.12
+            ],
+            "height_range_m": [
+              2.64,
+              14.0824
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 3,
+            "center_xy_m": [
+              57.42,
+              13.12
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 3,
+            "center_xy_m": [
+              57.42,
+              13.12
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 4,
+          "center_xy_m": [
+            63.25,
+            13.12
+          ],
+          "height_range_m": [
+            2.64,
+            14.0824
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 4,
+            "center_xy_m": [
+              63.25,
+              13.12
+            ],
+            "height_range_m": [
+              2.64,
+              14.0824
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 4,
+            "center_xy_m": [
+              63.25,
+              13.12
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 4,
+            "center_xy_m": [
+              63.25,
+              13.12
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 5,
+          "center_xy_m": [
+            69.23,
+            13.12
+          ],
+          "height_range_m": [
+            2.64,
+            14.0824
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 5,
+            "center_xy_m": [
+              69.23,
+              13.12
+            ],
+            "height_range_m": [
+              2.64,
+              14.0824
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 5,
+            "center_xy_m": [
+              69.23,
+              13.12
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 5,
+            "center_xy_m": [
+              69.23,
+              13.12
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 6,
+          "center_xy_m": [
+            57.42,
+            17.45
+          ],
+          "height_range_m": [
+            2.64,
+            13.4353
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 6,
+            "center_xy_m": [
+              57.42,
+              17.45
+            ],
+            "height_range_m": [
+              2.64,
+              13.4353
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 6,
+            "center_xy_m": [
+              57.42,
+              17.45
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 6,
+            "center_xy_m": [
+              57.42,
+              17.45
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 7,
+          "center_xy_m": [
+            63.25,
+            17.45
+          ],
+          "height_range_m": [
+            2.64,
+            13.4353
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 7,
+            "center_xy_m": [
+              63.25,
+              17.45
+            ],
+            "height_range_m": [
+              2.64,
+              13.4353
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 7,
+            "center_xy_m": [
+              63.25,
+              17.45
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 7,
+            "center_xy_m": [
+              63.25,
+              17.45
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Head house glulam columns",
+          "part": 8,
+          "center_xy_m": [
+            69.23,
+            17.45
+          ],
+          "height_range_m": [
+            2.64,
+            13.4353
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Head house glulam columns",
+            "part": 8,
+            "center_xy_m": [
+              69.23,
+              17.45
+            ],
+            "height_range_m": [
+              2.64,
+              13.4353
+            ]
+          },
+          {
+            "layer": "Columns and cores",
+            "part": 8,
+            "center_xy_m": [
+              69.23,
+              17.45
+            ],
+            "height_range_m": [
+              -1.356,
+              2.64
+            ]
+          },
+          {
+            "layer": "Bearings and foundations",
+            "part": 8,
+            "center_xy_m": [
+              69.23,
+              17.45
+            ],
+            "height_range_m": [
+              -1.706,
+              -1.356
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 0,
+          "center_xy_m": [
+            6.86,
+            22.75
+          ],
+          "height_range_m": [
+            0.8479,
+            3.9906
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 0,
+            "center_xy_m": [
+              6.86,
+              22.75
+            ],
+            "height_range_m": [
+              0.8479,
+              3.9906
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 0,
+            "center_xy_m": [
+              6.86,
+              22.75
+            ],
+            "height_range_m": [
+              0.3779,
+              0.8479
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 0,
+            "center_xy_m": [
+              6.86,
+              22.75
+            ],
+            "height_range_m": [
+              0.3479,
+              0.3779
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 0,
+            "center_xy_m": [
+              6.86,
+              22.75
+            ],
+            "height_range_m": [
+              -0.0621,
+              0.3479
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 0,
+            "center_xy_m": [
+              6.86,
+              22.75
+            ],
+            "height_range_m": [
+              -0.6121,
+              -0.0621
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 1,
+          "center_xy_m": [
+            10.65,
+            22.75
+          ],
+          "height_range_m": [
+            1.0071,
+            4.1719
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 1,
+            "center_xy_m": [
+              10.65,
+              22.75
+            ],
+            "height_range_m": [
+              1.0071,
+              4.1719
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 1,
+            "center_xy_m": [
+              10.65,
+              22.75
+            ],
+            "height_range_m": [
+              0.5371,
+              1.0071
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 1,
+            "center_xy_m": [
+              10.65,
+              22.75
+            ],
+            "height_range_m": [
+              0.5071,
+              0.5371
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 1,
+            "center_xy_m": [
+              10.65,
+              22.75
+            ],
+            "height_range_m": [
+              0.0971,
+              0.5071
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 1,
+            "center_xy_m": [
+              10.65,
+              22.75
+            ],
+            "height_range_m": [
+              -0.4529,
+              0.0971
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 2,
+          "center_xy_m": [
+            14.35,
+            22.75
+          ],
+          "height_range_m": [
+            1.1626,
+            4.3488
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 2,
+            "center_xy_m": [
+              14.35,
+              22.75
+            ],
+            "height_range_m": [
+              1.1626,
+              4.3488
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 2,
+            "center_xy_m": [
+              14.35,
+              22.75
+            ],
+            "height_range_m": [
+              0.6926,
+              1.1626
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 2,
+            "center_xy_m": [
+              14.35,
+              22.75
+            ],
+            "height_range_m": [
+              0.6626,
+              0.6926
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 2,
+            "center_xy_m": [
+              14.35,
+              22.75
+            ],
+            "height_range_m": [
+              0.2526,
+              0.6626
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 2,
+            "center_xy_m": [
+              14.35,
+              22.75
+            ],
+            "height_range_m": [
+              -0.2974,
+              0.2526
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 3,
+          "center_xy_m": [
+            19.48,
+            22.75
+          ],
+          "height_range_m": [
+            1.3781,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 3,
+            "center_xy_m": [
+              19.48,
+              22.75
+            ],
+            "height_range_m": [
+              1.3781,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 3,
+            "center_xy_m": [
+              19.48,
+              22.75
+            ],
+            "height_range_m": [
+              0.9081,
+              1.3781
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 3,
+            "center_xy_m": [
+              19.48,
+              22.75
+            ],
+            "height_range_m": [
+              0.8781,
+              0.9081
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 3,
+            "center_xy_m": [
+              19.48,
+              22.75
+            ],
+            "height_range_m": [
+              0.4681,
+              0.8781
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 3,
+            "center_xy_m": [
+              19.48,
+              22.75
+            ],
+            "height_range_m": [
+              -0.0819,
+              0.4681
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 4,
+          "center_xy_m": [
+            23.0456,
+            22.75
+          ],
+          "height_range_m": [
+            1.5279,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              22.75
+            ],
+            "height_range_m": [
+              1.5279,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              22.75
+            ],
+            "height_range_m": [
+              1.0579,
+              1.5279
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              22.75
+            ],
+            "height_range_m": [
+              1.0279,
+              1.0579
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              22.75
+            ],
+            "height_range_m": [
+              0.6179,
+              1.0279
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              22.75
+            ],
+            "height_range_m": [
+              0.0679,
+              0.6179
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 5,
+          "center_xy_m": [
+            27.9224,
+            22.75
+          ],
+          "height_range_m": [
+            1.7328,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 5,
+            "center_xy_m": [
+              27.9224,
+              22.75
+            ],
+            "height_range_m": [
+              1.7328,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 5,
+            "center_xy_m": [
+              27.9224,
+              22.75
+            ],
+            "height_range_m": [
+              1.2628,
+              1.7328
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 5,
+            "center_xy_m": [
+              27.9224,
+              22.75
+            ],
+            "height_range_m": [
+              1.2328,
+              1.2628
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 5,
+            "center_xy_m": [
+              27.9224,
+              22.75
+            ],
+            "height_range_m": [
+              0.8228,
+              1.2328
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 5,
+            "center_xy_m": [
+              27.9224,
+              22.75
+            ],
+            "height_range_m": [
+              0.2728,
+              0.8228
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 6,
+          "center_xy_m": [
+            32.7992,
+            22.75
+          ],
+          "height_range_m": [
+            1.9376,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              22.75
+            ],
+            "height_range_m": [
+              1.9376,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              22.75
+            ],
+            "height_range_m": [
+              1.4676,
+              1.9376
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              22.75
+            ],
+            "height_range_m": [
+              1.4376,
+              1.4676
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              22.75
+            ],
+            "height_range_m": [
+              1.0276,
+              1.4376
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              22.75
+            ],
+            "height_range_m": [
+              0.4776,
+              1.0276
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 7,
+          "center_xy_m": [
+            37.676,
+            22.75
+          ],
+          "height_range_m": [
+            2.1425,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 7,
+            "center_xy_m": [
+              37.676,
+              22.75
+            ],
+            "height_range_m": [
+              2.1425,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 7,
+            "center_xy_m": [
+              37.676,
+              22.75
+            ],
+            "height_range_m": [
+              1.6725,
+              2.1425
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 7,
+            "center_xy_m": [
+              37.676,
+              22.75
+            ],
+            "height_range_m": [
+              1.6425,
+              1.6725
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 7,
+            "center_xy_m": [
+              37.676,
+              22.75
+            ],
+            "height_range_m": [
+              1.2325,
+              1.6425
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 7,
+            "center_xy_m": [
+              37.676,
+              22.75
+            ],
+            "height_range_m": [
+              0.6825,
+              1.2325
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 8,
+          "center_xy_m": [
+            42.5528,
+            22.75
+          ],
+          "height_range_m": [
+            2.3474,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              22.75
+            ],
+            "height_range_m": [
+              2.3474,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              22.75
+            ],
+            "height_range_m": [
+              1.8774,
+              2.3474
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              22.75
+            ],
+            "height_range_m": [
+              1.8474,
+              1.8774
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              22.75
+            ],
+            "height_range_m": [
+              1.4374,
+              1.8474
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              22.75
+            ],
+            "height_range_m": [
+              0.8874,
+              1.4374
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 9,
+          "center_xy_m": [
+            47.45,
+            22.75
+          ],
+          "height_range_m": [
+            2.7205,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 9,
+            "center_xy_m": [
+              47.45,
+              22.75
+            ],
+            "height_range_m": [
+              2.7205,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 9,
+            "center_xy_m": [
+              47.45,
+              22.75
+            ],
+            "height_range_m": [
+              2.2505,
+              2.7205
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 9,
+            "center_xy_m": [
+              47.45,
+              22.505
+            ],
+            "height_range_m": [
+              2.2205,
+              2.2505
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 9,
+            "center_xy_m": [
+              47.45,
+              22.4575
+            ],
+            "height_range_m": [
+              1.5205,
+              2.2205
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 9,
+            "center_xy_m": [
+              47.45,
+              21.99
+            ],
+            "height_range_m": [
+              0.9405,
+              1.5205
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 10,
+          "center_xy_m": [
+            53.12,
+            22.75
+          ],
+          "height_range_m": [
+            2.7069,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 10,
+            "center_xy_m": [
+              53.12,
+              22.75
+            ],
+            "height_range_m": [
+              2.7069,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 10,
+            "center_xy_m": [
+              53.12,
+              22.75
+            ],
+            "height_range_m": [
+              2.2369,
+              2.7069
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 10,
+            "center_xy_m": [
+              53.12,
+              22.75
+            ],
+            "height_range_m": [
+              2.2069,
+              2.2369
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 10,
+            "center_xy_m": [
+              53.12,
+              22.75
+            ],
+            "height_range_m": [
+              1.7969,
+              2.2069
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 10,
+            "center_xy_m": [
+              53.12,
+              21.99
+            ],
+            "height_range_m": [
+              1.2169,
+              1.7969
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 11,
+          "center_xy_m": [
+            57.1832,
+            22.75
+          ],
+          "height_range_m": [
+            2.6262,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 11,
+            "center_xy_m": [
+              57.1832,
+              22.75
+            ],
+            "height_range_m": [
+              2.6262,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 11,
+            "center_xy_m": [
+              57.1832,
+              22.75
+            ],
+            "height_range_m": [
+              2.1562,
+              2.6262
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 11,
+            "center_xy_m": [
+              57.1832,
+              22.75
+            ],
+            "height_range_m": [
+              2.1262,
+              2.1562
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 11,
+            "center_xy_m": [
+              57.1832,
+              22.75
+            ],
+            "height_range_m": [
+              1.7162,
+              2.1262
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 11,
+            "center_xy_m": [
+              57.1832,
+              21.99
+            ],
+            "height_range_m": [
+              1.1362,
+              1.7162
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 12,
+          "center_xy_m": [
+            62.06,
+            22.75
+          ],
+          "height_range_m": [
+            2.6352,
+            8.5531
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 12,
+            "center_xy_m": [
+              62.06,
+              22.75
+            ],
+            "height_range_m": [
+              2.6352,
+              8.5531
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 12,
+            "center_xy_m": [
+              62.06,
+              22.75
+            ],
+            "height_range_m": [
+              2.1652,
+              2.6352
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 12,
+            "center_xy_m": [
+              62.06,
+              22.75
+            ],
+            "height_range_m": [
+              2.1352,
+              2.1652
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 12,
+            "center_xy_m": [
+              62.06,
+              22.75
+            ],
+            "height_range_m": [
+              1.7252,
+              2.1352
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 12,
+            "center_xy_m": [
+              62.06,
+              21.99
+            ],
+            "height_range_m": [
+              1.1452,
+              1.7252
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Arcade spine masts",
+          "part": 13,
+          "center_xy_m": [
+            65.3,
+            22.75
+          ],
+          "height_range_m": [
+            2.6646,
+            5.4866
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Arcade spine masts",
+            "part": 13,
+            "center_xy_m": [
+              65.3,
+              22.75
+            ],
+            "height_range_m": [
+              2.6646,
+              5.4866
+            ]
+          },
+          {
+            "layer": "Arcade spine base stems",
+            "part": 13,
+            "center_xy_m": [
+              65.3,
+              22.75
+            ],
+            "height_range_m": [
+              2.1946,
+              2.6646
+            ]
+          },
+          {
+            "layer": "Arcade spine base shoes",
+            "part": 13,
+            "center_xy_m": [
+              65.3,
+              22.75
+            ],
+            "height_range_m": [
+              2.1646,
+              2.1946
+            ]
+          },
+          {
+            "layer": "Arcade spine pedestals",
+            "part": 13,
+            "center_xy_m": [
+              65.3,
+              22.75
+            ],
+            "height_range_m": [
+              1.7546,
+              2.1646
+            ]
+          },
+          {
+            "layer": "Arcade spine footings",
+            "part": 13,
+            "center_xy_m": [
+              65.3,
+              21.57
+            ],
+            "height_range_m": [
+              1.1146,
+              1.7546
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 0,
+          "center_xy_m": [
+            3.5384,
+            25.76
+          ],
+          "height_range_m": [
+            0.6859,
+            6.6522
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 0,
+            "center_xy_m": [
+              3.5384,
+              25.76
+            ],
+            "height_range_m": [
+              0.6859,
+              6.6522
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 0,
+            "center_xy_m": [
+              3.5384,
+              25.76
+            ],
+            "height_range_m": [
+              0.6359,
+              0.6859
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 0,
+            "center_xy_m": [
+              3.5384,
+              25.76
+            ],
+            "height_range_m": [
+              -0.0341,
+              0.6359
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 0,
+            "center_xy_m": [
+              3.5384,
+              25.76
+            ],
+            "height_range_m": [
+              -0.4341,
+              -0.0341
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 1,
+          "center_xy_m": [
+            3.5284,
+            36.146
+          ],
+          "height_range_m": [
+            0.6856,
+            4.5921
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 1,
+            "center_xy_m": [
+              3.5284,
+              36.146
+            ],
+            "height_range_m": [
+              0.6856,
+              4.5921
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 3,
+            "center_xy_m": [
+              3.5284,
+              36.146
+            ],
+            "height_range_m": [
+              0.6356,
+              0.6856
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 1,
+            "center_xy_m": [
+              3.5284,
+              36.146
+            ],
+            "height_range_m": [
+              -0.0344,
+              0.6356
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 1,
+            "center_xy_m": [
+              3.5284,
+              36.146
+            ],
+            "height_range_m": [
+              -0.4344,
+              -0.0344
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 2,
+          "center_xy_m": [
+            13.292,
+            25.76
+          ],
+          "height_range_m": [
+            0.9369,
+            6.2941
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 2,
+            "center_xy_m": [
+              13.292,
+              25.76
+            ],
+            "height_range_m": [
+              0.9369,
+              6.2941
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 6,
+            "center_xy_m": [
+              13.292,
+              25.76
+            ],
+            "height_range_m": [
+              0.8869,
+              0.9369
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 2,
+            "center_xy_m": [
+              13.292,
+              25.76
+            ],
+            "height_range_m": [
+              0.2169,
+              0.8869
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 2,
+            "center_xy_m": [
+              13.292,
+              25.76
+            ],
+            "height_range_m": [
+              -0.1831,
+              0.2169
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 3,
+          "center_xy_m": [
+            13.282,
+            36.146
+          ],
+          "height_range_m": [
+            0.9366,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 3,
+            "center_xy_m": [
+              13.282,
+              36.146
+            ],
+            "height_range_m": [
+              0.9366,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 9,
+            "center_xy_m": [
+              13.282,
+              36.146
+            ],
+            "height_range_m": [
+              0.8866,
+              0.9366
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 3,
+            "center_xy_m": [
+              13.282,
+              36.146
+            ],
+            "height_range_m": [
+              0.2166,
+              0.8866
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 3,
+            "center_xy_m": [
+              13.282,
+              36.146
+            ],
+            "height_range_m": [
+              -0.1834,
+              0.2166
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 4,
+          "center_xy_m": [
+            23.0456,
+            25.76
+          ],
+          "height_range_m": [
+            1.1879,
+            6.2941
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              25.76
+            ],
+            "height_range_m": [
+              1.1879,
+              6.2941
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 12,
+            "center_xy_m": [
+              23.0456,
+              25.76
+            ],
+            "height_range_m": [
+              1.1379,
+              1.1879
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              25.76
+            ],
+            "height_range_m": [
+              0.4679,
+              1.1379
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 4,
+            "center_xy_m": [
+              23.0456,
+              25.76
+            ],
+            "height_range_m": [
+              0.0679,
+              0.4679
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 5,
+          "center_xy_m": [
+            23.0356,
+            36.146
+          ],
+          "height_range_m": [
+            1.1876,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 5,
+            "center_xy_m": [
+              23.0356,
+              36.146
+            ],
+            "height_range_m": [
+              1.1876,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 15,
+            "center_xy_m": [
+              23.0356,
+              36.146
+            ],
+            "height_range_m": [
+              1.1376,
+              1.1876
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 5,
+            "center_xy_m": [
+              23.0356,
+              36.146
+            ],
+            "height_range_m": [
+              0.4676,
+              1.1376
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 5,
+            "center_xy_m": [
+              23.0356,
+              36.146
+            ],
+            "height_range_m": [
+              0.0676,
+              0.4676
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 6,
+          "center_xy_m": [
+            32.7992,
+            25.76
+          ],
+          "height_range_m": [
+            1.4389,
+            6.2941
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              25.76
+            ],
+            "height_range_m": [
+              1.4389,
+              6.2941
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 18,
+            "center_xy_m": [
+              32.7992,
+              25.76
+            ],
+            "height_range_m": [
+              1.3889,
+              1.4389
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              25.76
+            ],
+            "height_range_m": [
+              0.7189,
+              1.3889
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 6,
+            "center_xy_m": [
+              32.7992,
+              25.76
+            ],
+            "height_range_m": [
+              0.3189,
+              0.7189
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 7,
+          "center_xy_m": [
+            32.7892,
+            36.146
+          ],
+          "height_range_m": [
+            1.4788,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 7,
+            "center_xy_m": [
+              32.7892,
+              36.146
+            ],
+            "height_range_m": [
+              1.4788,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 21,
+            "center_xy_m": [
+              32.7892,
+              36.146
+            ],
+            "height_range_m": [
+              1.4288,
+              1.4788
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 7,
+            "center_xy_m": [
+              32.7892,
+              36.146
+            ],
+            "height_range_m": [
+              0.7588,
+              1.4288
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 7,
+            "center_xy_m": [
+              32.7892,
+              36.146
+            ],
+            "height_range_m": [
+              0.3588,
+              0.7588
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 8,
+          "center_xy_m": [
+            42.5528,
+            25.76
+          ],
+          "height_range_m": [
+            1.6899,
+            6.2941
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              25.76
+            ],
+            "height_range_m": [
+              1.6899,
+              6.2941
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 24,
+            "center_xy_m": [
+              42.5528,
+              25.76
+            ],
+            "height_range_m": [
+              1.6399,
+              1.6899
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              25.76
+            ],
+            "height_range_m": [
+              0.9699,
+              1.6399
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 8,
+            "center_xy_m": [
+              42.5528,
+              25.76
+            ],
+            "height_range_m": [
+              0.5699,
+              0.9699
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 9,
+          "center_xy_m": [
+            42.5428,
+            36.146
+          ],
+          "height_range_m": [
+            1.9699,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 9,
+            "center_xy_m": [
+              42.5428,
+              36.146
+            ],
+            "height_range_m": [
+              1.9699,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 27,
+            "center_xy_m": [
+              42.5428,
+              36.146
+            ],
+            "height_range_m": [
+              1.9199,
+              1.9699
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 9,
+            "center_xy_m": [
+              42.5428,
+              36.146
+            ],
+            "height_range_m": [
+              1.2499,
+              1.9199
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 9,
+            "center_xy_m": [
+              42.5428,
+              36.146
+            ],
+            "height_range_m": [
+              0.8499,
+              1.2499
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 10,
+          "center_xy_m": [
+            52.3064,
+            25.76
+          ],
+          "height_range_m": [
+            2.0955,
+            6.2941
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 10,
+            "center_xy_m": [
+              52.3064,
+              25.76
+            ],
+            "height_range_m": [
+              2.0955,
+              6.2941
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 30,
+            "center_xy_m": [
+              52.3064,
+              25.76
+            ],
+            "height_range_m": [
+              2.0455,
+              2.0955
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 10,
+            "center_xy_m": [
+              52.3064,
+              25.76
+            ],
+            "height_range_m": [
+              1.3755,
+              2.0455
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 10,
+            "center_xy_m": [
+              52.3064,
+              25.76
+            ],
+            "height_range_m": [
+              0.9755,
+              1.3755
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 11,
+          "center_xy_m": [
+            52.3064,
+            35.786
+          ],
+          "height_range_m": [
+            2.4489,
+            4.9889
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 11,
+            "center_xy_m": [
+              52.3064,
+              35.786
+            ],
+            "height_range_m": [
+              2.4489,
+              4.9889
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 33,
+            "center_xy_m": [
+              52.3064,
+              35.786
+            ],
+            "height_range_m": [
+              2.3989,
+              2.4489
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 11,
+            "center_xy_m": [
+              52.3064,
+              35.786
+            ],
+            "height_range_m": [
+              1.7289,
+              2.3989
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 11,
+            "center_xy_m": [
+              52.3064,
+              35.786
+            ],
+            "height_range_m": [
+              1.3289,
+              1.7289
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 12,
+          "center_xy_m": [
+            57.1832,
+            25.76
+          ],
+          "height_range_m": [
+            2.3411,
+            6.2941
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 12,
+            "center_xy_m": [
+              57.1832,
+              25.76
+            ],
+            "height_range_m": [
+              2.3411,
+              6.2941
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 36,
+            "center_xy_m": [
+              57.1832,
+              25.76
+            ],
+            "height_range_m": [
+              2.2911,
+              2.3411
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 12,
+            "center_xy_m": [
+              57.1832,
+              25.76
+            ],
+            "height_range_m": [
+              1.6211,
+              2.2911
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 12,
+            "center_xy_m": [
+              57.1832,
+              25.76
+            ],
+            "height_range_m": [
+              1.2211,
+              1.6211
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 13,
+          "center_xy_m": [
+            57.1832,
+            35.786
+          ],
+          "height_range_m": [
+            2.6945,
+            4.9889
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 13,
+            "center_xy_m": [
+              57.1832,
+              35.786
+            ],
+            "height_range_m": [
+              2.6945,
+              4.9889
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 39,
+            "center_xy_m": [
+              57.1832,
+              35.786
+            ],
+            "height_range_m": [
+              2.6445,
+              2.6945
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 13,
+            "center_xy_m": [
+              57.1832,
+              35.786
+            ],
+            "height_range_m": [
+              1.9745,
+              2.6445
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 13,
+            "center_xy_m": [
+              57.1832,
+              35.786
+            ],
+            "height_range_m": [
+              1.5745,
+              1.9745
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 14,
+          "center_xy_m": [
+            3.2884,
+            46.892
+          ],
+          "height_range_m": [
+            0.6794,
+            4.5921
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 14,
+            "center_xy_m": [
+              3.2884,
+              46.892
+            ],
+            "height_range_m": [
+              0.6794,
+              4.5921
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 42,
+            "center_xy_m": [
+              3.2884,
+              46.892
+            ],
+            "height_range_m": [
+              0.6294,
+              0.6794
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 14,
+            "center_xy_m": [
+              3.2884,
+              46.892
+            ],
+            "height_range_m": [
+              -0.0406,
+              0.6294
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 14,
+            "center_xy_m": [
+              3.2884,
+              46.892
+            ],
+            "height_range_m": [
+              -0.4406,
+              -0.0406
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 15,
+          "center_xy_m": [
+            13.042,
+            46.892
+          ],
+          "height_range_m": [
+            0.9304,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 15,
+            "center_xy_m": [
+              13.042,
+              46.892
+            ],
+            "height_range_m": [
+              0.9304,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 45,
+            "center_xy_m": [
+              13.042,
+              46.892
+            ],
+            "height_range_m": [
+              0.8804,
+              0.9304
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 15,
+            "center_xy_m": [
+              13.042,
+              46.892
+            ],
+            "height_range_m": [
+              0.2104,
+              0.8804
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 15,
+            "center_xy_m": [
+              13.042,
+              46.892
+            ],
+            "height_range_m": [
+              -0.1896,
+              0.2104
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 16,
+          "center_xy_m": [
+            22.7956,
+            46.892
+          ],
+          "height_range_m": [
+            1.3543,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 16,
+            "center_xy_m": [
+              22.7956,
+              46.892
+            ],
+            "height_range_m": [
+              1.3543,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 48,
+            "center_xy_m": [
+              22.7956,
+              46.892
+            ],
+            "height_range_m": [
+              1.3043,
+              1.3543
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 16,
+            "center_xy_m": [
+              22.7956,
+              46.892
+            ],
+            "height_range_m": [
+              0.6343,
+              1.3043
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 16,
+            "center_xy_m": [
+              22.7956,
+              46.892
+            ],
+            "height_range_m": [
+              0.2343,
+              0.6343
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 17,
+          "center_xy_m": [
+            32.5492,
+            46.892
+          ],
+          "height_range_m": [
+            1.8455,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 17,
+            "center_xy_m": [
+              32.5492,
+              46.892
+            ],
+            "height_range_m": [
+              1.8455,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 51,
+            "center_xy_m": [
+              32.5492,
+              46.892
+            ],
+            "height_range_m": [
+              1.7955,
+              1.8455
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 17,
+            "center_xy_m": [
+              32.5492,
+              46.892
+            ],
+            "height_range_m": [
+              1.1255,
+              1.7955
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 17,
+            "center_xy_m": [
+              32.5492,
+              46.892
+            ],
+            "height_range_m": [
+              0.7255,
+              1.1255
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 18,
+          "center_xy_m": [
+            42.3028,
+            46.892
+          ],
+          "height_range_m": [
+            2.3367,
+            4.3971
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 18,
+            "center_xy_m": [
+              42.3028,
+              46.892
+            ],
+            "height_range_m": [
+              2.3367,
+              4.3971
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 54,
+            "center_xy_m": [
+              42.3028,
+              46.892
+            ],
+            "height_range_m": [
+              2.2867,
+              2.3367
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 18,
+            "center_xy_m": [
+              42.3028,
+              46.892
+            ],
+            "height_range_m": [
+              1.6167,
+              2.2867
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 18,
+            "center_xy_m": [
+              42.3028,
+              46.892
+            ],
+            "height_range_m": [
+              1.2167,
+              1.6167
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 19,
+          "center_xy_m": [
+            49.848,
+            36.506
+          ],
+          "height_range_m": [
+            2.3505,
+            4.8471
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 19,
+            "center_xy_m": [
+              49.848,
+              36.506
+            ],
+            "height_range_m": [
+              2.3505,
+              4.8471
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 57,
+            "center_xy_m": [
+              49.848,
+              36.506
+            ],
+            "height_range_m": [
+              2.3005,
+              2.3505
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 19,
+            "center_xy_m": [
+              49.848,
+              36.506
+            ],
+            "height_range_m": [
+              1.6305,
+              2.3005
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 19,
+            "center_xy_m": [
+              49.848,
+              36.506
+            ],
+            "height_range_m": [
+              1.2305,
+              1.6305
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 20,
+          "center_xy_m": [
+            49.848,
+            46.532
+          ],
+          "height_range_m": [
+            2.7039,
+            4.8471
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 20,
+            "center_xy_m": [
+              49.848,
+              46.532
+            ],
+            "height_range_m": [
+              2.7039,
+              4.8471
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 60,
+            "center_xy_m": [
+              49.848,
+              46.532
+            ],
+            "height_range_m": [
+              2.6539,
+              2.7039
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 20,
+            "center_xy_m": [
+              49.848,
+              46.532
+            ],
+            "height_range_m": [
+              1.9839,
+              2.6539
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 20,
+            "center_xy_m": [
+              49.848,
+              46.532
+            ],
+            "height_range_m": [
+              1.5839,
+              1.9839
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 21,
+          "center_xy_m": [
+            3.0584,
+            57.278
+          ],
+          "height_range_m": [
+            0.7265,
+            5.0962
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 21,
+            "center_xy_m": [
+              3.0584,
+              57.278
+            ],
+            "height_range_m": [
+              0.7265,
+              5.0962
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 63,
+            "center_xy_m": [
+              3.0584,
+              57.278
+            ],
+            "height_range_m": [
+              0.6765,
+              0.7265
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 21,
+            "center_xy_m": [
+              3.0584,
+              57.278
+            ],
+            "height_range_m": [
+              0.0065,
+              0.6765
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 21,
+            "center_xy_m": [
+              3.0584,
+              57.278
+            ],
+            "height_range_m": [
+              -0.3935,
+              0.0065
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 22,
+          "center_xy_m": [
+            12.812,
+            57.278
+          ],
+          "height_range_m": [
+            1.2177,
+            4.911
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 22,
+            "center_xy_m": [
+              12.812,
+              57.278
+            ],
+            "height_range_m": [
+              1.2177,
+              4.911
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 66,
+            "center_xy_m": [
+              12.812,
+              57.278
+            ],
+            "height_range_m": [
+              1.1677,
+              1.2177
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 22,
+            "center_xy_m": [
+              12.812,
+              57.278
+            ],
+            "height_range_m": [
+              0.4977,
+              1.1677
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 22,
+            "center_xy_m": [
+              12.812,
+              57.22
+            ],
+            "height_range_m": [
+              0.0977,
+              0.4977
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 23,
+          "center_xy_m": [
+            22.5656,
+            57.278
+          ],
+          "height_range_m": [
+            1.7088,
+            4.911
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 23,
+            "center_xy_m": [
+              22.5656,
+              57.278
+            ],
+            "height_range_m": [
+              1.7088,
+              4.911
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 69,
+            "center_xy_m": [
+              22.5656,
+              57.278
+            ],
+            "height_range_m": [
+              1.6588,
+              1.7088
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 23,
+            "center_xy_m": [
+              22.5656,
+              57.278
+            ],
+            "height_range_m": [
+              0.9888,
+              1.6588
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 23,
+            "center_xy_m": [
+              22.5656,
+              57.22
+            ],
+            "height_range_m": [
+              0.5888,
+              0.9888
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 24,
+          "center_xy_m": [
+            32.3192,
+            57.278
+          ],
+          "height_range_m": [
+            2.2,
+            4.911
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 24,
+            "center_xy_m": [
+              32.3192,
+              57.278
+            ],
+            "height_range_m": [
+              2.2,
+              4.911
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 72,
+            "center_xy_m": [
+              32.3192,
+              57.278
+            ],
+            "height_range_m": [
+              2.15,
+              2.2
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 24,
+            "center_xy_m": [
+              32.3192,
+              57.278
+            ],
+            "height_range_m": [
+              1.48,
+              2.15
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 24,
+            "center_xy_m": [
+              32.3192,
+              57.22
+            ],
+            "height_range_m": [
+              1.08,
+              1.48
+            ]
+          }
+        ]
+      },
+      {
+        "support": {
+          "layer": "Vendor glulam columns",
+          "part": 25,
+          "center_xy_m": [
+            42.0728,
+            57.278
+          ],
+          "height_range_m": [
+            2.6912,
+            4.911
+          ]
+        },
+        "bearing_path": [
+          {
+            "layer": "Vendor glulam columns",
+            "part": 25,
+            "center_xy_m": [
+              42.0728,
+              57.278
+            ],
+            "height_range_m": [
+              2.6912,
+              4.911
+            ]
+          },
+          {
+            "layer": "Vendor column shoes",
+            "part": 75,
+            "center_xy_m": [
+              42.0728,
+              57.278
+            ],
+            "height_range_m": [
+              2.6412,
+              2.6912
+            ]
+          },
+          {
+            "layer": "Market plinths",
+            "part": 25,
+            "center_xy_m": [
+              42.0728,
+              57.278
+            ],
+            "height_range_m": [
+              1.9712,
+              2.6412
+            ]
+          },
+          {
+            "layer": "Vendor spread footings",
+            "part": 25,
+            "center_xy_m": [
+              42.0728,
+              57.278
+            ],
+            "height_range_m": [
+              1.5712,
+              1.9712
+            ]
+          }
+        ]
+      }
+    ],
+    "scope_of_checks": "Column counts refer to distinct load-bearing locations within each stated area. Geometry, walking clearances and preliminary gravity actions are reported separately. Lateral capacity, vibration, anchorage, fire design and soil bearing require engineering verification.",
+    "arcade_concept_gravity_assumptions": {
+      "walk_dead_kpa": 1.12,
+      "roof_dead_kpa": 0.95,
+      "crowd_kpa": 5.0,
+      "gross_uplift_kpa": 1.0,
+      "note": "Service cases for span reactions and transverse overturning about the arcade mast. Values are input assumptions, not local design actions or resistance capacities."
+    }
   }
 }

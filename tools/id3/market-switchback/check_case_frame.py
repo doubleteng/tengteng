@@ -77,7 +77,7 @@ def audit(model, reference=None):
         # A seat in uninterrupted wall bears straight down. Follow only elements
         # at this wall line, and require both piers when the beam is over a door.
         wall=hosts[0]
-        peers=[p for p in cores+groups['Stair gallery lintel'] if abs(p.center[1]-wall.center[1])<.002]
+        peers=[p for p in cores+groups['Stair gallery lintel'] if p.lo[1]-.001<=wall.center[1]<=p.hi[1]+.001]
         def on_mat(xy):
             return any(np.all(m.lo[:2]<=xy) and np.all(m.hi[:2]>=xy)
                        and any(touch(f,m) for f in ground_panels(xy)) for m in mats)
@@ -121,9 +121,10 @@ def audit(model, reference=None):
     basement = groups['Basement beams']
     columns = groups['Basement columns']
     assert len(basement)>=14
+    beam_supports = cores+columns+groups['Freight lift core']+groups['Retaining walls']+groups['Primary bearing pedestals']
     for girder in basement:
         for endpoint in (girder.lo[1],girder.hi[1]):
-            assert any(p.lo[1]-.001<=endpoint<=p.hi[1]+.001 and touch(p,girder) for p in cores+columns+groups['Freight lift core']), (girder.serial,endpoint)
+            assert any(p.lo[1]-.001<=endpoint<=p.hi[1]+.001 and touch(p,girder) for p in beam_supports), (girder.serial,endpoint)
     for col in columns:
         local=ground_panels(col.center[:2])
         assert any(touch(col,f) for f in local)

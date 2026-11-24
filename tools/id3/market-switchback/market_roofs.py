@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import math
 
 from geometry import beam, box, clip, grade, plate, rect, solid
+from vendor_supports import Bearing, common_axes, support_banks
 
 
 STEEL = 'Graphite steel'
@@ -137,7 +138,7 @@ def web(layer, material, a, b, width, top_a, top_b, depth_a, depth_b):
                                  [2,3,7,6],[3,0,4,7]])
 
 
-def build_bank(index, study, counts, frame):
+def build_bank(index, study, counts, frame, stations, axes, bearings):
     north,n,first,h= BANKS[index]
     south=north+BANK_DEPTH
     monitor=north+study.monitor_offsets[index]
@@ -157,6 +158,11 @@ def build_bank(index, study, counts, frame):
                 if study.west_fold else 0.)
     def roof(u,v,high):
         return h-TAN*(v-north)+(rise if high else 0.)+folded(u)
+    def pitched_plate(layer,material,poly,top,depth):
+        pieces=[poly]
+        if min(u for u,v in poly)<west<max(u for u,v in poly):
+            pieces=[clip(poly,0,west,c) for c in (False,True)]
+        for piece in pieces:plate(layer,material,piece,top,depth)
     def seated_member(layer, material, a, b, width, depth, offset, high):
         # A pitched bearing is a plane over the *whole* rectangular member.
         # Split at the ridge so a single diagonal face never bridges the fold.
@@ -185,15 +191,23 @@ def build_bank(index, study, counts, frame):
     areas=0.
     module_counts=[0,0]
     opening_area=0.
-    station_indices=list(range(1,n,frame.bays))
-    if n-station_indices[-1] == 1 and len(station_indices)>1:
-        station_indices[-1]-=1
-    station_indices.append(n)
-    stations=[first+i*BAY for i in station_indices]
     g_width,g_depth=frame.girder
     p_width,p_depth=frame.primary
     c_width,c_depth=frame.post
+    yN=north+.36;yS=south-.36
+    def transfer_top(x):
+        # Keep the roof silhouette. A 20 mm gap below the secondary rafters
+        # permits the two low collectors to be framed into the transfer sides.
+        low_x=x+p_width/2
+        return (min(roof(low_x,monitor-.04,False),roof(low_x,yS+.15,True))
+                -DECK_BOTTOM-.001-RAFTER[1]-.020)
+    def collector_base(x,y,high,offset):
+        return roof(x,y,high)-DECK_BOTTOM-.001-g_depth-offset
+    def side_hung(x,v,high,offset):
+        if index==0 and v==yN:return False
+        return collector_base(x+p_width/2,v+g_width/2,high,offset)<transfer_top(x)+.025
     frame_lows=[]
+    high_rafter_bearings=[]
     rafter_design_span=0.
     max_rafter_tributary=0.
     max_rafter_tail=0.
@@ -239,11 +253,48 @@ def build_bank(index, study, counts, frame):
                 outer=north+.36 if not high else south-.36
                 inner=monitor-.12 if not high else high_collector
                 near_y,far_y=sorted((outer,inner))
-                trim=frame.girder[0]*.47
+                trim=g_width/2+.014
                 v0=(a+.055 if high and rise else near_y+trim);v1=far_y-trim
                 loc=lambda v:xa+(xb-xa)*(v-a)/(b-a)
-                seated_member('Structure / Glulam market rafters',GLULAM,
-                              (loc(v0),v0),(loc(v1),v1),*RAFTER,DECK_BOTTOM+.001,high)
+                half_rafter=RAFTER[0]/2*math.hypot(loc(v1)-loc(v0),v1-v0)/(v1-v0)
+                if high and rise:
+                    abscissas=(loc(high_collector-g_width/2),loc(high_collector+g_width/2))
+                    high_rafter_bearings.append((min(abscissas)-half_rafter,max(abscissas)+half_rafter))
+                rafter_poly=[(loc(v0)-half_rafter,v0),(loc(v0)+half_rafter,v0),
+                             (loc(v1)+half_rafter,v1),(loc(v1)-half_rafter,v1)]
+                pitched_plate('Structure / Glulam market rafters',GLULAM,rafter_poly,
+                              lambda u,w:roof(u,w,high)-DECK_BOTTOM-.001,RAFTER[1])
+                terminals=[(v1,far_y,-1)] if high and rise else [(v0,near_y,1),(v1,far_y,-1)]
+                for toe,line,along in terminals:
+                    face=line+along*g_width/2
+                    foot=lambda u,w:roof(u,w,high)-DECK_BOTTOM-.001-RAFTER[1]
+                    ux=loc(toe)
+                    xa,X=ux-half_rafter-.014,ux+half_rafter+.014
+                    near_end=toe+along*.16
+                    y0,Y=sorted((toe,near_end))
+                    pitched_plate('Structure / Vendor rafter shelves',STEEL,rect(xa,y0,X,Y),
+                                  foot,.016)
+                    # Widen the back plate across a transverse-frame recess or
+                    # toward the last oblique end. The cantilevered steel lip
+                    # carries the rafter; both bolts still land in solid glulam.
+                    high_setback=RAFTER[1] if line==high_collector and rise else 0.
+                    adjacent=next((q for q in stations if abs(q-ux)<.32 and
+                                   side_hung(q,line,high,high_setback)),None)
+                    end_x=end(line)-.15
+                    bolt_x=[ux-.045,ux+.045]
+                    if adjacent is not None:
+                        bolt_x=[adjacent-p_width/2-.114,adjacent+p_width/2+.114]
+                    if max(bolt_x)>end_x-.045:
+                        bolt_x=[end_x-.25,end_x-.085]
+                    left_edge=min(xa,min(bolt_x)-.032)
+                    right_edge=max(X,max(bolt_x)+.032)
+                    fy,FY=sorted((face,toe))
+                    pitched_plate('Structure / Vendor rafter hanger backs',STEEL,rect(left_edge,fy,right_edge,FY),
+                                  lambda u,w:foot(u,w)+.13,.18)
+                    for u in bolt_x:
+                        at=foot(u,face)+.061
+                        beam('Structure / Vendor rafter hanger bolts',ZINC,(u,toe+along*.003,at),
+                             (u,face-along*.135,at),.015)
                 rafter_design_span=max(rafter_design_span,
                     math.hypot(loc(far_y)-loc(near_y),far_y-near_y)/math.cos(PITCH))
                 if high and rise:
@@ -302,7 +353,10 @@ def build_bank(index, study, counts, frame):
             max_overhang=max(max_overhang,stations[0]-cut[0],cut[-1]-stations[-1])
             girder_offset=DECK_BOTTOM+(RAFTER[1] if v==high_collector and rise else 0.)
             for x,X in zip(cut,cut[1:]):
-                seated_member(primary,GLULAM,(x,v),(X,v),g_width,g_depth,girder_offset+.001,high)
+                offset=girder_offset-DECK_BOTTOM
+                lo=x+(p_width/2+.016 if x in stations and side_hung(x,v,high,offset) else 0)
+                hi=X-(p_width/2+.016 if X in stations and side_hung(X,v,high,offset) else 0)
+                seated_member(primary,GLULAM,(lo,v),(hi,v),g_width,g_depth,girder_offset+.001,high)
     # Every fourth glazed panel is a top-hung, partially opened sash.
     if rise:
         u=left+.12;right=end(monitor)-.12
@@ -358,55 +412,85 @@ def build_bank(index, study, counts, frame):
                     beam(vents,ZINC,(u,monitor,z+.1),(u,monitor,z+rise-.1),.048,.045)
                 opening_area+=(X-x)*(vent_h if i%4!=1 else vent_h-.068)
     yN=north+.36;yS=south-.36
-    for x in stations:
-        # The shallowest roof point sets the continuous transfer elevation.
-        # A horizontal transfer must clear the low edge of both roof
-        # panels across its full width, including the sloped west portal.
-        low_edge=x+p_width/2
-        member_top=min(roof(low_edge,monitor-.04,False),roof(low_edge,yS,True))-DECK_BOTTOM-.001
+    lines=((yN,False,0.),(monitor-.12,False,0.),
+           (high_collector,True,RAFTER[1] if rise else 0.),(yS,True,0.))
+    for i,x in enumerate(stations):
+        member_top=transfer_top(x)
         underside=member_top-p_depth
         frame_lows.append((x,underside))
-        # Horizontal beam terminates on both timber post bearing faces.
-        web(transverse,GLULAM,(x,yN),(x,yS),p_width,member_top,member_top,p_depth,p_depth)
-        for v,high,direction in ((yN,False,1),(yS,True,-1)):
-            ground=grade(x,v)
-            bearing=roof(x,v,high)-DECK_BOTTOM-g_depth
-            base=ground+.29
-            box('Structure / Market plinths',CONCRETE,x-.23,v-.23,ground-.15,
-                x+.23,v+.23,ground+.24)
-            box(fittings,STEEL,x-.13,v-.13,ground+.24,x+.13,v+.13,base)
-            box(transverse,GLULAM,x-c_width/2,v-c_depth/2,base,
-                x+c_width/2,v+c_depth/2,max(bearing,underside))
-            knee_end=v+direction*1.18
-            beam(transverse,GLULAM,(x,v,underside-.66),(x,knee_end,underside+.08),.16,.20)
-            # Internal steel knife plate and two dowels, visible only at the tips.
-            box(fittings,STEEL,x-.009,v-.11,underside-.28,x+.009,v+.11,underside+.34)
-            for level in (underside-.17,underside+.17):
-                beam(fittings,STEEL,(x-c_width/2-.002,v,level),
-                     (x+c_width/2+.002,v,level),.029,.029)
-            beam(drainage,STEEL,(x+.19,v,ground+.17),(x+.19,v,roof(x,v,high)-.25),.066,.09)
-        for v,high in ((monitor-.12,False),(high_collector,True)):
-            bearing=roof(x,v,high)-DECK_BOTTOM-g_depth-(RAFTER[1] if high and rise else 0.)
-            if bearing>member_top:
-                box(transverse,GLULAM,x-.12,v-.09,member_top,x+.12,v+.09,bearing)
-            knife_top=min(max(member_top,bearing)+.12,
-                          roof(x+.012,v+.065,high)-DECK_BOTTOM-.006)
-            box(fittings,STEEL,x-.012,v-.065,min(member_top,bearing)-.15,
-                x+.012,v+.065,knife_top)
-        for outlet,post,high in ((monitor+.004,yN,False),(yb+.044,yS,True)):
+        north_end=yN+c_depth/2+.012 if index==0 else yN-.15
+        web(transverse,GLULAM,(x,north_end),(x,yS+.15),p_width,member_top,member_top,p_depth,p_depth)
+        for v,high,offset in lines:
+            if index==0 and v==yN:continue
+            if side_hung(x,v,high,offset):
+                # Shelves follow the compound roof pitch. Opposing hangers
+                # bear on the intact transverse glulam and are through-bolted.
+                if high and v==high_collector and any(a<x+p_width/2 and x-p_width/2<b
+                                                      for a,b in high_rafter_bearings):
+                    # A skew rafter can bear directly over the discontinuity
+                    # in this girder. Continue its upper bearing surface over
+                    # the crosshead with a separate pitch-cut compression block.
+                    fp=rect(x-p_width/2,v-g_width/2,x+p_width/2,v+g_width/2)
+                    solid('Structure / Vendor rafter transfer stools',GLULAM,
+                          [(u,w,member_top) for u,w in fp]+
+                          [(u,w,roof(u,w,True)-DECK_BOTTOM-.001-RAFTER[1]) for u,w in fp],
+                          [[0,1,2,3],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]])
+                for sign in (-1,1):
+                    face=x+sign*p_width/2
+                    outer=face+sign*.016
+                    a,b=sorted((face,outer))
+                    z=collector_base(outer,v,high,offset)
+                    box('Structure / Vendor collector hanger backs',STEEL,a,v-g_width*.63,
+                        z-.085,b,v+g_width*.63,member_top-.014)
+                    u,U=sorted((outer,outer+sign*.22))
+                    plate('Structure / Vendor collector hanger seats',STEEL,rect(u,v-g_width*.51,U,v+g_width*.51),
+                          lambda xx,yy:collector_base(xx,yy,high,offset),.022)
+                bottom=collector_base(x,v,high,offset)
+                for yoff in (-g_width*.30,g_width*.30):
+                    bolt_z=max(bottom-.035,underside+.12)
+                    beam('Structure / Vendor collector hanger bolts',ZINC,
+                         (x-p_width/2-.020,v+yoff,bolt_z),(x+p_width/2+.020,v+yoff,bolt_z),.021)
+                continue
+            footprint=rect(x-p_width*.44,v-g_width*.43,x+p_width*.44,v+g_width*.43)
+            bearing=[(u,w,collector_base(u,w,high,offset)) for u,w in footprint]
+            solid('Structure / Vendor collector bearings',GLULAM,
+                  [(u,w,member_top) for u,w in footprint]+bearing,
+                  [[0,1,2,3],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]])
+            for ox in (-.055,.055):
+                top=collector_base(x+ox,v,high,offset)
+                beam(fittings,STEEL,(x+ox,v,member_top-.14),(x+ox,v,top+.17),.022)
+        for side,(v,high,outlet) in enumerate(((yN,False,monitor+.004),(yS,True,yb+.044))):
+            cx,cy=axes[index,side,x]
+            # Tributary boundaries are midway to the next transverse frame;
+            # the end projection of the oblique roof is taken at this eave.
+            u=(stations[i-1]+x)/2 if i else left
+            U=(stations[i+1]+x)/2 if i+1<len(stations) else end(v)
+            tributary_width=U-u
+            roof_force=(ROOF_SERVICE*BANK_DEPTH*.5+
+                        TIMBER_WEIGHT*(2*g_width*g_depth+RAFTER[0]*RAFTER[1]*BANK_DEPTH/(2*BAY)))*tributary_width
+            beam_weight=TIMBER_WEIGHT*p_width*p_depth*(yS-yN+.30)/2
+            eave_top=tuple((u,w,collector_base(u,w,high,0)) for u,w in
+                           rect(x-c_width/2,v-c_depth/2,x+c_width/2,v+c_depth/2)) if index==0 and side==0 else ()
+            bearings.append(Bearing(index,side,x,v,underside,p_width,c_width,c_depth,
+                                    (roof_force+beam_weight)/1000,eave_top))
+            shared=abs(cy-v)>.05
+            pipe_x=cx+(.274 if shared else .210)
+            pipe_y=cy+(v-cy)*.65
             drop=roof(x,outlet,high)-.20
             beam(drainage,STEEL,(x+.19,outlet,drop+.105),(x+.19,outlet,drop),.08,.09)
-            beam(drainage,STEEL,(x+.19,outlet,drop),(x+.19,post,drop-.035),.082,.095)
+            beam(drainage,STEEL,(x+.19,outlet,drop),(pipe_x,pipe_y,drop-.035),.082,.095)
+            beam(drainage,STEEL,(pipe_x,pipe_y,grade(pipe_x,pipe_y)+.17),
+                 (pipe_x,pipe_y,drop-.035),.066,.09)
 
-    # Longitudinal stability bays and the CLT diaphragm carry wind to the
-    # plinths. Braces remain entirely in the two booth-back support lines.
-    for v,high in ((yN,False),(yS,True)):
+    # X bracing runs to the shared column's real base. The upper vertex
+    # stays on this roof's own collector, independently of the adjacent roof.
+    for side,(v,high) in enumerate(((yN,False),(yS,True))):
         for j in sorted({0,len(stations)-2}):
             x,X=stations[j:j+2];mid=(x+X)/2
-            beam(transverse,GLULAM,(x,v,grade(x,v)+.42),
-                 (mid,v,roof(mid,v,high)-DECK_BOTTOM-g_depth),.14,.20)
-            beam(transverse,GLULAM,(X,v,grade(X,v)+.42),
-                 (mid,v,roof(mid,v,high)-DECK_BOTTOM-g_depth),.14,.20)
+            for support in (x,X):
+                u,w=axes[index,side,support]
+                beam('Structure / Vendor longitudinal braces',GLULAM,(u,w,grade(u,w)+.42),
+                     (mid,v,roof(mid,v,high)-DECK_BOTTOM-g_depth),.14,.20)
     for i in range(n):
         u=first+i*BAY
         for sign,y0 in [(-1,north+DEPTH),(1,south-DEPTH)]:
@@ -470,7 +554,8 @@ def build_bank(index, study, counts, frame):
                 northlight_step_m=rise,
                 max_primary_bay_m=round(max(b-a for a,b in zip(stations,stations[1:])),2),
                 min_primary_frame_aisle_headroom_m=round(clear,2),
-                clt_deck_mm=105,timber_checks=member_checks,post_count=2*len(stations),
+                clt_deck_mm=105,timber_checks=member_checks,post_count=2*len(stations),roof_bearing_points=2*len(stations),
+                shared_column_bearing_points=sum(1 for side,v in enumerate((yN,yS)) for x in stations if abs(axes[index,side,x][1]-v)>.05),
                 highest_west_roof_m=round(max(roof(left,ya,False),roof(left,monitor,True)),2))
 
 
@@ -479,7 +564,14 @@ def build_market(counts, design=STUDIES[-1], frame=None):
     if any(key not in counts for key in ('stalls','pv','canopyRoof')):
         raise KeyError('Initialize stalls, pv and canopyRoof before building the market.')
     frame=frame or FRAMES[design.max_frame_bays]
-    report=[build_bank(i,design,counts,frame) for i in range(len(BANKS))]
+    stations,axes=common_axes(BANKS,BANK_DEPTH,BAY,frame.bays)
+    bearings=[]
+    report=[build_bank(i,design,counts,frame,stations[i],axes,bearings) for i in range(len(BANKS))]
+    posts=support_banks(bearings,axes)
+    counts['vendorColumnSchedule']=posts
+    counts['vendorFrameBearings']=len(bearings)
+    counts['vendorPhysicalColumns']=len(posts)
+    counts['vendorSharedColumns']=sum(len(n['banks'])>1 for n in posts)
     counts['marketRoofStudy']=design.name
     counts['marketRoofBanks']=report
     return report

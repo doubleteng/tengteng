@@ -47,6 +47,10 @@ const beforeResize = camera.position.clone();
 viewer.host.clientWidth=850;viewer.host.clientHeight=950;viewer.resize();
 assert.ok(camera.position.distanceTo(beforeResize)<1e-8,'Changing aspect after navigation must preserve the eye.');
 
+viewer.view('case-arcade',false);
+assert.ok(camera.position.distanceTo(new T.Vector3(-11.106,4.17,25.4))<1e-5,
+ 'Keep the arcade view at street level on Detroit Street.');
+assert.ok(firstVisibleHit()?.distance>5,'The arcade view must show the frame beyond the street.');
 viewer.view('case-hall',false);
 const hall = new T.Vector3(-45.16,4.16,16.06);
 assert.ok(camera.position.distanceTo(hall)<1e-8,'Preserve the requested gallery eye height.');

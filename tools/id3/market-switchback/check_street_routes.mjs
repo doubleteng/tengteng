@@ -40,14 +40,15 @@ for(const [i,y] of [30.773,41.519,52.265].entries()){
  routes.push(['Vendor aisle '+(i+1),[[-5,approach],[2,approach],[7,y],[eastSidewalk,y]]]);
 }
 
-function trace(name,points,stairs){
+function trace(name,points,stairs,initialLevel){
  let previous=null,samples=0;
  for(let j=1;j<points.length;j++){
   const [x0,y0]=points[j-1],[x1,y1]=points[j];
   const intervalCount=Math.ceil(Math.hypot(x1-x0,y1-y0)/.075);
   for(let i=0;i<=intervalCount;i++){
    const fraction=i/intervalCount,x=x0+(x1-x0)*fraction,y=y0+(y1-y0)*fraction;
-   const min=previous?previous.y-.26:-.6, max=previous?previous.y+.26:3.4;
+   const min=previous?previous.y-.26:(initialLevel===undefined?-.6:initialLevel-.05);
+   const max=previous?previous.y+.26:(initialLevel===undefined?3.4:initialLevel+.05);
    const level=surface.floorAt(origin+x,y,min,max);
    const location=name+' at '+x.toFixed(2)+', '+y.toFixed(2);
    assert.notEqual(level,null,'Missing floor or excessive step on '+location);
@@ -65,4 +66,9 @@ let count=0;
 for(const [label,points,stairs] of routes){
  count+=trace(label,points,stairs)+trace(label,[...points].reverse(),stairs);
 }
-console.log(routes.length+' bidirectional street routes passed across '+count+' grade and clearance samples.');
+// Start each direction on the specified deck to avoid accepting the parallel street below.
+const inclineAndBridge=[[48.5,24.0],[5.48,24.0],[5.48,21.64],[48.60,21.64],
+ [48.60,20.86],[65.00,20.86],[65.0,18.52]];
+count+=trace('Market switchback to forum',inclineAndBridge,false,2.50);
+count+=trace('Forum to market switchback',[...inclineAndBridge].reverse(),false,6.4116);
+console.log(routes.length+' bidirectional street routes and the continuous switchback to the forum passed across '+count+' grade and clearance samples.');

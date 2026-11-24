@@ -3,7 +3,7 @@ import {applyProposalFinishes} from './proposal-finishes.js?v=f856cfc70e';
 import {applyProposalEnvironment,loadProposalEnvironment,proposalSkyTexture} from './proposal-environment.js?v=262656718b';
 import {applyProjectLightVolume,loadProjectLightVolume} from './project-light-volume.js?v=20cde4c284';
 import {CameraClearance} from './camera-clearance.js?v=5e0d138cc1';
-import {WalkDoors} from './walk-doors.js?v=d7307430af';
+import {WalkDoors} from './walk-doors.js?v=ca0f162775';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
@@ -26,6 +26,8 @@ const contextViews = {
  'case-ramp': {eye:[-64.90,9.18,19.88],target:[-88.6,9.00,19.10],shift:.04,fov:65},
  'case-hall': {eye:[-45.16,4.16,16.06],target:[-67.02,4.45,9.08],shift:.12,fov:74},
  'case-hall-balcony': {eye:[-51.64,12.27,4.48],target:[-58.80,11.76,7.75],shift:0,fov:69},
+ 'case-west-stair': {eye:[-68.12,12.21,6.14],target:[-68.90,12.05,10.17],shift:0,fov:72},
+ 'case-east-stair': {eye:[-29.03,6.08,16.43],target:[-33.80,7.49,16.62],shift:.02,fov:71},
  'case-gallery': {eye:[-50.906,4.12,17.40],target:[-57.106,9.10,4.8],shift:.045,fov:67},
  'case-forum': {eye:[-24.5,8.08,11.80],target:[-14.35,8.56,4.01],shift:.055,fov:73},
  'case-court': {eye:[-39.906,8.03,14.55],target:[-35.906,7.85,7.45],shift:.10,fov:72},

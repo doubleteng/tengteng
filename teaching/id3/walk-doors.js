@@ -1,7 +1,7 @@
 // A closed leaf remains the same mesh while it moves. FPS collisions and the
 // renderer therefore use the same local geometry and current world transform.
 import * as T from './lib/three.module.min.js';
-import {roomPortals} from './market-doorways.js?v=3f16679216';
+import {roomPortals} from './market-doorways.js?v=b71f91aa06';
 const ORIGIN_X=-82.906, HALF_TURN=Math.PI/2, WALK_REACH=2.8;
 const interior='Interior / Partitions and doors';
 const vec=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
@@ -92,14 +92,14 @@ function caseLeaves(root,doors){
  root.traverse(o=>{if(o.isMesh&&!Array.isArray(o.material))source.set(o.material.name,o.material);});
  const glass=source.get('Vision glass'),wood=source.get('Oiled birch'),metal=source.get('Galvanized silver');
  if(!glass||!wood||!metal)return;
- function install(label,axis,plane,a,b,floor,height,glazed,side,layer=interior){
+ function install(label,axis,plane,a,b,floor,height,glazed,side,layer=interior,hingeAtEnd=false,jambInset){
   const trimmed=layer!==interior||(!axis&&plane===3.65)||label==='East stair gallery';
-  const width=b-a,jamb=trimmed?.16:(glazed?.052:.018);
+  const width=b-a,jamb=jambInset??(trimmed?.16:(glazed?.052:.018));
   const count=width>1.45?2:1,span=(width-2*jamb)/count-.004;
   if(span<.52)return;
   const members=[],motions=[];
   for(let i=0;i<count;i++){
-   const reversed=i===1,location=reversed?b-jamb:a+jamb;
+   const reversed=i===1||(count===1&&hingeAtEnd),location=reversed?b-jamb:a+jamb;
    const mesh=new T.Mesh(panelGeometry(span,height-.034,glazed),[glazed?glass:wood,metal]);
    mesh.name=label+' door leaf';mesh.userData.layer=layer;mesh.userData.projectSurface=true;
    mesh.position.set((axis?plane:location)+ORIGIN_X,floor+.012,axis?location:plane);
@@ -118,9 +118,15 @@ function caseLeaves(root,doors){
   const glazed=i<2||i===21||i===22;
   // Office and service leaves open into their room, outside the public aisle.
   const interiorSide=(i>=18&&i<=21)||i===23||(i>=25&&i<=29)||i===32||i===41? -1 : 1;
-  const side=axis?(i<2?-1:interiorSide):(i>=11&&i<15?(plane===9.35?1:-1):interiorSide);
-  install(labels[label][1],axis,plane,left,right,floor,height,glazed,side);
+  const side=axis?(i<=2?-1:interiorSide):(i>=11&&i<15?(plane===9.35?1:-1):interiorSide);
+  install(labels[label][1],axis,plane,left,right,floor,height,glazed,side,interior,false,i===2?.11:undefined);
  });
+ for(const level of [-1.056,2.5,10.6788])
+  install('West stair to hall',0,4.82,level===2.5?14.26:14.11,15.46,level,2.35,false,1,interior,false,.045);
+ install('West stair to reading room',1,14.08,2.35,3.70,6.4116,2.35,false,-1,interior,false,.045);
+ for(const level of [-1.056,2.5])
+  install('East stair to lobby',1,48.38,15.05,16.50,level,2.35,false,-1,interior,level<0,.045);
+ install('East stair to reception',0,14.08,48.51,49.78,10.6788,2.08,false,-1,interior,false,.045);
  // Exterior openings with trimmed jambs and floors/landings, from shell_skin.py.
  const shellDoors='Enclosure / Portal reveals';
  install('East entrance',0,17.94,60.08,62.48,2.50,2.50,true,-1,shellDoors);

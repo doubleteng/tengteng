@@ -62,6 +62,10 @@ function trace(name,points,stairs,initialLevel){
  }
  return samples;
 }
+// Inspect both sides of each street stair up to its level return, in
+// addition to walking the centreline through the hall entrance.
+for(const y of [9.52,16.33])for(const offset of [-.42,.42])
+ routes.push(['Fourth Avenue stair flank',[[7.35,y+offset],[12.67,y+offset]],true]);
 let count=0;
 for(const [label,points,stairs] of routes){
  count+=trace(label,points,stairs)+trace(label,[...points].reverse(),stairs);

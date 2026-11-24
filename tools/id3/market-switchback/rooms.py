@@ -142,6 +142,9 @@ def fitted_halls():
     # Multiple sides admit the public. The south wall is pocketed back on market days.
     wall(WALL,PLASTER,(13.8,3.65),(13.8,18.32),G,L3,((5.05,6.55),(15.6,17.2)),.14)
     wall(WALL,PLASTER,(13.98,3.65),(13.98,18.32),L3,12.9,((9.35,11.0),),.14)
+    # Paired leaves open into the wide central classroom aisle below the
+    # transverse roof girder; the head completes the partition above them.
+    box(WALL,PLASTER,13.91,9.35,L3+2.08,14.05,11.0,12.9)
     wall(WALL,PLASTER,(40.0,3.65),(40.0,18.32),G,12.9,((5.0,7.4),(12.85,15.35)),.14)
     wall(WALL,PLASTER,(21.46,3.65),(40.0,3.65),G,8.4,((22.30,24.45),(36.4,38.2)))
     for x in (19.23,29.39,34.47):
@@ -252,7 +255,7 @@ def east_rooms():
     box(FURN,WOOD,52.04,7.61,L3,52.76,9.76,L3+.75)
     box(FURN,WOOD,52.04,8.76,L3+.75,52.76,9.76,L3+1.01)
     box(FURN,WOOD,50.92,7.61,L3,52.04,8.29,L3+.75)
-    for y in (7.60,10.72):
+    for y in (7.60,10.25):
         box(FURN,FELT,48.47,y,L3,49.13,y+2.07,L3+.46)
         box(FURN,WOOD,48.47,y,L3+.46,48.61,y+2.07,L3+.80)
     return areas
@@ -368,7 +371,7 @@ def teaching_lounge():
     for xx in (24.06,27.03):
         box(FURN,FELT,xx,5.28,L3,xx+2.14,5.94,L3+.47)
         box(FURN,WOOD,xx,5.84,L3+.47,xx+2.14,5.94,L3+.81)
-    table(29.80,5.04,L3,1.28,.68)
+    table(29.80,5.32,L3,1.28,.62)
 
 
 def build_rooms(counts):

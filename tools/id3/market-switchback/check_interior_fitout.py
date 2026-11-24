@@ -67,10 +67,10 @@ def check(model):
         for j in candidates(probe,low,high,-.002):
             if gap(probe,parts[j])<-.002:failures.append(f'{name} intersects {parts[j].layer}')
     l3=10.6788
-    check_volume('Lounge passage',(23.02,3.79,l3+.003,31.85,5.015,l3+2.05))
+    check_volume('Lounge passage',(23.02,3.765,l3+.003,31.85,5.265,l3+2.05))
     for start in (24.06,27.03):
         check_volume('Seated occupant',(start+.10,5.30,l3+.48,start+2.04,5.82,l3+1.43))
-    check_volume('Study table approach',(29.85,4.20,l3+.003,30.99,5.035,l3+2.05))
+    check_volume('Study table approach',(29.85,4.41,l3+.003,30.99,5.315,l3+2.05))
 
     # The last short CLT end bears directly on the portal. The rest is
     # traced through the actual stepped stringer pieces on both supports.

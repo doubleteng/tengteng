@@ -2803,26 +2803,26 @@
       "gross_wall_m2": 2163.55,
       "north_gross_m2": 879.452,
       "north_glass_m2": 216.636,
-      "vision_m2": 430.92,
+      "vision_m2": 430.944,
       "classroom_eye_level_window_line_m": 6.831,
       "diffuse_m2": 108.15,
       "portal_clear_m2": 81.778,
       "south_gross_m2": 795.798,
-      "south_glass_m2": 137.312,
-      "south_sample_vision_m2": 124.002,
-      "june_noon_shade_m2": 81.738,
-      "december_noon_shade_m2": 20.244,
+      "south_glass_m2": 137.336,
+      "south_sample_vision_m2": 124.026,
+      "june_noon_shade_m2": 81.762,
+      "december_noon_shade_m2": 20.273,
       "west_gross_m2": 263.991,
       "west_glass_m2": 88.774,
       "east_gross_m2": 306.087,
       "east_glass_m2": 96.347,
       "north_wwr_pct": 24.633,
       "east_wwr_pct": 31.477,
-      "south_wwr_pct": 17.255,
+      "south_wwr_pct": 17.258,
       "west_wwr_pct": 33.628,
-      "june_south_noon_hood_shade_pct": 65.917,
-      "december_south_noon_hood_shade_pct": 16.325,
-      "wwr_pct": 24.009,
+      "june_south_noon_hood_shade_pct": 65.923,
+      "december_south_noon_hood_shade_pct": 16.346,
+      "wwr_pct": 24.01,
       "skylight_plan_pct": 10.514
     }
   ],
@@ -2920,7 +2920,7 @@
     "max_days_per_time_bin": 10,
     "sky_directions": 128,
     "triangles": {
-      "final.glb": 230356,
+      "final.glb": 232528,
       "urban-core-materials.glb": 98306,
       "urban-near.glb": 19628,
       "urban-outer.glb": 54721
@@ -3422,10 +3422,10 @@
     "local_loss_pct": 8.95
   },
   "geometry": {
-    "glbBytes": 3446524,
-    "parts": 19559,
-    "triangles": 230356,
-    "batches": 347,
+    "glbBytes": 3482972,
+    "parts": 19740,
+    "triangles": 232528,
+    "batches": 357,
     "stalls": 120,
     "pv": 950,
     "courtM2": 81.0,
@@ -3436,13 +3436,13 @@
   "checks": {
     "geometry": "Reopened the serialized GLB. Checked finite coordinates, face areas, outward winding, positive volume and two opposite directed edges per shell edge; all parts within the registered parcel. Shell intersections at structural connections are intentional.",
     "walks": {
-      "stairs": "Passed 12 floor-to-floor routes in the two stair cores, ascending and descending.",
-      "street": "11 bidirectional street routes and the continuous switchback to the forum passed across 13924 grade and clearance samples.",
+      "stairs": "58 directional traversals; all eight storey exits and five closed former openings checked; minimum sampled headroom 2.080 m.",
+      "street": "15 bidirectional street routes and the continuous switchback to the forum passed across 14500 grade and clearance samples.",
       "interior": "24 mapped interior corridor routes support 1.2192 m with doors shut and fully open. The open hall threshold and ten washroom fixture approaches are clear.",
-      "doors_and_worktables": "52/52 portals connect to the street; 32 worktables and four freight landings checked; 0 clearance or route issues."
+      "doors_and_worktables": "59/59 portals connect to the street; 32 worktables and four freight landings checked; 0 clearance or route issues."
     },
     "envelope": {
-      "tested_members": 6318,
+      "tested_members": 6320,
       "tested_weather_panels": 3130,
       "tolerance_m": 0.002,
       "pair_count": 0
@@ -3462,9 +3462,9 @@
       "pair_count": 0
     },
     "solids": {
-      "parts": 19559,
-      "triangles": 230356,
-      "vertices": 154296,
+      "parts": 19740,
+      "triangles": 232528,
+      "vertices": 155744,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "inconsistent_edge_winding": 0,
@@ -3473,7 +3473,7 @@
       "degenerate_or_nonfinite_triangles": 0,
       "nonpositive_or_nonfinite_volume_parts": 0,
       "parcel_outlier_vertices": 0,
-      "batches": 347,
+      "batches": 357,
       "smallest_triangle_area_m2": 1.5120564415423735e-05,
       "smallest_signed_volume_m3": 1.0801113524121914e-06,
       "failed_parts": 0,
@@ -3981,8 +3981,8 @@
       "failures": []
     },
     "doors_and_windows": {
-      "model_sha256": "4def517c9ac5e9ba0139f6f5baa6a2793e980de17acb2b91787d6fa578155397",
-      "parts_tested": 7495,
+      "model_sha256": "8d2402e00add038432d509c4489d9e30cd8018ec9fb1486426664625ae574dc4",
+      "parts_tested": 7497,
       "panes_tested": 568,
       "panes_by_layer": {
         "Enclosure / Promenade vestibule": 1,
@@ -4000,8 +4000,8 @@
       "operable_sashes_tested": 60,
       "sash_pairs": [],
       "pairs": [],
-      "doors_tested": 52,
-      "leaves_tested": 78,
+      "doors_tested": 59,
+      "leaves_tested": 85,
       "angle_increment_deg": 2.25,
       "door_pairs": [],
       "threshold_depth_m": 0.2,
@@ -4018,6 +4018,8 @@
       "staff_gallery_rim_brackets": 3
     },
     "primary_and_core_frame": {
+      "east_stair_offset_rim_bays": 3,
+      "east_stair_wall_seats": 2,
       "primary_frame_parts": {
         "Glulam posts": 32,
         "Glulam chords": 40,
@@ -4035,7 +4037,7 @@
       "stair_wall_seats": 6,
       "lift_wall_seats": 4,
       "concrete_coupling_beams": 2,
-      "bearings_carried_by_core_lintels": 3,
+      "bearings_carried_by_core_lintels": 1,
       "modeled_minimum_bearing_contact_m2": 0.091,
       "core_embed_anchors": 40,
       "basement_beams": 16,
@@ -4164,7 +4166,7 @@
     },
     "arcade_bearings": "14 founded common masts, 10 canopy frames, 21 roof rafters, 17 ramp cantilevers, 2 low-level concrete outrigger caps, 5 bridge cantilevers, two turn joists and 18 bridge joists. Roof, flights, turning deck, threshold, bridge and vestibule have continuous bearings.",
     "weather_boundary": {
-      "model_sha256": "4def517c9ac5e9ba0139f6f5baa6a2793e980de17acb2b91787d6fa578155397",
+      "model_sha256": "8d2402e00add038432d509c4489d9e30cd8018ec9fb1486426664625ae574dc4",
       "joint_diameter_m": 0.04,
       "elevations": {
         "west hall": {
@@ -4562,8 +4564,8 @@
       "connected_floor_return_outriggers": 6
     },
     "operable_exterior_entries": {
-      "doors_swept": 52,
-      "moving_leaves": 78,
+      "doors_swept": 59,
+      "moving_leaves": 85,
       "sweep_increment_deg": 2.25,
       "exterior_sections": {
         "west hall north": {
@@ -4903,7 +4905,7 @@
       ]
     },
     "interior_fitout": {
-      "model_sha256": "4def517c9ac5e9ba0139f6f5baa6a2793e980de17acb2b91787d6fa578155397",
+      "model_sha256": "8d2402e00add038432d509c4489d9e30cd8018ec9fb1486426664625ae574dc4",
       "fitout_solids_checked": 1840,
       "by_layer": {
         "Interior / West reading tribune": 18,
@@ -4979,7 +4981,7 @@
   "ground_support_revision": {
     "scope": "Market arcade, two switchback flights, turning and bridge landings, forum bridge, vendor roofs and basement.",
     "previous_model_sha256": "ea9175eef0180ee9f55f96e041fa0834c59fb9b530bd77de868d4500b6dfa568",
-    "model_sha256": "4def517c9ac5e9ba0139f6f5baa6a2793e980de17acb2b91787d6fa578155397",
+    "model_sha256": "8d2402e00add038432d509c4489d9e30cd8018ec9fb1486426664625ae574dc4",
     "previous_timber_axes_at_grade": {
       "arcade_ramps_landings_bridge": 68,
       "vendor_roofs": 36

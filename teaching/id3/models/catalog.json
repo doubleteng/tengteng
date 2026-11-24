@@ -8,9 +8,9 @@
       "caseStudy": true,
       "material": "Mass timber",
       "type": "Covered market and civic hall",
-      "url": "./models/market-switchback.glb?v=4def517c9a",
-      "cover": "./models/market-switchback.webp?v=daf6d20823",
-      "lightVolume": "./models/market-switchback.light.gz?v=12681c022f"
+      "url": "./models/market-switchback.glb?v=8d2402e00a",
+      "cover": "./models/market-switchback.webp?v=31f58638cd",
+      "lightVolume": "./models/market-switchback.light.gz?v=8e5527cd62"
     }
   ]
 }

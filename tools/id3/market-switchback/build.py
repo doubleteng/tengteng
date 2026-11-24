@@ -98,7 +98,7 @@ def footing(x,y,top,w=.52,base=B-.30):
     box(S+'Columns and cores',RC,x-w/2,y-w/2,base,x+w/2,y+w/2,G+.14)
     tapered_post(S+'Head house glulam columns',GLULAM,rect(x-w/2,y-w/2,x+w/2,y+w/2),lambda u,v:G+.14,top)
 
-def doorway(l,m,x,y,X,Y,lo,hi,opening=None,t=.13):
+def doorway(l,m,x,y,X,Y,lo,hi,opening=None,t=.13,clear_height=2.35):
     """Wall along an axis with a real opening and separate lintel."""
     horiz=abs(X-x)>abs(Y-y)
     def segment(a,b,z,Z):
@@ -106,7 +106,7 @@ def doorway(l,m,x,y,X,Y,lo,hi,opening=None,t=.13):
         else:box(l,m,x-t/2,a,z,x+t/2,b,Z)
     a,b=(x,X) if horiz else (y,Y)
     if opening:
-        p,q=opening;segment(a,p,lo,hi);segment(q,b,lo,hi);segment(p,q,min(lo+2.35,hi),hi)
+        p,q=opening;segment(a,p,lo,hi);segment(q,b,lo,hi);segment(p,q,min(lo+clear_height,hi),hi)
     else:segment(a,b,lo,hi)
 
 guard_posts=set()
@@ -158,6 +158,11 @@ def stair(name,bounds,alongx):
        def point(a,h):return (x+a,y+yy,h) if alongx else (x+yy,y+a,h)
        beam(A+name+' stair',ST,point(landing,z0+(n*r if rev else 0)-.17),point(landing+run,z0+(0 if rev else n*r)-.17),.10,.25)
        beam(A+name+' stair',ST,point(landing,z0+(n*r if rev else 0)+.90),point(landing+run,z0+(0 if rev else n*r)+.90),.052,.052)
+       for i in range(4):
+           t=(.5+(n-1)*i/3)/n
+           h=z0+n*r*(1-t if rev else t)
+           a=landing+run*t
+           beam(A+name+' stair rail posts',ST,point(a,h-.12),point(a,h+.89),.034,.034)
     part(A+name+' stair',WH,landing+n1*.2794,0,length,width,lo+n1*r-.16,lo+n1*r)
     part(A+name+' stair',FL,0,0,landing,width,lo-.18,lo)
  part(A+name+' stair',FL,0,0,landing,width,L3-.18,L3)
@@ -312,7 +317,14 @@ for name,bounds in [('West',west),('East',east)]:
         for lo,hi in [(B,G),(G,L2),(L2,L3),(L3,L3+2.86)]:
             if name=='West' and yy<y+.2 and lo==B:
                 continue  # This wall was cast with the basement perimeter.
-            opening=(x+.11,x+1.46) if yy>y+.2 else None
+            # The south side of the east stair faces the perimeter truss.
+            # The west stair faces the open hall at L2. Give each storey an
+            # exit onto its occupied floor, with continuous walls at the voids.
+            opening=None
+            if name=='West' and yy>y+.2 and lo!=L2:
+                opening=(x+(.26 if lo==G else .11),x+1.46)
+            if name=='East' and yy<y+.2 and lo==L3:
+                opening=(48.51,49.78)
             if name=='East' and yy<y+.2 and lo==L2:
                 # A second exit from the level landing serves the staff wing
                 # on the west side of the lift and the light-court gallery.
@@ -326,8 +338,48 @@ for name,bounds in [('West',west),('East',east)]:
                 box(S+'Concrete stair cores',RC,x,y,lo+2.68,X,y+.16,hi)
                 for xa,xb in ((p,p+.16),(q-.16,q)):
                     box(A+'Stair gallery door casing',WH,xa,y+.122,lo,xb,y+.151,lo+2.35)
-            else:doorway(S+'Concrete stair cores',RC,x,yy,X,yy,lo,hi,opening,.16)
+            else:
+                clear=2.08 if name=='East' and lo==L3 and opening else 2.35
+                doorway(S+'Concrete stair cores',RC,x,yy,X,yy,lo,hi,opening,.16,clear)
     box(S+'Concrete stair cores',RC,X-.16,y+.16,B,X,Y-.16,L3+2.86)
+    # Set the landing screens on the existing end of the level landing.
+    # Both ends of each opening stay behind the first nosing.
+    screen=I+'Stair landing partitions'
+    if name=='West':
+        doorway(screen,WD,x+.08,y+.16,x+.08,Y-.16,L2,L3-.18,(2.35,3.70),.12)
+    else:
+        for lo,hi in ((B,G),(G,L2),(L2,L3),(L3,L3+2.86)):
+            doorway(screen,WD,x+.08,y+.16,x+.08,Y-.16,lo,hi-.18,
+                    (15.05,16.50) if lo in (B,G) else None,.12)
+    # On the highest landing only the returning flight is present.
+    # Guard the unused half of the stair opening, keeping the flight clear.
+    gx=x+1.385
+    end=(y+Y)/2+.067
+    start=y+.19
+    handrail((gx,start),(gx,end),L3,L3,A+'Top landing guards',ST)
+    for j in range(1,math.ceil((end-start)/.11)):
+        yy=start+(end-start)*j/math.ceil((end-start)/.11)
+        box(A+'Top landing guard balusters',ST,gx-.013,yy-.013,L3+.125,gx+.013,yy+.013,L3+1.08)
+
+def landing_frame(axis,plane,low,high,level,height,inset,stop_side):
+    # The deep jamb leaves room for the hinge barrel. The rebate on the
+    # closing face overlaps the leaf only in elevation.
+    def strip(a,b,q,Q):
+        if axis:box(A+'Landing door frames',WH,q,a,level,Q,b,level+height)
+        else:box(A+'Landing door frames',WH,a,q,level,b,Q,level+height)
+    face=plane+stop_side*.036
+    far=plane+stop_side*.060
+    for a,b,c,d in ((low,low+inset-.028,low+inset-.028,low+inset+.008),
+                    (high-inset+.028,high,high-inset-.008,high-inset+.028)):
+        strip(a,b,plane-.060,plane+.060)
+        strip(c,d,min(face,far),max(face,far))
+for level in (B,G,L3):
+    landing_frame(0,4.82,14.26 if level==G else 14.11,15.46,level,2.35,.045,1)
+landing_frame(1,14.08,2.35,3.70,L2,2.35,.045,1)
+for level in (B,G):
+    landing_frame(1,48.38,15.05,16.50,level,2.35,.045,1)
+landing_frame(0,14.08,48.51,49.78,L3,2.08,.045,-1)
+landing_frame(1,13.98,9.35,11.0,L3,2.08,.11,1)
 x,y,X,Y=lift
 # The stair lies only 0.40 m south of the shaft. The freight door therefore
 # opens east at every stop, toward the gallery and its level maneuvering space.
@@ -519,6 +571,11 @@ def rim_between_portals(label,material,a,b,width,depth=None):
     xa,ya,za=a;xb,yb,zb=b
     start=portal_bounds.get(round(xa,3));end=portal_bounds.get(round(xb,3))
     if not (start or end):
+        if label=='Laterally braced lower rim' and abs(ya-17.765)<.001:
+            z=lambda x,y:za+(zb-za)*(x-xa)/(xb-xa)
+            tapered_post(S+label,material,rect(xa,ya-width/2,xb,yb+width/2),
+                         lambda x,y:z(x,y)-depth/2,lambda x,y:z(x,y)+depth/2)
+            return
         beam(S+label,material,a,b,width,depth)
         return
     if abs(xa-xb)<.001:return
@@ -570,6 +627,18 @@ for yy,edge in ((1.65,2.76),(18.35,17.23)):
                 rim_between_portals('Laterally braced lower rim',GLULAM,(core_end,edge,z),(xb,edge,zb),.17,.26)
                 rim_between_portals('Lateral rim ties',ST,(core_end,edge,z),(xb,yy,zb),.050)
             continue
+        if yy>18 and xa>=45.8-.001:
+            # The portal crosshead collects the inboard rim on its west face
+            # and the offset rim on its east face. Keep all three eastern
+            # timber bays and their diagonal ties outside the stair enclosure.
+            edge=17.765
+            if east[0]<xa<east[2]:
+                box(S+'Stair rim wall plate',ST,xa-.15,17.65,za-.18,xa+.15,17.68,za+.15)
+                plate(S+'Stair rim seat',ST,rect(xa-.15,17.68,xa+.15,17.86),
+                      lambda x,y:soffit(x)-.18-.13,.025)
+                for ox in (-.09,.09):
+                    beam(S+'Stair rim concrete anchors',ST,(xa+ox,17.55,za+.07),(xa+ox,17.68,za+.07),.025)
+                beam(S+'Stair rim through-bolt',ST,(xa,17.65,za),(xa,17.87,za),.025)
         rim_between_portals('Laterally braced lower rim',GLULAM,(xa,edge,za),(xb,edge,zb),.17,.26)
         rim_between_portals('Lateral rim ties',ST,(xa,yy,za),(xa,edge,za),.08,.12)
         rim_between_portals('Lateral rim ties',ST,(xa,yy,za),(xb,edge,zb),.050)

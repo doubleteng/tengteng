@@ -130,7 +130,24 @@ def audit(model, reference=None):
         assert any(touch(col,f) for f in local)
         assert any(any(touch(f,pad) for f in local) and np.all(pad.lo[:2]<=col.center[:2]) and np.all(pad.hi[:2]>=col.center[:2])
                    for pad in groups['Basement column pads']+mats)
-    return dict(primary_frame_parts={k:len(groups[k]) for k in MAIN},
+    # The three offset bays still meet one another and the portal crosshead.
+    # Both steel seats have a continuous path back to the south core wall.
+    rims=sorted((p for p in groups['Laterally braced lower rim']
+                 if abs(p.center[1]-17.765)<.002), key=lambda p:p.center[0])
+    assert len(rims)==3 and all(touch(a,b) for a,b in zip(rims,rims[1:]))
+    assert any(abs(p.center[0]-45.8)<.001 and touch(rims[0],p)
+               for p in groups['Forum and court cross girders'])
+    seats=groups['Stair rim seat']
+    assert len(seats)==2
+    for seat in seats:
+        assert len([p for p in rims if touch(p,seat)])==2
+        [plate]=[p for p in groups['Stair rim wall plate'] if touch(p,seat)]
+        walls=[p for p in cores if touch(p,plate)]
+        assert len([p for p in groups['Stair rim concrete anchors']
+                    if touch(p,plate) and any(touch(p,wall) for wall in walls)])==2
+        assert any(touch(p,plate) and any(touch(p,rim) for rim in rims)
+                   for p in groups['Stair rim through-bolt'])
+    return dict(east_stair_offset_rim_bays=len(rims),east_stair_wall_seats=len(seats),primary_frame_parts={k:len(groups[k]) for k in MAIN},
                 same_primary_geometry_as_reference=bool(reference),truss_to_foundation_chains=4,
                 core_girder_bearings=stair_bearings+lift_bearings,
                 stair_wall_seats=stair_bearings,lift_wall_seats=lift_bearings,concrete_coupling_beams=len(couplers), bearings_carried_by_core_lintels=lintel_supports, modeled_minimum_bearing_contact_m2=round(minimum_bearing,3),

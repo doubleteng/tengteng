@@ -136,6 +136,7 @@ export class AtlasViewer{
  resize(){
   const w=this.host.clientWidth,h=this.host.clientHeight;
   if(!w||!h)return;
+  this.host.parentElement?.style.setProperty('--viewport-height', h+'px');
   this.renderer.setSize(w,h,false);this.inkViewHeight.value=h;
   const aspect=w/h, height=Math.max(this.height,this.width/aspect);
   Object.assign(this.parallelCamera,{left:-height*aspect/2,right:height*aspect/2,top:height/2,bottom:-height/2});

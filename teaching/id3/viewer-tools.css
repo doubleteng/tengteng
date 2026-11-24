@@ -9,7 +9,7 @@
 .lens-panel label,.lens-extents { display:flex;justify-content:space-between; }
 .lens-panel label { font-size:14px;font-weight:640; }.lens-panel output {font-variant-numeric:tabular-nums;}
 .lens-panel input { width:100%;margin:10px 0 4px; }.lens-extents {color:#53625e;font-size:12px;}
-#sun-options {width:min(260px,calc(100vw - 55px));max-height:min(55vh,310px);overflow:auto;overscroll-behavior:contain;z-index:3;padding:11px 12px;}
+#sun-options {width:min(260px,calc(100vw - 55px));max-height:min(55dvh,310px,calc(var(--viewport-height, 420px) - 127px));overflow:auto;overscroll-behavior:contain;z-index:3;padding:11px 12px;}
 .viewport:has(#sun-options:not([hidden])) .view-top {z-index:4;}
 .sun-calendar {display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:3px 8px;margin-top:9px;}
 .sun-calendar label,.tone-controls label,.shadow-receivers label {font-size:13px;}
@@ -60,4 +60,4 @@
  #drawing-image {inset:6px;}
  .view-command {font-size:12px;gap:4px;padding:5px 6px;}
 }
-@media(max-height:540px) {#sun-options{max-height:46dvh;}}
+@media(max-height:540px) {#sun-options{max-height:min(46dvh,calc(var(--viewport-height, 310px) - 115px));}}

@@ -97,3 +97,28 @@ const sampleIndex=actual.floorAt(-94,38,-15,5);
 assert.ok(sampleIndex!==null,'Surveyed city street is traversable');
 city.visible=false;assert.equal(actual.floorAt(-94,38,-15,5),null,'Hiding the city removes its street from the pick/foot query');
 console.log('Passed stacked floors, head clearance, actual moving door and layer visibility, real market walkable ramp and city terrain. Walk index:',Math.round(built),'ms');
+
+// Test both paths on the displayed teaching case with its shared district.
+city.visible=true;
+const {Walker}=await import('../../../teaching/id3/walk-mode.js');
+const walkForward=new Set(['KeyW']);
+function cross(x,z,direction,onStep){
+ const floor=actual.floorAt(x,z,-2,2);assert.notEqual(floor,null);
+ const w=new Walker(actual,vec(x,floor,z),direction);w.jump(true,walkForward);
+ for(let i=0;i<240&&!w.grounded;i++){w.step(1/60,walkForward);onStep?.(w.feet);}
+ assert.ok(w.grounded);return w;
+}
+const handrail=actual.firstHit(towards(-74,4.2,8.38),4);
+assert.match(handrail.object.userData.layer,/West entrance handrails/);
+let cleared=false;
+const terrace=cross(-74,5,vec(0,0,1),p=>{
+ if(Math.abs(p.z-8.38)<.12){assert.ok(p.y>handrail.point.y);cleared=true;}
+});
+assert.ok(cleared&&terrace.feet.z>9,'Cross the actual Fourth Avenue entrance handrail from the paving');
+const roofWalker=cross(-90,28.8,vec(1,0,0));
+const landing=actual.firstHit(towards(roofWalker.feet.x,roofWalker.feet.y+.06,roofWalker.feet.z),.10);
+assert.match(landing.object.userData.layer,/Folded zinc roof planes/);near(landing.point.y,roofWalker.feet.y);
+const roofX=roofWalker.feet.x;
+for(let i=0;i<30;i++)roofWalker.step(1/60,walkForward);
+assert.ok(roofWalker.grounded&&roofWalker.feet.x>roofX+1&&roofWalker.feet.y>6,'Walk on the pitched roof after landing');
+console.log('Cleared the west entrance rail, landed on the folded zinc market roof and walked across its pitch.');

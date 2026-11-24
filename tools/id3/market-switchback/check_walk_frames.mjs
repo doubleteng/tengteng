@@ -35,3 +35,17 @@ range(first,{start:192,count:192});range(second,{start:384,count:189});
 range(first,{start:192,count:192},{start:0,count:420,materialIndex:0});
 cam.position.x=200;cam.updateMatrixWorld();range(first,{start:576,count:0});
 console.log('Mouse bursts, camera direction, indexed material ranges, shared instances and range restoration passed.');
+
+// Capture the chord before the next physics step, including a modifier that
+// was already held when the viewport received focus.
+for(const [keys,boosted,modifier=false] of [[['ShiftLeft','Space'],true],[['Space','ShiftRight'],true],[['Space'],false],[['Space'],true,true]]){
+ const controller=Object.create(WalkMode.prototype);
+ const jumps=[];
+ Object.assign(controller,{active:true,held:new Set(),doors:{moving:false},walker:{
+  grounded:true,jump(boost){jumps.push(boost);this.grounded=false;},step(){return false;}
+ }});
+ for(const key of keys)controller.press(key,modifier);
+ const [[frame,run]]=pending;pending.delete(frame);run(performance.now()+16);
+ assert.deepEqual(jumps,[boosted]);controller.press('Space',true);assert.equal(controller.queuedJump,null);
+ pending.clear();
+}

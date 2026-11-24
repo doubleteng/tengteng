@@ -1,7 +1,8 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
-import {WalkSurfaces} from './walk-surfaces.js?v=a4845ee6de';
+import {WalkSurfaces} from './walk-surfaces.js?v=ef14705580';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
+const GRAVITY=10.5, JUMP_SPEED=4.4, SUPER_LIFT=13, SUPER_TRAVEL=6.6;
 const keys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','ShiftLeft','ShiftRight','KeyF']);
 const UP=new Vector3(0,1,0);
 
@@ -10,6 +11,7 @@ export class Walker {
   this.surface=surface;this.feet=point.clone();this.next=new Vector3();
   this.yaw=direction.x*direction.x+direction.z*direction.z>1e-5?Math.atan2(direction.x,-direction.z):0;
   this.pitch=0;this.grounded=true;this.verticalSpeed=0;
+  this.motion=new Vector3();this.launch=new Vector3();this.takeoff=point.clone();this.boosted=false;
  }
  look(dx,dy){
   this.yaw+=dx;this.pitch=MathUtils.clamp(this.pitch+dy,-1.47,1.47);
@@ -18,18 +20,31 @@ export class Walker {
   const p=Math.cos(this.pitch);
   return out.set(Math.sin(this.yaw)*p,Math.sin(this.pitch),-Math.cos(this.yaw)*p);
  }
- jump(){
+ moveDirection(held){
+  const forward=Number(held.has('KeyW')||held.has('ArrowUp'))-Number(held.has('KeyS')||held.has('ArrowDown'));
+  const right=Number(held.has('KeyD'))-Number(held.has('KeyA'));
+  const sin=Math.sin(this.yaw),cos=Math.cos(this.yaw);
+  return this.motion.set(forward*sin+right*cos,0,-forward*cos+right*sin).normalize();
+ }
+ jump(boosted=false,held){
   if(!this.grounded)return;
-  this.grounded=false;this.verticalSpeed=4.4;
+  this.grounded=false;this.boosted=boosted;this.verticalSpeed=boosted?SUPER_LIFT:JUMP_SPEED;
+  if(boosted){
+   this.takeoff.copy(this.feet);
+   if(held)this.launch.copy(this.moveDirection(held));else this.launch.set(0,0,0);
+   if(this.launch.lengthSq()===0)this.launch.set(Math.sin(this.yaw),0,-Math.cos(this.yaw));
+  }
  }
  stepAcross(dx,dz){
   if(!dx&&!dz)return true;
   const feet=this.feet,s=this.surface,x=feet.x+dx,z=feet.z+dz;
   const ceiling=feet.y+(this.grounded?STEP:.015);
-  let floor=this.grounded?s.floorAt(x,z,feet.y-STEP,ceiling):null;
-  if(floor===null)floor=s.floorAt(x,z,-Infinity,ceiling);
-  // The large backing plane below the site is only a shadow receiver.
-  if(floor===null)return false;
+  let floor=null;
+  if(!this.boosted){
+   if(this.grounded)floor=s.floorAt(x,z,feet.y-STEP,ceiling,true);
+   if(floor===null)floor=s.floorAt(x,z,-Infinity,ceiling,true);
+   if(floor===null)return false;
+  }
   this.next.set(x,feet.y,z);
   if(this.grounded&&Math.abs(floor-feet.y)<=STEP)this.next.y=floor;
   if(!s.canMove(feet,this.next,RADIUS,BODY,this.grounded?STEP:.025))return false;
@@ -41,16 +56,17 @@ export class Walker {
   const axis=(positive,negative)=>Number(positive)-Number(negative);
   const turn=axis(held.has('KeyE')||held.has('ArrowRight'),held.has('KeyQ')||held.has('ArrowLeft'));
   this.yaw+=turn*1.55*dt;
-  const forward=axis(held.has('KeyW')||held.has('ArrowUp'),held.has('KeyS')||held.has('ArrowDown'));
-  const right=axis(held.has('KeyD'),held.has('KeyA'));
-  const pace=held.has('ShiftLeft')||held.has('ShiftRight')?4.8:2.15;
-  const dist=pace*dt/Math.max(1,Math.hypot(forward,right));
-  const dx=dist*(forward*Math.sin(this.yaw)+right*Math.cos(this.yaw));
-  const dz=dist*(-forward*Math.cos(this.yaw)+right*Math.sin(this.yaw));
+  let heading=this.moveDirection(held),pace=held.has('ShiftLeft')||held.has('ShiftRight')?4.8:2.15;
+  if(this.boosted){
+   // Releasing the chord preserves takeoff momentum. Movement keys steer it.
+   if(heading.lengthSq()>0)this.launch.copy(heading);
+   heading=this.launch;pace=SUPER_TRAVEL;
+  }
+  const dx=heading.x*pace*dt,dz=heading.z*pace*dt;
   const oldX=this.feet.x,oldY=this.feet.y,oldZ=this.feet.z;
   if(!this.stepAcross(dx,dz)&&dx&&dz){this.stepAcross(dx,0);this.stepAcross(0,dz);}
   if(!this.grounded){
-   this.verticalSpeed-=10.5*dt;
+   this.verticalSpeed-=GRAVITY*dt;
    let nextY=this.feet.y+this.verticalSpeed*dt;
    if(this.verticalSpeed>0){
     const top=this.feet.y+BODY;
@@ -59,8 +75,15 @@ export class Walker {
      nextY=Math.max(this.feet.y,ceiling-BODY-.015);this.verticalSpeed=0;
     }
    }else{
-    const floor=this.surface.floorAt(this.feet.x,this.feet.z,-Infinity,this.feet.y+.025);
-    if(floor!==null&&nextY<=floor){nextY=floor;this.verticalSpeed=0;this.grounded=true;}
+    const floor=this.surface.floorAt(this.feet.x,this.feet.z,nextY-.025,this.feet.y+.025,true);
+    if(floor!==null&&nextY<=floor){
+     nextY=floor;this.verticalSpeed=0;this.grounded=true;this.boosted=false;
+    }else if(this.boosted&&nextY<this.surface.lowestSupport-STEP){
+     // A launch can cross empty space between modeled surfaces. Recover only
+     // after falling below the entire navigable model with no landing.
+     this.feet.copy(this.takeoff);nextY=this.feet.y;
+     this.verticalSpeed=0;this.grounded=true;this.boosted=false;
+    }
    }
    this.feet.y=nextY;
   }
@@ -127,7 +150,7 @@ export class WalkMode {
    if(e.code==='Escape'){e.preventDefault();this.exit();return;}
    if(e.target!==this.area&&e.target!==this.canvas&&document.pointerLockElement!==this.canvas)return;
    if(!keys.has(e.code)||e.altKey||e.metaKey||e.ctrlKey)return;
-   e.preventDefault();if(!e.repeat)this.press(e.code);
+   e.preventDefault();if(!e.repeat)this.press(e.code,e.shiftKey);
   });
   on(document,'keyup',e=>{if(this.held.delete(e.code))e.preventDefault();});
   on(this.area,'focusout',e=>{
@@ -144,9 +167,14 @@ export class WalkMode {
   on(this.hud,'pointerup',release);on(this.hud,'pointercancel',release);
   on(this.area.querySelector('#walk-exit'),'click',()=>this.exit());
  }
- press(code){
+ press(code,shiftKey=false){
   if(code==='KeyF'){this.useDoor();return;}
-  if(code==='Space'){this.walker.jump();}else this.held.add(code);
+  if(code==='Space'){
+   if(this.walker.grounded)this.queuedJump=shiftKey||this.held.has('ShiftLeft')||this.held.has('ShiftRight')?'super':'normal';
+  }else{
+   this.held.add(code);
+   if(this.queuedJump&&(code==='ShiftLeft'||code==='ShiftRight'))this.queuedJump='super';
+  }
   this.start();
  }
  start(){
@@ -155,6 +183,9 @@ export class WalkMode {
   const advance=now=>{
    this.frame=0;if(!this.active)return;
    let time=Math.min(.12,Math.max(0,(now-this.previous)*.001));this.previous=now;
+   if(this.queuedJump){
+    this.walker.jump(this.queuedJump==='super',this.held);this.queuedJump=null;
+   }
    let moved=false;const doorDt=time;
    // Short steps keep the body on the correct side of thin slabs and walls.
    while(time>1e-7){const dt=Math.min(time,1/60);moved=this.walker.step(dt,this.held)||moved;time-=dt;}
@@ -213,7 +244,7 @@ export class WalkMode {
  }
  exit(){
   if(!this.active)return;
-  this.active=false;this.lookPending=false;this.listeners.abort();this.wasLocked=false;this.drag=null;
+  this.active=false;this.lookPending=false;this.queuedJump=null;this.listeners.abort();this.wasLocked=false;this.drag=null;
   if(document.pointerLockElement===this.canvas)document.exitPointerLock();
   cancelAnimationFrame(this.frame);this.frame=0;this.held.clear();
   const v=this.v,s=this.saved;this.doors.reset();this.door=null;

@@ -35,8 +35,8 @@ function upward(a,b,c) {
  north.subVectors(b,a);east.subVectors(c,a);normal.crossVectors(north,east);
  return normal.y/Math.max(1e-20,normal.length());
 }
-function walkFace(entry,a,b,c) {
- return entry.role>0&&upward(a,b,c)*entry.winding>=minNormalY;
+function walkFace(entry,a,b,c,physicalSupport=false) {
+ return (entry.role>0||(physicalSupport&&entry.role<0))&&upward(a,b,c)*entry.winding>=minNormalY;
 }
 
 function planeHeight(a,b,c,x,z) {
@@ -127,7 +127,7 @@ class RunGrid {
 
 export class WalkSurfaces {
  constructor(roots,{clearance=null,doors=null}={}) {
-  this.entries=[];this.grid=new RunGrid();this.doors=doors;
+  this.entries=[];this.grid=new RunGrid();this.doors=doors;this.lowestSupport=Infinity;
   this.box=new Box3();this.a=new Vector3();this.b=new Vector3();this.c=new Vector3();
   this.rayPoint=new Vector3();this.clipIn=new Float64Array(24);this.clipOut=new Float64Array(24);
   const reuse=new Map((clearance?.meshes||[]).map(r=>[r.mesh,r]));
@@ -143,6 +143,14 @@ export class WalkSurfaces {
     // A tessellated, unnamed slab can consist entirely of small triangles.
     // Check its bounding footprint rather than requiring large individual faces.
     if(role===2&&(data.bounds.max.x-data.bounds.min.x<.8||data.bounds.max.z-data.bounds.min.z<.8))role=0;
+    // Roofs and guard tops can catch a landing, while double-click entry
+    // continues to select circulation surfaces. An explicit opt-out wins.
+    if(role===0&&mesh.userData.walkable!==false){
+     const label=[mesh.userData.atlasPath,mesh.userData.layer,mesh.name].join(' ');
+     if(/roof|canop|membrane|photovoltaic|parapet|guard|rail(?!way)|屋顶|屋面|雨棚|栏杆|护栏/i.test(label)||
+        (which>0&&mesh.userData.contextBuildingColor))role=-1;
+    }
+    if(role)this.lowestSupport=Math.min(this.lowestSupport,data.bounds.min.y);
     const entry={...data,role,winding:mesh.matrixWorld.determinant()<0?-1:1};
     this.entries.push(entry);
     for(const block of entry.blocks)for(const run of block.runs)this.grid.insert(entry,run);
@@ -207,11 +215,11 @@ export class WalkSurfaces {
   const hit=this.firstHit(ray);
   return hit?.walkable&&this.canStand(hit.point)?hit:null;
  }
- floorAt(x,z,minY,maxY){
+ floorAt(x,z,minY,maxY,physicalSupport=false){
   const box=this.box;box.min.set(x,minY,z);box.max.set(x,maxY,z);
   let highest=-Infinity;
   this.eachNearby(box,(entry,_i,a,b,c)=>{
-   if(!walkFace(entry,a,b,c))return false;
+   if(!walkFace(entry,a,b,c,physicalSupport))return false;
    const y=planeHeight(a,b,c,x,z);
    if(y!==null&&y>=minY-epsilon&&y<=maxY+epsilon&&y>highest)highest=y;
    return false;

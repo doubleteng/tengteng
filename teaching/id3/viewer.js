@@ -25,6 +25,7 @@ const contextViews = {
  'case-market': {eye:[-81.21,2.10,30.58],target:[-47.8,2.85,30.95],shift:.045,fov:68},
  'case-ramp': {eye:[-64.90,9.18,19.88],target:[-88.6,9.00,19.10],shift:.04,fov:65},
  'case-hall': {eye:[-45.16,4.16,16.06],target:[-67.02,4.45,9.08],shift:.12,fov:74},
+ 'case-hall-balcony': {eye:[-51.64,12.27,4.48],target:[-58.80,11.76,7.75],shift:0,fov:69},
  'case-gallery': {eye:[-50.906,4.12,17.40],target:[-57.106,9.10,4.8],shift:.045,fov:67},
  'case-forum': {eye:[-24.5,8.08,11.80],target:[-14.35,8.56,4.01],shift:.055,fov:73},
  'case-court': {eye:[-39.906,8.03,14.55],target:[-35.906,7.85,7.45],shift:.10,fov:72},

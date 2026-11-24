@@ -19,6 +19,7 @@ const G=2.5, L2=6.4116, L3=10.6788, B=-1.056;
 // Search bounds keep each path within its own corridor and floor. Walking
 // outside the exterior wall or through an adjoining hall must not rescue it.
 const routes=[
+ ['Large hall teaching balcony',L3,[23.03,3.68,31.87,5.37],[23.85,4.41],[31.18,4.38]],
  ['Main hall central aisle',G,[16.46,9.30,39.91,12.90],[17.28,11],[38.90,11]],
  ['Main hall south side aisle',G,[16.45,15.33,39.88,18.24],[17.25,17.4],[38.85,17.3]],
  ['Small hall central aisle',L2,[58.72,6.32,69.80,9],[59.45,7.32],[68.8,7.32]],
@@ -87,6 +88,12 @@ for(const open of [false,true]){
   if(!supported(outside)||!supported(inside)||
      !surfaces.canMove(outside,inside,radius)||!surfaces.canMove(inside,outside,radius))
    failed.push('Open hall threshold cannot be crossed continuously in both directions.');
+  for(const [x,X,door,front] of [[57.03,60.19,58.87,13.2],[63.00,66.39,64.71,13.56]]){
+   for(const target of [[x+1.28,16.53],[X-.68,16.00]]){
+    if(!pathExists(G,[x+.06,front-.62,X-.06,17.85],[door,front-.40],target,.06,.30))
+     failed.push('Cannot reach offset family washroom fixture at '+target.join(', '));
+   }
+  }
   const fixtures=[[46.32,12.18],[48.15,11.37],[49.40,11.37],[47.25,8.39],[48.50,8.39],[49.75,8.39]];
   for(const target of fixtures){
    if(!pathExists(G,[44.65,7.05,52.00,13.26],[51.50,10.26],target,.08,.33))
@@ -95,4 +102,4 @@ for(const open of [false,true]){
  }
 }
 assert.deepEqual(failed,[],'Corridors below 1.2192 m or disconnected');
-console.log(routes.length+' mapped interior corridor routes support 1.2192 m with doors shut and fully open. The open hall threshold and six washroom fixture approaches are clear.');
+console.log(routes.length+' mapped interior corridor routes support 1.2192 m with doors shut and fully open. The open hall threshold and ten washroom fixture approaches are clear.');

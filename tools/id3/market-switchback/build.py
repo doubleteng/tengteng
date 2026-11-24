@@ -511,6 +511,43 @@ for x in (2.6,6.2,9.8,13.4,42.2,45.8,49.4,53.0,56.6):
         for ox in (-.223,.223):
             box(S+'Floor girder saddles',ST,x+ox-.01,y-.25,L3-1.43,x+ox+.01,y+.25,L3-.12)
 # Horizontal trussed rims restrain lower nodes even at openings in the upper floors.
+portal_bounds={13.4:(13.24,13.64),45.8:(45.62,45.98)}
+def rim_between_portals(label,material,a,b,width,depth=None):
+    # Both portal axes double as nodes of the horizontal bracing truss.
+    # The longitudinal rim meets the crosshead face; a transverse tie in
+    # this same bay would duplicate the load path through the crosshead.
+    xa,ya,za=a;xb,yb,zb=b
+    start=portal_bounds.get(round(xa,3));end=portal_bounds.get(round(xb,3))
+    if not (start or end):
+        beam(S+label,material,a,b,width,depth)
+        return
+    if abs(xa-xb)<.001:return
+    if xb<xa:raise ValueError('Rim members must follow increasing grid coordinates')
+    west=start[1] if start else xa
+    east=end[0] if end else xb
+    def lerp(x,u,v):return u+(v-u)*(x-xa)/(xb-xa)
+    if label=='Laterally braced lower rim':
+        z=lambda x:lerp(x,za,zb)
+        # Vertical end cut on the face of the receiving crosshead.
+        tapered_post(S+label,material,rect(west,ya-width/2,east,ya+width/2),
+                     lambda x,y:z(x)-depth/2,lambda x,y:z(x)+depth/2)
+        for face,sign,has_portal in ((west,1,start),(east,-1,end)):
+            if not has_portal:continue
+            left,right=sorted((face,face+sign*.12))
+            zz=z(face)-depth/2
+            plate(S+'Rim end cleats',ST,rect(left,ya-width/2-.012,right,ya+width/2+.012),
+                  lambda x,y:z(x)-depth/2,.014)
+            for side in (-1,1):
+                y0=ya+side*(width/2+.012)
+                lo,hi=sorted((y0,y0+side*.075))
+                l,h=sorted((face,face+sign*.014))
+                box(S+'Rim end cleats',ST,l,lo,zz-.014,h,hi,zz+.14)
+                beam(S+'Rim cleat pins',ST,(face+sign*.014,(lo+hi)/2,zz+.055),
+                     (face-sign*.095,(lo+hi)/2,zz+.055),.022)
+    else:
+        at=lambda x:(x,lerp(x,ya,yb),lerp(x,za,zb))
+        beam(S+label,material,at(west),at(east),width,depth)
+
 for yy,edge in ((1.65,2.76),(18.35,17.23)):
     for xa,xb in zip(stations,stations[1:]):
         za,zb=soffit(xa)-.18,soffit(xb)-.18
@@ -522,29 +559,44 @@ for yy,edge in ((1.65,2.76),(18.35,17.23)):
                 # A short transverse collector joins the primary node to the rim.
                 core_start=west[0]+.12
                 z=soffit(core_start)-.18
-                beam(S+'Laterally braced lower rim',GLULAM,(xa,edge,za),(core_start,edge,z),.17,.26)
-                beam(S+'Lateral rim ties',ST,(xa,yy,za),(xa,edge,za),.08,.12)
-                beam(S+'Lateral rim ties',ST,(xa,edge,za),(core_start,yy,z),.050)
+                rim_between_portals('Laterally braced lower rim',GLULAM,(xa,edge,za),(core_start,edge,z),.17,.26)
+                rim_between_portals('Lateral rim ties',ST,(xa,yy,za),(xa,edge,za),.08,.12)
+                rim_between_portals('Lateral rim ties',ST,(xa,edge,za),(core_start,yy,z),.050)
             if west[0]<xa<west[2]:
                 box(S+'Stair core tie plates',ST,xa-.125,1.75,za-.16,xa+.125,1.84,za+.16)
             if xb>west[2]:
                 core_end=west[2]-.08
                 z=soffit(core_end)-.18
-                beam(S+'Laterally braced lower rim',GLULAM,(core_end,edge,z),(xb,edge,zb),.17,.26)
-                beam(S+'Lateral rim ties',ST,(core_end,edge,z),(xb,yy,zb),.050)
+                rim_between_portals('Laterally braced lower rim',GLULAM,(core_end,edge,z),(xb,edge,zb),.17,.26)
+                rim_between_portals('Lateral rim ties',ST,(core_end,edge,z),(xb,yy,zb),.050)
             continue
-        beam(S+'Laterally braced lower rim',GLULAM,(xa,edge,za),(xb,edge,zb),.17,.26)
-        beam(S+'Lateral rim ties',ST,(xa,yy,za),(xa,edge,za),.08,.12)
-        beam(S+'Lateral rim ties',ST,(xa,yy,za),(xb,edge,zb),.050)
-        beam(S+'Lateral rim ties',ST,(xa,edge,za),(xb,yy,zb),.050)
+        rim_between_portals('Laterally braced lower rim',GLULAM,(xa,edge,za),(xb,edge,zb),.17,.26)
+        rim_between_portals('Lateral rim ties',ST,(xa,yy,za),(xa,edge,za),.08,.12)
+        rim_between_portals('Lateral rim ties',ST,(xa,yy,za),(xb,edge,zb),.050)
+        rim_between_portals('Lateral rim ties',ST,(xa,edge,za),(xb,yy,zb),.050)
 for y in (6.64,17.16):
     beam(S+'Court rim girders',GLULAM,(38.6,y,L3-.60),(49.4,y,L3-.60),.32,.85)
     left=38.6+roof_girder_width(38.6)/2;right=49.4-roof_girder_width(49.4)/2
     beam(S+'Court rim girders',GLULAM,(left+.012,y,13.50),(right-.012,y,13.50),roof_rim_width,.85)
     court_beam_shoe(0,y,left,1,roof_rim_width,13.50-.425,13.26)
     court_beam_shoe(0,y,right,-1,roof_rim_width,13.50-.425,13.26)
-for x in (13.4,45.8):
-    beam(S+'Glulam portal crossheads',GLULAM,(x,1.65,6.0),(x,18.35,6.0),.32,.70)
+# Each principal bearing axis receives one transverse member. The east
+# crosshead also carries the forum floor, the west one the reading tiers.
+for x,(left,right) in portal_bounds.items():
+    top=L2-.24
+    bottom=top-1.12
+    label='Glulam portal crossheads' if x==13.4 else 'Forum and court cross girders'
+    box(S+label,GLULAM,left,1.65+.339,bottom,right,18.35-.339,top)
+    for y,d in ((1.65,1),(18.35,-1)):
+        face=y+d*.315
+        end=face+d*.024
+        lo,hi=sorted((face,end))
+        box(S+'Portal bearing plates',ST,left-.055,lo,bottom-.12,right+.055,hi,bottom+.57)
+        lo,hi=sorted((end,end+d*.235))
+        box(S+'Portal seat shelves',ST,left-.018,lo,bottom-.030,right+.018,hi,bottom)
+        for xx in (left+.06,right-.06):
+            for zz in (bottom+.16,bottom+.43):
+                beam(S+'Portal bearing dowels',ST,(xx,face-d*.23,zz),(xx,end,zz),.032)
 # The center line of freestanding columns serves both short spans. Each
 # perimeter beam frames into the concrete wall, core or principal truss pier.
 for xx in frange(16.8,65,7.2):
@@ -554,25 +606,10 @@ for xx in frange(16.8,65,7.2):
         box(S+'Basement beams',RC,xx-.16,a,G-.22-.46,xx+.16,b,G-.22)
 # Keep the low zone below the west studio girders behind a continuous wall.
 # Only the five inner tiers offer occupation; the outer part remains a closed service wedge.
-for i in range(7,12):
-    x=2.6+i*.9;z=L2+(11-i)*.181
-    for ya,yb in [(2.0,6.5),(8.55,13.2),(15.25,18.24)]:
-        slab(I+'West reading tribune',WD,x,ya,x+.9,yb,z,.19)
-        box(I+'West reading tribune',WD,x+.72,ya,z-.19,x+.9,yb,z+.07)
-    for ya,yb in [(6.5,8.55),(13.2,15.25)]:slab(A+'Tribune treads','Chalk',x,ya,x+.9,yb,z,.15)
-    for ya,yb in zip((1.75,5.88,10.00,14.12),(5.88,10.00,14.12,18.25)):
-        beam(S+'Reading tier cross joists',GLULAM,(x,ya,z-.26),(x,yb,z-.26),.16,.29)
-for x in (9.80,13.4):
-    z=soffit(x)-.60
-    beam(S+'Reading tier collectors',GLULAM,(x,1.65,z),(x,18.35,z),.38,1.12)
-    for yy in (1.65,18.35):
-        box(S+'Collector seats',ST,x-.23,yy-.33,z-.57,x+.23,yy+.33,z-.49)
-        for ox in [-.22,.22]:
-            box(S+'Collector steel straps',ST,x+ox-.012,yy-.28,z-.51,x+ox+.012,yy+.28,soffit(x)+.23)
-for yy in (1.75,5.88,10.00,14.12,18.25):
-    beam(S+'Reading tier runners',GLULAM,(8.87,yy,soffit(8.87)-.02),(13.4,yy,soffit(13.4)-.02),.19,.43)
+from reading_tiers import build_reading_tiers
+build_reading_tiers(L2,soffit)
 # Complete CLT support around the tall hall and the Level 2 court floor.
-for x in [42.2,45.8,49.4,53.0,56.6]:
+for x in [42.2,49.4,53.0,56.6]:
     # Lift, stair and lobby ceiling openings break up the small cross spans; edge beams frame the cuts.
     ys=sorted({1.65,18.35,*[a for h in [east,lift,(52.96,5.8,56.65,9.0)] if h[0]<x<h[2] for a in [h[1],h[3]]]})
     z=L2-.20
@@ -610,7 +647,6 @@ for x,corex,corey in [(13.4,14.2,2.05),(49.4,48.6,14.22)]:
     for z in [L2-.23,L3-.23,13.35]:
         beam(S+'Core drag ties',ST,(x,1.75 if x<20 else 18.2,z),(corex,corey,z),.14,.24)
 box(E+'Reading room end wall',WD,8.79,2.02,L2+.57,8.87,18.22,L3-.25)
-for y in (2.02,18.22):handrail((8.9,y),(13.4,y),L2+.724,L2,A+'Tribune rails',ST)
 # Recessed intermediate east passage rises *with* its folded underside.
 # The locally recessed structural floor at the east end of L2 is supported by the annex backspan.
 # Three transverse girder lines carry the downslope rafters. Every timber top

@@ -1,5 +1,6 @@
 """Fitted rooms of the teaching case. Local coordinates in metres, measured to room planning lines."""
-from geometry import box, beam
+from geometry import box, beam, plate, rect
+from shell_skin import MAIN_GIRDER_TOP, tapered_post
 from studio_galleries import roof_girder_width
 
 B, G, L2, L3 = -1.056, 2.50, 6.4116, 10.6788
@@ -106,6 +107,29 @@ def seating(hall, bounds, z, seats, rows, pitch_row, pitch_seat, midgap, crossga
     return result
 
 
+def suspended_reflectors():
+    # Each panel is entirely over the open seating volume. Two short
+    # spreaders bear against one girder soffit. Its four drops end at
+    # flush, level bosses on the inclined upper face of the reflector.
+    panel = 'Interior / Suspended hall reflectors'
+    hardware = 'Interior / Reflector suspension'
+    beam_bottom = MAIN_GIRDER_TOP-.74
+    for x in (20.6,24.2,31.4,35.0):
+        for y,tilt in ((9.40,.095),(14.25,-.095)):
+            def panel_top(u,v): return 11.69+(v-y)*tilt
+            plate(panel,WOOD,rect(x-1.06,y-1.14,x+1.06,y+1.14),panel_top,.072)
+            for yy in (y-.80,y+.80):
+                box(hardware,STEEL,x-.19,yy-.075,beam_bottom-.020,x+.19,yy+.075,beam_bottom)
+                rail_top=beam_bottom-.020
+                box(hardware,STEEL,x-.87,yy-.035,rail_top-.070,x+.87,yy+.035,rail_top)
+                for xx in (x-.77,x+.77):
+                    # A small tapered shoe presents a flat face to the rod.
+                    top=panel_top(xx,yy)+.022
+                    tapered_post(hardware,STEEL,rect(xx-.042,yy-.045,xx+.042,yy+.045),
+                                 panel_top,lambda u,v:top)
+                    box(hardware,STEEL,xx-.009,yy-.009,top,xx+.009,yy+.009,rail_top-.070)
+
+
 def fitted_halls():
     big=(13.8,3.65,40.0,18.32)
     little=(56.95,1.6,69.95,13.04)
@@ -126,24 +150,22 @@ def fitted_halls():
         for k in range(3):
             box(WALL,GLASS,x+k*.078,18.23,G,x+k*.078+.043,18.96,G+2.58)
     box('Interior / Demountable stages',WOOD,14.14,6.65,G,16.45,14.6,G+.33)
+    # The slatted stage lining is fixed to two battens on the inside of
+    # the insulated plinth. Stop it below the teaching balcony and at
+    # the stage face, leaving both side doors and the upper landing free.
+    for z in (3.22,4.52):
+        box(ACOUSTIC,WOOD,14.12,6.68,z,14.18,15.38,z+.065)
     for i in range(20):
-        y=6.68+.45*i
-        top=L3-.24 if y<11.15 and y+.155>9.20 else 11.50-(i%4)*.16
-        box(ACOUSTIC,WOOD,13.91,y,G+.45,14.05,y+.155,top)
-    # Suspended faceted reflectors over each seat bank. The centre line stays clear for daylight.
-    for i in range(4):
-        x=18.5+i*5.0
-        for y in (6.75,13.6):
-            z=10.63+(i%2)*.32
-            beam(ACOUSTIC,WOOD,(x,y,z),(x+2.5,y,z+.26),2.6,.105)
-            for xx,zz in [(x+.18,z+.05),(x+2.32,z+.29)]:
-                beam(ACOUSTIC,STEEL,(xx,y,zz),(xx,y,13.05),.022)
+        y=6.70+.45*i
+        box(ACOUSTIC,WOOD,14.18,y,G+.48,14.245,y+.115,4.76)
+    suspended_reflectors()
     study=seating('Two banks of five',little,L2,10,10,.78,.54,1.5,.70,True)
     wall(WALL,PLASTER,(56.95,1.6),(56.95,13.04),L2,13.28,((3.95,5.60),(10.65,12.3)),.12)
     wall(WALL,WOOD,(56.95,13.04),(69.95,13.04),L2,13.28,((57.7,59.4),(65.7,67.5)),.12)
     box('Interior / Demountable stages',WOOD,57.05,6.32,L2,58.71,10.48,L2+.22)
     for i in range(9):
         x=59.9+i*.69
+        if i==5: x+=.17  # leave a full reveal beside the column at the wall
         bottom=L2+2.48 if x+.42>65.6 and x<67.6 else L2+.55
         box(ACOUSTIC,FELT,x,12.92,bottom,x+.42,12.98,12.49-(i%3)*.16)
     return alternatives,study
@@ -169,7 +191,7 @@ def classrooms():
             for ox in (1.03,3.14):
                 for oy in (1.85,4.35):
                     table(x+ox,y+oy,L3,1.42,.74)
-            box(FURN,'Chalk',X-.12,y+1.25,L3+.94,X-.075,y+3.70,L3+2.07)
+            box(FURN,'Chalk',X-.081,y+1.25,L3+.94,X-.050,y+3.70,L3+2.07)
             areas.append(round((X-x)*(Y-y)/SQUARE_FOOT))
     return areas
 
@@ -183,7 +205,10 @@ def east_rooms():
         wall(WALL,WOOD,(x,edge),(X,edge),L3,L3+2.24,((d,d+1.09),))
         wall(WALL,GLASS,(x,edge),(X,edge),L3+2.24,L3+2.65)
         wall(WALL,PLASTER,(x,Y if edge==y else y),(X,Y if edge==y else y),L3,L3+2.95)
-        table(x+.42,Y-.98 if edge==y else y+.45,L3,1.50,.68)
+        # Place the two annex desks against the solid rear wall, between
+        # the timber posts, with a lateral approach from the office door.
+        desk_offset = (2.12 if x>61 else .96) if y>13 else .42
+        table(x+desk_offset,Y-.98 if edge==y else y+.45,L3,1.50,.68)
         areas.append(round((X-x-.10)*(Y-y-.10)/SQUARE_FOOT))
     for x,X,d in [(40.04,44.50,40.62),(47.96,52.42,50.15),(52.42,56.87,53.85)]:
         office(x,1.72,X,5.04,d,5.04)
@@ -235,8 +260,16 @@ def east_rooms():
 
 def washroom(x,y,X,Y,z,single,basins=None):
     if single:
-        box(FURN,'Chalk',x+.35,Y-.83,z,x+1.02,Y-.44,z+.51)
+        if z==G:
+            # The bowl faces into the room from the west plumbing wall.
+            # A short privacy return shields it from the open street lobby.
+            box(FURN,'Chalk',x+.055,Y-1.52,z,x+.725,Y-1.13,z+.51)
+            box(WALL,PLASTER,x+.05,Y-2.29,z,x+1.18,Y-2.19,z+1.87)
+        else:
+            box(FURN,'Chalk',x+.35,Y-.83,z,x+1.02,Y-.44,z+.51)
         box(FURN,'Chalk',X-.93,Y-1.35,z+.70,X-.31,Y-.86,z+.84)
+        # A rear pedestal provides a bearing for the basin away from the wall.
+        box(FURN,ZINC,X-.74,Y-1.03,z,X-.48,Y-.88,z+.70)
         return
     for n in range(3):
         a=x+.18+n*1.25
@@ -246,6 +279,8 @@ def washroom(x,y,X,Y,z,single,basins=None):
     if basins is None:basins=[(x+.45+n*1.02,Y) for n in range(3)]
     for a,back in basins:
         box(FURN,'Chalk',a,back-.60,z+.71,a+.71,back-.12,z+.82)
+        for xx in (a+.09,a+.56):
+            box(FURN,ZINC,xx,back-.48,z+.655,xx+.06,back-.05,z+.71)
 
 
 def service():
@@ -311,10 +346,13 @@ def service():
     wall(WALL,PLASTER,(57.44,13.30),(57.44,18.29),B,G-.26,((15.0,16.4),))
     for x in (17.1,22.3,27.5,32.7,37.9,43.1):
         for y in (5.62,10.75):
+            # Shelves bear on folded ledges at both end frames.
+            for dx in (0,2.79):
+                box(FURN,STEEL,x+dx,y+.04,B,x+dx+.06,y+.74,B+2.10)
             for dz in (.48,1.25,2.02):
-                box(FURN,ZINC,x,y,B+dz,x+2.85,y+.78,B+dz+.06)
-            for dx in (.03,2.77):
-                box(FURN,STEEL,x+dx,y+.22,B,x+dx+.07,y+.52,B+2.10)
+                for dx in (.06,2.68):
+                    box(FURN,STEEL,x+dx,y+.05,B+dz-.035,x+dx+.11,y+.73,B+dz)
+                box(FURN,ZINC,x+.06,y,B+dz,x+2.79,y+.78,B+dz+.06)
     for y in (3.89,8.63):
         table(60.42,y,B,3.35,1.18)
 
@@ -328,8 +366,8 @@ def teaching_lounge():
     wall(WALL,WOOD,(x,y),(X,y),L3,L3+2.48,((32.84,34.08),))
     washroom(x,y,X,Y,L3,True)
     for xx in (24.06,27.03):
-        box(FURN,FELT,xx,5.40,L3,xx+2.14,6.07,L3+.47)
-        box(FURN,WOOD,xx,5.93,L3+.47,xx+2.14,6.07,L3+.81)
+        box(FURN,FELT,xx,5.28,L3,xx+2.14,5.94,L3+.47)
+        box(FURN,WOOD,xx,5.84,L3+.47,xx+2.14,5.94,L3+.81)
     table(29.80,5.04,L3,1.28,.68)
 
 

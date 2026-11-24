@@ -1,5 +1,6 @@
 """Fitted rooms of the teaching case. Local coordinates in metres, measured to room planning lines."""
 from geometry import box, beam
+from studio_galleries import roof_girder_width
 
 B, G, L2, L3 = -1.056, 2.50, 6.4116, 10.6788
 WOOD, STEEL, ZINC = 'Oiled birch', 'Graphite steel', 'Galvanized silver'
@@ -8,6 +9,10 @@ SQUARE_FOOT = .09290304
 FURN = 'Interior / Loose furniture'
 ACOUSTIC = 'Interior / Acoustic linings'
 WALL = 'Interior / Partitions and doors'
+# Clockwise staff lounge wall axes. The southwest recess is the public
+# gallery around the glazed court. The south bay accommodates the kitchenette.
+STAFF_OUTLINE = [(48.20,2.18),(52.88,2.18),(52.88,8.38),(50.94,8.38),
+                (50.94,11.49),(49.50,11.49),(49.50,5.35),(48.20,5.35)]
 
 
 def wall(name, mat, a, b, z, top, doors=(), thick=.10):
@@ -16,11 +21,28 @@ def wall(name, mat, a, b, z, top, doors=(), thick=.10):
     X,Y = b
     horizontal = abs(X-x) > abs(Y-y)
     lower, upper = (x,X) if horizontal else (y,Y)
-    def segment(s,t,lo,hi):
+    def piece(s,t,lo,hi):
         if horizontal:
             box(name,mat,s,y-thick/2,lo,t,y+thick/2,hi)
         else:
             box(name,mat,x-thick/2,s,lo,x+thick/2,t,hi)
+    def segment(s,t,lo,hi):
+        if z<L3-.002:
+            piece(s,t,lo,hi)
+            return
+        # Stop partitions and glazing at visible timber rather than glazing
+        # across a girder. Headers keep a small deflection gap under each beam.
+        girders=[2.6+3.6*i for i in range(16)]
+        def shoulder(x):return roof_girder_width(x)/2+.06
+        pocket=13.52-.74-.055
+        if horizontal:
+            cuts=sorted({s,t,*[e for X in girders for e in (X-shoulder(X),X+shoulder(X)) if s<e<t]})
+            for a,b in zip(cuts,cuts[1:]):
+                over=any(abs((a+b)/2-c)<shoulder(c) for c in girders)
+                piece(a,b,lo,min(hi,pocket) if over else hi)
+        else:
+            over=any(abs(x-c)<shoulder(c) for c in girders)
+            piece(s,t,lo,min(hi,pocket) if over else hi)
     last = lower
     for start,end in doors:
         if lower <= start < end <= upper:
@@ -55,21 +77,26 @@ def seating(hall, bounds, z, seats, rows, pitch_row, pitch_seat, midgap, crossga
                 central_aisle_m=midgap,cross_aisle_m=round(crossgap+pitch_row-.40,2),
                 front_clear_m=round(front,3),row_pitch_m=pitch_row)
     corner_shift=0.72 if hall.startswith('C ·') else 0.0
-    corner_gap = 1.39 if corner_shift else midgap
+    corner_gap = 1.34 if corner_shift else midgap
     if bounds[0] == 13.8:
         first_x = x+3.0+front+.18
         at_notch = first_x-.18 < 21.4
-        result['side_aisle_at_stair_notch_m'] = round(min(sides-1.25+corner_shift,
-             sides-corner_shift+midgap-corner_gap) if at_notch else sides,3)
+        outer_chair_setback=pitch_seat/2-.212
+        module_offset=min(sides-1.25+corner_shift,sides-corner_shift+midgap-corner_gap) if at_notch else sides
+        result['side_aisle_at_stair_notch_m'] = round(module_offset+outer_chair_setback,3)
         result['central_aisle_at_stair_notch_m'] = corner_gap if at_notch else midgap
     if put:
         for row in range(rows):
             xx=x+3.0+front+.18+row*pitch_row+(crossgap if row>=rows//2 else 0)
+            # Ease the banks back over four rows after clearing the stair.
+            # An abrupt sideways shift leaves a narrow diagonal neck even
+            # when the nominal center and perimeter aisles both look wide.
+            notch=max(0,min(1,(21.40+4*pitch_row-(xx-.18))/(4*pitch_row))) if corner_shift else 0
+            row_gap=midgap+notch*(corner_gap-midgap)
             for n in range(seats):
-                notched = bounds[0] == 13.8 and xx-.18<21.40
-                yy=y+sides+(corner_shift if notched else 0)+(n+.5)*pitch_seat
+                yy=y+sides+notch*corner_shift+(n+.5)*pitch_seat
                 if n>=banks:
-                    yy+=corner_gap if notched else midgap
+                    yy+=row_gap
                 chair(xx,yy,z)
     return result
 
@@ -83,9 +110,9 @@ def fitted_halls():
         seating('C · two banks of nine',big,G,18,20,.87,.53,1.65,.98,True)]
     # Multiple sides admit the public. The south wall is pocketed back on market days.
     wall(WALL,PLASTER,(13.8,3.65),(13.8,18.32),G,L3,((5.05,6.55),(15.6,17.2)),.14)
-    wall(WALL,PLASTER,(13.8,3.65),(13.8,18.32),L3,12.9,((9.35,11.0),),.14)
+    wall(WALL,PLASTER,(13.98,3.65),(13.98,18.32),L3,12.9,((9.35,11.0),),.14)
     wall(WALL,PLASTER,(40.0,3.65),(40.0,18.32),G,12.9,((5.0,7.4),(12.85,15.35)),.14)
-    wall(WALL,PLASTER,(21.46,3.65),(40.0,3.65),G,8.4,((21.6,23.4),(36.4,38.2)))
+    wall(WALL,PLASTER,(21.46,3.65),(40.0,3.65),G,8.4,((22.30,24.45),(36.4,38.2)))
     for i in range(5):
         x=14.15+i*5.08
         # Leaves stacked at the jamb; upper fixed ribbon keeps high sidelight.
@@ -95,7 +122,8 @@ def fitted_halls():
     box('Interior / Demountable stages',WOOD,14.14,6.65,G,16.45,14.6,G+.33)
     for i in range(20):
         y=6.68+.45*i
-        box(ACOUSTIC,WOOD,13.91,y,G+.45,14.05,y+.155,11.50-(i%4)*.16)
+        top=L3-.24 if y<11.15 and y+.155>9.20 else 11.50-(i%4)*.16
+        box(ACOUSTIC,WOOD,13.91,y,G+.45,14.05,y+.155,top)
     # Suspended faceted reflectors over each seat bank. The centre line stays clear for daylight.
     for i in range(4):
         x=18.5+i*5.0
@@ -105,12 +133,13 @@ def fitted_halls():
             for xx,zz in [(x+.18,z+.05),(x+2.32,z+.29)]:
                 beam(ACOUSTIC,STEEL,(xx,y,zz),(xx,y,13.05),.022)
     study=seating('Two banks of five',little,L2,10,10,.78,.54,1.5,.70,True)
-    wall(WALL,PLASTER,(56.95,1.6),(56.95,13.04),L2,13.28,((2.15,3.8),(10.65,12.3)),.12)
+    wall(WALL,PLASTER,(56.95,1.6),(56.95,13.04),L2,13.28,((3.95,5.60),(10.65,12.3)),.12)
     wall(WALL,WOOD,(56.95,13.04),(69.95,13.04),L2,13.28,((57.7,59.4),(65.7,67.5)),.12)
-    box('Interior / Demountable stages',WOOD,57.05,4.2,L2,58.32,10.5,L2+.22)
+    box('Interior / Demountable stages',WOOD,57.05,6.32,L2,58.71,10.48,L2+.22)
     for i in range(9):
         x=59.9+i*.69
-        box(ACOUSTIC,FELT,x,12.92,L2+.55,x+.42,12.98,12.49-(i%3)*.16)
+        bottom=L2+2.48 if x+.42>65.6 and x<67.6 else L2+.55
+        box(ACOUSTIC,FELT,x,12.92,bottom,x+.42,12.98,12.49-(i%3)*.16)
     return alternatives,study
 
 
@@ -124,8 +153,13 @@ def classrooms():
         wall(WALL,PLASTER,(hi,y),(hi,Y),L3,L3+3.08)
         edge=Y if y<5 else y
         for x,X in [(lo,mid),(mid,hi)]:
-            wall(WALL,WOOD,(x,edge),(X,edge),L3,L3+2.43,((x+.43,x+1.67),))
-            wall(WALL,GLASS,(x,edge),(X,edge),L3+2.43,L3+3.08)
+            door=(x+.43,x+1.67) if x==lo else (10.55,11.79)
+            wall(WALL,WOOD,(x,edge),(X,edge),L3,L3+2.43,(door,))
+            # The south-east corner also contains the studio landing's
+            # transverse hanger spreader. Terminate its clerestory at the
+            # adjacent main girder, leaving that hanger shoe in the solid bay.
+            glass_end=13.40 if edge==11.0 and X==hi else X
+            wall(WALL,GLASS,(x,edge),(glass_end,edge),L3+2.43,L3+2.65)
             for ox in (1.03,3.14):
                 for oy in (1.85,4.35):
                     table(x+ox,y+oy,L3,1.42,.74)
@@ -135,47 +169,68 @@ def classrooms():
 
 
 def east_rooms():
-    # Four north-lit offices share a passage with two south offices.
-    north_start,north_finish=43.0,56.3
-    for k in range(4):
-        x=north_start+(north_finish-north_start)*k/4
-        X=north_start+(north_finish-north_start)*(k+1)/4
-        wall(WALL,PLASTER,(x,1.82),(x,6.08),L3,L3+2.95)
-        wall(WALL,WOOD,(x,6.08),(X,6.08),L3,L3+2.22,((x+.31,x+1.36),))
-        wall(WALL,GLASS,(x,6.08),(X,6.08),L3+2.22,L3+2.95)
-        table(x+.78,2.85,L3,1.48,.73)
-    wall(WALL,PLASTER,(56.3,1.82),(56.3,6.08),L3,L3+2.95)
-    areas=[round((north_finish-north_start)/4*4.26/SQUARE_FOOT)]*4
-    for x,X,Y in [(48.03,51.84,11.55),(51.84,56.85,10.56)]:
-        wall(WALL,PLASTER,(x,7.78),(x,Y),L3,L3+2.95)
-        wall(WALL,WOOD,(x,7.78),(X,7.78),L3,L3+2.24,((x+.31,x+1.4),))
-        wall(WALL,GLASS,(x,7.78),(X,7.78),L3+2.24,L3+2.95)
-        wall(WALL,PLASTER,(x,Y),(X,Y),L3,L3+2.95)
-        table(x+1.18,8.9,L3,1.52,.68)
-        areas.append(round((X-x)*(Y-7.78)/SQUARE_FOOT))
-    wall(WALL,PLASTER,(56.85,7.78),(56.85,10.56),L3,L3+2.95)
-    # Shared conference and staff lounge lie under the upper offices; circulation stays to the east.
-    for y,Y in [(1.76,6.12),(6.18,10.53)]:
-        wall(WALL,PLASTER,(48.02,y),(48.02,Y),L2,L3-.24)
-        wall(WALL,WOOD,(48.02,Y),(54.55,Y),L2,L3-.24)
-        wall(WALL,GLASS,(54.55,y),(54.55,Y),L2,L3-.24,((y+.40,y+1.7),))
-    table(49.15,3.35,L2,3.55,1.18)
-    for x in (49.05,51.2):
-        box(FURN,FELT,x,7.52,L2,x+1.86,8.13,L2+.46)
-        box(FURN,FELT,x,9.57,L2,x+1.86,10.18,L2+.46)
-    # South gallery of the east headhouse. The assembly double-height room ends at y13.04.
-    wall(WALL,PLASTER,(56.97,13.17),(69.86,13.17),L3,L3+2.86)
-    wall(WALL,PLASTER,(67.32,13.17),(67.32,17.87),L3,L3+2.86,((15.34,16.53),))
-    for x in (59.1,62.35):
-        table(x,14.22,L3,2.25,.78)
-    table(64.60,15.68,L3,1.72,.80)
+    # The north promenade opens straight into an entrance passage between the
+    # office banks. The parallel gallery skirts the guard at the open court.
+    areas=[]
+    def office(x,y,X,Y,d,edge):
+        wall(WALL,PLASTER,(x,y),(x,Y),L3,L3+2.95)
+        wall(WALL,WOOD,(x,edge),(X,edge),L3,L3+2.24,((d,d+1.09),))
+        wall(WALL,GLASS,(x,edge),(X,edge),L3+2.24,L3+2.65)
+        wall(WALL,PLASTER,(x,Y if edge==y else y),(X,Y if edge==y else y),L3,L3+2.95)
+        table(x+.42,Y-.98 if edge==y else y+.45,L3,1.50,.68)
+        areas.append(round((X-x-.10)*(Y-y-.10)/SQUARE_FOOT))
+    for x,X,d in [(40.04,44.50,40.62),(47.96,52.42,50.15),(52.42,56.87,53.85)]:
+        office(x,1.72,X,5.04,d,5.04)
+    for x in (44.50,56.87):
+        wall(WALL,PLASTER,(x,1.72),(x,5.04),L3,L3+2.95)
+    office(35.86,3.68,39.75,7.56,36.87,3.68)
+    wall(WALL,PLASTER,(39.75,3.68),(39.75,7.56),L3,L3+2.95)
+    # Two offices occupy the occupied south strip of the annex. The gallery
+    # along the tall auditorium joins all three doors to the stair.
+    for x,X,d in [(56.90,61.53,59.17),(61.53,66.16,64.18)]:
+        office(x,14.58,X,17.85,d,14.58)
+    wall(WALL,PLASTER,(66.16,14.58),(66.16,17.85),L3,L3+2.95)
+    # Conference and staff lounge face a common landing on the solid north
+    # strip. Both door swings and their furniture clear the exposed truss ties.
+    x,X,y,Y=40.01,46.24,1.975,6.63
+    wall(WALL,WOOD,(x,y),(X,y),L2,L3-.24)
+    wall(WALL,WOOD,(x,Y),(X,Y),L2,L3-.24)
+    wall(WALL,PLASTER,(x,y),(x,Y),L2,L3-.24)
+    wall(WALL,GLASS,(X,y),(X,Y),L2,L2+2.95,((3.87,5.17),))
+    # Leave the court trimmer exposed above the conference-room glazing.
+    for lo,hi,top in ((y,6.44,L3-.24),(6.44,Y,L3-1.09)):
+        wall(WALL,WOOD,(X,lo),(X,hi),L2+2.95,top)
+    for a,b in zip(STAFF_OUTLINE,STAFF_OUTLINE[1:]):
+        a,b=sorted((a,b))
+        wall(WALL,WOOD,a,b,L2,L3-.24)
+    a,b=STAFF_OUTLINE[0],STAFF_OUTLINE[-1]
+    wall(WALL,GLASS,a,b,L2,L2+2.95,((3.73,5.03),))
+    wall(WALL,WOOD,a,b,L2+2.95,L3-.24)
+    table(41.25,3.42,L2,2.75,1.12)
+    for x in (49.15,51.00):
+        box(FURN,FELT,x,3.16,L2,x+1.46,3.73,L2+.46)
+    box(FURN,WOOD,49.60,10.79,L2,50.84,11.40,L2+.92)
+    box(FURN,ZINC,49.81,10.88,L2+.92,50.49,11.27,L2+.95)
+    box(FURN,WOOD,51.08,7.63,L2,52.79,8.28,L2+.92)
+    # A separate washroom at the end of the headhouse gallery.
+    wall(WALL,PLASTER,(56.97,13.04),(69.86,13.04),13.28,L3+2.86)
+    wall(WALL,PLASTER,(66.24,14.58),(69.82,14.58),L3,L3+2.86,((67.48,68.67),))
+    # The two connected arms of reception face the full-height light court.
+    # The low counter faces the main east route and the lift landing.
+    # The 1.28 m north aisle and the clear east route are outside this room.
+    box(FURN,WOOD,52.04,7.61,L3,52.76,9.76,L3+.75)
+    box(FURN,WOOD,52.04,8.76,L3+.75,52.76,9.76,L3+1.01)
+    box(FURN,WOOD,50.92,7.61,L3,52.04,8.29,L3+.75)
+    for y in (7.60,10.72):
+        box(FURN,FELT,48.47,y,L3,49.13,y+2.07,L3+.46)
+        box(FURN,WOOD,48.47,y,L3+.46,48.61,y+2.07,L3+.80)
     return areas
 
 
 def washroom(x,y,X,Y,z,single):
     if single:
-        box(FURN,'Chalk',x+.35,y+.27,z,x+1.02,y+.66,z+.51)
-        box(FURN,'Chalk',X-.93,y+.15,z+.70,X-.31,y+.64,z+.84)
+        box(FURN,'Chalk',x+.35,Y-.83,z,x+1.02,Y-.44,z+.51)
+        box(FURN,'Chalk',X-.93,Y-1.35,z+.70,X-.31,Y-.86,z+.84)
         return
     for n in range(3):
         a=x+.18+n*1.25
@@ -197,48 +252,67 @@ def service():
         wall(WALL,PLASTER,(46.52,Y),(51.79,Y),G,L2-.24)
         wall(WALL,PLASTER,(51.79,y),(51.79,Y),G,L2-.24,((y+1.86,y+3.1),))
         washroom(46.52,y,51.79,Y,G,False)
-    for n in range(3):
-        x=57.02+n*4.28
-        X=x+4.28
-        wall(WALL,PLASTER,(x,14.62),(x,17.91),G,L2-.24)
-        wall(WALL,WOOD,(x,14.62),(X,14.62),G,L2-.24,((x+1.32,x+2.58),))
+    # Service rooms flank a through-lobby from the street door to the café
+    # and the hall. The old middle WC closed off the entrance from inside.
+    for n,(x,X,y,door) in enumerate([(57.03,60.19,13.20,(58.27,59.48)),
+                                     (63.00,66.39,13.56,(64.10,65.32)),
+                                     (66.39,69.81,13.56,(67.51,68.73))]):
+        wall(WALL,PLASTER,(x,y),(x,17.91),G,L2-.24)
+        if n!=1: wall(WALL,PLASTER,(X,y),(X,17.91),G,L2-.24)
+        wall(WALL,WOOD,(x,y),(X,y),G,L2-.24,(door,))
         if n<2:
-            washroom(x,14.62,X,17.91,G,True)
+            washroom(x,y+.25,X,17.91,G,True)
         else:
-            box(FURN,ZINC,x+.42,16.95,G,x+2.1,17.6,G+1.34)
-    wall(WALL,PLASTER,(69.86,14.62),(69.86,17.91),G,L2-.24)
+            box(FURN,ZINC,x+.44,16.95,G,x+2.10,17.60,G+1.34)
     # Café serving counter outside the working kitchen, accessible from the south gallery.
     wall(WALL,PLASTER,(63.55,1.68),(63.55,7.53),G,L2-.24,((5.1,6.45),))
     wall(WALL,PLASTER,(63.55,7.53),(69.92,7.53),G,L2-.24,((66.4,67.8),))
-    box(FURN,WOOD,63.93,7.89,G,68.92,8.65,G+.97)
+    box(FURN,WOOD,63.93,7.89,G,65.76,8.65,G+.97)
+    box(FURN,WOOD,63.93,8.65,G,64.64,11.50,G+.97)
     box(FURN,ZINC,65.0,2.2,G,69.31,2.92,G+.89)
     for x,y in [(57.7,3.0),(60.5,3.0),(58.5,6.75),(57.8,10.3),(61.1,10.3),(65.25,10.35)]:
         table(x,y,G,1.21,.72)
-    box(FURN,WOOD,41.27,11.65,G,45.41,12.37,G+1.00)
+    box(FURN,WOOD,42.00,11.65,G,42.72,15.79,G+1.00)
     # Upper hall support opens off the gallery; remaining strip works as an interval foyer.
-    wall(WALL,PLASTER,(61.28,13.10),(61.28,17.50),L2,L3-.26)
-    wall(WALL,PLASTER,(57.02,17.50),(61.28,17.50),L2,L3-.26,((58.38,59.82),))
-    for x in (62.56,65.47):
-        box(FURN,WOOD,x,15.17,L2,x+2.03,15.74,L2+.46)
-    washroom(67.32,13.37,69.8,17.70,L3,True)
+    wall(WALL,PLASTER,(61.28,13.10),(61.28,17.50),L2,L3-.26,((14.50,15.94),))
+    wall(WALL,PLASTER,(57.02,17.50),(61.28,17.50),L2,L3-.26)
+    for x in (62.41,67.74):
+        box(FURN,WOOD,x,13.72,L2,x+1.58,14.24,L2+.46)
+    washroom(66.24,14.58,69.80,17.70,L3,True)
     # Lower ground stock and workshop face independent service passages on the north side of the lift.
     wall(WALL,PLASTER,(21.46,3.70),(47.98,3.70),B,G-.26,((21.85,23.2),))
     wall(WALL,PLASTER,(47.98,3.70),(47.98,15.0),B,G-.26,((8.61,10.41),))
     wall(WALL,PLASTER,(13.98,15.0),(47.98,15.0),B,G-.26,((18.0,20.2),(43.8,46.0)))
-    wall(WALL,PLASTER,(54.06,2.00),(54.06,8.20),B,G-.26)
-    wall(WALL,PLASTER,(48.06,8.2),(54.06,8.2),B,G-.26,((50.4,51.8),))
-    wall(WALL,PLASTER,(56.54,2.00),(56.54,12.91),B,G-.26,((10.50,12.45),))
-    wall(WALL,PLASTER,(56.54,12.91),(65.12,12.91),B,G-.26)
-    wall(WALL,PLASTER,(56.90,13.60),(65.14,13.60),B,G-.26,((58.3,59.7),))
-    wall(WALL,PLASTER,(56.90,13.60),(56.90,18.16),B,G-.26,((15.0,16.4),))
+    # Take the electrical-room corner north of the basement column; widening
+    # the east bay maintains the equipment room and frees the receiving aisle.
+    wall(WALL,PLASTER,(54.59,2.00),(54.59,7.80),B,G-.26)
+    wall(WALL,PLASTER,(48.06,7.80),(54.59,7.80),B,G-.26,((50.4,51.8),))
+    wall(WALL,PLASTER,(56.67,1.96),(56.67,13.30),B,G-.26,((8.24,10.04),))
+    
+    wall(WALL,PLASTER,(56.67,13.30),(65.14,13.30),B,G-.26,((60.00,61.40),))
+    wall(WALL,PLASTER,(57.44,13.30),(57.44,18.29),B,G-.26,((15.0,16.4),))
     for x in (17.1,22.3,27.5,32.7,37.9,43.1):
-        for y in (5.05,10.75):
+        for y in (5.62,10.75):
             for dz in (.48,1.25,2.02):
                 box(FURN,ZINC,x,y,B+dz,x+2.85,y+.78,B+dz+.06)
             for dx in (.03,2.77):
                 box(FURN,STEEL,x+dx,y+.22,B,x+dx+.07,y+.52,B+2.10)
     for y in (3.89,8.63):
-        table(58.25,y,B,3.35,1.18)
+        table(60.42,y,B,3.35,1.18)
+
+
+def teaching_lounge():
+    # A balcony off the classroom gallery shares its level and overlooks the
+    # large event hall. The adjacent WC has its own door off the north passage.
+    x,X,y,Y=31.92,35.86,3.68,6.25
+    wall(WALL,PLASTER,(x,y),(x,Y),L3,L3+2.48)
+    wall(WALL,PLASTER,(x,Y),(X,Y),L3,L3+2.48)
+    wall(WALL,WOOD,(x,y),(X,y),L3,L3+2.48,((32.84,34.08),))
+    washroom(x,y,X,Y,L3,True)
+    for xx in (24.06,27.03):
+        box(FURN,FELT,xx,5.40,L3,xx+2.14,6.07,L3+.47)
+        box(FURN,WOOD,xx,5.93,L3+.47,xx+2.14,6.07,L3+.81)
+    table(29.80,5.04,L3,1.28,.68)
 
 
 def build_rooms(counts):
@@ -246,22 +320,31 @@ def build_rooms(counts):
     classroom_areas=classrooms()
     office_areas=east_rooms()
     service()
+    teaching_lounge()
     counts['classrooms']=len(classroom_areas)
     counts['offices']=len(office_areas)
     counts['largeHallChairs']=trials[-1]['chairs']
     counts['smallHallChairs']=small['chairs']
+    edges=list(zip(STAFF_OUTLINE,STAFF_OUTLINE[1:]+STAFF_OUTLINE[:1]))
+    area=abs(sum(x*Y-X*y for (x,y),(X,Y) in edges))/2
+    perimeter=sum(abs(X-x)+abs(Y-y) for (x,y),(X,Y) in edges)
+    # For an orthogonal polygon an inward half-wall offset subtracts
+    # width × perimeter and adds four square return corners.
+    staff_net=area-.05*perimeter+4*.05**2
     return dict(large_hall_trials=trials,small_hall=small,classroom_planning_area_sf=classroom_areas,
         office_planning_area_sf=office_areas,
         large_hall_after_stair_notch_sf=round((26.2*14.67-7.4*1.25)/SQUARE_FOOT),
         stock_storage_after_stair_notch_sf=round((34*11.30-7.4*1.2)/SQUARE_FOOT),
-        planning_areas_sf={k:round(w*d/SQUARE_FOOT) for k,w,d in [
+        planning_areas_sf={'staff lounge with kitchenette':round(staff_net/SQUARE_FOOT),'administrative reception':round(
+            ((55.65-48.06)*(10.60-6.32)+(52.30-48.06)*(13.94-10.60))/SQUARE_FOOT),
+            **{k:round(w*d/SQUARE_FOOT) for k,w,d in [
             ('large assembly bounding rectangle',26.20,14.67),('small assembly',13.0,11.44),
             ('large hall support',6.47,8.63),('small hall support',4.26,4.40),
             ('kitchen',6.37,5.85),('public restroom each',5.27,5.32),
-            ('family restroom each and janitor',4.28,3.29),('stock storage bounding rectangle',34,11.30),
-            ('workshop',8.58,10.91),('electrical',6,6.2),('mechanical',8.24,4.56),
-            ('conference',6.53,4.36),('staff lounge',6.53,4.35),
-            ('shared reception',10.35,4.70),('upper WC',2.54,4.70)]})
+            ('west family restroom',3.06,4.61),('east family restroom',3.29,4.25),('janitor',3.32,4.25),('stock storage bounding rectangle',34,11.30),
+            ('workshop',8.37,11.24),('electrical',54.54-48.03,7.75-1.9072),('mechanical',7.60,4.89),
+            ('conference',6.13,4.555),
+            ('upper administrative WC',3.48,3.17),('education lounge',8.82,2.50),('education WC',3.84,2.47)]}})
 
 
 if __name__ == '__main__':

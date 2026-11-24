@@ -13,7 +13,7 @@ for nd in d['nodes']:
 bvh=BVHTree.FromPolygons(pts,fs,all_triangles=True)
 G=2.5;L2=6.4116;L3=10.6788;xa=2.16;xb=47.45;dist=(xb-xa)+(18.46-1.82)+(46.9-xa);q=(L3-L2)/dist;h=L2+q*(xb-xa);hh=h+q*(18.46-1.82)
 violations=0
-for title,ax,a,b,c,z,Z in [('lower outward',0,47.45,6.55,24.,G,(G+L2)/2),('lower return',0,6.55,47.45,21.5,(G+L2)/2,L2),('upper south',0,47.45,2.16,19.87,L2,h),('upper west',1,18.46,1.82,1.075,h,hh),('upper north',0,2.16,46.9,.58,hh,L3),('forum bridge',0,49.74,64,20.85,L2,L2),('forum access',1,20.85,17.65,63.4,L2,L2),('north gate',1,.8,2.35,46.98,L3,L3)]:
+for title,ax,a,b,c,z,Z in [('lower outward',0,47.45,6.55,24.,G,(G+L2)/2),('lower return',0,6.55,47.45,21.6375,(G+L2)/2,L2),('upper south',0,47.45,2.16,19.87,L2,h),('upper west',1,18.46,1.82,1.075,h,hh),('upper north',0,2.16,46.9,.659,hh,L3),('forum bridge',0,49.74,65,20.85,L2,L2),('forum access',1,20.85,17.65,65.0,L2,L2),('north gate',1,.8,2.35,46.98,L3,L3)]:
  bad={}
  for at in np.linspace(.014,.986,max(4,round(abs(b-a)/.22))):
     v=a+(b-a)*at;el=z+(Z-z)*at
@@ -31,6 +31,9 @@ for name,xs,ys,level in [('market street',np.arange(.25,67.9,.23),[20.89,21.24,2
     hits=[]
     for x in xs:
         for y in ys:
+            if name=='market street':
+                centre=21.10+.46*max(0.,min(1.,(49.65-x)/(49.65-47.40)))
+                y=centre+y-21.24
             pos=bvh.ray_cast(Vector((x-82.906,level(x)+.034,y)),Vector((0,1,0)),2.003)
             if pos[2] is not None:hits.append((round(x,1),y,names[pos[2]]))
     violations+=len(hits)

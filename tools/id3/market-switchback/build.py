@@ -21,6 +21,73 @@ palette[GLULAM]=('af8259',.78,0,1)
 palette['Glulam spruce']=('bd9f78',.78,0,1)
 palette[CLT]=('d7b68a',.82,0,1)
 counts={'stalls':0,'classrooms':0,'offices':0,'pv':0,'canopyRoof':0,'insulatedRoof':0,'roofLights':0}
+# Flush bands are cut into the actual paving mesh. Both finishes share each
+# edge and elevation, including the turns around the surveyed Fourth Ave trees.
+from market_roofs import BANKS, DEPTH, AISLE, CROSS_AISLES
+paving_finish='Buff limestone pavers'
+palette[paving_finish]=('c7b89d',.91,0,1)
+def street_ribbons(x):
+    # The last market aisle reaches Fourth north of the trunk at (-.62,53.08).
+    # Its route bends back into the stall aisle inside the first two bays.
+    shift=max(0.,min(1.,(7.0-x)/5.0))*1.35
+    result=[]
+    for i,(n,_,_,_) in enumerate(BANKS):
+        c=n+DEPTH+AISLE/2-(shift if i==2 else 0)
+        result.append((c-.93,c+.93))
+    # The two arcades meet at the east landing. The lower-level corridor
+    # eases into the opening between the separate forum bridge posts.
+    centre=21.10+.46*max(0.,min(1.,(49.65-x)/(49.65-47.40)))
+    result.append((centre-.66,centre+.66))
+    if 50.45<=x<=52.55: result.append((21.1,24.92))
+    if x<=7.75: result.extend([(8.62,10.42),(15.43,17.23)])
+    if 60.38<=x<=62.18: result.append((18.75,21.10))
+    if x>=69.765: result.append((9.02,11.30))
+    return result
+
+def split_paving(poly, at):
+    # Split a convex polygon at a straight line, preserving shared endpoints.
+    negative=[]; positive=[]
+    for a,b in zip(poly,poly[1:]+poly[:1]):
+        da,db=at(*a),at(*b)
+        if da<=1e-9: negative.append(a)
+        if da>=-1e-9: positive.append(a)
+        if da*db < -1e-15 and abs(da)>1e-9 and abs(db)>1e-9:
+            c=tuple(a[i]+(b[i]-a[i])*da/(da-db) for i in range(2))
+            negative.append(c);positive.append(c)
+    return negative,positive
+
+def emit_pavers(poly,xa,xb,ya):
+    if len(poly)<3:return
+    # Small inset selects the interior side at the end of a piecewise band.
+    delta=(xb-xa)*1e-7
+    xm=(xa+xb)/2
+    first,last=street_ribbons(xa+delta),street_ribbons(xb-delta)
+    if any(abs(xm-c)<.9 for c in CROSS_AISLES):
+        # Only the western crossing has full headroom below both arcade ramps.
+        first.append((20.42 if xm<CROSS_AISLES[1]-.9 else BANKS[0][0]+DEPTH+AISLE/2,53.2))
+        last.append(first[-1])
+    cells=[poly]
+    for pair0,pair1 in zip(first,last):
+        for edge,other in zip(pair0,pair1):
+            slope=(other-edge)/(xb-xa-2*delta)
+            cut=lambda x,y:y-edge-(x-xa-delta)*slope
+            pieces=[]
+            for cell in cells:
+                if min(cut(*p) for p in cell)<-1e-8 and max(cut(*p) for p in cell)>1e-8:
+                    pieces.extend(split_paving(cell,cut))
+                else:pieces.append(cell)
+            cells=pieces
+    for cell in cells:
+        cx=sum(p[0] for p in cell)/len(cell);cy=sum(p[1] for p in cell)/len(cell)
+        light=any(lo<cy<hi for lo,hi in street_ribbons(cx))
+        light=light or (any(abs(cx-c)<.90 for c in CROSS_AISLES) and
+                        (20.42 if cx<CROSS_AISLES[1]-.9 else BANKS[0][0]+DEPTH+AISLE/2)<cy<53.2)
+        mat=paving_finish if light else ('Chalk' if 18.75<=ya<20.3 else 'Basalt pavers')
+        for i in range(1,len(cell)-1):
+            vs=[cell[0],cell[i],cell[i+1]]
+            cross=(vs[1][0]-vs[0][0])*(vs[2][1]-vs[0][1])-(vs[1][1]-vs[0][1])*(vs[2][0]-vs[0][0])
+            if abs(cross)>1e-7:plate(T+'Market court paving',mat,vs,terrain,.14)
+
 def frange(a,b,step):
     while a<=b+1e-8:
         yield a;a+=step
@@ -41,6 +108,7 @@ def doorway(l,m,x,y,X,Y,lo,hi,opening=None,t=.13):
         p,q=opening;segment(a,p,lo,hi);segment(q,b,lo,hi);segment(p,q,min(lo+2.35,hi),hi)
     else:segment(a,b,lo,hi)
 
+guard_posts=set()
 def handrail(a,b,baseA,baseB,layer,material=RED,posts=True,curbside=False):
     x,y=a;X,Y=b;length=math.hypot(X-x,Y-y)
     for h in (.10,.67,1.08):
@@ -49,6 +117,9 @@ def handrail(a,b,baseA,baseB,layer,material=RED,posts=True,curbside=False):
         n=max(1,math.ceil(length/1.55))
         for k in range(n+1):
             t=k/n;xx=x+t*(X-x);yy=y+t*(Y-y);zz=baseA+t*(baseB-baseA)
+            key=(layer,material,round(xx,4),round(yy,4),round(zz,4))
+            if key in guard_posts:continue
+            guard_posts.add(key)
             half=.021 if curbside else .027
             box(layer,material,xx-half,yy-half,zz,xx+half,yy+half,zz+1.08)
 
@@ -99,27 +170,84 @@ court_slab=(court[0]-.085,court[1]-.085,court[2]+.085,court[3]+.085)
 west=(14.0,1.70,21.4,4.90)
 east=(48.3,14.0,55.65,17.65)
 lift=(52.3,10.60,55.30,13.60)
+def core_trimmed_spans(x,start,end,cores):
+    """Seat transverse members on solid walls at every shaft on their axis."""
+    spans=[(start,end)]
+    for left,near,right,far in cores:
+        if not left<x<right:continue
+        spans=[(a,b) for lo,hi in spans for a,b in
+               ((lo,min(hi,near+.08)),(max(lo,far-.08),hi)) if b-a>.01]
+    return spans
+def core_floor_girder(label,x,a,b,top,width,depth):
+    """Seat timber on the faces of transverse core walls."""
+    if lift[0]<x<lift[2] and abs(a-lift[3])<.09 and abs(b-east[1])<.09:
+        # Only 400 mm between these concrete cores. The short concrete link bears
+        # directly on both walls rather than squeezing two hangers into this gap.
+        box(S+'Lift and stair coupling beams',RC,x-width/2,lift[3]-.08,top-depth,
+            x+width/2,east[1]+.08,top)
+        return
+    for left,near,right,far in (west,east,lift):
+        if not left < x < right:continue
+        for face,out in ((near,-1),(far,1)):
+            if min(abs(a-face),abs(b-face))>.081:continue
+            end=face+out*.018
+            if abs(a-face)<abs(b-face):a=end
+            else:b=end
+            y0,y1=sorted((face,face+out*.27))
+            z=top-depth
+            box(S+'Core beam seats',ST,x-width/2-.015,y0,z-.024,x+width/2+.015,y1,z)
+            y0,y1=sorted((face,face+out*.014))
+            box(S+'Core beam embeds',ST,x-width/2-.035,y0,z-.13,x+width/2+.035,y1,z+.26)
+            for ox in (-width*.30,width*.30):
+                for h in (-.065,.19):
+                    beam(S+'Core embed anchors',ST,(x+ox,face,z+h),(x+ox,face-out*.12,z+h),.024)
+    if b>a:beam(S+label,GLULAM,(x,a,top-depth/2),(x,b,top-depth/2),width,depth)
+
 def street_height(x):
     if x<=46.55:return .33+(G-.33)*x/46.55
     return G-.05*min(1,(x-46.55)/19)
 def terrain(x,y):
     t=max(0,min(1,(y-10)/8.75,(25.4-y)/3.4))
-    return grade(x,y)+.024+(street_height(x)-grade(x,y)-.024)*t
+    z=grade(x,y)+.024+(street_height(x)-grade(x,y)-.024)*t
+    if 44.15<x<58.85 and 20.3<y<27.8:
+        # Raise the apron to meet the bottom of the switchback. At its former
+        # east edge the landing floated more than half a metre over the court.
+        across=max(0.,min(1.,(y-20.3)/(22.865-20.3),(27.8-y)/(27.8-25.135)))
+        along=max(0.,min(1.,(x-44.15)/(47.45-44.15),(58.85-x)/(58.85-52.55)))
+        z+=(G-z)*across*along
+    if x>=69.765 and 8.5<=y<=11.82:
+        # The café sill adjoins a level landing with splayed graded flanks
+        # and a sloping apron running toward the Detroit Street sidewalk.
+        across=max(0.,min(1.,(y-8.5)/.52,(11.82-y)/.52))
+        along=max(0.,min(1.,(74.55-x)/(74.55-71.08)))
+        z+=(G-z)*across*along
+    return z
 xbreak=[0,2.6,6.2,13.4,15.0,24.2,35.0,45.8,46.55,56.6,65.6,82.906]
-ybreak=[0,1.45,10,15.5,18.75,19.88,20.3,22.0,22.5,25.4,57.912]
+xbreak=sorted(set(xbreak+[2.,7.,7.75,44.15,47.40,47.45,49.65,50.45,52.55,58.85,59.5,60.38,62.18,69.765,71.08,74.55]+[x+d for x in CROSS_AISLES for d in (-.9,.9)]))
+ybreak=[0,1.45,8.5,9.02,10,11.30,11.82,15.5,18.75,19.88,20.3,22.0,22.5,22.865,25.135,25.4,27.80,57.912]
 for xa,xb in zip(xbreak,xbreak[1:]):
  for ya,yb in zip(ybreak,ybreak[1:]):
     if xa>=exc[0] and xb<=exc[2] and ya>=exc[1] and yb<=exc[3]:continue
+    if 47.45<=xa and xb<=50.45 and 22.865<=ya and yb<=25.135:continue
     if 15.0<=xa and xb<=46.55 and ya==18.75:continue
     for fac in [[(0,0),(82.906,0),(0,57.912)],[(82.906,0),(42.3677,57.912),(0,57.912)]]:
         poly=fac
         for a,v,side in [(0,xa,True),(0,xb,False),(1,ya,True),(1,yb,False)]:poly=clip(poly,a,v,side)
-        for k in range(1,len(poly)-1):
-            tri=[poly[0],poly[k],poly[k+1]]
-            plate(T+'Market court paving','Chalk' if 18.75<=ya<20.3 else 'Basalt pavers',tri,terrain,.14)
+        emit_pavers(poly,xa,xb,ya)
 
 x,y,X,Y=exc
-slab(S+'Lower-ground slab',RC,x,y,X,Y,B,.1524)
+floor_with_voids(S+'Lower-ground slab',RC,(x,y,X,Y),[lift],B,.1524)
+# The two load-bearing stair walls continue across the floor to a local thickened
+# concrete mat. At the NW pile cap the shallower step joins the existing cap;
+# the two concrete solids share faces at their joint.
+core_mats=[(left-.24,near-.20,right+.24,far+.20) for left,near,right,far in (west,east)]
+pile=(13.4-1.24,1.65-1.15,13.4+1.24,1.65+1.15)
+for bounds in core_mats:
+    floor_with_voids(S+'Core foundation mats',RC,bounds,[pile],B-.1524,.60)
+    x0,y0=max(bounds[0],pile[0]),max(bounds[1],pile[1])
+    x1,y1=min(bounds[2],pile[2]),min(bounds[3],pile[3])
+    if x1>x0 and y1>y0:slab(S+'Core to pile cap step',RC,x0,y0,x1,y1,B-.1524,.25-.1524)
+
 for xx in [x,X-.4572]:box(S+'Retaining walls',RC,xx,y,B,xx+.4572,Y,G-.22)
 for yy in [y,Y-.4572]:box(S+'Retaining walls',RC,x+.4572,yy,B,X-.4572,yy+.4572,G-.22)
 floor_with_voids(S+'Public ground floor',RC,(13.4,1.45,65.6,18.75),[west,east,lift],G,.22)
@@ -133,7 +261,12 @@ for z,layer in [(L2,'Forum and terraces'),(L3,'Studios and bridges')]:
     if z==L2:
         # Inhabited west theatre steps and the sloped east underside replace a flat tip slab.
         floor_with_voids(S+layer,CLT,(13.4,NORTH_SKIN+.085,47.96,18.48),openings,z)
-        floor_with_voids(S+layer,CLT,(47.96,NORTH_SKIN+.085,56.65,18.48),[west,east,lift,(48.0,5.80,56.65,9.0)],z)
+        floor_with_voids(S+layer,CLT,(47.96,NORTH_SKIN+.085,56.65,18.48),[west,east,lift,(52.96,5.80,56.65,9.0)],z)
+        # A 770 mm infill strips the pinch out of the staff-to-lift gallery.
+        # Both long edges of this separate deck have real bearing lines.
+        slab(S+'Staff gallery loggia infill',CLT,52.96,8.23,56.65,8.855,L2,.24)
+        # Rebate the underside over the existing rim; the floor top is flush.
+        slab(S+'Staff gallery loggia infill',CLT,52.96,8.855,56.65,9.00,L2,.175)
     else:
         floor_with_voids(S+layer,CLT,(WEST_SKIN+.085,NORTH_SKIN+.085,56.65,SOUTH_SKIN-.085),openings,z)
     floor_with_voids(S+layer,CLT,(56.65,1.515,69.765,17.855),openings,z)
@@ -145,26 +278,132 @@ for xa,xb in [(15.0,24.2),(24.2,35.0),(35.0,45.8),(45.8,46.55)]:
     geo.solid(A+'Level hall porch','Chalk',vs,[[0,1,2,3],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]])
 handrail((15.08,19.82),(37.02,19.82),G,G,A+'Porch edge rail',ST)
 # Public terrace under the lifted western room; the accessible route joins the same hall doors from the east.
-for i in range(10):
+for i in range(-1,10):
     x=8.13+i*.38;top=G-(9-i)*.1778
     box(A+'Fourth Avenue entrance steps',RC,x,14.56,.55,x+.38,18.12,top)
 slab(A+'West entrance landing',RC,11.93,14.56,13.4,18.12,G,.27)
+# Recess a second arrival into the west forecourt. The upper landing turns
+# north to the hall door while the stair reaches Fourth at plan ordinate 9.52,
+# clear of the street tree aligned with that door at ordinate 6.48.
+slab(A+'West hall entrance terrace',RC,11.93,4.88,13.4,14.56,G,.27)
+# A low transverse wall below each landing bay bears on the western forecourt.
+for yy in (5.00,8.35,10.69,14.56,17.98):
+    base=min(terrain(12.02,yy),terrain(13.40,yy))-.18
+    box(S+'West entrance terrace bearings',RC,12.02,yy-.09,base,13.40,yy+.09,G-.27)
+handrail((11.97,18.07),(13.37,18.07),G,G,A+'West terrace edge guards',ST)
+for i in range(11):
+    a=7.75+i*.38;top=G-(10-i)*.1778
+    box(A+'West hall entrance steps',RC,a,8.35,.48,a+.38,10.69,top)
+for yy in (8.39,10.65):
+    handrail((7.77,yy),(11.91,yy),G-10*.1778,G,A+'West entrance handrails',ST)
+for lo,hi in ((4.9,8.35),(10.69,14.56)):
+    handrail((11.97,lo),(11.97,hi),G,G,A+'West terrace edge guards',ST)
+handrail((11.97,4.91),(13.37,4.91),G,G,A+'West terrace edge guards',ST)
 for y in (14.62,18.05):
-    handrail((8.14,y),(11.92,y),G-9*.1778,G,A+'West entrance handrails',ST)
+    handrail((7.76,y),(11.92,y),G-10*.1778,G,A+'West entrance handrails',ST)
 plate(A+'Public foyer threshold','Chalk',rect(46.55,18.75,59.5,19.23),lambda x,y:G+(terrain(x,19.23)-G)*(y-18.75)/.48,.12)
 for name,bounds in [('West',west),('East',east)]:
     stair(name,bounds,True)
     x,y,X,Y=bounds
     for yy in [y+.08,Y-.08]:
         for lo,hi in [(B,G),(G,L2),(L2,L3),(L3,L3+2.86)]:
-            doorway(S+'Concrete stair cores',RC,x,yy,X,yy,lo,hi,(x+.11,x+1.46) if yy>y+.2 else None,.16)
+            opening=(x+.11,x+1.46) if yy>y+.2 else None
+            if name=='East' and yy<y+.2 and lo==L2:
+                # A second exit from the level landing serves the staff wing
+                # on the west side of the lift and the light-court gallery.
+                # Cast the lintel into 200 mm pockets in the side piers.
+                p,q=48.51,49.71
+                for xa,xb in ((x,p),(q,X)):
+                    box(S+'Concrete stair cores',RC,xa,y,lo,xb,y+.16,lo+2.35)
+                for xa,xb in ((x,p-.20),(q+.20,X)):
+                    box(S+'Concrete stair cores',RC,xa,y,lo+2.35,xb,y+.16,lo+2.68)
+                box(S+'Stair gallery lintel',RC,p-.20,y,lo+2.35,q+.20,y+.16,lo+2.68)
+                box(S+'Concrete stair cores',RC,x,y,lo+2.68,X,y+.16,hi)
+                for xa,xb in ((p,p+.16),(q-.16,q)):
+                    box(A+'Stair gallery door casing',WH,xa,y+.122,lo,xb,y+.151,lo+2.35)
+            else:doorway(S+'Concrete stair cores',RC,x,yy,X,yy,lo,hi,opening,.16)
     box(S+'Concrete stair cores',RC,X-.16,y+.16,B,X,Y-.16,L3+2.86)
 x,y,X,Y=lift
-for xx in [x,X-.16]:box(S+'Freight lift core',RC,xx,y,B,xx+.16,Y,L3+3.0)
-box(S+'Freight lift core',RC,x+.16,y,B,X-.16,y+.16,L3+3.0)
-for z,Z in [(B,G),(G,L2),(L2,L3),(L3,L3+2.88)]:
-    doorway(A+'Lift landings',RC,x,Y,X,Y,z,Z,(x+.62,X-.62),.16)
-    box(A+'Lift doors',WH,x+.62,Y-.12,z,X-.62,Y-.07,z+2.32)
+# The stair lies only 0.40 m south of the shaft. The freight door therefore
+# opens east at every stop, toward the gallery and its level maneuvering space.
+lift_low, lift_high=y+.62,Y-.62
+lift_back, lift_top, pit=X-.27,L3+3.00,B-1.12
+slab(S+'Freight lift pit floor',RC,x,y,X,Y,pit,.30)
+box(S+'Freight lift core',RC,x,y,pit,x+.16,Y,lift_top)
+for lo,hi in [(y,y+.16),(Y-.16,Y)]:
+    box(S+'Freight lift core',RC,x+.16,lo,pit,X,hi,lift_top)
+for lo,hi in [(y+.16,lift_low),(lift_high,Y-.16)]:
+    box(S+'Freight lift core',RC,lift_back,lo,pit,X,hi,lift_top)
+box(S+'Freight lift core',RC,lift_back,lift_low,pit,X,lift_high,B-.13)
+for level,head in [(B,G-.13),(G,L2-.13),(L2,L3-.13),(L3,lift_top)]:
+    # The concrete head spans the opening between continuous side piers.
+    # The steel sill ends exactly at the deck edge, with no overlaid face.
+    box(S+'Freight lift lintels',RC,lift_back,lift_low,level+2.35,X,lift_high,head)
+    box(S+'Freight lift sill seats',RC,lift_back,lift_low,level-.13,X,lift_high,level-.032)
+    box(A+'Freight lift thresholds',WH,lift_back,lift_low,level-.032,X,lift_high,level)
+    mid=(lift_low+lift_high)/2
+    for lo,hi in [(lift_low,mid-.002),(mid+.002,lift_high)]:
+        box(A+'Lift doors',WH,lift_back,lo,level,lift_back+.045,hi,level+2.35)
+
+# Continuous reinforced-concrete wall bands receive the two diaphragm braces.
+# Their four closed longitudinal bars stay within the concrete, including the
+# east door head. Vertical bars connect the lower soffit ties to the first band.
+def lift_ring(height):
+    left,near,right,far=lift
+    for cover in (.054,.105):
+        corners=rect(left+cover,near+cover,right-cover,far-cover)
+        for level in (height-.052,height+.052):
+            for start,end in zip(corners,corners[1:]+corners[:1]):
+                beam(S+'Lift ring reinforcement',ST,(*start,level),(*end,level),.018)
+
+def lift_framed_tie(layer,a,b,width,ring_height):
+    # Intersect the brace axis with the four actual exterior wall faces. Two
+    # disjoint exterior bars terminate at embedded plates on the concrete
+    # ring; its perimeter bars transfer the reaction around the hoistway.
+    left,near,right,far=lift
+    delta=[v-u for u,v in zip(a,b)]
+    intersections=[]
+    for axis,face,inward in ((0,left,1),(0,right,-1),(1,near,1),(1,far,-1)):
+        if abs(delta[axis])<1e-8:continue
+        t=(face-a[axis])/delta[axis]
+        if not 0<t<1:continue
+        p=tuple(u+d*t for u,d in zip(a,delta))
+        minimum,maximum=(near,far) if axis==0 else (left,right)
+        if minimum<p[1-axis]<maximum:intersections.append((t,p,axis,inward))
+    if not intersections:
+        beam(S+layer,ST,a,b,width)
+        return
+    assert len(intersections)==2,'Brace must have a physical end on each side of the lift'
+    intersections.sort()
+    beam(S+layer,ST,a,intersections[0][1],width)
+    beam(S+layer,ST,intersections[1][1],b,width)
+    for _,entry,axis,inward in intersections:
+        def point(depth,side,height):
+            run=list(entry)
+            run[axis]+=inward*depth
+            run[1-axis]+=side
+            run[2]=height
+            return tuple(run)
+        h=entry[2]
+        ends=zip(point(-.012,-.12,h-.13),point(.016,.12,h+.13))
+        extents=[sorted(pair) for pair in ends]
+        box(S+'Lift brace embed plates',ST,*(p[0] for p in extents),*(p[1] for p in extents))
+        for side in (-.073,.073):
+            for offset in (-.052,.052):
+                level=h+offset
+                beam(S+'Lift brace embed studs',ST,point(.013,side,level),point(.108,side,level),.022)
+                beam(S+'Lift ring cross links',ST,point(.050,side,ring_height+offset),
+                     point(.109,side,ring_height+offset),.016)
+            beam(S+'Lift brace vertical collectors',ST,point(.080,side,min(h,ring_height)-.065),
+                 point(.080,side,max(h,ring_height)+.065),.025)
+
+for level in (L2+2.65,MAIN_GIRDER_TOP-.10):lift_ring(level)
+# Behind this short screen the rising diagonal enters the concrete. The
+# public hall entrance and the hall-support gallery are reached to the east.
+for xx in (52.73,53.66):
+    handrail((xx,9.88),(xx,10.56),L2,L2,A+'Lift brace bay guards',ST)
+handrail((52.73,9.88),(53.66,9.88),L2,L2,A+'Lift brace bay guards',ST)
+handrail((53.00,8.27),(56.60,8.27),L2,L2,A+'Staff gallery loggia guard',ST)
 
 # Two continuous side trusses. Sloping ends lift the belly clear of the streets.
 stations=[2.6+3.6*i for i in range(16)]
@@ -219,38 +458,86 @@ for y in (1.65,18.35):
     # Trim wood clear of chord joinery; slotted knife plates transfer forces across the node.
     t=.30/abs(Z-z)
     shell_member('Glulam Warren webs',y,(x+3.6*t,z+(Z-z)*t),(nx-3.6*t,Z+(z-Z)*t),*diagonal)
-# Direct cross girders to the paired shell walls. A pair of rim trimmers bridges the court.
+# A broad, shallow girder gives the highest occupied floor clear headroom.
+# 0.55 x 0.74 m retains the original 0.30 x 0.90 m girder's strong-axis
+# second moment of area. The bearing shoe and cheek plates fit the wider beam.
+from rooflight_framing import court_beam_shoe
+from studio_galleries import roof_girder_width
+roof_depth=.74
+roof_rim_width=.32
 for i,x in enumerate(stations):
-    for a,b in ([(1.965,6.64),(17.16,18.035)] if court[0]<x<court[2] else [(1.965,18.035)]):
-        beam(S+'Glulam roof girders',GLULAM,(x,a,MAIN_GIRDER_TOP-.45),(x,b,MAIN_GIRDER_TOP-.45),.30,.90)
+    roof_width=roof_girder_width(x)
+    for a,b in ([(1.965,6.64-roof_rim_width/2-.012),(17.16+roof_rim_width/2+.012,18.035)] if court[0]<x<court[2] else [(1.965,18.035)]):
+        for lo,hi in core_trimmed_spans(x,a,b,(lift,)):
+            if lift[0]<x<lift[2]:
+                core_floor_girder('Glulam roof girders',x,lo,hi,MAIN_GIRDER_TOP,roof_width,roof_depth)
+            else:
+                beam(S+'Glulam roof girders',GLULAM,(x,lo,MAIN_GIRDER_TOP-roof_depth/2),
+                     (x,hi,MAIN_GIRDER_TOP-roof_depth/2),roof_width,roof_depth)
+    if court[0]<x<court[2]:
+        for y,sense in ((6.64-roof_rim_width/2,-1),(17.16+roof_rim_width/2,1)):
+            court_beam_shoe(1,x,y,sense,roof_width,MAIN_GIRDER_TOP-roof_depth,13.22)
+    shoe_half=roof_width/2+.019
     for y,end in ((1.965,1),(18.035,-1)):
         ya,yb=sorted((y,y+end*.22))
-        slab(S+'Roof girder hangers',ST,x-.169,ya,x+.169,yb,MAIN_GIRDER_TOP-.90,.018)
+        slab(S+'Roof girder hangers',ST,x-shoe_half,ya,x+shoe_half,yb,MAIN_GIRDER_TOP-roof_depth,.018)
         for side in (-1,1):
-            edge=x+side*.158
-            box(S+'Roof girder hangers',ST,edge-.008,ya,MAIN_GIRDER_TOP-.90,edge+.008,yb,MAIN_GIRDER_TOP-.09)
-        ya,yb=sorted((y-end*.012,y))
-        box(S+'Roof girder hangers',ST,x-.169,ya,MAIN_GIRDER_TOP-.90,x+.169,yb,MAIN_GIRDER_TOP+.12)
+            edge=x+side*(roof_width/2+.008)
+            box(S+'Roof girder hangers',ST,edge-.008,ya,MAIN_GIRDER_TOP-roof_depth,edge+.008,yb,MAIN_GIRDER_TOP-.09)
+        ya,yb=sorted((y-end*.012,y+end*.001))
+        box(S+'Roof girder hangers',ST,x-shoe_half,ya,MAIN_GIRDER_TOP-roof_depth,x+shoe_half,yb,MAIN_GIRDER_TOP+.12)
+        # Four embedded anchors carry hanger reaction into the top chord.
+        # At truss ends both rows are kept inside the end of the timber.
+        offsets=(.075,.22) if i==0 else (-.22,-.075) if i==len(stations)-1 else (-.13,.13)
+        for offset in offsets:
+            for zz in (13.20,13.39):
+                xx=x+offset
+                beam(S+'Roof hanger chord anchors',ST,(xx,y-end*.19,zz),(xx,y+end*.003,zz),.020)
     if x<13.6 or 40<x<56.7:
         for a,b in ([(1.7,6.65),(17.15,18.3)] if court[0]<x<court[2] else [(1.7,18.3)]):
-            beam(S+'Glulam floor girders',GLULAM,(x,a,L3-.20-.61),(x,b,L3-.20-.61),.38,1.22)
+            for lo,hi in core_trimmed_spans(x,a,b,(west,east,lift)):
+                core_floor_girder('Glulam floor girders',x,lo,hi,L3-.20,.38,1.22)
     if i%2==0 and i<15 and not (36<x<48):
-        beam(S+'Collector ties',ST,(x,1.70,MAIN_GIRDER_TOP-.10),(x+3.60,18.30,MAIN_GIRDER_TOP-.10),.058)
+        lift_framed_tie('Collector ties',(x,1.70,MAIN_GIRDER_TOP-.10),(x+3.60,18.30,MAIN_GIRDER_TOP-.10),.058,MAIN_GIRDER_TOP-.10)
 for x in (2.6,6.2,9.8,13.4,42.2,45.8,49.4,53.0,56.6):
     for y in (1.65,18.35):
-        box(S+'Floor girder saddles',ST,x-.23,y-.35,L3-1.46,x+.23,y+.35,L3-1.40)
+        saddle_start=max(y-.35,gallery.NORTH_PANEL_BACK+.004) if y<2 else y-.35
+        box(S+'Floor girder saddles',ST,x-.23,saddle_start,L3-1.46,x+.23,y+.35,L3-1.40)
         for ox in (-.223,.223):
             box(S+'Floor girder saddles',ST,x+ox-.01,y-.25,L3-1.43,x+ox+.01,y+.25,L3-.12)
 # Horizontal trussed rims restrain lower nodes even at openings in the upper floors.
 for yy,edge in ((1.65,2.76),(18.35,17.23)):
     for xa,xb in zip(stations,stations[1:]):
         za,zb=soffit(xa)-.18,soffit(xb)-.18
+        if yy<2 and xa<west[2] and xb>west[0]:
+            # The north chord is tied directly to the continuous stair-core wall
+            # across these bays. Keep the stair headroom clear of an inboard rim.
+            if xa<west[0]:
+                # Return the unsupported end of the rim to the concrete end bay.
+                # A short transverse collector joins the primary node to the rim.
+                core_start=west[0]+.12
+                z=soffit(core_start)-.18
+                beam(S+'Laterally braced lower rim',GLULAM,(xa,edge,za),(core_start,edge,z),.17,.26)
+                beam(S+'Lateral rim ties',ST,(xa,yy,za),(xa,edge,za),.08,.12)
+                beam(S+'Lateral rim ties',ST,(xa,edge,za),(core_start,yy,z),.050)
+            if west[0]<xa<west[2]:
+                box(S+'Stair core tie plates',ST,xa-.125,1.75,za-.16,xa+.125,1.84,za+.16)
+            if xb>west[2]:
+                core_end=west[2]-.08
+                z=soffit(core_end)-.18
+                beam(S+'Laterally braced lower rim',GLULAM,(core_end,edge,z),(xb,edge,zb),.17,.26)
+                beam(S+'Lateral rim ties',ST,(core_end,edge,z),(xb,yy,zb),.050)
+            continue
         beam(S+'Laterally braced lower rim',GLULAM,(xa,edge,za),(xb,edge,zb),.17,.26)
         beam(S+'Lateral rim ties',ST,(xa,yy,za),(xa,edge,za),.08,.12)
         beam(S+'Lateral rim ties',ST,(xa,yy,za),(xb,edge,zb),.050)
         beam(S+'Lateral rim ties',ST,(xa,edge,za),(xb,yy,zb),.050)
 for y in (6.64,17.16):
-    for z in (L3,14.1):beam(S+'Court rim girders',GLULAM,(38.6,y,z-.60),(49.4,y,z-.60),.32,.85)
+    beam(S+'Court rim girders',GLULAM,(38.6,y,L3-.60),(49.4,y,L3-.60),.32,.85)
+    left=38.6+roof_girder_width(38.6)/2;right=49.4-roof_girder_width(49.4)/2
+    beam(S+'Court rim girders',GLULAM,(left+.012,y,13.50),(right-.012,y,13.50),roof_rim_width,.85)
+    court_beam_shoe(0,y,left,1,roof_rim_width,13.50-.425,13.26)
+    court_beam_shoe(0,y,right,-1,roof_rim_width,13.50-.425,13.26)
 for x in (13.4,45.8):
     beam(S+'Glulam portal crossheads',GLULAM,(x,1.65,6.0),(x,18.35,6.0),.32,.70)
 # Short basement spans carry the slab over the assembly space without obstructing the hall.
@@ -258,8 +545,12 @@ for xx in frange(16.8,65,7.2):
  for yy in (1.75,9.40,18.39):
     if west[0]<xx<west[2] and west[1]<yy<west[3] or east[0]<xx<east[2] and east[1]<yy<east[3]:continue
     box(S+'Basement columns',RC,xx-.23,yy-.23,B,xx+.23,yy+.23,G-.45)
+    # Where a column adjoins a stair mat the two footings meet at a formed joint.
+    floor_with_voids(S+'Basement column pads',RC,(xx-.57,yy-.57,xx+.57,yy+.57),core_mats,B-.1524,.50)
+
  for ya,yb in [(1.75,9.40),(9.40,18.39)]:
-    beam(S+'Basement beams',RC,(xx,ya,G-.43),(xx,yb,G-.43),.32,.46)
+    for a,b in core_trimmed_spans(xx,ya,yb,(west,east,lift)):
+        beam(S+'Basement beams',RC,(xx,a,G-.43),(xx,b,G-.43),.32,.46)
 # Keep the low zone below the west studio girders behind a continuous wall.
 # Only the five inner tiers offer occupation; the outer part remains a closed service wedge.
 for i in range(7,12):
@@ -282,21 +573,34 @@ for yy in (1.75,5.88,10.00,14.12,18.25):
 # Complete CLT support around the tall hall and the Level 2 court floor.
 for x in [42.2,45.8,49.4,53.0,56.6]:
     # Lift, stair and loggia openings break up the small cross spans; edge beams frame the cuts.
-    ys=sorted({1.65,18.35,*[a for h in [east,lift,(48.0,5.8,56.65,9.0)] if h[0]<x<h[2] for a in [h[1],h[3]]]})
+    ys=sorted({1.65,18.35,*[a for h in [east,lift,(52.96,5.8,56.65,9.0)] if h[0]<x<h[2] for a in [h[1],h[3]]]})
     z=L2-.20
     for a,b in zip(ys,ys[1:]):
-        if any(h[0]<x<h[2] and h[1]<(a+b)/2<h[3] for h in [east,lift,(48.0,5.8,56.65,9.0)]):continue
+        if any(h[0]<x<h[2] and h[1]<(a+b)/2<h[3] for h in [east,lift,(52.96,5.8,56.65,9.0)]):continue
         depth=1.12 if b-a>10 else .56
-        beam(S+'Forum and court cross girders',GLULAM,(x,a,z-depth/2),(x,b,z-depth/2),.36,depth)
+        core_floor_girder('Forum and court cross girders',x,a,b,z,.36,depth)
 for yy in [5.8,9.0]:
     beam(S+'Loggia rim beams',GLULAM,(47.90,yy,L2-.50),(56.72,yy,L2-.50),.29,.65)
+# The old south loggia rim is continuous to the x49.4 and x56.6 truss bays.
+# Three bolted brackets carry the new front edge without columns in the loggia.
+beam(S+'Staff gallery edge beam',GLULAM,(52.96,8.32,L2-.36),(56.65,8.32,L2-.36),.18,.24)
+for xx in (53.32,54.82,56.28):
+    # Top flange under the edge beam, compression strut into a welded plate
+    # on the existing rim face, and through-bolts into the timber rim.
+    beam(S+'Staff gallery outrigger flange',ST,(xx,8.22,L2-.494),(xx,8.87,L2-.494),.14,.028)
+    beam(S+'Staff gallery outrigger knee',ST,(xx,8.32,L2-.513),(xx,8.86,L2-.76),.075,.075)
+    box(S+'Staff gallery rim connection',ST,xx-.095,8.84,L2-.795,xx+.095,8.86,L2-.435)
+    for level in (L2-.49,L2-.72):
+        for dx in (-.053,.053):
+            beam(S+'Staff gallery rim bolts',ST,(xx+dx,8.83,level),(xx+dx,9.151,level),.016)
 for x in (42.2,49.4,53.0):
     for yy in [1.65,18.35]:
         beam(S+'Deck hanger plates',ST,(x,yy,L2-.6),(x,yy,soffit(x)+.24),.088,.105)
 # Braced soffit planes and collectors at the two bearing lines couple the paired trusses.
 for x in (2.6,9.8,46.0,53.0):
     for ya,yb in [(1.8,10.0),(10.0,18.2)]:
-        beam(S+'Cantilever lateral cross ties',ST,(x,ya,soffit(x)-.22),(x+3.55,yb,soffit(x+3.55)-.22),.052)
+        lift_framed_tie('Cantilever lateral cross ties',(x,ya,soffit(x)-.22),
+                        (x+3.55,yb,soffit(x+3.55)-.22),.052,L2+2.65)
 # The east core is anchored to the full truss panel beyond the court.
 # Longitudinal collector and transverse tie meet at the same solid panel point.
 for z in [L2-.23,L3-.23,13.35]:
@@ -329,13 +633,21 @@ for x in (57.42,60.34,63.25,66.24,69.23):
             q0,q1=sorted((q,q+direction*.009))
             plate(S+'Forum concealed rafter shoes',ST,rect(x-.085,q0,x+.085,q1),
                   lambda u,v:forum_top(u,v)-.12,depth-.12)
+            for offset in (-.055,.055):
+                h=forum_top(x+offset,q)-.29
+                beam(S+'Forum rafter shoe pins',ST,(x+offset,q-direction*.14,h),
+                     (x+offset,q+direction*.011,h),.016)
 # The court has solid planters, continuous slab below and genuine openings overhead.
-for xx,yy,X,Y in [(40.3,7.25,40.95,12.2),(41.4,15.85,46.0,16.43)]:
+for xx,yy,X,Y in [(40.28,8.98,40.93,14.88),(41.2,15.48,44.55,16.03)]:
     box(T+'Sky garden water beds',RC,xx,yy,L2,X,Y,L2+.38)
     box(T+'Sky garden plants','Planting',xx+.08,yy+.08,L2+.38,X-.08,Y-.08,L2+.55)
 # The overlook guard is mounted on the occupied rim, clear of the court glazing.
 guard=rect(court[0]-.20,court[1]-.20,court[2]+.20,court[3]+.20)
-for a,b in zip(guard,guard[1:]+guard[:1]):handrail(a,b,L3,L3,A+'Court overlook',ST)
+for a,b in zip(guard,guard[1:]+guard[:1]):
+    # The full-height, closed upper court wall behind the reception banquette
+    # already encloses this edge. The open overlook retains its guard.
+    if a[0]==b[0]==guard[2][0]:continue
+    handrail(a,b,L3,L3,A+'Court overlook',ST)
 
 # Three different ascents: the public graded ground, the paired arcade inclines,
 # and a quieter upper walk winding around the lifted western end.
@@ -354,35 +666,53 @@ def flight(label,axis,start,end,center,width,lo,hi,wall_side=False,gallery_side=
             poly=rect(a,q-.075,b,q+.075) if axis==0 else rect(q-.075,a,q+.075,b)
             plate(S+'Promenade glulam stringers',GLULAM,poly,lambda x,y:top(x,y)-.145,.310)
         else:
-            joist_off=max(.085,off) if wall_side else off
-            beam(S+'Promenade glulam stringers',GLULAM,point(start,joist_off,lo-.22),point(end,joist_off,hi-.22),.15,.31)
+            # Both arcade stringers are pitch-cut tight to the CLT underside.
+            poly=rect(a,off-.075,b,off+.075)
+            plate(S+'Promenade glulam stringers',GLULAM,poly,lambda x,y:top(x,y)-.145,.310)
         if not wall_side or off<center:
-            handrail(left[:2],right[:2],lo,hi,A+'Promenade rails',ST,curbside=wall_side)
+            handrail(left[:2],right[:2],lo,hi,A+'Promenade rails',ST,curbside=bool(gallery_side))
     for v in frange(a+3.6,b-.3,3.6):
         if gallery_side:
             q,Q=gallery.STRINGERS[gallery_side]
             poly=rect(v-.06,q+.075,v+.06,Q-.075) if axis==0 else rect(q+.075,v-.06,Q-.075,v+.06)
             plate(S+'Walk cross blocking',GLULAM,poly,lambda x,y:top(x,y)-.145,.20)
         else:
-            beam(S+'Walk cross blocking',GLULAM,point(v,c,height(v)-.16),point(v,d,height(v)-.16),.12,.20)
+            plate(S+'Walk cross blocking',GLULAM,rect(v-.06,c+.14,v+.06,d-.14),lambda x,y:top(x,y)-.145,.20)
     return run
 walks=[]
 x0,x1=6.55,47.45
-for y0,start,end,h,H in [(24.00,x1,x0,G,(G+L2)/2),(21.50,x0,x1,(G+L2)/2,L2)]:
-    walks.append(flight('Market arcade inclines',0,start,end,y0,2.27,h,H))
+# The north edge of the return flight leaves a true separation from the
+# upper overlook's guard as the two decks converge at their east landing.
+arcade_flights=[(24.0,2.27,x1,x0,G,(G+L2)/2),(21.6375,1.995,x0,x1,(G+L2)/2,L2)]
+for centre,width,start,end,h,H in arcade_flights:
+    walks.append(flight('Market arcade inclines',0,start,end,centre,width,h,H))
 slab(A+'Market turn',CLT,4.18,20.365,x0,25.135,(G+L2)/2,.17)
-handrail((4.23,20.40),(4.23,25.10),(G+L2)/2,(G+L2)/2,A+'Promenade rails',ST)
+for a,b in [((6.55,20.705),(6.55,20.40)),((6.55,20.40),(4.23,20.40)),
+            ((4.23,20.40),(4.23,25.07)),((4.23,25.07),(6.55,25.07))]:
+    handrail(a,b,(G+L2)/2,(G+L2)/2,A+'Promenade rails',ST)
 slab(A+'Arcade ground landing',CLT,x1,22.865,x1+3.0,25.135,G,.17)
+slab(S+'Arcade landing foundation',RC,x1,22.865,x1+3.0,25.135,G-.17,.36)
+toe_top=lambda x,y:G+(x1-x)*(L2-G)/(2*(x1-x0))-.145-.310
+plate(S+'Ground ramp toe bearing',RC,rect(47.04,22.86,x1,25.14),toe_top,.40)
+# The level switchback rests on two transverse glulam beams. The end
+# posts sit between, or outside, the two occupied aisles on the ground.
+for xx in (4.44,6.30):
+    cap=(G+L2)/2-.17
+    box(S+'Market turn crossheads',GLULAM,xx-.09,20.37,cap-.36,xx+.09,25.13,cap)
+    for yy in (20.49,22.75,25.02):
+        low=terrain(xx,yy)
+        box(S+'Market turn posts',GLULAM,xx-.085,yy-.085,low+.16,xx+.085,yy+.085,cap-.36)
+        box(S+'Market turn foundations',RC,xx-.20,yy-.20,low-.44,xx+.20,yy+.20,low+.16)
 # East crossover closes the short gap between the market arcade and the next ascent.
 slab(A+'Forum threshold',CLT,x1,SOUTH_SKIN+.085,x1+2.28,22.635,L2,.17)
 # Continue to the annex beyond the sloping timber chord; no threshold cuts through a chord.
-slab(A+'Forum approach bridge',CLT,49.73,19.98,64.25,21.74,L2,.19)
-slab(A+'Forum vestibule link',CLT,62.44,18.025,64.25,19.98,L2,.19)
+slab(A+'Forum approach bridge',CLT,49.73,19.98,65.98,21.74,L2,.19)
+slab(A+'Forum vestibule link',CLT,64.02,18.025,65.98,19.98,L2,.19)
 # The walking finish crosses only the trimmed door, on a recessed sill above its plinth.
-slab(A+'Forum vestibule sill',WH,62.56,17.855,64.14,18.025,L2,.08)
-for aa,bb in [((49.73,20.02),(62.44,20.02)),((49.73,21.68),(64.18,21.68)),((64.19,21.68),(64.19,18.08))]:
+slab(A+'Forum vestibule sill',WH,64.16,17.855,65.84,18.025,L2,.08)
+for aa,bb in [((49.73,20.02),(64.02,20.02)),((49.73,21.68),(65.91,21.68)),((65.91,21.68),(65.91,18.08))]:
     handrail(aa,bb,L2,L2,A+'Forum gallery rails',ST)
-for xx in [50,54.2,58.4,62.6]:
+for xx in [50,54.2,58.4,62.6,65.72]:
     for yy in [20.08,21.91]:
         z=terrain(xx,yy)
         box(S+'Forum gallery columns',GLULAM,xx-.12,yy-.12,z+.18,xx+.12,yy+.12,L2-.25)
@@ -394,30 +724,80 @@ unit,h1,h2=gallery.SLOPE,gallery.WEST_LOW,gallery.WEST_HIGH
 walks.append(flight('South overlook ramp',0,xb,xa,19.87,1.42,L2,h1,gallery_side='south'))
 floor_with_voids(A+'West corner landings',CLT,(.16,18.46,xa,20.58),[(WEST_SKIN-.085,18.46,xa,SOUTH_SKIN+.085)],h1,.17)
 walks.append(flight('Fourth Avenue belvedere',1,18.46,1.82,1.075,1.83,h1,h2,gallery_side='west'))
-floor_with_voids(A+'West corner landings',CLT,(.16,.01,xa,1.82),[(WEST_SKIN-.085,NORTH_SKIN-.085,xa,1.82)],h2,.17)
-walks.append(flight('North learning gallery',0,xa,46.90,.58,1.14,h2,L3,wall_side=True,gallery_side='north'))
-slab(A+'Studios threshold',CLT,46.9,.01,48.48,1.15,L3,.17)
-slab(A+'Studios entrance',CLT,46.35,1.15,47.55,NORTH_SKIN+.085,L3,.17)
-for a,b,z in [((.21,20.30),(.21,18.47),h1),((.21,.10),(2.12,.10),h2),((48.94,.17),(48.94,1.30),L3)]:
-    handrail(a,b,z,z,A+'Promenade rails',ST)
+floor_with_voids(A+'West corner landings',CLT,(.16,.01,xa,1.82),[(WEST_SKIN-.085,gallery.NORTH_WALK_EDGE,xa,1.82)],h2,.17)
+walks.append(flight('North learning gallery',0,xa,46.90,(gallery.NORTH_WALK_EDGE+.01)/2,gallery.NORTH_WALK_EDGE-.01,h2,L3,wall_side=True,gallery_side='north'))
+slab(A+'Studios threshold',CLT,46.9,.01,48.48,gallery.NORTH_WALK_EDGE,L3,.17)
+slab(A+'Studios entrance',CLT,46.35,gallery.NORTH_WALK_EDGE,47.55,NORTH_SKIN+.085,L3,.17)
+# The operable door is recessed beyond the perimeter truss, within an entrance
+# passage between the two office banks. The outer opening is a covered portal.
+box(E+'Promenade vestibule',WD,45.90,3.04,L3,46.15,3.14,MAIN_GIRDER_TOP-roof_depth-.055)
+for x,X in ((46.15,46.35),(47.55,47.96)):
+    box(E+'Promenade vestibule',WD,x,3.04,L3,X,3.14,L3+2.40)
+box(E+'Promenade vestibule',GL,46.15,3.04,L3+2.40,47.96,3.14,L3+2.78)
+# Guards return around the actual edges of the turning decks, including
+# the short north edge of the upper studio landing and its closed end.
+for points,z in [([(.225,18.46),(.225,20.515),(xa,20.515)],h1),
+                 ([(.225,1.82),(.225,.0225),(xa,.0225)],h2),
+                 ([(46.9,.0225),(48.45,.0225),(48.45,gallery.NORTH_WALK_EDGE-.024)],L3)]:
+    for a,b in zip(points,points[1:]):
+        handrail(a,b,z,z,A+'Promenade rails',ST,curbside=True)
 # The upper promenade takes its reactions directly to the timber building.
 gallery.build_gallery(soffit)
-for xx in frange(6.55,47.45,5.1):
-    for yy in [20.37,22.75,25.15]:
-        low=terrain(xx,yy)
-        stop=(G+L2)/2+((L2-G)/2)*(xx-6.55)/40.9 if yy<22.75 else (G+L2)/2-((L2-G)/2)*(xx-6.55)/40.9
-        if stop-low>.28:
-            box(S+'Walk footings',RC,xx-.16,yy-.16,low-.20,xx+.16,yy+.16,low+.14)
-            box(S+'Walk support trestles',GLULAM,xx-.095,yy-.095,low+.14,xx+.095,yy+.095,stop-.14)
+# Each arcade incline has its own two-leg bent. All four post lines stay
+# beneath their respective stringers, clear of the upper promenade projection
+# and the paved ground-level passage between the frames.
+for centre,width,start,end,h,H in arcade_flights:
+    runners=(centre-width/2+.065,centre+width/2-.065)
+    posts=runners
+    def bent_top(x,y):return h+(H-h)*(x-start)/(end-start)-.145-.310
+    for xx in frange(6.55,47.45,5.1):
+        support_y=[yy for yy in posts if bent_top(xx,yy)>terrain(xx,yy)+.27]
+        if not support_y:continue
+        y0=min(*runners,*posts)-.11; y1=max(*runners,*posts)+.11
+        plate(S+'Walk trestle crossheads',GLULAM,rect(xx-.10,y0,xx+.10,y1),bent_top,.20)
+        for yy in posts:
+            low=terrain(xx,yy);sole=bent_top(xx,yy)-.20
+            # The low end tapers out on a concrete seat in the graded court.
+            foot=min(low+.14,sole-.02)
+            box(S+'Walk footings',RC,xx-.16,yy-.16,min(low-.20,foot-.16),xx+.16,yy+.16,foot)
+            tapered_post(S+'Walk support trestles',GLULAM,rect(xx-.095,yy-.095,xx+.095,yy+.095),
+                         lambda x,y:foot,lambda x,y:bent_top(x,y)-.20)
 # Landing to court and west studios: these short galleries run along the edges of the tall hall.
 for bounds in [(13.8,4.90,15.65,11.04),(15.65,4.90,21.4,6.42),(21.4,3.65,23.0,6.42)]:
     slab(S+'Studio access gallery',CLT,*bounds,L3,.20)
-for a,b in [((15.65,11.04),(15.65,6.42)),((15.65,6.42),(23.0,6.42)),((23.0,6.42),(23.0,3.65))]:
+from studio_galleries import support_studio_approach, office_edge
+support_studio_approach(L3,MAIN_GIRDER_TOP,ST)
+# The teaching lounge extends the gallery along the north rim of the hall.
+# Each bracket bears on a post of the primary truss, at two elevations.
+# The compression knee supports the occupied outer edge; no extra columns
+# touch the assembly floor. CLT spans the 3.60 m bracket spacing.
+slab(S+'Teaching lounge balcony',CLT,23.0,3.65,35.86,6.25,L3,.20)
+slab(S+'North office balcony',CLT,35.86,3.65,39.75,7.56,L3,.20)
+def teaching_balcony_bracket(xx,out=6.13):
+    upper=L3-.43
+    lower=soffit(xx)+.31 # existing restrained lower chord/post node
+    beam(S+'Teaching balcony brackets',GLULAM,(xx,1.98,upper),(xx,out,upper),.22,.46)
+    beam(S+'Teaching balcony brackets',GLULAM,(xx,1.98,lower),(xx,out-.06,L3-.66),.22,.34)
+    for z in (upper,lower):
+        box(S+'Teaching balcony bracket shoes',ST,xx-.145,1.80,z-.20,xx+.145,2.05,z+.20)
+        # Knife plate crosses the post and the bracket end. Through-dowels
+        # at the post and the bracket show both ends of the force transfer.
+        box(S+'Teaching balcony bracket shoes',ST,xx-.010,1.59,z-.14,xx+.010,2.25,z+.14)
+        for y,half in ((1.65,.24),(2.12,.12)):
+            for dz in (-.082,.082):
+                beam(S+'Teaching balcony through-dowels',WH,(xx-half,y,z+dz),(xx+half,y,z+dz),.024,.024)
+for xx in (24.2,27.8,31.4,35.0):
+    teaching_balcony_bracket(xx,7.45 if xx==35.0 else 6.13)
+teaching_balcony_bracket(38.6,7.45)
+office_edge(L3,ST)
+for a,b in [((15.65,11.04),(15.65,6.42)),((15.65,6.42),(23.0,6.42)),
+            ((23.0,6.42),(23.0,6.25)),((23.0,6.25),(31.92,6.25))]:
     handrail(a,b,L3,L3,A+'Hall gallery guard',ST)
 # At the market entrance the headhouse gives the first ramp a rain cover and additional PV.
 tan=math.tan(math.radians(8.5))
 roofH=lambda x,y:10.42-(y-20.48)*tan
-for i,(a,b) in enumerate([(19.2,33.9),(34.02,48.72),(48.84,63.54)]):
+ranges=[(19.2,33.9),(34.02,48.72),(48.84,63.54)]
+for bay_index,(a,b) in enumerate(ranges):
     poly=rect(a,20.48,b,25.25)
     plate(E+'Arcade solar canopy',WH,poly,roofH,.08)
     plate(S+'Arcade CLT roof',CLT,poly,lambda x,y:roofH(x,y)-.08,.15)
@@ -435,11 +815,42 @@ for i,(a,b) in enumerate([(19.2,33.9),(34.02,48.72),(48.84,63.54)]):
         ledger0,ledger1=sorted((yy+direction*.13,yy+direction*.21))
         plate(S+'Arcade eave girders',GLULAM,rect(a+.12,ledger0,b-.12,ledger1),
               lambda x,y:deck_soffit_h(x,y)-.42,.12)
-        for xx in (a+.36,(a+b)/2,b-.36):
+    # Cantilever the north edge over the public walks. Each continuous
+    # transverse beam picks up both eaves, bearing on the divider between
+    # ramp flights and on the outer post line. Nothing lands in the aisle.
+    def transfer_top(x,y):
+        # Level bearing across each 260 mm eave girder. Interpolate only
+        # between the two seats so neither beam embeds in the mating timber.
+        t=max(0.,min(1.,(y-eaves[0]-.13)/(eaves[1]-eaves[0]-.26)))
+        return deck_soffit_h(x,eaves[0]+.13+(eaves[1]-eaves[0])*t)-.62
+    for xx in (a+.36,(a+b)/2,b-.36):
+        bearing_edges=(eaves[0]-.13,eaves[0]+.13,eaves[1]-.13,eaves[1]+.13)
+        # All four bearing stations share vertices along one continuous beam.
+        # The level seats are cut into the same sloping glulam blank.
+        beam_bottom=transfer_top(xx,eaves[1])-.390
+        vertices=[(x,y,beam_bottom if lower else transfer_top(x,y)) for y in bearing_edges
+                  for x,lower in ((xx-.145,True),(xx+.145,True),(xx+.145,False),(xx-.145,False))]
+        faces=[[0,1,2,3],[12,13,14,15]]
+        for i in (0,4,8):
+            faces.extend([[i+k,i+(k+1)%4,i+4+(k+1)%4,i+4+k] for k in range(4)])
+        geo.solid(S+'Arcade cantilever crossheads',GLULAM,vertices,faces)
+        for yy in (22.75,eaves[1]):
             low=terrain(xx,yy)
-            box(S+'Arcade post shoes',RC,xx-.19,yy-.19,low-.15,xx+.19,yy+.19,low+.24)
-            box(S+'Arcade timber posts',GLULAM,xx-.11,yy-.11,low+.24,
-                xx+.11,yy+.11,girder_bottom)
+            # The inboard pier takes the long eave overhang. Both post lines
+            # bear on concrete foundations rather than on the paving finish.
+            half=.70 if yy==22.75 else .46
+            # Adjacent bay ends share a single level footing below the joint.
+            # This avoids intersecting two pads at slightly different grades.
+            left=right=xx
+            if xx==a+.36 and bay_index>0:left=ranges[bay_index-1][1]-.36
+            if xx==b-.36 and bay_index<len(ranges)-1:right=ranges[bay_index+1][0]+.36
+            foundation_cap=min(terrain(left,yy),terrain(right,yy))-.94
+            if xx==left:
+                box(S+'Arcade spread footings',RC,left-half,yy-half,foundation_cap-.34,right+half,yy+half,foundation_cap)
+            box(S+'Arcade foundation stems',RC,xx-.19,yy-.17,foundation_cap,xx+.19,yy+.17,low-.15)
+            box(S+'Arcade post shoes',RC,xx-.16,yy-.14,low-.15,xx+.16,yy+.14,low+.20)
+            tapered_post(S+'Arcade timber posts',GLULAM,rect(xx-.125,yy-.105,xx+.125,yy+.105),
+                         lambda x,y:low+.20,lambda x,y:beam_bottom)
     for j in range(7):
         for k in range(4):
             xx=a+.17+j*2.07;yy=20.53+k*1.17;d=1.134*math.cos(math.radians(8.5))
@@ -470,15 +881,15 @@ for x,y,X,Y in shoes:
         plate(E+'Soffit movement collars',ST,rect(a,c,b,d),lambda u,v:wall_foot(u)+.012,.012)
 # The recessed loggia starts at the actual floor opening, and its cheeks
 # sit against the clear faces of the timber rim beams beside the void.
-for a,b in ((48.0,49.4),(49.4,53.0),(53.0,56.6)):
-    plate(E+'Eastern loggia soffit',WD,rect(a,5.95,b,8.85),lambda x,y:wall_foot(x)+.065,.065)
+for a,b in ((52.96,53.0),(53.0,56.6)):
+    plate(E+'Eastern loggia soffit',WD,rect(a,5.95,b,8.16),lambda x,y:wall_foot(x)+.065,.065)
 
 from market_roofs import build_market
 from shell_skin import build_skin
 from rooms import build_rooms
 build_market(counts)
-build_skin(counts)
 build_rooms(counts)
+build_skin(counts)
 if geo.outliers:raise ValueError(('outside property',geo.outliers[:10]))
 assert counts['stalls']==120 and counts['classrooms']==4 and counts['offices']==6
 dest=Path(sys.argv[1]);dest.parent.mkdir(parents=True,exist_ok=True)

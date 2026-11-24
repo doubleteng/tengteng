@@ -1,7 +1,7 @@
 // A closed leaf remains the same mesh while it moves. FPS collisions and the
 // renderer therefore use the same local geometry and current world transform.
 import * as T from './lib/three.module.min.js';
-import {roomPortals} from './market-doorways.js?v=a5d41e6613';
+import {roomPortals} from './market-doorways.js?v=052adf7caa';
 const ORIGIN_X=-82.906, HALF_TURN=Math.PI/2, WALK_REACH=2.8;
 const interior='Interior / Partitions and doors';
 const vec=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
@@ -93,7 +93,8 @@ function caseLeaves(root,doors){
  const glass=source.get('Vision glass'),wood=source.get('Oiled birch'),metal=source.get('Galvanized silver');
  if(!glass||!wood||!metal)return;
  function install(label,axis,plane,a,b,floor,height,glazed,side,layer=interior){
-  const width=b-a,jamb=glazed?.052:.018;
+  const trimmed=layer!==interior||(!axis&&plane===3.65)||label==='East stair gallery';
+  const width=b-a,jamb=trimmed?.16:(glazed?.052:.018);
   const count=width>1.45?2:1,span=(width-2*jamb)/count-.004;
   if(span<.52)return;
   const members=[],motions=[];
@@ -110,24 +111,24 @@ function caseLeaves(root,doors){
  }
  const labels=[[0,'Large hall'],[7,'Small hall'],[11,'Classroom'],[15,'Office'],[21,'Staff room'],
   [23,'Washroom'],[24,'Hall support'],[25,'Washroom'],[27,'Service room'],[30,'Café kitchen'],
-  [32,'Hall support'],[33,'Lower-ground room']];
+  [32,'Hall support'],[33,'Lower-ground room'],[41,'Teaching suite washroom'],[42,'East stair gallery']];
  let label=0;
  roomPortals.forEach(([axis,plane,left,right,floor,height],i)=>{
   if(label+1<labels.length&&labels[label+1][0]===i)label++;
-  // The north hall assembly has two wall planes with different rough openings.
-  // Install only at their actual overlap. The other interior opening faces a solid façade.
-  if(i===6)return;
-  if(i===5){left=Math.max(left,22.30);right=Math.min(right,24.45);}
   const glazed=i<2||i===21||i===22;
-  const side=axis?(i<3?-1:1):(i>=11&&i<15?(plane===9.35?1:-1):1);
+  // Office and service leaves open into their room, outside the public aisle.
+  const interiorSide=(i>=18&&i<=21)||i===23||(i>=25&&i<=29)||i===32||i===41? -1 : 1;
+  const side=axis?(i<2?-1:interiorSide):(i>=11&&i<15?(plane===9.35?1:-1):interiorSide);
   install(labels[label][1],axis,plane,left,right,floor,height,glazed,side);
  });
  // Exterior openings with trimmed jambs and floors/landings, from shell_skin.py.
  const shellDoors='Enclosure / Portal reveals';
- install('East entrance',0,17.94,60.68,63.78,2.50,2.50,true,-1,shellDoors);
- install('Upper gallery',0,17.94,62.50,64.20,6.4116,2.45,true,-1,shellDoors);
- install('Upper promenade',0,1.235,46.35,47.55,10.6788,2.57,true,1,shellDoors);
- for(const z of [6.90,16.90])install('Courtyard',0,z,41.30,43.20,6.4116,2.35,true,z===6.9?1:-1,shellDoors);
+ install('East entrance',0,17.94,60.08,62.48,2.50,2.50,true,-1,shellDoors);
+ install('Café entrance',1,69.85,9.18,11.15,2.50,2.65,true,1,shellDoors);
+ install('Upper gallery',0,17.94,64.10,65.90,6.4116,2.45,true,-1,shellDoors);
+ install('Upper promenade',0,3.09,46.35,47.55,10.6788,2.40,true,1,shellDoors);
+ install('Courtyard',0,6.90,46.34,47.83,6.4116,2.35,true,-1,shellDoors);
+ install('Courtyard',1,47.95,10.75,12.65,6.4116,2.35,true,-1,shellDoors);
 }
 
 // The as-modeled large hall has three glass leaves parked in a stack at

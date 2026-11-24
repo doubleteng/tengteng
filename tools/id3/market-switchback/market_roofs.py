@@ -22,6 +22,8 @@ BAY = 2.4384
 DEPTH = 3.048
 AISLE = 4.65
 BANK_DEPTH = 2 * DEPTH + AISLE
+CROSS_BAYS = (6,11)
+CROSS_AISLES = tuple(.86+i*BAY for i in CROSS_BAYS)
 # Trina Solar Vertex N TSM-520NEG18R.20 frame, metres. The teaching grid
 # reserves a 2.08 m bay per module for edge clamps and maintenance movement.
 PANEL_SLOT = 2.08
@@ -309,25 +311,52 @@ def build_bank(index, study, counts, frame):
         breaks.append(right)
         for xa,xb in zip(breaks,breaks[1:]):
             panels=max(1,round((xb-xa)/1.22))
+            # A head channel and a deeper sill angle span the actual glazed
+            # bank. Their returns meet the exposed upper/lower CLT edges.
+            # The fold is a real break in both channels.
+            la,lb=roof(xa,monitor,False),roof(xb,monitor,False)
+            web('Market / Northlight head channels',ZINC,(xa,monitor+.01),(xb,monitor+.01),
+                .060,la+rise-.045,lb+rise-.045,.055,.055)
+            web('Market / Northlight sill channels',ZINC,(xa,monitor-.010),(xb,monitor-.010),
+                .060,la+.100,lb+.100,.065,.065)
+            web('Market / Northlight sill returns',ZINC,(xa,monitor-.034),(xb,monitor-.034),
+                .012,la+.09,lb+.09,.195,.195)
             for i in range(panels):
-                x=xa+(xb-xa)*i/panels+.012;X=xa+(xb-xa)*(i+1)/panels-.012
+                # Pins sit in the thickness of the deck and clear the glazing.
+                # Each rail has two pins at every panel station, including
+                # the lower roof where the sill rises above the drainage lip.
+                station=xa+(xb-xa)*(i+.5)/panels
+                for u in (station-.06,station+.06):
+                    lo=roof(u,monitor,False)
+                    for side,zlev in ((1,lo+rise-.078),(-1,lo-.073)):
+                        beam('Market / Northlight curb anchors',STEEL,
+                             (u,monitor+side*.031,zlev),(u,monitor+side*.190,zlev),.012)
+            for i in range(panels):
+                jamb=xa+(xb-xa)*i/panels;next_jamb=xa+(xb-xa)*(i+1)/panels
+                x=jamb+.041;X=next_jamb-.041
                 z0,z1=roof(x,monitor,False),roof(X,monitor,False)
-                low=.09;vent_h=rise-.20
+                vent_h=rise-.20
                 if i%4!=1:
                     web(vents,GLASS,(x,monitor),(X,monitor),.038,z0+rise-.10,z1+rise-.10,
                         vent_h,vent_h)
                 else:
-                    # The top-hung sash projects outward to the north.
-                    H=vent_h;shift=min(.23,H*.35)
-                    beam(vents,ZINC,(x,monitor-.02,z0+rise-.10),
-                         (X,monitor-.02,z1+rise-.10),.045,.050)
-                    a=(x,monitor,z0+rise-.10);b_=(X,monitor,z1+rise-.10)
-                    c=(X,monitor-shift,z1+low);d=(x,monitor-shift,z0+low)
-                    poly=[a,b_,c,d]
-                    solid(vents,GLASS,poly+[(px,py+.024,pz) for px,py,pz in poly],
+                    # Leave a head rebate for the hinge leaf and a sill rebate
+                    # for the seal. The open pane retains its true closed
+                    # height and thickness, including on the folded entry roofs.
+                    angle=math.asin(min(.23/vent_h,.35))
+                    sine,cosine=math.sin(angle),math.cos(angle)
+                    web('Market / Northlight sash hinges',ZINC,(x,monitor-.014),(X,monitor-.014),
+                        .046,z0+rise-.091,z1+rise-.091,.056,.056)
+                    def open_vertex(u,z,drop):
+                        return (u,monitor-drop*sine,z+rise-.10-drop*cosine)
+                    poly=[open_vertex(u,z,drop) for u,z,drop in
+                          [(x,z0,.030),(X,z1,.030),(X,z1,vent_h-.038),(x,z0,vent_h-.038)]]
+                    solid(vents,GLASS,poly+[(px,py+.024*cosine,pz-.024*sine) for px,py,pz in poly],
                           [[0,1,2,3],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]])
-                beam(vents,ZINC,(x,monitor,z0+.01),(x,monitor,z0+rise-.02),.048,.045)
-                opening_area+=(X-x)*vent_h
+                for u in ((jamb,next_jamb) if i==panels-1 and xb==right else (jamb,)):
+                    z=roof(u,monitor,False)
+                    beam(vents,ZINC,(u,monitor,z+.1),(u,monitor,z+rise-.1),.048,.045)
+                opening_area+=(X-x)*(vent_h if i%4!=1 else vent_h-.068)
     yN=north+.36;yS=south-.36
     for x in stations:
         # The shallowest roof point sets the continuous transfer elevation.
@@ -381,18 +410,30 @@ def build_bank(index, study, counts, frame):
     for i in range(n):
         u=first+i*BAY
         for sign,y0 in [(-1,north+DEPTH),(1,south-DEPTH)]:
-            v=y0+sign*.84
-            z=grade(u+BAY/2,v)+.855
-            box('Market / 120 vendor tables',TIMBER,u+.018,v-.4572,z-.075,
-                u+BAY-.018,v+.4572,z)
-            for xx in (u+.26,u+BAY-.26):
-                for yy in (v-.31,v+.31):
-                    box('Market / Table trestles',STEEL,xx-.035,yy-.04,grade(xx,yy)+.028,
-                        xx+.035,yy+.04,z-.073)
+            # Turn paired counters into their own booth on both sides of
+            # each transverse passage; the heavy roof frames remain on grid.
+            at=next((j for j in CROSS_BAYS if i in (j-1,j)),None)
+            if at is None:
+                cx=u+BAY/2; cy=y0+sign*.84
+                def place(a,b):return cx+a,cy+b
+            else:
+                cx=u+.49 if i==at-1 else u+BAY-.49
+                cy=y0+sign*DEPTH/2
+                def place(a,b):return cx+b,cy+a
+            length=BAY-.036
+            def block(layer,mat,a,b,A,B,low,high):
+                x,y=place(a,b);X,Y=place(A,B)
+                box(layer,mat,min(x,X),min(y,Y),low,max(x,X),max(y,Y),high)
+            z=grade(cx,cy)+.855
+            block('Market / 120 vendor tables',TIMBER,-length/2,-.4572,length/2,.4572,z-.075,z)
+            for a in (-BAY/2+.26,BAY/2-.26):
+                for b in (-.31,.31):
+                    xx,yy=place(a,b)
+                    block('Market / Table trestles',STEEL,a-.035,b-.04,a+.035,b+.04,grade(xx,yy)+.028,z-.073)
             if (i+index+sign)%3:
                 for k in (0,1):
-                    box('Market / Produce trays',['Leaf','Ochre','Chalk'][(i+k+index)%3],
-                        u+.25+k*.82,v-.26,z,u+.94+k*.82,v+.22,z+.14)
+                    block('Market / Produce trays',['Leaf','Ochre','Chalk'][(i+k+index)%3],
+                          -BAY/2+.25+k*.82,-.26,-BAY/2+.94+k*.82,.22,z,z+.14)
             counts['stalls']+=1
     counts['pv']+=sum(module_counts)
     counts['canopyRoof']+=areas

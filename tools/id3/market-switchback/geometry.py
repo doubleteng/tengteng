@@ -12,6 +12,18 @@ layers = defaultdict(lambda: [[], []])
 parts = Counter()
 checked = 0
 outliers = []
+coordination_members = []
+
+def member_layer(layer):
+    return layer.startswith('Structure /') or layer in (
+        'Enclosure / Glulam secondary girts','Enclosure / Inboard girt seats',
+        'Enclosure / Girt anchorage plates','Enclosure / Girt anchorage bolts',
+        'Circulation / Fourth Avenue belvedere','Circulation / South overlook ramp',
+        'Circulation / North learning gallery','Circulation / West corner landings',
+        'Circulation / Studios threshold','Circulation / Studios entrance',
+        'Circulation / Lift doors','Circulation / Lift landings',
+        'Circulation / West stair','Circulation / East stair',
+        'Interior / Partitions and doors')
 
 def grade(x,y):
     if x <= 82.906*(1-y/57.912):
@@ -53,6 +65,7 @@ def solid(layer,mat,verts,faces):
     for x,y,z in verts:
         if x<-.001 or y<-.001 or y>57.913 or x>82.906-40.5383*y/57.912+.001:
             outliers.append((layer,x,y,z))
+    if member_layer(layer):coordination_members.append(verts)
     points,inds=layers[layer,mat]
     inds.extend(len(points)+i for i in tri);points.extend(vs.tolist());parts[layer]+=1;checked+=1
 

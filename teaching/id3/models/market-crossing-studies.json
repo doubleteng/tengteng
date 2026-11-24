@@ -2736,28 +2736,28 @@
       "opaque_roof_plan_m2": 1038.693,
       "modules": 379,
       "classroom_eye_level_window_line_m": 22.5,
-      "gross_wall_m2": 1907.772,
+      "gross_wall_m2": 1907.394,
       "north_gross_m2": 808.965,
-      "north_glass_m2": 620.038,
-      "vision_m2": 1417.377,
+      "north_glass_m2": 617.763,
+      "vision_m2": 1416.941,
       "diffuse_m2": 97.37,
-      "portal_clear_m2": 81.4,
-      "south_sample_vision_m2": 442.701,
+      "portal_clear_m2": 81.778,
+      "south_sample_vision_m2": 446.832,
       "june_noon_shade_m2": 0.0,
       "december_noon_shade_m2": 0.0,
       "south_gross_m2": 665.975,
-      "south_glass_m2": 501.119,
+      "south_glass_m2": 502.817,
       "west_gross_m2": 224.572,
-      "west_glass_m2": 151.871,
+      "west_glass_m2": 150.039,
       "east_gross_m2": 289.66,
-      "east_glass_m2": 241.719,
-      "north_wwr_pct": 76.646,
-      "east_wwr_pct": 83.449,
-      "south_wwr_pct": 75.246,
-      "west_wwr_pct": 67.627,
+      "east_glass_m2": 243.69,
+      "north_wwr_pct": 76.365,
+      "east_wwr_pct": 84.13,
+      "south_wwr_pct": 75.501,
+      "west_wwr_pct": 66.811,
       "june_south_noon_hood_shade_pct": 0.0,
       "december_south_noon_hood_shade_pct": 0.0,
-      "wwr_pct": 76.15,
+      "wwr_pct": 76.128,
       "skylight_plan_pct": 7.477
     },
     {
@@ -2767,60 +2767,60 @@
       "modules": 342,
       "north_monitor_m2": 30.118,
       "classroom_eye_level_window_line_m": 11.25,
-      "gross_wall_m2": 1965.897,
+      "gross_wall_m2": 1965.519,
       "north_gross_m2": 814.149,
-      "north_glass_m2": 249.534,
-      "vision_m2": 473.086,
+      "north_glass_m2": 248.838,
+      "vision_m2": 474.237,
       "diffuse_m2": 147.666,
-      "portal_clear_m2": 81.4,
-      "south_sample_vision_m2": 142.798,
-      "june_noon_shade_m2": 142.798,
-      "december_noon_shade_m2": 56.157,
+      "portal_clear_m2": 81.778,
+      "south_sample_vision_m2": 144.409,
+      "june_noon_shade_m2": 144.409,
+      "december_noon_shade_m2": 56.623,
       "south_gross_m2": 701.118,
-      "south_glass_m2": 197.949,
+      "south_glass_m2": 199.215,
       "west_gross_m2": 236.46,
-      "west_glass_m2": 76.624,
+      "west_glass_m2": 76.155,
       "east_gross_m2": 295.57,
-      "east_glass_m2": 96.645,
-      "north_wwr_pct": 30.65,
-      "east_wwr_pct": 32.698,
-      "south_wwr_pct": 28.233,
-      "west_wwr_pct": 32.405,
+      "east_glass_m2": 97.696,
+      "north_wwr_pct": 30.564,
+      "east_wwr_pct": 33.053,
+      "south_wwr_pct": 28.414,
+      "west_wwr_pct": 32.206,
       "june_south_noon_hood_shade_pct": 100.0,
-      "december_south_noon_hood_shade_pct": 39.326,
-      "wwr_pct": 30.321,
+      "december_south_noon_hood_shade_pct": 39.21,
+      "wwr_pct": 30.377,
       "skylight_plan_pct": 18.743
     },
     {
       "option": "Occupied bays and north light",
-      "skylight_plan_m2": 167.885,
-      "opaque_roof_plan_m2": 954.75,
+      "opaque_roof_plan_m2": 1004.603,
+      "skylight_plan_m2": 118.032,
       "modules": 348,
-      "north_monitor_m2": 60.237,
-      "classroom_eye_level_window_line_m": 11.25,
-      "gross_wall_m2": 2024.022,
+      "north_monitor_m2": 28.562,
+      "gross_wall_m2": 2023.644,
       "north_gross_m2": 819.333,
-      "north_glass_m2": 303.635,
-      "vision_m2": 553.883,
-      "diffuse_m2": 109.624,
-      "portal_clear_m2": 81.4,
-      "south_sample_vision_m2": 156.747,
-      "june_noon_shade_m2": 148.729,
-      "december_noon_shade_m2": 34.419,
+      "north_glass_m2": 226.195,
+      "vision_m2": 443.412,
+      "classroom_eye_level_window_line_m": 6.831,
+      "diffuse_m2": 112.387,
+      "portal_clear_m2": 81.778,
       "south_gross_m2": 736.26,
-      "south_glass_m2": 192.52,
+      "south_glass_m2": 141.225,
+      "south_sample_vision_m2": 125.895,
+      "june_noon_shade_m2": 85.366,
+      "december_noon_shade_m2": 20.686,
       "west_gross_m2": 248.348,
-      "west_glass_m2": 72.649,
+      "west_glass_m2": 88.774,
       "east_gross_m2": 301.481,
-      "east_glass_m2": 94.703,
-      "north_wwr_pct": 37.059,
-      "east_wwr_pct": 31.413,
-      "south_wwr_pct": 26.148,
-      "west_wwr_pct": 29.253,
-      "june_south_noon_hood_shade_pct": 94.885,
-      "december_south_noon_hood_shade_pct": 21.958,
-      "wwr_pct": 31.514,
-      "skylight_plan_pct": 14.955
+      "east_glass_m2": 99.604,
+      "north_wwr_pct": 27.607,
+      "east_wwr_pct": 33.038,
+      "south_wwr_pct": 19.181,
+      "west_wwr_pct": 35.746,
+      "june_south_noon_hood_shade_pct": 67.807,
+      "december_south_noon_hood_shade_pct": 16.431,
+      "wwr_pct": 26.398,
+      "skylight_plan_pct": 10.514
     }
   ],
   "room_planning": {
@@ -2833,7 +2833,7 @@
         "cross_aisle_m": 1.36,
         "front_clear_m": 4.93,
         "row_pitch_m": 0.86,
-        "side_aisle_at_stair_notch_m": 0.345,
+        "side_aisle_at_stair_notch_m": 0.393,
         "central_aisle_at_stair_notch_m": 1.5
       },
       {
@@ -2844,7 +2844,7 @@
         "cross_aisle_m": 1.36,
         "front_clear_m": 3.64,
         "row_pitch_m": 0.86,
-        "side_aisle_at_stair_notch_m": 0.035,
+        "side_aisle_at_stair_notch_m": 0.088,
         "central_aisle_at_stair_notch_m": 1.5
       },
       {
@@ -2855,8 +2855,8 @@
         "cross_aisle_m": 1.45,
         "front_clear_m": 2.645,
         "row_pitch_m": 0.87,
-        "side_aisle_at_stair_notch_m": 1.21,
-        "central_aisle_at_stair_notch_m": 1.39
+        "side_aisle_at_stair_notch_m": 1.263,
+        "central_aisle_at_stair_notch_m": 1.34
       }
     ],
     "small_hall": {
@@ -2875,31 +2875,35 @@
       451
     ],
     "office_planning_area_sf": [
-      152,
-      152,
-      152,
-      152,
+      151,
+      151,
+      151,
+      154,
       155,
-      150
+      155
     ],
     "large_hall_after_stair_notch_sf": 4038,
     "stock_storage_after_stair_notch_sf": 4040,
     "planning_areas_sf": {
+      "staff lounge with kitchenette": 303,
+      "administrative reception": 502,
       "large assembly bounding rectangle": 4137,
       "small assembly": 1601,
       "large hall support": 601,
       "small hall support": 202,
       "kitchen": 401,
       "public restroom each": 302,
-      "family restroom each and janitor": 152,
+      "west family restroom": 152,
+      "east family restroom": 151,
+      "janitor": 152,
       "stock storage bounding rectangle": 4135,
-      "workshop": 1008,
-      "electrical": 400,
-      "mechanical": 404,
-      "conference": 306,
-      "staff lounge": 306,
-      "shared reception": 524,
-      "upper WC": 128
+      "workshop": 1013,
+      "electrical": 409,
+      "mechanical": 400,
+      "conference": 301,
+      "upper administrative WC": 119,
+      "education lounge": 237,
+      "education WC": 102
     }
   },
   "annual_energy": {
@@ -2909,10 +2913,10 @@
     "true_north_offset_degrees": -2.25147,
     "module_kwp": 0.52,
     "surface_samples_per_panel": 4,
-    "max_days_per_time_bin": 3,
-    "sky_directions": 384,
+    "max_days_per_time_bin": 10,
+    "sky_directions": 128,
     "triangles": {
-      "round3.glb": 131668,
+      "final.glb": 190568,
       "urban-core-materials.glb": 98306,
       "urban-near.glb": 19628,
       "urban-outer.glb": 54721
@@ -2926,94 +2930,94 @@
         "tilt_deg": 8.5,
         "true_azimuth_deg": 182,
         "unshaded_yield_kwh_per_kw": 1206.617,
-        "sky_obstruction_pct": 4.59,
-        "sun_directions": 1442,
+        "sky_obstruction_pct": 3.967,
+        "sun_directions": 500,
         "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
         "weather_station": "983619",
         "months": [
           {
             "month": 1,
             "open_kwh": 11081.64,
-            "beam_loss_kwh": 469.56,
-            "diffuse_loss_kwh": 214.08,
-            "shaded_kwh": 10398.0
+            "beam_loss_kwh": 451.28,
+            "diffuse_loss_kwh": 185.03,
+            "shaded_kwh": 10445.33
           },
           {
             "month": 2,
             "open_kwh": 15329.39,
-            "beam_loss_kwh": 366.52,
-            "diffuse_loss_kwh": 287.52,
-            "shaded_kwh": 14675.35
+            "beam_loss_kwh": 345.36,
+            "diffuse_loss_kwh": 248.5,
+            "shaded_kwh": 14735.53
           },
           {
             "month": 3,
             "open_kwh": 23246.34,
-            "beam_loss_kwh": 369.43,
-            "diffuse_loss_kwh": 392.64,
-            "shaded_kwh": 22484.26
+            "beam_loss_kwh": 272.84,
+            "diffuse_loss_kwh": 339.36,
+            "shaded_kwh": 22634.13
           },
           {
             "month": 4,
             "open_kwh": 27676.79,
-            "beam_loss_kwh": 23.22,
-            "diffuse_loss_kwh": 523.76,
-            "shaded_kwh": 27129.81
+            "beam_loss_kwh": 24.23,
+            "diffuse_loss_kwh": 452.68,
+            "shaded_kwh": 27199.88
           },
           {
             "month": 5,
             "open_kwh": 30669.08,
-            "beam_loss_kwh": 60.08,
-            "diffuse_loss_kwh": 593.05,
-            "shaded_kwh": 30015.95
+            "beam_loss_kwh": 58.68,
+            "diffuse_loss_kwh": 512.57,
+            "shaded_kwh": 30097.84
           },
           {
             "month": 6,
             "open_kwh": 33848.94,
-            "beam_loss_kwh": 84.05,
-            "diffuse_loss_kwh": 602.49,
-            "shaded_kwh": 33162.4
+            "beam_loss_kwh": 81.57,
+            "diffuse_loss_kwh": 520.73,
+            "shaded_kwh": 33246.64
           },
           {
             "month": 7,
             "open_kwh": 34402.64,
-            "beam_loss_kwh": 82.99,
-            "diffuse_loss_kwh": 620.52,
-            "shaded_kwh": 33699.12
+            "beam_loss_kwh": 82.13,
+            "diffuse_loss_kwh": 536.32,
+            "shaded_kwh": 33784.19
           },
           {
             "month": 8,
             "open_kwh": 29618.81,
-            "beam_loss_kwh": 40.04,
-            "diffuse_loss_kwh": 518.69,
-            "shaded_kwh": 29060.09
+            "beam_loss_kwh": 39.54,
+            "diffuse_loss_kwh": 448.3,
+            "shaded_kwh": 29130.97
           },
           {
             "month": 9,
             "open_kwh": 25362.94,
-            "beam_loss_kwh": 241.39,
-            "diffuse_loss_kwh": 362.53,
-            "shaded_kwh": 24759.01
+            "beam_loss_kwh": 118.05,
+            "diffuse_loss_kwh": 313.34,
+            "shaded_kwh": 24931.56
           },
           {
             "month": 10,
             "open_kwh": 17605.75,
-            "beam_loss_kwh": 331.08,
-            "diffuse_loss_kwh": 319.82,
-            "shaded_kwh": 16954.85
+            "beam_loss_kwh": 299.97,
+            "diffuse_loss_kwh": 276.42,
+            "shaded_kwh": 17029.36
           },
           {
             "month": 11,
             "open_kwh": 12898.29,
-            "beam_loss_kwh": 509.9,
-            "diffuse_loss_kwh": 219.05,
-            "shaded_kwh": 12169.35
+            "beam_loss_kwh": 479.06,
+            "diffuse_loss_kwh": 189.32,
+            "shaded_kwh": 12229.9
           },
           {
             "month": 12,
             "open_kwh": 9313.81,
-            "beam_loss_kwh": 491.93,
-            "diffuse_loss_kwh": 170.06,
-            "shaded_kwh": 8651.82
+            "beam_loss_kwh": 468.45,
+            "diffuse_loss_kwh": 146.98,
+            "shaded_kwh": 8698.37
           }
         ]
       },
@@ -3024,94 +3028,94 @@
         "tilt_deg": 8.5,
         "true_azimuth_deg": 182,
         "unshaded_yield_kwh_per_kw": 1206.617,
-        "sky_obstruction_pct": 8.716,
-        "sun_directions": 1442,
+        "sky_obstruction_pct": 8.668,
+        "sun_directions": 500,
         "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
         "weather_station": "983619",
         "months": [
           {
             "month": 1,
             "open_kwh": 4412.13,
-            "beam_loss_kwh": 1221.18,
-            "diffuse_loss_kwh": 161.86,
-            "shaded_kwh": 3029.1
+            "beam_loss_kwh": 1220.22,
+            "diffuse_loss_kwh": 160.97,
+            "shaded_kwh": 3030.94
           },
           {
             "month": 2,
             "open_kwh": 6103.37,
-            "beam_loss_kwh": 512.65,
-            "diffuse_loss_kwh": 217.38,
-            "shaded_kwh": 5373.34
+            "beam_loss_kwh": 494.65,
+            "diffuse_loss_kwh": 216.19,
+            "shaded_kwh": 5392.53
           },
           {
             "month": 3,
             "open_kwh": 9255.49,
-            "beam_loss_kwh": 294.45,
-            "diffuse_loss_kwh": 296.86,
-            "shaded_kwh": 8664.17
+            "beam_loss_kwh": 289.19,
+            "diffuse_loss_kwh": 295.24,
+            "shaded_kwh": 8671.06
           },
           {
             "month": 4,
             "open_kwh": 11019.46,
-            "beam_loss_kwh": 20.04,
-            "diffuse_loss_kwh": 395.99,
-            "shaded_kwh": 10603.44
+            "beam_loss_kwh": 17.96,
+            "diffuse_loss_kwh": 393.82,
+            "shaded_kwh": 10607.68
           },
           {
             "month": 5,
             "open_kwh": 12210.84,
-            "beam_loss_kwh": 0.38,
-            "diffuse_loss_kwh": 448.38,
-            "shaded_kwh": 11762.08
+            "beam_loss_kwh": 0.39,
+            "diffuse_loss_kwh": 445.92,
+            "shaded_kwh": 11764.53
           },
           {
             "month": 6,
             "open_kwh": 13476.89,
-            "beam_loss_kwh": 1.69,
-            "diffuse_loss_kwh": 455.51,
-            "shaded_kwh": 13019.69
+            "beam_loss_kwh": 1.7,
+            "diffuse_loss_kwh": 453.02,
+            "shaded_kwh": 13022.17
           },
           {
             "month": 7,
             "open_kwh": 13697.35,
-            "beam_loss_kwh": 1.13,
-            "diffuse_loss_kwh": 469.15,
-            "shaded_kwh": 13227.06
+            "beam_loss_kwh": 1.12,
+            "diffuse_loss_kwh": 466.58,
+            "shaded_kwh": 13229.64
           },
           {
             "month": 8,
             "open_kwh": 11792.68,
-            "beam_loss_kwh": 3.38,
-            "diffuse_loss_kwh": 392.16,
-            "shaded_kwh": 11397.13
+            "beam_loss_kwh": 3.23,
+            "diffuse_loss_kwh": 390.01,
+            "shaded_kwh": 11399.43
           },
           {
             "month": 9,
             "open_kwh": 10098.21,
-            "beam_loss_kwh": 132.42,
-            "diffuse_loss_kwh": 274.1,
-            "shaded_kwh": 9691.69
+            "beam_loss_kwh": 130.23,
+            "diffuse_loss_kwh": 272.6,
+            "shaded_kwh": 9695.39
           },
           {
             "month": 10,
             "open_kwh": 7009.7,
-            "beam_loss_kwh": 371.14,
-            "diffuse_loss_kwh": 241.8,
-            "shaded_kwh": 6396.76
+            "beam_loss_kwh": 367.7,
+            "diffuse_loss_kwh": 240.48,
+            "shaded_kwh": 6401.52
           },
           {
             "month": 11,
             "open_kwh": 5135.43,
-            "beam_loss_kwh": 1076.28,
-            "diffuse_loss_kwh": 165.61,
-            "shaded_kwh": 3893.54
+            "beam_loss_kwh": 1056.36,
+            "diffuse_loss_kwh": 164.71,
+            "shaded_kwh": 3914.36
           },
           {
             "month": 12,
             "open_kwh": 3708.27,
-            "beam_loss_kwh": 1310.59,
-            "diffuse_loss_kwh": 128.58,
-            "shaded_kwh": 2269.11
+            "beam_loss_kwh": 1308.59,
+            "diffuse_loss_kwh": 127.87,
+            "shaded_kwh": 2271.81
           }
         ]
       },
@@ -3122,94 +3126,94 @@
         "tilt_deg": 8.5,
         "true_azimuth_deg": 182,
         "unshaded_yield_kwh_per_kw": 1206.617,
-        "sky_obstruction_pct": 13.127,
-        "sun_directions": 1442,
+        "sky_obstruction_pct": 13.039,
+        "sun_directions": 500,
         "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
         "weather_station": "983619",
         "months": [
           {
             "month": 1,
             "open_kwh": 5181.69,
-            "beam_loss_kwh": 782.07,
-            "diffuse_loss_kwh": 286.29,
-            "shaded_kwh": 4113.33
+            "beam_loss_kwh": 781.9,
+            "diffuse_loss_kwh": 284.37,
+            "shaded_kwh": 4115.42
           },
           {
             "month": 2,
             "open_kwh": 7167.91,
-            "beam_loss_kwh": 558.75,
-            "diffuse_loss_kwh": 384.49,
-            "shaded_kwh": 6224.67
+            "beam_loss_kwh": 569.53,
+            "diffuse_loss_kwh": 381.92,
+            "shaded_kwh": 6216.47
           },
           {
             "month": 3,
             "open_kwh": 10869.81,
-            "beam_loss_kwh": 341.65,
-            "diffuse_loss_kwh": 525.08,
-            "shaded_kwh": 10003.09
+            "beam_loss_kwh": 357.02,
+            "diffuse_loss_kwh": 521.56,
+            "shaded_kwh": 9991.24
           },
           {
             "month": 4,
             "open_kwh": 12941.46,
-            "beam_loss_kwh": 14.19,
-            "diffuse_loss_kwh": 700.41,
-            "shaded_kwh": 12226.86
+            "beam_loss_kwh": 14.03,
+            "diffuse_loss_kwh": 695.72,
+            "shaded_kwh": 12231.72
           },
           {
             "month": 5,
             "open_kwh": 14340.63,
-            "beam_loss_kwh": 52.89,
-            "diffuse_loss_kwh": 793.07,
-            "shaded_kwh": 13494.68
+            "beam_loss_kwh": 54.42,
+            "diffuse_loss_kwh": 787.75,
+            "shaded_kwh": 13498.46
           },
           {
             "month": 6,
             "open_kwh": 15827.51,
-            "beam_loss_kwh": 87.2,
-            "diffuse_loss_kwh": 805.7,
-            "shaded_kwh": 14934.62
+            "beam_loss_kwh": 86.37,
+            "diffuse_loss_kwh": 800.29,
+            "shaded_kwh": 14940.85
           },
           {
             "month": 7,
             "open_kwh": 16086.42,
-            "beam_loss_kwh": 88.83,
-            "diffuse_loss_kwh": 829.81,
-            "shaded_kwh": 15167.77
+            "beam_loss_kwh": 90.47,
+            "diffuse_loss_kwh": 824.25,
+            "shaded_kwh": 15171.7
           },
           {
             "month": 8,
             "open_kwh": 13849.54,
-            "beam_loss_kwh": 30.57,
-            "diffuse_loss_kwh": 693.63,
-            "shaded_kwh": 13125.34
+            "beam_loss_kwh": 31.39,
+            "diffuse_loss_kwh": 688.98,
+            "shaded_kwh": 13129.16
           },
           {
             "month": 9,
             "open_kwh": 11859.52,
-            "beam_loss_kwh": 104.54,
-            "diffuse_loss_kwh": 484.81,
-            "shaded_kwh": 11270.17
+            "beam_loss_kwh": 127.25,
+            "diffuse_loss_kwh": 481.56,
+            "shaded_kwh": 11250.72
           },
           {
             "month": 10,
             "open_kwh": 8232.32,
-            "beam_loss_kwh": 489.89,
-            "diffuse_loss_kwh": 427.69,
-            "shaded_kwh": 7314.74
+            "beam_loss_kwh": 477.7,
+            "diffuse_loss_kwh": 424.82,
+            "shaded_kwh": 7329.8
           },
           {
             "month": 11,
             "open_kwh": 6031.14,
-            "beam_loss_kwh": 795.38,
-            "diffuse_loss_kwh": 292.93,
-            "shaded_kwh": 4942.84
+            "beam_loss_kwh": 805.86,
+            "diffuse_loss_kwh": 290.97,
+            "shaded_kwh": 4934.32
           },
           {
             "month": 12,
             "open_kwh": 4355.07,
-            "beam_loss_kwh": 841.85,
-            "diffuse_loss_kwh": 227.42,
-            "shaded_kwh": 3285.79
+            "beam_loss_kwh": 843.32,
+            "diffuse_loss_kwh": 225.9,
+            "shaded_kwh": 3285.85
           }
         ]
       },
@@ -3220,94 +3224,94 @@
         "tilt_deg": 8.5,
         "true_azimuth_deg": 182,
         "unshaded_yield_kwh_per_kw": 1206.617,
-        "sky_obstruction_pct": 17.809,
-        "sun_directions": 1442,
+        "sky_obstruction_pct": 17.253,
+        "sun_directions": 500,
         "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
         "weather_station": "983619",
         "months": [
           {
             "month": 1,
             "open_kwh": 3693.88,
-            "beam_loss_kwh": 1620.62,
-            "diffuse_loss_kwh": 276.87,
-            "shaded_kwh": 1796.39
+            "beam_loss_kwh": 1621.23,
+            "diffuse_loss_kwh": 268.24,
+            "shaded_kwh": 1804.41
           },
           {
             "month": 2,
             "open_kwh": 5109.8,
-            "beam_loss_kwh": 2006.77,
-            "diffuse_loss_kwh": 371.85,
-            "shaded_kwh": 2731.18
+            "beam_loss_kwh": 2007.05,
+            "diffuse_loss_kwh": 360.25,
+            "shaded_kwh": 2742.49
           },
           {
             "month": 3,
             "open_kwh": 7748.78,
-            "beam_loss_kwh": 1942.58,
-            "diffuse_loss_kwh": 507.81,
-            "shaded_kwh": 5298.39
+            "beam_loss_kwh": 1949.66,
+            "diffuse_loss_kwh": 491.97,
+            "shaded_kwh": 5307.15
           },
           {
             "month": 4,
             "open_kwh": 9225.6,
-            "beam_loss_kwh": 752.5,
-            "diffuse_loss_kwh": 677.39,
-            "shaded_kwh": 7795.71
+            "beam_loss_kwh": 752.0,
+            "diffuse_loss_kwh": 656.25,
+            "shaded_kwh": 7817.34
           },
           {
             "month": 5,
             "open_kwh": 10223.03,
-            "beam_loss_kwh": 79.3,
-            "diffuse_loss_kwh": 767.0,
-            "shaded_kwh": 9376.73
+            "beam_loss_kwh": 85.44,
+            "diffuse_loss_kwh": 743.07,
+            "shaded_kwh": 9394.52
           },
           {
             "month": 6,
             "open_kwh": 11282.98,
-            "beam_loss_kwh": 0.33,
-            "diffuse_loss_kwh": 779.21,
-            "shaded_kwh": 10503.44
+            "beam_loss_kwh": 0.34,
+            "diffuse_loss_kwh": 754.9,
+            "shaded_kwh": 10527.75
           },
           {
             "month": 7,
             "open_kwh": 11467.55,
-            "beam_loss_kwh": 16.79,
-            "diffuse_loss_kwh": 802.53,
-            "shaded_kwh": 10648.22
+            "beam_loss_kwh": 4.09,
+            "diffuse_loss_kwh": 777.49,
+            "shaded_kwh": 10685.96
           },
           {
             "month": 8,
             "open_kwh": 9872.94,
-            "beam_loss_kwh": 332.02,
-            "diffuse_loss_kwh": 670.83,
-            "shaded_kwh": 8870.09
+            "beam_loss_kwh": 320.01,
+            "diffuse_loss_kwh": 649.9,
+            "shaded_kwh": 8903.03
           },
           {
             "month": 9,
             "open_kwh": 8454.31,
-            "beam_loss_kwh": 1655.17,
-            "diffuse_loss_kwh": 468.87,
-            "shaded_kwh": 6330.27
+            "beam_loss_kwh": 1667.38,
+            "diffuse_loss_kwh": 454.24,
+            "shaded_kwh": 6332.69
           },
           {
             "month": 10,
             "open_kwh": 5868.58,
-            "beam_loss_kwh": 1983.71,
-            "diffuse_loss_kwh": 413.63,
-            "shaded_kwh": 3471.25
+            "beam_loss_kwh": 1990.09,
+            "diffuse_loss_kwh": 400.72,
+            "shaded_kwh": 3477.77
           },
           {
             "month": 11,
             "open_kwh": 4299.43,
-            "beam_loss_kwh": 1978.45,
-            "diffuse_loss_kwh": 283.3,
-            "shaded_kwh": 2037.68
+            "beam_loss_kwh": 1976.52,
+            "diffuse_loss_kwh": 274.46,
+            "shaded_kwh": 2048.44
           },
           {
             "month": 12,
             "open_kwh": 3104.6,
-            "beam_loss_kwh": 1441.55,
-            "diffuse_loss_kwh": 219.94,
-            "shaded_kwh": 1443.11
+            "beam_loss_kwh": 1441.01,
+            "diffuse_loss_kwh": 213.08,
+            "shaded_kwh": 1450.51
           }
         ]
       }
@@ -3315,95 +3319,95 @@
     "monthly": [
       {
         "open_kwh": 24369.34,
-        "beam_loss_kwh": 4093.43,
-        "diffuse_loss_kwh": 939.1,
-        "shaded_kwh": 19336.82,
+        "beam_loss_kwh": 4074.63,
+        "diffuse_loss_kwh": 898.61,
+        "shaded_kwh": 19396.1,
         "month": 1
       },
       {
         "open_kwh": 33710.47,
-        "beam_loss_kwh": 3444.69,
-        "diffuse_loss_kwh": 1261.24,
-        "shaded_kwh": 29004.54,
+        "beam_loss_kwh": 3416.59,
+        "diffuse_loss_kwh": 1206.86,
+        "shaded_kwh": 29087.02,
         "month": 2
       },
       {
         "open_kwh": 51120.42,
-        "beam_loss_kwh": 2948.11,
-        "diffuse_loss_kwh": 1722.39,
-        "shaded_kwh": 46449.91,
+        "beam_loss_kwh": 2868.71,
+        "diffuse_loss_kwh": 1648.13,
+        "shaded_kwh": 46603.58,
         "month": 3
       },
       {
         "open_kwh": 60863.31,
-        "beam_loss_kwh": 809.95,
-        "diffuse_loss_kwh": 2297.55,
-        "shaded_kwh": 57755.82,
+        "beam_loss_kwh": 808.22,
+        "diffuse_loss_kwh": 2198.47,
+        "shaded_kwh": 57856.62,
         "month": 4
       },
       {
         "open_kwh": 67443.58,
-        "beam_loss_kwh": 192.65,
-        "diffuse_loss_kwh": 2601.5,
-        "shaded_kwh": 64649.44,
+        "beam_loss_kwh": 198.93,
+        "diffuse_loss_kwh": 2489.31,
+        "shaded_kwh": 64755.35,
         "month": 5
       },
       {
         "open_kwh": 74436.32,
-        "beam_loss_kwh": 173.27,
-        "diffuse_loss_kwh": 2642.91,
-        "shaded_kwh": 71620.15,
+        "beam_loss_kwh": 169.98,
+        "diffuse_loss_kwh": 2528.94,
+        "shaded_kwh": 71737.41,
         "month": 6
       },
       {
         "open_kwh": 75653.96,
-        "beam_loss_kwh": 189.74,
-        "diffuse_loss_kwh": 2722.01,
-        "shaded_kwh": 72742.17,
+        "beam_loss_kwh": 177.81,
+        "diffuse_loss_kwh": 2604.64,
+        "shaded_kwh": 72871.49,
         "month": 7
       },
       {
         "open_kwh": 65133.97,
-        "beam_loss_kwh": 406.01,
-        "diffuse_loss_kwh": 2275.31,
-        "shaded_kwh": 62452.65,
+        "beam_loss_kwh": 394.17,
+        "diffuse_loss_kwh": 2177.19,
+        "shaded_kwh": 62562.59,
         "month": 8
       },
       {
         "open_kwh": 55774.98,
-        "beam_loss_kwh": 2133.52,
-        "diffuse_loss_kwh": 1590.31,
-        "shaded_kwh": 52051.14,
+        "beam_loss_kwh": 2042.91,
+        "diffuse_loss_kwh": 1521.74,
+        "shaded_kwh": 52210.36,
         "month": 9
       },
       {
         "open_kwh": 38716.35,
-        "beam_loss_kwh": 3175.82,
-        "diffuse_loss_kwh": 1402.94,
-        "shaded_kwh": 34137.6,
+        "beam_loss_kwh": 3135.46,
+        "diffuse_loss_kwh": 1342.44,
+        "shaded_kwh": 34238.45,
         "month": 10
       },
       {
         "open_kwh": 28364.29,
-        "beam_loss_kwh": 4360.01,
-        "diffuse_loss_kwh": 960.89,
-        "shaded_kwh": 23043.41,
+        "beam_loss_kwh": 4317.8,
+        "diffuse_loss_kwh": 919.46,
+        "shaded_kwh": 23127.02,
         "month": 11
       },
       {
         "open_kwh": 20481.75,
-        "beam_loss_kwh": 4085.92,
-        "diffuse_loss_kwh": 746.0,
-        "shaded_kwh": 15649.83,
+        "beam_loss_kwh": 4061.37,
+        "diffuse_loss_kwh": 713.83,
+        "shaded_kwh": 15706.54,
         "month": 12
       }
     ],
     "annual": {
       "open_kwh": 596068.7,
-      "beam_loss_kwh": 26013.1,
-      "diffuse_loss_kwh": 21162.2,
-      "shaded_kwh": 548893.5,
-      "local_loss_pct": 7.91
+      "beam_loss_kwh": 25666.6,
+      "diffuse_loss_kwh": 20249.6,
+      "shaded_kwh": 550152.5,
+      "local_loss_pct": 7.7
     }
   },
   "previous_case_energy": {
@@ -3414,10 +3418,10 @@
     "local_loss_pct": 8.95
   },
   "geometry": {
-    "glbBytes": 1957436,
-    "parts": 10996,
-    "triangles": 131668,
-    "batches": 184,
+    "glbBytes": 2834176,
+    "parts": 16226,
+    "triangles": 190568,
+    "batches": 257,
     "stalls": 120,
     "pv": 950,
     "courtM2": 81.0,
@@ -3427,11 +3431,16 @@
   },
   "checks": {
     "geometry": "Reopened the serialized GLB. Checked finite coordinates, face areas, outward winding, positive volume and two opposite directed edges per shell edge; all parts within the registered parcel. Shell intersections at structural connections are intentional.",
-    "walks": "Ten circulation segments checked using vertical rays in the exported GLB, at three lateral positions and about 0.22 m along each route. All probes cleared 2 m above the route. The modeled north promenade has a minimum 1.105 m clear width across 800 sample sections. These are geometric checks.",
+    "walks": {
+      "stairs": "Passed 12 floor-to-floor routes in the two stair cores, ascending and descending.",
+      "street": "11 bidirectional street routes passed across 11026 grade and clearance samples.",
+      "interior": "21 mapped interior corridor routes support 1.2192 m with doors shut and fully open.",
+      "doors_and_worktables": "52/52 portals connect to the street; 32 worktables and four freight landings checked; 0 clearance or route issues."
+    },
     "envelope": {
-      "tested_members": 2953,
-      "tested_weather_panels": 1998,
-      "tolerance_m": 0.0005,
+      "tested_members": 3632,
+      "tested_weather_panels": 2874,
+      "tolerance_m": 0.002,
       "pair_count": 0
     },
     "canopies": {
@@ -3445,13 +3454,13 @@
         "West portal fascia": 6,
         "Vendor photovoltaics": 518
       },
-      "members": 1464,
+      "members": 1529,
       "pair_count": 0
     },
     "solids": {
-      "parts": 10996,
-      "triangles": 131668,
-      "vertices": 87826,
+      "parts": 16226,
+      "triangles": 190568,
+      "vertices": 127736,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "inconsistent_edge_winding": 0,
@@ -3460,9 +3469,9 @@
       "degenerate_or_nonfinite_triangles": 0,
       "nonpositive_or_nonfinite_volume_parts": 0,
       "parcel_outlier_vertices": 0,
-      "batches": 184,
-      "smallest_triangle_area_m2": 1.4225462078366107e-05,
-      "smallest_signed_volume_m3": 1.92934420314983e-06,
+      "batches": 257,
+      "smallest_triangle_area_m2": 1.5120564415423735e-05,
+      "smallest_signed_volume_m3": 1.9293431079321632e-06,
       "failed_parts": 0,
       "problems": []
     },
@@ -3493,11 +3502,11 @@
           "run_m": 44.74,
           "rise_m": 1.7898,
           "grade_percent": 4.0004,
-          "deck_width_m": 1.14
+          "deck_width_m": 1.263
         }
       ],
       "checked_central_corridor_m": [
-        0.78,
+        1.2191999999999998,
         2.0
       ],
       "hardware": {
@@ -3935,88 +3944,6 @@
           "smallest_pad_bearing_cm2": 176.4
         }
       ],
-      "verified_splices": [
-        {
-          "plate": 25,
-          "stringer": 4,
-          "bolts": 6
-        },
-        {
-          "plate": 27,
-          "stringer": 4,
-          "bolts": 6
-        },
-        {
-          "plate": 29,
-          "stringer": 5,
-          "bolts": 6
-        },
-        {
-          "plate": 31,
-          "stringer": 5,
-          "bolts": 6
-        },
-        {
-          "plate": 0,
-          "stringer": 6,
-          "bolts": 8
-        },
-        {
-          "plate": 2,
-          "stringer": 6,
-          "bolts": 8
-        },
-        {
-          "plate": 16,
-          "stringer": 6,
-          "bolts": 8
-        },
-        {
-          "plate": 18,
-          "stringer": 6,
-          "bolts": 8
-        },
-        {
-          "plate": 4,
-          "stringer": 7,
-          "bolts": 8
-        },
-        {
-          "plate": 6,
-          "stringer": 7,
-          "bolts": 8
-        },
-        {
-          "plate": 20,
-          "stringer": 7,
-          "bolts": 8
-        },
-        {
-          "plate": 22,
-          "stringer": 7,
-          "bolts": 8
-        },
-        {
-          "plate": 9,
-          "stringer": 8,
-          "bolts": 6
-        },
-        {
-          "plate": 11,
-          "stringer": 8,
-          "bolts": 6
-        },
-        {
-          "plate": 13,
-          "stringer": 9,
-          "bolts": 6
-        },
-        {
-          "plate": 15,
-          "stringer": 9,
-          "bolts": 6
-        }
-      ],
       "corner_bearings": [
         {
           "landing": "southwest",
@@ -4048,7 +3975,189 @@
       "freestanding_posts": [],
       "mesh_faults": 0,
       "failures": []
-    }
+    },
+    "doors_and_windows": {
+      "model_sha256": "459fa89211a4e9528efda8a757dfb173dab5efbe5df79ed8492b91917b7d3519",
+      "parts_tested": 4809,
+      "panes_tested": 578,
+      "panes_by_layer": {
+        "Enclosure / Promenade vestibule": 1,
+        "Market / Operable northlight vents": 128,
+        "Interior / Partitions and doors": 39,
+        "Energy / Roof daylight apertures": 45,
+        "Enclosure / North facing monitor vents": 28,
+        "Enclosure / Vision lights in recessed frames": 224,
+        "Enclosure / Diffuse upper lights": 113
+      },
+      "tolerance_m": 0.002,
+      "vertical_clearance_m": 0.6,
+      "below_rooflight_m": 0.32,
+      "operable_sashes_tested": 60,
+      "sash_pairs": [],
+      "pairs": [],
+      "doors_tested": 52,
+      "leaves_tested": 78,
+      "angle_increment_deg": 2.25,
+      "door_pairs": [],
+      "threshold_depth_m": 0.2,
+      "threshold_pairs": []
+    },
+    "freight_core": {
+      "unobstructed_hoistway_height_m": 15.833,
+      "diaphragm_transfers": [
+        "soffit",
+        "roof"
+      ],
+      "stair_coupling_beams": 2,
+      "staff_gallery_lintel_end_bearings": 2,
+      "staff_gallery_rim_brackets": 3
+    },
+    "primary_and_core_frame": {
+      "primary_frame_parts": {
+        "Glulam posts": 32,
+        "Glulam chords": 40,
+        "Glulam Warren webs": 30,
+        "Glulam bearing columns": 4,
+        "Primary bearing pedestals": 4,
+        "Steel node seats": 4,
+        "Hold-down shoes": 4,
+        "Indicative pile caps": 4,
+        "Drilled shaft heads": 16
+      },
+      "same_primary_geometry_as_reference": true,
+      "truss_to_foundation_chains": 4,
+      "core_girder_bearings": 10,
+      "stair_wall_seats": 6,
+      "lift_wall_seats": 4,
+      "concrete_coupling_beams": 2,
+      "bearings_carried_by_core_lintels": 3,
+      "modeled_minimum_bearing_contact_m2": 0.091,
+      "core_embed_anchors": 40,
+      "basement_beams": 17,
+      "basement_columns": 20,
+      "basement_beam_ends_verified": 34
+    },
+    "roof_and_windows": {
+      "daylight": {
+        "panes": 45,
+        "glazingRails": 10,
+        "stools": 80,
+        "runners": 35,
+        "mainRafters": 32,
+        "mainUpstands": 64,
+        "minimumPaneBearingM2": 0.0144,
+        "mainGirderEndBearings": 32,
+        "upperChordAnchors": 128,
+        "annexRafters": 10,
+        "annexRafterShoes": 20,
+        "annexGirderAnchors": 40,
+        "maximumCarrierSupportSpacingM": 3.6,
+        "maximumRailCantileverM": 1.42
+      },
+      "monitor": {
+        "operableSashes": 28,
+        "hinges": 28,
+        "continuousHeaders": 2,
+        "weldedShoes": 14,
+        "rafterPins": 28
+      },
+      "marketNorthlights": {
+        "lights": 128,
+        "openingSashes": 32,
+        "headChannels": 6,
+        "sillChannels": 6,
+        "anchoredDeckPanels": 135,
+        "deckAnchorPins": 512,
+        "sashHinges": 32,
+        "jambs": 131
+      },
+      "facade": {
+        "girts": 58,
+        "bearingSeats": 116,
+        "postAnchorPlates": 116,
+        "anchorPins": 232
+      },
+      "skyCourt": {
+        "trimmers": 2,
+        "incomingGirderEnds": 4,
+        "seatedBeamJoints": 8,
+        "anchorPins": 32
+      },
+      "failures": []
+    },
+    "classroom_approach_structure": {
+      "supported_CLT_approach_pieces": 3,
+      "suspension_rods": 2,
+      "spreader_end_bearings": 4,
+      "core_corbel_stations": 2,
+      "existing_roof_girders": 2,
+      "gallery_area_pressure_kPa": 7.5,
+      "hanger_service_reactions_kN": [
+        30.02,
+        16.43
+      ],
+      "girders": [
+        {
+          "station_x_m": 13.4,
+          "girder_section_mm": [
+            690,
+            740
+          ],
+          "added_roof_reaction_kN": 17.03,
+          "previous_550_mm_section_with_gallery_mm": 47.2,
+          "study_span_over_360_mm": 44.6,
+          "roof_only_elastic_mm": 35.0,
+          "roof_plus_gallery_elastic_mm": 39.3
+        },
+        {
+          "station_x_m": 17.0,
+          "girder_section_mm": [
+            690,
+            740
+          ],
+          "added_roof_reaction_kN": 29.41,
+          "previous_550_mm_section_with_gallery_mm": 51.1,
+          "study_span_over_360_mm": 44.6,
+          "roof_only_elastic_mm": 35.0,
+          "roof_plus_gallery_elastic_mm": 42.4
+        }
+      ],
+      "scope": "Elastic gravity comparison using the assumed studio loads. No connection resistance, creep, vibration, fire or lateral design is certified."
+    },
+    "teaching_and_office_balconies": {
+      "teaching_brackets": [
+        {
+          "grid_m": 24.2,
+          "bearing_m2": 0.546,
+          "drilled_shaft_x_m": 12.78
+        },
+        {
+          "grid_m": 27.8,
+          "bearing_m2": 0.546,
+          "drilled_shaft_x_m": 12.78
+        },
+        {
+          "grid_m": 31.4,
+          "bearing_m2": 0.546,
+          "drilled_shaft_x_m": 45.18
+        },
+        {
+          "grid_m": 35.0,
+          "bearing_m2": 0.572,
+          "drilled_shaft_x_m": 45.18
+        },
+        {
+          "grid_m": 38.6,
+          "bearing_m2": 0.836,
+          "drilled_shaft_x_m": 45.18
+        }
+      ],
+      "through_dowels": 40,
+      "office_rim_seated_ends": 2,
+      "staff_infill_m2": 15.872,
+      "staff_infill_rim_beams": 2
+    },
+    "arcade_bearings": "9 continuous cantilever crossheads, 18 canopy posts to spread footings, 17 ramp bents and two west entrance landings have bearing contact."
   },
   "upper_promenade_gravity": {
     "model_basis": "Horizontal projected area of the three upper flights, both corner landings and upper studio threshold/link, measured from the loaded GLB.",
@@ -4056,17 +4165,17 @@
     "limits": "Gravity reaction comparison only. Local connection strength and stiffness, eccentric torque, railing loads, snow, wind, vibration and foundation design require separate engineering.",
     "projected_area_m2": {
       "South overlook ramp": 64.312,
-      "North learning gallery": 51.004,
-      "Studios threshold": 1.801,
-      "Studios entrance": 0.204,
+      "North learning gallery": 56.507,
+      "Studios threshold": 1.996,
+      "Studios entrance": 0.056,
       "Fourth Avenue belvedere": 30.451,
-      "West corner landings": 7.749
+      "West corner landings": 7.761
     },
-    "total_area_m2": 155.521,
-    "added_vertical_kN": 1166.41,
+    "total_area_m2": 161.082,
+    "added_vertical_kN": 1208.12,
     "west_return_frame_reactions_kN": {
-      "outer_frame_at_x_2_60": 406.71,
-      "backspan_at_x_6_20": -120.21
+      "outer_frame_at_x_2_60": 406.81,
+      "backspan_at_x_6_20": -120.23
     },
     "full_load_reference_kN_per_truss": {
       "west": 4396.28,
@@ -4074,8 +4183,8 @@
     },
     "additional_principal_bearing_kN": {
       "north": {
-        "west": 440.61,
-        "east": 94.87
+        "west": 467.78,
+        "east": 109.42
       },
       "south": {
         "west": 517.58,
@@ -4084,8 +4193,8 @@
     },
     "combined_full_load_principal_bearing_kN": {
       "north": {
-        "west": 4836.89,
-        "east": 4491.15
+        "west": 4864.06,
+        "east": 4505.69
       },
       "south": {
         "west": 4913.85,

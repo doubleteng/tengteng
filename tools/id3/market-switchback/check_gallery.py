@@ -35,7 +35,7 @@ SEAL = 'Enclosure / Gallery sleeve seals'
 WINDOWS = {'Enclosure / Vision lights in recessed frames', 'Enclosure / Diffuse upper lights',
            'Enclosure / Insulated folded cassettes'}
 TOLERANCE = .001
-CLEAR_WIDTH = .78
+CLEAR_WIDTH = 48*.0254
 CLEAR_HEIGHT = 2.0
 
 
@@ -140,14 +140,15 @@ def audit(path):
         run_axis = 1 if i == 1 else 0
         across = 1-run_axis
         gradient = surface(walk)
-        check_passage(gradient,run_axis,walk.lo[run_axis],walk.hi[run_axis],walk.center[across],
+        crossing=.659 if i==2 else walk.center[across]
+        check_passage(gradient,run_axis,walk.lo[run_axis],walk.hi[run_axis],crossing,
                       solids,low,high,walk.layer,failures)
         run = walk.hi[run_axis]-walk.lo[run_axis]
         width = walk.hi[across]-walk.lo[across]
         rise = abs(gradient[run_axis])*run
         if abs(abs(gradient[run_axis])-.04) > .00005 or abs(gradient[across]) > .00001:
             failures.append(f'{walk.layer}: longitudinal or cross slope has changed.')
-        if abs(width-(1.42,1.83,1.14)[i]) > TOLERANCE:
+        if abs(width-(1.42,1.83,1.263)[i]) > TOLERANCE:
             failures.append(f'{walk.layer}: clear deck width has changed.')
         ramps.append(dict(layer=walk.layer, run_m=round(float(run),3), rise_m=round(float(rise),4),
                           grade_percent=round(float(100*rise/run),4), deck_width_m=round(float(width),3)))
@@ -169,6 +170,7 @@ def audit(path):
             edge=min((walk.lo[axis],walk.hi[axis]), key=lambda u:abs(u-point[axis]))
             xy=walk.center[:2].copy()
             xy[axis]=edge
+            if walk.layer==FLIGHTS[2]:xy[1-axis]=.659
             elbows.append((axis,xy))
             if abs(surface(walk) @ [*xy,1] - corner[2])>TOLERANCE:
                 failures.append(f'{walk.layer}: step between flight and turning platform.')

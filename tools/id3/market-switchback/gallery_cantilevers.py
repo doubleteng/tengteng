@@ -11,6 +11,10 @@ TIMBER = 'Douglas-fir glulam'
 GASKET = 'Dark reveal'
 WEST_SKIN, NORTH_SKIN, SOUTH_SKIN = 2.15, 1.235, 18.875
 L2, L3 = 6.4116, 10.6788
+# Original structural fixing line is retained. The north walk reaches the
+# outside of a slim spandrel cap; the truss and insulation are inboard of it.
+NORTH_WALK_EDGE, NORTH_PANEL_BACK = 1.273, 1.315
+NORTH_GLAZING = (NORTH_WALK_EDGE+NORTH_PANEL_BACK)/2
 XA, XB, NORTH_END = 2.16, 47.45, 46.90
 SLOPE = (L3-L2)/((XB-XA)+(18.46-1.82)+(NORTH_END-XA))
 WEST_LOW = L2+(XB-XA)*SLOPE
@@ -65,6 +69,8 @@ def weather_detail(arm):
     _,face,out=SIDES[side]
     p,P,b,t=arm.opening
     wall_in,wall_out=face-out*.084,face+out*.101
+    if side=='north':
+        wall_in,wall_out=NORTH_PANEL_BACK+.003,NORTH_WALK_EDGE-.003
     # Four welded faces around a through-opening; a final 4 mm compressed
     # gasket closes the annulus between the sleeve and the steel neck.
     for mat,layer,qi,qo,x,X,y,Y,edge in [

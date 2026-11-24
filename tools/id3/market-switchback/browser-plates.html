@@ -25,10 +25,11 @@ const plates = [
   ['market-switchback', 'perspective', 'Overall'],
   ['market-switchback-ramp', 'case-promenade', 'Street corner'],
   ['market-switchback-aisle', 'case-market', 'Market aisle'],
+  ['market-crossing-gallery', 'case-gallery', 'Hall and teaching gallery'],
   ['market-crossing-frame', 'axon', 'Timber frame'],
 ];
 
-async function capture(viewer) {
+async function capture(viewer, interior = false) {
   await nextFrame();
   await viewer.renderer.wait?.();
   const canvas = document.createElement('canvas');
@@ -44,7 +45,17 @@ async function capture(viewer) {
   if (viewer.renderer.wait) await viewer.renderer.wait();
   canvas.width = source.width;
   canvas.height = source.height;
-  canvas.getContext('2d', {alpha:false}).drawImage(source,0,0);
+  const context = canvas.getContext('2d', {alpha:false});
+  context.drawImage(source,0,0);
+  if (interior) {
+    // Interior photographic exposure, preserving the daylight sky through the monitors.
+    const image = context.getImageData(0, 0, canvas.width, canvas.height);
+    const response = Uint8ClampedArray.from({length:256}, (_,value) => 255 * (value/255)**.72);
+    for (let i=0; i<image.data.length; i+=4) {
+      for (let channel=0; channel<3; channel++) image.data[i+channel]=response[image.data[i+channel]];
+    }
+    context.putImageData(image, 0, 0);
+  }
   for (const quality of [.88,.83,.78,.72]) {
     const result = await new Promise(resolve => canvas.toBlob(resolve,'image/webp',quality));
     if (!result) throw new Error('The canvas could not export this image.');
@@ -80,14 +91,14 @@ async function run() {
       viewer.controls.target.set(-68.906,7.7,10);
       viewer.controls.update();
     }
-    const blob = await capture(viewer);
+    const blob = await capture(viewer, preset === 'case-gallery');
     const link = document.createElement('a');
     link.download = `${name}.webp`;
     link.href = URL.createObjectURL(blob);
     link.textContent = `${label} (${Math.round(blob.size/1024)} KB)`;
     nav.append(link);
   }
-  status.textContent = `4 images ready · ${viewer.renderer.isWebGLRenderer?'WebGL':'browser rasterizer'} · ${viewer.renderer.domElement.width} × ${viewer.renderer.domElement.height}`;
+  status.textContent = `5 images ready · ${viewer.renderer.isWebGLRenderer?'WebGL':'browser rasterizer'} · ${viewer.renderer.domElement.width} × ${viewer.renderer.domElement.height}`;
 }
 run().catch(error => { status.textContent = `Capture failed · ${error.message}`; console.error(error); });
 </script>

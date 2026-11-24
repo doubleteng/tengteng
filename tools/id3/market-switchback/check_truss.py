@@ -1,3 +1,4 @@
+# Historic first-edition steel study. For the current mass-timber teaching case use check_shell.py.
 """Market truss — preliminary geometric stiffness comparison; SI throughout.
 Pin-jointed 2D small-displacement elastic truss, E = 200 GPa. Identical members and
 service pressure at every tested depth. No member, stability, lateral, vibration,

@@ -10,12 +10,14 @@ const loader=new GLTFLoader();
 // Street perspectives are 1.65 m above the registered Rhino street or sidewalk.
 // The target stays level with the eye. A vertical lens shift frames the roofline.
 const contextViews = {
- 'case-west': {eye:[-90.0,2.2,23.0],target:[-58,2.2,12],shift:.14,fov:61},
- 'case-market': {eye:[-81.2,2.16,30.64],target:[-47,2.16,31.3],shift:.055,fov:67},
- 'case-ramp': {eye:[-64.5,6.36,22.52],target:[-33,6.36,22.1],shift:.035,fov:67},
- 'case-hall': {eye:[-69.75,4.16,17.69],target:[-57.1,4.16,4.1],shift:.12,fov:74},
- 'case-forum': {eye:[-40.34,8.08,12.55],target:[-30.35,8.08,3.81],shift:.08,fov:72},
- 'case-court': {eye:[-49.63,8.05,15.65],target:[-43.75,8.05,7.10],shift:.14,fov:70},
+ 'case-west': {eye:[-86.40,2.12,16.44],target:[-63.0,4.05,12.95],shift:.08,fov:65},
+ 'case-market': {eye:[-81.21,2.10,30.58],target:[-47.8,2.85,30.95],shift:.045,fov:68},
+ 'case-ramp': {eye:[-64.90,9.18,19.88],target:[-88.6,9.00,19.10],shift:.04,fov:65},
+ 'case-hall': {eye:[-45.16,4.16,16.06],target:[-67.02,4.45,9.08],shift:.12,fov:74},
+ 'case-forum': {eye:[-24.5,8.08,11.80],target:[-14.35,8.56,4.01],shift:.055,fov:73},
+ 'case-court': {eye:[-36.28,8.02,15.30],target:[-41.55,8.4,7.98],shift:.13,fov:72},
+ 'case-studios': {eye:[-75.89,12.30,7.74],target:[-78.15,12.22,2.40],shift:.03,fov:70},
+ 'case-node': {eye:[-74.1,5.25,-4.10],target:[-69.51,6.08,1.65],shift:.06,fov:56},
  fourth: {eye:[-94,1.802,38],target:[-73,1.802,68],shift:.25},
  detroit: {eye:[-27,4.088,42],target:[-60,4.088,70],shift:.19},
  dunbar: {eye:[-84,3.479,117],target:[-122,3.479,81],shift:.20},
@@ -224,7 +226,7 @@ export class AtlasViewer{
    this.controls.target.fromArray(this.contextView.target);
    this.controls.update();this.resize();return;
   }
-  const dirs={perspective:this.overview?v(1.0,.98,1.66):this.caseStudy?v(-.74,1.46,1.12):v(1.05,.77,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
+  const dirs={perspective:this.overview?v(1.0,.98,1.66):this.caseStudy?v(-.80,.88,-1.08):v(1.05,.77,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
   const aspect=this.host.clientWidth/Math.max(this.host.clientHeight,1)||1;
   this.perspectiveCamera.aspect=aspect;
   const height=Math.max(this.height,this.width/aspect);

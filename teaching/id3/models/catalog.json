@@ -4,10 +4,10 @@
   "cases": [
     {
       "key": "market-switchback",
-      "title": "Market Switchback",
+      "title": "Market Crossing",
       "caseStudy": true,
-      "material": "Structural steel",
-      "type": "Public institution and covered market",
+      "material": "Mass timber",
+      "type": "Covered market and civic hall",
       "url": "./models/market-switchback.glb",
       "cover": "./models/market-switchback.webp"
     }

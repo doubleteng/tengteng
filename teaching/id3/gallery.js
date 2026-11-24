@@ -88,10 +88,10 @@ function saveViewLink(){
 }
 async function selectModel(x,initialView='perspective',updateLink=true){
  const seq=++version;current=x;caseHidden=null;
- $('case-actions').hidden=!x.caseStudy;$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent='Isolate structure';
+ $('case-actions').hidden=!x.caseStudy;$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent='Isolate timber frame';
  $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;setPoster(x);status('');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
  $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':'STUDIO PROJECT '+x.key;
- $('model-author').textContent=x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?'Structural steel · Market and public institution':x.demo?x.material+' / '+x.type:x.author+' · '+x.material;
+ $('model-author').textContent=x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?x.material+' · Market and public institution':x.demo?x.material+' / '+x.type:x.author+' · '+x.material;
  $('camera').disabled=true;$('camera').value='perspective';$('viewport').setAttribute('aria-busy','true');
  const city=cityRecord?.url || originalCity;
  $('context-cameras').disabled=$('context-cameras').hidden=city!==originalCity;
@@ -171,11 +171,11 @@ $('case-frame').onclick=()=>withModel(v=>{
  if(caseHidden){v.hidden=caseHidden;caseHidden=null;}
  else{
   caseHidden=new Set(v.hidden);
-  v.hidden=new Set([...v.paths.keys()].filter(p=>!p.startsWith('Structure /')));
+  v.hidden=new Set([...v.paths.keys()].filter(p=>!p.startsWith('Structure /') || /CLT.*roof|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i.test(p)));
  }
  v.applyModes();fillLayers();
  $('case-frame').setAttribute('aria-pressed',String(!!caseHidden));
- $('case-frame').textContent=caseHidden?'Restore layers':'Isolate structure';
+ $('case-frame').textContent=caseHidden?'Restore layers':'Isolate timber frame';
 });
 document.querySelectorAll('[data-close]').forEach(button => {
   button.onclick = () => button.closest('dialog').close();

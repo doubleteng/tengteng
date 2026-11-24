@@ -78,7 +78,7 @@ def linear_hex(s):
     return [lin(int(s[i:i+2],16)/255) for i in (0,2,4)]
 
 def write(path,palette):
-    doc={'asset':{'version':'2.0','generator':'Market Switchback / ID3 teaching case'},'scene':0,'scenes':[{'nodes':[]}],'nodes':[],'meshes':[],'materials':[],'bufferViews':[],'accessors':[]}
+    doc={'asset':{'version':'2.0','generator':'Market Crossing / ID3 mass-timber teaching case'},'scene':0,'scenes':[{'nodes':[]}],'nodes':[],'meshes':[],'materials':[],'bufferViews':[],'accessors':[]}
     buf=bytearray()
     def accessor(a,ct,kind,target):
         while len(buf)%4:buf.append(0)

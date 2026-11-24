@@ -1,0 +1,3432 @@
+{
+  "project": "Market Crossing",
+  "designation": "Original ID3 teaching case",
+  "units": "SI except program areas marked sq ft",
+  "structural_scope": {
+    "section_iteration": {
+      "first_timber_trial_chord_and_diagonal_mm": [
+        [
+          630,
+          900
+        ],
+        [
+          540,
+          760
+        ]
+      ],
+      "first_trial_governing_sag_at_1_GN_per_m_1_5_creep_mm": 93.07,
+      "first_diagonal_gross_tension_screen_full_gravity": 0.84,
+      "final_chord_and_diagonal_mm": [
+        [
+          630,
+          990
+        ],
+        [
+          585,
+          855
+        ]
+      ],
+      "revision": "Increased both chord depth and diagonal section to reduce long-term deflection in the 1 GN/m slip scenario and create more gross area for tension-node detailing."
+    },
+    "method": "Small-displacement planar axial finite elements. Pin at west bearing; vertical roller at east. Each joint free in rotation. Sections are solid fabricated timber.",
+    "panel_x_m": [
+      2.6,
+      6.2,
+      9.8,
+      13.4,
+      17.0,
+      20.6,
+      24.2,
+      27.8,
+      31.4,
+      35.0,
+      38.6,
+      42.2,
+      45.8,
+      49.4,
+      53.0,
+      56.6
+    ],
+    "transverse_lines_m": [
+      1.65,
+      18.35
+    ],
+    "support_x_m": [
+      13.4,
+      45.8
+    ],
+    "tributary_m": 8.35,
+    "upper_chord_elevation_m": 13.35,
+    "selected_alternative": "two_lifted_tips",
+    "nominal_glulam_sections_mm_width_out_of_plane_by_depth_in_plane": {
+      "chord": [
+        630,
+        990
+      ],
+      "diagonal": [
+        585,
+        855
+      ],
+      "post": [
+        315,
+        450
+      ],
+      "bearing_post": [
+        630,
+        900
+      ]
+    },
+    "material": {
+      "species_grade_basis": "Balanced Douglas-fir 24F-V8, dry-service reference. Fabricated custom block-glulam members. Require supplier evaluation for actual dimensions and layup.",
+      "E_long_GPa": 12.411,
+      "Emin_in_plane_GPa": 6.55,
+      "Emin_out_of_plane_GPa": 5.861,
+      "Fc_parallel_MPa": 11.376,
+      "Ft_parallel_MPa": 7.584,
+      "Fc_perpendicular_side_face_reference_MPa": 3.861,
+      "density_kg_m3": 530.0,
+      "orthotropy": "Grain follows every bar. The 2D axial model uses E-long only. Species-level E_R/E_L and E_T/E_L are on the order of 0.05\u20130.07, not longitudinal E. Joint bearing, rolling shear and CLT plate behavior require orientation- and product-specific properties."
+    },
+    "pressure_kPa": {
+      "per_deck_dead": 2.7,
+      "per_deck_dead_parts": {
+        "CLT_175mm_at_5kN_m3": 0.875,
+        "topping_and_finish": 1.025,
+        "MEP_and_ceiling": 0.35,
+        "secondary_glulam_and_connections": 0.45
+      },
+      "per_deck_patterned_occupancy": 4.8,
+      "roof_dead": 1.3,
+      "roof_variable": 1.2,
+      "main_glulam_and_hardware_allowance": 2.0
+    },
+    "one_plane_full_line_load_kN_m": 162.825,
+    "load_scope": "Two complete occupied deck footprints for all schemes, including voids and the removed west tip deck. Roof tributary included. Floor-reaction collectors and decking must frame to nodes. Nominal gravity scenario for concept comparison; local snow drift, wind uplift, and actual assembly/gallery/concentrated loads still require project-specific determination.",
+    "stability_screen": "Dry-reference axial screen using NDS column-stability equation c=0.9, other factors taken as unity, K=1 and full member length between pinned ends independently in each axis. Whole-section widths require factory block gluing; field bolting separate leaves does not establish composite weak-axis inertia. Every panel point requires positive transverse restraint with roof/deck diaphragms, cross-frames and bracing back to the cores, including cut-floor tips. Lower nodes cannot rely on a missing CLT deck.",
+    "service_criteria": {
+      "backspan_studio_target_mm_L_over_360": 90.0,
+      "cantilever_studio_target_mm_L_over_180": 60.0,
+      "joint_screen": "2 GN/m per assembled member-end is a comparison assumption. 0.5\u20134 GN/m are sensitivities, not connector test results. Forces use two axial springs per bar; full envelopes include all occupancy patterns. The paired trusses, bearing and core may deform beyond this idealization.",
+      "creep_screen": "1.5 times permanent plus immediate transient compares dry-service response. 2.0 is adverse sensitivity; no additional persistent exhibition loading included. Long-term connector slip must be tested separately."
+    },
+    "support_detail": "Seat the bearing post directly on a concealed shoe spreading load into the core. The post end transmits compression parallel to grain. Additional chord and floor forces must enter the same bearing node. Avoid imposing the entire reaction across the side grain of a continuous lower chord. Detail end-grain drainage, movement, replaceable bearings and temporary hold-down for erection.",
+    "fabrication": "Custom factory block-glulam with parallel grain and certified structural glue lines. Transport 2\u20133-panel chord lengths (7.2\u201310.8 m), individual posts and diagonals; field-assemble at centrelines on engineered falsework. Provide concealed symmetric multi-plate/dowel groups, direct compression seats and accessible protected node pockets; stagger chord splice locations where practicable and explicitly design each reversing splice. Replace a member only after unloading and engineered temporary shoring. Pin one core bearing and slide the opposite shoe longitudinally. Prove joist collectors, distributed force transfer, plate slot net area, tension perpendicular to grain, group tear-out, dowel yielding, splits, fire cover and core anchors independently.",
+    "scope_limit": "Concept calculations are not construction documents. No 3D lateral analysis, weathering or fire residual section, foundation design, core/connection deformation validation, diaphragm or secondary-beam vibration assessment, fabrication release, or site erection-stage approval.",
+    "sources": {
+      "material": "https://kalesnikoff.com/wp-content/uploads/2022/09/APAPR-L333KalesnikoffGlulam-5.pdf",
+      "supplier_dimensions": "https://kalesnikoff.com/products/mass-timber-glulam-beams/",
+      "orthotropy": "https://research.fs.usda.gov/fpl/wood-handbook",
+      "connection_detailing": "https://www.apawood.org/guides-tools-training/technical-document-library/technical-guides/glulam-connection-details/",
+      "assembled_joint_experiments": "https://www.proceedings.com/content/069/069179-0156open.pdf",
+      "creep": "https://awc.org/modules/",
+      "column_equation": "https://web-media.awc.org/wp-content/uploads/2021/12/17210640/AWC-2005NDS-Updates-Errata.pdf"
+    },
+    "alternatives": {
+      "shallow_parallel": {
+        "web_system": "Warren",
+        "bottom_elevations_m": [
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616,
+          8.2616
+        ],
+        "member_mass_t_per_plane": 68.9,
+        "member_volume_m3_per_plane": 129.99,
+        "installed_member_weight_kPa_over_tributary": 1.499,
+        "member_count_per_plane": 61,
+        "cases": {
+          "dead_only": {
+            "west_tip_vertical_mm": -0.7,
+            "east_tip_vertical_mm": 4.01,
+            "backspan_lowest_vertical_mm": -25.65,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 1961.4,
+            "east_reaction_kN": 1961.4,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1017.6,
+                "tension_kN": 1017.6,
+                "maximum_gross_compression_MPa": 1.63,
+                "maximum_gross_tension_MPa": 1.63,
+                "gross_compression_screen_in_plane": 0.144,
+                "gross_compression_screen_out_of_plane": 0.145,
+                "gross_tension_screen": 0.215
+              },
+              "diagonal": {
+                "compression_kN": -1281.4,
+                "tension_kN": 1281.4,
+                "maximum_gross_compression_MPa": 2.56,
+                "maximum_gross_tension_MPa": 2.56,
+                "gross_compression_screen_in_plane": 0.228,
+                "gross_compression_screen_out_of_plane": 0.233,
+                "gross_tension_screen": 0.338
+              },
+              "post": {
+                "compression_kN": -69.1,
+                "tension_kN": 192.4,
+                "maximum_gross_compression_MPa": 0.49,
+                "maximum_gross_tension_MPa": 1.36,
+                "gross_compression_screen_in_plane": 0.044,
+                "gross_compression_screen_out_of_plane": 0.048,
+                "gross_tension_screen": 0.179
+              },
+              "bearing_post": {
+                "compression_kN": -1769.0,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 3.12,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.276,
+                "gross_compression_screen_out_of_plane": 0.279,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "full": {
+            "west_tip_vertical_mm": -1.45,
+            "east_tip_vertical_mm": 8.86,
+            "backspan_lowest_vertical_mm": -57.64,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 4396.3,
+            "east_reaction_kN": 4396.3,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -2280.9,
+                "tension_kN": 2280.9,
+                "maximum_gross_compression_MPa": 3.66,
+                "maximum_gross_tension_MPa": 3.66,
+                "gross_compression_screen_in_plane": 0.322,
+                "gross_compression_screen_out_of_plane": 0.324,
+                "gross_tension_screen": 0.482
+              },
+              "diagonal": {
+                "compression_kN": -2872.2,
+                "tension_kN": 2872.2,
+                "maximum_gross_compression_MPa": 5.74,
+                "maximum_gross_tension_MPa": 5.74,
+                "gross_compression_screen_in_plane": 0.511,
+                "gross_compression_screen_out_of_plane": 0.522,
+                "gross_tension_screen": 0.757
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.068,
+                "gross_compression_screen_out_of_plane": 0.073,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -3915.3,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 6.91,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.611,
+                "gross_compression_screen_out_of_plane": 0.618,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "west_occupied": {
+            "west_tip_vertical_mm": -30.06,
+            "east_tip_vertical_mm": -2.04,
+            "backspan_lowest_vertical_mm": -20.06,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3242.0,
+            "east_reaction_kN": 2087.7,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1866.2,
+                "tension_kN": 947.5,
+                "maximum_gross_compression_MPa": 2.99,
+                "maximum_gross_tension_MPa": 1.52,
+                "gross_compression_screen_in_plane": 0.264,
+                "gross_compression_screen_out_of_plane": 0.265,
+                "gross_tension_screen": 0.2
+              },
+              "diagonal": {
+                "compression_kN": -1281.4,
+                "tension_kN": 1795.1,
+                "maximum_gross_compression_MPa": 2.56,
+                "maximum_gross_tension_MPa": 3.59,
+                "gross_compression_screen_in_plane": 0.228,
+                "gross_compression_screen_out_of_plane": 0.233,
+                "gross_tension_screen": 0.473
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.068,
+                "gross_compression_screen_out_of_plane": 0.073,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -2905.3,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 5.12,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.454,
+                "gross_compression_screen_out_of_plane": 0.458,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "east_occupied": {
+            "west_tip_vertical_mm": -7.69,
+            "east_tip_vertical_mm": -23.23,
+            "backspan_lowest_vertical_mm": -19.8,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 2087.7,
+            "east_reaction_kN": 3242.0,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -947.5,
+                "tension_kN": 1866.2,
+                "maximum_gross_compression_MPa": 1.52,
+                "maximum_gross_tension_MPa": 2.99,
+                "gross_compression_screen_in_plane": 0.134,
+                "gross_compression_screen_out_of_plane": 0.135,
+                "gross_tension_screen": 0.395
+              },
+              "diagonal": {
+                "compression_kN": -1795.1,
+                "tension_kN": 1281.4,
+                "maximum_gross_compression_MPa": 3.59,
+                "maximum_gross_tension_MPa": 2.56,
+                "gross_compression_screen_in_plane": 0.319,
+                "gross_compression_screen_out_of_plane": 0.327,
+                "gross_tension_screen": 0.338
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.068,
+                "gross_compression_screen_out_of_plane": 0.073,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -1895.3,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 3.34,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.296,
+                "gross_compression_screen_out_of_plane": 0.299,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "backspan_occupied": {
+            "west_tip_vertical_mm": 34.58,
+            "east_tip_vertical_mm": 43.38,
+            "backspan_lowest_vertical_mm": -75.99,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3530.5,
+            "east_reaction_kN": 3530.5,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -3199.6,
+                "tension_kN": 3199.6,
+                "maximum_gross_compression_MPa": 5.13,
+                "maximum_gross_tension_MPa": 5.13,
+                "gross_compression_screen_in_plane": 0.452,
+                "gross_compression_screen_out_of_plane": 0.455,
+                "gross_tension_screen": 0.676
+              },
+              "diagonal": {
+                "compression_kN": -2872.2,
+                "tension_kN": 2872.2,
+                "maximum_gross_compression_MPa": 5.74,
+                "maximum_gross_tension_MPa": 5.74,
+                "gross_compression_screen_in_plane": 0.511,
+                "gross_compression_screen_out_of_plane": 0.522,
+                "gross_tension_screen": 0.757
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.068,
+                "gross_compression_screen_out_of_plane": 0.073,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -3193.9,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 5.63,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.499,
+                "gross_compression_screen_out_of_plane": 0.504,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "both_tips_occupied": {
+            "west_tip_vertical_mm": -36.89,
+            "east_tip_vertical_mm": -29.9,
+            "backspan_lowest_vertical_mm": -10.75,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3097.7,
+            "east_reaction_kN": 3097.7,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1866.2,
+                "tension_kN": 1866.2,
+                "maximum_gross_compression_MPa": 2.99,
+                "maximum_gross_tension_MPa": 2.99,
+                "gross_compression_screen_in_plane": 0.264,
+                "gross_compression_screen_out_of_plane": 0.265,
+                "gross_tension_screen": 0.395
+              },
+              "diagonal": {
+                "compression_kN": -1795.1,
+                "tension_kN": 1795.1,
+                "maximum_gross_compression_MPa": 3.59,
+                "maximum_gross_tension_MPa": 3.59,
+                "gross_compression_screen_in_plane": 0.319,
+                "gross_compression_screen_out_of_plane": 0.327,
+                "gross_tension_screen": 0.473
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.068,
+                "gross_compression_screen_out_of_plane": 0.073,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -2761.0,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 4.87,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.431,
+                "gross_compression_screen_out_of_plane": 0.436,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "erection_west_only": {
+            "west_tip_vertical_mm": -6.12,
+            "east_tip_vertical_mm": -1.38,
+            "backspan_lowest_vertical_mm": 0.0,
+            "lowest_backspan_node_x_m": 13.4,
+            "west_reaction_kN": 210.4,
+            "east_reaction_kN": -30.1,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -191.4,
+                "tension_kN": 170.1,
+                "maximum_gross_compression_MPa": 0.31,
+                "maximum_gross_tension_MPa": 0.27,
+                "gross_compression_screen_in_plane": 0.027,
+                "gross_compression_screen_out_of_plane": 0.027,
+                "gross_tension_screen": 0.036
+              },
+              "diagonal": {
+                "compression_kN": -110.5,
+                "tension_kN": 184.1,
+                "maximum_gross_compression_MPa": 0.22,
+                "maximum_gross_tension_MPa": 0.37,
+                "gross_compression_screen_in_plane": 0.02,
+                "gross_compression_screen_out_of_plane": 0.02,
+                "gross_tension_screen": 0.049
+              },
+              "post": {
+                "compression_kN": -30.1,
+                "tension_kN": 30.1,
+                "maximum_gross_compression_MPa": 0.21,
+                "maximum_gross_tension_MPa": 0.21,
+                "gross_compression_screen_in_plane": 0.019,
+                "gross_compression_screen_out_of_plane": 0.021,
+                "gross_tension_screen": 0.028
+              },
+              "bearing_post": {
+                "compression_kN": -195.4,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 0.34,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.031,
+                "gross_compression_screen_out_of_plane": 0.031,
+                "gross_tension_screen": 0.0
+              }
+            }
+          }
+        },
+        "service_sensitivity": {
+          "rigid_axial_ends": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 28.47,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 13.82
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 33.51,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 14.46
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 38.55,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 15.1
+            }
+          },
+          "4_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 52.23,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 28.22
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 61.16,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 29.36
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 70.09,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 30.51
+            }
+          },
+          "2_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 75.99,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 43.38
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 88.82,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 45.39
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 101.64,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 47.39
+            }
+          },
+          "1_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 123.52,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 73.7
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 144.13,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 77.43
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 164.74,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 81.15
+            }
+          },
+          "0.5_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 218.56,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 134.35
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 254.75,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 141.51
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 290.93,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 148.67
+            }
+          }
+        }
+      },
+      "deep_parallel": {
+        "web_system": "Pratt",
+        "bottom_elevations_m": [
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05
+        ],
+        "member_mass_t_per_plane": 80.13,
+        "member_volume_m3_per_plane": 151.19,
+        "installed_member_weight_kPa_over_tributary": 1.743,
+        "member_count_per_plane": 61,
+        "cases": {
+          "dead_only": {
+            "west_tip_vertical_mm": -6.92,
+            "east_tip_vertical_mm": -7.16,
+            "backspan_lowest_vertical_mm": -27.88,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 1961.4,
+            "east_reaction_kN": 1961.4,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -709.3,
+                "tension_kN": 709.3,
+                "maximum_gross_compression_MPa": 1.14,
+                "maximum_gross_tension_MPa": 1.14,
+                "gross_compression_screen_in_plane": 0.1,
+                "gross_compression_screen_out_of_plane": 0.101,
+                "gross_tension_screen": 0.15
+              },
+              "diagonal": {
+                "compression_kN": -0.0,
+                "tension_kN": 1166.4,
+                "maximum_gross_compression_MPa": 0.0,
+                "maximum_gross_tension_MPa": 2.33,
+                "gross_compression_screen_in_plane": 0.0,
+                "gross_compression_screen_out_of_plane": 0.0,
+                "gross_tension_screen": 0.307
+              },
+              "post": {
+                "compression_kN": -853.7,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 6.02,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.583,
+                "gross_compression_screen_out_of_plane": 0.802,
+                "gross_tension_screen": 0.0
+              },
+              "bearing_post": {
+                "compression_kN": -1769.0,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 3.12,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.279,
+                "gross_compression_screen_out_of_plane": 0.286,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "full": {
+            "west_tip_vertical_mm": -14.98,
+            "east_tip_vertical_mm": -15.34,
+            "backspan_lowest_vertical_mm": -61.51,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 4396.3,
+            "east_reaction_kN": 4396.3,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1589.9,
+                "tension_kN": 1589.9,
+                "maximum_gross_compression_MPa": 2.55,
+                "maximum_gross_tension_MPa": 2.55,
+                "gross_compression_screen_in_plane": 0.225,
+                "gross_compression_screen_out_of_plane": 0.226,
+                "gross_tension_screen": 0.336
+              },
+              "diagonal": {
+                "compression_kN": 0.0,
+                "tension_kN": 2614.3,
+                "maximum_gross_compression_MPa": 0.0,
+                "maximum_gross_tension_MPa": 5.23,
+                "gross_compression_screen_in_plane": 0.0,
+                "gross_compression_screen_out_of_plane": 0.0,
+                "gross_tension_screen": 0.689
+              },
+              "post": {
+                "compression_kN": -1863.7,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 13.15,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 1.273,
+                "gross_compression_screen_out_of_plane": 1.751,
+                "gross_tension_screen": 0.0
+              },
+              "bearing_post": {
+                "compression_kN": -3915.3,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 6.91,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.617,
+                "gross_compression_screen_out_of_plane": 0.633,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "west_occupied": {
+            "west_tip_vertical_mm": -30.98,
+            "east_tip_vertical_mm": -8.67,
+            "backspan_lowest_vertical_mm": -28.22,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3242.0,
+            "east_reaction_kN": 2087.7,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1300.8,
+                "tension_kN": 642.6,
+                "maximum_gross_compression_MPa": 2.09,
+                "maximum_gross_tension_MPa": 1.03,
+                "gross_compression_screen_in_plane": 0.184,
+                "gross_compression_screen_out_of_plane": 0.185,
+                "gross_tension_screen": 0.136
+              },
+              "diagonal": {
+                "compression_kN": -160.9,
+                "tension_kN": 1633.9,
+                "maximum_gross_compression_MPa": 0.32,
+                "maximum_gross_tension_MPa": 3.27,
+                "gross_compression_screen_in_plane": 0.029,
+                "gross_compression_screen_out_of_plane": 0.03,
+                "gross_tension_screen": 0.431
+              },
+              "post": {
+                "compression_kN": -1142.3,
+                "tension_kN": 39.1,
+                "maximum_gross_compression_MPa": 8.06,
+                "maximum_gross_tension_MPa": 0.28,
+                "gross_compression_screen_in_plane": 0.781,
+                "gross_compression_screen_out_of_plane": 1.073,
+                "gross_tension_screen": 0.036
+              },
+              "bearing_post": {
+                "compression_kN": -2905.3,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 5.12,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.458,
+                "gross_compression_screen_out_of_plane": 0.47,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "east_occupied": {
+            "west_tip_vertical_mm": -8.31,
+            "east_tip_vertical_mm": -31.34,
+            "backspan_lowest_vertical_mm": -28.5,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 2087.7,
+            "east_reaction_kN": 3242.0,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1300.8,
+                "tension_kN": 642.6,
+                "maximum_gross_compression_MPa": 2.09,
+                "maximum_gross_tension_MPa": 1.03,
+                "gross_compression_screen_in_plane": 0.184,
+                "gross_compression_screen_out_of_plane": 0.185,
+                "gross_tension_screen": 0.136
+              },
+              "diagonal": {
+                "compression_kN": 0.0,
+                "tension_kN": 1633.9,
+                "maximum_gross_compression_MPa": 0.0,
+                "maximum_gross_tension_MPa": 3.27,
+                "gross_compression_screen_in_plane": 0.0,
+                "gross_compression_screen_out_of_plane": 0.0,
+                "gross_tension_screen": 0.431
+              },
+              "post": {
+                "compression_kN": -1142.3,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 8.06,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.781,
+                "gross_compression_screen_out_of_plane": 1.073,
+                "gross_tension_screen": 0.0
+              },
+              "bearing_post": {
+                "compression_kN": -2905.3,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 5.12,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.458,
+                "gross_compression_screen_out_of_plane": 0.47,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "backspan_occupied": {
+            "west_tip_vertical_mm": 8.0,
+            "east_tip_vertical_mm": 7.64,
+            "backspan_lowest_vertical_mm": -69.29,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3530.5,
+            "east_reaction_kN": 3530.5,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -2230.3,
+                "tension_kN": 2230.3,
+                "maximum_gross_compression_MPa": 3.58,
+                "maximum_gross_tension_MPa": 3.58,
+                "gross_compression_screen_in_plane": 0.315,
+                "gross_compression_screen_out_of_plane": 0.317,
+                "gross_tension_screen": 0.471
+              },
+              "diagonal": {
+                "compression_kN": 0.0,
+                "tension_kN": 2614.3,
+                "maximum_gross_compression_MPa": 0.0,
+                "maximum_gross_tension_MPa": 5.23,
+                "gross_compression_screen_in_plane": 0.0,
+                "gross_compression_screen_out_of_plane": 0.0,
+                "gross_tension_screen": 0.689
+              },
+              "post": {
+                "compression_kN": -1863.7,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 13.15,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 1.273,
+                "gross_compression_screen_out_of_plane": 1.751,
+                "gross_tension_screen": 0.0
+              },
+              "bearing_post": {
+                "compression_kN": -3193.9,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 5.63,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.503,
+                "gross_compression_screen_out_of_plane": 0.517,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "both_tips_occupied": {
+            "west_tip_vertical_mm": -31.13,
+            "east_tip_vertical_mm": -31.49,
+            "backspan_lowest_vertical_mm": -24.47,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3097.7,
+            "east_reaction_kN": 3097.7,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1300.8,
+                "tension_kN": 713.8,
+                "maximum_gross_compression_MPa": 2.09,
+                "maximum_gross_tension_MPa": 1.14,
+                "gross_compression_screen_in_plane": 0.184,
+                "gross_compression_screen_out_of_plane": 0.185,
+                "gross_tension_screen": 0.151
+              },
+              "diagonal": {
+                "compression_kN": 0.0,
+                "tension_kN": 1633.9,
+                "maximum_gross_compression_MPa": 0.0,
+                "maximum_gross_tension_MPa": 3.27,
+                "gross_compression_screen_in_plane": 0.0,
+                "gross_compression_screen_out_of_plane": 0.0,
+                "gross_tension_screen": 0.431
+              },
+              "post": {
+                "compression_kN": -998.0,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 7.04,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.682,
+                "gross_compression_screen_out_of_plane": 0.937,
+                "gross_tension_screen": 0.0
+              },
+              "bearing_post": {
+                "compression_kN": -2761.0,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 4.87,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.435,
+                "gross_compression_screen_out_of_plane": 0.447,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "erection_west_only": {
+            "west_tip_vertical_mm": -5.11,
+            "east_tip_vertical_mm": -0.02,
+            "backspan_lowest_vertical_mm": 0.0,
+            "lowest_backspan_node_x_m": 13.4,
+            "west_reaction_kN": 210.4,
+            "east_reaction_kN": -30.1,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -133.4,
+                "tension_kN": 118.6,
+                "maximum_gross_compression_MPa": 0.21,
+                "maximum_gross_tension_MPa": 0.19,
+                "gross_compression_screen_in_plane": 0.019,
+                "gross_compression_screen_out_of_plane": 0.019,
+                "gross_tension_screen": 0.025
+              },
+              "diagonal": {
+                "compression_kN": -33.5,
+                "tension_kN": 167.6,
+                "maximum_gross_compression_MPa": 0.07,
+                "maximum_gross_tension_MPa": 0.34,
+                "gross_compression_screen_in_plane": 0.006,
+                "gross_compression_screen_out_of_plane": 0.006,
+                "gross_tension_screen": 0.044
+              },
+              "post": {
+                "compression_kN": -120.2,
+                "tension_kN": 30.1,
+                "maximum_gross_compression_MPa": 0.85,
+                "maximum_gross_tension_MPa": 0.21,
+                "gross_compression_screen_in_plane": 0.082,
+                "gross_compression_screen_out_of_plane": 0.113,
+                "gross_tension_screen": 0.028
+              },
+              "bearing_post": {
+                "compression_kN": -195.4,
+                "tension_kN": 30.1,
+                "maximum_gross_compression_MPa": 0.34,
+                "maximum_gross_tension_MPa": 0.05,
+                "gross_compression_screen_in_plane": 0.031,
+                "gross_compression_screen_out_of_plane": 0.032,
+                "gross_tension_screen": 0.007
+              }
+            }
+          }
+        },
+        "service_sensitivity": {
+          "rigid_axial_ends": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 37.21,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 17.83
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 45.19,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 20.6
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 53.17,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 23.36
+            }
+          },
+          "4_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 53.25,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 24.59
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 64.21,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 27.76
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 75.17,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 30.93
+            }
+          },
+          "2_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 69.29,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 31.49
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 83.23,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 35.07
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 97.17,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 38.65
+            }
+          },
+          "1_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 101.37,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 46.45
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 121.27,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 50.84
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 141.17,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 55.24
+            }
+          },
+          "0.5_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 165.53,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 76.37
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 197.35,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 82.39
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 229.16,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 88.41
+            }
+          }
+        }
+      },
+      "two_lifted_tips": {
+        "web_system": "Warren",
+        "bottom_elevations_m": [
+          8.2616,
+          7.5244,
+          6.7872,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.05,
+          6.61667,
+          7.18333,
+          7.75
+        ],
+        "member_mass_t_per_plane": 78.28,
+        "member_volume_m3_per_plane": 147.7,
+        "installed_member_weight_kPa_over_tributary": 1.703,
+        "member_count_per_plane": 61,
+        "cases": {
+          "dead_only": {
+            "west_tip_vertical_mm": -2.72,
+            "east_tip_vertical_mm": 1.21,
+            "backspan_lowest_vertical_mm": -17.83,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 1961.4,
+            "east_reaction_kN": 1961.4,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -709.3,
+                "tension_kN": 709.3,
+                "maximum_gross_compression_MPa": 1.14,
+                "maximum_gross_tension_MPa": 1.14,
+                "gross_compression_screen_in_plane": 0.1,
+                "gross_compression_screen_out_of_plane": 0.101,
+                "gross_tension_screen": 0.15
+              },
+              "diagonal": {
+                "compression_kN": -1166.4,
+                "tension_kN": 1166.4,
+                "maximum_gross_compression_MPa": 2.33,
+                "maximum_gross_tension_MPa": 2.33,
+                "gross_compression_screen_in_plane": 0.21,
+                "gross_compression_screen_out_of_plane": 0.22,
+                "gross_tension_screen": 0.307
+              },
+              "post": {
+                "compression_kN": -69.1,
+                "tension_kN": 192.4,
+                "maximum_gross_compression_MPa": 0.49,
+                "maximum_gross_tension_MPa": 1.36,
+                "gross_compression_screen_in_plane": 0.047,
+                "gross_compression_screen_out_of_plane": 0.065,
+                "gross_tension_screen": 0.179
+              },
+              "bearing_post": {
+                "compression_kN": -1650.2,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 2.91,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.26,
+                "gross_compression_screen_out_of_plane": 0.267,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "full": {
+            "west_tip_vertical_mm": -5.99,
+            "east_tip_vertical_mm": 2.57,
+            "backspan_lowest_vertical_mm": -40.16,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 4396.3,
+            "east_reaction_kN": 4396.3,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1589.9,
+                "tension_kN": 1589.9,
+                "maximum_gross_compression_MPa": 2.55,
+                "maximum_gross_tension_MPa": 2.55,
+                "gross_compression_screen_in_plane": 0.225,
+                "gross_compression_screen_out_of_plane": 0.226,
+                "gross_tension_screen": 0.336
+              },
+              "diagonal": {
+                "compression_kN": -2614.3,
+                "tension_kN": 2614.3,
+                "maximum_gross_compression_MPa": 5.23,
+                "maximum_gross_tension_MPa": 5.23,
+                "gross_compression_screen_in_plane": 0.47,
+                "gross_compression_screen_out_of_plane": 0.493,
+                "gross_tension_screen": 0.689
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.072,
+                "gross_compression_screen_out_of_plane": 0.099,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -3648.9,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 6.44,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.575,
+                "gross_compression_screen_out_of_plane": 0.59,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "west_occupied": {
+            "west_tip_vertical_mm": -19.51,
+            "east_tip_vertical_mm": -0.92,
+            "backspan_lowest_vertical_mm": -16.21,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3242.0,
+            "east_reaction_kN": 2087.7,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1327.8,
+                "tension_kN": 660.4,
+                "maximum_gross_compression_MPa": 2.13,
+                "maximum_gross_tension_MPa": 1.06,
+                "gross_compression_screen_in_plane": 0.188,
+                "gross_compression_screen_out_of_plane": 0.189,
+                "gross_tension_screen": 0.14
+              },
+              "diagonal": {
+                "compression_kN": -1166.4,
+                "tension_kN": 1488.1,
+                "maximum_gross_compression_MPa": 2.33,
+                "maximum_gross_tension_MPa": 2.98,
+                "gross_compression_screen_in_plane": 0.21,
+                "gross_compression_screen_out_of_plane": 0.22,
+                "gross_tension_screen": 0.392
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.072,
+                "gross_compression_screen_out_of_plane": 0.099,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -2638.9,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 4.65,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.416,
+                "gross_compression_screen_out_of_plane": 0.427,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "east_occupied": {
+            "west_tip_vertical_mm": -5.72,
+            "east_tip_vertical_mm": -14.35,
+            "backspan_lowest_vertical_mm": -15.56,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 2087.7,
+            "east_reaction_kN": 3242.0,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -674.1,
+                "tension_kN": 1300.8,
+                "maximum_gross_compression_MPa": 1.08,
+                "maximum_gross_tension_MPa": 2.09,
+                "gross_compression_screen_in_plane": 0.095,
+                "gross_compression_screen_out_of_plane": 0.096,
+                "gross_tension_screen": 0.275
+              },
+              "diagonal": {
+                "compression_kN": -1523.9,
+                "tension_kN": 1166.4,
+                "maximum_gross_compression_MPa": 3.05,
+                "maximum_gross_tension_MPa": 2.33,
+                "gross_compression_screen_in_plane": 0.274,
+                "gross_compression_screen_out_of_plane": 0.288,
+                "gross_tension_screen": 0.307
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.072,
+                "gross_compression_screen_out_of_plane": 0.099,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -1760.0,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 3.1,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.277,
+                "gross_compression_screen_out_of_plane": 0.285,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "backspan_occupied": {
+            "west_tip_vertical_mm": 12.93,
+            "east_tip_vertical_mm": 20.74,
+            "backspan_lowest_vertical_mm": -48.74,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3530.5,
+            "east_reaction_kN": 3530.5,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -2230.3,
+                "tension_kN": 2230.3,
+                "maximum_gross_compression_MPa": 3.58,
+                "maximum_gross_tension_MPa": 3.58,
+                "gross_compression_screen_in_plane": 0.315,
+                "gross_compression_screen_out_of_plane": 0.317,
+                "gross_tension_screen": 0.471
+              },
+              "diagonal": {
+                "compression_kN": -2614.3,
+                "tension_kN": 2614.3,
+                "maximum_gross_compression_MPa": 5.23,
+                "maximum_gross_tension_MPa": 5.23,
+                "gross_compression_screen_in_plane": 0.47,
+                "gross_compression_screen_out_of_plane": 0.493,
+                "gross_tension_screen": 0.689
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.072,
+                "gross_compression_screen_out_of_plane": 0.099,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -3058.6,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 5.39,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.482,
+                "gross_compression_screen_out_of_plane": 0.495,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "both_tips_occupied": {
+            "west_tip_vertical_mm": -22.08,
+            "east_tip_vertical_mm": -16.72,
+            "backspan_lowest_vertical_mm": -11.59,
+            "lowest_backspan_node_x_m": 27.8,
+            "west_reaction_kN": 3097.7,
+            "east_reaction_kN": 3097.7,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -1327.8,
+                "tension_kN": 1300.8,
+                "maximum_gross_compression_MPa": 2.13,
+                "maximum_gross_tension_MPa": 2.09,
+                "gross_compression_screen_in_plane": 0.188,
+                "gross_compression_screen_out_of_plane": 0.189,
+                "gross_tension_screen": 0.275
+              },
+              "diagonal": {
+                "compression_kN": -1523.9,
+                "tension_kN": 1367.6,
+                "maximum_gross_compression_MPa": 3.05,
+                "maximum_gross_tension_MPa": 2.73,
+                "gross_compression_screen_in_plane": 0.274,
+                "gross_compression_screen_out_of_plane": 0.288,
+                "gross_tension_screen": 0.361
+              },
+              "post": {
+                "compression_kN": -105.2,
+                "tension_kN": 481.0,
+                "maximum_gross_compression_MPa": 0.74,
+                "maximum_gross_tension_MPa": 3.39,
+                "gross_compression_screen_in_plane": 0.072,
+                "gross_compression_screen_out_of_plane": 0.099,
+                "gross_tension_screen": 0.447
+              },
+              "bearing_post": {
+                "compression_kN": -2494.6,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 4.4,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.393,
+                "gross_compression_screen_out_of_plane": 0.404,
+                "gross_tension_screen": 0.0
+              }
+            }
+          },
+          "erection_west_only": {
+            "west_tip_vertical_mm": -3.44,
+            "east_tip_vertical_mm": -0.48,
+            "backspan_lowest_vertical_mm": 0.0,
+            "lowest_backspan_node_x_m": 13.4,
+            "west_reaction_kN": 210.4,
+            "east_reaction_kN": -30.1,
+            "axial_force_by_family": {
+              "chord": {
+                "compression_kN": -136.2,
+                "tension_kN": 118.6,
+                "maximum_gross_compression_MPa": 0.22,
+                "maximum_gross_tension_MPa": 0.19,
+                "gross_compression_screen_in_plane": 0.019,
+                "gross_compression_screen_out_of_plane": 0.019,
+                "gross_tension_screen": 0.025
+              },
+              "diagonal": {
+                "compression_kN": -98.5,
+                "tension_kN": 140.3,
+                "maximum_gross_compression_MPa": 0.2,
+                "maximum_gross_tension_MPa": 0.28,
+                "gross_compression_screen_in_plane": 0.018,
+                "gross_compression_screen_out_of_plane": 0.018,
+                "gross_tension_screen": 0.037
+              },
+              "post": {
+                "compression_kN": -30.1,
+                "tension_kN": 30.1,
+                "maximum_gross_compression_MPa": 0.21,
+                "maximum_gross_tension_MPa": 0.21,
+                "gross_compression_screen_in_plane": 0.02,
+                "gross_compression_screen_out_of_plane": 0.025,
+                "gross_tension_screen": 0.028
+              },
+              "bearing_post": {
+                "compression_kN": -168.1,
+                "tension_kN": 0.0,
+                "maximum_gross_compression_MPa": 0.3,
+                "maximum_gross_tension_MPa": 0.0,
+                "gross_compression_screen_in_plane": 0.026,
+                "gross_compression_screen_out_of_plane": 0.027,
+                "gross_tension_screen": 0.0
+              }
+            }
+          }
+        },
+        "service_sensitivity": {
+          "rigid_axial_ends": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 21.56,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 9.18
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 25.75,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 10.21
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 29.93,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 11.23
+            }
+          },
+          "4_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 35.15,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 15.63
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 41.7,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 16.82
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 48.25,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 18.02
+            }
+          },
+          "2_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 48.74,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 22.08
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 57.66,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 23.44
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 66.57,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 24.8
+            }
+          },
+          "1_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 75.93,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 35.4
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 89.57,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 36.71
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 103.21,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 38.36
+            }
+          },
+          "0.5_GN_per_m_per_end": {
+            "instantaneous": {
+              "worst_backspan_sag_mm": 130.31,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 64.71
+            },
+            "permanent_multiplier_1_5": {
+              "worst_backspan_sag_mm": 153.39,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 67.44
+            },
+            "permanent_multiplier_2": {
+              "worst_backspan_sag_mm": 176.48,
+              "backspan_case": "backspan_occupied",
+              "worst_abs_tip_mm": 70.18
+            }
+          }
+        }
+      }
+    }
+  },
+  "support_and_joint_sensitivity": {
+    "flex_main_posts_only_0.5": {
+      "worst_backspan_sag_mm": 173.46,
+      "backspan_case": "backspan_occupied",
+      "worst_abs_tip_mm": 81.26
+    },
+    "flex_main_posts_only_1.0": {
+      "worst_backspan_sag_mm": 100.61,
+      "backspan_case": "backspan_occupied",
+      "worst_abs_tip_mm": 46.65
+    },
+    "flex_main_posts_only_2.0": {
+      "worst_backspan_sag_mm": 64.19,
+      "backspan_case": "backspan_occupied",
+      "worst_abs_tip_mm": 29.34
+    },
+    "fixed_toe_flex_posts_0.5": {
+      "worst_backspan_sag_mm": 79.46,
+      "backspan_case": "backspan_occupied",
+      "worst_abs_tip_mm": 87.64
+    }
+  },
+  "roof_frame_alternatives": [
+    {
+      "frame_spacing_bays": 3,
+      "posts": 48,
+      "pv": 518,
+      "stalls": 120,
+      "minimum_frame_clear_m": 2.98,
+      "banks": [
+        {
+          "bank": 1,
+          "stalls": 46,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 28.448,
+          "aisle_south_v": 33.098,
+          "entry_points": 2,
+          "roof_plan_m2": 616.16,
+          "northlight_m2": 60.0,
+          "south_pv_count": 202,
+          "north_blade_modules": 103,
+          "south_blade_modules": 99,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 1.22,
+          "northlight_step_m": 1.24,
+          "max_primary_bay_m": 7.32,
+          "min_primary_frame_aisle_headroom_m": 3.13,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                240,
+                800
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.62,
+              "deflection_mm": 26.29,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                180,
+                600
+              ],
+              "span_m": 7.315,
+              "bending_mpa": 5.81,
+              "deflection_mm": 10.46,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 6.95,
+              "end_deflection_mm": 9.35
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.296,
+              "bending_mpa": 7.43,
+              "deflection_mm": 11.31,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.86,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 18,
+          "highest_west_roof_m": 8.84
+        },
+        {
+          "bank": 2,
+          "stalls": 40,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 39.194,
+          "aisle_south_v": 43.844,
+          "entry_points": 2,
+          "roof_plan_m2": 539.69,
+          "northlight_m2": 39.3,
+          "south_pv_count": 172,
+          "north_blade_modules": 88,
+          "south_blade_modules": 84,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.84,
+          "northlight_step_m": 0.98,
+          "max_primary_bay_m": 7.32,
+          "min_primary_frame_aisle_headroom_m": 2.98,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                240,
+                800
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.66,
+              "deflection_mm": 26.36,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                180,
+                600
+              ],
+              "span_m": 7.315,
+              "bending_mpa": 5.61,
+              "deflection_mm": 10.09,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 6.71,
+              "end_deflection_mm": 9.01
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.6,
+              "bending_mpa": 8.26,
+              "deflection_mm": 13.94,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.85,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 16,
+          "highest_west_roof_m": 8.06
+        },
+        {
+          "bank": 3,
+          "stalls": 34,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 49.94,
+          "aisle_south_v": 54.59,
+          "entry_points": 2,
+          "roof_plan_m2": 458.63,
+          "northlight_m2": 25.28,
+          "south_pv_count": 144,
+          "north_blade_modules": 74,
+          "south_blade_modules": 70,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.55,
+          "northlight_step_m": 0.79,
+          "max_primary_bay_m": 7.32,
+          "min_primary_frame_aisle_headroom_m": 3.05,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                240,
+                800
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.64,
+              "deflection_mm": 26.33,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                180,
+                600
+              ],
+              "span_m": 7.315,
+              "bending_mpa": 5.73,
+              "deflection_mm": 10.31,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 6.85,
+              "end_deflection_mm": 9.21
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.426,
+              "bending_mpa": 7.63,
+              "deflection_mm": 12.16,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.82,
+              "end_deflection_mm": 0.59
+            }
+          },
+          "post_count": 14,
+          "highest_west_roof_m": 7.65
+        }
+      ],
+      "mesh_stats": {
+        "parts": 3435,
+        "triangles": 41220,
+        "batches": 20,
+        "glbBytes": 591284,
+        "byLayer": {
+          "Market / Folded zinc roof planes": 12,
+          "Structure / CLT market roof deck": 135,
+          "Structure / Glulam market rafters": 141,
+          "Market / Folded entrance reveals": 42,
+          "Market / Box gutters and rain leaders": 450,
+          "Energy / Roof photovoltaics": 518,
+          "Energy / Market PV cross rails": 528,
+          "Structure / Glulam market collectors": 120,
+          "Market / Operable northlight vents": 288,
+          "Structure / Glulam market frames": 153,
+          "Structure / Market plinths": 48,
+          "Structure / Concealed timber connections": 240,
+          "Market / 120 vendor tables": 120,
+          "Market / Table trestles": 480,
+          "Market / Produce trays": 160
+        }
+      }
+    },
+    {
+      "frame_spacing_bays": 5,
+      "posts": 32,
+      "pv": 518,
+      "stalls": 120,
+      "minimum_frame_clear_m": 2.82,
+      "banks": [
+        {
+          "bank": 1,
+          "stalls": 46,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 28.448,
+          "aisle_south_v": 33.098,
+          "entry_points": 2,
+          "roof_plan_m2": 616.16,
+          "northlight_m2": 60.0,
+          "south_pv_count": 202,
+          "north_blade_modules": 103,
+          "south_blade_modules": 99,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 1.22,
+          "northlight_step_m": 1.24,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 2.97,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 13.06,
+              "deflection_mm": 23.8,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 6.45,
+              "deflection_mm": 22.36,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 2.78,
+              "end_deflection_mm": 3.02
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.296,
+              "bending_mpa": 7.43,
+              "deflection_mm": 11.31,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.86,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 12,
+          "highest_west_roof_m": 8.84
+        },
+        {
+          "bank": 2,
+          "stalls": 40,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 39.194,
+          "aisle_south_v": 43.844,
+          "entry_points": 2,
+          "roof_plan_m2": 539.69,
+          "northlight_m2": 39.3,
+          "south_pv_count": 172,
+          "north_blade_modules": 88,
+          "south_blade_modules": 84,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.84,
+          "northlight_step_m": 0.98,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 2.82,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 13.09,
+              "deflection_mm": 23.86,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 6.24,
+              "deflection_mm": 21.6,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 2.69,
+              "end_deflection_mm": 2.92
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.6,
+              "bending_mpa": 8.26,
+              "deflection_mm": 13.94,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.85,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 8.06
+        },
+        {
+          "bank": 3,
+          "stalls": 34,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 49.94,
+          "aisle_south_v": 54.59,
+          "entry_points": 2,
+          "roof_plan_m2": 458.63,
+          "northlight_m2": 25.28,
+          "south_pv_count": 144,
+          "north_blade_modules": 74,
+          "south_blade_modules": 70,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.55,
+          "northlight_step_m": 0.79,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 2.89,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 13.08,
+              "deflection_mm": 23.84,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 6.36,
+              "deflection_mm": 22.05,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 2.74,
+              "end_deflection_mm": 2.98
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.426,
+              "bending_mpa": 7.63,
+              "deflection_mm": 12.16,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.82,
+              "end_deflection_mm": 0.59
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 7.65
+        }
+      ],
+      "mesh_stats": {
+        "parts": 3114,
+        "triangles": 37368,
+        "batches": 20,
+        "glbBytes": 537352,
+        "byLayer": {
+          "Market / Folded zinc roof planes": 12,
+          "Structure / CLT market roof deck": 135,
+          "Structure / Glulam market rafters": 141,
+          "Market / Folded entrance reveals": 42,
+          "Market / Box gutters and rain leaders": 306,
+          "Energy / Roof photovoltaics": 518,
+          "Energy / Market PV cross rails": 528,
+          "Structure / Glulam market collectors": 88,
+          "Market / Operable northlight vents": 288,
+          "Structure / Glulam market frames": 104,
+          "Structure / Market plinths": 32,
+          "Structure / Concealed timber connections": 160,
+          "Market / 120 vendor tables": 120,
+          "Market / Table trestles": 480,
+          "Market / Produce trays": 160
+        }
+      }
+    },
+    {
+      "frame_spacing_bays": 4,
+      "posts": 36,
+      "pv": 518,
+      "stalls": 120,
+      "minimum_frame_clear_m": 2.9,
+      "banks": [
+        {
+          "bank": 1,
+          "stalls": 46,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 28.448,
+          "aisle_south_v": 33.098,
+          "entry_points": 2,
+          "roof_plan_m2": 616.16,
+          "northlight_m2": 60.0,
+          "south_pv_count": 202,
+          "north_blade_modules": 103,
+          "south_blade_modules": 99,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 1.22,
+          "northlight_step_m": 1.24,
+          "max_primary_bay_m": 9.75,
+          "min_primary_frame_aisle_headroom_m": 3.05,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                880
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.13,
+              "deflection_mm": 23.52,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                200,
+                720
+              ],
+              "span_m": 9.754,
+              "bending_mpa": 6.57,
+              "deflection_mm": 17.18,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 4.42,
+              "end_deflection_mm": 5.25
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.296,
+              "bending_mpa": 7.43,
+              "deflection_mm": 11.31,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.86,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 14,
+          "highest_west_roof_m": 8.84
+        },
+        {
+          "bank": 2,
+          "stalls": 40,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 39.194,
+          "aisle_south_v": 43.844,
+          "entry_points": 2,
+          "roof_plan_m2": 539.69,
+          "northlight_m2": 39.3,
+          "south_pv_count": 172,
+          "north_blade_modules": 88,
+          "south_blade_modules": 84,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.84,
+          "northlight_step_m": 0.98,
+          "max_primary_bay_m": 9.75,
+          "min_primary_frame_aisle_headroom_m": 2.9,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                880
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.16,
+              "deflection_mm": 23.58,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                200,
+                720
+              ],
+              "span_m": 9.754,
+              "bending_mpa": 6.34,
+              "deflection_mm": 16.58,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 4.27,
+              "end_deflection_mm": 5.07
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.6,
+              "bending_mpa": 8.26,
+              "deflection_mm": 13.94,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.85,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 12,
+          "highest_west_roof_m": 8.06
+        },
+        {
+          "bank": 3,
+          "stalls": 34,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 49.94,
+          "aisle_south_v": 54.59,
+          "entry_points": 2,
+          "roof_plan_m2": 458.63,
+          "northlight_m2": 25.28,
+          "south_pv_count": 144,
+          "north_blade_modules": 74,
+          "south_blade_modules": 70,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.55,
+          "northlight_step_m": 0.79,
+          "max_primary_bay_m": 9.75,
+          "min_primary_frame_aisle_headroom_m": 2.97,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                880
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.15,
+              "deflection_mm": 23.56,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                200,
+                720
+              ],
+              "span_m": 9.754,
+              "bending_mpa": 6.47,
+              "deflection_mm": 16.93,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 4.36,
+              "end_deflection_mm": 5.18
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.426,
+              "bending_mpa": 7.63,
+              "deflection_mm": 12.16,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.82,
+              "end_deflection_mm": 0.59
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 7.65
+        }
+      ],
+      "mesh_stats": {
+        "parts": 3192,
+        "triangles": 38304,
+        "batches": 20,
+        "glbBytes": 550448,
+        "byLayer": {
+          "Market / Folded zinc roof planes": 12,
+          "Structure / CLT market roof deck": 135,
+          "Structure / Glulam market rafters": 141,
+          "Market / Folded entrance reveals": 42,
+          "Market / Box gutters and rain leaders": 342,
+          "Energy / Roof photovoltaics": 518,
+          "Energy / Market PV cross rails": 528,
+          "Structure / Glulam market collectors": 96,
+          "Market / Operable northlight vents": 288,
+          "Structure / Glulam market frames": 114,
+          "Structure / Market plinths": 36,
+          "Structure / Concealed timber connections": 180,
+          "Market / 120 vendor tables": 120,
+          "Market / Table trestles": 480,
+          "Market / Produce trays": 160
+        }
+      }
+    }
+  ],
+  "roof_form_alternatives": [
+    {
+      "name": "01 / flush canopy",
+      "pv": 544,
+      "canopyRoof": 1548.9282640000008,
+      "stalls": 120,
+      "marketRoofStudy": "01 / flush canopy",
+      "marketRoofBanks": [
+        {
+          "bank": 1,
+          "stalls": 46,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 28.448,
+          "aisle_south_v": 33.098,
+          "entry_points": 2,
+          "roof_plan_m2": 594.32,
+          "northlight_m2": 0.0,
+          "south_pv_count": 208,
+          "north_blade_modules": 104,
+          "south_blade_modules": 104,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0,
+          "northlight_step_m": 0,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 2.2,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 11.64,
+              "deflection_mm": 21.23,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 5.36,
+              "deflection_mm": 18.57,
+              "end_projection_m": 3.128,
+              "end_moment_stress_mpa": 1.41,
+              "end_deflection_mm": 1.08
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 4.95,
+              "bending_mpa": 6.49,
+              "deflection_mm": 8.72,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            }
+          },
+          "post_count": 12,
+          "highest_west_roof_m": 7.16
+        },
+        {
+          "bank": 2,
+          "stalls": 40,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 39.194,
+          "aisle_south_v": 43.844,
+          "entry_points": 2,
+          "roof_plan_m2": 517.84,
+          "northlight_m2": 0.0,
+          "south_pv_count": 184,
+          "north_blade_modules": 92,
+          "south_blade_modules": 92,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0,
+          "northlight_step_m": 0,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 2.09,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 11.64,
+              "deflection_mm": 21.24,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 5.36,
+              "deflection_mm": 18.58,
+              "end_projection_m": 3.108,
+              "end_moment_stress_mpa": 1.39,
+              "end_deflection_mm": 1.06
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 4.95,
+              "bending_mpa": 6.46,
+              "deflection_mm": 8.68,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 7.06
+        },
+        {
+          "bank": 3,
+          "stalls": 34,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 49.94,
+          "aisle_south_v": 54.59,
+          "entry_points": 2,
+          "roof_plan_m2": 436.77,
+          "northlight_m2": 0.0,
+          "south_pv_count": 152,
+          "north_blade_modules": 76,
+          "south_blade_modules": 76,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0,
+          "northlight_step_m": 0,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 2.14,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 11.65,
+              "deflection_mm": 21.25,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 5.37,
+              "deflection_mm": 18.59,
+              "end_projection_m": 2.648,
+              "end_moment_stress_mpa": 1.01,
+              "end_deflection_mm": 0.63
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 4.95,
+              "bending_mpa": 6.36,
+              "deflection_mm": 8.55,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 7.1
+        }
+      ],
+      "mesh_stats": {
+        "parts": 2800,
+        "triangles": 33600,
+        "batches": 17,
+        "glbBytes": 482584,
+        "byLayer": {
+          "Market / Folded zinc roof planes": 6,
+          "Structure / CLT market roof deck": 126,
+          "Structure / Glulam market rafters": 132,
+          "Market / Folded entrance reveals": 12,
+          "Market / Box gutters and rain leaders": 288,
+          "Energy / Roof photovoltaics": 544,
+          "Energy / Market PV cross rails": 560,
+          "Structure / Glulam market collectors": 76,
+          "Structure / Glulam market frames": 104,
+          "Structure / Market plinths": 32,
+          "Structure / Concealed timber connections": 160,
+          "Market / 120 vendor tables": 120,
+          "Market / Table trestles": 480,
+          "Market / Produce trays": 160
+        }
+      }
+    },
+    {
+      "name": "02 / continuous high monitors",
+      "pv": 353,
+      "canopyRoof": 1636.2412424800013,
+      "stalls": 120,
+      "marketRoofStudy": "02 / continuous high monitors",
+      "marketRoofBanks": [
+        {
+          "bank": 1,
+          "stalls": 46,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 28.448,
+          "aisle_south_v": 33.098,
+          "entry_points": 2,
+          "roof_plan_m2": 623.42,
+          "northlight_m2": 73.37,
+          "south_pv_count": 139,
+          "north_blade_modules": 48,
+          "south_blade_modules": 91,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 1.0,
+          "northlight_step_m": 1.45,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 3.06,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 13.0,
+              "deflection_mm": 23.7,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 6.93,
+              "deflection_mm": 24.02,
+              "end_projection_m": 5.351,
+              "end_moment_stress_mpa": 5.34,
+              "end_deflection_mm": 9.3
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 4.976,
+              "bending_mpa": 6.68,
+              "deflection_mm": 9.06,
+              "end_projection_m": 1.39,
+              "end_moment_stress_mpa": 2.09,
+              "end_deflection_mm": 0.72
+            }
+          },
+          "post_count": 12,
+          "highest_west_roof_m": 8.92
+        },
+        {
+          "bank": 2,
+          "stalls": 40,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 39.194,
+          "aisle_south_v": 43.844,
+          "entry_points": 2,
+          "roof_plan_m2": 546.94,
+          "northlight_m2": 64.39,
+          "south_pv_count": 118,
+          "north_blade_modules": 41,
+          "south_blade_modules": 77,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 1.0,
+          "northlight_step_m": 1.45,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 2.95,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 13.0,
+              "deflection_mm": 23.7,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 6.93,
+              "deflection_mm": 24.02,
+              "end_projection_m": 5.351,
+              "end_moment_stress_mpa": 5.34,
+              "end_deflection_mm": 9.3
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 4.976,
+              "bending_mpa": 6.67,
+              "deflection_mm": 9.05,
+              "end_projection_m": 1.39,
+              "end_moment_stress_mpa": 2.08,
+              "end_deflection_mm": 0.72
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 8.82
+        },
+        {
+          "bank": 3,
+          "stalls": 34,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 49.94,
+          "aisle_south_v": 54.59,
+          "entry_points": 2,
+          "roof_plan_m2": 465.88,
+          "northlight_m2": 54.88,
+          "south_pv_count": 96,
+          "north_blade_modules": 34,
+          "south_blade_modules": 62,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 1.0,
+          "northlight_step_m": 1.45,
+          "max_primary_bay_m": 12.19,
+          "min_primary_frame_aisle_headroom_m": 3.0,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                960
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 13.0,
+              "deflection_mm": 23.71,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                240,
+                840
+              ],
+              "span_m": 12.192,
+              "bending_mpa": 6.94,
+              "deflection_mm": 24.03,
+              "end_projection_m": 5.351,
+              "end_moment_stress_mpa": 5.34,
+              "end_deflection_mm": 9.3
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 4.976,
+              "bending_mpa": 6.59,
+              "deflection_mm": 8.94,
+              "end_projection_m": 1.39,
+              "end_moment_stress_mpa": 2.06,
+              "end_deflection_mm": 0.71
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 8.86
+        }
+      ],
+      "mesh_stats": {
+        "parts": 2804,
+        "triangles": 33648,
+        "batches": 20,
+        "glbBytes": 485268,
+        "byLayer": {
+          "Market / Folded zinc roof planes": 12,
+          "Structure / CLT market roof deck": 135,
+          "Structure / Glulam market rafters": 141,
+          "Market / Folded entrance reveals": 42,
+          "Market / Box gutters and rain leaders": 306,
+          "Energy / Roof photovoltaics": 353,
+          "Energy / Market PV cross rails": 366,
+          "Structure / Glulam market collectors": 88,
+          "Market / Operable northlight vents": 289,
+          "Structure / Glulam market frames": 120,
+          "Structure / Market plinths": 32,
+          "Structure / Concealed timber connections": 160,
+          "Market / 120 vendor tables": 120,
+          "Market / Table trestles": 480,
+          "Market / Produce trays": 160
+        }
+      }
+    },
+    {
+      "name": "03 / stepped market portals",
+      "pv": 518,
+      "canopyRoof": 1614.4816378600015,
+      "stalls": 120,
+      "marketRoofStudy": "03 / stepped market portals",
+      "marketRoofBanks": [
+        {
+          "bank": 1,
+          "stalls": 46,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 28.448,
+          "aisle_south_v": 33.098,
+          "entry_points": 2,
+          "roof_plan_m2": 616.16,
+          "northlight_m2": 60.0,
+          "south_pv_count": 202,
+          "north_blade_modules": 103,
+          "south_blade_modules": 99,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 1.22,
+          "northlight_step_m": 1.24,
+          "max_primary_bay_m": 9.75,
+          "min_primary_frame_aisle_headroom_m": 3.05,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                880
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.13,
+              "deflection_mm": 23.52,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                200,
+                720
+              ],
+              "span_m": 9.754,
+              "bending_mpa": 6.57,
+              "deflection_mm": 17.18,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 4.42,
+              "end_deflection_mm": 5.25
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.296,
+              "bending_mpa": 7.43,
+              "deflection_mm": 11.31,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.86,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 14,
+          "highest_west_roof_m": 8.84
+        },
+        {
+          "bank": 2,
+          "stalls": 40,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 39.194,
+          "aisle_south_v": 43.844,
+          "entry_points": 2,
+          "roof_plan_m2": 539.69,
+          "northlight_m2": 39.3,
+          "south_pv_count": 172,
+          "north_blade_modules": 88,
+          "south_blade_modules": 84,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.84,
+          "northlight_step_m": 0.98,
+          "max_primary_bay_m": 9.75,
+          "min_primary_frame_aisle_headroom_m": 2.9,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                880
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.16,
+              "deflection_mm": 23.58,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                200,
+                720
+              ],
+              "span_m": 9.754,
+              "bending_mpa": 6.34,
+              "deflection_mm": 16.58,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 4.27,
+              "end_deflection_mm": 5.07
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.6,
+              "bending_mpa": 8.26,
+              "deflection_mm": 13.94,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.85,
+              "end_deflection_mm": 0.6
+            }
+          },
+          "post_count": 12,
+          "highest_west_roof_m": 8.06
+        },
+        {
+          "bank": 3,
+          "stalls": 34,
+          "aisle_width_m": 4.65,
+          "aisle_north_v": 49.94,
+          "aisle_south_v": 54.59,
+          "entry_points": 2,
+          "roof_plan_m2": 458.63,
+          "northlight_m2": 25.28,
+          "south_pv_count": 144,
+          "north_blade_modules": 74,
+          "south_blade_modules": 70,
+          "solar_pitch_deg": 8.5,
+          "solar_model": "Trina TSM-520NEG18R.20",
+          "west_fold_rise_m": 0.55,
+          "northlight_step_m": 0.79,
+          "max_primary_bay_m": 9.75,
+          "min_primary_frame_aisle_headroom_m": 2.97,
+          "clt_deck_mm": 105,
+          "timber_checks": {
+            "transverse_transfer": {
+              "section_mm": [
+                280,
+                880
+              ],
+              "span_m": 10.026,
+              "bending_mpa": 12.15,
+              "deflection_mm": 23.56,
+              "end_projection_m": 0.0,
+              "end_moment_stress_mpa": 0.0,
+              "end_deflection_mm": 0.0
+            },
+            "longitudinal_collector": {
+              "section_mm": [
+                200,
+                720
+              ],
+              "span_m": 9.754,
+              "bending_mpa": 6.47,
+              "deflection_mm": 16.93,
+              "end_projection_m": 4.001,
+              "end_moment_stress_mpa": 4.36,
+              "end_deflection_mm": 5.18
+            },
+            "secondary_rafter": {
+              "section_mm": [
+                140,
+                360
+              ],
+              "span_m": 5.426,
+              "bending_mpa": 7.63,
+              "deflection_mm": 12.16,
+              "end_projection_m": 1.324,
+              "end_moment_stress_mpa": 1.82,
+              "end_deflection_mm": 0.59
+            }
+          },
+          "post_count": 10,
+          "highest_west_roof_m": 7.65
+        }
+      ],
+      "mesh_stats": {
+        "parts": 3192,
+        "triangles": 38304,
+        "batches": 20,
+        "glbBytes": 550452,
+        "byLayer": {
+          "Market / Folded zinc roof planes": 12,
+          "Structure / CLT market roof deck": 135,
+          "Structure / Glulam market rafters": 141,
+          "Market / Folded entrance reveals": 42,
+          "Market / Box gutters and rain leaders": 342,
+          "Energy / Roof photovoltaics": 518,
+          "Energy / Market PV cross rails": 528,
+          "Structure / Glulam market collectors": 96,
+          "Market / Operable northlight vents": 288,
+          "Structure / Glulam market frames": 114,
+          "Structure / Market plinths": 36,
+          "Structure / Concealed timber connections": 180,
+          "Market / 120 vendor tables": 120,
+          "Market / Table trestles": 480,
+          "Market / Produce trays": 160
+        }
+      }
+    }
+  ],
+  "enclosure_and_windows": [
+    {
+      "option": "Continuous curtain",
+      "skylight_plan_m2": 82.671,
+      "opaque_roof_plan_m2": 1023.01,
+      "modules": 379,
+      "gross_wall_m2": 1916.976,
+      "north_gross_m2": 798.438,
+      "north_glass_m2": 579.463,
+      "vision_m2": 1418.727,
+      "diffuse_m2": 93.425,
+      "portal_clear_m2": 120.663,
+      "classroom_eye_level_window_line_m": 12.8,
+      "south_gross_m2": 643.94,
+      "south_glass_m2": 474.824,
+      "south_sample_vision_m2": 408.24,
+      "june_noon_shade_m2": 0.0,
+      "december_noon_shade_m2": 0.0,
+      "west_gross_m2": 225.242,
+      "west_glass_m2": 156.93,
+      "east_gross_m2": 370.019,
+      "east_glass_m2": 300.936,
+      "north_wwr_pct": 72.575,
+      "east_wwr_pct": 81.33,
+      "south_wwr_pct": 73.737,
+      "west_wwr_pct": 69.671,
+      "june_south_noon_hood_shade_pct": 0.0,
+      "december_south_noon_hood_shade_pct": 0.0,
+      "wwr_pct": 74.211,
+      "skylight_plan_pct": 7.477
+    },
+    {
+      "option": "Screen and deep reveals",
+      "skylight_plan_m2": 207.228,
+      "opaque_roof_plan_m2": 898.452,
+      "modules": 342,
+      "north_monitor_m2": 29.594,
+      "gross_wall_m2": 1980.496,
+      "north_gross_m2": 803.622,
+      "north_glass_m2": 227.288,
+      "vision_m2": 470.367,
+      "diffuse_m2": 141.707,
+      "portal_clear_m2": 120.663,
+      "classroom_eye_level_window_line_m": 6.4,
+      "south_gross_m2": 678.5,
+      "south_glass_m2": 186.455,
+      "south_sample_vision_m2": 132.828,
+      "june_noon_shade_m2": 132.828,
+      "december_noon_shade_m2": 52.608,
+      "west_gross_m2": 237.13,
+      "west_glass_m2": 74.89,
+      "east_gross_m2": 381.907,
+      "east_glass_m2": 123.443,
+      "north_wwr_pct": 28.283,
+      "east_wwr_pct": 32.323,
+      "south_wwr_pct": 27.48,
+      "west_wwr_pct": 31.582,
+      "june_south_noon_hood_shade_pct": 100.0,
+      "december_south_noon_hood_shade_pct": 39.606,
+      "wwr_pct": 29.13,
+      "skylight_plan_pct": 18.742
+    },
+    {
+      "option": "Occupied bays and north light",
+      "skylight_plan_m2": 165.342,
+      "opaque_roof_plan_m2": 940.339,
+      "modules": 348,
+      "north_monitor_m2": 59.187,
+      "gross_wall_m2": 2044.016,
+      "north_gross_m2": 808.806,
+      "north_glass_m2": 278.143,
+      "vision_m2": 551.475,
+      "diffuse_m2": 103.339,
+      "portal_clear_m2": 120.663,
+      "classroom_eye_level_window_line_m": 12.8,
+      "south_gross_m2": 713.06,
+      "south_glass_m2": 184.877,
+      "south_sample_vision_m2": 145.614,
+      "june_noon_shade_m2": 139.318,
+      "december_noon_shade_m2": 32.244,
+      "west_gross_m2": 249.018,
+      "west_glass_m2": 71.427,
+      "east_gross_m2": 393.795,
+      "east_glass_m2": 120.368,
+      "north_wwr_pct": 34.389,
+      "east_wwr_pct": 30.566,
+      "south_wwr_pct": 25.927,
+      "west_wwr_pct": 28.683,
+      "june_south_noon_hood_shade_pct": 95.676,
+      "december_south_noon_hood_shade_pct": 22.143,
+      "wwr_pct": 30.25,
+      "skylight_plan_pct": 14.954
+    }
+  ],
+  "room_planning": {
+    "large_hall_trials": [
+      {
+        "study": "A \u00b7 two banks of twelve",
+        "chairs": 360,
+        "side_aisle_m": 0.345,
+        "central_aisle_m": 1.5,
+        "cross_aisle_m": 1.36,
+        "front_clear_m": 4.93,
+        "row_pitch_m": 0.86,
+        "side_aisle_at_stair_notch_m": 0.345,
+        "central_aisle_at_stair_notch_m": 1.5
+      },
+      {
+        "study": "B \u00b7 two banks of ten",
+        "chairs": 360,
+        "side_aisle_m": 1.285,
+        "central_aisle_m": 1.5,
+        "cross_aisle_m": 1.36,
+        "front_clear_m": 3.64,
+        "row_pitch_m": 0.86,
+        "side_aisle_at_stair_notch_m": 0.035,
+        "central_aisle_at_stair_notch_m": 1.5
+      },
+      {
+        "study": "C \u00b7 two banks of nine",
+        "chairs": 360,
+        "side_aisle_m": 1.74,
+        "central_aisle_m": 1.65,
+        "cross_aisle_m": 1.45,
+        "front_clear_m": 2.645,
+        "row_pitch_m": 0.87,
+        "side_aisle_at_stair_notch_m": 1.21,
+        "central_aisle_at_stair_notch_m": 1.39
+      }
+    ],
+    "small_hall": {
+      "study": "Two banks of five",
+      "chairs": 100,
+      "side_aisle_m": 2.27,
+      "central_aisle_m": 1.5,
+      "cross_aisle_m": 1.08,
+      "front_clear_m": 0.94,
+      "row_pitch_m": 0.78
+    },
+    "classroom_planning_area_sf": [
+      451,
+      451,
+      451,
+      451
+    ],
+    "office_planning_area_sf": [
+      152,
+      152,
+      152,
+      152,
+      155,
+      150
+    ],
+    "large_hall_after_stair_notch_sf": 4038,
+    "stock_storage_after_stair_notch_sf": 4040,
+    "planning_areas_sf": {
+      "large assembly bounding rectangle": 4137,
+      "small assembly": 1601,
+      "large hall support": 601,
+      "small hall support": 202,
+      "kitchen": 401,
+      "public restroom each": 302,
+      "family restroom each and janitor": 152,
+      "stock storage bounding rectangle": 4135,
+      "workshop": 1008,
+      "electrical": 400,
+      "mechanical": 404,
+      "conference": 306,
+      "staff lounge": 306,
+      "shared reception": 524,
+      "upper WC": 128
+    }
+  },
+  "annual_energy": {
+    "method": "PVWatts v8 hourly AC, fixed roof, 14% assumed other losses. Beam weighted by DNI times incidence / POA, residual irradiance treated as isotropic diffuse; area-linear shade response. Visible city meshes, including trees and glazing, are opaque all year. No electrical string mismatch or explicit seasonal snow-cover model; conceptual estimate.",
+    "latitude": 42.283917,
+    "longitude": -83.746722,
+    "true_north_offset_degrees": -2.25147,
+    "module_kwp": 0.52,
+    "surface_samples_per_panel": 4,
+    "max_days_per_time_bin": 3,
+    "sky_directions": 384,
+    "triangles": {
+      "market-switchback.glb": 122088,
+      "urban-core-materials.glb": 98306,
+      "urban-near.glb": 19628,
+      "urban-outer.glb": 54721
+    },
+    "panels": 950,
+    "zones": [
+      {
+        "zone": "civic",
+        "panels": 432,
+        "kwdc": 224.64,
+        "tilt_deg": 8.5,
+        "true_azimuth_deg": 182,
+        "unshaded_yield_kwh_per_kw": 1206.617,
+        "sky_obstruction_pct": 7.979,
+        "sun_directions": 1442,
+        "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
+        "weather_station": "983619",
+        "months": [
+          {
+            "month": 1,
+            "open_kwh": 11081.64,
+            "beam_loss_kwh": 814.62,
+            "diffuse_loss_kwh": 372.14,
+            "shaded_kwh": 9894.88
+          },
+          {
+            "month": 2,
+            "open_kwh": 15329.39,
+            "beam_loss_kwh": 856.93,
+            "diffuse_loss_kwh": 499.79,
+            "shaded_kwh": 13972.67
+          },
+          {
+            "month": 3,
+            "open_kwh": 23246.34,
+            "beam_loss_kwh": 948.86,
+            "diffuse_loss_kwh": 682.53,
+            "shaded_kwh": 21614.94
+          },
+          {
+            "month": 4,
+            "open_kwh": 27676.79,
+            "beam_loss_kwh": 627.7,
+            "diffuse_loss_kwh": 910.45,
+            "shaded_kwh": 26138.64
+          },
+          {
+            "month": 5,
+            "open_kwh": 30669.08,
+            "beam_loss_kwh": 546.57,
+            "diffuse_loss_kwh": 1030.89,
+            "shaded_kwh": 29091.62
+          },
+          {
+            "month": 6,
+            "open_kwh": 33848.94,
+            "beam_loss_kwh": 625.33,
+            "diffuse_loss_kwh": 1047.3,
+            "shaded_kwh": 32176.31
+          },
+          {
+            "month": 7,
+            "open_kwh": 34402.64,
+            "beam_loss_kwh": 672.47,
+            "diffuse_loss_kwh": 1078.65,
+            "shaded_kwh": 32651.52
+          },
+          {
+            "month": 8,
+            "open_kwh": 29618.81,
+            "beam_loss_kwh": 585.99,
+            "diffuse_loss_kwh": 901.64,
+            "shaded_kwh": 28131.19
+          },
+          {
+            "month": 9,
+            "open_kwh": 25362.94,
+            "beam_loss_kwh": 975.93,
+            "diffuse_loss_kwh": 630.19,
+            "shaded_kwh": 23756.82
+          },
+          {
+            "month": 10,
+            "open_kwh": 17605.75,
+            "beam_loss_kwh": 834.99,
+            "diffuse_loss_kwh": 555.94,
+            "shaded_kwh": 16214.82
+          },
+          {
+            "month": 11,
+            "open_kwh": 12898.29,
+            "beam_loss_kwh": 888.88,
+            "diffuse_loss_kwh": 380.77,
+            "shaded_kwh": 11628.64
+          },
+          {
+            "month": 12,
+            "open_kwh": 9313.81,
+            "beam_loss_kwh": 840.5,
+            "diffuse_loss_kwh": 295.62,
+            "shaded_kwh": 8177.69
+          }
+        ]
+      },
+      {
+        "zone": "market middle",
+        "panels": 172,
+        "kwdc": 89.44,
+        "tilt_deg": 8.5,
+        "true_azimuth_deg": 182,
+        "unshaded_yield_kwh_per_kw": 1206.617,
+        "sky_obstruction_pct": 8.683,
+        "sun_directions": 1442,
+        "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
+        "weather_station": "983619",
+        "months": [
+          {
+            "month": 1,
+            "open_kwh": 4412.13,
+            "beam_loss_kwh": 1221.18,
+            "diffuse_loss_kwh": 161.24,
+            "shaded_kwh": 3029.71
+          },
+          {
+            "month": 2,
+            "open_kwh": 6103.37,
+            "beam_loss_kwh": 512.65,
+            "diffuse_loss_kwh": 216.56,
+            "shaded_kwh": 5374.17
+          },
+          {
+            "month": 3,
+            "open_kwh": 9255.49,
+            "beam_loss_kwh": 294.45,
+            "diffuse_loss_kwh": 295.73,
+            "shaded_kwh": 8665.3
+          },
+          {
+            "month": 4,
+            "open_kwh": 11019.46,
+            "beam_loss_kwh": 20.04,
+            "diffuse_loss_kwh": 394.49,
+            "shaded_kwh": 10604.94
+          },
+          {
+            "month": 5,
+            "open_kwh": 12210.84,
+            "beam_loss_kwh": 0.38,
+            "diffuse_loss_kwh": 446.67,
+            "shaded_kwh": 11763.78
+          },
+          {
+            "month": 6,
+            "open_kwh": 13476.89,
+            "beam_loss_kwh": 1.67,
+            "diffuse_loss_kwh": 453.78,
+            "shaded_kwh": 13021.44
+          },
+          {
+            "month": 7,
+            "open_kwh": 13697.35,
+            "beam_loss_kwh": 1.13,
+            "diffuse_loss_kwh": 467.37,
+            "shaded_kwh": 13228.85
+          },
+          {
+            "month": 8,
+            "open_kwh": 11792.68,
+            "beam_loss_kwh": 3.38,
+            "diffuse_loss_kwh": 390.67,
+            "shaded_kwh": 11398.62
+          },
+          {
+            "month": 9,
+            "open_kwh": 10098.21,
+            "beam_loss_kwh": 132.42,
+            "diffuse_loss_kwh": 273.06,
+            "shaded_kwh": 9692.73
+          },
+          {
+            "month": 10,
+            "open_kwh": 7009.7,
+            "beam_loss_kwh": 371.14,
+            "diffuse_loss_kwh": 240.88,
+            "shaded_kwh": 6397.68
+          },
+          {
+            "month": 11,
+            "open_kwh": 5135.43,
+            "beam_loss_kwh": 1076.28,
+            "diffuse_loss_kwh": 164.98,
+            "shaded_kwh": 3894.16
+          },
+          {
+            "month": 12,
+            "open_kwh": 3708.27,
+            "beam_loss_kwh": 1310.59,
+            "diffuse_loss_kwh": 128.09,
+            "shaded_kwh": 2269.6
+          }
+        ]
+      },
+      {
+        "zone": "market north",
+        "panels": 202,
+        "kwdc": 105.04,
+        "tilt_deg": 8.5,
+        "true_azimuth_deg": 182,
+        "unshaded_yield_kwh_per_kw": 1206.617,
+        "sky_obstruction_pct": 13.127,
+        "sun_directions": 1442,
+        "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
+        "weather_station": "983619",
+        "months": [
+          {
+            "month": 1,
+            "open_kwh": 5181.69,
+            "beam_loss_kwh": 782.07,
+            "diffuse_loss_kwh": 286.29,
+            "shaded_kwh": 4113.33
+          },
+          {
+            "month": 2,
+            "open_kwh": 7167.91,
+            "beam_loss_kwh": 558.75,
+            "diffuse_loss_kwh": 384.49,
+            "shaded_kwh": 6224.67
+          },
+          {
+            "month": 3,
+            "open_kwh": 10869.81,
+            "beam_loss_kwh": 341.65,
+            "diffuse_loss_kwh": 525.08,
+            "shaded_kwh": 10003.09
+          },
+          {
+            "month": 4,
+            "open_kwh": 12941.46,
+            "beam_loss_kwh": 14.24,
+            "diffuse_loss_kwh": 700.41,
+            "shaded_kwh": 12226.81
+          },
+          {
+            "month": 5,
+            "open_kwh": 14340.63,
+            "beam_loss_kwh": 53.09,
+            "diffuse_loss_kwh": 793.07,
+            "shaded_kwh": 13494.48
+          },
+          {
+            "month": 6,
+            "open_kwh": 15827.51,
+            "beam_loss_kwh": 87.49,
+            "diffuse_loss_kwh": 805.7,
+            "shaded_kwh": 14934.33
+          },
+          {
+            "month": 7,
+            "open_kwh": 16086.42,
+            "beam_loss_kwh": 88.71,
+            "diffuse_loss_kwh": 829.81,
+            "shaded_kwh": 15167.9
+          },
+          {
+            "month": 8,
+            "open_kwh": 13849.54,
+            "beam_loss_kwh": 30.7,
+            "diffuse_loss_kwh": 693.63,
+            "shaded_kwh": 13125.2
+          },
+          {
+            "month": 9,
+            "open_kwh": 11859.52,
+            "beam_loss_kwh": 104.55,
+            "diffuse_loss_kwh": 484.81,
+            "shaded_kwh": 11270.17
+          },
+          {
+            "month": 10,
+            "open_kwh": 8232.32,
+            "beam_loss_kwh": 489.89,
+            "diffuse_loss_kwh": 427.69,
+            "shaded_kwh": 7314.74
+          },
+          {
+            "month": 11,
+            "open_kwh": 6031.14,
+            "beam_loss_kwh": 795.38,
+            "diffuse_loss_kwh": 292.93,
+            "shaded_kwh": 4942.84
+          },
+          {
+            "month": 12,
+            "open_kwh": 4355.07,
+            "beam_loss_kwh": 841.85,
+            "diffuse_loss_kwh": 227.42,
+            "shaded_kwh": 3285.79
+          }
+        ]
+      },
+      {
+        "zone": "market south",
+        "panels": 144,
+        "kwdc": 74.88,
+        "tilt_deg": 8.5,
+        "true_azimuth_deg": 182,
+        "unshaded_yield_kwh_per_kw": 1206.617,
+        "sky_obstruction_pct": 17.807,
+        "sun_directions": 1442,
+        "weather": "NSRDB PSM V3 GOES tmy-2020 3.2.0",
+        "weather_station": "983619",
+        "months": [
+          {
+            "month": 1,
+            "open_kwh": 3693.88,
+            "beam_loss_kwh": 1620.62,
+            "diffuse_loss_kwh": 276.85,
+            "shaded_kwh": 1796.42
+          },
+          {
+            "month": 2,
+            "open_kwh": 5109.8,
+            "beam_loss_kwh": 2006.77,
+            "diffuse_loss_kwh": 371.82,
+            "shaded_kwh": 2731.21
+          },
+          {
+            "month": 3,
+            "open_kwh": 7748.78,
+            "beam_loss_kwh": 1942.58,
+            "diffuse_loss_kwh": 507.76,
+            "shaded_kwh": 5298.44
+          },
+          {
+            "month": 4,
+            "open_kwh": 9225.6,
+            "beam_loss_kwh": 752.5,
+            "diffuse_loss_kwh": 677.32,
+            "shaded_kwh": 7795.78
+          },
+          {
+            "month": 5,
+            "open_kwh": 10223.03,
+            "beam_loss_kwh": 79.3,
+            "diffuse_loss_kwh": 766.92,
+            "shaded_kwh": 9376.8
+          },
+          {
+            "month": 6,
+            "open_kwh": 11282.98,
+            "beam_loss_kwh": 0.33,
+            "diffuse_loss_kwh": 779.13,
+            "shaded_kwh": 10503.52
+          },
+          {
+            "month": 7,
+            "open_kwh": 11467.55,
+            "beam_loss_kwh": 16.79,
+            "diffuse_loss_kwh": 802.45,
+            "shaded_kwh": 10648.3
+          },
+          {
+            "month": 8,
+            "open_kwh": 9872.94,
+            "beam_loss_kwh": 332.02,
+            "diffuse_loss_kwh": 670.76,
+            "shaded_kwh": 8870.15
+          },
+          {
+            "month": 9,
+            "open_kwh": 8454.31,
+            "beam_loss_kwh": 1655.17,
+            "diffuse_loss_kwh": 468.82,
+            "shaded_kwh": 6330.32
+          },
+          {
+            "month": 10,
+            "open_kwh": 5868.58,
+            "beam_loss_kwh": 1983.71,
+            "diffuse_loss_kwh": 413.59,
+            "shaded_kwh": 3471.29
+          },
+          {
+            "month": 11,
+            "open_kwh": 4299.43,
+            "beam_loss_kwh": 1978.45,
+            "diffuse_loss_kwh": 283.27,
+            "shaded_kwh": 2037.71
+          },
+          {
+            "month": 12,
+            "open_kwh": 3104.6,
+            "beam_loss_kwh": 1441.55,
+            "diffuse_loss_kwh": 219.92,
+            "shaded_kwh": 1443.13
+          }
+        ]
+      }
+    ],
+    "monthly": [
+      {
+        "open_kwh": 24369.34,
+        "beam_loss_kwh": 4438.49,
+        "diffuse_loss_kwh": 1096.52,
+        "shaded_kwh": 18834.34,
+        "month": 1
+      },
+      {
+        "open_kwh": 33710.47,
+        "beam_loss_kwh": 3935.1,
+        "diffuse_loss_kwh": 1472.66,
+        "shaded_kwh": 28302.72,
+        "month": 2
+      },
+      {
+        "open_kwh": 51120.42,
+        "beam_loss_kwh": 3527.54,
+        "diffuse_loss_kwh": 2011.1,
+        "shaded_kwh": 45581.77,
+        "month": 3
+      },
+      {
+        "open_kwh": 60863.31,
+        "beam_loss_kwh": 1414.48,
+        "diffuse_loss_kwh": 2682.67,
+        "shaded_kwh": 56766.17,
+        "month": 4
+      },
+      {
+        "open_kwh": 67443.58,
+        "beam_loss_kwh": 679.34,
+        "diffuse_loss_kwh": 3037.55,
+        "shaded_kwh": 63726.68,
+        "month": 5
+      },
+      {
+        "open_kwh": 74436.32,
+        "beam_loss_kwh": 714.82,
+        "diffuse_loss_kwh": 3085.91,
+        "shaded_kwh": 70635.6,
+        "month": 6
+      },
+      {
+        "open_kwh": 75653.96,
+        "beam_loss_kwh": 779.1,
+        "diffuse_loss_kwh": 3178.28,
+        "shaded_kwh": 71696.57,
+        "month": 7
+      },
+      {
+        "open_kwh": 65133.97,
+        "beam_loss_kwh": 952.09,
+        "diffuse_loss_kwh": 2656.7,
+        "shaded_kwh": 61525.16,
+        "month": 8
+      },
+      {
+        "open_kwh": 55774.98,
+        "beam_loss_kwh": 2868.07,
+        "diffuse_loss_kwh": 1856.88,
+        "shaded_kwh": 51050.04,
+        "month": 9
+      },
+      {
+        "open_kwh": 38716.35,
+        "beam_loss_kwh": 3679.73,
+        "diffuse_loss_kwh": 1638.1,
+        "shaded_kwh": 33398.53,
+        "month": 10
+      },
+      {
+        "open_kwh": 28364.29,
+        "beam_loss_kwh": 4738.99,
+        "diffuse_loss_kwh": 1121.95,
+        "shaded_kwh": 22503.35,
+        "month": 11
+      },
+      {
+        "open_kwh": 20481.75,
+        "beam_loss_kwh": 4434.49,
+        "diffuse_loss_kwh": 871.05,
+        "shaded_kwh": 15176.21,
+        "month": 12
+      }
+    ],
+    "annual": {
+      "open_kwh": 596068.7,
+      "beam_loss_kwh": 32162.2,
+      "diffuse_loss_kwh": 24709.4,
+      "shaded_kwh": 539197.1,
+      "local_loss_pct": 9.54
+    }
+  },
+  "previous_case_energy": {
+    "open_kwh": 532069.8,
+    "beam_loss_kwh": 29173.4,
+    "diffuse_loss_kwh": 18425.8,
+    "shaded_kwh": 484470.5,
+    "local_loss_pct": 8.95
+  },
+  "geometry": {
+    "glbBytes": 1815340,
+    "parts": 10198,
+    "triangles": 122088,
+    "batches": 171,
+    "stalls": 120,
+    "pv": 950,
+    "courtM2": 81.0,
+    "marketRampSlope": 0.04781907090464547,
+    "upperRampSlope": 0.04000374988281615,
+    "gradeWalkSlope": 0.04661654135338346
+  },
+  "checks": {
+    "geometry": "Reopened the serialized GLB. Checked finite coordinates, face areas, outward winding, positive volume and two opposite directed edges per shell edge; all parts within the registered parcel. Shell intersections at structural connections are intentional.",
+    "walks": "Ten circulation segments checked by vertical rays above sampled points. Three inner probes per walking width, roughly 0.22 m longitudinal spacing and just over 2 m clear height. No probe failures. This sample does not assess accessibility or egress compliance."
+  }
+}

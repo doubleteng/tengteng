@@ -167,3 +167,10 @@ dialog h2 { font: 740 36px/1.1 Chivo, Arial, sans-serif; letter-spacing: -.055em
 @media (min-width:1050px) {
  .cards:has(>.card:nth-child(4):last-child) { grid-template-columns:repeat(4,minmax(0,1fr)); }
 }
+
+.case-module { border-top:1px solid #b7c3bc; }
+.case-module:last-of-type { border-bottom:1px solid #b7c3bc; }
+.case-module summary { color:#263d3e; cursor:pointer; padding:14px 1px; font-weight:650; }
+.case-module summary:focus-visible { outline:2px solid #526b66; outline-offset:2px; }
+.case-module[open] { padding-bottom:8px; }
+.case-module .case-references { margin-top:1rem; }

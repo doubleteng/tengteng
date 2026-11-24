@@ -1,7 +1,7 @@
 import {Vector3,Ray,Group,Mesh,CircleGeometry,MeshBasicMaterial,MathUtils} from './lib/three.module.min.js';
-import {createStreetAvatar} from './street-avatar.js?v=2304aef521';
+import {createStreetAvatar} from './street-avatar.js?v=469c681a5c';
 import {enterStreetAtmosphere} from './street-atmosphere.js?v=b8acbb84d1';
-import {StreetTraversal} from './street-traversal.js?v=f717cd63cc';
+import {StreetTraversal} from './street-traversal.js?v=07ddaf8769';
 
 const up=new Vector3(0,1,0);
 
@@ -75,16 +75,16 @@ export class StreetMode {
   this.contact.scale.set(.30,.22,1);this.contact.rotation.x=-Math.PI/2;
   this.root.add(this.contact);viewer.scene.add(this.root);
  }
- jump(walker){if(walker.grounded)this.traversal.jumped=true;}
+ jump(walker,boosted,held){this.traversal.jump(walker,boosted,held);}
  step(walker,dt,held){return this.traversal.step(walker,dt,held);}
  present(walker,cam,target,dt){
   const dx=walker.feet.x-this.last.x,dz=walker.feet.z-this.last.z;
-  const distance=Math.hypot(dx,dz),action=this.traversal.action;
+  const distance=Math.hypot(dx,dz),action=this.traversal.action,wall=this.traversal.wall;
   const speed=Math.min(7,distance/Math.max(dt,1e-4));
   if(walker.grounded)this.gait+=distance*5.2;
-  const face=action?action.face:distance>.001?Math.atan2(dx,-dz):this.rotation;
+  const face=action?action.face:wall?wall.face:distance>.001?Math.atan2(dx,-dz):this.rotation;
   const delta=Math.atan2(Math.sin(face-this.rotation),Math.cos(face-this.rotation));
-  this.rotation+=delta*(action?1:(1-Math.exp(-18*dt)));
+  this.rotation+=delta*(action||wall?1:(1-Math.exp(-18*dt)));
   this.avatar.root.position.copy(walker.feet);this.avatar.root.rotation.y=-this.rotation;
   // During the planted phase the palm stays on the measured world edge.
   // Feet used for collision stay on their swept path as the animated knees tuck.
@@ -100,9 +100,16 @@ export class StreetMode {
    this.avatar.root.position.lerp(this.contactRoot,weight);
    this.gripLocal.subVectors(action.grip,this.avatar.root.position).applyAxisAngle(up,this.rotation);
    if(action.palms)action.palms.forEach((hand,i)=>this.palmsLocal[i].subVectors(hand,this.avatar.root.position).applyAxisAngle(up,this.rotation));
+  }else if(wall){
+   // Hold one palm at a fixed world height while the other reaches up.
+   wall.palms.forEach((point,i)=>{
+    const phase=(wall.travel/.48+i*.5)%1;
+    this.palmsLocal[i].copy(point).setY(walker.feet.y+1.59-.48*phase+.48*MathUtils.smoothstep(phase,.5,1))
+     .sub(this.avatar.root.position).applyAxisAngle(up,this.rotation);
+   });
   }
-  this.avatar.pose({grip:action?this.gripLocal:null,palms:action?.palms?this.palmsLocal:null,gait:this.gait,speed,grounded:walker.grounded,verticalSpeed:walker.verticalSpeed,
-   action:action?.type??null,progress:action?.progress??0});
+  this.avatar.pose({grip:action?this.gripLocal:null,palms:wall||action?.palms?this.palmsLocal:null,gait:this.gait,speed,grounded:walker.grounded,verticalSpeed:walker.verticalSpeed,
+   action:wall?'wall':action?.type??null,progress:wall?wall.travel:action?.progress??0});
   this.last.copy(walker.feet);
   this.contact.position.copy(walker.feet);this.contact.position.y+=.018;
   this.contact.visible=walker.grounded;

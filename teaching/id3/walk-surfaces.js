@@ -161,7 +161,7 @@ export class WalkSurfaces {
     // continues to select circulation surfaces. An explicit opt-out wins.
     if(role===0&&mesh.userData.walkable!==false){
      const label=[mesh.userData.atlasPath,mesh.userData.layer,mesh.name].join(' ');
-     if(/roof|canop|membrane|photovoltaic|parapet|guard|rail(?!way)|屋顶|屋面|雨棚|栏杆|护栏/i.test(label)||
+     if(/roof|canop|membrane|photovoltaic|parapet|guard|rail(?!way)|(?:^|[ /_-])wall(?:s|[ /_-]|$)|屋顶|屋面|雨棚|栏杆|护栏|墙体/i.test(label)||
         (which>0&&mesh.userData.contextBuildingColor))role=-1;
     }
     if(role)this.lowestSupport=Math.min(this.lowestSupport,data.bounds.min.y);

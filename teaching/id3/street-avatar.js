@@ -341,7 +341,8 @@ export function createStreetAvatar() {
     const plant = grip && (climb||vault) ? (climb
       ? smooth(.045,.18,p)*(1-smooth(.64,.81,p))
       : smooth(.07,.22,p)*(1-smooth(.52,.71,p))) : 0;
-    const airborne = grounded || climb || vault ? 0 : 1;
+    const onWall = action === 'wall';
+    const airborne = grounded || climb || vault || onWall ? 0 : 1;
     const landing = smooth(-4.5, 2, verticalSpeed);
     const neutralHip = PELVIS - motion*(.035+run*.031) + bounce*motion*(.010+run*.016);
     hips.position.y = mix(neutralHip, PELVIS-.060, acting);
@@ -379,6 +380,16 @@ export function createStreetAvatar() {
         elbow.rotation.x = .55+.26*landing;
       }
 
+      if (onWall) {
+        // Opposite hand and foot trade support as the body climbs the wall.
+        const stroke = Math.sin(progress*8 + (s < 0 ? Math.PI : 0));
+        solve(THIGH,SHIN,.22+.04*stroke,-.65+.11*stroke,-1,hip,knee);
+        ankle.rotation.x = -.22-hip.rotation.x-knee.rotation.x;
+        solve(ARM,FOREARM+.047,.33,.10-.17*stroke,1,shoulder,elbow);
+        shoulder.rotation.x -= torso.rotation.x;
+        shoulder.rotation.z = s*.16;
+        if(palms)plantPalm(s,shoulder,elbow,wrist,palms[s>0?1:0],true,1,true);
+      }
       if (acting > 0) {
         const lead = s > 0;
         const raised = climb ? (lead ? 1.22 : .49 + .71*smooth(.36,.85,p)) :

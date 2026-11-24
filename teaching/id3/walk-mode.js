@@ -1,5 +1,5 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
-import {WalkSurfaces} from './walk-surfaces.js?v=992a1d3cd2';
+import {WalkSurfaces} from './walk-surfaces.js?v=631f602e51';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
 const GRAVITY=10.5, JUMP_SPEED=4.4, SUPER_LIFT=13, SUPER_TRAVEL=6.6;
@@ -186,6 +186,7 @@ export class WalkMode {
  press(code,shiftKey=false){
   if(code==='KeyF'){this.useDoor();return;}
   if(code==='Space'){
+   this.held.add(code);
    if(this.walker.grounded)this.queuedJump=shiftKey||this.held.has('ShiftLeft')||this.held.has('ShiftRight')?'super':'normal';
   }else{
    this.held.add(code);
@@ -200,7 +201,9 @@ export class WalkMode {
    this.frame=0;if(!this.active)return;
    let time=Math.min(.12,Math.max(0,(now-this.previous)*.001));this.previous=now;
    if(this.queuedJump){
-    this.street?.jump(this.walker);this.walker.jump(this.queuedJump==='super',this.held);this.queuedJump=null;
+    if(this.street)this.street.jump(this.walker,this.queuedJump==='super',this.held);
+    else this.walker.jump(this.queuedJump==='super',this.held);
+    this.queuedJump=null;
    }
    let moved=false;const doorDt=time;
    // Short steps keep the body on the correct side of thin slabs and walls.
@@ -215,7 +218,7 @@ export class WalkMode {
    if(poseChanged||doorChanged||wasMoving){
     this.updateTarget();this.v.movingFrame=true;this.v.drawNow(now);
    }
-   if(this.doors.moving||this.street?.needsFrame||!this.walker.grounded||[...this.held].some(key=>!key.startsWith('Shift')))
+   if(this.doors.moving||this.street?.needsFrame||!this.walker.grounded||[...this.held].some(key=>key!=='Space'&&!key.startsWith('Shift')))
     this.frame=requestAnimationFrame(advance);
   };
   this.frame=requestAnimationFrame(advance);
@@ -258,7 +261,7 @@ export class WalkMode {
   if(target){const text=target.open?'F · Close door':'F · Open door';if(hint.textContent!==text)hint.textContent=text;}
  }
  useDoor(){
-  if(this.street?.traversal.action)return;
+  if(this.street&&(this.street.traversal.action||this.street.traversal.wall))return;
   if(this.lookPending)this.pose();
   this.updateTarget();
   if(this.door&&this.doors.toggle(this.door,this.interactionOrigin())!==false){

@@ -3,12 +3,13 @@ import {applyProposalFinishes} from './proposal-finishes.js?v=f856cfc70e';
 import {applyProposalEnvironment,loadProposalEnvironment,proposalSkyTexture} from './proposal-environment.js?v=262656718b';
 import {applyProjectLightVolume,loadProjectLightVolume} from './project-light-volume.js?v=20cde4c284';
 import {CameraClearance} from './camera-clearance.js?v=5e0d138cc1';
-import {WalkDoors} from './walk-doors.js?v=ca0f162775';
+import {WalkDoors} from './walk-doors.js?v=e4332bd31f';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js';
-import {makeRenderer} from './software-view.js?v=437b091705';
+import {makeRenderer} from './software-view.js?v=6feae1485e';
+import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
 const loader=new GLTFLoader();
@@ -114,7 +115,7 @@ export class AtlasViewer{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc={x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=2197339611').catch(error=>{this.walkModule=null;throw error;});
+   this.walkModule??=import('./walk-mode.js?v=3afc2815d7').catch(error=>{this.walkModule=null;throw error;});
    this.walkModule.then(({WalkMode})=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
     this.walkMode??=new WalkMode(this);
@@ -187,11 +188,13 @@ export class AtlasViewer{
  }
  draw(){
   if(this.frame)return;
-  this.frame=requestAnimationFrame(now=>{
-   this.frame=0;this.adaptMovingResolution(now);this.updateCameraRange();this.updateLightCoverage();this.updateBackdrop();
-   const start=performance.now();this.renderer.render(this.scene,this.camera);this.lastRenderDuration=performance.now()-start;
-   this.annotations?.draw(this.camera,this.host.clientWidth,this.host.clientHeight);
-  });
+  this.frame=requestAnimationFrame(now=>{this.frame=0;this.drawNow(now);});
+ }
+ drawNow(now){
+  if(this.frame){cancelAnimationFrame(this.frame);this.frame=0;}
+  this.adaptMovingResolution(now);this.updateCameraRange();this.updateLightCoverage();this.updateBackdrop();
+  const start=performance.now();this.renderer.render(this.scene,this.camera);this.lastRenderDuration=performance.now()-start;
+  this.annotations?.draw(this.camera,this.host.clientWidth,this.host.clientHeight);
  }
  registerContext(root){
   this.prepare(root);
@@ -278,6 +281,7 @@ export class AtlasViewer{
    const outline=new T.LineSegments(geometry,material);
    outline.userData.contextOutline=true;
    outline.renderOrder=2;
+   if(this.renderer?.isWebGLRenderer)limitViewRange(outline);
    mesh.add(outline);
    for(const surface of [].concat(mesh.material,mesh.userData.neutralMaterial||[])){
     surface.polygonOffset=true;surface.polygonOffsetFactor=.35;surface.polygonOffsetUnits=.5;
@@ -287,6 +291,7 @@ export class AtlasViewer{
  prepare(root){
   root.traverse(o=>{
    if(!o.geometry)return;
+   if(this.renderer?.isWebGLRenderer)limitViewRange(o);
    o.userData.atlasPath=layerOf(o);o.userData.sourceMaterial=o.material;
    const path=o.userData.atlasPath;
    const surface=path.split(/::|[/>]/).at(-1).trim();

@@ -216,7 +216,22 @@ function authoredDoors(root,doors){
  });
 }
 
-function rayHitBox(mesh,matrix){
+// Most doors are stationary. A world AABB rules out distant leaves before
+// inverting their transforms or testing their actual panels.
+const doorBounds=new WeakMap();
+export function doorWorldBounds(mesh,matrix){
+ let record=doorBounds.get(matrix);
+ const local=mesh.geometry.boundingBox;
+ if(!record||record.local!==local){
+  record={local,box:new T.Box3(),matrix:new T.Matrix4()};doorBounds.set(matrix,record);
+  record.matrix.copy(matrix);record.box.copy(local).applyMatrix4(matrix);
+ }else if(!record.matrix.equals(matrix)){
+  record.matrix.copy(matrix);record.box.copy(local).applyMatrix4(matrix);
+ }
+ return record.box;
+}
+function rayHitBox(mesh,matrix,reach){
+ if(doorWorldBounds(mesh,matrix).distanceToPoint(targetRay.origin)>reach)return Infinity;
  localRay.copy(targetRay).applyMatrix4(inverse.copy(matrix).invert());
  if(!localRay.intersectBox(mesh.geometry.boundingBox,where))return Infinity;
  return where.applyMatrix4(matrix).distanceTo(targetRay.origin);
@@ -252,8 +267,8 @@ export class WalkDoors{
   let nearest=Math.min(WALK_REACH,blockDistance+.035),candidate=null;
   for(const door of this.entries)for(const {mesh,world} of door.closed){
    if(!visible(mesh))continue;
-   let d=rayHitBox(mesh,mesh.matrixWorld);
-   if(door.value>0)d=Math.min(d,rayHitBox(mesh,world));
+   let d=rayHitBox(mesh,mesh.matrixWorld,nearest);
+   if(door.value>0)d=Math.min(d,rayHitBox(mesh,world,nearest));
    if(d<=nearest){nearest=d;candidate=door;}
   }
   return candidate;

@@ -1,6 +1,7 @@
 // First-person navigation uses the actual displayed triangles, in metres.
 // Grid entries reference the orbit camera's existing triangle runs.
 import {Box3,Vector3} from './lib/three.module.min.js';
+import {doorWorldBounds} from './walk-doors.js?v=e4332bd31f';
 import {indexMesh} from './camera-clearance.js?v=5e0d138cc1';
 
 const epsilon=1e-6;
@@ -127,7 +128,7 @@ class RunGrid {
 export class WalkSurfaces {
  constructor(roots,{clearance=null,doors=null}={}) {
   this.entries=[];this.grid=new RunGrid();this.doors=doors;
-  this.box=new Box3();this.doorBounds=new Box3();this.a=new Vector3();this.b=new Vector3();this.c=new Vector3();
+  this.box=new Box3();this.a=new Vector3();this.b=new Vector3();this.c=new Vector3();
   this.rayPoint=new Vector3();this.clipIn=new Float64Array(24);this.clipOut=new Float64Array(24);
   const reuse=new Map((clearance?.meshes||[]).map(r=>[r.mesh,r]));
   roots.forEach((root,which)=>{
@@ -165,8 +166,7 @@ export class WalkSurfaces {
    const geometry=mesh.geometry;
    if(!geometry.boundingBox)geometry.computeBoundingBox();
    const world=mesh.matrixWorld;
-   this.doorBounds.copy(geometry.boundingBox).applyMatrix4(world);
-   if(!test(this.doorBounds))continue;
+   if(!test(doorWorldBounds(mesh,world)))continue;
    const vertices=geometry.attributes.position,indices=geometry.index?.array;
    if(this.eachTriangle({mesh,role:0,vertices,indices},0,indices?.length??vertices.count,visit,world))return true;
   }

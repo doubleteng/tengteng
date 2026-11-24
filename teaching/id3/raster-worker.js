@@ -41,8 +41,9 @@ function imageSample(image,u,v,out,panorama=false){
  const {pixels,width,height,wrapS,wrapT}=image;
  const x=imageCoordinate(u,width,wrapS),y=imageCoordinate(v,height,panorama?1001:wrapT);
  const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy;
- const x0=(ix+width)%width,x1=(wrapS===1001||wrapS===1002)?Math.min(width-1,x0+1):(x0+1)%width,y0=(iy+height)%height;
- const y1=(panorama||wrapT===1001||wrapT===1002)?Math.min(height-1,y0+1):(y0+1)%height;
+ const x0=ix<0?width-1:ix,y0=iy<0?height-1:iy;
+ const x1=x0+1<width?x0+1:(wrapS===1001||wrapS===1002?x0:0);
+ const y1=y0+1<height?y0+1:(panorama||wrapT===1001||wrapT===1002?y0:0);
  const a=(y0*width+x0)*4,b=(y0*width+x1)*4,c=(y1*width+x0)*4,d=(y1*width+x1)*4;
  for(let k=0;k<out.length;k++){
   const top=pixels[a+k]+fx*(pixels[b+k]-pixels[a+k]),bottom=pixels[c+k]+fx*(pixels[d+k]-pixels[c+k]);
@@ -265,9 +266,6 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
   }return;
  }
  for(let i=d.start;i+2<end;i+=3){
-  if(d.chunkBounds&&i%chunkIndices===0&&outside(d.chunkBounds,(i/chunkIndices)*6,d.frustum)){
-   i+=chunkIndices-3;continue;
-  }
   const a=idx(i),b=idx(i+1),c=idx(i+2);
   const finish=d.finishes;
   const red=finish?finish[a]:d.color[0]*255,green=finish?finish[a+1]:d.color[1]*255,blue=finish?finish[a+2]:d.color[2]*255;
@@ -338,10 +336,27 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
    (world[a+1]+world[b+1]+world[c+1])/3,(world[a+2]+world[b+2]+world[c+2])/3,nx,ny,nz,d.openCanopy)):1;
   if(volume&&!largeFace&&d.localVisibility)d.localVisibility[i/3]=centerVisibility;
   const wet=d.blendPane,frosted=d.finish==='frosted',glazeTint=wet?Math.min(.85,d.alpha)*(frosted ? .87 : .42):0;
+  const wide=xmax-xmin>20;
+  const slopeT=-A-C,invA=1/A,invC=1/C,invT=1/slopeT;
   for(let y=ymin;y<=ymax;y++){
    let nextSample=-1,sample=1,sampleStep=0;
    const dy=y+.5-cy;let u=A*(xmin+.5-cx)+B*dy,v=C*(xmin+.5-cx)+D*dy;
-   for(let x=xmin;x<=xmax;x++,u+=A,v+=C){
+   let first=xmin,last=xmax;
+   if(wide){
+    // Intersect the scanline with the triangle's three half-planes. Round
+    // outwards, then use the original coverage test at the pixel centres.
+    const t=1-u-v;
+    let lo=0,hi=xmax-xmin;
+    if(A>0)lo=Math.max(lo,(-.00001-u)*invA);else if(A<0)hi=Math.min(hi,(-.00001-u)*invA);
+    if(C>0)lo=Math.max(lo,(-.00001-v)*invC);else if(C<0)hi=Math.min(hi,(-.00001-v)*invC);
+    if(slopeT>0)lo=Math.max(lo,(-.00001-t)*invT);else if(slopeT<0)hi=Math.min(hi,(-.00001-t)*invT);
+    const skip=Math.max(0,Math.floor(lo)-1);
+    if(skip>hi+1)continue;
+    first+=skip;last=Math.min(xmax,xmin+Math.ceil(hi)+1);
+    // Match the incremental depth and colour rounding at shared edges.
+    for(let off=0;off<skip;off++){u+=A;v+=C;}
+   }
+   for(let x=first;x<=last;x++,u+=A,v+=C){
     const t=1-u-v;if(u<-.00001||v<-.00001||t<-.00001)continue;
     const z=u*coords[a+2]+v*coords[b+2]+t*coords[c+2];const p=y*w+x;
     if(z< -1||z>1||z>=depth[p])continue;
@@ -439,6 +454,59 @@ function meshBounds(g){
  }
  return bounds;
 }
+// Project just the vertices referenced by visible primitive runs. One scratch
+// buffer serves the whole camera pass; shadow coordinates remain independent.
+let screenSpace,vertexStamp,drawStamp=0;
+function projectRun(g,m,w,h,perspective,start,end){
+ const xyz=g.xyz,index=g.index;
+ for(let j=start;j<end;j++){
+  const k=index?index[j]:j;if(vertexStamp[k]===drawStamp)continue;
+  vertexStamp[k]=drawStamp;
+  const i=3*k,x=xyz[i],y=xyz[i+1],z=xyz[i+2];
+  const cx=m[0]*x+m[4]*y+m[8]*z+m[12],cy=m[1]*x+m[5]*y+m[9]*z+m[13],cz=m[2]*x+m[6]*y+m[10]*z+m[14];
+  let cw=1;
+  if(perspective){
+   cw=m[3]*x+m[7]*y+m[11]*z+m[15];screenSpace.cameraW[k]=cw;
+   screenSpace.clip[i]=cx;screenSpace.clip[i+1]=cy;screenSpace.clip[i+2]=cz;
+  }
+  screenSpace[i]=(cx/cw*.5+.5)*w;screenSpace[i+1]=(.5-cy/cw*.5)*h;screenSpace[i+2]=cz/cw;
+ }
+}
+function prepareScreen(length,perspective){
+ if(!screenSpace||screenSpace.length<length){
+  screenSpace=new Float64Array(length);vertexStamp=new Uint32Array(length/3);
+  screenSpace.cameraDepth=new Float64Array(length/3);screenSpace.clipPositions=new Float64Array(length);
+ }
+ if(++drawStamp>0xffffffff){vertexStamp.fill(0);drawStamp=1;}
+ screenSpace.clip=perspective?screenSpace.clipPositions:null;
+ screenSpace.cameraW=perspective?screenSpace.cameraDepth:null;
+}
+function paintVisible(pass,g,d,transform,light,world){
+ const frustum=planes(transform);
+ if(outside(g.bounds,0,frustum))return;
+ const near=!!pass.near,start=d.start,end=start+d.count;
+ const uv=d.tile?g.paving.coords:d.finishTile?transformedUV(g,d):null;
+ prepareScreen(g.xyz.length,near);
+ // Keep connected line strips and non-aligned authored primitive groups intact.
+ const primitive=d.kind==='tri'?3:d.kind==='segments'?2:d.kind==='point'?1:0;
+ if(!primitive||start%primitive){
+  projectRun(g,transform,pass.w,pass.h,near,start,end);
+  paint(pass,screenSpace,g.index,d,light,world,uv);return;
+ }
+ let visibleStart=-1;
+ for(let i=start;i<end;){
+  const block=Math.floor(i/chunkIndices),next=Math.min(end,(block+1)*chunkIndices);
+  if(!outside(g.chunkBounds,6*block,frustum)){
+   if(visibleStart<0)visibleStart=i;
+   projectRun(g,transform,pass.w,pass.h,near,i,next);
+  }else if(visibleStart>=0){
+   d.start=visibleStart;d.count=i-visibleStart;paint(pass,screenSpace,g.index,d,light,world,uv);visibleStart=-1;
+  }
+  i=next;
+ }
+ if(visibleStart>=0){d.start=visibleStart;d.count=end-visibleStart;paint(pass,screenSpace,g.index,d,light,world,uv);}
+ d.start=start;d.count=end-start;
+}
 function planes(m){
  const result=[];
  for(let axis=0;axis<3;axis++)for(const sign of [-1,1]){
@@ -462,6 +530,10 @@ onmessage=({data:q})=>{
  for(const k of q.removed)geometries.delete(k);for(const g of q.fresh){
   if(g.paving)g.paving.levels=pavingMips(g.paving);
   g.chunkBounds=meshBounds(g);
+  g.bounds=[Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
+  for(let i=0;i<g.chunkBounds.length;i+=6)for(let k=0;k<3;k++){
+   g.bounds[k]=Math.min(g.bounds[k],g.chunkBounds[i+k]);g.bounds[k+3]=Math.max(g.bounds[k+3],g.chunkBounds[i+k+3]);
+  }
   geometries.set(g.id,g);
  }
  const ss=shadowSize,shadowDepth=cachedShadow;
@@ -523,8 +595,7 @@ onmessage=({data:q})=>{
  for(const {d,g,l,world} of objs){
   if(d.blendPane&&!pass.opaque)pass.opaque=pixels.slice();
   const transform=multiply(q.view,d.m);
-  if(d.kind==='tri'){d.chunkBounds=g.chunkBounds;d.frustum=planes(transform);}
-  paint(pass,project(g.xyz,transform,q.w,q.h,!!q.perspectiveNear),g.index,d,l,world,d.tile?g.paving.coords:d.finishTile?transformedUV(g,d):null);
+  paintVisible(pass,g,d,transform,l,world);
  }
  postMessage({w:q.w,h:q.h,buffer:pixels.buffer},[pixels.buffer]);
 };

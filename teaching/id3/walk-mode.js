@@ -1,5 +1,5 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
-import {WalkSurfaces} from './walk-surfaces.js?v=b466ffcb39';
+import {WalkSurfaces} from './walk-surfaces.js?v=a4845ee6de';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
 const keys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','ShiftLeft','ShiftRight','KeyF']);
@@ -25,7 +25,9 @@ export class Walker {
  stepAcross(dx,dz){
   if(!dx&&!dz)return true;
   const feet=this.feet,s=this.surface,x=feet.x+dx,z=feet.z+dz;
-  const floor=s.floorAt(x,z,-Infinity,feet.y+(this.grounded?STEP:.015));
+  const ceiling=feet.y+(this.grounded?STEP:.015);
+  let floor=this.grounded?s.floorAt(x,z,feet.y-STEP,ceiling):null;
+  if(floor===null)floor=s.floorAt(x,z,-Infinity,ceiling);
   // The large backing plane below the site is only a shadow receiver.
   if(floor===null)return false;
   this.next.set(x,feet.y,z);
@@ -70,7 +72,7 @@ export class WalkMode {
  constructor(viewer){
   this.v=viewer;this.canvas=viewer.renderer.domElement;this.area=viewer.host.parentElement;
   this.held=new Set();this.forward=new Vector3();this.ray=new Raycaster();
-  this.hud=this.area.querySelector('#walk-hud');
+  this.hud=this.area.querySelector('#walk-hud');this.hint=this.area.querySelector('#walk-door-hint');
  }
  enter(ndc,touch=false){
   const v=this.v;if(this.active||!v.project)return false;
@@ -156,8 +158,16 @@ export class WalkMode {
    let moved=false;const doorDt=time;
    // Short steps keep the body on the correct side of thin slabs and walls.
    while(time>1e-7){const dt=Math.min(time,1/60);moved=this.walker.step(dt,this.held)||moved;time-=dt;}
-   if(moved)this.pose();
-   if(this.doors.moving&&this.doors.update(doorDt,this.v.camera.position)){this.v.refreshShadow();this.updateTarget();}
+   const poseChanged=moved||this.lookPending;
+   if(poseChanged)this.syncCamera();
+   const wasMoving=this.doors.moving;
+   const doorChanged=wasMoving&&this.doors.update(doorDt,this.v.camera.position);
+   if(wasMoving&&(now>=this.nextShadow||!this.doors.moving)){
+    this.v.renderer.shadowMap.needsUpdate=true;this.nextShadow=now+90;
+   }
+   if(poseChanged||doorChanged||wasMoving){
+    this.updateTarget();this.v.movingFrame=true;this.v.drawNow(now);
+   }
    if(this.doors.moving||!this.walker.grounded||[...this.held].some(key=>!key.startsWith('Shift')))
     this.frame=requestAnimationFrame(advance);
   };
@@ -166,13 +176,16 @@ export class WalkMode {
  look(dx,dy,pointerType='mouse'){
   if(!dx&&!dy)return;
   const radiansPerPixel=pointerType==='mouse' ? .00165 : .0022;
-  this.walker.look(dx*radiansPerPixel,-dy*radiansPerPixel);this.pose();
+  this.walker.look(dx*radiansPerPixel,-dy*radiansPerPixel);this.lookPending=true;this.start();
  }
- pose(){
+ syncCamera(){
+  this.lookPending=false;
   const v=this.v,cam=v.camera;cam.position.copy(this.walker.feet).addScaledVector(UP,EYE);
   this.walker.direction(this.forward);v.controls.target.copy(cam.position).addScaledVector(this.forward,6);
-  cam.lookAt(v.controls.target);cam.updateMatrixWorld();v.movingFrame=true;v.draw();
-  this.updateTarget();
+  cam.lookAt(v.controls.target);cam.updateMatrixWorld();
+ }
+ pose(){
+  this.syncCamera();this.updateTarget();this.v.movingFrame=true;this.v.draw();
  }
  updateTarget(){
   const cam=this.v.camera;
@@ -185,13 +198,14 @@ export class WalkMode {
   if(target!==this.door){
    this.door=target;
   }
-  const hint=this.area.querySelector('#walk-door-hint');hint.hidden=!target;
+  const hint=this.hint;if(hint.hidden!==!target)hint.hidden=!target;
   if(target){const text=target.open?'F · Close door':'F · Open door';if(hint.textContent!==text)hint.textContent=text;}
  }
  useDoor(){
+  if(this.lookPending)this.pose();
   this.updateTarget();
   if(this.door&&this.doors.toggle(this.door,this.v.camera.position)!==false){
-   this.v.refreshShadow();this.updateTarget();this.start();
+   this.nextShadow=0;this.updateTarget();this.start();
   }
  }
  release(){
@@ -199,7 +213,7 @@ export class WalkMode {
  }
  exit(){
   if(!this.active)return;
-  this.active=false;this.listeners.abort();this.wasLocked=false;this.drag=null;
+  this.active=false;this.lookPending=false;this.listeners.abort();this.wasLocked=false;this.drag=null;
   if(document.pointerLockElement===this.canvas)document.exitPointerLock();
   cancelAnimationFrame(this.frame);this.frame=0;this.held.clear();
   const v=this.v,s=this.saved;this.doors.reset();this.door=null;

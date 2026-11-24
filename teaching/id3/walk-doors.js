@@ -1,7 +1,7 @@
 // A closed leaf remains the same mesh while it moves. FPS collisions and the
 // renderer therefore use the same local geometry and current world transform.
 import * as T from './lib/three.module.min.js';
-import {roomPortals} from './market-doorways.js?v=052adf7caa';
+import {roomPortals} from './market-doorways.js?v=3f16679216';
 const ORIGIN_X=-82.906, HALF_TURN=Math.PI/2, WALK_REACH=2.8;
 const interior='Interior / Partitions and doors';
 const vec=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);

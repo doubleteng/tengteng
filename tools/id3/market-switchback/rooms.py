@@ -13,6 +13,11 @@ WALL = 'Interior / Partitions and doors'
 # gallery around the glazed court. The south bay accommodates the kitchenette.
 STAFF_OUTLINE = [(48.20,2.18),(52.88,2.18),(52.88,8.38),(50.94,8.38),
                 (50.94,11.49),(49.50,11.49),(49.50,5.35),(48.20,5.35)]
+# Public washroom around the lift bypass. The fixture bank keeps its original
+# width. The lower western bay gives the accessible basin a clear approach.
+PUBLIC_WC_SOUTH=[(46.45,7.04),(51.79,7.04),(51.79,8.72),(50.82,8.72),
+                 (50.82,12.36),(47.12,12.36),(47.12,13.26),(44.60,13.26),
+                 (44.60,11.96),(45.55,11.96),(45.55,10.35),(46.45,10.35)]
 
 
 def wall(name, mat, a, b, z, top, doors=(), thick=.10):
@@ -107,18 +112,19 @@ def fitted_halls():
     alternatives=[
         seating('A · two banks of twelve',big,G,24,15,.86,.52,1.50,.90),
         seating('B · two banks of ten',big,G,20,18,.86,.53,1.50,.90),
-        seating('C · two banks of nine',big,G,18,20,.87,.53,1.65,.98,True)]
+        # The south market wall has a continuous insulated frame inside the
+        # folding stacks. Keep the full perimeter aisle beside that frame.
+        seating('C · two banks of nine',big,G,18,20,.87,.515,1.65,.98,True)]
     # Multiple sides admit the public. The south wall is pocketed back on market days.
     wall(WALL,PLASTER,(13.8,3.65),(13.8,18.32),G,L3,((5.05,6.55),(15.6,17.2)),.14)
     wall(WALL,PLASTER,(13.98,3.65),(13.98,18.32),L3,12.9,((9.35,11.0),),.14)
     wall(WALL,PLASTER,(40.0,3.65),(40.0,18.32),G,12.9,((5.0,7.4),(12.85,15.35)),.14)
     wall(WALL,PLASTER,(21.46,3.65),(40.0,3.65),G,8.4,((22.30,24.45),(36.4,38.2)))
-    for i in range(5):
-        x=14.15+i*5.08
-        # Leaves stacked at the jamb; upper fixed ribbon keeps high sidelight.
+    for x in (19.23,29.39,34.47):
+        # The browser animates these three original stacks. Their fixed
+        # sidelights and framed head follow the two openings in the shell.
         for k in range(3):
             box(WALL,GLASS,x+k*.078,18.23,G,x+k*.078+.043,18.96,G+2.58)
-        box(WALL,ZINC,x-.06,18.24,G+2.58,x+4.9,18.38,G+2.73)
     box('Interior / Demountable stages',WOOD,14.14,6.65,G,16.45,14.6,G+.33)
     for i in range(20):
         y=6.68+.45*i
@@ -227,7 +233,7 @@ def east_rooms():
     return areas
 
 
-def washroom(x,y,X,Y,z,single):
+def washroom(x,y,X,Y,z,single,basins=None):
     if single:
         box(FURN,'Chalk',x+.35,Y-.83,z,x+1.02,Y-.44,z+.51)
         box(FURN,'Chalk',X-.93,Y-1.35,z+.70,X-.31,Y-.86,z+.84)
@@ -237,9 +243,9 @@ def washroom(x,y,X,Y,z,single):
         box(FURN,'Chalk',a+.3,y+.2,z,a+.8,y+.82,z+.45)
         if n:
             box(WALL,ZINC,a,y+.06,z+.2,a+.04,y+1.60,z+1.82)
-    for n in range(3):
-        a=x+.45+n*1.02
-        box(FURN,'Chalk',a,Y-.60,z+.71,a+.71,Y-.12,z+.82)
+    if basins is None:basins=[(x+.45+n*1.02,Y) for n in range(3)]
+    for a,back in basins:
+        box(FURN,'Chalk',a,back-.60,z+.71,a+.71,back-.12,z+.82)
 
 
 def service():
@@ -248,10 +254,20 @@ def service():
     wall(WALL,PLASTER,(39.98,10.35),(46.45,10.35),G,L2-.24,((43.95,45.35),))
     for xx in [40.35,41.78]:
         box(FURN,ZINC,xx,2.45,G,xx+.56,4.5,G+1.65)
-    for y,Y in [(1.72,7.04),(7.04,12.36)]:
-        wall(WALL,PLASTER,(46.52,Y),(51.79,Y),G,L2-.24)
-        wall(WALL,PLASTER,(51.79,y),(51.79,Y),G,L2-.24,((y+1.86,y+3.1),))
-        washroom(46.52,y,51.79,Y,G,False)
+    wall(WALL,PLASTER,(46.45,7.04),(51.79,7.04),G,L2-.24)
+    wall(WALL,PLASTER,(51.79,1.72),(51.79,7.04),G,L2-.24,((3.58,4.82),))
+    washroom(46.52,1.72,51.79,7.04,G,False)
+    # The north room and hall support already provide the other three shared
+    # walls. The exposed returns meet a closed ceiling below the local cross girder.
+    top=G+2.50
+    for a,b in zip(PUBLIC_WC_SOUTH[1:10],PUBLIC_WC_SOUTH[2:11]):
+        doors=((9.63,10.89),) if a[0]==b[0]==50.82 else ()
+        wall(WALL,PLASTER,*sorted((a,b)),G,top,doors)
+    for xa,ya,xb,yb in [(46.45,7.04,51.79,8.72),(46.45,8.72,50.82,10.35),
+                         (45.55,10.35,50.82,11.96),(44.60,11.96,50.82,12.36),
+                         (44.60,12.36,47.12,13.26)]:
+        box(WALL,PLASTER,xa,ya,top,xb,yb,top+.055)
+    washroom(46.52,7.04,50.82,12.36,G,False,[(45.96,13.26),(47.79,12.36),(49.05,12.36)])
     # Service rooms flank a through-lobby from the street door to the café
     # and the hall. The old middle WC closed off the entrance from inside.
     for n,(x,X,y,door) in enumerate([(57.03,60.19,13.20,(58.27,59.48)),
@@ -272,7 +288,9 @@ def service():
     box(FURN,ZINC,65.0,2.2,G,69.31,2.92,G+.89)
     for x,y in [(57.7,3.0),(60.5,3.0),(58.5,6.75),(57.8,10.3),(61.1,10.3),(65.25,10.35)]:
         table(x,y,G,1.21,.72)
-    box(FURN,WOOD,42.00,11.65,G,42.72,15.79,G+1.00)
+    # The public foyer's long counter sits below the three new street
+    # windows, keeping the whole approach to both double doors clear.
+    box(FURN,WOOD,40.92,17.62,G,45.06,18.34,G+.89)
     # Upper hall support opens off the gallery; remaining strip works as an interval foyer.
     wall(WALL,PLASTER,(61.28,13.10),(61.28,17.50),L2,L3-.26,((14.50,15.94),))
     wall(WALL,PLASTER,(57.02,17.50),(61.28,17.50),L2,L3-.26)
@@ -325,12 +343,14 @@ def build_rooms(counts):
     counts['offices']=len(office_areas)
     counts['largeHallChairs']=trials[-1]['chairs']
     counts['smallHallChairs']=small['chairs']
-    edges=list(zip(STAFF_OUTLINE,STAFF_OUTLINE[1:]+STAFF_OUTLINE[:1]))
-    area=abs(sum(x*Y-X*y for (x,y),(X,Y) in edges))/2
-    perimeter=sum(abs(X-x)+abs(Y-y) for (x,y),(X,Y) in edges)
     # For an orthogonal polygon an inward half-wall offset subtracts
     # width × perimeter and adds four square return corners.
-    staff_net=area-.05*perimeter+4*.05**2
+    def orthogonal_room_area(boundary):
+        edges=list(zip(boundary,boundary[1:]+boundary[:1]))
+        area=abs(sum(x*Y-X*y for (x,y),(X,Y) in edges))/2
+        perimeter=sum(abs(X-x)+abs(Y-y) for (x,y),(X,Y) in edges)
+        return area-.05*perimeter+4*.05**2
+    staff_net=orthogonal_room_area(STAFF_OUTLINE)
     return dict(large_hall_trials=trials,small_hall=small,classroom_planning_area_sf=classroom_areas,
         office_planning_area_sf=office_areas,
         large_hall_after_stair_notch_sf=round((26.2*14.67-7.4*1.25)/SQUARE_FOOT),
@@ -340,11 +360,12 @@ def build_rooms(counts):
             **{k:round(w*d/SQUARE_FOOT) for k,w,d in [
             ('large assembly bounding rectangle',26.20,14.67),('small assembly',13.0,11.44),
             ('large hall support',6.47,8.63),('small hall support',4.26,4.40),
-            ('kitchen',6.37,5.85),('public restroom each',5.27,5.32),
+            ('kitchen',6.37,5.85),('north public restroom',5.27,5.32),
             ('west family restroom',3.06,4.61),('east family restroom',3.29,4.25),('janitor',3.32,4.25),('stock storage bounding rectangle',34,11.30),
             ('workshop',8.37,11.24),('electrical',54.54-48.03,7.75-1.9072),('mechanical',7.60,4.89),
             ('conference',6.13,4.555),
-            ('upper administrative WC',3.48,3.17),('education lounge',8.82,2.50),('education WC',3.84,2.47)]}})
+            ('upper administrative WC',3.48,3.17),('education lounge',8.82,2.50),('education WC',3.84,2.47)]},
+            'south public restroom':round(orthogonal_room_area(PUBLIC_WC_SOUTH)/SQUARE_FOOT)})
 
 
 if __name__ == '__main__':

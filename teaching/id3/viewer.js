@@ -3,7 +3,7 @@ import {applyProposalFinishes} from './proposal-finishes.js?v=f856cfc70e';
 import {applyProposalEnvironment,loadProposalEnvironment,proposalSkyTexture} from './proposal-environment.js?v=262656718b';
 import {applyProjectLightVolume,loadProjectLightVolume} from './project-light-volume.js?v=20cde4c284';
 import {CameraClearance} from './camera-clearance.js?v=5e0d138cc1';
-import {WalkDoors} from './walk-doors.js?v=3081c23dba';
+import {WalkDoors} from './walk-doors.js?v=d7307430af';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
@@ -17,6 +17,7 @@ const maxPerspectivePolarAngle=Math.PI-.01;
 // Street perspectives are 1.65 m above the registered Rhino street or sidewalk.
 // The target stays level with the eye. A vertical lens shift frames the roofline.
 const contextViews = {
+ 'case-plinth': {eye:[-26.106,3.47,-5.50],target:[-33.206,5.25,1.60],shift:.015,fov:68},
  'case-roof': {eye:[4.094,35,40],target:[-33.906,10.5,11],shift:0,fov:53},
  'case-promenade': {eye:[-92.906,2.08,-3.5],target:[-65.906,8.10,11.1],shift:0,fov:65},
  'case-west': {eye:[-86.40,2.12,16.44],target:[-63.0,4.05,12.95],shift:.08,fov:65},

@@ -33,7 +33,13 @@ WALLS = {
     'Enclosure / Insulated folded cassettes', 'Enclosure / Vision lights in recessed frames',
     'Enclosure / Diffuse upper lights', 'Enclosure / North facing monitor vents',
 }
-SOFFITS = {'Enclosure / Faceted western soffit', 'Enclosure / Eastern loggia soffit'}
+SERVICE_WALLS = {
+    'Enclosure / Service plinth insulated cassettes', 'Enclosure / Service plinth sealed joints',
+    'Enclosure / Service plinth concrete curb', 'Enclosure / West stair insulated end wall',
+    'Enclosure / Service plinth insulated slab edge', 'Enclosure / Service plinth pier base flashing',
+    'Enclosure / Public foyer thermally broken frames',
+}
+SOFFITS = {'Enclosure / Faceted western soffit', 'Enclosure / Service-wing plinth soffit'}
 PV = 'Blue-black photovoltaics'
 STEP_FLASHING = 'Enclosure / Folded roof step flashing'
 
@@ -85,7 +91,7 @@ def read_parts(path, all_structure, extra_layers=(), *, all_layers=False):
             material = doc['materials'][primitive['material']]['name']
             timber = any(s in material.casefold() for s in ('glulam', 'clt', 'laminated timber'))
             weather = (
-                layer in ROOFS | WALLS | SOFFITS
+                layer in ROOFS | WALLS | SERVICE_WALLS | SOFFITS
                 or layer == STEP_FLASHING
                 or material == PV
                 or (layer == 'Market / Operable northlight vents' and 'glass' in material)

@@ -79,15 +79,15 @@ def audit(model):
                 touch(p,lintel) and bearing_area(p,lintel)>.03]
     require(len(supports)==2,'Staff gallery lintel needs two 200 mm end bearings')
 
-    # The staff aisle crosses a new CLT strip above the loggia. Trace each
+    # The staff aisle crosses a new CLT strip above the lobby. Trace each
     # independent knee bracket through the actual old rim to a truss-bay girder.
-    infill = sorted(layers['Staff gallery loggia infill'],key=lambda p:p.center[1])
+    infill = sorted(layers['Staff gallery floor infill'],key=lambda p:p.center[1])
     [front] = layers['Staff gallery edge beam']
-    south_rim = max(layers['Loggia rim beams'],key=lambda p:p.center[1])
+    south_rim = max(layers['Lobby ceiling rim beams'],key=lambda p:p.center[1])
     require(len(infill)==2 and bearing_area(infill[0],front)>.65 and
-            bearing_area(infill[1],south_rim)>.50,'Loggia deck lacks front or rear support')
+            bearing_area(infill[1],south_rim)>.50,'Lobby gallery deck lacks front or rear support')
     require(any(abs(p.center[0]-49.4)<.01 and touch(p,south_rim)
-                for p in layers['Forum and court cross girders']),'Loggia rim is isolated from its timber bay')
+                for p in layers['Forum and court cross girders']),'Lobby ceiling rim is isolated from its timber bay')
     for x in (53.32,54.82,56.28):
         [flange,knee,plate] = [next(p for p in layers[name] if abs(p.center[0]-x)<.005)
                               for name in ('Staff gallery outrigger flange','Staff gallery outrigger knee',

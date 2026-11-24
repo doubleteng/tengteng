@@ -261,15 +261,24 @@ for z,layer in [(L2,'Forum and terraces'),(L3,'Studios and bridges')]:
     if z==L2:
         # Inhabited west theatre steps and the sloped east underside replace a flat tip slab.
         floor_with_voids(S+layer,CLT,(13.4,NORTH_SKIN+.085,47.96,18.48),openings,z)
-        floor_with_voids(S+layer,CLT,(47.96,NORTH_SKIN+.085,56.65,18.48),[west,east,lift,(52.96,5.80,56.65,9.0)],z)
+        holes=[west,east,lift,(52.96,5.80,56.65,9.0)]
+        # At the crossing of the folded overhang and slab underside, the
+        # interior edge follows the recessed, conditioned plinth wall.
+        fold_crossing=45.8+(L2-.24-wall_foot(45.8))*10.8/1.70
+        floor_with_voids(S+layer,CLT,(47.96,NORTH_SKIN+.085,fold_crossing,18.48),holes,z)
+        floor_with_voids(S+layer,CLT,(fold_crossing,1.57,56.65,18.36),holes,z)
         # A 770 mm infill strips the pinch out of the staff-to-lift gallery.
         # Both long edges of this separate deck have real bearing lines.
-        slab(S+'Staff gallery loggia infill',CLT,52.96,8.23,56.65,8.855,L2,.24)
+        slab(S+'Staff gallery floor infill',CLT,52.96,8.23,56.65,8.855,L2,.24)
         # Rebate the underside over the existing rim; the floor top is flush.
-        slab(S+'Staff gallery loggia infill',CLT,52.96,8.855,56.65,9.00,L2,.175)
+        slab(S+'Staff gallery floor infill',CLT,52.96,8.855,56.65,9.00,L2,.175)
     else:
         floor_with_voids(S+layer,CLT,(WEST_SKIN+.085,NORTH_SKIN+.085,56.65,SOUTH_SKIN-.085),openings,z)
-    floor_with_voids(S+layer,CLT,(56.65,1.515,69.765,17.855),openings,z)
+    if z==L2:
+        floor_with_voids(S+layer,CLT,(56.65,1.57,EAST_SKIN,17.855),openings,z)
+        floor_with_voids(S+layer,CLT,(EAST_SKIN,1.515,69.765,17.855),openings,z)
+    else:
+        floor_with_voids(S+layer,CLT,(56.65,1.515,69.765,17.855),openings,z)
 # Grade-level front of house joins the public ground walk via a shallow sloping apron.
 # A continuous level porch serves both banks of folding hall doors, returning to the gentle street walk.
 for xa,xb in [(15.0,24.2),(24.2,35.0),(35.0,45.8),(45.8,46.55)]:
@@ -403,7 +412,7 @@ for level in (L2+2.65,MAIN_GIRDER_TOP-.10):lift_ring(level)
 for xx in (52.73,53.66):
     handrail((xx,9.88),(xx,10.56),L2,L2,A+'Lift brace bay guards',ST)
 handrail((52.73,9.88),(53.66,9.88),L2,L2,A+'Lift brace bay guards',ST)
-handrail((53.00,8.27),(56.60,8.27),L2,L2,A+'Staff gallery loggia guard',ST)
+handrail((53.00,8.27),(56.60,8.27),L2,L2,A+'Staff gallery ceiling guard',ST)
 
 # Two continuous side trusses. Sloping ends lift the belly clear of the streets.
 stations=[2.6+3.6*i for i in range(16)]
@@ -572,7 +581,7 @@ for yy in (1.75,5.88,10.00,14.12,18.25):
     beam(S+'Reading tier runners',GLULAM,(8.87,yy,soffit(8.87)-.02),(13.4,yy,soffit(13.4)-.02),.19,.43)
 # Complete CLT support around the tall hall and the Level 2 court floor.
 for x in [42.2,45.8,49.4,53.0,56.6]:
-    # Lift, stair and loggia openings break up the small cross spans; edge beams frame the cuts.
+    # Lift, stair and lobby ceiling openings break up the small cross spans; edge beams frame the cuts.
     ys=sorted({1.65,18.35,*[a for h in [east,lift,(52.96,5.8,56.65,9.0)] if h[0]<x<h[2] for a in [h[1],h[3]]]})
     z=L2-.20
     for a,b in zip(ys,ys[1:]):
@@ -580,9 +589,9 @@ for x in [42.2,45.8,49.4,53.0,56.6]:
         depth=1.12 if b-a>10 else .56
         core_floor_girder('Forum and court cross girders',x,a,b,z,.36,depth)
 for yy in [5.8,9.0]:
-    beam(S+'Loggia rim beams',GLULAM,(47.90,yy,L2-.50),(56.72,yy,L2-.50),.29,.65)
-# The old south loggia rim is continuous to the x49.4 and x56.6 truss bays.
-# Three bolted brackets carry the new front edge without columns in the loggia.
+    beam(S+'Lobby ceiling rim beams',GLULAM,(47.90,yy,L2-.50),(56.72,yy,L2-.50),.29,.65)
+# The old south lobby ceiling rim is continuous to the x49.4 and x56.6 truss bays.
+# Three bolted brackets carry the new front edge without columns in the lobby.
 beam(S+'Staff gallery edge beam',GLULAM,(52.96,8.32,L2-.36),(56.65,8.32,L2-.36),.18,.24)
 for xx in (53.32,54.82,56.28):
     # Top flange under the edge beam, compression strut into a welded plate
@@ -879,17 +888,17 @@ for x,y,X,Y in shoes:
     for a,c,b,d in ((x-.027,y-.027,X+.027,y),(x-.027,Y,X+.027,Y+.027),
                     (x-.027,y,x,Y),(X,y,X+.027,Y)):
         plate(E+'Soffit movement collars',ST,rect(a,c,b,d),lambda u,v:wall_foot(u)+.012,.012)
-# The recessed loggia starts at the actual floor opening, and its cheeks
-# sit against the clear faces of the timber rim beams beside the void.
-for a,b in ((52.96,53.0),(53.0,56.6)):
-    plate(E+'Eastern loggia soffit',WD,rect(a,5.95,b,8.16),lambda x,y:wall_foot(x)+.065,.065)
+from east_soffit import build_east_soffit
+build_east_soffit()
 
 from market_roofs import build_market
 from shell_skin import build_skin
 from rooms import build_rooms
+from exterior_portals import build_exterior_portals
 build_market(counts)
 build_rooms(counts)
 build_skin(counts)
+build_exterior_portals()
 if geo.outliers:raise ValueError(('outside property',geo.outliers[:10]))
 assert counts['stalls']==120 and counts['classrooms']==4 and counts['offices']==6
 dest=Path(sys.argv[1]);dest.parent.mkdir(parents=True,exist_ok=True)

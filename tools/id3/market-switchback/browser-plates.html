@@ -26,6 +26,7 @@ const plates = [
   ['market-switchback-ramp', 'case-promenade', 'Street corner'],
   ['market-switchback-aisle', 'case-market', 'Market aisle'],
   ['market-crossing-gallery', 'case-gallery', 'Hall and teaching gallery'],
+  ['market-crossing-plinth', 'case-plinth', 'Enclosed service wing'],
   ['market-crossing-frame', 'axon', 'Timber frame'],
 ];
 
@@ -98,7 +99,7 @@ async function run() {
     link.textContent = `${label} (${Math.round(blob.size/1024)} KB)`;
     nav.append(link);
   }
-  status.textContent = `5 images ready · ${viewer.renderer.isWebGLRenderer?'WebGL':'browser rasterizer'} · ${viewer.renderer.domElement.width} × ${viewer.renderer.domElement.height}`;
+  status.textContent = `${plates.length} images ready · ${viewer.renderer.isWebGLRenderer?'WebGL':'browser rasterizer'} · ${viewer.renderer.domElement.width} × ${viewer.renderer.domElement.height}`;
 }
 run().catch(error => { status.textContent = `Capture failed · ${error.message}`; console.error(error); });
 </script>

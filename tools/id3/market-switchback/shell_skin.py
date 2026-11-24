@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from rooflight_framing import girt_end, monitor_backing, rooflight_carriers
+from plinth_enclosure import build_ground_enclosure, privacy_zones
 from apertures import Framing,clear_opening
 import geometry as g
 from gallery_cantilevers import ARMS, SIDES, NORTH_SKIN, SOUTH_SKIN, WEST_SKIN, NORTH_WALK_EDGE, NORTH_PANEL_BACK, NORTH_GLAZING
@@ -39,7 +40,7 @@ MAIN_GIRDER_TOP = 13.52
 EAST_SKIN = 57.06
 
 # At the occupied school end, the timber truss and reading-room collectors
-# sit above one continuous folded soffit. The other end has a recessed loggia.
+# sit above one continuous folded soffit. The east wing contains a raised lobby ceiling beside the staff gallery.
 def wall_foot(x):
     drop = 1.24 if x <= 13.4 else .58
     if 13.4 < x < 17.0:
@@ -139,6 +140,8 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
         direction='west' if any(abs(ax-q)<.015 for q in (WEST_SKIN,14.04,COURT[2])) else 'east'
         if (direction=='west' and nx>0) or (direction=='east' and nx<0):nx,ny=-nx,-ny
     breaks={0.,length}
+    privacy=privacy_zones(a,b)
+    for s,e,_,_ in privacy:breaks.update((s,e))
     if abs(ux)>.95:
         breaks.update((x-ax)/ux for x in (2.6,7.0,13.4,17.0,39.8,45.8,56.6) if 0<(x-ax)/ux<length)
     for s,e,_,_ in portals: breaks.update((max(0,s),min(length,e)))
@@ -171,6 +174,14 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
         regions=[[(s,u),(e,v),(e,V),(s,U)]]
         for hole in holes:
             regions=[piece for poly in regions for piece in cut_panel(poly,hole)]
+        if m in (CLEAR,CHANNEL):
+            for lo,hi,bottom,top in privacy:
+                mask=(lo,hi,bottom,top)
+                for poly in regions:
+                    patch=g.clip(g.clip(g.clip(g.clip(poly,0,lo,True),0,hi,False),1,bottom,True),1,top,False)
+                    patch=clean_panel(patch)
+                    if len(patch)>2:write_surface(patch,ZINC,'Insulated folded cassettes',.16)
+                regions=[q for poly in regions for q in cut_panel(poly,mask)]
         for poly in regions:write_surface(poly,m,tag,depth)
 
     def write_surface(poly,m,tag,depth):
@@ -290,7 +301,7 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
                 opaque_pieces=[outline]
                 for hole in exclusions:
                     opaque_pieces=[q for poly in opaque_pieces for q in cut_panel(poly,hole)]
-                masks=profiles+[[ (l,z),(r,z),(r,h),(l,h)] for l,r,z,h in exclusions]
+                masks=profiles+[[ (l,z),(r,z),(r,h),(l,h)] for l,r,z,h in exclusions+privacy]
                 sill=max(lo0,lo1)+.14; head=min(hi0,hi1)-.12
                 split=min(head,max(sill+.55,(t0+t1)/2-.23))
                 openings=[]
@@ -351,8 +362,9 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
                     clear=max(0.,(e-s)*(min((hi0+hi1)/2,portal[1])-max((lo0+lo1)/2,portal[0])))
                     if external:stats['portal_clear_m2']+=clear;stats[direction+'_gross_m2']+=clear
                     if draw:
-                        for q in ((s,) if abs(s-start)<1e-8 else ()) + ((e,) if abs(e-end)<1e-8 else ()):
-                            trim_line('Portal reveals',ZINC,q,portal[0]+.06,q,portal[1]-.06,-.035,.12,.19)
+                        for q in ((s,) if any(abs(s-l)<1e-8 for l,_,_,_ in portals) else ()) + ((e,) if any(abs(e-r)<1e-8 for _,r,_,_ in portals) else ()):
+                            trim_line('Portal reveals',ZINC,q,max(portal[0],val(low,q))+.06,
+                                      q,min(portal[1],val(high,q))-.06,-.035,.12,.19)
                 continue
             if treatment=='school' and not portal and max(u0,u1)<L3+1.15<min(v0,v1):
                 stats['classroom_eye_level_window_line_m']+=e-s
@@ -395,7 +407,8 @@ def wall(study, stats, draw, label, a, b, low, high, treatment, portals=(), max_
                 if draw:
                     for q in ((s,) if any(abs(s-p[0])<1e-8 for p in portals) else ()) + ((e,) if any(abs(e-p[1])<1e-8 for p in portals) else ()):
                         jamb_d=-.035 if abs(ay-NORTH_SKIN)<.001 and abs(ux)>.95 else .01
-                        g.beam(flange_layer('Portal reveals'),ZINC,xyz(q,jamb_d,portal[0]+.06),xyz(q,jamb_d,portal[1]-.06),.12,.19)
+                        g.beam(flange_layer('Portal reveals'),ZINC,xyz(q,jamb_d,max(portal[0],val(low,q))+.06),
+                               xyz(q,jamb_d,min(portal[1],val(high,q))-.06),.12,.19)
                 if external:
                     clear=max(0,(e-s)*(min((hi0+hi1)/2,portal[1])-max((lo0+lo1)/2,portal[0])))
                     stats['portal_clear_m2']+=clear;stats[direction+'_gross_m2']+=clear
@@ -631,6 +644,7 @@ def build(study,draw=False,frame_model=None):
                       ((14.04,18.32),(40.00,18.32),[(1.91,8.11,G,5.67),(15.26,21.46,G,5.67)]),
                       ((14.04,4.90),(14.04,18.32),[(.15,1.65,G,5.59),(10.70,12.30,G,5.59)])]:
         W('Retractable hall wall',a,b,G,lambda x,y:wall_foot(x),'plinth',doors)
+    build_ground_enclosure(stats,draw,wall_foot)
     for a,b,doors in [((EAST_SKIN,1.43),(69.85,1.43),()),
                       ((EAST_SKIN,17.94),(69.85,17.94),[(60.08-EAST_SKIN,62.48-EAST_SKIN,G,G+2.5)]),
                       ((69.85,1.43),(69.85,17.94),[(9.18-1.43,11.15-1.43,G,G+2.65)])]:

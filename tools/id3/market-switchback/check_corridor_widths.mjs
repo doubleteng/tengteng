@@ -32,6 +32,8 @@ const routes=[
  ['Small hall support gallery',L2,[61.30,13.11,69.75,17.88],[65,16.95],[62.15,15.23]],
  ['Street lobby to café entrance',G,[56.99,8.90,69.9,17.91],[61.28,16.80],[68.80,10.30]],
  ['Street lobby to main foyer',G,[39.95,1.75,69.76,18.35],[61.28,16.80],[47.55,12.93]],
+ ['Street lobby to hall doorway',G,[39.95,1.75,69.76,18.35],[61.28,16.80],[40.70,14.10]],
+ ['Hall doorway to street lobby',G,[39.95,1.75,69.76,18.35],[40.70,14.10],[61.28,16.80]],
  ['Lower-ground lift to receiving door',B,[48.05,7.70,57.15,13.80],[55.96,12.10],[48.85,9.51]],
  ['Lower-ground lift to workshop door',B,[54.07,7.42,56.63,13.81],[55.96,12.10],[55.90,9.10]],
  ['Ground lift to street lobby',G,[54.70,8.90,64.40,17.91],[55.96,12.10],[61.28,16.80]],
@@ -43,19 +45,19 @@ const routes=[
 ];
 const compass=Array.from({length:8},(_,i)=>[Math.cos(i*Math.PI/4),Math.sin(i*Math.PI/4)]);
 const headings=[[0,1],[0,-1],[1,0],[-1,0]];
-function supported(p){
- if(!surfaces.canStand(p,radius))return false;
+function supported(p,bodyRadius=radius){
+ if(!surfaces.canStand(p,bodyRadius))return false;
  if(surfaces.floorAt(p.x,p.z,p.y-.10,p.y+.10)===null)return false;
- return compass.every(([x,z])=>surfaces.floorAt(p.x+x*radius,p.z+z*radius,p.y-.10,p.y+.10)!==null);
+ return compass.every(([x,z])=>surfaces.floorAt(p.x+x*bodyRadius,p.z+z*bodyRadius,p.y-.10,p.y+.10)!==null);
 }
-function pathExists(h,box,start,end,pitch=.08){
+function pathExists(h,box,start,end,pitch=.08,bodyRadius=radius){
  const [x,z,X,Z]=box,cols=1+Math.floor((X-x)/pitch),rows=1+Math.floor((Z-z)/pitch);
  const visited=new Int8Array(cols*rows),queue=[];
  const position=i=>new Vector3(originX+x+(i%cols)*pitch,h,z+Math.floor(i/cols)*pitch);
  const near=(point,p)=>Math.hypot(point.x-originX-p[0],point.z-p[1])<=.30;
  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
   const index=j*cols+i,p=position(index);
-  if(near(p,start)&&supported(p)){visited[index]=1;queue.push(index);}
+  if(near(p,start)&&supported(p,bodyRadius)){visited[index]=1;queue.push(index);}
  }
  for(let k=0;k<queue.length;k++){
   const index=queue[k],p=position(index),i=index%cols,j=Math.floor(index/cols);
@@ -66,8 +68,8 @@ function pathExists(h,box,start,end,pitch=.08){
    const next=zz*cols+xx;
    if(visited[next])continue;
    const q=position(next);
-   if(!supported(q)){visited[next]=-1;continue;}
-   if(surfaces.canMove(p,q,radius)){visited[next]=1;queue.push(next);}
+   if(!supported(q,bodyRadius)){visited[next]=-1;continue;}
+   if(surfaces.canMove(p,q,bodyRadius)){visited[next]=1;queue.push(next);}
   }
  }
  return false;
@@ -80,6 +82,17 @@ for(const open of [false,true]){
   // between the coarse sample axes without having been blocked by geometry.
   if(!pathExists(y,bounds,a,b)&&!pathExists(y,bounds,a,b,.04))failed.push(name+' / '+(open?'open':'closed'));
  }
+ if(open){
+  const outside=new Vector3(originX+40.70,G,14.10),inside=new Vector3(originX+39.30,G,14.10);
+  if(!supported(outside)||!supported(inside)||
+     !surfaces.canMove(outside,inside,radius)||!surfaces.canMove(inside,outside,radius))
+   failed.push('Open hall threshold cannot be crossed continuously in both directions.');
+  const fixtures=[[46.32,12.18],[48.15,11.37],[49.40,11.37],[47.25,8.39],[48.50,8.39],[49.75,8.39]];
+  for(const target of fixtures){
+   if(!pathExists(G,[44.65,7.05,52.00,13.26],[51.50,10.26],target,.08,.33))
+    failed.push('Cannot reach southern washroom fixture at '+target.join(', '));
+  }
+ }
 }
 assert.deepEqual(failed,[],'Corridors below 1.2192 m or disconnected');
-console.log(routes.length+' mapped interior corridor routes support 1.2192 m with doors shut and fully open.');
+console.log(routes.length+' mapped interior corridor routes support 1.2192 m with doors shut and fully open. The open hall threshold and six washroom fixture approaches are clear.');

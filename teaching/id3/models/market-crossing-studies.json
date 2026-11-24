@@ -2736,28 +2736,28 @@
       "opaque_roof_plan_m2": 1038.693,
       "modules": 379,
       "classroom_eye_level_window_line_m": 22.5,
-      "gross_wall_m2": 1907.394,
-      "north_gross_m2": 808.965,
-      "north_glass_m2": 617.763,
-      "vision_m2": 1416.941,
-      "diffuse_m2": 97.37,
+      "gross_wall_m2": 2047.3,
+      "north_gross_m2": 869.084,
+      "north_glass_m2": 588.119,
+      "vision_m2": 1344.03,
+      "diffuse_m2": 98.576,
       "portal_clear_m2": 81.778,
-      "south_sample_vision_m2": 446.832,
+      "south_sample_vision_m2": 450.267,
       "june_noon_shade_m2": 0.0,
       "december_noon_shade_m2": 0.0,
-      "south_gross_m2": 665.975,
-      "south_glass_m2": 502.817,
-      "west_gross_m2": 224.572,
+      "south_gross_m2": 725.513,
+      "south_glass_m2": 473.256,
+      "west_gross_m2": 240.215,
       "west_glass_m2": 150.039,
-      "east_gross_m2": 289.66,
-      "east_glass_m2": 243.69,
-      "north_wwr_pct": 76.365,
-      "east_wwr_pct": 84.13,
-      "south_wwr_pct": 75.501,
-      "west_wwr_pct": 66.811,
+      "east_gross_m2": 294.266,
+      "east_glass_m2": 231.191,
+      "north_wwr_pct": 67.671,
+      "east_wwr_pct": 78.565,
+      "south_wwr_pct": 65.231,
+      "west_wwr_pct": 62.461,
       "june_south_noon_hood_shade_pct": 0.0,
       "december_south_noon_hood_shade_pct": 0.0,
-      "wwr_pct": 76.128,
+      "wwr_pct": 67.757,
       "skylight_plan_pct": 7.477
     },
     {
@@ -2767,28 +2767,28 @@
       "modules": 342,
       "north_monitor_m2": 30.118,
       "classroom_eye_level_window_line_m": 11.25,
-      "gross_wall_m2": 1965.519,
-      "north_gross_m2": 814.149,
-      "north_glass_m2": 248.838,
-      "vision_m2": 474.237,
-      "diffuse_m2": 147.666,
+      "gross_wall_m2": 2105.425,
+      "north_gross_m2": 874.268,
+      "north_glass_m2": 236.512,
+      "vision_m2": 457.732,
+      "diffuse_m2": 141.144,
       "portal_clear_m2": 81.778,
-      "south_sample_vision_m2": 144.409,
+      "south_sample_vision_m2": 147.844,
       "june_noon_shade_m2": 144.409,
       "december_noon_shade_m2": 56.623,
-      "south_gross_m2": 701.118,
-      "south_glass_m2": 199.215,
-      "west_gross_m2": 236.46,
+      "south_gross_m2": 760.656,
+      "south_glass_m2": 191.719,
+      "west_gross_m2": 252.103,
       "west_glass_m2": 76.155,
-      "east_gross_m2": 295.57,
-      "east_glass_m2": 97.696,
-      "north_wwr_pct": 30.564,
-      "east_wwr_pct": 33.053,
-      "south_wwr_pct": 28.414,
-      "west_wwr_pct": 32.206,
-      "june_south_noon_hood_shade_pct": 100.0,
-      "december_south_noon_hood_shade_pct": 39.21,
-      "wwr_pct": 30.377,
+      "east_gross_m2": 300.177,
+      "east_glass_m2": 94.49,
+      "north_wwr_pct": 27.053,
+      "east_wwr_pct": 31.478,
+      "south_wwr_pct": 25.204,
+      "west_wwr_pct": 30.208,
+      "june_south_noon_hood_shade_pct": 97.677,
+      "december_south_noon_hood_shade_pct": 38.299,
+      "wwr_pct": 27.381,
       "skylight_plan_pct": 18.743
     },
     {
@@ -2797,29 +2797,29 @@
       "skylight_plan_m2": 118.032,
       "modules": 348,
       "north_monitor_m2": 28.562,
-      "gross_wall_m2": 2023.644,
-      "north_gross_m2": 819.333,
-      "north_glass_m2": 226.195,
-      "vision_m2": 443.412,
+      "gross_wall_m2": 2163.55,
+      "north_gross_m2": 879.452,
+      "north_glass_m2": 216.636,
+      "vision_m2": 430.904,
       "classroom_eye_level_window_line_m": 6.831,
-      "diffuse_m2": 112.387,
+      "diffuse_m2": 108.15,
       "portal_clear_m2": 81.778,
-      "south_gross_m2": 736.26,
-      "south_glass_m2": 141.225,
-      "south_sample_vision_m2": 125.895,
-      "june_noon_shade_m2": 85.366,
-      "december_noon_shade_m2": 20.686,
-      "west_gross_m2": 248.348,
+      "south_gross_m2": 795.798,
+      "south_glass_m2": 137.297,
+      "south_sample_vision_m2": 123.986,
+      "june_noon_shade_m2": 81.722,
+      "december_noon_shade_m2": 20.239,
+      "west_gross_m2": 263.991,
       "west_glass_m2": 88.774,
-      "east_gross_m2": 301.481,
-      "east_glass_m2": 99.604,
-      "north_wwr_pct": 27.607,
-      "east_wwr_pct": 33.038,
-      "south_wwr_pct": 19.181,
-      "west_wwr_pct": 35.746,
-      "june_south_noon_hood_shade_pct": 67.807,
-      "december_south_noon_hood_shade_pct": 16.431,
-      "wwr_pct": 26.398,
+      "east_gross_m2": 306.087,
+      "east_glass_m2": 96.347,
+      "north_wwr_pct": 24.633,
+      "east_wwr_pct": 31.477,
+      "south_wwr_pct": 17.253,
+      "west_wwr_pct": 33.628,
+      "june_south_noon_hood_shade_pct": 65.912,
+      "december_south_noon_hood_shade_pct": 16.323,
+      "wwr_pct": 24.008,
       "skylight_plan_pct": 10.514
     }
   ],
@@ -2850,12 +2850,12 @@
       {
         "study": "C · two banks of nine",
         "chairs": 360,
-        "side_aisle_m": 1.74,
+        "side_aisle_m": 1.875,
         "central_aisle_m": 1.65,
         "cross_aisle_m": 1.45,
         "front_clear_m": 2.645,
         "row_pitch_m": 0.87,
-        "side_aisle_at_stair_notch_m": 1.263,
+        "side_aisle_at_stair_notch_m": 1.391,
         "central_aisle_at_stair_notch_m": 1.34
       }
     ],
@@ -2892,7 +2892,7 @@
       "large hall support": 601,
       "small hall support": 202,
       "kitchen": 401,
-      "public restroom each": 302,
+      "north public restroom": 302,
       "west family restroom": 152,
       "east family restroom": 151,
       "janitor": 152,
@@ -2903,7 +2903,8 @@
       "conference": 301,
       "upper administrative WC": 119,
       "education lounge": 237,
-      "education WC": 102
+      "education WC": 102,
+      "south public restroom": 301
     }
   },
   "annual_energy": {
@@ -2916,7 +2917,7 @@
     "max_days_per_time_bin": 10,
     "sky_directions": 128,
     "triangles": {
-      "final.glb": 190568,
+      "final.glb": 197604,
       "urban-core-materials.glb": 98306,
       "urban-near.glb": 19628,
       "urban-outer.glb": 54721
@@ -2959,9 +2960,9 @@
           {
             "month": 4,
             "open_kwh": 27676.79,
-            "beam_loss_kwh": 24.23,
+            "beam_loss_kwh": 24.21,
             "diffuse_loss_kwh": 452.68,
-            "shaded_kwh": 27199.88
+            "shaded_kwh": 27199.89
           },
           {
             "month": 5,
@@ -2980,16 +2981,16 @@
           {
             "month": 7,
             "open_kwh": 34402.64,
-            "beam_loss_kwh": 82.13,
+            "beam_loss_kwh": 82.08,
             "diffuse_loss_kwh": 536.32,
-            "shaded_kwh": 33784.19
+            "shaded_kwh": 33784.24
           },
           {
             "month": 8,
             "open_kwh": 29618.81,
-            "beam_loss_kwh": 39.54,
+            "beam_loss_kwh": 39.53,
             "diffuse_loss_kwh": 448.3,
-            "shaded_kwh": 29130.97
+            "shaded_kwh": 29130.98
           },
           {
             "month": 9,
@@ -3340,9 +3341,9 @@
       },
       {
         "open_kwh": 60863.31,
-        "beam_loss_kwh": 808.22,
+        "beam_loss_kwh": 808.2,
         "diffuse_loss_kwh": 2198.47,
-        "shaded_kwh": 57856.62,
+        "shaded_kwh": 57856.63,
         "month": 4
       },
       {
@@ -3361,16 +3362,16 @@
       },
       {
         "open_kwh": 75653.96,
-        "beam_loss_kwh": 177.81,
+        "beam_loss_kwh": 177.76,
         "diffuse_loss_kwh": 2604.64,
-        "shaded_kwh": 72871.49,
+        "shaded_kwh": 72871.54,
         "month": 7
       },
       {
         "open_kwh": 65133.97,
-        "beam_loss_kwh": 394.17,
+        "beam_loss_kwh": 394.16,
         "diffuse_loss_kwh": 2177.19,
-        "shaded_kwh": 62562.59,
+        "shaded_kwh": 62562.6,
         "month": 8
       },
       {
@@ -3404,9 +3405,9 @@
     ],
     "annual": {
       "open_kwh": 596068.7,
-      "beam_loss_kwh": 25666.6,
+      "beam_loss_kwh": 25666.5,
       "diffuse_loss_kwh": 20249.6,
-      "shaded_kwh": 550152.5,
+      "shaded_kwh": 550152.6,
       "local_loss_pct": 7.7
     }
   },
@@ -3418,10 +3419,10 @@
     "local_loss_pct": 8.95
   },
   "geometry": {
-    "glbBytes": 2834176,
-    "parts": 16226,
-    "triangles": 190568,
-    "batches": 257,
+    "glbBytes": 2947452,
+    "parts": 16814,
+    "triangles": 197604,
+    "batches": 281,
     "stalls": 120,
     "pv": 950,
     "courtM2": 81.0,
@@ -3434,12 +3435,12 @@
     "walks": {
       "stairs": "Passed 12 floor-to-floor routes in the two stair cores, ascending and descending.",
       "street": "11 bidirectional street routes passed across 11026 grade and clearance samples.",
-      "interior": "21 mapped interior corridor routes support 1.2192 m with doors shut and fully open.",
+      "interior": "23 mapped interior corridor routes support 1.2192 m with doors shut and fully open. The open hall threshold and six washroom fixture approaches are clear.",
       "doors_and_worktables": "52/52 portals connect to the street; 32 worktables and four freight landings checked; 0 clearance or route issues."
     },
     "envelope": {
-      "tested_members": 3632,
-      "tested_weather_panels": 2874,
+      "tested_members": 3735,
+      "tested_weather_panels": 3130,
       "tolerance_m": 0.002,
       "pair_count": 0
     },
@@ -3454,13 +3455,13 @@
         "West portal fascia": 6,
         "Vendor photovoltaics": 518
       },
-      "members": 1529,
+      "members": 1588,
       "pair_count": 0
     },
     "solids": {
-      "parts": 16226,
-      "triangles": 190568,
-      "vertices": 127736,
+      "parts": 16814,
+      "triangles": 197604,
+      "vertices": 132430,
       "boundary_edges": 0,
       "nonmanifold_edges": 0,
       "inconsistent_edge_winding": 0,
@@ -3469,9 +3470,9 @@
       "degenerate_or_nonfinite_triangles": 0,
       "nonpositive_or_nonfinite_volume_parts": 0,
       "parcel_outlier_vertices": 0,
-      "batches": 257,
+      "batches": 281,
       "smallest_triangle_area_m2": 1.5120564415423735e-05,
-      "smallest_signed_volume_m3": 1.9293431079321632e-06,
+      "smallest_signed_volume_m3": 1.0801113524121914e-06,
       "failed_parts": 0,
       "problems": []
     },
@@ -3977,17 +3978,18 @@
       "failures": []
     },
     "doors_and_windows": {
-      "model_sha256": "459fa89211a4e9528efda8a757dfb173dab5efbe5df79ed8492b91917b7d3519",
-      "parts_tested": 4809,
-      "panes_tested": 578,
+      "model_sha256": "ea9175eef0180ee9f55f96e041fa0834c59fb9b530bd77de868d4500b6dfa568",
+      "parts_tested": 4912,
+      "panes_tested": 568,
       "panes_by_layer": {
         "Enclosure / Promenade vestibule": 1,
         "Market / Operable northlight vents": 128,
-        "Interior / Partitions and doors": 39,
+        "Interior / Partitions and doors": 33,
         "Energy / Roof daylight apertures": 45,
         "Enclosure / North facing monitor vents": 28,
-        "Enclosure / Vision lights in recessed frames": 224,
-        "Enclosure / Diffuse upper lights": 113
+        "Enclosure / Vision lights in recessed frames": 219,
+        "Enclosure / Diffuse upper lights": 109,
+        "Enclosure / Market hall fixed sidelights": 5
       },
       "tolerance_m": 0.002,
       "vertical_clearance_m": 0.6,
@@ -4157,7 +4159,460 @@
       "staff_infill_m2": 15.872,
       "staff_infill_rim_beams": 2
     },
-    "arcade_bearings": "9 continuous cantilever crossheads, 18 canopy posts to spread footings, 17 ramp bents and two west entrance landings have bearing contact."
+    "arcade_bearings": "9 continuous cantilever crossheads, 18 canopy posts to spread footings, 17 ramp bents and two west entrance landings have bearing contact.",
+    "weather_boundary": {
+      "model_sha256": "ea9175eef0180ee9f55f96e041fa0834c59fb9b530bd77de868d4500b6dfa568",
+      "joint_diameter_m": 0.04,
+      "elevations": {
+        "west hall": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 31.456,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "west stair end": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 7.536,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "west stair north": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 20.672,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "west stair east return": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 5.665,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north recessed hall": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 53.452,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south folding hall": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 74.611,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north hall-to-service return": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 6.391,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south hall-to-service return": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 0.465,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north main-to-annex return": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 0.094,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south main-to-annex return": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 2.526,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north annex": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 50.029,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south annex": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 50.029,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "east annex": {
+          "probe_diameter_mm": 40.0,
+          "area_m2": 64.581,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north service west": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 15.397,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north pier face": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 4.106,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north pier west cheek": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 0.901,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north pier east cheek": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 0.935,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north service east": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 40.617,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south service west": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 14.815,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south pier face": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 4.106,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south pier west cheek": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 1.104,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south pier east cheek": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 1.146,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south service east": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 40.617,
+          "missing_m2": 0,
+          "gaps": []
+        }
+      },
+      "tapered_spandrels": {
+        "north tapered service spandrel": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 1.863,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south tapered service spandrel": {
+          "probe_diameter_mm": 2.0,
+          "area_m2": 1.863,
+          "missing_m2": 0,
+          "gaps": []
+        }
+      },
+      "soffit_folds": {
+        "north 39.80–40.00": {
+          "area_m2": 0.0312,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south 39.80–40.00": {
+          "area_m2": 0.111,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north 40.00–45.10": {
+          "area_m2": 0.7956,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south 40.00–45.10": {
+          "area_m2": 2.0145,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north 45.10–45.80": {
+          "area_m2": 0.1078,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south 45.10–45.80": {
+          "area_m2": 0.0105,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north 45.80–46.50": {
+          "area_m2": 0.1078,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south 45.80–46.50": {
+          "area_m2": 0.0105,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "north 46.50–57.06": {
+          "area_m2": 1.6474,
+          "missing_m2": 0,
+          "gaps": []
+        },
+        "south 46.50–57.06": {
+          "area_m2": 4.1712,
+          "missing_m2": 0,
+          "gaps": []
+        }
+      },
+      "plan_continuity": [
+        {
+          "z": 2.69,
+          "probes": 519,
+          "outdoor_connected": 0,
+          "examples": []
+        },
+        {
+          "z": 3.37,
+          "probes": 519,
+          "outdoor_connected": 0,
+          "examples": []
+        },
+        {
+          "z": 4.08,
+          "probes": 519,
+          "outdoor_connected": 0,
+          "examples": []
+        },
+        {
+          "z": 4.68,
+          "probes": 519,
+          "outdoor_connected": 0,
+          "examples": []
+        }
+      ],
+      "local_corners": {
+        "radius_m": 0.32,
+        "probe_diameter_mm": 2,
+        "sections": 126,
+        "unsealed": []
+      },
+      "open_entrances": {
+        "west hall north": {
+          "clear_width_m": 1.31,
+          "opening_width_m": 1.5
+        },
+        "west hall south": {
+          "clear_width_m": 1.41,
+          "opening_width_m": 1.6
+        },
+        "north hall west": {
+          "clear_width_m": 1.784,
+          "opening_width_m": 2.15
+        },
+        "north hall east": {
+          "clear_width_m": 1.434,
+          "opening_width_m": 1.8
+        },
+        "south hall west": {
+          "clear_width_m": 2.156,
+          "opening_width_m": 6.2
+        },
+        "south hall east": {
+          "clear_width_m": 2.156,
+          "opening_width_m": 6.2
+        },
+        "south annex": {
+          "clear_width_m": 2.034,
+          "opening_width_m": 2.4
+        },
+        "east café": {
+          "clear_width_m": 1.604,
+          "opening_width_m": 1.97
+        },
+        "upper gallery": {
+          "clear_width_m": 1.434,
+          "opening_width_m": 1.8
+        },
+        "upper promenade": {
+          "clear_width_m": 0.845,
+          "opening_width_m": 1.2
+        },
+        "north courtyard": {
+          "clear_width_m": 1.124,
+          "opening_width_m": 1.49
+        },
+        "east courtyard": {
+          "clear_width_m": 1.534,
+          "opening_width_m": 1.9
+        }
+      },
+      "privacy": {
+        "fixtures": 10,
+        "exterior_observers": 4102,
+        "rays": 328160,
+        "exposed_fixtures": 0,
+        "results": [
+          {
+            "fixture": [
+              47.25,
+              2.23,
+              2.725
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              48.5,
+              2.23,
+              2.725
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              49.75,
+              2.23,
+              2.725
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              47.25,
+              7.55,
+              2.725
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              48.5,
+              7.55,
+              2.725
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              49.75,
+              7.55,
+              2.725
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              57.715,
+              17.275,
+              2.755
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              63.685,
+              17.275,
+              2.755
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              66.925,
+              17.065,
+              10.934
+            ],
+            "sightlines": 0,
+            "example": null
+          },
+          {
+            "fixture": [
+              32.605,
+              5.615,
+              10.934
+            ],
+            "sightlines": 0,
+            "example": null
+          }
+        ]
+      }
+    },
+    "service_wing_soffits": {
+      "street_reveal_samples": 3360,
+      "lobby_ceiling_surface_probes": 80,
+      "boxed_ceiling_edges": 4,
+      "steel_shelf_through_bolts": 12,
+      "new_floor_returns": 3,
+      "connected_floor_return_outriggers": 6
+    },
+    "operable_exterior_entries": {
+      "doors_swept": 52,
+      "moving_leaves": 78,
+      "sweep_increment_deg": 2.25,
+      "exterior_sections": {
+        "west hall north": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 1.34
+        },
+        "west hall south": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 1.44
+        },
+        "north hall west": {
+          "largest_closed_joint_m": 0.01,
+          "largest_open_interval_m": 1.79
+        },
+        "north hall east": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 1.44
+        },
+        "south hall west": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 2.16
+        },
+        "south hall east": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 2.16
+        },
+        "south entrance": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 2.04
+        },
+        "east café": {
+          "largest_closed_joint_m": 0.01,
+          "largest_open_interval_m": 1.61
+        },
+        "upper gallery": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 1.44
+        },
+        "upper promenade": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 0.85
+        },
+        "north court": {
+          "largest_closed_joint_m": 0.01,
+          "largest_open_interval_m": 1.13
+        },
+        "east court": {
+          "largest_closed_joint_m": 0.0,
+          "largest_open_interval_m": 1.54
+        }
+      }
+    }
   },
   "upper_promenade_gravity": {
     "model_basis": "Horizontal projected area of the three upper flights, both corner landings and upper studio threshold/link, measured from the loaded GLB.",
@@ -4201,5 +4656,10 @@
         "east": 4509.62
       }
     }
+  },
+  "enclosure_revision": {
+    "previous_model_sha256": "459fa89211a4e9528efda8a757dfb173dab5efbe5df79ed8492b91917b7d3519",
+    "previous_exposed_fixtures": 10,
+    "current_exposed_fixtures": 0
   }
 }

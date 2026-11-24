@@ -96,16 +96,16 @@ def audit(glb):
         require(any(touch(s,arm) for s in shoes) and any(touch(s,rim) for s in shoes)
                 and len(shoes)==2 and touch(*shoes),f'x={x}: office rim seat missing')
 
-    # Follow each patch of the former loggia opening individually. Both steel
+    # Follow each patch of the lobby ceiling opening individually. Both steel
     # hanger and cross-girder are required; CLT alone cannot link to a truss.
     patch = [p for p in layers['Forum and terraces'] if p.lo[0]<52.90 and p.hi[0]>48.01 and
              p.lo[1]<8.99 and p.hi[1]>5.81]
     total_area = sum(max(0,min(p.hi[0],52.96)-max(p.lo[0],48.0))*
                      max(0,min(p.hi[1],9.0)-max(p.lo[1],5.8)) for p in patch)
     require(abs(total_area-4.96*3.2)<.002,'Unfilled area in staff lounge deck')
-    rims = layers['Loggia rim beams']
+    rims = layers['Lobby ceiling rim beams']
     require(len(rims)==2 and all(all(touch(p,r) for r in rims) for p in patch),
-            'Infill CLT lacks one of its two long-edge loggia beams')
+            'Infill CLT lacks one of its two long-edge rim beams')
     girder = one((p for p in at('Forum and court cross girders',49.4) if all(touch(p,r) for r in rims)),
                  'infill cross-girder')
     hanger = one((p for p in at('Deck hanger plates',49.4) if p.center[1]<3 and touch(p,girder)),

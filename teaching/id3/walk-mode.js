@@ -117,7 +117,7 @@ export class WalkMode {
   });
   on(this.canvas,'pointermove',e=>{
    if(!this.drag||e.pointerId!==this.drag.id||document.pointerLockElement===this.canvas)return;
-   this.look(e.clientX-this.drag.x,e.clientY-this.drag.y);this.drag.x=e.clientX;this.drag.y=e.clientY;
+   this.look(e.clientX-this.drag.x,e.clientY-this.drag.y,e.pointerType);this.drag.x=e.clientX;this.drag.y=e.clientY;
   });
   on(this.canvas,'pointerup',()=>{this.drag=null;});
   on(this.canvas,'pointercancel',()=>{this.drag=null;});
@@ -163,7 +163,11 @@ export class WalkMode {
   };
   this.frame=requestAnimationFrame(advance);
  }
- look(dx,dy){if(!dx&&!dy)return;this.walker.look(dx*.0022,-dy*.0022);this.pose();}
+ look(dx,dy,pointerType='mouse'){
+  if(!dx&&!dy)return;
+  const radiansPerPixel=pointerType==='mouse' ? .00165 : .0022;
+  this.walker.look(dx*radiansPerPixel,-dy*radiansPerPixel);this.pose();
+ }
  pose(){
   const v=this.v,cam=v.camera;cam.position.copy(this.walker.feet).addScaledVector(UP,EYE);
   this.walker.direction(this.forward);v.controls.target.copy(cam.position).addScaledVector(this.forward,6);

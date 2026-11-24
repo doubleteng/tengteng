@@ -265,7 +265,7 @@ export class AtlasViewer{
    this.controls.target.fromArray(this.contextView.target);
    this.finishView();return;
   }
-  const dirs={perspective:this.overview?v(1.0,.68,1.66):this.caseStudy?v(-.80,.66,-1.08):v(1.05,.49,1.7),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
+  const dirs={perspective:this.overview?v(1.0,.68,1.66):this.caseStudy?v(-.80,.66,-1.08):v(1.30,.50,-.83),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
   const aspect=this.host.clientWidth/Math.max(this.host.clientHeight,1)||1;
   this.perspectiveCamera.aspect=aspect;
   const height=Math.max(this.height,this.width/aspect);

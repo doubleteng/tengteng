@@ -1,4 +1,4 @@
-import {AtlasViewer} from './viewer.js?v=8b42cc34ee';
+import {AtlasViewer} from './viewer.js?v=450891e9d1';
 import {SiteAnnotations} from './annotations.js';
 import {bindSunlight} from './sun-controls.js?v=cf14de4ba5';
 const originalCity='./models/ann-arbor.glb';

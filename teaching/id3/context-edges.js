@@ -47,13 +47,14 @@ export function contextEdges(geometry) {
 }
 
 export function createInkMaterial(viewHeight) {
- const material = new T.LineBasicMaterial({color:0x58554f,transparent:true,opacity:.48,depthWrite:false});
+ const material = new T.LineBasicMaterial({color:0x5c5b54,transparent:true,opacity:.37,depthWrite:false});
  material.onBeforeCompile = shader => {
   shader.uniforms.inkViewHeight = viewHeight;
   shader.vertexShader = 'attribute float inkWidth; uniform float inkViewHeight; varying float inkCoverage;\n'+shader.vertexShader;
   shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>', `#include <project_vertex>
-   float pixelWidth = inkWidth * length(modelMatrix[0].xyz) * inkViewHeight * .5 * projectionMatrix[1][1] / max(gl_Position.w, .0001);
-   inkCoverage = smoothstep(.85, 3.6, pixelWidth);`);
+   float pixelsPerMeter = inkViewHeight * .5 * projectionMatrix[1][1] / max(gl_Position.w, .0001);
+   float pixelWidth = inkWidth * length(modelMatrix[0].xyz) * pixelsPerMeter;
+   inkCoverage = smoothstep(1., 4., pixelWidth) * mix(.42, 1., smoothstep(.7, 5., pixelsPerMeter));`);
   shader.fragmentShader='varying float inkCoverage;\n'+shader.fragmentShader;
   shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>', `#include <color_fragment>
    diffuseColor.a *= inkCoverage;

@@ -53,14 +53,17 @@ export class SoftwareRenderer {
      }
      transfer.push(finishes.buffer);
     }
-    fresh.push({id,xyz,index,widths,paving,finishes});transfer.push(xyz.buffer);
+    const factor=g.getAttribute('districtAmbient');
+    const ambient=factor?new Uint8Array(factor.array):null;
+    if(ambient)transfer.push(ambient.buffer);
+    fresh.push({id,xyz,index,widths,paving,finishes,ambient});transfer.push(xyz.buffer);
     if(index)transfer.push(index.buffer);if(widths)transfer.push(widths.buffer);this.known.add(id);
    }
    const mats=[].concat(o.material);const groups=Array.isArray(o.material)?g.groups:[{start:0,count:g.index?.count||position.count,materialIndex:0}];
    for(const group of groups){
     const m=mats[group.materialIndex]||mats[0];if(!m||m.visible===false)continue;
     const c=m.color?.clone().convertLinearToSRGB()||new T.Color(.7,.7,.7);
-    draws.push({id,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!o.userData.contextOutline,alpha:m.transparent?m.opacity:1});
+    draws.push({id,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!o.userData.contextOutline,alpha:m.transparent?m.opacity:1});
    }
   });
   const removed=[...this.known].filter(k=>!used.has(k));removed.forEach(k=>this.known.delete(k));
@@ -68,7 +71,7 @@ export class SoftwareRenderer {
   if(light){light.target.updateMatrixWorld();dir.copy(light.position).sub(light.target.position).normalize();
    if(light.castShadow){light.shadow.updateMatrices(light);const c=light.shadow.camera;sm=new T.Matrix4().multiplyMatrices(c.projectionMatrix,c.matrixWorldInverse).elements;}}
   const col=(scene.background?.isColor?scene.background:new T.Color(0xe1e2da)).clone().convertLinearToSRGB();
-  this.worker.postMessage({w:this.width,h:this.height,inkProjection:Math.abs(cam.projectionMatrix.elements[5])*this.height/2,draws,fresh,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),sunVisible:!!light,background:[col.r,col.g,col.b]},transfer);
+  this.worker.postMessage({w:this.width,h:this.height,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*this.height/2,draws,fresh,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),sunVisible:!!light,background:[col.r,col.g,col.b]},transfer);
   this.shadowMap.needsUpdate=false;
  }
  wait(){return this.pending?(this.settled??=new Promise(resolve=>{this.finish=resolve;})):Promise.resolve();}

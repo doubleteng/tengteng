@@ -2,6 +2,7 @@ import * as T from './lib/three.module.min.js';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
+import {applyDistrictLight,loadDistrict} from './district-light.js';
 import {makeRenderer} from './software-view.js';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -76,6 +77,13 @@ export class AtlasViewer{
    if(o.userData.contextBuildingColor&&o.material?.color){
     const neutral=o.material.clone();neutral.vertexColors=false;neutral.color.set(o.userData.contextNeutral||'#dedbd2');
     o.userData.neutralMaterial=neutral;
+    if(o.geometry.hasAttribute('districtAmbient'))applyDistrictLight(neutral,false);
+   }
+   if(o.geometry.hasAttribute('districtAmbient')){
+    for(const mat of [].concat(o.material)){
+     const glass=/\b(glass|glazing)\b|visible original panel faces/i.test(mat.name);
+     applyDistrictLight(mat,glass);
+    }
    }
   }});
   this.addCityOutlines(root);
@@ -124,7 +132,7 @@ export class AtlasViewer{
  }
  addCityOutlines(root){
   const meshes=[];
-  root.traverse(o=>{if(o.isMesh&&!o.userData.noOutline)meshes.push(o);});
+  root.traverse(o=>{if(o.isMesh&&!o.userData.noOutline&&!o.userData.initialHidden)meshes.push(o);});
   const material=createInkMaterial(this.inkViewHeight);
   const edgesByGeometry=new Map();
   for(const mesh of meshes){
@@ -158,7 +166,7 @@ export class AtlasViewer{
     './models/urban-core-materials.glb','./models/urban-near.glb','./models/urban-outer.glb'
    ]:city?[city]:[];
    // Commit the three registered assets as one context, shared by all projects.
-   this.pendingCity=Promise.allSettled(urls.map(loadGLB)).then(results=>{
+   this.pendingCity=Promise.allSettled(urls.map(url=>city==='./models/ann-arbor.glb'?loadDistrict(loader,url):loadGLB(url))).then(results=>{
     const objects=results.filter(r=>r.status==='fulfilled').map(r=>r.value);
     if(this.contextRequest!==request){objects.forEach(disposeModel);return;}
     const failed=results.find(r=>r.status==='rejected');

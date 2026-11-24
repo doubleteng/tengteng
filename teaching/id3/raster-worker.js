@@ -83,7 +83,7 @@ function project(xyz,m,w,h,perspective=false){
 function drawNearClipped(pass,coords,offsets,d,lightCoords,world,uv){
  const near=pass.near,polygon=offsets.length===3;
  const vertices=offsets.map(i=>[coords.clip[i],coords.clip[i+1],coords.clip[i+2],coords.cameraW[i/3],
-  world[i],world[i+1],world[i+2],lightCoords?.[i]||0,lightCoords?.[i+1]||0,lightCoords?.[i+2]||0,uv?.[(i/3)*2]||0,uv?.[(i/3)*2+1]||0]);
+  world[i],world[i+1],world[i+2],lightCoords?.[i]||0,lightCoords?.[i+1]||0,lightCoords?.[i+2]||0,uv?.[(i/3)*2]||0,uv?.[(i/3)*2+1]||0,d.ambient?.[i/3]??255]);
  const out=[];
  for(let i=0;i<vertices.length;i++){
   const a=vertices[i],b=vertices[(i+1)%vertices.length];
@@ -94,14 +94,14 @@ function drawNearClipped(pass,coords,offsets,d,lightCoords,world,uv){
   }
  }
  if(out.length<offsets.length)return;
- const screen=new Float64Array(out.length*3),wpos=[],light=[],clippedUV=[];
+ const screen=new Float64Array(out.length*3),wpos=[],light=[],clippedUV=[],clippedAmbient=[];
  screen.cameraW=out.map(a=>a[3]);
  out.forEach((a,i)=>{
   screen.set([(a[0]/a[3]*.5+.5)*pass.w,(.5-a[1]/a[3]*.5)*pass.h,a[2]/a[3]],i*3);
-  wpos.push(...a.slice(4,7));light.push(...a.slice(7,10));clippedUV.push(...a.slice(10));
+  wpos.push(...a.slice(4,7));light.push(...a.slice(7,10));clippedUV.push(a[10],a[11]);clippedAmbient.push(a[12]);
  });
  const indices=polygon?(out.length===4?[0,1,2,0,2,3]:[0,1,2]):[0,1];
- paint(pass,screen,indices,{...d,widths:d.widths&&!polygon?[d.widths[offsets[0]/3],d.widths[offsets[1]/3]]:null,start:0,count:indices.length,kind:polygon?'tri':'segments'},lightCoords?light:null,wpos,uv?clippedUV:null);
+ paint(pass,screen,indices,{...d,ambient:d.ambient?clippedAmbient:null,widths:d.widths&&!polygon?[d.widths[offsets[0]/3],d.widths[offsets[1]/3]]:null,start:0,count:indices.length,kind:polygon?'tri':'segments'},lightCoords?light:null,wpos,uv?clippedUV:null);
 }
 function paintLine(pass,coords,a,b,d){
  const {w,h,depth,pixels}=pass,ax=coords[a],ay=coords[a+1],dx=coords[b]-ax,dy=coords[b+1]-ay;
@@ -115,9 +115,10 @@ function paintLine(pass,coords,a,b,d){
  let alpha=d.alpha;
  if(d.widths){
   const cw=coords.cameraW ? Math.max(pass.near,(coords.cameraW[a/3]+coords.cameraW[b/3])/2) : 1;
-  const px=d.widths[a/3]*d.worldScale*pass.inkProjection/cw;
-  const t=Math.min(1,Math.max(0,(px-.85)/(3.6-.85)));
-  alpha*=t*t*(3-2*t);
+  const density=pass.inkProjection/cw,px=d.widths[a/3]*d.worldScale*density;
+  const t=Math.min(1,Math.max(0,(px-1)/3));
+  const f=Math.min(1,Math.max(0,(density-.7)/4.3));
+  alpha*=t*t*(3-2*t)*(.42+.58*f*f*(3-2*f));
   if(alpha<.015)return;
  }
  const steps=Math.max(1,Math.ceil((hi-lo)*Math.max(Math.abs(dx),Math.abs(dy))));
@@ -164,11 +165,27 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
   if(xmax<xmin||ymax<ymin)continue;
   const inv=1/den,A=(by-cy)*inv,B=(cx-bx)*inv,C=(cy-ay)*inv,D=(ax-cx)*inv;
   const paving=pixels&&d.tile&&uv?pavingTriangle(d.tile,uv,coords,a,b,c,A,B,C,D):null;
-  let lum=1;
+  let lum=1, sky=0;
+  const ambient=pixels?d.ambient:null;
+  const ambientA=ambient?ambient[a/3]:255,ambientB=ambient?ambient[b/3]:255,ambientC=ambient?ambient[c/3]:255;
+  const varied=ambientA!==ambientC||ambientB!==ambientC;
   if(pixels){
    const ux=world[b]-world[a],uy=world[b+1]-world[a+1],uz=world[b+2]-world[a+2],vx=world[c]-world[a],vy=world[c+1]-world[a+1],vz=world[c+2]-world[a+2];
    const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;const n=Math.hypot(nx,ny,nz)||1;
    lum=.70+(pass.sunVisible?.30:0)*Math.max(0,(nx*dir[0]+ny*dir[1]+nz*dir[2])/n)+.035*Math.max(0,ny/n);
+   lum-=.39*(1-ambientC/255);
+   if(d.glass){
+    let [ex,ey,ez]=pass.eyeDirection;
+    if(pass.near){
+     ex=pass.eye[0]-(world[a]+world[b]+world[c])/3;
+     ey=pass.eye[1]-(world[a+1]+world[b+1]+world[c+1])/3;
+     ez=pass.eye[2]-(world[a+2]+world[b+2]+world[c+2])/3;
+     const length=Math.hypot(ex,ey,ez)||1;ex/=length;ey/=length;ez/=length;
+    }
+    const cosine=(ex*nx+ey*ny+ez*nz)/n,reflectionY=2*cosine*ny/n-ey;
+    const grazing=1-Math.min(1,Math.abs(cosine)),height=Math.min(1,Math.max(0,(reflectionY+.15)/.8));
+    sky=(.045+.20*grazing**3)*(.24+.60*height*height*(3-2*height))*110;
+   }
   }
   for(let y=ymin;y<=ymax;y++){
    const dy=y+.5-cy;let u=A*(xmin+.5-cx)+B*dy,v=C*(xmin+.5-cx)+D*dy;
@@ -178,42 +195,65 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
     if(z< -1||z>1||z>=depth[p])continue;
     if(pixels&&d.alpha<.98&&((x*13+y*7)%17)>=d.alpha*17)continue;
     depth[p]=z;if(!pixels)continue;let shade=lum;
-    if(lightCoords&&d.receive){
+    if((lightCoords&&d.receive)||varied){
      let l0=u,l1=v,l2=t;
      if(coords.cameraW){
       l0/=coords.cameraW[a/3];l1/=coords.cameraW[b/3];l2/=coords.cameraW[c/3];
       const inv=1/(l0+l1+l2);l0*=inv;l1*=inv;l2*=inv;
      }
+     if(varied)shade+=.39/255*(l0*(ambientA-ambientC)+l1*(ambientB-ambientC));
+     if(lightCoords&&d.receive){
      const lx=l0*lightCoords[a]+l1*lightCoords[b]+l2*lightCoords[c];
      const ly=l0*lightCoords[a+1]+l1*lightCoords[b+1]+l2*lightCoords[c+1];
      const lz=l0*lightCoords[a+2]+l1*lightCoords[b+2]+l2*lightCoords[c+2]-.0015;
      shade*=1-.26*shadowCoverage(shadowDepth,ss,lx,ly,lz);
+     }
     }
     const off=p*4;if(paving){pavingPixel(paving,u,v,shade,pixels,off);continue;}
-    pixels[off]=red*shade;pixels[off+1]=green*shade;pixels[off+2]=blue*shade;
+    pixels[off]=red*shade+sky*.82;pixels[off+1]=green*shade+sky;pixels[off+2]=blue*shade+sky*1.12;
    }
   }
  }
 }
+const identity=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
+function sameMatrix(a,b){return !!a&&a.every((x,i)=>x===b[i]);}
 onmessage=({data:q})=>{
  for(const k of q.removed)geometries.delete(k);for(const g of q.fresh){
   if(g.paving)g.paving.levels=pavingMips(g.paving);
   geometries.set(g.id,g);
  }
  const ss=shadowSize,shadowDepth=cachedShadow;
- const objs=q.draws.map(d=>{const g=geometries.get(d.id),m=d.m,xyz=g.xyz;const world=new Float32Array(xyz.length);
-  for(let i=0;i<xyz.length;i+=3){const x=xyz[i],y=xyz[i+1],z=xyz[i+2];world[i]=m[0]*x+m[4]*y+m[8]*z+m[12];world[i+1]=m[1]*x+m[5]*y+m[9]*z+m[13];world[i+2]=m[2]*x+m[6]*y+m[10]*z+m[14];}
+ const objs=q.draws.map(d=>{
+  const g=geometries.get(d.id),m=d.m,xyz=g.xyz;
+  // During an orbit only the eye changes; district/world and light coordinates
+  // remain valid until an object's transform or the light projection changes.
+  if(!sameMatrix(g.worldMatrix,m)){
+   g.worldMatrix=m;
+   g.world=sameMatrix(identity,m)?xyz:new Float32Array(xyz.length);
+   if(g.world!==xyz)for(let i=0;i<xyz.length;i+=3){
+    const x=xyz[i],y=xyz[i+1],z=xyz[i+2];
+    g.world[i]=m[0]*x+m[4]*y+m[8]*z+m[12];
+    g.world[i+1]=m[1]*x+m[5]*y+m[9]*z+m[13];
+    g.world[i+2]=m[2]*x+m[6]*y+m[10]*z+m[14];
+   }
+   g.lightMatrix=null;g.light=null;
+  }
+  const lit=q.shadow&&(d.cast||d.receive);
+  if(lit&&!sameMatrix(g.lightMatrix,q.shadow)){
+   g.lightMatrix=q.shadow;g.light=project(xyz,multiply(q.shadow,m),ss,ss);
+  }
+  if(d.baked)d.ambient=g.ambient;
   if(d.paving)d.tile=g.paving;
   if(d.vertexColors)d.finishes=g.finishes;
   if(g.widths){d.widths=g.widths;d.worldScale=Math.hypot(m[0],m[1],m[2]);}
-  return {d,g,world,l:q.shadow?project(xyz,multiply(q.shadow,m),ss,ss):null};
+  return {d,g,world:g.world,l:lit?g.light:null};
  });
  if(q.shadow&&q.updateShadow){
   shadowDepth.fill(Infinity);
   for(const {d,g,l} of objs)if(d.cast)paint({w:ss,h:ss,depth:shadowDepth},l,g.index,d);
  }
  const pixels=new Uint8ClampedArray(q.w*q.h*4);for(let i=0;i<pixels.length;i+=4){pixels[i]=q.background[0]*255;pixels[i+1]=q.background[1]*255;pixels[i+2]=q.background[2]*255;pixels[i+3]=255;}
- const pass={w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,dir:q.dir,sunVisible:q.sunVisible,near:q.perspectiveNear,inkProjection:q.inkProjection};
+ const pass={w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,sunVisible:q.sunVisible,near:q.perspectiveNear,inkProjection:q.inkProjection};
  // Resolve solid depth before compositing visible linework.
  objs.sort((a,b)=>Number(a.d.kind!=='tri')-Number(b.d.kind!=='tri'));
  for(const {d,g,l,world} of objs)paint(pass,project(g.xyz,multiply(q.view,d.m),q.w,q.h,!!q.perspectiveNear),g.index,d,l,world,g.paving?.coords);

@@ -9,14 +9,14 @@
       "material": "Cast-in-place concrete",
       "type": "Farmers market",
       "status": "Work in progress",
-      "url": "./models/ava-barbat.glb.gz?v=a91a19441c",
+      "url": "./models/ava-barbat.glb.gz?v=812977275e",
       "frameLabel": "Isolate concrete structure",
       "perspectiveDirection": [
         0.87,
         0.82,
         1.04
       ],
-      "cover": "./models/ava-barbat.webp?v=243665af39",
+      "cover": "./models/ava-barbat.webp?v=c9081e32aa",
       "viewpoints": [
         {
           "id": "ava-entry",
@@ -64,7 +64,7 @@
           "fov": 49
         }
       ],
-      "lightVolume": "./models/ava-barbat.light.gz?v=6710491037"
+      "lightVolume": "./models/ava-barbat.light.gz?v=1861d8a37b"
     }
   ],
   "cases": [

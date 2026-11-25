@@ -1,6 +1,72 @@
 {
   "city": null,
-  "projects": [],
+  "projects": [
+    {
+      "key": "ava-barbat",
+      "number": "01",
+      "title": "Farmers Market Proposal",
+      "author": "Ava Barbat",
+      "material": "Cast-in-place concrete",
+      "type": "Farmers market",
+      "status": "Work in progress",
+      "url": "./models/ava-barbat.glb.gz?v=a91a19441c",
+      "frameLabel": "Isolate concrete structure",
+      "perspectiveDirection": [
+        0.87,
+        0.82,
+        1.04
+      ],
+      "cover": "./models/ava-barbat.webp?v=243665af39",
+      "viewpoints": [
+        {
+          "id": "ava-entry",
+          "label": "Entry · paired doors",
+          "eye": [
+            -43.1,
+            3.05,
+            6.4
+          ],
+          "target": [
+            -43.1,
+            2.24,
+            13.1
+          ],
+          "fov": 61
+        },
+        {
+          "id": "ava-facade",
+          "label": "Exterior · metal cladding",
+          "eye": [
+            -26,
+            9.5,
+            58
+          ],
+          "target": [
+            -43,
+            7.8,
+            31
+          ],
+          "fov": 58
+        },
+        {
+          "id": "ava-roofs",
+          "label": "Roofscape · photovoltaics",
+          "eye": [
+            -1,
+            52,
+            76
+          ],
+          "target": [
+            -43,
+            7,
+            25
+          ],
+          "fov": 49
+        }
+      ],
+      "lightVolume": "./models/ava-barbat.light.gz?v=6710491037"
+    }
+  ],
   "cases": [
     {
       "key": "market-switchback",

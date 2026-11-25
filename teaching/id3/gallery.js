@@ -50,7 +50,7 @@ const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
 let viewerReady;
 function getViewer(){
  if(!viewerReady){
-  viewerReady=Promise.all([import('./viewer.js?v=4e29cd3c24'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
+  viewerReady=Promise.all([import('./viewer.js?v=e40cc468b0'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
    viewer=new AtlasViewer($('canvas-box'));
    viewer.annotations=new SiteAnnotations(viewer,layerRow);
    return viewer;
@@ -113,6 +113,16 @@ function fillLayers(){
  }
  $('details-btn').textContent=expanded?'Collapse':'Expand';
 }
+function setProjectViews(project){
+ const group=$('project-cameras');
+ group.replaceChildren();
+ for(const {id,label} of project.viewpoints||[])group.append(new Option(label,id));
+ group.label=project.title;
+ group.hidden=group.disabled=!group.childElementCount;
+}
+function frameLabel(project){
+ return project?.frameLabel||'Isolate timber frame';
+}
 function saveViewLink(){
  const camera=$('camera').value;
  const preset=camera==='perspective'?'':'?view='+encodeURIComponent(camera);
@@ -120,9 +130,11 @@ function saveViewLink(){
 }
 async function selectModel(x,initialView='perspective',updateLink=true){
  $('street-start').disabled=true;const seq=++version;current=x;caseHidden=null;closeLens();dollyButton.disabled=true;
- $('case-actions').hidden=!x.caseStudy;$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent='Isolate timber frame';
+ $('case-actions').hidden=!(x.caseStudy||x.frameLabel);$('case-notes').hidden=!x.caseStudy;
+ $('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent=frameLabel(x);
+ setProjectViews(x);
  $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;status('Loading 3D model…');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
- $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':'STUDIO PROJECT '+x.key;
+ $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':['STUDIO PROJECT '+(x.number||x.key),x.status].filter(Boolean).join(' · ');
  $('model-author').textContent=x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?x.material+' · Market and public institution':x.demo?x.material+' / '+x.type:x.author+' · '+x.material;
  $('camera').disabled=true;$('camera').value='perspective';$('viewport').setAttribute('aria-busy','true');
  const city=cityRecord?.url || originalCity;
@@ -150,7 +162,7 @@ async function withModel(fn){try{await activeLoad;if(viewer?.project)fn(viewer);
 $('camera').onchange=()=>withModel(v=>{v.view($('camera').value);syncLens();saveViewLink();});
 function fitProject(v){
  const camera=$('camera');
- if(v.caseStudy)camera.value='perspective';
+ if(v.caseStudy||current?.viewpoints?.length)camera.value='perspective';
  v.view(camera.value);syncLens();saveViewLink();
 }
 $('fit').onclick=()=>withModel(fitProject);
@@ -216,15 +228,15 @@ $('case-notes').onclick=()=>{
  $('info-content').replaceChildren($('market-switchback-notes').content.cloneNode(true));$('info').showModal();
 };
 $('case-frame').onclick=()=>withModel(v=>{
- if(!current?.caseStudy)return;
+ if(!(current?.caseStudy||current?.frameLabel))return;
  if(caseHidden){v.hidden=caseHidden;caseHidden=null;}
  else{
   caseHidden=new Set(v.hidden);
-  v.hidden=new Set([...v.paths.keys()].filter(p=>!p.startsWith('Structure /') || /CLT.*roof|cross laminated roof panels|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i.test(p)));
+  v.hidden=new Set([...v.paths.keys()].filter(p=>!/^Structure\s*(?:\/|::)/i.test(p) || current.caseStudy && /CLT.*roof|cross laminated roof panels|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i.test(p)));
  }
  v.applyModes();fillLayers();
  $('case-frame').setAttribute('aria-pressed',String(!!caseHidden));
- $('case-frame').textContent=caseHidden?'Restore layers':'Isolate timber frame';
+ $('case-frame').textContent=caseHidden?'Restore layers':frameLabel(current);
 });
 document.querySelectorAll('[data-close]').forEach(button => {
   button.onclick = () => button.closest('dialog').close();

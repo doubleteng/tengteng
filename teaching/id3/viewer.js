@@ -60,7 +60,20 @@ export function disposeModel(root){
  geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>{t.dispose();t.source?.data?.close?.()});
 }
 export function layerOf(o){for(let n=o;n;n=n.parent){if(n.userData.layer)return n.userData.layer;}return o.parent?.name||o.name||'Model';}
-export function loadGLB(url){return loader.loadAsync(url).then(x=>x.scene);}
+export async function loadGLB(url){
+ const asset=new URL(url,document.baseURI);
+ if(!asset.pathname.endsWith('.glb.gz'))return loader.loadAsync(url).then(x=>x.scene);
+ const response=await fetch(asset);
+ if(!response.ok)throw Error('The project model could not be downloaded.');
+ let bytes=await response.arrayBuffer();
+ const header=new Uint8Array(bytes,0,Math.min(bytes.byteLength,2));
+ // Some servers apply Content-Encoding automatically. Other hosts serve the gzip file verbatim.
+ if(header[0]===0x1f&&header[1]===0x8b){
+  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+  bytes=await new Response(stream).arrayBuffer();
+ }
+ return loader.parseAsync(bytes,new URL('.',asset).href).then(x=>x.scene);
+}
 export function parseGLB(bytes){return loader.parseAsync(bytes,'').then(x=>x.scene);}
 async function loadProject(model,renderer){
  if(model.overview)return {root:siteFootprint()};
@@ -273,7 +286,7 @@ export class AtlasViewer{
    this.controls.update();
   }
   this.perspectiveCamera.aspect=aspect;
-  if(this.contextView)this.perspectiveCamera.setViewOffset(w,h,0,-h*this.contextView.shift,w,h);
+  if(this.contextView)this.perspectiveCamera.setViewOffset(w,h,0,-h*(this.contextView.shift??0),w,h);
   this.perspectiveCamera.updateProjectionMatrix();
   this.draw();
  }
@@ -340,6 +353,8 @@ export class AtlasViewer{
   if(key!==this.key){if(res.status==='fulfilled')disposeModel(res.value.root);return null;}
   if(res.status==='rejected')throw res.reason;
   this.overview=!!model.overview;this.caseStudy=!!model.caseStudy;
+  this.projectViews=model.viewpoints||[];
+  this.projectDirection=model.perspectiveDirection||null;
   this.proposalVolume=res.value.lightVolume||null;this.renderer.proposalEnvironment=res.value.environment||null;
   this.project=res.value.root;if(model.demo)this.project.position.copy(demoOrigin);
   this.walkDoors=new WalkDoors(this.project,{caseStudy:this.caseStudy});this.prepare(this.project);this.scene.add(this.project);
@@ -383,7 +398,7 @@ export class AtlasViewer{
   this.walkMode?.exit();
   if(interact)this.activate();
   this.settingView=true;this.userNavigated=false;
-  this.contextView=contextViews[name]||null;
+  this.contextView=contextViews[name]||this.projectViews?.find(view=>view.id===name)||null;
   this.camera=(this.contextView||name==='perspective')?this.perspectiveCamera:this.parallelCamera;
   this.controls.maxPolarAngle=this.camera.isPerspectiveCamera?maxPerspectivePolarAngle:Math.PI*.495;
   this.perspectiveCamera.clearViewOffset();
@@ -399,7 +414,7 @@ export class AtlasViewer{
    this.controls.target.fromArray(this.contextView.target);
    this.finishView();return;
   }
-  const dirs={perspective:this.overview?v(1.0,.68,1.66):this.caseStudy?v(-.80,.66,-1.08):v(1.30,.50,-.83),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
+  const dirs={perspective:this.overview?v(1.0,.68,1.66):this.caseStudy?v(-.80,.66,-1.08):this.projectDirection?v().fromArray(this.projectDirection):v(1.30,.50,-.83),axon:this.overview?v(118,145,182):v(36,33,57),plan:v(0,1,.00001),district:v(0,1,.00001),front:v(0,.00001,1),side:v(1,.00001,0)};
   const aspect=this.host.clientWidth/Math.max(this.host.clientHeight,1)||1;
   this.perspectiveCamera.aspect=aspect;
   const height=Math.max(this.height,this.width/aspect);

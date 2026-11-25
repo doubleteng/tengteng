@@ -1,0 +1,37 @@
+name: Deploy ID3 cloud walkthrough
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/id3-cloud/**'
+      - '.github/workflows/id3-cloud.yml'
+permissions:
+  contents: read
+concurrency:
+  group: id3-cloud-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.repository == 'doubleteng/tengteng' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test scripts/id3-cloud/worker.test.mjs
+      - run: npx --no-install wrangler deploy --config scripts/id3-cloud/wrangler.jsonc --keep-vars
+      - name: Configure Hyperbeam
+        env:
+          HYPERBEAM_API_KEY: ${{ secrets.ID3_HYPERBEAM_API_KEY }}
+        run: |
+          if [ -n "$HYPERBEAM_API_KEY" ]; then
+            printf '%s' "$HYPERBEAM_API_KEY" | npx --no-install wrangler secret put HYPERBEAM_API_KEY --config scripts/id3-cloud/wrangler.jsonc
+          fi

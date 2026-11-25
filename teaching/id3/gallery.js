@@ -1,4 +1,5 @@
 import {bindSunlight} from './sun-controls.js?v=cf14de4ba5';
+import {CloudView,cloudAvailable} from './cloud-view.js';
 const originalCity='./models/ann-arbor.glb';
 const overview={key:'site',title:'Ann Arbor Farmers Market',type:'Urban context',overview:true,cover:'./models/ann-arbor.webp'};
 const $=id=>document.getElementById(id);
@@ -34,6 +35,7 @@ document.addEventListener('pointerdown',e=>{if(!dollyPanel.hidden&&!dollyPanel.c
 dollyPanel.onkeydown=e=>{if(e.key==='Escape'){e.stopPropagation();closeLens();dollyButton.focus();}};
 $('open-drawings').onclick=async()=>{
  try{
+  if(viewer instanceof CloudView)await selectModel(current,$('camera').value,true,true);
   viewer?.walkMode?.exit();
   deskPromise??=import('./drawing-desk.js?v=6e490f8e05').then(({bindDrawingDesk})=>bindDrawingDesk({
    getModel:()=>viewer?.project?{root:viewer.project,item:current}:null,
@@ -47,15 +49,17 @@ $('open-drawings').onclick=async()=>{
  }catch{deskPromise=null;status('The drawing tools could not load. Please try again.');}
 };
 const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
-let viewerReady;
+let viewerReady,annotations,annotationModule;
+async function attachAnnotations(view){
+ annotationModule??=import('./annotations.js').catch(e=>{annotationModule=null;throw e;});
+ const {SiteAnnotations}=await annotationModule;
+ if(view!==viewer)return;
+ annotations??=new SiteAnnotations(view,layerRow);
+ annotations.viewer=view;view.annotations=annotations;
+ if(view instanceof CloudView)view.activate();
+}
 function getViewer(){
- if(!viewerReady){
-  viewerReady=Promise.all([import('./viewer.js?v=6c0afe0a61'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
-   viewer=new AtlasViewer($('canvas-box'));
-   viewer.annotations=new SiteAnnotations(viewer,layerRow);
-   return viewer;
-  }).catch(error=>{viewerReady=null;throw error;});
- }
+ viewerReady??=import('./viewer.js?v=6c0afe0a61').then(({AtlasViewer})=>new AtlasViewer($('canvas-box'))).catch(e=>{viewerReady=null;throw e;});
  return viewerReady;
 }
 function txt(tag,text,cls){const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e;}
@@ -128,7 +132,10 @@ function saveViewLink(){
  const preset=camera==='perspective'?'':'?view='+encodeURIComponent(camera);
  history.replaceState(null,'','#model-'+current.key+preset);
 }
-async function selectModel(x,initialView='perspective',updateLink=true){
+async function selectModel(x,initialView='perspective',updateLink=true,forceBrowser=false){
+ if(viewer instanceof CloudView)viewer.dispose();
+ else if(viewer){viewer.walkMode?.exit();viewer.annotations=null;}
+ viewer=null;
  $('street-start').disabled=true;const seq=++version;current=x;caseHidden=null;closeLens();dollyButton.disabled=true;
  $('case-actions').hidden=!(x.caseStudy||x.frameLabel||x.statement?.length);$('student-statement').hidden=!x.statement?.length;$('case-notes').hidden=!x.caseStudy;
  $('case-frame').hidden=!(x.caseStudy||x.frameLabel);$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent=frameLabel(x);
@@ -140,7 +147,20 @@ async function selectModel(x,initialView='perspective',updateLink=true){
  const city=cityRecord?.url || originalCity;
  $('context-cameras').disabled=$('context-cameras').hidden=city!==originalCity;
  try{
-  activeLoad=getViewer().then(view=>seq===version?view.show(x,city):null);
+  activeLoad=(async()=>{
+   const streamed=x.key==='ava-barbat'&&!forceBrowser&&await cloudAvailable();
+   if(seq!==version)return null;
+   const view=streamed?new CloudView(()=>selectModel(x,initialView,updateLink,true)):await getViewer();
+   if(seq!==version)return null;
+   viewer=view;
+   if(streamed){
+    status('');
+    view.onLens=syncLens;
+    view.onReady=()=>{fillLayers();syncLens();view.activate();};
+   }
+   await attachAnnotations(view);if(seq!==version)return null;
+   return view.show(x,city);
+  })();
   fillLayers();const result=await activeLoad;if(!result||seq!==version)return;
   const view=viewer;
   $('material-mode').value=view.mode;$('material-references').hidden=city!==originalCity;fillLayers();
@@ -188,7 +208,7 @@ $('viewport').onkeydown=e=>{if(e.target!==$('viewport')||viewer?.walkMode?.activ
  const actions={ArrowLeft:v=>v.orbit(-.1,0),ArrowRight:v=>v.orbit(.1,0),ArrowUp:v=>v.orbit(0,-.08),ArrowDown:v=>v.orbit(0,.08),'+':v=>v.changeZoom(1.2),'=':v=>v.changeZoom(1.2),'-':v=>v.changeZoom(1/1.2),'0':fitProject};
  if(actions[e.key]){e.preventDefault();withModel(actions[e.key]);}if(e.key==='Escape')$('viewport').classList.remove('expanded');
 };
-$('viewport').addEventListener('pointerdown',e=>{if(!e.target.closest('button,select')&&!viewer?.project)status('Loading the 3D model…');});
+$('viewport').addEventListener('pointerdown',e=>{if(!e.target.closest('button,select')&&!viewer?.project&&!(viewer instanceof CloudView))status('Loading the 3D model…');});
 $('material-references').onclick=async()=>{
  const body=$('info-content');body.innerHTML='<p class="kicker"><i></i> URBAN CONTEXT</p><h2>Building materials</h2><p>Kerrytown District photographs document the street-facing windows, storefronts, porches and masonry shown below. The city’s 2026 aerial imagery locates the visible roof features. Open a building’s references to compare its model with the photographs.</p>';
  $('info').showModal();
@@ -278,4 +298,14 @@ async function init(){
  await ready;
  if(error)status('The student catalog is unavailable. Showing demonstration models.');
 }
+// Walking controls stay in the gallery while pointer and keyboard input go to the video.
+for(const [id,name] of [['street-start','street'],['walk-exit','exit']]){
+ $(id).addEventListener('click',e=>{
+  if(viewer instanceof CloudView){e.stopImmediatePropagation();viewer.command(name);$('cloud-video').querySelector('iframe')?.focus();}
+ },true);
+}
+for(const event of ['pointerdown','pointerup','pointercancel'])$('walk-hud').addEventListener(event,e=>{
+ const key=e.target.closest('[data-walk-key]')?.dataset.walkKey;
+ if(key&&viewer instanceof CloudView){e.preventDefault();viewer.command('walkKey',key,event==='pointerdown');if(event==='pointerdown')e.target.setPointerCapture(e.pointerId);}
+});
 init();

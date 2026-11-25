@@ -1,5 +1,6 @@
 ---
 title: RIBO Central Club
+ribo_model_viewers: true
 category: design
 year: 2009–2012
 published: true

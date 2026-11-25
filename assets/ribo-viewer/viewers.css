@@ -1,0 +1,31 @@
+.ribo-viewers {display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr);align-items:start;gap:clamp(6px,1.3vw,20px);margin:1.5rem 0 2.25rem;color:#282925}
+.ribo-card {min-width:0;position:relative;background:#f5f4ee;border:1px solid #cac9bf;border-radius:5px;box-sizing:border-box}
+.ribo-card header {display:flex;align-items:center;justify-content:space-between;gap:3px;min-height:40px;padding:0 10px}
+.ribo-card header h2 {margin:0;font:600 clamp(.74rem,1.2vw,.98rem)/1.15 Chivo,Arial,sans-serif;letter-spacing:0;color:inherit}
+.ribo-card button {font:500 .76rem/1.2 Chivo,Arial,sans-serif;border:1px solid #bbbdb1;border-radius:3px;background:#fafaf5;color:#2d312c;cursor:pointer;min-height:29px;padding:4px 9px}
+.ribo-card button:hover,.ribo-card button:focus-visible {border-color:#404b3e}
+.ribo-card button[aria-pressed="true"],.ribo-card button[aria-expanded="true"] {background:#374538;border-color:#374538;color:#fff}
+.ribo-card header button,.ribo-panel-title button {border:0;padding:2px 4px;font-size:1.25rem;background:transparent;line-height:1}
+.ribo-stage {position:relative;width:100%;height:clamp(285px,36vw,560px);overflow:hidden;background:#e8e8e1;border-block:1px solid #cecec3}
+.ribo-stage canvas,.ribo-poster {position:absolute;inset:0;display:block;width:100%;height:100%}
+.ribo-stage canvas {touch-action:none;outline-offset:-3px}
+.ribo-poster {object-fit:cover;z-index:1;pointer-events:none}
+.ribo-status {position:absolute;z-index:2;left:8px;bottom:8px;max-width:calc(100% - 16px);font:500 .71rem/1.25 Chivo,Arial,sans-serif;color:#292f28;background:#fffffff0;padding:4px 7px;border-radius:3px;pointer-events:none}
+.ribo-tools {display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:6px}
+.ribo-cuts label {display:flex;align-items:center;gap:8px;margin:3px 9px 8px;font:500 .74rem/1.2 Chivo,Arial,sans-serif}
+.ribo-cuts input {flex:1;min-width:1.5rem;accent-color:#546c52}
+.ribo-cuts output {min-width:4.7em;text-align:right;font-variant-numeric:tabular-nums}
+.ribo-layers {position:absolute;z-index:4;left:7px;bottom:48px;width:min(310px,calc(100% - 14px));max-height:min(420px,82%);overflow:auto;overscroll-behavior:contain;background:#fffff9;box-shadow:0 4px 22px #2e38273d;border:1px solid #b8beb1;border-radius:4px;padding:8px 10px;box-sizing:border-box;font:400 .79rem/1.35 Chivo,Arial,sans-serif}
+.ribo-panel-title,.ribo-choice {display:flex;align-items:center;justify-content:space-between}
+.ribo-panel-title {margin-bottom:4px}
+.ribo-choice {gap:4px;border-top:1px solid #dedfd5;min-height:32px}
+.ribo-choice label,.ribo-sublist label {display:flex;align-items:center;gap:7px;cursor:pointer}
+.ribo-choice input,.ribo-sublist input {margin:0;accent-color:#415740}
+.ribo-choice button {font-size:.69rem;min-height:24px;padding:2px 5px}
+.ribo-sublist {padding:0 2px 8px 14px}
+.ribo-sublist label {padding:3px 0;line-height:1.25}
+.ribo-viewers [hidden] {display:none!important}
+.ribo-card:fullscreen,.ribo-card.ribo-expanded {display:flex;flex-direction:column;width:100%;height:100%;background:#f5f4ee;padding:6px;box-sizing:border-box}
+.ribo-card.ribo-expanded {position:fixed;inset:0;z-index:10000}
+.ribo-card:fullscreen .ribo-stage,.ribo-card.ribo-expanded .ribo-stage {flex:1;min-height:0;height:auto}
+@media(max-width:600px){.ribo-viewers{gap:4px}.ribo-card header{min-height:44px;padding:0 4px}.ribo-card header button{font-size:1rem}.ribo-card header h2{font-size:.69rem}.ribo-tools{gap:3px;padding:4px}.ribo-tools button{font-size:.66rem;padding:4px}.ribo-stage{height:clamp(240px,57vw,320px)}.ribo-cuts label{margin-inline:5px;gap:4px;font-size:.65rem}.ribo-status{font-size:.62rem}}

@@ -31,6 +31,7 @@ layout: default
   </div>
 </section>
 {% elsif page.cover and page.cover != '' and page.cover_preview_only != true %}<figure class="project-hero"{% if page.cover_width_percent %} style="width:{{ page.cover_width_percent | escape }}%;margin-inline:{% if page.image_alignment == 'left' %}0{% else %}auto{% endif %}"{% endif %}><button class="image-trigger" type="button" data-image="{{ page.cover | relative_url }}" aria-label="Enlarge {{ page.cover_alt | default: page.title | escape }}"><img src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | default: page.title | escape }}" fetchpriority="high" decoding="async"></button>{% if page.cover_caption %}<figcaption>{{ page.cover_caption | escape }}</figcaption>{% endif %}</figure>{% endif %}
+{% if page.ribo_model_viewers %}{% include ribo-model-viewers.html %}{% endif %}
 {% if page.opening_sections.size > 0 %}<div class="project-opening" aria-label="Completed project and film">{% include blocks.html sections=page.opening_sections %}</div>{% endif %}
 <div class="project-layout">
   <article class="project-body">

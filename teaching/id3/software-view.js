@@ -33,7 +33,7 @@ function textureTile(map){
 }
 function modelMap(material,object){
  return material?.map&&!material.userData.runningBond&&
-  (material.userData.proposalFinish||object.userData.projectSurface||!object.userData.sourceMaterial)?material.map:null;
+  (object.userData.leafCutout||material.userData.proposalFinish||object.userData.projectSurface||!object.userData.sourceMaterial)?material.map:null;
 }
 function copyUV(attribute){
  const values=new Float32Array(attribute.count*2);
@@ -44,7 +44,7 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=63de37e62b', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=9a8982d6be', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
@@ -75,6 +75,15 @@ export class SoftwareRenderer {
   this.pending=true;this.scale=scale;this.started=performance.now();this.lastScene=scene;this.lastCamera=cam;
   const w=Math.max(1,Math.round(this.width*scale)),h=Math.max(1,Math.round(this.height*scale));
   scene.updateMatrixWorld(true);cam.updateMatrixWorld();const matrix=new T.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse).elements;
+  // When the shadow map is current, off-camera static meshes have no work in
+  // this frame. Keep their resources available for turning or walking back.
+  this.eyeFrustum??=new T.Frustum();
+  this.cullProjection??=new T.Matrix4();
+  const projection=this.cullProjection.fromArray(matrix),e=projection.elements;
+  for(const k of [0,4,8,12])e[k]*=.99;
+  for(const k of [1,5,9,13])e[k]*=.99;
+  this.eyeFrustum.setFromProjectionMatrix(projection);
+  const eyeCull=!this.shadowMap.needsUpdate&&!this.projectBounds?.containsPoint(cam.position);
   const draws=[],fresh=[],deformed=[],transfer=[],used=new Set(),tiles=[],usedTiles=new Set();
   this.knownTiles??=new Set();this.sharedTileIds??=new Set();
   let light,sky;
@@ -82,6 +91,14 @@ export class SoftwareRenderer {
    if(o.isHemisphereLight){sky=o;return;}
    if(o.isDirectionalLight){light=o;return;}if(!o.geometry||!(o.isMesh||o.isLine||o.isPoints))return;
    const g=o.geometry,id=g.uuid,position=g.getAttribute('position');if(!position)return;used.add(id);
+   if(eyeCull&&o.isMesh&&o.frustumCulled&&!o.isSkinnedMesh&&
+      !o.isInstancedMesh&&!o.isBatchedMesh&&!o.morphTargetInfluences&&!g.userData.posedCloth&&
+      !this.eyeFrustum.intersectsObject(o)){
+    for(const m of Array.isArray(o.material)?o.material:[o.material]){
+     const map=modelMap(m,o);if(map)usedTiles.add(map.uuid);
+    }
+    return;
+   }
    if(g.userData.posedCloth){
     this.clothVersions??=new WeakMap();
     if(this.known.has(id)&&this.clothVersions.get(g)!==position.version){
@@ -155,14 +172,14 @@ export class SoftwareRenderer {
      if(map.userData.proposalShared)this.sharedTileIds.add(map.uuid);
      if(!this.knownTiles.has(map.uuid)){
       const tile=textureTile(map);
-      if(tile){tiles.push(tile);transfer.push(tile.pixels.buffer);}
+      if(tile){tile.leafMask=!!o.userData.leafCutout;tiles.push(tile);transfer.push(tile.pixels.buffer);}
       if(map.image?.width)this.knownTiles.add(map.uuid);
      }
     }
     const proposal=!!g.userData.proposalLighting&&[].concat(o.userData.sourceMaterial||o.material).includes(m);
     const layer=o.userData.atlasPath||o.userData.layer||'';
     const openCanopy=proposal&&/^(?:Market \/|Site \/ Market court paving|Structure \/ (?:Arcade |CLT market |Glulam market |Glulam portal crossheads|Glulam posts$|Market plinths))/.test(layer);
-    draws.push({id,openCanopy,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!(o.userData.contextOutline||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
+    draws.push({id,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!(o.userData.contextOutline||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
    }
   });
   const removed=[...this.known].filter(k=>!used.has(k));removed.forEach(k=>this.known.delete(k));

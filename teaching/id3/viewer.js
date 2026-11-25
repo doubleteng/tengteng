@@ -8,7 +8,7 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
-import {makeRenderer} from './software-view.js?v=1ea0f22e62';
+import {makeRenderer} from './software-view.js?v=ff45ccf36e';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -53,6 +53,7 @@ export function disposeModel(root){
  root.traverse(o=>{
   if(o.geometry)geometries.add(o.geometry);
   if(o.userData.neutralMaterial)materials.add(o.userData.neutralMaterial);
+  if(o.userData.leafClay)materials.add(o.userData.leafClay);
   for(const m of [].concat(o.userData.sourceMaterial||o.material||[])){
    materials.add(m);for(const t of Object.values(m))if(t?.isTexture&&!t.userData.viewerShared&&!t.userData.proposalShared)textures.add(t);
   }
@@ -213,10 +214,21 @@ export class AtlasViewer{
   const start=performance.now();this.renderer.render(this.scene,this.camera);this.lastRenderDuration=performance.now()-start;
   this.annotations?.draw(this.camera,this.host.clientWidth,this.host.clientHeight);
  }
- registerContext(root){
+ registerContext(root,leafTextures){
   this.prepare(root);
   root.traverse(o=>{if(o.geometry){
    if(!o.userData.contextSourceSupport&&!o.userData.initialHidden)this.cityPaths.add(o.userData.atlasPath);
+   if(o.userData.leafCutout&&o.material?.map){
+    const key=o.userData.leafCutout,loaded=o.material.map,shared=leafTextures?.get(key);
+    if(shared&&shared!==loaded){
+     o.material.map=shared;loaded.dispose();
+     if(loaded.image!==shared.image)loaded.image?.close?.();
+    }else leafTextures?.set(key,loaded);
+    const white=this.clay.clone();
+    white.map=o.material.map;white.alphaTest=o.material.alphaTest;white.side=o.material.side;
+    white.shadowSide=o.material.shadowSide=T.FrontSide;
+    o.userData.leafClay=white;
+   }
    if(o.userData.contextBuildingColor&&o.material?.color){
     const neutral=o.material.clone();neutral.vertexColors=false;neutral.color.set(o.userData.contextNeutral||'#dedbd2');
     o.userData.neutralMaterial=neutral;
@@ -333,7 +345,7 @@ export class AtlasViewer{
    this.wideLighting=false;this.cityURL=city;this.cityPaths=new Set();this.hiddenCity.clear();
    const request=Symbol();this.contextRequest=request;
    const urls=city==='./models/ann-arbor.glb'?[
-    './models/urban-core-materials.glb','./models/urban-near.glb?v=60b1a47f09','./models/urban-outer.glb?v=ad80ed3e7a'
+    './models/urban-core-materials.glb','./models/urban-near.glb?v=e72da9fc46','./models/urban-outer.glb?v=158d771d7c'
    ]:city?[city]:[];
    // Commit the three registered assets as one context, shared by all projects.
    this.pendingCity=Promise.allSettled(urls.map(url=>city==='./models/ann-arbor.glb'?loadDistrict(loader,url):loadGLB(url))).then(results=>{
@@ -343,7 +355,8 @@ export class AtlasViewer{
     if(failed){objects.forEach(disposeModel);this.cityURL=null;throw failed.reason;}
     if(!objects.length)return;
     this.city=new T.Group();
-    for(const obj of objects){this.registerContext(obj);this.city.add(obj);}
+    const leafTextures=new Map();
+    for(const obj of objects){this.registerContext(obj,leafTextures);this.city.add(obj);}
     this.scene.add(this.city);this.applyModes();
    });
   }
@@ -362,7 +375,7 @@ export class AtlasViewer{
   this.project.traverse(o=>{if(o.geometry){const path=o.userData.atlasPath;this.paths.set(path,(this.paths.get(path)||false)||!o.userData.initialHidden);}});
   for(const [path,visible] of this.paths){if(!visible)this.hidden.add(path);}
   const b=new T.Box3().setFromObject(this.project);if(b.isEmpty())throw Error('This file has no viewable geometry.');
-  this.projectBounds=b;
+  this.projectBounds=b;this.renderer.projectBounds=b;
   const size=b.getSize(v());this.center=b.getCenter(v());this.radius=Math.max(size.length()*.54,.01);
   this.width=Math.max(size.x,size.z,size.y)*1.42;this.height=this.radius*.96;
   if(model.demo){
@@ -504,7 +517,7 @@ export class AtlasViewer{
    const path=o.userData.atlasPath;
    o.visible=root===this.project?!this.hidden.has(path):!this.hiddenCity.has(path)&&!o.userData.initialHidden;
    if(o.isMesh){
-    const display=o.geometry.hasAttribute('normal')?this.clay:this.flatClay;
+    const display=o.userData.leafClay||(o.geometry.hasAttribute('normal')?this.clay:this.flatClay);
     o.material=this.mode==='clay'?display:(!this.buildingColors&&o.userData.neutralMaterial)||o.userData.sourceMaterial;
     if(root===this.project){
      const transparentPane=original&&[].concat(o.material).every(m=>

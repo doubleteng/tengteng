@@ -61,6 +61,21 @@ function finishLevel(levels,uv,coords,a,b,c,A,B,C,D){
  }
  return levels[Math.min(levels.length-1,Math.max(0,Math.round(Math.log2(footprint||1))))];
 }
+// The leaf atlas is a power-of-two repeating PNG. Cache its alpha channel and
+// coverage range once per mip so a distant, fully covered mip needs no pixel lookups.
+function prepareLeafMask(levels){
+ for(const level of levels){
+  const a=new Uint8Array(level.width*level.height);let min=255,max=0;
+  for(let i=0;i<a.length;i++){a[i]=level.pixels[4*i+3];min=Math.min(min,a[i]);max=Math.max(max,a[i]);}
+  level.leafAlpha=a;level.minAlpha=min;level.maxAlpha=max;
+ }
+}
+function leafMip(levels,uv,a,b,c,A,B,C,D){
+ const u=uv[a]-uv[c],v=uv[b]-uv[c],s=uv[a+1]-uv[c+1],t=uv[b+1]-uv[c+1];
+ const footprint=levels[0].width*Math.max(Math.abs(A*u+C*v),Math.abs(B*u+D*v),Math.abs(A*s+C*t),Math.abs(B*s+D*t));
+ const level=Math.round(Math.log2(Math.max(1,footprint)));
+ return levels[Math.min(level,levels.length-1)];
+}
 function prepareVolume(v){
  // A covered, open market also receives diffuse light reflected from the
  // surrounding bright court. Its horizontal directional coefficients locate
@@ -249,7 +264,106 @@ function paintLine(pass,coords,a,b,d){
   for(let c=0;c<3;c++)pixels[p*4+c]+=alpha*(d.color[c]*255-pixels[p*4+c]);
  }
 }
+// Draw cutouts before writing depth in both the eye and sun passes. The
+// architecture's general material shader never samples the foliage mask.
+function rasterLeaf(pass,coords,a,b,c,light,leaf,scan,uv,tones){
+ const [xmin,xmax,ymin,ymax,A,B,C,D]=scan;
+ const [baseU,baseV,aU,aV,bU,bV,cutoff]=uv;
+ const [red,green,blue,fill,fillU,fillV,key,keyU,keyV,slopeX,slopeY]=tones;
+ const {w,depth,pixels}=pass,cx=coords[c],cy=coords[c+1];
+ const perspective=!!coords.cameraW;
+ const aw=perspective?1/coords.cameraW[a/3]:1,bw=perspective?1/coords.cameraW[b/3]:1,cw=perspective?1/coords.cameraW[c/3]:1;
+ const baseZ=coords[c+2],zU=coords[a+2]-baseZ,zV=coords[b+2]-baseZ;
+ for(let y=ymin;y<=ymax;y++){
+  let u=A*(xmin+.5-cx)+B*(y+.5-cy),v=C*(xmin+.5-cx)+D*(y+.5-cy);
+  let first=xmin,last=xmax;
+  if(xmax-xmin>16){
+   const t=1-u-v,S=-A-C;
+   let lo=0,hi=xmax-xmin;
+   if(A>0)lo=Math.max(lo,(-.00001-u)/A);else if(A<0)hi=Math.min(hi,(-.00001-u)/A);
+   if(C>0)lo=Math.max(lo,(-.00001-v)/C);else if(C<0)hi=Math.min(hi,(-.00001-v)/C);
+   if(S>0)lo=Math.max(lo,(-.00001-t)/S);else if(S<0)hi=Math.min(hi,(-.00001-t)/S);
+   const skip=Math.max(0,Math.ceil(lo));if(skip>hi)continue;
+   first+=skip;last=Math.min(last,xmin+Math.floor(hi));u+=A*skip;v+=C*skip;
+  }
+  for(let x=first;x<=last;x++,u+=A,v+=C){
+   const t=1-u-v;if(u<-.00001||v<-.00001||t<-.00001)continue;
+   const p=y*w+x,z=baseZ+u*zU+v*zV;if(z< -1||z>1||z>=depth[p])continue;
+   let i=u,j=v;
+   if(perspective){const inv=1/(i*aw+j*bw+t*cw);i*=aw*inv;j*=bw*inv;}
+   if(leaf){
+    const sx=(baseU+i*aU+j*bU)|0,sy=(baseV+i*aV+j*bV)|0;
+    if(leaf.leafAlpha[(sy&(leaf.height-1))*leaf.width+(sx&(leaf.width-1))]<cutoff)continue;
+   }
+   depth[p]=z;if(!pixels)continue;
+   let sun=key+i*keyU+j*keyV;
+   if(light&&sun>0){
+    const k=1-i-j;
+    sun*=1-shadowCoverage(pass.shadowDepth,pass.ss,
+     i*light[a]+j*light[b]+k*light[c],i*light[a+1]+j*light[b+1]+k*light[c+1],
+     i*light[a+2]+j*light[b+2]+k*light[c+2],slopeX,slopeY);
+   }
+   const shade=fill+i*fillU+j*fillV+sun,off=4*p;
+   pixels[off]=shade*red;pixels[off+1]=shade*green;pixels[off+2]=shade*blue;
+  }
+ }
+}
+function paintLeaves(pass,coords,indices,d,light,world,uv){
+ const {pixels,dir}=pass,levels=d.finishTile,cutoff=d.alphaTest*255;
+ for(let i=d.start,end=i+d.count;i<end;i+=3){
+  const a=3*(indices?indices[i]:i),b=3*(indices?indices[i+1]:i+1),c=3*(indices?indices[i+2]:i+2);
+  const colors=d.finishes;
+  const red=colors?colors[a]:255*d.color[0],green=colors?colors[a+1]:255*d.color[1],blue=colors?colors[a+2]:255*d.color[2];
+  if(coords.clip){
+   const wa=coords.cameraW[a/3],wb=coords.cameraW[b/3],wc=coords.cameraW[c/3];
+   if(wa<pass.near||wb<pass.near||wc<pass.near){
+    if(wa>=pass.near||wb>=pass.near||wc>=pass.near)
+     drawNearClipped(pass,coords,[a,b,c],colors?{...d,finishes:null,color:[red/255,green/255,blue/255]}:d,light,world,uv);
+    continue;
+   }
+  }
+  const ax=coords[a],ay=coords[a+1],bx=coords[b],by=coords[b+1],cx=coords[c],cy=coords[c+1];
+  const den=(by-cy)*(ax-cx)+(cx-bx)*(ay-cy);
+  if(Math.abs(den)<.000001||(den<0)===d.flipped)continue;
+  const xmin=Math.max(0,Math.floor(Math.min(ax,bx,cx))),xmax=Math.min(pass.w-1,Math.ceil(Math.max(ax,bx,cx)));
+  const ymin=Math.max(0,Math.floor(Math.min(ay,by,cy))),ymax=Math.min(pass.h-1,Math.ceil(Math.max(ay,by,cy)));
+  if(xmax<xmin||ymax<ymin)continue;
+  const A=(by-cy)/den,B=(cx-bx)/den,C=(cy-ay)/den,D=(ax-cx)/den,ia=2*(a/3),ib=2*(b/3),ic=2*(c/3);
+  const mip=leafMip(levels,uv,ia,ib,ic,A,B,C,D);if(mip.maxAlpha<cutoff)continue;
+  let leaf=null,baseU=0,baseV=0,aU=0,aV=0,bU=0,bV=0;
+  if(mip.minAlpha<cutoff){
+   baseU=mip.width*uv[ic];baseV=mip.height*uv[ic+1];
+   aU=mip.width*(uv[ia]-uv[ic]);aV=mip.height*(uv[ia+1]-uv[ic+1]);
+   bU=mip.width*(uv[ib]-uv[ic]);bV=mip.height*(uv[ib+1]-uv[ic+1]);
+   if(aU||aV||bU||bV)leaf=mip;
+   else if(mip.leafAlpha[(baseV|0)*mip.width+(baseU|0)]<cutoff)continue;
+  }
+  let fill=0,fillU=0,fillV=0,sun=0,sunU=0,sunV=0,slopeX=0,slopeY=0;
+  if(pixels){
+   const ux=world[b]-world[a],uy=world[b+1]-world[a+1],uz=world[b+2]-world[a+2],vx=world[c]-world[a],vy=world[c+1]-world[a+1],vz=world[c+2]-world[a+2];
+   const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx,inv=1/(Math.sqrt(nx*nx+ny*ny+nz*nz)||1);
+   const sky=pass.skyGain*(.93+.07*ny*inv),ambient=d.ambient;
+   fill=sky;
+   if(ambient){const strength=.50*sky/255,base=ambient[c/3];fill+=strength*(base-255);fillU=strength*(ambient[a/3]-base);fillV=strength*(ambient[b/3]-base);}
+   if(d.canopyLight){sun=d.canopyLight[c/3];sunU=d.canopyLight[a/3]-sun;sunV=d.canopyLight[b/3]-sun;}
+   else sun=Math.sqrt(sky*sky+pass.keyGain*Math.max(0,inv*(nx*dir[0]+ny*dir[1]+nz*dir[2])))-sky;
+   if(light&&d.receive){
+    const dx=light[b]-light[a],dy=light[b+1]-light[a+1],ex=light[c]-light[a],ey=light[c+1]-light[a+1],det=dx*ey-ex*dy;
+    if(Math.abs(det)>1e-8){
+     const dz=light[b+2]-light[a+2],ez=light[c+2]-light[a+2];
+     slopeX=(dz*ey-ez*dy)/det;slopeY=(dx*ez-ex*dz)/det;
+    }
+   }
+  }
+  rasterLeaf(pass,coords,a,b,c,d.receive?light:null,leaf,[xmin,xmax,ymin,ymax,A,B,C,D],
+   [baseU,baseV,aU,aV,bU,bV,cutoff],[red,green,blue,fill,fillU,fillV,sun,sunU,sunV,slopeX,slopeY]);
+ }
+}
 function paint(pass,coords,indices,d,lightCoords,world,uv){
+ if(d.cutoutTrees&&d.finishTile&&uv){paintLeaves(pass,coords,indices,d,lightCoords,world,uv);return;}
+ paintSurfaces(pass,coords,indices,d,lightCoords,world,uv);
+}
+function paintSurfaces(pass,coords,indices,d,lightCoords,world,uv){
  const {w,h,depth,pixels,shadowDepth,ss,dir}=pass;
  const end=d.start+d.count;
  const canopyLight=pixels&&d.canopyLight;
@@ -661,7 +775,11 @@ function refitBounds(g){
 }
 onmessage=({data:q})=>{
  for(const id of q.removedTiles||[])finishTiles.delete(id);
- for(const tile of q.tiles||[])finishTiles.set(tile.id,imagePyramid(tile));
+ for(const tile of q.tiles||[]){
+  const levels=imagePyramid(tile);
+  if(tile.leafMask)prepareLeafMask(levels);
+  finishTiles.set(tile.id,levels);
+ }
  if(q.resources?.volume)lightVolume=prepareVolume(q.resources.volume);
  if(q.resources?.environment)daylight=imagePyramid(q.resources.environment);
  if(q.resources?.streetSky)streetSky=q.resources.streetSky;
@@ -715,7 +833,7 @@ onmessage=({data:q})=>{
  });
  if(q.shadow&&q.updateShadow){
   shadowDepth.fill(Infinity);
-  for(const {d,g,l} of objs)if(d.cast&&!d.blendPane)paint({w:ss,h:ss,depth:shadowDepth},l,g.index,d);
+  for(const {d,g,l} of objs)if(d.cast&&!d.blendPane)paint({w:ss,h:ss,depth:shadowDepth},l,g.index,d,null,null,d.cutoutTrees&&d.finishTile?transformedUV(g,d):null);
  }
  const pixels=new Uint8ClampedArray(q.w*q.h*4);
  if(q.streetView&&streetSky)paintStreetSky(pixels,q.w,q.h,q.streetView);

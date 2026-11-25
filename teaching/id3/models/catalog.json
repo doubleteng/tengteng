@@ -9,14 +9,14 @@
       "material": "Fair-faced precast concrete",
       "type": "Farmers market",
       "status": "Work in progress",
-      "url": "./models/ava-barbat.glb.gz?v=0a2a2c4e72",
+      "url": "./models/ava-barbat.glb.gz?v=c032552a02",
       "frameLabel": "Isolate precast structure",
       "perspectiveDirection": [
         0.87,
         0.82,
         1.04
       ],
-      "cover": "./models/ava-barbat.webp?v=df633e0528",
+      "cover": "./models/ava-barbat.webp?v=f6969a4b33",
       "viewpoints": [
         {
           "id": "ava-entry",
@@ -137,9 +137,24 @@
             54.4
           ],
           "fov": 61
+        },
+        {
+          "id": "ava-paired-site-stairs",
+          "label": "Site grading · paired stair flights",
+          "eye": [
+            -22,
+            5.5,
+            10
+          ],
+          "target": [
+            -13.64,
+            1.68,
+            11.64
+          ],
+          "fov": 54
         }
       ],
-      "lightVolume": "./models/ava-barbat.light.gz?v=0c12934326",
+      "lightVolume": "./models/ava-barbat.light.gz?v=98aa66c8b3",
       "statement": [
         "My proposal reimagines the Ann Arbor Farmers Market as a place where circulation becomes an opportunity for connection. Organized around a central circulation space and terrace, the building brings visitors together while encouraging movement between market activities, gathering spaces, and different levels.",
         "The experience begins outside, where the canopy extends the market into the site and creates a sheltered approach. Visitors move from the surrounding streets through outdoor market spaces toward the building’s shared center. Rather than treating circulation as a passage between destinations, the design makes it a social space where people can pause, meet, and observe the activity around them.",

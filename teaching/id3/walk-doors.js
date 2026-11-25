@@ -190,7 +190,7 @@ function foldingScreens(root,doors){
 }
 
 function authoredDoors(root,doors){
- const claimed=new Set();
+ const claimed=new Set(), groups=new Map();
  root.traverse(o=>{
   if(o===root||!o.isMesh&&!o.isGroup&&!o.isObject3D)return;
   for(let p=o.parent;p&&p!==root;p=p.parent)if(claimed.has(p))return;
@@ -211,9 +211,26 @@ function authoredDoors(root,doors){
   hinge[wide]=options.hingeSide==='right'?box.max[wide]:box.min[wide];hinge.y=box.min.y;
   if(Array.isArray(options.hinge)&&options.hinge.length===3&&options.hinge.every(Number.isFinite))hinge.fromArray(options.hinge);
   const degrees=Number.isFinite(options.angle)?T.MathUtils.clamp(options.angle,-150,150):90;
-  const motion=swing(o,hinge,T.MathUtils.degToRad(degrees));
-  claimed.add(o);doors.push(doorRecord(options.label||name||'Door',leaves,motion));
+  const delta=options.slide;
+  let motion;
+  if(Array.isArray(delta)&&delta.length===3&&delta.every(Number.isFinite)){
+   // A sliding leaf's travel is expressed in its parent coordinate system.
+   const rest=o.matrix.clone(),auto=o.matrixAutoUpdate;
+   motion=value=>{
+    o.matrix.copy(rest);o.matrix.elements[12]+=delta[0]*value;
+    o.matrix.elements[13]+=delta[1]*value;o.matrix.elements[14]+=delta[2]*value;
+    o.matrixAutoUpdate=value===0?auto:false;o.updateWorldMatrix(false,true);
+   };
+  }else motion=swing(o,hinge,T.MathUtils.degToRad(degrees));
+  claimed.add(o);
+  const key=options.group||o;
+  if(!groups.has(key))groups.set(key,{label:options.label||name||'Door',members:[],motions:[]});
+  const entry=groups.get(key);
+  entry.members.push(...leaves);entry.motions.push(motion);
  });
+ for(const {label,members,motions} of groups.values()){
+  doors.push(doorRecord(label,members,value=>{for(const pose of motions)pose(value);}));
+ }
 }
 
 // Most doors are stationary. A world AABB rules out distant leaves before
@@ -230,10 +247,15 @@ export function doorWorldBounds(mesh,matrix){
  }
  return record.box;
 }
+const pickBox=new T.Box3(),pickPad=vec();
 function rayHitBox(mesh,matrix,reach){
  if(doorWorldBounds(mesh,matrix).distanceToPoint(targetRay.origin)>reach)return Infinity;
  localRay.copy(targetRay).applyMatrix4(inverse.copy(matrix).invert());
- if(!localRay.intersectBox(mesh.geometry.boundingBox,where))return Infinity;
+ // Allow a 12 mm target tolerance at a pair's meeting stiles, including the elevator seal.
+ const m=matrix.elements;
+ pickPad.set(.012/Math.hypot(m[0],m[1],m[2]),.012/Math.hypot(m[4],m[5],m[6]),.012/Math.hypot(m[8],m[9],m[10]));
+ pickBox.copy(mesh.geometry.boundingBox).expandByVector(pickPad);
+ if(!localRay.intersectBox(pickBox,where))return Infinity;
  return where.applyMatrix4(matrix).distanceTo(targetRay.origin);
 }
 

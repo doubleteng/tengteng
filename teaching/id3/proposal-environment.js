@@ -76,8 +76,9 @@ export function applyProposalEnvironment(root,probe) {
    visited.add(material);
    const [kind,intensity] = reflectance(material);
    material.envMap = probe.texture;
-   material.envMapIntensity = intensity;
-   material.userData.proposalEnvIntensity = intensity;
+   const gain = Number.isFinite(material.userData.reflectionGain) ? T.MathUtils.clamp(material.userData.reflectionGain, .2, 3) : 1;
+   material.envMapIntensity = intensity * gain;
+   material.userData.proposalEnvIntensity = material.envMapIntensity;
    material.userData.proposalReflection = kind;
    if (kind==='glass' && material.transparent && !material.transmission) glassCoverage(material);
    material.needsUpdate = true;

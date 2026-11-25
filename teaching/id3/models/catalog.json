@@ -6,17 +6,17 @@
       "number": "01",
       "title": "Farmers Market Proposal",
       "author": "Ava Barbat",
-      "material": "Cast-in-place concrete",
+      "material": "Precast concrete",
       "type": "Farmers market",
       "status": "Work in progress",
-      "url": "./models/ava-barbat.glb.gz?v=812977275e",
-      "frameLabel": "Isolate concrete structure",
+      "url": "./models/ava-barbat.glb.gz?v=2d44bfdfdf",
+      "frameLabel": "Isolate precast structure",
       "perspectiveDirection": [
         0.87,
         0.82,
         1.04
       ],
-      "cover": "./models/ava-barbat.webp?v=c9081e32aa",
+      "cover": "./models/ava-barbat.webp?v=f0fe07980b",
       "viewpoints": [
         {
           "id": "ava-entry",
@@ -64,7 +64,7 @@
           "fov": 49
         }
       ],
-      "lightVolume": "./models/ava-barbat.light.gz?v=1861d8a37b"
+      "lightVolume": "./models/ava-barbat.light.gz?v=19e8917b0c"
     }
   ],
   "cases": [

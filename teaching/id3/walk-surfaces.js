@@ -1,7 +1,7 @@
 // First-person navigation uses the actual displayed triangles, in metres.
 // Grid entries reference the orbit camera's existing triangle runs.
 import {Box3,Vector3} from './lib/three.module.min.js';
-import {doorWorldBounds} from './walk-doors.js?v=e4332bd31f';
+import {doorWorldBounds} from './walk-doors.js?v=13b62b63ab';
 import {indexMesh} from './camera-clearance.js?v=5e0d138cc1';
 
 const epsilon=1e-6;

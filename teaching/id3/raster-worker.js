@@ -444,7 +444,7 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
       gg=through*(base[off+1]*(1-glazeTint)*.99+gg*glazeTint)+R*env[1];
       bb=through*(base[off+2]*(1-glazeTint)+bb*glazeTint)+R*env[2];
      }else{
-      const strength=Math.min(.85,.07+.48*(d.metalness??0)+.32*grazing)*(1-.45*(d.roughness??.4));
+      const strength=Math.min(.90,(.07+.48*(d.metalness??0)+.32*grazing)*(1-.45*(d.roughness??.4))*d.reflectionMix);
       rr+=strength*(env[0]-rr);gg+=strength*(env[1]-gg);bb+=strength*(env[2]-bb);
      }
     }
@@ -631,6 +631,7 @@ onmessage=({data:q})=>{
    g.lightMatrix=q.shadow;g.light=project(xyz,multiply(q.shadow,m),ss,ss);
   }
   d.blendPane=(d.finish==='glass'||d.finish==='frosted'||d.reflection==='glass')&&d.alpha<.995;
+  d.reflectionMix=Math.min(3,Math.max(.2,d.reflectionGain??1));
   d.reflective=(d.reflection==='metal'||d.finish==='pv'||d.finish==='zinc')&&!!q.useEnvironment;
   d.finishTile=finishTiles.get(d.tileID);
   d.flipped=m[0]*(m[5]*m[10]-m[6]*m[9])-m[4]*(m[1]*m[10]-m[2]*m[9])+m[8]*(m[1]*m[6]-m[2]*m[5])<0;

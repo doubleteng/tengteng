@@ -218,7 +218,7 @@ function drawNearClipped(pass,coords,offsets,d,lightCoords,world,uv){
   wpos.push(...a.slice(4,7));light.push(...a.slice(7,10));clippedUV.push(a[10],a[11]);clippedAmbient.push(a[12]);
  });
  const indices=polygon?(out.length===4?[0,1,2,0,2,3]:[0,1,2]):[0,1];
- paint(pass,screen,indices,{...d,chunkBounds:null,localVisibility:null,ambient:d.ambient?clippedAmbient:null,figureLight:d.figureLight?out.map(a=>a[13]):null,contactFade:d.contactFade?out.map(a=>a[14]):null,widths:d.widths&&!polygon?[d.widths[offsets[0]/3],d.widths[offsets[1]/3]]:null,start:0,count:indices.length,kind:polygon?'tri':'segments'},lightCoords?light:null,wpos,uv?clippedUV:null);
+ paint(pass,screen,indices,{...d,canopyLight:null,chunkBounds:null,localVisibility:null,ambient:d.ambient?clippedAmbient:null,figureLight:d.figureLight?out.map(a=>a[13]):null,contactFade:d.contactFade?out.map(a=>a[14]):null,widths:d.widths&&!polygon?[d.widths[offsets[0]/3],d.widths[offsets[1]/3]]:null,start:0,count:indices.length,kind:polygon?'tri':'segments'},lightCoords?light:null,wpos,uv?clippedUV:null);
 }
 function paintLine(pass,coords,a,b,d){
  const {w,h,depth,pixels}=pass,ax=coords[a],ay=coords[a+1],dx=coords[b]-ax,dy=coords[b+1]-ay;
@@ -252,6 +252,7 @@ function paintLine(pass,coords,a,b,d){
 function paint(pass,coords,indices,d,lightCoords,world,uv){
  const {w,h,depth,pixels,shadowDepth,ss,dir}=pass;
  const end=d.start+d.count;
+ const canopyLight=pixels&&d.canopyLight;
  const smoothLight=pixels&&d.figureLight,contact=pixels&&d.contactFade;
  const idx=i=>3*(indices?indices[i]:i);
  if(d.kind!=='tri'){
@@ -289,6 +290,7 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
   const texel=photo?(d.alphaTest||d.sourceBlend?[255,255,255,255]:[255,255,255]):null;
   const volume=pixels&&d.proposal&&pass.volume;
   let reflection=null,fillLight=0,nx=0,ny=0,nz=0,largeFace=false;
+  let crownBase=0,crownU=0,crownV=0;
   let lum=1, direct=0, sky=0, slopeX=0, slopeY=0, occlusion=0;
   const ambient=pixels?d.ambient:null;
   const ambientA=ambient?ambient[a/3]:255,ambientB=ambient?ambient[b/3]:255,ambientC=ambient?ambient[c/3]:255;
@@ -309,6 +311,10 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
    // The worker shades sRGB colors. Combine sky and sun in approximate
    // linear light once per triangle; only the solar component is occluded.
    direct=Math.sqrt(fill*fill+pass.keyGain*diffuse)-fill;
+   if(canopyLight){
+    crownBase=canopyLight[c/3];crownU=canopyLight[a/3]-crownBase;crownV=canopyLight[b/3]-crownBase;
+    direct=crownBase+(crownU+crownV)/3;
+   }
    occlusion=.50*fill;
    lum=fill+direct-occlusion*(1-ambientC/255);
    if(lightCoords&&d.receive&&(direct>0||smoothLight)){
@@ -377,6 +383,7 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
      continue;
     }
     let key=direct;
+    if(canopyLight){key=crownBase+l0*crownU+l1*crownV;shade+=key-direct;}
     if(smoothLight){
      const diffuse=l0*smoothLight[a/3]+l1*smoothLight[b/3]+l2*smoothLight[c/3];
      key=Math.sqrt(fillLight*fillLight+pass.keyGain*diffuse)-fillLight;
@@ -460,10 +467,11 @@ const identity=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
 const chunkIndices=192;
 function meshBounds(g){
  const {xyz,index}=g,number=index?.length??xyz.length/3;
- const bounds=new Float32Array(Math.ceil(number/chunkIndices)*6);
- for(let i=0,offset=0;i<number;i+=chunkIndices,offset+=6){
+ const stride=g.treeStride||chunkIndices;
+ const bounds=new Float32Array(Math.ceil(number/stride)*6);
+ for(let i=0,offset=0;i<number;i+=stride,offset+=6){
   let xmin=Infinity,ymin=Infinity,zmin=Infinity,xmax=-Infinity,ymax=-Infinity,zmax=-Infinity;
-  for(let j=i,end=Math.min(number,i+chunkIndices);j<end;j++){
+  for(let j=i,end=Math.min(number,i+stride);j<end;j++){
    const k=3*(index?index[j]:j),x=xyz[k],y=xyz[k+1],z=xyz[k+2];
    if(x<xmin)xmin=x;if(x>xmax)xmax=x;if(y<ymin)ymin=y;if(y>ymax)ymax=y;if(z<zmin)zmin=z;if(z>zmax)zmax=z;
   }
@@ -539,9 +547,24 @@ function behindDepth(pass,b,k,m){
 function paintVisible(pass,g,d,transform,light,world){
  const frustum=planes(transform);
  if(outside(g.bounds,0,frustum))return;
+ const stride=g.treeStride||chunkIndices;
  const testDepth=pass.coverage&&d.kind==='tri'&&d.count>=chunkIndices;
  if(testDepth&&behindDepth(pass,g.bounds,0,transform))return;
- if(g.normals){
+ if(g.treeStride&&g.normals){
+  // Static canopy normals and a uniform node scale allow one light bake per sun
+  // setting. Moving the eye reuses these values for all street trees.
+  const m=d.m,[sx,sy,sz]=pass.dir,scale=1/Math.hypot(m[0],m[1],m[2]);
+  const x=(sx*m[0]+sy*m[1]+sz*m[2])*scale,y=(sx*m[4]+sy*m[5]+sz*m[6])*scale,z=(sx*m[8]+sy*m[9]+sz*m[10])*scale;
+  if(g.sunX!==x||g.sunY!==y||g.sunZ!==z||g.sky!==pass.skyGain||g.sun!==pass.keyGain){
+   const n=g.normals,light=g.canopyLight??=new Float32Array(n.length/3);
+   for(let i=0;i<light.length;i++){
+    const diffuse=Math.max(0,x*n[3*i]+y*n[3*i+1]+z*n[3*i+2]);
+    light[i]=Math.sqrt(pass.skyGain*pass.skyGain+pass.keyGain*diffuse)-pass.skyGain;
+   }
+   g.sunX=x;g.sunY=y;g.sunZ=z;g.sky=pass.skyGain;g.sun=pass.keyGain;
+  }
+  d.canopyLight=g.canopyLight;
+ }else if(g.normals){
   // The figure has rigid, unit-scale joint transforms. Rotate the sun into
   // each joint's frame once, then interpolate its vertex lighting on screen.
   const n=g.normals,m=d.m,[sx,sy,sz]=pass.dir;
@@ -561,7 +584,7 @@ function paintVisible(pass,g,d,transform,light,world){
  }
  let visibleStart=-1;
  for(let i=start;i<end;){
-  const block=Math.floor(i/chunkIndices),next=Math.min(end,(block+1)*chunkIndices);
+  const block=Math.floor(i/stride),next=Math.min(end,(block+1)*stride);
   if(!outside(g.chunkBounds,6*block,frustum)&&!(testDepth&&behindDepth(pass,g.chunkBounds,6*block,transform))){
    if(visibleStart<0)visibleStart=i;
    projectRun(g,transform,pass.w,pass.h,near,i,next);

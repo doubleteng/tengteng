@@ -7,8 +7,8 @@ import {WalkDoors} from './walk-doors.js?v=700350e06a';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
-import {applyDistrictLight,loadDistrict} from './district-light.js';
-import {makeRenderer} from './software-view.js?v=12900f33fc';
+import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
+import {makeRenderer} from './software-view.js?v=1ea0f22e62';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -333,7 +333,7 @@ export class AtlasViewer{
    this.wideLighting=false;this.cityURL=city;this.cityPaths=new Set();this.hiddenCity.clear();
    const request=Symbol();this.contextRequest=request;
    const urls=city==='./models/ann-arbor.glb'?[
-    './models/urban-core-materials.glb','./models/urban-near.glb','./models/urban-outer.glb'
+    './models/urban-core-materials.glb','./models/urban-near.glb?v=60b1a47f09','./models/urban-outer.glb?v=ad80ed3e7a'
    ]:city?[city]:[];
    // Commit the three registered assets as one context, shared by all projects.
    this.pendingCity=Promise.allSettled(urls.map(url=>city==='./models/ann-arbor.glb'?loadDistrict(loader,url):loadGLB(url))).then(results=>{

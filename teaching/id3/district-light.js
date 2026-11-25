@@ -28,7 +28,7 @@ async function readBake(url) {
 
 export async function loadDistrict(loader, url) {
  const [asset, entries] = await Promise.all([
-  loader.loadAsync(url), readBake(url.replace(/\.glb$/, '.ambient.gz')).catch(() => null)
+  loader.loadAsync(url), readBake(url.replace(/\.glb(?=\?|$)/, '.ambient.gz')).catch(() => null)
  ]);
  if (entries) asset.scene.traverse(node => {
   if (!node.isMesh) return;

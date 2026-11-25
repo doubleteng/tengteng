@@ -44,7 +44,7 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=436c1bf517', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=63de37e62b', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
@@ -127,11 +127,16 @@ export class SoftwareRenderer {
     const factor=g.getAttribute('districtAmbient');
     const ambient=factor?new Uint8Array(factor.array):null;
     if(ambient)transfer.push(ambient.buffer);
-    const normals=g.userData.figureLighting?new Float32Array(g.attributes.normal.array):null;
+    const treeStride=o.userData.treeIndexStride||0;
+    let normals=g.userData.figureLighting?new Float32Array(g.attributes.normal.array):null;
+    if(o.userData.softCanopy){
+     const n=g.getAttribute('normal');normals=new Float32Array(n.count*3);
+     for(let i=0;i<n.count;i++){normals[3*i]=n.getX(i);normals[3*i+1]=n.getY(i);normals[3*i+2]=n.getZ(i);}
+    }
     const contactFade=g.userData.contactShadow?Float32Array.from({length:color.count},(_,i)=>color.getW(i)):null;
     if(normals)transfer.push(normals.buffer);
     if(contactFade)transfer.push(contactFade.buffer);
-    fresh.push({id,xyz,index,widths,paving,finishes,ambient,finishUVs,normals,contactFade});transfer.push(xyz.buffer);
+    fresh.push({id,xyz,index,treeStride,widths,paving,finishes,ambient,finishUVs,normals,contactFade});transfer.push(xyz.buffer);
     if(index)transfer.push(index.buffer);if(widths)transfer.push(widths.buffer);this.known.add(id);
    }
    const mats=[].concat(o.material);const groups=Array.isArray(o.material)?g.groups:[{start:0,count:g.index?.count||position.count,materialIndex:0}];

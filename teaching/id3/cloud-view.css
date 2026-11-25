@@ -9,3 +9,5 @@
 #cloud-local {font-size:.8rem}
 #cloud-note {max-width:24rem;text-align:center}
 #cloud-note:empty {display:none}
+
+#cloud-video img{display:block;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain;touch-action:none;user-select:none;background:#e0e1da}

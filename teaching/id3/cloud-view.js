@@ -1,4 +1,5 @@
-import {channel,service} from './cloud-channel.js';
+import {channel,service} from './cloud-channel.js?v=2';
+import {CloudFrames} from './cloud-frames.js';
 const $=id=>document.getElementById(id);
 let availableUntil=0,available=false;
 export async function cloudAvailable(){
@@ -31,20 +32,29 @@ export class CloudView{
   const invalid=()=>this.disposed||generation!==this.generation;
   const stop=message=>{if(invalid())return;this.reset();this.prompt(message,'Retry cloud walkthrough');};
   try{
-   const {default:Hyperbeam}=await import('https://cdn.jsdelivr.net/npm/@hyperbeam/web@0.0.38/dist/index.js');
+   const sdk=import('https://cdn.jsdelivr.net/npm/@hyperbeam/web@0.0.38/dist/index.js').catch(()=>null);
    if(invalid())return;
    const r=await fetch(service+'/sessions',{method:'POST',signal:AbortSignal.timeout(60000)});
    const s=await r.json();if(!r.ok)throw Error(s.error||'The cloud walkthrough is unavailable.');
    if(invalid()){terminate(s);return;}
    this.session=s;const frame=$('cloud-video');
+   const fallback=()=>{
+    if(invalid()||this.frames)return;
+    this.frames=new CloudFrames(frame,(name,...args)=>this.command(name,...args),()=>{this.frameReady=true;this.reveal();});
+    this.player?.destroy();this.player=null;
+    if(!this.project)$('cloud-note').textContent='Connecting through the alternate cloud stream…';
+    if(this.modelReady)this.frames.ask(0);
+   };
    const link=this.link=channel(s.id,s.key,m=>{
     if(invalid())return;
+    if(m instanceof ArrayBuffer){this.frames?.receive(m);return;}
+    if(m.type==='still'){this.frames?.ask(220);return;}
     if(m.type==='peer'){link.send({type:'hello'});return;}
     if(m.type==='error'){stop('The cloud computer could not load the model.');return;}
     if(m.type==='ready'&&!this.modelReady){
      this.paths=new Map(m.paths.map(path=>[path,true]));this.cityPaths=m.cityPaths;this.hidden=new Set(m.hidden);this.hiddenCity=new Set(m.hiddenCity);
      for(const key of ['cityVisible','contextEdges','buildingColors','mode','lens'])this[key]=m[key];
-     this.modelReady=true;this.reveal();return;
+     this.modelReady=true;this.frames?.ask(0);this.reveal();return;
     }
     if(m.type==='pose' && Array.isArray(m.p)&&m.p.length===2){
      this.camera.projectionMatrix.elements=m.p[0];this.camera.matrixWorldInverse.elements=m.p[1];this.draw();return;
@@ -58,18 +68,24 @@ export class CloudView{
    },()=>stop('Your cloud session ended. You can start a new one.'));
    this.connectTimer=setTimeout(()=>stop('The cloud model took too long to open.'),85000);
    this.hello=setInterval(()=>link.send({type:'hello'}),1200);
-   const hb=await Hyperbeam(frame,s.stream,{timeout:65000,webhookUserdata:{ticket:s.key},delegateKeyboard:true,onDisconnect:()=>stop('The video connection has ended.')});
-   if(invalid()){hb.destroy();return;}
-   this.player=hb;this.reveal();
+   this.switchTimer=setTimeout(fallback,14000);
+   const module=await sdk;if(invalid())return;
+   if(!module){fallback();return;}
+   if(this.frames)return;
+   try{
+    const hb=await module.default(frame,s.stream,{timeout:14000,webhookUserdata:{ticket:s.key},delegateKeyboard:true,onDisconnect:fallback});
+    if(invalid()||this.frames){hb.destroy();return;}
+    this.player=hb;clearTimeout(this.switchTimer);this.reveal();
+   }catch{fallback();}
   }catch(e){stop(e.message?.startsWith('The ')||e.message?.startsWith('All six')?e.message:'The cloud walkthrough could not connect.');}
  }
  reveal(){
-  if(!this.modelReady||!this.player||this.project)return;
+  if(!this.modelReady||(!this.player&&!this.frameReady)||this.project)return;
   clearTimeout(this.connectTimer);clearInterval(this.hello);this.project=true;
   $('cloud-prompt').hidden=true;$('cloud-note').textContent='';this.loaded({cityError:false});this.onReady?.();
  }
  reset(){
-  this.generation=(this.generation||0)+1;this.project=null;this.pending=false;this.modelReady=false;this.camera.projectionMatrix.elements=[];
+  this.generation=(this.generation||0)+1;this.project=null;this.pending=false;this.modelReady=false;clearTimeout(this.switchTimer);this.frames?.close();this.frames=null;this.frameReady=false;this.camera.projectionMatrix.elements=[];
   clearTimeout(this.connectTimer);clearInterval(this.hello);clearTimeout(this.sunTimer);
   this.link?.close();this.link=null;this.player?.destroy();this.player=null;
   terminate(this.session);this.session=null;$('cloud-video').replaceChildren();delete $('viewport').dataset.walking;

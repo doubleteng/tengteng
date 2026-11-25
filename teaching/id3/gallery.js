@@ -1,5 +1,5 @@
 import {bindSunlight} from './sun-controls.js?v=cf14de4ba5';
-import {CloudView,cloudAvailable} from './cloud-view.js';
+import {CloudView,cloudAvailable} from './cloud-view.js?v=2';
 const originalCity='./models/ann-arbor.glb';
 const overview={key:'site',title:'Ann Arbor Farmers Market',type:'Urban context',overview:true,cover:'./models/ann-arbor.webp'};
 const $=id=>document.getElementById(id);

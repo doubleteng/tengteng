@@ -73,7 +73,7 @@ export class GallerySessions {
   try{
    const response=await fetch(engine,{method:'POST',headers:{Authorization:'Bearer '+this.env.HYPERBEAM_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({
     start_url:remotePage+'#'+id+'.'+renderer,region:'NA',kiosk:true,webgl:true,width:1280,height:720,fps:30,quality:{mode:'smooth'},
-    timeout:{absolute:duration*60,inactive:180,offline:75,warning:30},
+    timeout:{absolute:duration*60,inactive:180,offline:duration*60,warning:30},
     auth:{type:'webhook',value:{url:origin+'/rooms/'+id+'/participant',bearer:hook}}
    }),signal:AbortSignal.timeout(55000)});
    if(!response.ok){
@@ -97,7 +97,8 @@ export class GallerySessions {
  }
  webSocketMessage(socket,message){
   const {id,role,ends}=socket.deserializeAttachment();
-  if(Date.now()>=ends || typeof message!=='string' || message.length>48000){socket.close(1008,'Expired or invalid');return;}
+  const valid=typeof message==='string'?message.length<=48000:role==='renderer' && message instanceof ArrayBuffer && message.byteLength<=500000;
+  if(Date.now()>=ends || !valid){socket.close(1008,'Expired or invalid');return;}
   for(const peer of this.ctx.getWebSockets(id+':'+(role==='host'?'renderer':'host')))if(peer.readyState===1)peer.send(message);
  }
  async alarm(){

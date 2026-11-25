@@ -205,7 +205,7 @@ export class StreetTraversal {
   else if(t<lift)walker.feet.lerpVectors(a.near,a.highNear,smooth((t-.14)/(lift-.14)));
   else if(t<across)walker.feet.lerpVectors(a.highNear,a.highFar,smooth((t-lift)/(across-lift)));
   else walker.feet.lerpVectors(a.highFar,a.far,smooth(clamp((t-across)/(1-across),0,1)));
-  if(t===1){walker.feet.copy(a.far);walker.grounded=true;this.action=null;this.cooldown=.24;this.jumped=false;}
+  if(t===1){walker.land(a.far);this.action=null;this.cooldown=.24;this.jumped=false;}
   return true;
  }
  step(walker,dt,held){

@@ -12,6 +12,7 @@ export class Walker {
   this.yaw=direction.x*direction.x+direction.z*direction.z>1e-5?Math.atan2(direction.x,-direction.z):0;
   this.pitch=0;this.grounded=true;this.verticalSpeed=0;
   this.motion=new Vector3();this.launch=new Vector3();this.takeoff=point.clone();this.boosted=false;
+  this.lastSupport=point.clone();
  }
  look(dx,dy){
   this.yaw+=dx;this.pitch=MathUtils.clamp(this.pitch+dy,-1.47,1.47);
@@ -35,27 +36,35 @@ export class Walker {
    if(this.launch.lengthSq()===0)this.launch.set(Math.sin(this.yaw),0,-Math.cos(this.yaw));
   }
  }
+ supportAt(x,z,minY,maxY){
+  // The center gives the tread elevation on slopes. At a seam, use the same
+  // foot disk for walking and for the entire downward sweep of a landing.
+  return this.surface.floorAt(x,z,minY,maxY,true)??this.surface.rimFloorAt(x,z,minY,maxY,RADIUS);
+ }
+ land(point){
+  this.feet.copy(point);this.lastSupport.copy(point);
+  this.verticalSpeed=0;this.grounded=true;this.boosted=false;
+ }
  stepAcross(dx,dz){
   if(!dx&&!dz)return true;
   this.contactNormal.set(0,0,0);
   const feet=this.feet,s=this.surface,x=feet.x+dx,z=feet.z+dz;
-  const ceiling=feet.y+(this.grounded?STEP:.015);
-  let floor=null;
-  if(!this.boosted){
-   if(this.grounded){
-    floor=s.floorAt(x,z,feet.y-STEP,ceiling,true);
-    if(floor===null)floor=s.rimFloorAt(x,z,feet.y-STEP,feet.y+.012,RADIUS);
-   }
-   if(floor===null)floor=s.floorAt(x,z,-Infinity,ceiling,true);
-   if(floor===null)return false;
-  }
   this.next.set(x,feet.y,z);
-  if(this.grounded&&Math.abs(floor-feet.y)<=STEP)this.next.y=floor;
+  let floor=null;
+  if(this.grounded){
+   floor=this.supportAt(x,z,feet.y-STEP,feet.y+STEP);
+   if(floor!==null)this.next.y=floor;
+   // Leave an actual ledge over a lower level. At the unmodeled perimeter,
+   // walking stops at the edge; a jump can still cross the intervening air.
+   else if(s.floorAt(x,z,-Infinity,feet.y-STEP,true)===null)return false;
+  }
   if(!s.canMove(feet,this.next,RADIUS,BODY,this.grounded?STEP:.025,this.contactNormal))return false;
   // Stepping up must not create a fresh overlap under a low soffit.
   if(this.next.y>feet.y&&!s.canStand(this.next,RADIUS,BODY)&&s.canStand(feet,RADIUS,BODY))return false;
-  if(this.grounded&&floor<feet.y-STEP)this.grounded=false;
-  feet.copy(this.next);return true;
+  if(floor===null)this.grounded=false;
+  feet.copy(this.next);
+  if(this.grounded)this.lastSupport.copy(feet);
+  return true;
  }
  step(dt,held){
   const axis=(positive,negative)=>Number(positive)-Number(negative);
@@ -86,14 +95,13 @@ export class Walker {
      nextY=Math.max(this.feet.y,ceiling-BODY-.015);this.verticalSpeed=0;
     }
    }else{
-    const floor=this.surface.floorAt(this.feet.x,this.feet.z,nextY-.025,this.feet.y+.025,true);
+    const floor=this.supportAt(this.feet.x,this.feet.z,nextY-.025,this.feet.y+.025);
     if(floor!==null&&nextY<=floor){
-     nextY=floor;this.verticalSpeed=0;this.grounded=true;this.boosted=false;
-    }else if(this.boosted&&nextY<this.surface.lowestSupport-STEP){
-     // A launch can cross empty space between modeled surfaces. Recover only
-     // after falling below the entire navigable model with no landing.
-     this.feet.copy(this.takeoff);nextY=this.feet.y;
-     this.verticalSpeed=0;this.grounded=true;this.boosted=false;
+     this.land(this.next.copy(this.feet).setY(floor));nextY=floor;
+    }else if(nextY<this.surface.lowestSupport-STEP){
+     // All real lower landings have been tested. Also recover a missed
+     // ordinary jump or a released climbing grip outside the modeled world.
+     this.land(this.boosted?this.takeoff:this.lastSupport);nextY=this.feet.y;
     }
    }
    this.feet.y=nextY;

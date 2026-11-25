@@ -129,8 +129,8 @@ export class AtlasViewer{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=2266b3c0ed').catch(error=>{this.walkModule=null;throw error;});
-   if(thirdPerson)this.streetModule??=import('./street-mode.js?v=63143bb2f4').catch(error=>{this.streetModule=null;throw error;});
+   this.walkModule??=import('./walk-mode.js?v=40af5bce11').catch(error=>{this.walkModule=null;throw error;});
+   if(thirdPerson)this.streetModule??=import('./street-mode.js?v=6d1007ab72').catch(error=>{this.streetModule=null;throw error;});
    Promise.all([this.walkModule,thirdPerson?this.streetModule:null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
     this.walkMode??=new WalkMode(this);

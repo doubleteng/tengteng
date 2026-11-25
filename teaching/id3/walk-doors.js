@@ -83,8 +83,15 @@ function doorRecord(label,meshes,pose,initial=0){
   mesh.geometry.computeBoundingBox();
   return {mesh,world:mesh.matrixWorld.clone()};
  });
- pose(initial);
- return {label,meshes,closed,pose,initial,value:initial,open:!!initial};
+ const closedBounds=new T.Box3();
+ for(const {mesh,world} of closed)closedBounds.union(doorWorldBounds(mesh,world));
+ const bounds=new T.Box3();
+ function place(value){
+  pose(value);bounds.makeEmpty();
+  for(const mesh of meshes)bounds.union(doorWorldBounds(mesh,mesh.matrixWorld));
+ }
+ place(initial);
+ return {label,meshes,closed,closedBounds,bounds,pose:place,initial,value:initial,open:!!initial};
 }
 
 function caseLeaves(root,doors){
@@ -287,11 +294,16 @@ export class WalkDoors{
  target(eye,direction,blockDistance=WALK_REACH){
   targetRay.set(eye,direction);
   let nearest=Math.min(WALK_REACH,blockDistance+.035),candidate=null;
-  for(const door of this.entries)for(const {mesh,world} of door.closed){
+  for(const door of this.entries){
+   // Open leaves can also be reached by looking through the closed opening.
+   if(door.bounds.distanceToPoint(eye)>nearest+.025 &&
+      (!door.value||door.closedBounds.distanceToPoint(eye)>nearest+.025))continue;
+   for(const {mesh,world} of door.closed){
    if(!visible(mesh))continue;
    let d=rayHitBox(mesh,mesh.matrixWorld,nearest);
    if(door.value>0)d=Math.min(d,rayHitBox(mesh,world,nearest));
    if(d<=nearest){nearest=d;candidate=door;}
+   }
   }
   return candidate;
  }

@@ -1,7 +1,7 @@
 // First-person navigation uses the actual displayed triangles, in metres.
 // Grid entries reference the orbit camera's existing triangle runs.
 import {Box3,Vector3} from './lib/three.module.min.js';
-import {doorWorldBounds} from './walk-doors.js?v=13b62b63ab';
+import {doorWorldBounds} from './walk-doors.js?v=700350e06a';
 import {indexMesh} from './camera-clearance.js?v=5e0d138cc1';
 
 const epsilon=1e-6;
@@ -141,7 +141,7 @@ class RunGrid {
 
 export class WalkSurfaces {
  constructor(roots,{clearance=null,doors=null}={}) {
-  this.entries=[];this.grid=new RunGrid();this.doors=doors;this.lowestSupport=Infinity;
+  this.entries=[];this.grid=new RunGrid();this.supportGrid=new RunGrid();this.doors=doors;this.lowestSupport=Infinity;
   this.box=new Box3();this.a=new Vector3();this.b=new Vector3();this.c=new Vector3();
   this.rayPoint=new Vector3();this.footprintPoint=new Vector3();this.clipIn=new Float64Array(24);this.clipOut=new Float64Array(24);
   const reuse=new Map((clearance?.meshes||[]).map(r=>[r.mesh,r]));
@@ -167,7 +167,10 @@ export class WalkSurfaces {
     if(role)this.lowestSupport=Math.min(this.lowestSupport,data.bounds.min.y);
     const entry={...data,role,winding:mesh.matrixWorld.determinant()<0?-1:1};
     this.entries.push(entry);
-    for(const block of entry.blocks)for(const run of block.runs)this.grid.insert(entry,run);
+    for(const block of entry.blocks)for(const run of block.runs){
+     this.grid.insert(entry,run);
+     if(role)this.supportGrid.insert(entry,run);
+    }
    });
   });
  }
@@ -183,7 +186,9 @@ export class WalkSurfaces {
   return false;
  }
  eachDoor(test,visit){
-  for(const mesh of this.doors?.meshes||[]){
+  for(const door of this.doors?.entries||[]){
+   if(!test(door.bounds))continue;
+   for(const mesh of door.meshes){
    if(!visible(mesh))continue;
    const geometry=mesh.geometry;
    if(!geometry.boundingBox)geometry.computeBoundingBox();
@@ -191,11 +196,13 @@ export class WalkSurfaces {
    if(!test(doorWorldBounds(mesh,world)))continue;
    const vertices=geometry.attributes.position,indices=geometry.index?.array;
    if(this.eachTriangle({mesh,role:0,vertices,indices},0,indices?.length??vertices.count,visit,world))return true;
+   }
   }
   return false;
  }
  eachNearby(box,visit,onlyFloors=false){
-  if(this.grid.query(box,(entry,run)=>(!onlyFloors||entry.role)&&this.eachTriangle(entry,run.start,run.end,visit)))return true;
+  const grid=onlyFloors?this.supportGrid:this.grid;
+  if(grid.query(box,(entry,run)=>this.eachTriangle(entry,run.start,run.end,visit)))return true;
   return !onlyFloors&&this.eachDoor(b=>box.intersectsBox(b),visit);
  }
  firstHit(ray,maxDistance=Infinity){

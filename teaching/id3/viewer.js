@@ -3,12 +3,12 @@ import {applyProposalFinishes} from './proposal-finishes.js?v=f856cfc70e';
 import {applyProposalEnvironment,loadProposalEnvironment,proposalSkyTexture} from './proposal-environment.js?v=ef6f9f286a';
 import {applyProjectLightVolume,loadProjectLightVolume} from './project-light-volume.js?v=20cde4c284';
 import {CameraClearance} from './camera-clearance.js?v=5e0d138cc1';
-import {WalkDoors} from './walk-doors.js?v=13b62b63ab';
+import {WalkDoors} from './walk-doors.js?v=700350e06a';
 import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js';
-import {makeRenderer} from './software-view.js?v=eca72e1c07';
+import {makeRenderer} from './software-view.js?v=12900f33fc';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -94,7 +94,7 @@ export class AtlasViewer{
  constructor(host,onInteract){
   this.host=host;this.onInteract=onInteract;
   const small=matchMedia('(max-width:700px)').matches;
-  this.renderer=makeRenderer({antialias:true,alpha:false,powerPreference:'low-power',logarithmicDepthBuffer:true});
+  this.renderer=makeRenderer({antialias:true,alpha:false,powerPreference:'default',logarithmicDepthBuffer:true});
   const r=this.renderer;this.preferredPixelRatio=Math.min(devicePixelRatio,small?1.25:1.5);
   this.fullPixelRatio=this.preferredPixelRatio;r.setPixelRatio(this.fullPixelRatio);
   r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;r.shadowMap.autoUpdate=false;
@@ -128,7 +128,7 @@ export class AtlasViewer{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=cc66afc198').catch(error=>{this.walkModule=null;throw error;});
+   this.walkModule??=import('./walk-mode.js?v=2266b3c0ed').catch(error=>{this.walkModule=null;throw error;});
    if(thirdPerson)this.streetModule??=import('./street-mode.js?v=63143bb2f4').catch(error=>{this.streetModule=null;throw error;});
    Promise.all([this.walkModule,thirdPerson?this.streetModule:null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
@@ -189,7 +189,7 @@ export class AtlasViewer{
   this.lastMovingFrame=now;
   // Isolated mouse-wheel ticks and the first frame after loading are not a
   // performance measurement. Require successive late frames during navigation.
-  const continuous=elapsed<Math.max(220,(this.lastRenderDuration||0)*1.8);
+  const continuous=Number.isFinite(elapsed)&&(this.walkMode?.active||elapsed<Math.max(220,(this.lastRenderDuration||0)*1.8));
   this.slowFrames=elapsed>32&&continuous?(this.slowFrames||0)+1:0;
   if(this.slowFrames>=2&&!this.reducedResolution){
    this.reducedResolution=true;

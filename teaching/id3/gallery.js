@@ -50,7 +50,7 @@ const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
 let viewerReady;
 function getViewer(){
  if(!viewerReady){
-  viewerReady=Promise.all([import('./viewer.js?v=a7cd078271'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
+  viewerReady=Promise.all([import('./viewer.js?v=e53fa959b8'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
    viewer=new AtlasViewer($('canvas-box'));
    viewer.annotations=new SiteAnnotations(viewer,layerRow);
    return viewer;
@@ -130,8 +130,8 @@ function saveViewLink(){
 }
 async function selectModel(x,initialView='perspective',updateLink=true){
  $('street-start').disabled=true;const seq=++version;current=x;caseHidden=null;closeLens();dollyButton.disabled=true;
- $('case-actions').hidden=!(x.caseStudy||x.frameLabel);$('case-notes').hidden=!x.caseStudy;
- $('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent=frameLabel(x);
+ $('case-actions').hidden=!(x.caseStudy||x.frameLabel||x.statement?.length);$('student-statement').hidden=!x.statement?.length;$('case-notes').hidden=!x.caseStudy;
+ $('case-frame').hidden=!(x.caseStudy||x.frameLabel);$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent=frameLabel(x);
  setProjectViews(x);
  $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;status('Loading 3D model…');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
  $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':['STUDIO PROJECT '+(x.number||x.key),x.status].filter(Boolean).join(' · ');
@@ -223,6 +223,11 @@ const guides={
 };
 function info(which){$('info-content').innerHTML=guides[which];$('info').showModal();}
 $('guideBtn').onclick=()=>info('guide');
+$('student-statement').onclick=()=>{
+ if(!current?.statement?.length)return;
+ $('info-content').replaceChildren(txt('p',current.author,'kicker'),txt('h2','Design statement'),...current.statement.map(p=>txt('p',p)));
+ $('info').showModal();
+};
 $('case-notes').onclick=()=>{
  if(!current?.caseStudy)return;
  $('info-content').replaceChildren($('market-switchback-notes').content.cloneNode(true));$('info').showModal();

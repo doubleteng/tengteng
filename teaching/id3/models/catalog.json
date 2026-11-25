@@ -6,17 +6,17 @@
       "number": "01",
       "title": "Farmers Market Proposal",
       "author": "Ava Barbat",
-      "material": "Precast concrete",
+      "material": "Fair-faced precast concrete",
       "type": "Farmers market",
       "status": "Work in progress",
-      "url": "./models/ava-barbat.glb.gz?v=2d44bfdfdf",
+      "url": "./models/ava-barbat.glb.gz?v=143a067b5b",
       "frameLabel": "Isolate precast structure",
       "perspectiveDirection": [
         0.87,
         0.82,
         1.04
       ],
-      "cover": "./models/ava-barbat.webp?v=f0fe07980b",
+      "cover": "./models/ava-barbat.webp?v=1c4fab875c",
       "viewpoints": [
         {
           "id": "ava-entry",
@@ -62,9 +62,75 @@
             25
           ],
           "fov": 49
+        },
+        {
+          "id": "ava-market-approach",
+          "label": "Arrival beneath the market canopy",
+          "eye": [
+            -45,
+            2.736,
+            46
+          ],
+          "target": [
+            -43,
+            2.85,
+            28
+          ],
+          "fov": 62
+        },
+        {
+          "id": "ava-shared-center",
+          "label": "Inside the shared center",
+          "eye": [
+            -45.5,
+            2.867,
+            22
+          ],
+          "target": [
+            -33.5,
+            3.567,
+            19
+          ],
+          "fov": 68
+        },
+        {
+          "id": "ava-central-terrace",
+          "label": "Central terrace overlooking the market",
+          "eye": [
+            -42.65,
+            7.651,
+            22.5
+          ],
+          "target": [
+            -40.65,
+            5.651,
+            42.5
+          ],
+          "fov": 62
+        },
+        {
+          "id": "ava-upper-gallery",
+          "label": "Upper gallery and the floor opening",
+          "eye": [
+            -52,
+            11.935,
+            19
+          ],
+          "target": [
+            -46,
+            10.95,
+            30
+          ],
+          "fov": 64
         }
       ],
-      "lightVolume": "./models/ava-barbat.light.gz?v=19e8917b0c"
+      "lightVolume": "./models/ava-barbat.light.gz?v=b2078111ee",
+      "statement": [
+        "My proposal reimagines the Ann Arbor Farmers Market as a place where circulation becomes an opportunity for connection. Organized around a central circulation space and terrace, the building brings visitors together while encouraging movement between market activities, gathering spaces, and different levels.",
+        "The experience begins outside, where the canopy extends the market into the site and creates a sheltered approach. Visitors move from the surrounding streets through outdoor market spaces toward the building’s shared center. Rather than treating circulation as a passage between destinations, the design makes it a social space where people can pause, meet, and observe the activity around them.",
+        "The central terrace anchors this experience, providing a gathering place that connects indoor and outdoor life. It offers space to sit, eat, and spend time together while maintaining a visual relationship with the market below. Connections between levels encourage visitors to explore and encounter different activities throughout the building.",
+        "Concrete structure establishes a consistent rhythm, while openings and skylights bring daylight into the interior. Together, these decisions support a market that feels connected, welcoming, and active. The proposal creates a shared destination where everyday movement supports spontaneous encounters and strengthens the market’s role as a place for community."
+      ]
     }
   ],
   "cases": [

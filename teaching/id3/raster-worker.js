@@ -339,6 +339,7 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
   const wet=d.blendPane,frosted=d.finish==='frosted',glazeTint=wet?Math.min(.85,d.alpha)*(frosted ? .87 : .42):0;
   const wide=xmax-xmin>20;
   const slopeT=-A-C,invA=1/A,invC=1/C,invT=1/slopeT;
+  const aw=coords.cameraW?1/coords.cameraW[a/3]:1,bw=coords.cameraW?1/coords.cameraW[b/3]:1,cw=coords.cameraW?1/coords.cameraW[c/3]:1;
   for(let y=ymin;y<=ymax;y++){
    let nextSample=-1,sample=1,sampleStep=0;
    const dy=y+.5-cy;let u=A*(xmin+.5-cx)+B*dy,v=C*(xmin+.5-cx)+D*dy;
@@ -366,7 +367,7 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
     const hasShadow=lightCoords&&d.receive&&(direct>0||smoothLight);
     let l0=u,l1=v,l2=t;
     if(coords.cameraW&&(photo||reflection||largeFace||hasShadow||varied||smoothLight||contact)){
-     l0/=coords.cameraW[a/3];l1/=coords.cameraW[b/3];l2/=coords.cameraW[c/3];
+     l0*=aw;l1*=bw;l2*=cw;
      const invW=1/(l0+l1+l2);l0*=invW;l1*=invW;l2*=invW;
     }
     if(varied)shade+=occlusion/255*(l0*(ambientA-ambientC)+l1*(ambientB-ambientC));
@@ -395,7 +396,7 @@ function paint(pass,coords,indices,d,lightCoords,world,uv){
        const span=Math.max(1,Math.min(6,xmax-x+1));
        let e0=u+span*A,e1=v+span*C,e2=1-e0-e1;
        if(coords.cameraW){
-        e0/=coords.cameraW[a/3];e1/=coords.cameraW[b/3];e2/=coords.cameraW[c/3];
+        e0*=aw;e1*=bw;e2*=cw;
         const invW=1/(e0+e1+e2);e0*=invW;e1*=invW;e2*=invW;
        }
        const end=visibility(volume,e0*world[a]+e1*world[b]+e2*world[c],e0*world[a+1]+e1*world[b+1]+e2*world[c+1],e0*world[a+2]+e1*world[b+2]+e2*world[c+2],nx,ny,nz,d.openCanopy);
@@ -497,9 +498,49 @@ function prepareScreen(length,perspective){
  screenSpace.clip=perspective?screenSpace.clipPositions:null;
  screenSpace.cameraW=perspective?screenSpace.cameraDepth:null;
 }
+// Capture the farthest covered pixel in each tile. A single uncovered pixel
+// keeps the entire tile open, so windows, stair openings and gaps stay visible.
+const tileSize=16;
+function rememberDepth(pass){
+ const {w,h,depth}=pass,cols=Math.ceil(w/tileSize),rows=Math.ceil(h/tileSize);
+ const all=pass.coverage??=new Float64Array(cols*rows);
+ all.fill(-Infinity);
+ for(let y=0;y<h;y++){
+  const row=Math.floor(y/tileSize)*cols;
+  for(let x=0;x<w;x+=tileSize){
+   const k=row+Math.floor(x/tileSize);
+   let far=all[k];if(far===Infinity)continue;
+   for(let i=y*w+x,end=i+Math.min(tileSize,w-x);i<end;i++){
+    if(depth[i]>far){far=depth[i];if(far===Infinity)break;}
+   }
+   all[k]=far;
+  }
+ }
+}
+function behindDepth(pass,b,k,m){
+ let left=Infinity,bottom=Infinity,right=-Infinity,top=-Infinity,nearest=Infinity;
+ for(let i=0;i<8;i++){
+  const x=b[k+(i&1?3:0)],y=b[k+(i&2?4:1)],z=b[k+(i&4?5:2)];
+  const w=m[3]*x+m[7]*y+m[11]*z+m[15];if(w<=pass.near)return false;
+  const sx=(m[0]*x+m[4]*y+m[8]*z+m[12])/w,sy=(m[1]*x+m[5]*y+m[9]*z+m[13])/w;
+  nearest=Math.min(nearest,(m[2]*x+m[6]*y+m[10]*z+m[14])/w);
+  left=Math.min(left,sx);right=Math.max(right,sx);bottom=Math.min(bottom,sy);top=Math.max(top,sy);
+ }
+ const cols=Math.ceil(pass.w/tileSize),rows=Math.ceil(pass.h/tileSize);
+ const x0=Math.max(0,Math.floor(((left+1)*.5*pass.w-1)/tileSize));
+ const x1=Math.min(cols-1,Math.floor(((right+1)*.5*pass.w+1)/tileSize));
+ const y0=Math.max(0,Math.floor(((1-top)*.5*pass.h-1)/tileSize));
+ const y1=Math.min(rows-1,Math.floor(((1-bottom)*.5*pass.h+1)/tileSize));
+ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){
+  if(nearest<=pass.coverage[y*cols+x]+1e-6)return false;
+ }
+ return true;
+}
 function paintVisible(pass,g,d,transform,light,world){
  const frustum=planes(transform);
  if(outside(g.bounds,0,frustum))return;
+ const testDepth=pass.coverage&&d.kind==='tri'&&d.count>=chunkIndices;
+ if(testDepth&&behindDepth(pass,g.bounds,0,transform))return;
  if(g.normals){
   // The figure has rigid, unit-scale joint transforms. Rotate the sun into
   // each joint's frame once, then interpolate its vertex lighting on screen.
@@ -521,7 +562,7 @@ function paintVisible(pass,g,d,transform,light,world){
  let visibleStart=-1;
  for(let i=start;i<end;){
   const block=Math.floor(i/chunkIndices),next=Math.min(end,(block+1)*chunkIndices);
-  if(!outside(g.chunkBounds,6*block,frustum)){
+  if(!outside(g.chunkBounds,6*block,frustum)&&!(testDepth&&behindDepth(pass,g.chunkBounds,6*block,transform))){
    if(visibleStart<0)visibleStart=i;
    projectRun(g,transform,pass.w,pass.h,near,i,next);
   }else if(visibleStart>=0){
@@ -669,7 +710,11 @@ onmessage=({data:q})=>{
  // Resolve solid depth before compositing visible linework.
  const order=d=>d.kind!=='tri'?3:d.blendPane?2:d.contactFade?1:0;
  objs.sort((a,b)=>order(a.d)-order(b.d));
+ let drawn=0;
+ const useCoverage=pass.near&&objs.length>48;
  for(const {d,g,l,world} of objs){
+  if(useCoverage&&(drawn===Math.floor(objs.length*.22)||drawn===Math.floor(objs.length*.52)))rememberDepth(pass);
+  drawn++;
   if(d.blendPane&&!pass.opaque)pass.opaque=pixels.slice();
   const transform=multiply(q.view,d.m);
   paintVisible(pass,g,d,transform,l,world);

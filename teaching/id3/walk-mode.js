@@ -1,5 +1,5 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
-import {WalkSurfaces} from './walk-surfaces.js?v=6e81c7a1ed';
+import {WalkSurfaces} from './walk-surfaces.js?v=f5919bd755';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
 const GRAVITY=10.5, JUMP_SPEED=4.4, SUPER_LIFT=13, SUPER_TRAVEL=6.6;
@@ -216,7 +216,11 @@ export class WalkMode {
     this.v.renderer.shadowMap.needsUpdate=true;this.nextShadow=now+90;
    }
    if(poseChanged||doorChanged||wasMoving){
-    this.updateTarget();this.v.movingFrame=true;this.v.drawNow(now);
+    // Keep aim feedback responsive. Pressing F always performs an immediate exact query.
+    if(doorChanged||now>=(this.nextAimCheck||0)){
+     this.updateTarget();this.nextAimCheck=now+75;
+    }
+    this.v.movingFrame=true;this.v.drawNow(now);
    }
    if(this.doors.moving||this.street?.needsFrame||!this.walker.grounded||[...this.held].some(key=>key!=='Space'&&!key.startsWith('Shift')))
     this.frame=requestAnimationFrame(advance);

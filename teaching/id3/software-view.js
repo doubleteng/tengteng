@@ -44,7 +44,7 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=08f3eff6ef', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=436c1bf517', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
@@ -53,8 +53,11 @@ export class SoftwareRenderer {
     const [scene,cam]=this.queued,elapsed=performance.now()-this.started;
     // Consecutive changes while the worker is still drawing indicate a drag,
     // dolly or slider scrub. A single click gets the normal-resolution frame.
-    const moving=elapsed>60&&(this.queueCount>1||this.scale<1);
-    const next=moving?Math.max(.55,Math.min(.85,this.scale*Math.sqrt(65/elapsed))):1;
+    const moving=this.queueCount>1||this.scale<1;
+    // Budget work from completed frames on software-only devices. Keep labels and
+    // controls at native resolution and repaint the stationary view at full size.
+    const floor=Math.min(1,Math.max(.36,256/Math.max(this.width,this.height)));
+    const next=moving?Math.max(floor,Math.min(.9,this.scale*Math.min(1.15,Math.sqrt(34/elapsed)))):1;
     this.queued=null;this.queueCount=0;this.render(scene,cam,next);
    }else if(this.scale<1){
     // On release repaint the latest camera at full detail before resolving wait().

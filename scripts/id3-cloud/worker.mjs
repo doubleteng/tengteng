@@ -10,6 +10,10 @@ const error = (message,status) => reply({error:message},status);
 export default {
  async fetch(req, env) {
   const url = new URL(req.url);
+  if(env.ARCHIVED==='true' && req.method!=='DELETE' && req.method!=='OPTIONS'){
+   if(url.pathname==='/health')return reply({configured:false});
+   return error('The gallery now uses the browser 3D viewer.',410);
+  }
   if(url.pathname==='/health') return reply({configured:Boolean(env.HYPERBEAM_API_KEY)});
   if(req.method==='OPTIONS') return new Response(null,{status:204,headers:cors});
   if(!env.HYPERBEAM_API_KEY) return error('Cloud sessions are currently unavailable.',503);

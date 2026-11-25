@@ -87,3 +87,25 @@ export function draw(verts:usize,n:i32,indices:usize,count:i32,proj:usize,palett
   }
  }
 }
+// Reproject visible fragments into a cached sunlight depth map. The comparison
+// uses reciprocal eye depth in both cameras, so perspective remains accurate.
+export function shade(shadow:usize,side:i32,light:usize,projA:f32,projB:f32,bias:f32):void{
+ let invW:f32=2/<f32>width,invH:f32=2/<f32>height;
+ for(let y=0;y<height;y++){
+  let ny:f32=1-(<f32>y+.5)*invH;
+  for(let x=0;x<width;x++){
+   let off=(y*width+x)<<2,z=vf(depths+off,0);if(z<=0)continue;
+   let nx=(<f32>x+.5)*invW-1,nz=projA+projB*z;
+   let lw=nx*vf(light,3)+ny*vf(light,7)+nz*vf(light,11)+vf(light,15);if(lw<=0)continue;
+   let sx=<i32>((.5+.5*(nx*vf(light,0)+ny*vf(light,4)+nz*vf(light,8)+vf(light,12))/lw)*<f32>side);
+   let sy=<i32>((.5-.5*(nx*vf(light,1)+ny*vf(light,5)+nz*vf(light,9)+vf(light,13))/lw)*<f32>side);
+   if(sx<=1||sy<=1||sx>=side-2||sy>=side-2)continue;
+   let expected=z/lw;let threshold=expected+bias*expected*expected;
+   let sample=(sy*side+sx)<<2,blocked=0;
+   for(let oy=-1;oy<=1;oy++)for(let ox=-1;ox<=1;ox++)if(load<f32>(shadow+sample+((oy*side+ox)<<2))>threshold)blocked++;
+   if(!blocked)continue;let c=load<u32>(colors+off),k=256-blocked*7;
+   let r=((c&255)*k)>>8,g=(((c>>8)&255)*k)>>8,b=(((c>>16)&255)*k)>>8;
+   store<u32>(colors+off,0xff000000|(b<<16)|(g<<8)|r);
+  }
+ }
+}

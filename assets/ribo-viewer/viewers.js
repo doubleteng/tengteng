@@ -139,9 +139,10 @@ function layerControls(card, items, apply) {
 }
 async function start(card) {
   const detail=card.dataset.model==='detail',stage=card.querySelector('.ribo-stage'),status=card.querySelector('.ribo-status');
+  const toolbar=card.querySelectorAll('.ribo-tools button');toolbar.forEach(button=>button.disabled=true);
   let renderer;
   try { renderer=new T.WebGLRenderer({antialias:true,alpha:false,stencil:!detail,powerPreference:'default'}); }
-  catch { const {softwareRenderer}=await import('./software.js');renderer=await softwareRenderer(); }
+  catch { const {softwareRenderer}=await import('./software.js');renderer=await softwareRenderer(detail); }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.6));renderer.localClippingEnabled=!detail;
   renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.04;
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFShadowMap;renderer.shadowMap.autoUpdate=false;
@@ -220,7 +221,7 @@ async function start(card) {
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();status.textContent='3D display interrupted. Reload to resume.';status.hidden=false;card.querySelector('.ribo-poster').hidden=false;});
   canvas.addEventListener('webglcontextrestored',()=>{renderer.shadowMap.needsUpdate=true;draw();status.hidden=true;card.querySelector('.ribo-poster').hidden=true;});
   ready=true;resize();renderer.shadowMap.needsUpdate=true;renderer.render(scene,camera);
-  status.hidden=true;card.querySelector('.ribo-poster').hidden=true;card.dataset.ready='true';
+  status.hidden=true;card.querySelector('.ribo-poster').hidden=true;toolbar.forEach(button=>button.disabled=false);card.dataset.ready='true';
 }
 const observer=new IntersectionObserver(entries=>{
   for(const entry of entries){

@@ -1,8 +1,8 @@
 // Depth-buffered perspective fallback using the same decoded geometry, materials,
 // camera and layer selection as the WebGL renderer.
-import { Color, Matrix4 } from '../../teaching/id3/lib/three.module.min.js';
+import { Color, Matrix4, PerspectiveCamera, Vector3 } from '../../teaching/id3/lib/three.module.min.js';
 let compiled;
-export async function softwareRenderer() {
+export async function softwareRenderer(detail) {
   compiled ??= fetch(new URL('./raster.wasm',import.meta.url)).then(async response=>{
     if(!response.ok)throw Error('Cannot load software renderer');
     return WebAssembly.compile(await response.arrayBuffer());
@@ -11,7 +11,14 @@ export async function softwareRenderer() {
   let cursor=65536;
   function ensure(end){const difference=end-wasm.memory.buffer.byteLength;if(difference>0)wasm.memory.grow(Math.ceil(difference/65536));}
   function alloc(length){const ptr=cursor;cursor+=(length+15)&~15;ensure(cursor);return ptr;}
-  const matrixPtr=alloc(64);
+  const matrixPtr=alloc(64),lightPtr=alloc(64);
+  const lightSize=detail?360:640,shadowColor=alloc(lightSize*lightSize*4),shadowDepth=alloc(lightSize*lightSize*4);
+  const lightCamera=new PerspectiveCamera(45,1,.05,detail?28:230);
+  const sunTarget=detail?new Vector3(0,1.5,0):new Vector3(-2,2,-5);
+  lightCamera.position.copy(sunTarget).addScaledVector(new Vector3(.72,1.33,.78),detail?4:43);
+  lightCamera.lookAt(sunTarget);lightCamera.updateMatrixWorld();
+  const lightMatrix=new Matrix4().multiplyMatrices(lightCamera.projectionMatrix,lightCamera.matrixWorldInverse);
+  const lightFromClip=new Matrix4();let shadowDirty=true;
   const canvas=document.createElement('canvas'),context=canvas.getContext('2d',{alpha:false});
   const matrix=new Matrix4(),color=new Color();
   let entries=[],projected=0,frameStart=0;
@@ -51,11 +58,21 @@ export async function softwareRenderer() {
       camera.updateMatrixWorld();matrix.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);
       const w=canvas.width,h=canvas.height,pixels=w*h,depth=frameStart+pixels*4;
       ensure(depth+pixels*4);
-      new Float32Array(wasm.memory.buffer,matrixPtr,16).set(matrix.elements);
+      
       const planes=entries[0].item.material.clippingPlanes||[];
       let axes=0,y=0,x=0;for(const p of planes){if(p.normal.y===-1){axes|=1;y=p.constant;}else{axes|=2;x=p.constant;}}
+      if(shadowDirty||renderer.shadowMap.needsUpdate){
+        new Float32Array(wasm.memory.buffer,matrixPtr,16).set(lightMatrix.elements);
+        wasm.begin(lightSize,lightSize,shadowColor,shadowDepth,matrixPtr,axes,y,x,lightCamera.near);
+        for(const e of entries)if(e.item.visible&&e.item.isMesh&&e.alpha===256)wasm.draw(e.vert,e.vertices,e.ind,e.count,projected,e.palette,e.alpha,0);
+        shadowDirty=false;renderer.shadowMap.needsUpdate=false;
+      }
+      new Float32Array(wasm.memory.buffer,matrixPtr,16).set(matrix.elements);
       wasm.begin(w,h,frameStart,depth,matrixPtr,axes,y,x,camera.near);
       for(const e of entries)if(e.item.visible)wasm.draw(e.vert,e.vertices,e.ind,e.count,projected,e.palette,e.alpha,e.item.isLine?1:0);
+      lightFromClip.copy(matrix).invert().premultiply(lightMatrix);
+      new Float32Array(wasm.memory.buffer,lightPtr,16).set(lightFromClip.elements);
+      wasm.shade(shadowDepth,lightSize,lightPtr,-camera.projectionMatrix.elements[10],camera.projectionMatrix.elements[14],detail ? .015 : .17);
       const rgba=new Uint8ClampedArray(wasm.memory.buffer,frameStart,pixels*4);
       context.putImageData(new ImageData(rgba,w,h),0,0);
     }

@@ -1,9 +1,15 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Film · Integrated Design III</title>
-<link rel="stylesheet" href="./film.css?v=cloud-1"></head><body><main>
+<link rel="stylesheet" href="./film.css?v=ava-shots-1"></head><body><main>
 <nav class="film-top"><a id="project-back" href="../">← Project gallery</a></nav>
 <header><h1>Film</h1><p>Integrated Design III<span id="project-author"></span><br>Ann Arbor Farmers Market</p></header>
+<section id="sequence-review" hidden aria-labelledby="review-title">
+<div class="review-heading"><div><h2 id="review-title">A Common Center</h2><p>Ava Barbat · Camera sequence <span id="review-length"></span></p></div>
+<div class="review-actions"><button class="primary" id="review-explore" type="button">Explore shots in 3D</button><a id="review-edit" href="?project=ava-barbat&amp;edit=common-center#signin">Edit a copy</a></div></div>
+<ol id="review-shots" aria-label="Shots in sequence"></ol><p id="review-status" role="status" hidden></p>
+</section>
+<nav id="review-return" hidden aria-label="Camera sequence"><a href="?project=ava-barbat">← Shot overview</a><a href="?project=ava-barbat&amp;edit=common-center#signin">Edit a copy</a></nav>
 <section id="admission"><form id="signin"><label>Studio member’s full name<input id="director" name="director" required maxlength="90" autocomplete="name" placeholder="First and last name"></label><button class="primary">Open Film editor</button></form><p id="gate-message" role="status" class="assist"></p></section>
 <div class="session" id="session" hidden><strong id="director-name"></strong><button id="leave">Close editor</button></div>
 <section id="studio" hidden>
@@ -25,4 +31,4 @@
 <section id="featured" hidden class="featured" aria-label="Published film">
 <video controls playsinline preload="none" poster="../models/ava-barbat.webp" src="./ava-camera-study-v1.mp4" aria-label="Ava Barbat project film"></video>
 <div><h2>Farmers Market Proposal</h2><p>Ava Barbat’s proposal, from the streets of Kerrytown to the terrace and into the market hall.</p><p>11 seconds · 24 fps</p><a href="./ava-camera-study-v1.mp4" download>Download MP4</a></div></section>
-</main><script type="module" src="./admission.js?v=cloud-1"></script></body></html>
+</main><script type="module" src="./admission.js?v=ava-shots-1"></script></body></html>

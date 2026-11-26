@@ -1,0 +1,749 @@
+{
+  "version": 1,
+  "project": "ava-barbat",
+  "shots": [
+    {
+      "name": "The market in Kerrytown",
+      "seconds": 10,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            7,
+            48,
+            83
+          ],
+          "target": [
+            -46,
+            3,
+            25
+          ],
+          "fov": 40
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            0,
+            44,
+            85
+          ],
+          "target": [
+            -47,
+            3,
+            26
+          ],
+          "fov": 40
+        },
+        {
+          "at": 1,
+          "eye": [
+            -9,
+            40,
+            85
+          ],
+          "target": [
+            -48,
+            3,
+            27
+          ],
+          "fov": 40
+        }
+      ]
+    },
+    {
+      "name": "On Detroit Street",
+      "seconds": 8,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -21.0,
+            3.96,
+            50.4
+          ],
+          "target": [
+            -51.5,
+            5.08,
+            26.3
+          ],
+          "fov": 59
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -19.8,
+            3.96,
+            48.5
+          ],
+          "target": [
+            -50.0,
+            5.18,
+            25.8
+          ],
+          "fov": 57
+        },
+        {
+          "at": 1,
+          "eye": [
+            -18.6,
+            3.96,
+            46.6
+          ],
+          "target": [
+            -48.7,
+            5.35,
+            25.2
+          ],
+          "fov": 55
+        }
+      ]
+    },
+    {
+      "name": "Under the market canopy",
+      "seconds": 10,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -70.8,
+            2.76,
+            45.38
+          ],
+          "target": [
+            -57,
+            3.6,
+            37.5
+          ],
+          "fov": 63
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -68.6,
+            2.76,
+            45.43
+          ],
+          "target": [
+            -55,
+            3.75,
+            37.8
+          ],
+          "fov": 63
+        },
+        {
+          "at": 1,
+          "eye": [
+            -66.35,
+            2.76,
+            45.51
+          ],
+          "target": [
+            -53.5,
+            3.85,
+            38.2
+          ],
+          "fov": 62
+        }
+      ]
+    },
+    {
+      "name": "The shared center",
+      "seconds": 9,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -46,
+            2.91,
+            24.8
+          ],
+          "target": [
+            -37.6,
+            3.1,
+            19.2
+          ],
+          "fov": 62
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -46.1,
+            2.91,
+            23.7
+          ],
+          "target": [
+            -36.4,
+            3.3,
+            19.0
+          ],
+          "fov": 61
+        },
+        {
+          "at": 1,
+          "eye": [
+            -46.1,
+            2.91,
+            22.6
+          ],
+          "target": [
+            -35.2,
+            3.55,
+            19.0
+          ],
+          "fov": 60
+        }
+      ]
+    },
+    {
+      "name": "Large event space, from below",
+      "seconds": 12,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -67.8,
+            -1.9,
+            24.2
+          ],
+          "target": [
+            -76,
+            2.7,
+            14.5
+          ],
+          "fov": 64
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -67.85,
+            -1.9,
+            22.9
+          ],
+          "target": [
+            -74.5,
+            3.8,
+            14
+          ],
+          "fov": 65
+        },
+        {
+          "at": 1,
+          "eye": [
+            -67.95,
+            -1.9,
+            21.6
+          ],
+          "target": [
+            -73,
+            5.0,
+            13.8
+          ],
+          "fov": 65
+        }
+      ]
+    },
+    {
+      "name": "The spiral in the triple-height hall",
+      "seconds": 9,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -68.8,
+            -1.9,
+            21.35
+          ],
+          "target": [
+            -59.15,
+            -0.45,
+            25.45
+          ],
+          "fov": 59
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -68.25,
+            -1.9,
+            20.25
+          ],
+          "target": [
+            -59.1,
+            0,
+            25.55
+          ],
+          "fov": 59
+        },
+        {
+          "at": 1,
+          "eye": [
+            -67.7,
+            -1.9,
+            19.15
+          ],
+          "target": [
+            -59.05,
+            0.6,
+            25.65
+          ],
+          "fov": 59
+        }
+      ]
+    },
+    {
+      "name": "Small event space",
+      "seconds": 11,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -27.3,
+            2.92,
+            28.7
+          ],
+          "target": [
+            -35.5,
+            4.2,
+            20.1
+          ],
+          "fov": 66
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -28.0,
+            2.92,
+            28.2
+          ],
+          "target": [
+            -35.2,
+            4.7,
+            19.8
+          ],
+          "fov": 66
+        },
+        {
+          "at": 1,
+          "eye": [
+            -28.7,
+            2.92,
+            27.7
+          ],
+          "target": [
+            -34.7,
+            5.3,
+            19.3
+          ],
+          "fov": 65
+        }
+      ]
+    },
+    {
+      "name": "Architectural space, Level 2",
+      "seconds": 11,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -53.8,
+            7.72,
+            25.9
+          ],
+          "target": [
+            -52.7,
+            9.5,
+            18.0
+          ],
+          "fov": 67
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -54.0,
+            7.72,
+            24.9
+          ],
+          "target": [
+            -52.6,
+            10.4,
+            18.2
+          ],
+          "fov": 67
+        },
+        {
+          "at": 1,
+          "eye": [
+            -54.15,
+            7.72,
+            23.9
+          ],
+          "target": [
+            -52.35,
+            11.7,
+            18.7
+          ],
+          "fov": 67
+        }
+      ]
+    },
+    {
+      "name": "The upper gallery and its skylight",
+      "seconds": 11,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -52.5,
+            11.99,
+            18.4
+          ],
+          "target": [
+            -53.3,
+            12.0,
+            24.5
+          ],
+          "fov": 67
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -52.1,
+            11.99,
+            18.55
+          ],
+          "target": [
+            -53.3,
+            13.0,
+            24.2
+          ],
+          "fov": 66
+        },
+        {
+          "at": 1,
+          "eye": [
+            -51.7,
+            11.99,
+            18.7
+          ],
+          "target": [
+            -53.2,
+            14.3,
+            24.0
+          ],
+          "fov": 65
+        }
+      ]
+    },
+    {
+      "name": "Open to the market",
+      "seconds": 10,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -41.25,
+            7.65,
+            19.6
+          ],
+          "target": [
+            -43.0,
+            6.0,
+            42
+          ],
+          "fov": 58
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -42.1,
+            7.65,
+            21.2
+          ],
+          "target": [
+            -44,
+            5.4,
+            43
+          ],
+          "fov": 58
+        },
+        {
+          "at": 1,
+          "eye": [
+            -43.0,
+            7.65,
+            22.8
+          ],
+          "target": [
+            -45.5,
+            4.9,
+            44.5
+          ],
+          "fov": 58
+        }
+      ]
+    },
+    {
+      "name": "Reading the roof in daylight",
+      "seconds": 9,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -24,
+            23,
+            38
+          ],
+          "target": [
+            -39,
+            11.5,
+            21.8
+          ],
+          "fov": 53
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -27,
+            24,
+            38.4
+          ],
+          "target": [
+            -41,
+            11.3,
+            21.6
+          ],
+          "fov": 53
+        },
+        {
+          "at": 1,
+          "eye": [
+            -30,
+            25,
+            38.8
+          ],
+          "target": [
+            -43,
+            11.1,
+            21.4
+          ],
+          "fov": 53
+        }
+      ]
+    },
+    {
+      "name": "Returning to the district",
+      "seconds": 10,
+      "keys": [
+        {
+          "at": 0,
+          "eye": [
+            -58,
+            30,
+            76
+          ],
+          "target": [
+            -50,
+            4,
+            26
+          ],
+          "fov": 46
+        },
+        {
+          "at": 0.5,
+          "eye": [
+            -64,
+            36,
+            82
+          ],
+          "target": [
+            -49,
+            4,
+            25
+          ],
+          "fov": 46
+        },
+        {
+          "at": 1,
+          "eye": [
+            -70,
+            43,
+            88
+          ],
+          "target": [
+            -48,
+            4,
+            24
+          ],
+          "fov": 46
+        }
+      ]
+    }
+  ],
+  "previewLighting": {
+    "coordinateSystem": "ID3 Film, meters, Y-up",
+    "base": "Ava default Kerrytown daylight",
+    "sunDirection": [
+      0.56,
+      -0.63,
+      -0.6
+    ],
+    "exposureEV": 0.24,
+    "lightColorLinear": [
+      1,
+      0.91,
+      0.81
+    ],
+    "areaLights": [
+      {
+        "name": "large ceiling wash",
+        "position": [
+          -67,
+          9.75,
+          24
+        ],
+        "target": [
+          -73,
+          1,
+          16
+        ],
+        "powerWatts": 6100,
+        "diameterMeters": 8.0
+      },
+      {
+        "name": "large front fill",
+        "position": [
+          -74,
+          8.8,
+          17
+        ],
+        "target": [
+          -63,
+          -1.5,
+          25
+        ],
+        "powerWatts": 3500,
+        "diameterMeters": 5.5
+      },
+      {
+        "name": "spiral bounce",
+        "position": [
+          -61,
+          7.6,
+          23
+        ],
+        "target": [
+          -60,
+          1,
+          26
+        ],
+        "powerWatts": 1900,
+        "diameterMeters": 4.2
+      },
+      {
+        "name": "small hall wash",
+        "position": [
+          -31.0,
+          9.8,
+          26.5
+        ],
+        "target": [
+          -32,
+          1.7,
+          20
+        ],
+        "powerWatts": 3900,
+        "diameterMeters": 5.8
+      },
+      {
+        "name": "small hall cross",
+        "position": [
+          -34.8,
+          8.6,
+          21
+        ],
+        "target": [
+          -29.5,
+          2,
+          27
+        ],
+        "powerWatts": 1050,
+        "diameterMeters": 3.0
+      },
+      {
+        "name": "gallery wall wash",
+        "position": [
+          -54.0,
+          13.6,
+          23.6
+        ],
+        "target": [
+          -52.5,
+          6.4,
+          20
+        ],
+        "powerWatts": 1050,
+        "diameterMeters": 3.4
+      },
+      {
+        "name": "north gallery bounce",
+        "position": [
+          -51.5,
+          13.6,
+          18.4
+        ],
+        "target": [
+          -53.6,
+          10.5,
+          23.5
+        ],
+        "powerWatts": 580,
+        "diameterMeters": 2.8
+      },
+      {
+        "name": "market canopy cross wash",
+        "position": [
+          -66,
+          4.8,
+          46
+        ],
+        "target": [
+          -67,
+          2.9,
+          40
+        ],
+        "powerWatts": 900,
+        "diameterMeters": 7.0
+      },
+      {
+        "name": "market canopy soffit bounce",
+        "position": [
+          -61,
+          2.15,
+          40.5
+        ],
+        "target": [
+          -65,
+          5.8,
+          43
+        ],
+        "powerWatts": 560,
+        "diameterMeters": 6.0
+      },
+      {
+        "name": "public room lift",
+        "position": [
+          -45.5,
+          4.8,
+          23
+        ],
+        "target": [
+          -37.4,
+          2.0,
+          19.6
+        ],
+        "powerWatts": 650,
+        "diameterMeters": 4.3
+      }
+    ]
+  }
+}

@@ -11,3 +11,18 @@
 @media(max-width:760px){.camera-heights{flex:1 1 100%;display:flex;gap:8px;margin:0;padding-bottom:8px}.camera-heights button{font-size:13px}}
 
 .final-render,#published-finals{margin:20px 0;padding:18px 0;border-top:1px solid #c4c9be}.final-render span,.final-render p{font-size:14px;margin:8px}.final-render:has(button:enabled) span{display:none}#render-status:empty{display:none}#published-finals select{font:inherit;max-width:100%;padding:6px}#published-finals video{display:block;width:min(100%,860px);aspect-ratio:16/9;background:#172726;margin:12px 0}
+
+#sequence-review {margin:26px 0;border-top:4px solid #e99c50;padding:20px 0 6px}
+.review-heading,#review-return {display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.review-heading h2 {margin:0 0 5px;font-size:clamp(24px,3vw,36px);letter-spacing:-.04em}
+.review-heading p {margin:0;color:#425958}
+.review-actions {display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#review-shots {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 12px;list-style:none;padding:0;margin:18px 0}
+#review-shots button {display:grid;grid-template-columns:3em 1fr;gap:8px;align-items:baseline;text-align:left;width:100%;height:100%;border:0;border-bottom:1px solid #c4c9be;border-radius:0;padding:10px 6px;background:transparent}
+#review-shots button:hover,#review-shots button:focus-visible {background:#e7ecdf}
+#review-shots time {font-variant-numeric:tabular-nums;color:#516565;font-size:.86em}
+#review-return {margin-top:18px}#review-return[hidden],#sequence-review[hidden]{display:none}
+#studio.review-only .camera-heights,#studio.review-only #shot-settings,#studio.review-only #new-shot,#studio.review-only #delete-shot,#studio.review-only #undo,#studio.review-only #timeline>.row:last-child,#studio.review-only .foot,#studio.review-only .final-render {display:none}
+.review-movie {margin:16px 0}.review-movie summary {cursor:pointer;font-weight:650}.review-movie video{display:block;background:#1a2525;width:min(100%,960px);aspect-ratio:16/9;margin:12px 0}
+@media(max-width:800px){#review-shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){#review-shots{grid-template-columns:1fr}.review-heading{align-items:flex-start}}

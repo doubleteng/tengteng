@@ -96,20 +96,20 @@ function downloadData(shots) {
   name:s.name, seconds:duration(s), keys:s.keys.map(k => ({...k, at:k.at/duration(s)}))
  }))};
 }
-export async function openEditor(director,project){
- const cloud=renderControls(project,director);
+export async function openEditor(director,project,review=null){
+ const cloud=review?.readOnly ? null : renderControls(project,director);
  const [T,{GLTFLoader},{OrbitControls},{makeRenderer}]=await Promise.all([
   import('../lib/three.module.min.js'),import('../lib/loaders/GLTFLoader.js'),
   import('../lib/controls/OrbitControls.js'),import('../software-view.js')]);
  const {siteCenter}=await import('../site-model.js');
  const modelURL=new URL(project.url,new URL('../',location.href));
  const suffix=(projectKey==='ava-barbat'?'':projectKey+':')+director+':'+modelURL.search;
- const draftKey='id3-film:v2:'+suffix;
- let shots=[];
+ const draftKey='id3-film:v2:'+suffix+(review ? ':common-center' : '');
+ let shots=review ? readShots(review.path) : [];
  try {
-  const current=localStorage.getItem(draftKey);
+  const current=review?.readOnly ? null : localStorage.getItem(draftKey);
   if(current!==null)shots=readShots(JSON.parse(current));
-  else {
+  else if (!review) {
    const legacy=localStorage.getItem('id3-film:v1:'+suffix);
    if(legacy!==null){
     shots=readShots(JSON.parse(legacy),true);
@@ -159,6 +159,7 @@ export async function openEditor(director,project){
  let sid=0,local=0,playing=false,originTime=0,frame=0,pending=false,internal=false;
  const previewPath=()=>downloadData(shots.filter(s=>duration(s)>0));
  function keep(){
+  if(review?.readOnly)return;
   cloud.changed(previewPath());
   try{localStorage.setItem(draftKey,JSON.stringify(sequenceData(shots)))}
   catch{say('Storage is unavailable on this device. Download the camera path to keep your changes.')}
@@ -500,7 +501,7 @@ export async function openEditor(director,project){
   controls.target.set(-43,6,24);
   internal=true;controls.update();internal=false;render();
  }
- changeShot(0);
+ changeShot(Math.max(0,Math.min(review?.selected || 0,shots.length-1)));
  if(!shots.length)say('Choose Add shot to begin at 0 s.');
  $('status').hidden=true;for(const id of ['settings','timeline','files'])$(id).inert=false;
 }

@@ -197,21 +197,37 @@ export class StreetActivity {
   if(changed)this.population.models.update(this.population.people,this.population.cars);
   this.visibleCount=count;return count;
  }
+ update(now){
+  if(!this.enabled||!this.inView||document.hidden)return false;
+  const walk=this.v.walkMode;
+  if(this.motion.matches&&!walk?.active){
+   this.lastTime=now;this.cull();return false;
+  }
+  const since=now-this.lastTime;
+  // Camera frames and idle traffic share one simulation timestamp. When
+  // walking, poses are ready before that frame draws the player and the street.
+  const advance=since>=(this.software?50:32);
+  if(advance){
+   this.lastTime=now;
+   let elapsed=Math.min(since*.001,.35);
+   const player=walk?.street?walk.walker.feet:null;
+   while(elapsed>.00001){const dt=Math.min(elapsed,.05);this.population.advance(dt,player);elapsed-=dt;}
+  }
+  const previous=this.visibleCount;this.cull(advance);
+  return advance&&!!(previous||this.visibleCount);
+ }
  tick(){
   if(!this.enabled||!this.inView||document.hidden)return;
-  const v=this.v,now=performance.now(),player=v.walkMode?.street?v.walkMode.walker.feet:null;
-  let elapsed=Math.min((now-this.lastTime)*.001,.35);this.lastTime=now;
-  if(!this.motion.matches||player){
-   while(elapsed>.00001){const dt=Math.min(elapsed,.05);this.population.advance(dt,player);elapsed-=dt;}
-   const previous=this.visibleCount;this.cull(true);
-   if((previous||this.visibleCount)&&!v.frame&&!v.walkMode?.frame&&now-(v.lastFullDraw||0)>25){
-    if(this.software)v.renderer.renderActivity(v.scene,v.camera);
-    else v.renderer.render(v.scene,v.camera);
-   }
+  const v=this.v,now=performance.now();
+  // A pending input/physics callback can end without drawing (e.g. W against
+  // a wall). Only an actual viewer frame can take over the traffic draw.
+  if(!v.frame&&this.update(now)&&now-(v.lastFullDraw||0)>25){
+   if(this.software)v.renderer.renderActivity(v.scene,v.camera);
+   else v.renderer.render(v.scene,v.camera);
   }
   const inside=!v.overview&&v.projectBounds?.containsPoint(v.camera.position);
   const frameMs=this.software?85:Math.max(inside?105:42,Math.min(180,(v.lastRenderDuration||0)*2));
-  this.timer=setTimeout(()=>this.tick(),this.motion.matches&&!player?500:this.visibleCount?frameMs:220);
+  this.timer=setTimeout(()=>this.tick(),this.motion.matches&&!v.walkMode?.active?500:this.visibleCount?frameMs:220);
  }
  dispose(){
   this.enabled=false;clearTimeout(this.timer);this.observer.disconnect();

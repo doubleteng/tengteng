@@ -37,7 +37,7 @@ const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
 let viewerReady;
 function getViewer(){
  if(!viewerReady){
-  viewerReady=Promise.all([import('./viewer.js?v=971f7aa026'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
+  viewerReady=Promise.all([import('./viewer.js?v=28aead4b11'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
    viewer=new AtlasViewer($('canvas-box'));
    viewer.annotations=new SiteAnnotations(viewer,layerRow);
    return viewer;

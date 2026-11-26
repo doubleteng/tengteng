@@ -8,8 +8,8 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
-import {makeRenderer} from './software-view.js?v=25c40df902';
-import {StreetActivity} from './street-activity.js?v=0d84a11786';
+import {makeRenderer} from './software-view.js?v=949b4da104';
+import {StreetActivity} from './street-activity.js?v=a8e5b99d47';
 import {ProjectLines} from './project-lines.js?v=28a79fa6c6';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js?v=4ff44f5d03';
@@ -225,7 +225,7 @@ export class AtlasViewer{
  drawNow(now){
   if(this.frame){cancelAnimationFrame(this.frame);this.frame=0;}
   this.adaptMovingResolution(now);this.updateCameraRange();this.updateLightCoverage();this.updateBackdrop();
-  this.lastFullDraw=now;if(this.activity?.enabled)this.activity.cull();
+  this.lastFullDraw=now;this.activity?.update(now);
   const start=performance.now();this.renderer.render(this.scene,this.camera);this.lastRenderDuration=performance.now()-start;
   this.annotations?.draw(this.camera,this.viewportWidth,this.viewportHeight);
  }

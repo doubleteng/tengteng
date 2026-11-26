@@ -88,8 +88,11 @@ export class SoftwareRenderer {
   this.width=Math.max(1,Math.round(w*scale));this.height=Math.max(1,Math.round(h*scale));
  }
  renderActivity(scene,cam){
-  if(this.pending||this.settleTimer||!this.activityTemplate||scene!==this.lastScene||cam!==this.lastCamera)return false;
-  this.render(scene,cam,true);
+  if(this.pending||this.settleTimer||!this.activityRoots?.some(root=>root.visible))return false;
+  // Navigation can finish at native resolution with no stationary background.
+  // Build it once at that pose; later ticks composite only the moving actors.
+  const reuse=!!this.activityTemplate&&scene===this.lastScene&&cam===this.lastCamera;
+  this.render(scene,cam,reuse);
   return true;
  }
  render(scene,cam,activityOnly=false){

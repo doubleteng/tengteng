@@ -44,34 +44,43 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=9a8982d6be', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=342907119a', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
    this.ctx.putImageData(new ImageData(new Uint8ClampedArray(data.buffer),data.w,data.h),0,0);this.pending=false;
+   const ms=performance.now()-this.started;
+   this.lastFrameMs=ms;
+   const floor=Math.min(1,Math.max(.36,256/Math.max(this.width,this.height)));
+   // Quantize the moving buffer and leave it alone inside the frame budget.
+   // Reallocating a canvas for small timing variations is itself visible.
+   if(ms>40||ms<24||this.motionScale===undefined){
+    const target=this.scale*Math.sqrt(34/Math.max(1,ms));
+    this.motionScale=Math.max(floor,Math.min(1,Math.round(Math.min(target,(this.motionScale||1)*1.2)*12)/12));
+   }
    if(this.queued){
-    const [scene,cam]=this.queued,elapsed=performance.now()-this.started;
-    // Consecutive changes while the worker is still drawing indicate a drag,
-    // dolly or slider scrub. A single click gets the normal-resolution frame.
-    const moving=this.queueCount>1||this.scale<1;
-    // Budget work from completed frames on software-only devices. Keep labels and
-    // controls at native resolution and repaint the stationary view at full size.
-    const floor=Math.min(1,Math.max(.36,256/Math.max(this.width,this.height)));
-    const next=moving?Math.max(floor,Math.min(.9,this.scale*Math.min(1.15,Math.sqrt(34/elapsed)))):1;
-    this.queued=null;this.queueCount=0;this.render(scene,cam,next);
+    const [scene,cam]=this.queued;this.queued=null;this.render(scene,cam);
    }else if(this.scale<1){
-    // On release repaint the latest camera at full detail before resolving wait().
-    this.render(this.lastScene,this.lastCamera);
+    // A sharp stationary frame is due after the last navigation input.
+    if(!this.settleTimer)this.render(this.lastScene,this.lastCamera);
    }else{this.finish?.();this.finish=null;this.settled=null;}
   };
+ }
+ noteMotion(){
+  clearTimeout(this.settleTimer);
+  this.settleTimer=setTimeout(()=>{
+   this.settleTimer=0;
+   if(!this.pending&&this.scale<1)this.render(this.lastScene,this.lastCamera);
+  },220);
  }
  setPixelRatio(){}
  setSize(w,h){
   const scale=Math.min(1,900/w,610/h);
   this.width=Math.max(1,Math.round(w*scale));this.height=Math.max(1,Math.round(h*scale));
  }
- render(scene,cam,scale=1){
-  if(this.pending){this.queued=[scene,cam];this.queueCount=(this.queueCount||0)+1;return;}
+ render(scene,cam){
+  if(this.pending){this.queued=[scene,cam];return;}
+  const scale=this.settleTimer?(this.motionScale||1):1;
   this.pending=true;this.scale=scale;this.started=performance.now();this.lastScene=scene;this.lastCamera=cam;
   const w=Math.max(1,Math.round(this.width*scale)),h=Math.max(1,Math.round(this.height*scale));
   scene.updateMatrixWorld(true);cam.updateMatrixWorld();const matrix=new T.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse).elements;
@@ -83,7 +92,7 @@ export class SoftwareRenderer {
   for(const k of [0,4,8,12])e[k]*=.99;
   for(const k of [1,5,9,13])e[k]*=.99;
   this.eyeFrustum.setFromProjectionMatrix(projection);
-  const eyeCull=!this.shadowMap.needsUpdate&&!this.projectBounds?.containsPoint(cam.position);
+  const eyeCull=!this.shadowMap.needsUpdate;
   const draws=[],fresh=[],deformed=[],transfer=[],used=new Set(),tiles=[],usedTiles=new Set();
   this.knownTiles??=new Set();this.sharedTileIds??=new Set();
   let light,sky;
@@ -91,7 +100,7 @@ export class SoftwareRenderer {
    if(o.isHemisphereLight){sky=o;return;}
    if(o.isDirectionalLight){light=o;return;}if(!o.geometry||!(o.isMesh||o.isLine||o.isPoints))return;
    const g=o.geometry,id=g.uuid,position=g.getAttribute('position');if(!position)return;used.add(id);
-   if(eyeCull&&o.isMesh&&o.frustumCulled&&!o.isSkinnedMesh&&
+   if(eyeCull&&(o.isMesh||o.isLineSegments)&&o.frustumCulled&&!o.isSkinnedMesh&&
       !o.isInstancedMesh&&!o.isBatchedMesh&&!o.morphTargetInfluences&&!g.userData.posedCloth&&
       !this.eyeFrustum.intersectsObject(o)){
     for(const m of Array.isArray(o.material)?o.material:[o.material]){
@@ -179,7 +188,9 @@ export class SoftwareRenderer {
     const proposal=!!g.userData.proposalLighting&&[].concat(o.userData.sourceMaterial||o.material).includes(m);
     const layer=o.userData.atlasPath||o.userData.layer||'';
     const openCanopy=proposal&&/^(?:Market \/|Site \/ Market court paving|Structure \/ (?:Arcade |CLT market |Glulam market |Glulam portal crossheads|Glulam posts$|Market plinths))/.test(layer);
-    draws.push({id,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!(o.userData.contextOutline||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
+    const solidShell=!!o.userData.projectSurface&&o.isMesh&&!m.transparent&&!m.alphaTest&&!m.alphaMap&&
+     /wall|floor|slab|partition|roof|soffit/i.test(layer);
+    draws.push({id,solidShell,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!(o.userData.contextOutline||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
    }
   });
   const removed=[...this.known].filter(k=>!used.has(k));removed.forEach(k=>this.known.delete(k));
@@ -213,11 +224,11 @@ export class SoftwareRenderer {
   const streetView=street?{world:cam.matrixWorld.elements,projection:[p[0],p[5],p[8],p[9]]}:null;
   const skyRow=this.proposalSky&&cam.isPerspectiveCamera?
    [-cam.matrixWorld.elements[9],cam.matrixWorld.elements[5],cam.projectionMatrix.elements[9],1/cam.projectionMatrix.elements[5]]:null;
-  this.worker.postMessage({resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,deformed,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
+  this.worker.postMessage({insideProject:cam.isPerspectiveCamera&&this.projectBounds?.containsPoint(cam.position),resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,deformed,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
   this.shadowMap.needsUpdate=false;
  }
- wait(){return this.pending?(this.settled??=new Promise(resolve=>{this.finish=resolve;})):Promise.resolve();}
- dispose(){this.worker.terminate();}forceContextLoss(){}
+ wait(){return (this.pending||(this.scale<1&&this.settleTimer))?(this.settled??=new Promise(resolve=>{this.finish=resolve;})):Promise.resolve();}
+ dispose(){clearTimeout(this.settleTimer);this.worker.terminate();}forceContextLoss(){}
 }
 export function makeRenderer(options){
  const canvas=document.createElement('canvas');

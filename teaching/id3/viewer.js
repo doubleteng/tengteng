@@ -8,9 +8,9 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
-import {makeRenderer} from './software-view.js?v=ff45ccf36e';
+import {makeRenderer} from './software-view.js?v=920125abb9';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
-import {contextEdges,createInkMaterial} from './context-edges.js';
+import {contextEdges,createInkMaterial} from './context-edges.js?v=d93b9a4589';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
 const loader=new GLTFLoader();
 const registeredSite=siteFootprint();
@@ -129,7 +129,7 @@ export class AtlasViewer{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=40af5bce11').catch(error=>{this.walkModule=null;throw error;});
+   this.walkModule??=import('./walk-mode.js?v=1f02c5d3d5').catch(error=>{this.walkModule=null;throw error;});
    if(thirdPerson)this.streetModule??=import('./street-mode.js?v=6d1007ab72').catch(error=>{this.streetModule=null;throw error;});
    Promise.all([this.walkModule,thirdPerson?this.streetModule:null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
@@ -184,24 +184,32 @@ export class AtlasViewer{
  }
  activate(){if(this.project)this.onInteract?.();}
  adaptMovingResolution(now){
-  if(!this.renderer.isWebGLRenderer||!this.movingFrame)return;
+  if(!this.movingFrame)return;
   this.movingFrame=false;
+  if(!this.renderer.isWebGLRenderer){this.renderer.noteMotion?.();return;}
   const elapsed=now-(this.lastMovingFrame??-Infinity);
   this.lastMovingFrame=now;
-  // Isolated mouse-wheel ticks and the first frame after loading are not a
-  // performance measurement. Require successive late frames during navigation.
   const continuous=Number.isFinite(elapsed)&&(this.walkMode?.active||elapsed<Math.max(220,(this.lastRenderDuration||0)*1.8));
-  this.slowFrames=elapsed>32&&continuous?(this.slowFrames||0)+1:0;
-  if(this.slowFrames>=2&&!this.reducedResolution){
-   this.reducedResolution=true;
-   this.renderer.setPixelRatio(Math.min(this.fullPixelRatio,Math.max(.65,this.fullPixelRatio*.65)));
+  if(continuous)this.motionFrameMs=elapsed;
+  this.slowFrames=continuous&&elapsed>30?(this.slowFrames||0)+1:0;
+  // Discrete levels limit drawing-buffer reallocations. A brief spike or a
+  // lone wheel tick cannot change quality. Keep HUD and labels at CSS size.
+  if(this.slowFrames>=3&&now>=(this.nextQualityChange||0)){
+   const current=this.motionRatio??this.fullPixelRatio;
+   const floor=Math.min(this.fullPixelRatio,Math.max(.55,this.fullPixelRatio*.5));
+   const next=Math.max(floor,current*(elapsed>55?.70:.84));
+   if(next<current-.025){
+    this.motionRatio=next;this.renderer.setPixelRatio(next);
+    this.nextQualityChange=now+350;
+   }
+   this.slowFrames=0;
   }
-  if(this.reducedResolution){
+  if(this.motionRatio!==undefined){
    clearTimeout(this.settleTimer);
    this.settleTimer=setTimeout(()=>{
-    this.reducedResolution=false;this.slowFrames=0;this.lastMovingFrame=undefined;
+    this.motionRatio=undefined;this.slowFrames=0;this.lastMovingFrame=undefined;
     this.renderer.setPixelRatio(this.fullPixelRatio);this.draw();
-   },Math.min(900,Math.max(260,2*(this.lastRenderDuration||0))));
+   },Math.min(1000,Math.max(300,continuous?elapsed*2:0,(this.lastRenderDuration||0)*2)));
   }
  }
  draw(){
@@ -212,7 +220,7 @@ export class AtlasViewer{
   if(this.frame){cancelAnimationFrame(this.frame);this.frame=0;}
   this.adaptMovingResolution(now);this.updateCameraRange();this.updateLightCoverage();this.updateBackdrop();
   const start=performance.now();this.renderer.render(this.scene,this.camera);this.lastRenderDuration=performance.now()-start;
-  this.annotations?.draw(this.camera,this.host.clientWidth,this.host.clientHeight);
+  this.annotations?.draw(this.camera,this.viewportWidth,this.viewportHeight);
  }
  registerContext(root,leafTextures){
   this.prepare(root);
@@ -260,7 +268,7 @@ export class AtlasViewer{
   const camera=this.camera;
   const span=camera.isOrthographicCamera?(camera.top-camera.bottom)/camera.zoom:
    2*camera.position.distanceTo(this.controls.target)*Math.tan(T.MathUtils.degToRad(camera.fov/2));
-  const width=Math.max(1,this.host.clientWidth/Math.max(1,this.host.clientHeight))*span;
+  const width=Math.max(1,this.viewportWidth/this.viewportHeight)*span;
   const wide=width>(this.wideLighting?250:290)||this.controls.target.distanceTo(siteCenter)>95;
   if(wide!==this.wideLighting){
    this.wideLighting=wide;this.setSun(...this.solar,false);
@@ -278,12 +286,14 @@ export class AtlasViewer{
  resize(){
   const w=this.host.clientWidth,h=this.host.clientHeight;
   if(!w||!h)return;
+  this.viewportWidth=w;this.viewportHeight=h;
   if(this.renderer.isWebGLRenderer){
    // Keep a large or high-density display from multiplying fragment work.
    const ratio=Math.min(this.preferredPixelRatio,Math.sqrt(1800000/(w*h)));
    if(ratio!==this.fullPixelRatio){
     this.fullPixelRatio=ratio;
-    if(!this.reducedResolution)this.renderer.setPixelRatio(ratio);
+    if(this.motionRatio!==undefined)this.motionRatio=Math.min(this.motionRatio,ratio);
+    this.renderer.setPixelRatio(this.motionRatio??ratio);
    }
   }
   this.host.parentElement?.style.setProperty('--viewport-height', h+'px');

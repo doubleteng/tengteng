@@ -395,7 +395,7 @@ function paintSurfaces(pass,coords,indices,d,lightCoords,world,uv){
   const ax=coords[a],ay=coords[a+1],bx=coords[b],by=coords[b+1],cx=coords[c],cy=coords[c+1];
   const den=(by-cy)*(ax-cx)+(cx-bx)*(ay-cy);if(Math.abs(den)<.000001)continue;
   const frontFacing=(den<0)!==d.flipped;
-  if(pixels&&((d.side===0&&!frontFacing)||(d.side===1&&frontFacing)))continue;
+  if((pixels||pass.eyeDepth)&&((d.side===0&&!frontFacing)||(d.side===1&&frontFacing)))continue;
   const xmin=Math.max(0,Math.floor(Math.min(ax,bx,cx))),xmax=Math.min(w-1,Math.ceil(Math.max(ax,bx,cx))),ymin=Math.max(0,Math.floor(Math.min(ay,by,cy))),ymax=Math.min(h-1,Math.ceil(Math.max(ay,by,cy)));
   if(xmax<xmin||ymax<ymin)continue;
   const inv=1/den,A=(by-cy)*inv,B=(cx-bx)*inv,C=(cy-ay)*inv,D=(ax-cx)*inv;
@@ -851,6 +851,18 @@ onmessage=({data:q})=>{
  // Resolve solid depth before compositing visible linework.
  const order=d=>d.kind!=='tri'?3:d.blendPane?2:d.contactFade?1:0;
  objs.sort((a,b)=>order(a.d)-order(b.d));
+ // Indoors, rasterize the depths of opaque walls and slabs first. The colour
+ // pass keeps its authored order, including surfaces at the same depth.
+ if(q.insideProject&&pass.near&&objs.some(({d})=>d.solidShell)){
+  const prepass={w:q.w,h:q.h,depth:pass.depth,near:pass.near,eyeDepth:true};
+  for(const {d,g,world} of objs){
+   if(d.solidShell)paintVisible(prepass,g,{...d,finishTile:null},multiply(q.view,d.m),null,world);
+  }
+  // Bias only this provisional buffer. The normal colour/depth pass resolves
+  // the exact nearest surface and coplanar ties with its original precision.
+  for(let i=0;i<pass.depth.length;i++)pass.depth[i]+=1e-6;
+  rememberDepth(pass);
+ }
  let drawn=0;
  const useCoverage=pass.near&&objs.length>48;
  for(const {d,g,l,world} of objs){

@@ -6,14 +6,23 @@ export function contextEdges(geometry) {
  const positions = geometry.getAttribute('position');
  const indices = geometry.index;
  const count = indices ? indices.count : positions.count;
- const keys = Array.from({length:positions.count}, (_, i) =>
-  [positions.getX(i), positions.getY(i), positions.getZ(i)].map(x=>Math.round(x*1e4)).join(','));
+ // Weld coincident Rhino vertices for crease classification. Intern each
+ // coordinate once so the three edges of every face use small numeric keys.
+ const vertices=new Map(),ids=new Uint32Array(positions.count);
+ for(let i=0;i<ids.length;i++){
+  const key=Math.round(positions.getX(i)*1e4)+','+Math.round(positions.getY(i)*1e4)+','+Math.round(positions.getZ(i)*1e4);
+  let id=vertices.get(key);
+  if(id===undefined){id=vertices.size;vertices.set(key,id);}
+  ids[i]=id;
+ }
+ const vertexCount=vertices.size;
  const edges = new Map();
  const a = new T.Vector3(), b = new T.Vector3(), c = new T.Vector3();
  const uv = new T.Vector3(), uw = new T.Vector3(), normal = new T.Vector3();
+ const ix=new Uint32Array(3);
  const crease = Math.cos(T.MathUtils.degToRad(32));
  for (let i=0; i<count; i+=3) {
-  const ix = indices ? [indices.getX(i),indices.getX(i+1),indices.getX(i+2)] : [i,i+1,i+2];
+  for(let j=0;j<3;j++)ix[j]=indices?indices.getX(i+j):i+j;
   a.fromBufferAttribute(positions,ix[0]); b.fromBufferAttribute(positions,ix[1]); c.fromBufferAttribute(positions,ix[2]);
   normal.crossVectors(uv.subVectors(b,a),uw.subVectors(c,a));
   const area2 = normal.length(); if(area2<1e-12)continue;
@@ -21,8 +30,9 @@ export function contextEdges(geometry) {
   const width = area2 / Math.max(uv.length(),uw.length(),b.distanceTo(c));
   for(let side=0;side<3;side++){
    const s=ix[side], t=ix[(side+1)%3];
-   const p=keys[s],q=keys[t];if(p===q)continue;
-   const key=p<q?p+'|'+q:q+'|'+p;
+   const p=ids[s],q=ids[t];if(p===q)continue;
+   const low=Math.min(p,q),high=Math.max(p,q);
+   const key=vertexCount<=94906265?low*vertexCount+high:low+'|'+high;
    const old=edges.get(key);
    if(!old)edges.set(key,{s,t,normal:normal.clone(),width,faces:1,crease:false});
    else {

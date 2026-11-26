@@ -185,6 +185,31 @@ export class WalkSurfaces {
   }
   return false;
  }
+ // Cache triangle bounds only for static runs actually reached by a walker or
+ // a chase camera. The moving door leaves keep their live transforms.
+ staticCandidates(entry,run,box,visit){
+  const {vertices,indices}=entry,{a,b,c}=this;
+  let limits=run.faceBounds;
+  if(!limits){
+   limits=run.faceBounds=new Float64Array((run.end-run.start)*2);
+   for(let i=run.start,k=0;i<run.end;i+=3,k+=6){
+    a.fromBufferAttribute(vertices,indices?indices[i]:i);
+    b.fromBufferAttribute(vertices,indices?indices[i+1]:i+1);
+    c.fromBufferAttribute(vertices,indices?indices[i+2]:i+2);
+    limits[k]=Math.min(a.x,b.x,c.x);limits[k+1]=Math.max(a.x,b.x,c.x);
+    limits[k+2]=Math.min(a.y,b.y,c.y);limits[k+3]=Math.max(a.y,b.y,c.y);
+    limits[k+4]=Math.min(a.z,b.z,c.z);limits[k+5]=Math.max(a.z,b.z,c.z);
+   }
+  }
+  const {min,max}=box;
+  // Preserve the existing edge tolerance at stair seams and wall corners.
+  const x0=min.x-epsilon,x1=max.x+epsilon,y0=min.y-epsilon,y1=max.y+epsilon,z0=min.z-epsilon,z1=max.z+epsilon;
+  for(let i=run.start,k=0;i<run.end;i+=3,k+=6){
+   if(limits[k]>x1||limits[k+1]<x0||limits[k+2]>y1||limits[k+3]<y0||limits[k+4]>z1||limits[k+5]<z0)continue;
+   if(this.eachTriangle(entry,i,i+3,visit))return true;
+  }
+  return false;
+ }
  eachDoor(test,visit){
   for(const door of this.doors?.entries||[]){
    if(!test(door.bounds))continue;
@@ -202,7 +227,7 @@ export class WalkSurfaces {
  }
  eachNearby(box,visit,onlyFloors=false){
   const grid=onlyFloors?this.supportGrid:this.grid;
-  if(grid.query(box,(entry,run)=>this.eachTriangle(entry,run.start,run.end,visit)))return true;
+  if(grid.query(box,(entry,run)=>this.staticCandidates(entry,run,box,visit)))return true;
   return !onlyFloors&&this.eachDoor(b=>box.intersectsBox(b),visit);
  }
  firstHit(ray,maxDistance=Infinity){

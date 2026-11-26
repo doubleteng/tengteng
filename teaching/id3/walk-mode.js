@@ -1,5 +1,5 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
-import {WalkSurfaces} from './walk-surfaces.js?v=f5919bd755';
+import {WalkSurfaces} from './walk-surfaces.js?v=21178144ae';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
 const GRAVITY=10.5, JUMP_SPEED=4.4, SUPER_LIFT=13, SUPER_TRAVEL=6.6;
@@ -221,7 +221,11 @@ export class WalkMode {
    const wasMoving=this.doors.moving;
    const doorChanged=wasMoving&&this.doors.update(doorDt,this.interactionOrigin());
    if(wasMoving&&(now>=this.nextShadow||!this.doors.moving)){
-    this.v.renderer.shadowMap.needsUpdate=true;this.nextShadow=now+90;
+    const renderer=this.v.renderer;
+    renderer.shadowMap.needsUpdate=true;
+    // Slow devices can reuse the preceding map during the swing. Always
+    // refresh the final pose so the doorway and its shadow agree at rest.
+    this.nextShadow=now+Math.min(350,Math.max(90,2*(renderer.lastFrameMs||this.v.motionFrameMs||0)));
    }
    if(poseChanged||doorChanged||wasMoving){
     // Keep aim feedback responsive. Pressing F always performs an immediate exact query.

@@ -26,7 +26,7 @@ live = modal.Dict.from_name('id3-studio-film-progress-v1', create_if_missing=Tru
 base = modal.Image.debian_slim(python_version='3.11').pip_install('fastapi==0.116.1', 'starlette==0.47.3')
 def sources(image):
     return image.add_local_python_source('film_jobs').add_local_file(ROOT/'roster.json','/id3/roster.json')
-approved_sequence = ROOT.parents[1]/'teaching/id3/film/ava-common-center.json'
+approved_sequence = (ROOT/'../../teaching/id3/film/ava-common-center.json').resolve()
 api_image = sources(base).add_local_file(approved_sequence, '/id3/ava-common-center.json')
 gpu_image = sources(modal.Image.from_registry('ubuntu:22.04', add_python='3.11')
     .apt_install('ca-certificates','curl','xz-utils','libgl1','libxrender1','libxfixes3','libxkbcommon0','libxi6','libsm6','libxext6','libxxf86vm1','ffmpeg')

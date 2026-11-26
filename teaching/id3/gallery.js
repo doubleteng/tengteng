@@ -307,7 +307,9 @@ async function route(scroll=true){
    window.scrollTo(0,0);$('project-view-title').focus({preventScroll:true});
   }else if(location.hash==='#collection'||location.hash==='#studio'||location.hash==='#gallery'){
    $(location.hash.slice(1)).scrollIntoView({block:'start'});
-  }else if(modelLink||location.hash==='#top')window.scrollTo(0,0);
+  }else if(modelLink){
+   $('model-site').scrollIntoView({block:'nearest'});
+  }else if(location.hash==='#top')window.scrollTo(0,0);
  }
  if(current!==item)await selectModel(item,view);
  else if(modelLink&&viewer?.project&&$('camera').value!==view){

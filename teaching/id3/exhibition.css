@@ -55,8 +55,13 @@ body { background: var(--ex-paper); }
 #site-stage .viewer-frame { flex: 1; border-radius: 3px; }
 .viewer-frame.site-only { grid-template-columns: minmax(0, 1fr); }
 #site-stage .viewport { height: auto; min-height: clamp(330px, 29vw, 500px); }
-#site-stage .drawing-launchers, .site-only #open-drawings { display: none; }
-#site-stage .view-bottom { justify-content: flex-end; }
+#site-stage #walk-help { bottom: 53px; }
+#site-stage .camera-tools { min-width: 0; }
+#site-stage .camera-tools select { min-width: 0; }
+@media (max-width: 395px) {
+  #site-stage .drawing-launchers { flex-wrap: wrap; }
+  #site-stage #walk-help { display: none; }
+}
 .ex-site-figure figcaption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; padding-top: 9px; color: var(--ex-slate); font-size: 13px; }
 .ex-site-figure strong { font-weight: 640; color: var(--ex-ink); }
 .collection.ex-shell { margin: 0 auto; padding-top: clamp(38px, 4.4vw, 74px); padding-bottom: clamp(40px, 4vw, 77px); }

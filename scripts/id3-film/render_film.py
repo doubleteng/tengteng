@@ -97,6 +97,25 @@ def light_scene(scene, project):
     bpy.context.object.data.materials.append(ground)
 
 
+def add_film_lighting(rig):
+    def position(value):
+        x, y, z = value
+        return Vector((x, -z, y))
+
+    for light in rig.get("areaLights", []):
+        origin = position(light["position"])
+        bpy.ops.object.light_add(type="AREA", location=origin)
+        lamp = bpy.context.object
+        lamp.name = light["name"]
+        lamp.data.shape = "DISK"
+        lamp.data.energy = light["powerWatts"]
+        lamp.data.size = light["diameterMeters"]
+        lamp.data.color = rig["lightColorLinear"]
+        lamp.data.specular_factor = 0
+        lamp.visible_glossy = lamp.visible_transmission = False
+        lamp.rotation_euler = (position(light["target"]) - origin).to_track_quat("-Z", "Y").to_euler()
+
+
 def component(key, name):
     value = key[name]
     if name == "fov":
@@ -128,6 +147,8 @@ def render(args):
         load_assets(Path(temp), args.assets, args.project_model)
         prepare_glass()
         light_scene(scene, payload["project"])
+        rig = payload.get("previewLighting", {})
+        add_film_lighting(rig)
         bpy.ops.object.camera_add()
         camera = bpy.context.object
         scene.camera = camera
@@ -173,7 +194,7 @@ def render(args):
         scene.cycles.transparent_max_bounces = 8
         scene.cycles.sample_clamp_indirect = 3
         scene.view_settings.view_transform = "AgX"
-        scene.view_settings.exposure = .18
+        scene.view_settings.exposure = rig.get("exposureEV", .18)
         scene.render.use_persistent_data = True
         scene.render.resolution_x = args.height * 16 // 9
         scene.render.resolution_y = args.height

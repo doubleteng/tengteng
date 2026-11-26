@@ -26,7 +26,8 @@ live = modal.Dict.from_name('id3-studio-film-progress-v1', create_if_missing=Tru
 base = modal.Image.debian_slim(python_version='3.11').pip_install('fastapi==0.116.1', 'starlette==0.47.3')
 def sources(image):
     return image.add_local_python_source('film_jobs').add_local_file(ROOT/'roster.json','/id3/roster.json')
-api_image = sources(base)
+approved_sequence = ROOT.parents[1]/'teaching/id3/film/ava-common-center.json'
+api_image = sources(base).add_local_file(approved_sequence, '/id3/ava-common-center.json')
 gpu_image = sources(modal.Image.from_registry('ubuntu:22.04', add_python='3.11')
     .apt_install('ca-certificates','curl','xz-utils','libgl1','libxrender1','libxfixes3','libxkbcommon0','libxi6','libsm6','libxext6','libxxf86vm1','ffmpeg')
     .run_commands('cd /tmp && curl -fsSLO --retry 3 https://download.blender.org/release/Blender4.3/blender-4.3.2-linux-x64.tar.xz && curl -fsSLO --retry 3 https://download.blender.org/release/Blender4.3/blender-4.3.2.sha256 && grep "blender-4.3.2-linux-x64.tar.xz$" blender-4.3.2.sha256 | sha256sum -c - && tar -xJf blender-4.3.2-linux-x64.tar.xz -C /opt && rm blender-4.3.2-linux-x64.tar.xz')
@@ -91,6 +92,10 @@ def submit_job(body):
     roster = read(Path('/id3/roster.json'))
     try:
         camera, frames = normalize_job(body, roster)
+        if camera['project'] == 'ava-barbat':
+            approved = read(Path('/id3/ava-common-center.json'))
+            if camera['shots'] == approved.get('shots'):
+                camera['previewLighting'] = approved['previewLighting']
         projects, files, prefix = catalog(int(time.time()//60))
         project = next((p for p in projects if p['key']==camera['project']),None)
         if not project or body['revision']!=project.get('url'):
@@ -200,7 +205,7 @@ def web():
     api.add_middleware(CORSMiddleware,allow_origins=['https://teng-teng.org','https://www.teng-teng.org'],allow_methods=['GET','POST','HEAD'],allow_headers=['Content-Type','Range'],expose_headers=['Content-Range','Content-Length','Accept-Ranges'])
     @api.get('/health')
     def health():
-        return {'service':'id3-film','fps':24,'height':1080}
+        return {'service':'id3-film','fps':24,'height':1080,'lighting':'authored-sequences-v1'}
     @api.post('/jobs')
     async def submit(request:WebRequest):
         if request.headers.get('origin') not in ('https://teng-teng.org','https://www.teng-teng.org'):

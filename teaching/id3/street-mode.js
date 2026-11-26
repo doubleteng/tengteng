@@ -1,5 +1,5 @@
 import {Vector3,Ray,Group,Mesh,CircleGeometry,Float32BufferAttribute,MeshBasicMaterial,MathUtils} from './lib/three.module.min.js';
-import {createStreetAvatar,strideLength} from './street-avatar.js?v=7fcd795d53';
+import {createStreetAvatar,strideLength} from './street-avatar.js?v=b503d6f30d';
 import {enterStreetAtmosphere} from './street-atmosphere.js?v=b8acbb84d1';
 import {StreetTraversal} from './street-traversal.js?v=18df453e06';
 
@@ -66,7 +66,7 @@ export class ChaseCamera {
 
 export class StreetMode {
  constructor(viewer,walker){
-  this.viewer=viewer;this.avatar=createStreetAvatar();
+  this.viewer=viewer;this.avatar=createStreetAvatar(viewer.visitorLook);
   this.surface=walker.surface;this.surface.streetContacts=viewer.activity?.contacts;
   this.traversal=new StreetTraversal(walker.surface);this.camera=new ChaseCamera(walker.surface);
   this.atmosphere=enterStreetAtmosphere(viewer);this.last=walker.feet.clone();this.gripLocal=new Vector3();this.palmsLocal=[new Vector3(),new Vector3()];this.contactRoot=new Vector3();this.gait=0;this.rotation=walker.yaw;
@@ -79,6 +79,14 @@ export class StreetMode {
   this.contact=new Mesh(disk,material);
   this.contact.scale.set(.30,.22,1);this.contact.rotation.x=-Math.PI/2;
   this.root.add(this.contact);viewer.scene.add(this.root);
+ }
+ setAppearance(look){
+  const old=this.avatar;
+  this.avatar=createStreetAvatar(look);
+  this.avatar.root.position.copy(old.root.position);this.avatar.root.rotation.copy(old.root.rotation);
+  this.avatar.root.visible=old.root.visible;
+  if(this.poseState)this.avatar.pose(this.poseState);
+  this.root.add(this.avatar.root);old.dispose();
  }
  jump(walker,boosted,held){this.traversal.jump(walker,boosted,held);}
  step(walker,dt,held){return this.traversal.step(walker,dt,held);}
@@ -119,8 +127,9 @@ export class StreetMode {
      .sub(this.avatar.root.position).applyAxisAngle(up,this.rotation);
    });
   }
-  this.avatar.pose({grip:action?this.gripLocal:null,palms:wall||action?.palms?this.palmsLocal:null,gait:this.gait,speed:this.visualSpeed,time:this.poseTime,turn:MathUtils.clamp(delta,-1,1),look:walker.pitch,impact:this.impact,grounded:walker.grounded,verticalSpeed:walker.verticalSpeed,
-   action:wall?'wall':action?.type??null,progress:wall?wall.travel:action?.progress??0});
+  this.poseState={grip:action?this.gripLocal:null,palms:wall||action?.palms?this.palmsLocal:null,gait:this.gait,speed:this.visualSpeed,time:this.poseTime,turn:MathUtils.clamp(delta,-1,1),look:walker.pitch,impact:this.impact,grounded:walker.grounded,verticalSpeed:walker.verticalSpeed,
+   action:wall?'wall':action?.type??null,progress:wall?wall.travel:action?.progress??0};
+  this.avatar.pose(this.poseState);
   this.last.copy(walker.feet);
   this.contact.position.copy(walker.feet);this.contact.position.y+=.018;
   this.contact.visible=walker.grounded;

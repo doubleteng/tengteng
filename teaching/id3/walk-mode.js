@@ -1,4 +1,6 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
+import {randomLook} from './visitor-look.js?v=850b7c0e56';
+import {VisitorPresence} from './visitor-presence.js?v=f490dfb97e';
 import {WalkSurfaces} from './walk-surfaces.js?v=e4d41e4566';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
@@ -112,7 +114,7 @@ export class Walker {
 
 export class WalkMode {
  constructor(viewer){
-  this.v=viewer;this.canvas=viewer.renderer.domElement;this.area=viewer.host.parentElement;
+  this.v=viewer;viewer.visitorLook??=randomLook();this.canvas=viewer.renderer.domElement;this.area=viewer.host.parentElement;
   this.held=new Set();this.forward=new Vector3();this.ray=new Raycaster();
   this.hud=this.area.querySelector('#walk-hud');this.hint=this.area.querySelector('#walk-door-hint');
  }
@@ -140,6 +142,7 @@ export class WalkMode {
   v.controls.enabled=false;v.userNavigated=true;v.contextView=null;
   v.camera=v.perspectiveCamera;v.camera.clearViewOffset();v.camera.fov=this.street?57:72;v.camera.zoom=1;
   v.camera.updateProjectionMatrix();this.attach();this.pose();
+  if(v.visitorRoomKey){this.presence=new VisitorPresence(this,v.visitorRoomKey);this.presence.start();}
   this.area.focus({preventScroll:true});
   if(!touch)this.capture();
   return true;
@@ -309,7 +312,7 @@ export class WalkMode {
  }
  exit(restoreSection=true){
   if(!this.active)return;
-  this.active=false;this.lookPending=false;this.queuedJump=null;this.listeners.abort();this.wasLocked=false;this.drag=null;
+  this.active=false;this.presence?.stop();this.presence=null;this.lookPending=false;this.queuedJump=null;this.listeners.abort();this.wasLocked=false;this.drag=null;
   if(document.pointerLockElement===this.canvas)document.exitPointerLock();
   cancelAnimationFrame(this.frame);this.frame=0;this.held.clear();
   const v=this.v,s=this.saved;const street=this.street;this.street=null;street?.dispose();this.doors.reset();this.door=null;

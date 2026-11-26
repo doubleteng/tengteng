@@ -124,7 +124,7 @@ export class AtlasViewer{
   this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.resize();
  }
  loadStreetMode(){
-  return this.streetModule??=import('./street-mode.js?v=46b5ea8e71').catch(error=>{this.streetModule=null;throw error;});
+  return this.streetModule??=import('./street-mode.js?v=ca05092d42').catch(error=>{this.streetModule=null;throw error;});
  }
  enableWalkEntry(){
   const canvas=this.renderer.domElement,area=this.host.parentElement;
@@ -136,7 +136,7 @@ export class AtlasViewer{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=1dc12a8d32').catch(error=>{this.walkModule=null;throw error;});
+   this.walkModule??=import('./walk-mode.js?v=a75ff410aa').catch(error=>{this.walkModule=null;throw error;});
    Promise.all([this.walkModule,thirdPerson?this.loadStreetMode():null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
     this.walkMode??=new WalkMode(this);
@@ -407,6 +407,7 @@ export class AtlasViewer{
   });
  }
  async show(model,city){
+  this.visitorRoomKey=model.key;
   this.activity?.setEnabled(false);
   this.setSection('off');
   this.walkMode?.release();this.walkRequest=(this.walkRequest||0)+1;

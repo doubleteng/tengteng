@@ -1,5 +1,6 @@
 // Distances are metres. The figure faces local -Z, with its soles at the origin.
 import * as T from './lib/three.module.min.js';
+import {visitorLook} from './visitor-look.js?v=850b7c0e56';
 import {readAnatomy} from './street-anatomy.js?v=f2f8b5f49c';
 
 const C = {
@@ -22,7 +23,8 @@ function smooth(a, b, n) {
 // Batch the cloth, stitching and skin by moving part. Colour changes share
 // the same surface normals, and the small deformation maps only affect limbs.
 class Part {
-  constructor() {
+  constructor(palette) {
+    this.palette=palette;
     this.positions = [];
     this.colors = [];
     this.normals = [];
@@ -171,6 +173,7 @@ class Part {
 }
 
 function jacket(part) {
+  const C=part.palette;
   // A cream jersey is visible between the two unfastened fronts.
   part.shell([0,0,-.002],[[-.060,.130,.087],[-.045,.141,.087],[.07,.139,.084],
     [.24,.141,.088,-.003],[.37,.155,.092,-.002],[.425,.160,.083],[.463,.071,.061]],C.knit,18);
@@ -204,6 +207,7 @@ function jacket(part) {
 }
 
 function backpack(part){
+  const C=part.palette;
   part.shell([0,0,.123],[[.070,.055,.030],[.080,.107,.050],[.108,.119,.061],
     [.16,.128,.062,.005,-.004],[.24,.123,.075,.004,-.006],[.31,.129,.068,.001,-.004],
     [.355,.111,.060],[.385,.100,.039],[.395,.070,.030]],
@@ -219,7 +223,8 @@ function backpack(part){
 }
 
 function face(part) {
-  const base=new T.Color(C.skin),lip=new T.Color(C.lips),cheek=new T.Color(0xc1826a),tint=new T.Color();
+  const C=part.palette;
+  const base=new T.Color(C.skin),lip=new T.Color(C.lips),cheek=new T.Color(C.cheek??0xc1826a),tint=new T.Color();
   part.anatomy('head',1,(x,y,z)=>{
     const ax=Math.abs(x);
     const blush=Math.exp(-(((ax-.049)/.024)**2+((y-.089)/.020)**2))*smooth(.045,.075,-z);
@@ -244,11 +249,16 @@ function face(part) {
       const a=k*TAU/21 + .11*Math.sin(k*1.44)+.13*i;
       return [x+(w+.001)*Math.sin(a),y+wave(i,a),z+(d+.001)*Math.cos(a),i===0?.30:i===6?.20:1];
     });
-    part.cord(path,.0019,k%4===0?0x554138:C.hairLight,5);
+    part.cord(path,.0019,k%4===0?C.hair:C.hairLight,5);
   }
   for(const side of [-1,1]){
     part.cord([[side*.085,.132,-.035],[side*.089,.111,-.030],[side*.085,.080,-.026],
       [side*.079,.064,-.024],[side*.081,.056,-.021,.15]],.004,C.hairLight);
+  }
+  if(C.style===1)return; // Cropped swept hair.
+  if(C.style===2){
+    part.shell([0,0,0],[[.035,.079,.040,.081],[.061,.093,.055,.076],[.112,.099,.062,.066],[.163,.095,.060,.047]],C.hair,20);
+    return;
   }
   part.oval([-.006,.097,.11],.048,.035,.035,0x85634b,14);
   for(let k=0;k<9;k++){
@@ -260,6 +270,7 @@ function face(part) {
 }
 
 function arm(part,side){
+  const C=part.palette;
   // One continuous sleeve bends over the elbow. The rolled cuff leaves a
   // short length of forearm visible between cloth and wrist.
   part.shell([0,0,0],[[-ARM-FOREARM,.029,.025],[-.49,.036,.032],[-.442,.044,.038],
@@ -272,9 +283,10 @@ function arm(part,side){
   part.shell([0,0,0],rows,r=>r<=5?(r===3?C.deep:C.aqua):C.jacket,16,.99,
     (r,a)=>r<11?.004*Math.sin(a*2+r*.63)+.002*side*Math.cos(a):0);
 }
-function hand(part,s){part.anatomy('hand',s,()=>C.skin);}
+function hand(part,s){part.anatomy('hand',s,()=>part.palette.skin);}
 
 function leg(part,side) {
+  const C=part.palette;
   const rows=[[-THIGH-SHIN+.015,.052,.051],[-.784,.058,.056,-.002],[-.766,.055,.052],
     [-.743,.058,.055,.002],[-.70,.056,.055,.004],[-.61,.063,.064,.009],
     [-.54,.073,.071,.012],[-.487,.072,.069,.006],[-.460,.069,.068],
@@ -289,6 +301,7 @@ function leg(part,side) {
 }
 
 function sneaker(part) {
+  const C=part.palette;
   part.shell([0,0,0], [[-ANKLE,.060,.127,-.047],[-.077,.066,.132,-.047],
     [-.059,.066,.132,-.047],[-.048,.065,.128,-.047],[-.027,.060,.117,-.037],
     [-.008,.054,.091,-.022],[.013,.050,.059]], (row,k) => {
@@ -347,19 +360,20 @@ function flexibleCloth(geometry,joint,length,band){
 
 export function strideLength(speed){return mix(1.52,2.58,smooth(2.2,4.8,speed));}
 
-export function createStreetAvatar() {
+export function createStreetAvatar(appearance) {
+  const palette=appearance==null?C:{...C,...visitorLook(appearance)};
   const root = new T.Group();
   root.name = 'Street explorer';
   const material = new T.MeshStandardMaterial({vertexColors:true, roughness:.92, metalness:0});
   const geometries = [];
   function mount(node, draw, side) {
-    const part = new Part();
+    const part = new Part(palette);
     draw(part, side);
     const geometry=part.attach(node,material);geometries.push(geometry);return geometry;
   }
   const hips = joint('Hips', root, 0,PELVIS,0);
   mount(hips, part => part.shell([0,0,0], [[-.092,.110,.073],[-.038,.147,.099],
-    [.043,.145,.096],[.108,.131,.090]], C.trousers,12));
+    [.043,.145,.096],[.108,.131,.090]], palette.trousers,12));
   const torso = joint('Jacket and backpack',hips,0,.066,0);
   mount(torso,jacket);
   const bag=joint('Canvas daypack',torso,0,0,0);mount(bag,backpack);

@@ -26,7 +26,7 @@ byId('signin').onsubmit = async event => {
   byId('session').hidden = false;
   byId('studio').hidden = false;
   try {
-    const {openEditor} = await import('./editor.js?v=b770ca984f');
+    const {openEditor} = await import('./editor.js?v=c7de6f309a53');
     await openEditor(director);
   } catch (error) {
     byId('status').textContent = 'The model could not load. Close the editor and try again.';

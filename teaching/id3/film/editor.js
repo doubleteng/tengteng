@@ -35,6 +35,8 @@ function makeWebm(frames,w,h,fps){
 const $=id=>document.getElementById(id);
 const say=text=>{$('notice').textContent=text};
 function sample(keys,t,prop){
+ if(t<=keys[0].at)return keys[0][prop];
+ if(t>=keys.at(-1).at)return keys.at(-1)[prop];
  let i=0;while(i<keys.length-2&&keys[i+1].at<t)i++;
  const a=keys[i],b=keys[i+1],before=keys[Math.max(0,i-1)],after=keys[Math.min(keys.length-1,i+2)];
  const h=b.at-a.at,u=(t-a.at)/h,v=u*u,w=v*u;
@@ -47,13 +49,51 @@ function sample(keys,t,prop){
  }
  return components===1?Math.max(25,Math.min(95,out[0])):out;
 }
-function validatePath(data){
- if(data?.version!==1||data.project!=='ava-barbat'||!Array.isArray(data.shots)||data.shots.length<1||data.shots.length>32)throw Error();
- const vec=v=>Array.isArray(v)&&v.length===3&&v.every(x=>Number.isFinite(x)&&Math.abs(x)<10000);
- for(const s of data.shots){
-  if(typeof s.name!=='string'||!s.name.length||s.name.length>100||!Number.isFinite(s.seconds)||s.seconds<.5||s.seconds>120||!Array.isArray(s.keys)||s.keys.length<2||s.keys.length>120||s.keys[0].at!==0||s.keys.at(-1).at!==1)throw Error();
-  for(const [i,k] of s.keys.entries())if(!Number.isFinite(k.at)||(i&&k.at-s.keys[i-1].at<.00499999)||!vec(k.eye)||!vec(k.target)||!Number.isFinite(k.fov)||k.fov<25||k.fov>95||Math.hypot(...k.eye.map((x,j)=>x-k.target[j]))<.05)throw Error();
+const legacyDemoNames = new Set([
+ 'Kerrytown to the market', 'Across the central terrace', 'Inside the shared center'
+]);
+const duration = shot => shot?.keys.at(-1)?.at ?? 0;
+const sequenceData = shots => ({version: 2, project: 'ava-barbat', timeUnit: 'seconds', shots});
+
+function readShots(data, cleanOldDraft = false) {
+ const legacy = data?.version === 1;
+ if ((!legacy && (data?.version !== 2 || data.timeUnit !== 'seconds')) ||
+     data.project !== 'ava-barbat' || !Array.isArray(data.shots) || data.shots.length > 32) {
+  throw Error('Unrecognized camera sequence.');
  }
+ const result = [];
+ const vec = v => Array.isArray(v) && v.length === 3 && v.every(x => Number.isFinite(x) && Math.abs(x) < 10000);
+ for (const s of data.shots) {
+  if (legacy && cleanOldDraft && legacyDemoNames.has(s.name)) continue;
+  if (typeof s.name !== 'string' || !s.name.length || s.name.length > 100 ||
+      !Array.isArray(s.keys) || s.keys.length > 120) throw Error('Invalid shot.');
+  if (legacy && (!Number.isFinite(s.seconds) || s.seconds <= 0 || s.seconds > 120 ||
+      s.keys.length < 2 || s.keys.at(-1).at !== 1)) throw Error('Invalid shot duration.');
+  const keys = s.keys.map((k, i) => {
+   if (!Number.isFinite(k.at) || k.at < 0 || k.at > (legacy ? 1 : 120) ||
+       (i === 0 ? k.at !== 0 : k.at <= s.keys[i-1].at) ||
+       !vec(k.eye) || !vec(k.target) || !Number.isFinite(k.fov) || k.fov < 25 || k.fov > 95 ||
+       Math.hypot(...k.eye.map((x,j) => x-k.target[j])) < .05) throw Error('Invalid keyframe.');
+   return {at: legacy ? k.at*s.seconds : k.at, eye:k.eye, target:k.target, fov:k.fov};
+  });
+  // The previous Add shot command cloned its starting pose at exactly four seconds.
+  if(legacy && cleanOldDraft && /^Shot [0-9]+$/.test(s.name) && s.seconds===4 && keys.length===2){
+   const [first,last]=keys;
+   if(first.fov===last.fov && first.eye.every((v,i)=>v===last.eye[i]) &&
+      first.target.every((v,i)=>v===last.target[i]))keys.pop();
+  }
+  result.push({name:s.name, keys});
+ }
+ return result;
+}
+
+// Completed camera paths keep the normalized format accepted by the offline renderer.
+// An unfinished shot is a valid editable draft, including a shot without keyframes.
+function downloadData(shots) {
+ if (!shots.length || shots.some(s => duration(s) === 0)) return sequenceData(shots);
+ return {version:1, project:'ava-barbat', shots:shots.map(s => ({
+  name:s.name, seconds:duration(s), keys:s.keys.map(k => ({...k, at:k.at/duration(s)}))
+ }))};
 }
 export async function openEditor(director){
  const [T,{GLTFLoader},{OrbitControls},{makeRenderer}]=await Promise.all([
@@ -65,11 +105,19 @@ export async function openEditor(director){
  const project=catalog.projects.find(p=>p.key==='ava-barbat');
  if(!project)throw Error('Ava’s proposal could not be found.');
  const modelURL=new URL(project.url,new URL('../',location.href));
- const draftKey='id3-film:v1:'+director+':'+modelURL.search;
+ const suffix=director+':'+modelURL.search;
+ const draftKey='id3-film:v2:'+suffix;
  let shots=[];
  try {
-  const stored=localStorage.getItem(draftKey);
-  if(stored){const data=JSON.parse(stored);validatePath(data);shots=data.shots;}
+  const current=localStorage.getItem(draftKey);
+  if(current!==null)shots=readShots(JSON.parse(current));
+  else {
+   const legacy=localStorage.getItem('id3-film:v1:'+suffix);
+   if(legacy!==null){
+    shots=readShots(JSON.parse(legacy),true);
+    localStorage.setItem(draftKey,JSON.stringify(sequenceData(shots)));
+   }
+  }
  } catch {}
  const scene=new T.Scene();scene.background=new T.Color(0xe5e7df);
  const renderer=makeRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});
@@ -102,10 +150,13 @@ export async function openEditor(director){
  const ground=new T.Mesh(new T.PlaneGeometry(1600,1600),new T.MeshStandardMaterial({color:0xd1d0bd,roughness:.95}));ground.position.y=-13.65;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
  let sid=0,local=0,playing=false,originTime=0,frame=0,pending=false,internal=false;
  function keep(){
-  try{localStorage.setItem(draftKey,JSON.stringify({version:1,project:'ava-barbat',shots}))}
+  try{localStorage.setItem(draftKey,JSON.stringify(sequenceData(shots)))}
   catch{say('Storage is unavailable on this device. Download the camera path to keep your changes.')}
  }
- let shot=()=>shots[sid],total=()=>shots.reduce((s,k)=>s+k.seconds,0),baseTime=()=>shots.slice(0,sid).reduce((a,s)=>a+s.seconds,0);
+ const shot=()=>shots[sid];
+ const total=()=>shots.reduce((a,s)=>a+duration(s),0);
+ const baseTime=()=>shots.slice(0,sid).reduce((a,s)=>a+duration(s),0);
+ let undoState=null;
  let exporting=false,cancelExport=false,lastVideo=null;
  function render(){
   if(!exporting&&!pending){pending=true;requestAnimationFrame(()=>{pending=false;if(!exporting)renderer.render(scene,cam)})}
@@ -113,48 +164,141 @@ export async function openEditor(director){
  function resize(){if(exporting)return;renderer.setSize(Math.max(10,$('stage').clientWidth),Math.max(10,$('stage').clientHeight));cam.aspect=$('stage').clientWidth/Math.max(1,$('stage').clientHeight);cam.updateProjectionMatrix();render()}
  new ResizeObserver(resize).observe($('stage'));resize();
  function pause(){playing=false;controls.enabled=true;cancelAnimationFrame(frame);$('play').textContent='Play sequence';}
- function labels(){
-  const s=shot();$('lens').value=cam.fov;$('angle').textContent=Math.round(cam.fov)+'°';$('scrub').value=Math.round(local*1000);
-  $('stamp').textContent=(baseTime()+local*s.seconds).toFixed(2)+' / '+total().toFixed(2)+' s';
-  const idx=s.keys.findIndex(k=>Math.abs(k.at-local)<=.004);
+ function keyIndex() {
+  return shot()?.keys.findIndex(k => Math.abs(k.at-local)<0.000001) ?? -1;
+ }
+ function updateControls() {
+  const s=shot(), keys=s?.keys ?? [], length=duration(s), idx=keyIndex();
+  $('lens').value=cam.fov;
+  $('angle').textContent=Math.round(cam.fov)+'°';
+  $('shotname').textContent=s?.name ?? '';
+  $('stamp').textContent='Shot '+length.toFixed(2)+' s · Film '+total().toFixed(2)+' s';
+  $('cursor').value=Number(local.toFixed(3));
+  $('cursor').disabled=!keys.length;
+  $('advance').disabled=!keys.length || local>=120;
+  $('scrub').max=length;
+  $('scrub').value=Math.min(local,length);
+  $('scrub').disabled=!length;
   $('store').textContent=idx<0?'Add keyframe':'Update keyframe';
-  $('remove').disabled=idx<=0||idx===s.keys.length-1;
-  for(const [j,b] of Array.from($('marks').children).entries())b.classList.toggle('active',j===idx);
+  $('remove').disabled=idx<0;
+  $('delete-shot').disabled=!s;
+  $('undo').hidden=!undoState;
+  $('save').disabled=!shots.length;
+  $('play').disabled=$('export').disabled=total()<=0;
+  $('new-shot').disabled=shots.length>=32;
+  for(const [j,b] of Array.from($('marks').children).entries()) {
+   b.classList.toggle('active',j===idx);
+   b.setAttribute('aria-pressed',String(j===idx));
+  }
  }
- function pose(){const keys=shot().keys;internal=true;cam.position.fromArray(sample(keys,local,'eye'));controls.target.fromArray(sample(keys,local,'target'));cam.fov=sample(keys,local,'fov');cam.updateProjectionMatrix();controls.update();internal=false;labels();render()}
- function marks(){
-  const s=shot();$('marks').replaceChildren();
-  for(const [i,k] of s.keys.entries()){const b=document.createElement('button');b.style.left=k.at*100+'%';b.title='Keyframe '+(i+1)+' · '+(k.at*s.seconds).toFixed(2)+' s';b.setAttribute('aria-label',b.title);b.onclick=()=>{pause();local=k.at;pose();say('')};$('marks').append(b)}
+ function pose() {
+  const keys=shot()?.keys;
+  if(keys?.length) {
+   internal=true;
+   cam.position.fromArray(sample(keys,local,'eye'));
+   controls.target.fromArray(sample(keys,local,'target'));
+   cam.fov=sample(keys,local,'fov');cam.updateProjectionMatrix();
+   controls.update();internal=false;
+  }
+  updateControls();render();
  }
- function changeShot(id,t=0){
+ function marks() {
+  $('marks').replaceChildren();
+  const s=shot();
+  if(!s)return;
+  const end=duration(s);
+  for(const [i,k] of s.keys.entries()) {
+   const b=document.createElement('button');
+   b.style.left=(end ? 100*k.at/end : 0)+'%';
+   b.title='Keyframe '+(i+1)+' · '+k.at.toFixed(2)+' s';
+   b.setAttribute('aria-label',b.title);
+   b.onclick=()=>{pause();local=k.at;marks();pose();say('')};
+   $('marks').append(b);
+  }
+ }
+ function changeShot(id,t=0) {
   sid=id;local=t;
   for(const [i,b] of Array.from($('shots').children).entries())b.setAttribute('aria-current',String(i===sid));
-  $('shotname').textContent=shot().name;$('duration').value=shot().seconds;marks();pose();
+  marks();pose();
  }
- function shotButtons(){
-  const hasShots=shots.length>0;
-  $('timeline').hidden=!hasShots;
-  $('shot-settings').hidden=!hasShots;
-  $('save').disabled=$('export').disabled=!hasShots;
-  $('new-shot').disabled=shots.length>=32;
-  $('shots').replaceChildren();for(const [i,s] of shots.entries()){
-  const b=document.createElement('button'),num=document.createElement('b'),txt=document.createElement('span');num.textContent=String(i+1).padStart(2,'0');txt.textContent=s.name;b.append(num,txt);b.onclick=()=>{pause();changeShot(i);say('')};$('shots').append(b)}}
+ function shotButtons() {
+  $('timeline').hidden=$('shot-settings').hidden=!shots.length;
+  $('shots').replaceChildren();
+  for(const [i,s] of shots.entries()){
+   const b=document.createElement('button'),num=document.createElement('b'),txt=document.createElement('span');
+   num.textContent=String(i+1).padStart(2,'0');txt.textContent=s.name;
+   b.append(num,txt);b.onclick=()=>{pause();changeShot(i);say('')};$('shots').append(b);
+  }
+ }
+ function snapshotDeletion() {
+  undoState={shots:structuredClone(shots),sid,local};
+ }
+ $('undo').onclick=()=>{
+  if(!undoState)return;
+  pause();
+  const restored=undoState; undoState=null; shots=restored.shots;
+  shotButtons();changeShot(restored.sid,restored.local);keep();say('Deletion undone.');
+ };
  $('new-shot').onclick=()=>{
   if(exporting||shots.length>=32)return;
-  pause();
-  const keys=[0,1].map(at=>({at,eye:cam.position.toArray(),target:controls.target.toArray(),fov:cam.fov}));
-  shots.push({name:'Shot '+(shots.length+1),seconds:4,keys});
+  pause();undoState=null;
+  let n=shots.length+1;
+  while(shots.some(s=>s.name==='Shot '+n))n++;
+  shots.push({name:'Shot '+n,keys:[]});
   shotButtons();changeShot(shots.length-1);keep();
-  say('Move the time slider, frame a view and save a keyframe.');
+  say('Frame your starting view and add the first keyframe at 0 s.');
  };
- function seek(seconds){let rest=seconds,id=0;while(id<shots.length-1&&rest>=shots[id].seconds){rest-=shots[id].seconds;id++}const t=Math.min(1,rest/shots[id].seconds);
-  if(sid!==id)changeShot(id,t);else{local=t;pose()}}
- function tick(now){if(!playing)return;const sec=(now-originTime)/1000;renderer.noteMotion?.();if(sec>=total()){seek(total());pause();return}seek(sec);frame=requestAnimationFrame(tick)}
- $('play').onclick=()=>{if(playing){pause();return}let sec=baseTime()+local*shot().seconds;if(sec>=total()-.02)sec=0;playing=true;controls.enabled=false;$('play').textContent='Pause';say('');originTime=performance.now()-sec*1000;frame=requestAnimationFrame(tick)};
- $('scrub').oninput=()=>{pause();local=+$('scrub').value/1000;renderer.noteMotion?.();pose();say('')};
- $('lens').oninput=()=>{pause();cam.fov=+$('lens').value;cam.updateProjectionMatrix();labels();render();say('Use Add or Update keyframe to keep this view.')};
- $('duration').oninput=()=>{const v=$('duration').valueAsNumber;if(Number.isFinite(v)&&v>=.5&&v<=120){pause();shot().seconds=v;marks();labels()}};
- $('duration').onchange=()=>{pause();let val=Number($('duration').value);if(!Number.isFinite(val)||val<.5||val>120){$('duration').value=shot().seconds;say('Choose a shot length from 0.5 to 120 seconds.');return}shot().seconds=val;marks();labels();say('Shot length updated.');keep()};
+ $('delete-shot').onclick=()=>{
+  if(!shot()||exporting)return;
+  pause();snapshotDeletion();
+  const [deleted]=shots.splice(sid,1);
+  shotButtons();changeShot(Math.max(0,Math.min(sid,shots.length-1)));keep();say(deleted.name+' deleted.');
+ };
+ function seek(seconds) {
+  let remaining=Math.max(0,seconds);
+  let last=-1;
+  for(const [i,s] of shots.entries()){
+   const span=duration(s);
+   if(span<=0)continue;
+   last=i;
+   if(remaining<span) {
+    if(sid!==i)changeShot(i,remaining);
+    else{local=remaining;pose()}
+    return;
+   }
+   remaining-=span;
+  }
+  if(last>=0)changeShot(last,duration(shots[last]));
+ }
+ function tick(now) {
+  if(!playing)return;
+  const seconds=(now-originTime)/1000;renderer.noteMotion?.();
+  if(seconds>=total()){seek(total());pause();return}
+  seek(seconds);frame=requestAnimationFrame(tick);
+ }
+ $('play').onclick=()=>{
+  if(playing){pause();return}
+  if(!total())return;
+  let sec=baseTime()+Math.min(local,duration(shot()));
+  if(sec>=total()-.000001)sec=0;
+  playing=true;controls.enabled=false;$('play').textContent='Pause';say('');
+  originTime=performance.now()-sec*1000;frame=requestAnimationFrame(tick);
+ };
+ $('scrub').oninput=()=>{
+  pause();local=Number($('scrub').value);renderer.noteMotion?.();marks();pose();say('');
+ };
+ function setCaptureTime(seconds) {
+  if(!shot()?.keys.length)return;
+  pause();
+  if(!Number.isFinite(seconds)||seconds<0||seconds>120) {
+   updateControls();say('Choose a shot time from 0 to 120 seconds.');return;
+  }
+  local=Math.round(seconds*1000)/1000;
+  marks();updateControls();say('Frame this view and save a keyframe at '+local.toFixed(2)+' s.');
+ }
+ $('cursor').onchange=()=>setCaptureTime($('cursor').valueAsNumber);
+ $('advance').onclick=()=>setCaptureTime(Math.min(120,local+1));
+ $('lens').oninput=()=>{pause();cam.fov=+$('lens').value;cam.updateProjectionMatrix();updateControls();render();say('Save a keyframe to keep this view.')};
  controls.addEventListener('start',()=>{pause();$('stage').focus({preventScroll:true})});
  controls.addEventListener('change',()=>{if(!internal){renderer.noteMotion?.();render();say('Use Add or Update keyframe to keep this view.')}});
  $('stage').addEventListener('keydown',e=>{
@@ -163,23 +307,52 @@ export async function openEditor(director){
   const right=forward.clone().cross(cam.up).normalize(),dy=new T.Vector3(0,1,0);
   const delta=(k==='q'||k==='e'?dy:k==='w'||k==='s'?forward:right).multiplyScalar((e.shiftKey?1.2:.3)*(['q','s','a'].includes(k)?-1:1));cam.position.add(delta);controls.target.add(delta);controls.update()
  });
- $('store').onclick=()=>{pause();const keys=shot().keys,i=keys.findIndex(k=>Math.abs(k.at-local)<=.004);if(i<0&&keys.length>=120){say('This shot has reached 120 keyframes.');return}
+ $('store').onclick=()=>{
+  if(exporting||!shot())return;
+  pause();
+  const keys=shot().keys, i=keyIndex();
+  if(i<0 && keys.length>=120){say('This shot has reached 120 keyframes.');return}
+  if(!keys.length)local=0;
+  undoState=null;
   const k={at:i<0?local:keys[i].at,eye:cam.position.toArray(),target:controls.target.toArray(),fov:cam.fov};
-  if(i<0)keys.push(k);else keys[i]=k;keys.sort((a,b)=>a.at-b.at);local=k.at;marks();labels();say('Camera keyframe saved.');keep()};
- $('remove').onclick=()=>{pause();const keys=shot().keys,i=keys.findIndex(k=>Math.abs(k.at-local)<=.004);
-  if(i>0&&i<keys.length-1){keys.splice(i,1);marks();pose();say('Interior keyframe removed.');keep()}};
- $('save').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({version:1,project:'ava-barbat',shots},null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=director+' - Ava camera path.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);say('Camera path exported.')};
+  if(i<0)keys.push(k);else keys[i]=k;
+  keys.sort((a,b)=>a.at-b.at);local=k.at;marks();updateControls();keep();
+  say('Keyframe saved at '+local.toFixed(2)+' s.');
+ };
+ $('remove').onclick=()=>{
+  const i=keyIndex();
+  if(i<0||exporting)return;
+  pause();snapshotDeletion();
+  const keys=shot().keys;keys.splice(i,1);
+  if(i===0 && keys.length){
+   const start=keys[0].at;
+   for(const k of keys)k.at-=start;
+   local=0;
+  } else local=keys[Math.max(0,i-1)]?.at ?? 0;
+  marks();pose();keep();say('Keyframe deleted.');
+ };
+ $('save').onclick=()=>{
+  const url=URL.createObjectURL(new Blob([JSON.stringify(downloadData(shots),null,2)],{type:'application/json'}));
+  const a=document.createElement('a');a.href=url;a.download=director+' - Ava camera path.json';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);say('Camera path exported.');
+ };
  $('open').onclick=()=>$('pathfile').click();
- $('pathfile').onchange=async()=>{const f=$('pathfile').files[0];if(!f)return;try{if(f.size>2e6)throw Error();const data=JSON.parse(await f.text());validatePath(data);pause();shots=data.shots;shotButtons();changeShot(0);say('Camera path loaded.');keep()}catch{say('Choose a camera path saved for Ava’s model.')}finally{$('pathfile').value=''}};
-
+ $('pathfile').onchange=async()=>{
+  const file=$('pathfile').files[0];if(!file)return;
+  try{
+   if(file.size>2e6)throw Error();
+   const imported=readShots(JSON.parse(await file.text()));
+   pause();undoState=null;shots=imported;shotButtons();changeShot(0);keep();say('Camera path loaded.');
+  }catch{say('Choose a camera path saved for Ava’s model.')}finally{$('pathfile').value=''}
+ };
  $('cancel').onclick=()=>{cancelExport=true;say('Stopping the preview export…')};
  $('export').onclick=async()=>{
-  if(exporting)return;
+  if(exporting||!total())return;
   pause();
   const oldShot=sid,oldTime=local,oldEye=cam.position.clone(),oldTarget=controls.target.clone(),oldFov=cam.fov;
   const fps=24,width=1280,height=720;
-  const counts=shots.map(s=>Math.max(2,Math.round(s.seconds*fps))),count=counts.reduce((a,b)=>a+b,0);
-  if(count>1440){say('Keep this trial export within one minute by shortening the shots.');return}
+  const counts=shots.map(s=>duration(s)>0 ? Math.max(1,Math.round(duration(s)*fps)) : 0),count=counts.reduce((a,b)=>a+b,0);
+  if(count>2880){say('Keep the preview sequence within two minutes.');return}
   exporting=true;cancelExport=false;controls.enabled=false;$('cancel').hidden=false;
   for(const id of ['settings','timeline','files'])$(id).inert=true;
   const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
@@ -196,7 +369,7 @@ export async function openEditor(director){
     const s=shots[j];
     for(let k=0;k<counts[j];k++){
      if(cancelExport)throw Error('Preview export canceled.');
-     local=k/(counts[j]-1);cam.position.fromArray(sample(s.keys,local,'eye'));
+     local=counts[j]===1 ? 0 : k*duration(s)/(counts[j]-1);cam.position.fromArray(sample(s.keys,local,'eye'));
      cam.lookAt(...sample(s.keys,local,'target'));cam.fov=sample(s.keys,local,'fov');cam.updateProjectionMatrix();
      if(renderer.isWebGLRenderer){
       renderer.render(scene,cam);ctx.drawImage(renderer.domElement,0,0,width,height);
@@ -215,16 +388,16 @@ export async function openEditor(director){
   finally{
    exporting=false;controls.enabled=true;renderer.setPixelRatio(Math.min(1.4,devicePixelRatio));resize();
    for(const id of ['settings','timeline','files'])$(id).inert=false;$('cancel').hidden=true;
-   changeShot(oldShot,oldTime);internal=true;cam.position.copy(oldEye);controls.target.copy(oldTarget);cam.fov=oldFov;cam.updateProjectionMatrix();controls.update();internal=false;labels();render();say(message);
+   changeShot(oldShot,oldTime);internal=true;cam.position.copy(oldEye);controls.target.copy(oldTarget);cam.fov=oldFov;cam.updateProjectionMatrix();controls.update();internal=false;updateControls();render();say(message);
   }
  };
  shotButtons();
- if(shots.length)changeShot(0);
- else {
+ if(!shots[0]?.keys.length){
   cam.position.set(20,49,84);
   controls.target.set(-43,6,24);
   internal=true;controls.update();internal=false;render();
-  say('Frame your first view and choose Add shot.');
  }
+ changeShot(0);
+ if(!shots.length)say('Choose Add shot to begin at 0 s.');
  $('status').hidden=true;for(const id of ['settings','timeline','files'])$(id).inert=false;
 }

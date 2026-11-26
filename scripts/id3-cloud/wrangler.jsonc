@@ -12,6 +12,10 @@
       {
         "name": "ROOMS",
         "class_name": "GallerySessions"
+      },
+      {
+        "name": "VISITORS",
+        "class_name": "VisitorRoom"
       }
     ]
   },
@@ -20,6 +24,12 @@
       "tag": "v1",
       "new_sqlite_classes": [
         "GallerySessions"
+      ]
+    },
+    {
+      "tag": "v2-visitor-presence",
+      "new_sqlite_classes": [
+        "VisitorRoom"
       ]
     }
   ],

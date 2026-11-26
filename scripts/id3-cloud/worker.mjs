@@ -1,3 +1,5 @@
+import {routeVisitors} from './visitors.mjs';
+export {VisitorRoom} from './visitors.mjs';
 const site = 'https://teng-teng.org';
 const remotePage = site + '/teaching/id3/ava-render.html';
 const engine = 'https://engine.hyperbeam.com/v0/vm';
@@ -10,6 +12,8 @@ const error = (message,status) => reply({error:message},status);
 export default {
  async fetch(req, env) {
   const url = new URL(req.url);
+  const visitorRoom = /^\/visitors\/v1\/([a-z0-9][a-z0-9-]{0,63})$/.exec(url.pathname);
+  if(visitorRoom)return routeVisitors(req,env,visitorRoom[1]);
   if(env.ARCHIVED==='true' && req.method!=='DELETE' && req.method!=='OPTIONS'){
    if(url.pathname==='/health')return reply({configured:false});
    return error('The gallery now uses the browser 3D viewer.',410);

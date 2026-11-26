@@ -128,6 +128,29 @@ export async function openEditor(director,project,review=null){
  const sun=new T.DirectionalLight(0xffedce,2.4);sun.target.position.copy(target);sun.position.copy(target).add(new T.Vector3(-70,82,76));sun.castShadow=true;
  Object.assign(sun.shadow.camera,{left:-76,right:76,top:76,bottom:-76,near:.5,far:260});sun.shadow.camera.updateProjectionMatrix();sun.shadow.mapSize.set(1536,1536);sun.shadow.bias=-.00016;
  scene.add(sun,sun.target,new T.HemisphereLight(0xf5f8ff,0xb3a299,2));
+ const lighting=review?.path?.previewLighting;
+ const fixtures=(lighting?.areaLights || []).map(f=>({...f,point:new T.Vector3(...f.position)}));
+ const fillLights=[];
+ const lastLightPosition=new T.Vector3(Infinity,Infinity,Infinity);
+ if(lighting){
+  sun.position.copy(target).addScaledVector(new T.Vector3(...lighting.sunDirection).normalize(),-125);
+  scene.add(sun.target);
+  if(renderer.isWebGLRenderer)for(let i=0;i<2;i++){
+   const light=new T.PointLight(new T.Color(...lighting.lightColorLinear),0,10);
+   scene.add(light);fillLights.push(light);
+  }
+ }
+ function placeRoomLights(){
+  if(!fillLights.length || cam.position.distanceToSquared(lastLightPosition)<.25)return;
+  lastLightPosition.copy(cam.position);
+  const nearest=fixtures.map(f=>({f,dist:f.point.distanceToSquared(cam.position)}))
+    .filter(r=>r.dist<225).sort((a,b)=>a.dist-b.dist);
+  fillLights.forEach((light,i)=>{
+   const f=nearest[i]?.f;
+   light.intensity=f ? f.powerWatts*.026 : 0;
+   if(f){light.position.copy(f.point);light.distance=Math.max(5,f.diameterMeters*2);}
+  });
+ }
  const envURL='../models/kerrytown-daylight.webp';
  if(renderer.isWebGLRenderer){const env=await new T.TextureLoader().loadAsync(envURL);env.colorSpace=T.SRGBColorSpace;env.mapping=T.EquirectangularReflectionMapping;scene.environment=env;scene.environmentIntensity=.72;}
  const foliage=new URL('../models/foliage-86e71ddf75.png',location.href).href;
@@ -170,6 +193,7 @@ export async function openEditor(director,project,review=null){
  let undoState=null;
  let exporting=false,cancelExport=false,lastVideo=null;
  function render(){
+  placeRoomLights();
   if(!exporting&&!pending){pending=true;requestAnimationFrame(()=>{pending=false;if(!exporting)renderer.render(scene,cam)})}
  }
  function resize(){if(exporting)return;renderer.setSize(Math.max(10,$('stage').clientWidth),Math.max(10,$('stage').clientHeight));cam.aspect=$('stage').clientWidth/Math.max(1,$('stage').clientHeight);cam.updateProjectionMatrix();render()}

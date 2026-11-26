@@ -25,6 +25,24 @@ const byId = id => document.getElementById(id);
 const isAva = projectKey === 'ava-barbat';
 const editingReview = isAva && new URLSearchParams(location.search).get('edit') === 'common-center';
 let reviewPath;
+function setupPrivateReview() {
+  const fileID = new URLSearchParams(location.hash.slice(1)).get('review');
+  if (!fileID || !/^[A-Za-z0-9_-]{24,80}$/.test(fileID)) return;
+  const base = 'https://drive.google.com/file/d/' + encodeURIComponent(fileID);
+  const section = byId('private-review');
+  section.hidden = false;
+  byId('private-drive').href = base + '/view';
+  section.ontoggle = () => {
+    const container = byId('private-player');
+    if (!section.open) { container.replaceChildren(); return; }
+    const frame = document.createElement('iframe');
+    frame.src = base + '/preview'; frame.title = 'Ava Barbat film preview';
+    frame.allow = 'fullscreen; autoplay'; frame.allowFullscreen = true;
+    frame.referrerPolicy = 'no-referrer'; frame.style.cssText = 'display:block;width:min(100%,960px);aspect-ratio:16/9;border:0;margin:12px 0;background:#172726';
+    container.replaceChildren(frame);
+  };
+}
+if (isAva) setupPrivateReview();
 async function getReview() {
   if (!reviewPath) {
     const response = await fetch('./ava-common-center.json?v=1');
@@ -56,11 +74,12 @@ async function showReview() {
   }
 }
 async function explore(selected) {
+  byId('private-review').open = false;
   byId('sequence-review').hidden = byId('admission').hidden = true;
   byId('review-return').hidden = byId('studio').hidden = false;
   byId('studio').classList.add('review-only');
   try {
-    const {openEditor} = await import('./editor.js?v=ava-shots-1');
+    const {openEditor} = await import('./editor.js?v=ava-shots-2');
     await openEditor('',await projectReady,{path:await getReview(),readOnly:true,selected});
     byId('stage').scrollIntoView({block:'nearest'});
   } catch {
@@ -81,12 +100,13 @@ byId('signin').onsubmit = async event => {
     byId('director').focus();
     return;
   }
+  byId('private-review').open = false;
   byId('admission').hidden = byId('sequence-review').hidden = true;
   byId('director-name').textContent = director;
   byId('session').hidden = false;
   byId('studio').hidden = false;
   try {
-    const {openEditor} = await import('./editor.js?v=ava-shots-1');
+    const {openEditor} = await import('./editor.js?v=ava-shots-2');
     await openEditor(director, await projectReady, editingReview ? {path:await getReview(),readOnly:false} : null);
   } catch (error) {
     byId('status').textContent = 'The model could not load. Close the editor and try again.';

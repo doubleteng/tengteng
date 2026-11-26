@@ -130,8 +130,9 @@ function saveViewLink(){
 }
 async function selectModel(x,initialView='perspective'){
  sectionControls.reset();$('street-start').disabled=true;const seq=++version;current=x;caseHidden=null;closeLens();dollyButton.disabled=true;
- $('case-actions').hidden=!(x.caseStudy||x.frameLabel||x.statement?.length);$('student-statement').hidden=!x.statement?.length;$('case-notes').hidden=!x.caseStudy;
- $('film-link').hidden=x.key!=='ava-barbat';
+ const filmEligible=actual.some(p=>p.key===x.key && p.url);
+ $('case-actions').hidden=!(filmEligible||x.caseStudy||x.frameLabel||x.statement?.length);$('student-statement').hidden=!x.statement?.length;$('case-notes').hidden=!x.caseStudy;
+ $('film-link').hidden=!filmEligible;
  $('case-frame').hidden=!(x.caseStudy||x.frameLabel);$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent=frameLabel(x);
  setProjectViews(x);
  $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;status('Loading 3D model…');
@@ -227,7 +228,7 @@ const guides={
 };
 function info(which){$('info-content').innerHTML=guides[which];$('info').showModal();}
 $('guideBtn').onclick=()=>info('guide');
-$('film-link').onclick=()=>{location.href='./film/'};
+$('film-link').onclick=()=>{location.href='./film/?project='+encodeURIComponent(current.key)};
 $('student-statement').onclick=()=>{
  if(!current?.statement?.length)return;
  $('info-content').replaceChildren(txt('p',current.author,'kicker'),txt('h2','Design statement'),...current.statement.map(p=>txt('p',p)));

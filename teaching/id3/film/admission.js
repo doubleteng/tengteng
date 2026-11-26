@@ -1,3 +1,13 @@
+import {loadProject, projectKey, showFilms} from './cloud-film.js?v=1';
+const projectReady = loadProject();
+projectReady.then(project => {
+  byId('project-author').textContent = ' · ' + project.author;
+  document.title = 'Film · ' + project.author + ' · Integrated Design III';
+  byId('project-back').href = '../#model-' + encodeURIComponent(project.key);
+  byId('project-back').textContent = '← ' + project.author + '’s project';
+  showFilms(project);
+}).catch(error => { byId('gate-message').textContent = error.message; });
+document.getElementById('featured').hidden = projectKey !== 'ava-barbat';
 const members = [
   'Ava Barbat', 'Evan Bergsma', 'Caleigh Bovensiep', 'Hannah Brown',
   'Bryce Butler', 'Amelia Day', 'Aaron Freeman', 'Ayden Key', 'Eva Kola',
@@ -26,8 +36,8 @@ byId('signin').onsubmit = async event => {
   byId('session').hidden = false;
   byId('studio').hidden = false;
   try {
-    const {openEditor} = await import('./editor.js?v=04a834947f5f');
-    await openEditor(director);
+    const {openEditor} = await import('./editor.js?v=cloud-1');
+    await openEditor(director, await projectReady);
   } catch (error) {
     byId('status').textContent = 'The model could not load. Close the editor and try again.';
     console.error(error);

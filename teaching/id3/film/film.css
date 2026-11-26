@@ -9,3 +9,5 @@
 #pick-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:max-content;max-width:95%;text-align:center;background:#203739;color:white;border-radius:4px;padding:7px 11px;font-size:13px;pointer-events:none}
 #stage.picking canvas{cursor:crosshair}
 @media(max-width:760px){.camera-heights{flex:1 1 100%;display:flex;gap:8px;margin:0;padding-bottom:8px}.camera-heights button{font-size:13px}}
+
+.final-render,#published-finals{margin:20px 0;padding:18px 0;border-top:1px solid #c4c9be}.final-render span,.final-render p{font-size:14px;margin:8px}.final-render:has(button:enabled) span{display:none}#render-status:empty{display:none}#published-finals select{font:inherit;max-width:100%;padding:6px}#published-finals video{display:block;width:min(100%,860px);aspect-ratio:16/9;background:#172726;margin:12px 0}

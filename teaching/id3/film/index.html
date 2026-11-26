@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Film · Ava Barbat · Integrated Design III</title>
-<link rel="stylesheet" href="./film.css?v=ff480e19e7a5"></head><body><main>
-<nav class="film-top"><a href="../#model-ava-barbat">← Ava’s project</a></nav>
-<header><h1>Film</h1><p>Integrated Design III · Ava Barbat<br>Ann Arbor Farmers Market</p></header>
+<title>Film · Integrated Design III</title>
+<link rel="stylesheet" href="./film.css?v=cloud-1"></head><body><main>
+<nav class="film-top"><a id="project-back" href="../">← Project gallery</a></nav>
+<header><h1>Film</h1><p>Integrated Design III<span id="project-author"></span><br>Ann Arbor Farmers Market</p></header>
 <section id="admission"><form id="signin"><label>Studio member’s full name<input id="director" name="director" required maxlength="90" autocomplete="name" placeholder="First and last name"></label><button class="primary">Open Film editor</button></form><p id="gate-message" role="status" class="assist"></p></section>
 <div class="session" id="session" hidden><strong id="director-name"></strong><button id="leave">Close editor</button></div>
 <section id="studio" hidden>
-<article><div id="stage" tabindex="0" aria-label="Interactive model and camera"><div id="status" role="status">Loading Ava’s model…</div><div id="pick-hint" role="status" hidden>Choose a floor, terrace or street. Esc to cancel.</div></div>
+<article><div id="stage" tabindex="0" aria-label="Interactive model and camera"><div id="status" role="status">Loading project model…</div><div id="pick-hint" role="status" hidden>Choose a floor, terrace or street. Esc to cancel.</div></div>
 <aside id="settings" inert>
 <div class="camera-heights" role="group" aria-label="Camera height">
 <h2>Camera height</h2>
@@ -19,8 +19,10 @@
 <input id="scrub" class="scrub" type="range" min="0" max="0" step="0.001" value="0" aria-label="Shot time"><div id="marks" class="marks" aria-label="Keyframes"></div>
 <div class="row"><label class="inline-label">Keyframe time (s) <input id="cursor" aria-label="Keyframe time in seconds" type="number" min="0" max="120" step="0.001" value="0"></label><button id="advance" title="Move the playhead forward one second">+1 s</button><button id="store">Add keyframe</button><button id="remove" disabled>Delete keyframe</button></div></section>
 <div class="foot"><p>Drag to orbit · Right-drag to pan · Scroll to dolly<br>Focus the model to move with W A S D · Q / E down and up</p><div class="row" id="files" inert><button id="export" class="primary">Export preview video</button><button id="save">Save camera path</button><button id="open">Open path</button><input id="pathfile" type="file" accept=".json,application/json"></div></div>
-<div class="row"><button id="cancel" hidden>Cancel export</button><a id="getvideo" hidden download="Ava-camera-preview.webm">Download preview video</a></div><video id="movie" aria-label="Rendered preview" controls playsinline preload="metadata" hidden style="margin-top:12px;width:min(100%,860px);aspect-ratio:16/9;background:#172726"></video><p id="notice" class="assist" role="status"></p></section>
-<section class="featured" aria-label="Published film">
+<div class="row"><button id="cancel" hidden>Cancel export</button><a id="getvideo" hidden download="camera-preview.webm">Download preview video</a></div><video id="movie" aria-label="Rendered preview" controls playsinline preload="metadata" hidden style="margin-top:12px;width:min(100%,860px);aspect-ratio:16/9;background:#172726"></video><p id="notice" class="assist" role="status"></p>
+<div class="final-render"><button class="primary" id="render-final" disabled>Render final MP4 · 1080p</button><span>Export a preview to enable final rendering.</span><p id="render-status" role="status" aria-live="polite"></p><a id="play-final" hidden>Download this MP4</a></div></section>
+<section id="published-finals" hidden><h2>Rendered films</h2><label>Film <select id="film-list"></select></label><video id="final-player" controls playsinline preload="metadata"></video><a id="download-final">Download MP4</a></section>
+<section id="featured" hidden class="featured" aria-label="Published film">
 <video controls playsinline preload="none" poster="../models/ava-barbat.webp" src="./ava-camera-study-v1.mp4" aria-label="Ava Barbat project film"></video>
 <div><h2>Farmers Market Proposal</h2><p>Ava Barbat’s proposal, from the streets of Kerrytown to the terrace and into the market hall.</p><p>11 seconds · 24 fps</p><a href="./ava-camera-study-v1.mp4" download>Download MP4</a></div></section>
-</main><script type="module" src="./admission.js?v=429fdb3a375b"></script></body></html>
+</main><script type="module" src="./admission.js?v=cloud-1"></script></body></html>

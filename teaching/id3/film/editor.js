@@ -53,12 +53,13 @@ const legacyDemoNames = new Set([
  'Kerrytown to the market', 'Across the central terrace', 'Inside the shared center'
 ]);
 const duration = shot => shot?.keys.at(-1)?.at ?? 0;
-const sequenceData = shots => ({version: 2, project: 'ava-barbat', timeUnit: 'seconds', shots});
+import {projectKey, renderControls} from './cloud-film.js?v=1';
+const sequenceData = shots => ({version: 2, project: projectKey, timeUnit: 'seconds', shots});
 
 function readShots(data, cleanOldDraft = false) {
  const legacy = data?.version === 1;
  if ((!legacy && (data?.version !== 2 || data.timeUnit !== 'seconds')) ||
-     data.project !== 'ava-barbat' || !Array.isArray(data.shots) || data.shots.length > 32) {
+     data.project !== projectKey || !Array.isArray(data.shots) || data.shots.length > 32) {
   throw Error('Unrecognized camera sequence.');
  }
  const result = [];
@@ -91,22 +92,18 @@ function readShots(data, cleanOldDraft = false) {
 // An unfinished shot is a valid editable draft, including a shot without keyframes.
 function downloadData(shots) {
  if (!shots.length || shots.some(s => duration(s) === 0)) return sequenceData(shots);
- return {version:1, project:'ava-barbat', shots:shots.map(s => ({
+ return {version:1, project:projectKey, shots:shots.map(s => ({
   name:s.name, seconds:duration(s), keys:s.keys.map(k => ({...k, at:k.at/duration(s)}))
  }))};
 }
-export async function openEditor(director){
+export async function openEditor(director,project){
+ const cloud=renderControls(project,director);
  const [T,{GLTFLoader},{OrbitControls},{makeRenderer}]=await Promise.all([
   import('../lib/three.module.min.js'),import('../lib/loaders/GLTFLoader.js'),
   import('../lib/controls/OrbitControls.js'),import('../software-view.js')]);
  const {siteCenter}=await import('../site-model.js');
- const response=await fetch('../models/catalog.json');
- if(!response.ok)throw Error('The model catalog could not load.');
- const catalog=await response.json();
- const project=catalog.projects.find(p=>p.key==='ava-barbat');
- if(!project)throw Error('Ava’s proposal could not be found.');
  const modelURL=new URL(project.url,new URL('../',location.href));
- const suffix=director+':'+modelURL.search;
+ const suffix=(projectKey==='ava-barbat'?'':projectKey+':')+director+':'+modelURL.search;
  const draftKey='id3-film:v2:'+suffix;
  let shots=[];
  try {
@@ -160,7 +157,9 @@ export async function openEditor(director){
  }
  const ground=new T.Mesh(new T.PlaneGeometry(1600,1600),new T.MeshStandardMaterial({color:0xd1d0bd,roughness:.95}));ground.position.y=-13.65;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);ground.userData.walkable=true;pickMeshes.push(ground);ground.updateMatrixWorld(true);
  let sid=0,local=0,playing=false,originTime=0,frame=0,pending=false,internal=false;
+ const previewPath=()=>downloadData(shots.filter(s=>duration(s)>0));
  function keep(){
+  cloud.changed(previewPath());
   try{localStorage.setItem(draftKey,JSON.stringify(sequenceData(shots)))}
   catch{say('Storage is unavailable on this device. Download the camera path to keep your changes.')}
  }
@@ -436,7 +435,7 @@ export async function openEditor(director){
  };
  $('save').onclick=()=>{
   const url=URL.createObjectURL(new Blob([JSON.stringify(downloadData(shots),null,2)],{type:'application/json'}));
-  const a=document.createElement('a');a.href=url;a.download=director+' - Ava camera path.json';a.click();
+  const a=document.createElement('a');a.href=url;a.download=director+' - '+project.title+' camera path.json';a.click();
   setTimeout(()=>URL.revokeObjectURL(url),2000);say('Camera path exported.');
  };
  $('open').onclick=()=>$('pathfile').click();
@@ -446,7 +445,7 @@ export async function openEditor(director){
    if(file.size>2e6)throw Error();
    const imported=readShots(JSON.parse(await file.text()));
    pause();undoState=null;shots=imported;shotButtons();changeShot(0);keep();say('Camera path loaded.');
-  }catch{say('Choose a camera path saved for Ava’s model.')}finally{$('pathfile').value=''}
+  }catch{say('Choose a camera path saved for this project.')}finally{$('pathfile').value=''}
  };
  $('cancel').onclick=()=>{cancelExport=true;say('Stopping the preview export…')};
  $('export').onclick=async()=>{
@@ -455,7 +454,7 @@ export async function openEditor(director){
   const oldShot=sid,oldTime=local,oldEye=cam.position.clone(),oldTarget=controls.target.clone(),oldFov=cam.fov;
   const fps=24,width=1280,height=720;
   const counts=shots.map(s=>duration(s)>0 ? Math.max(1,Math.round(duration(s)*fps)) : 0),count=counts.reduce((a,b)=>a+b,0);
-  if(count>2880){say('Keep the preview sequence within two minutes.');return}
+  if(total()>120.000001||count>2880){say('Keep the preview sequence within two minutes.');return}
   exporting=true;cancelExport=false;controls.enabled=false;$('cancel').hidden=false;
   for(const id of ['settings','timeline','files'])$(id).inert=true;
   const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
@@ -486,6 +485,7 @@ export async function openEditor(director){
    }
    const movie=makeWebm(frames,width,height,fps);if(lastVideo)URL.revokeObjectURL(lastVideo);
    lastVideo=URL.createObjectURL(movie);$('movie').src=lastVideo;$('movie').hidden=false;$('getvideo').href=lastVideo;$('getvideo').hidden=false;
+   cloud.ready(previewPath());
    message='Preview ready · 1280 × 720 · 24 fps · '+(count/fps).toFixed(2)+' s';
   }catch(e){message=e.message||'The preview could not be exported.'}
   finally{

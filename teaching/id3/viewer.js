@@ -8,8 +8,8 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
-import {makeRenderer} from './software-view.js?v=bcb4d6f13a';
-import {ProjectLines} from './project-lines.js?v=0adfd4dd98';
+import {makeRenderer} from './software-view.js?v=ed16d9d163';
+import {ProjectLines} from './project-lines.js?v=28a79fa6c6';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js?v=4ff44f5d03';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -464,7 +464,7 @@ export class AtlasViewer{
   this.ground.scale.setScalar(Math.max(this.radius*100,urbanBox?urbanBox.getSize(v()).length()*3:0));
   this.clearance=new CameraClearance([this.project,this.city],{registeredSite,fallback:this.ground.position.y});
   this.project.traverse(o=>{if(o.geometry)o.userData.sectionTarget=true;});
-  this.linework=new ProjectLines(this,!model.overview);
+  this.linework=new ProjectLines(this,!model.overview,model.siteLayers);
   this.applyModes();this.view('perspective',false);this.setSun(...this.solar,false);return {paths:this.paths,cityError:ctx.status==='rejected'};
  }
  perspectiveFitDistance(aspect,direction){
@@ -600,7 +600,7 @@ export class AtlasViewer{
    }
   }});if(this.city)this.city.visible=this.cityVisible;
   if(this.sectionPlane)this.bindProjectSection();
-  if(this.sectionSettings&&this.linework){const {axis,position,side}=this.sectionSettings;this.linework.stroke.visible=false;this.linework.cut(axis,position,side);}
+  if(this.sectionSettings&&this.linework){const {axis,position,side}=this.sectionSettings;this.linework.hideCut();this.linework.cut(axis,position,side);}
   this.refreshShadow();
  }
  setProjectEdges(enabled){

@@ -482,6 +482,7 @@ function paintSurfaces(pass,coords,indices,d,lightCoords,world,uv){
   const centerVisibility=volume&&!largeFace?(d.localVisibility?.[i/3]||visibility(volume,(world[a]+world[b]+world[c])/3,
    (world[a+1]+world[b+1]+world[c+1])/3,(world[a+2]+world[b+2]+world[c+2])/3,nx,ny,nz,d.openCanopy)):1;
   if(volume&&!largeFace&&d.localVisibility)d.localVisibility[i/3]=centerVisibility;
+  if(d.siteSectionFill)lum=1;
   const wet=d.blendPane,frosted=d.finish==='frosted',glazeTint=wet?Math.min(.85,d.alpha)*(frosted ? .87 : .42):0;
   const wide=xmax-xmin>20;
   const slopeT=-A-C,invA=1/A,invC=1/C,invT=1/slopeT;

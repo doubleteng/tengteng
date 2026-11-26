@@ -2,6 +2,7 @@
 // feature edges and the section, including nonuniformly scaled Rhino objects.
 import {BufferGeometry,BufferAttribute} from './lib/three.module.min.js';
 import {contextEdges} from './context-edges.js?v=4ff44f5d03';
+import {siteSection} from './site-section.js?v=a44c901d99';
 const block=384,eps=.000012;
 export function preparePart(source,m,bucket,id){
  const xyz=new Float32Array(source.xyz.length);
@@ -82,7 +83,7 @@ export function cutSegments(parts,axis,value,visible){
  return new Float32Array(result);
 }
 if(typeof self!=='undefined'&&typeof document==='undefined'){
- let parts=[],groups=[];
+ let parts=[],soilParts=[],groups=[];
  function nextEdges(){
   const entry=groups.shift();if(!entry)return;
   const [bucket,batch]=entry,g=groupEdges(batch);
@@ -93,12 +94,15 @@ if(typeof self!=='undefined'&&typeof document==='undefined'){
  self.onmessage=({data})=>{
   if(data.kind==='init'){
    parts=data.instances.map(({geometry,m,bucket,id})=>preparePart(data.sources[geometry],m,bucket,id));
+   soilParts=parts.filter((p,i)=>data.instances[i].soil);
    const batches=new Map();
    if(data.edges)for(const p of parts){if(!batches.has(p.bucket))batches.set(p.bucket,[]);batches.get(p.bucket).push(p);}
    groups=[...batches];if(groups.length)setTimeout(nextEdges,0);
   }else{
-   const xyz=cutSegments(parts,'xyz'.indexOf(data.axis),data.position,new Set(data.visible));
-   self.postMessage({request:data.request,xyz},[xyz.buffer]);
+   const axis='xyz'.indexOf(data.axis),visible=new Set(data.visible);
+   const xyz=cutSegments(parts,axis,data.position,visible);
+   const soil=siteSection(soilParts,axis,data.position,data.side,visible);
+   self.postMessage({request:data.request,xyz,soil},[xyz.buffer,soil.buffer]);
   }
  };
 }

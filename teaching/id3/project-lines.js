@@ -2,6 +2,7 @@ import * as T from './lib/three.module.min.js';
 import {createInkMaterial} from './context-edges.js?v=4ff44f5d03';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {sectionStroke,setStrokeSegments} from './section-stroke.js?v=23702b3790';
+import {isSiteMass,layerName} from './site-section.js?v=a44c901d99';
 function snapshot(g){
  const p=g.attributes.position,xyz=new Float32Array(p.count*3);
  for(let i=0;i<p.count;i++){xyz[3*i]=p.getX(i);xyz[3*i+1]=p.getY(i);xyz[3*i+2]=p.getZ(i);}
@@ -9,7 +10,8 @@ function snapshot(g){
  return {xyz,index};
 }
 export class ProjectLines{
- constructor(viewer,regular){
+ constructor(viewer,regular,siteLayers=[]){
+  const mapped=Array.isArray(siteLayers)?siteLayers.map(layerName).filter(Boolean):[];
   this.viewer=viewer;this.buckets=[];this.meshes=[];this.request=0;
   const root=viewer.project;root.updateWorldMatrix(true,true);
   const byGeometry=new Map(),layers=new Map(),sources=[],instances=[],transfer=[];
@@ -26,19 +28,27 @@ export class ProjectLines{
    if(geometry===undefined){
     geometry=sources.length;byGeometry.set(g,geometry);const s=snapshot(g);sources.push(s);transfer.push(s.xyz.buffer);if(s.index)transfer.push(s.index.buffer);
    }
-   const id=this.meshes.length;this.meshes.push(mesh);
+   const id=this.meshes.length,soil=isSiteMass(mesh,mapped);this.meshes.push(mesh);
    if(mesh.isInstancedMesh){
-    const mat=new T.Matrix4();for(let j=0;j<mesh.count;j++){mesh.getMatrixAt(j,mat);instances.push({geometry,bucket,id,m:mat.premultiply(mesh.matrixWorld).toArray()});}
-   }else instances.push({geometry,bucket,id,m:mesh.matrixWorld.toArray()});
+    const mat=new T.Matrix4();for(let j=0;j<mesh.count;j++){mesh.getMatrixAt(j,mat);instances.push({geometry,bucket,id,soil,m:mat.premultiply(mesh.matrixWorld).toArray()});}
+   }else instances.push({geometry,bucket,id,soil,m:mesh.matrixWorld.toArray()});
   });
   this.material=createInkMaterial(viewer.inkViewHeight);this.material.color.setHex(0x403d38);this.material.opacity=.61;
   this.stroke=sectionStroke(viewer.renderer.isWebGLRenderer);this.stroke.visible=false;viewer.scene.add(this.stroke);
-  this.worker=new Worker(new URL('./project-lines-worker.js?v=3e207370ac',import.meta.url),{type:'module'});
+  this.fill=new T.Mesh(new T.BufferGeometry(),new T.MeshBasicMaterial({
+   color:0x776658,side:T.DoubleSide,toneMapped:false,polygonOffset:true,polygonOffsetFactor:-.25,polygonOffsetUnits:-1
+  }));
+  this.fill.name='Cut earth';this.fill.userData.siteSectionFill=true;
+  this.fill.visible=false;this.fill.renderOrder=1;viewer.scene.add(this.fill);
+  this.worker=new Worker(new URL('./project-lines-worker.js?v=69b4819ad0',import.meta.url),{type:'module'});
   this.worker.onmessage=({data})=>{
    if(data.bucket!==undefined){this.attach(data);return;}
    this.inflight=false;
    if(data.request===this.request&&this.pending){
     const {axis,position,side}=this.pending;this.pending=null;
+    this.fill.geometry.dispose();
+    this.fill.geometry=new T.BufferGeometry().setAttribute('position',new T.BufferAttribute(data.soil,3));
+    this.fill.visible=data.soil.length>0;
     setStrokeSegments(this.stroke,data.xyz);this.stroke.visible=data.xyz.length>0;
     this.viewer.applySection(axis,position,side);
    }
@@ -70,8 +80,10 @@ export class ProjectLines{
   this.inflight=true;
   this.worker.postMessage({kind:'cut',request:this.request,...this.pending,visible});
  }
- clear(){this.request++;this.pending=null;this.stroke.visible=false;}
+ hideCut(){this.stroke.visible=false;this.fill.visible=false;}
+ clear(){this.request++;this.pending=null;this.hideCut();}
  dispose(){
+  this.fill.removeFromParent();this.fill.geometry.dispose();this.fill.material.dispose();
   this.worker.terminate();this.stroke.removeFromParent();this.stroke.geometry.dispose();this.stroke.material.dispose();
   for(const {line} of this.buckets)if(line){line.removeFromParent();line.geometry.dispose();}
   this.material.dispose();

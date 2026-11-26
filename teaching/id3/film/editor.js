@@ -59,16 +59,18 @@ export async function openEditor(director){
  const [T,{GLTFLoader},{OrbitControls},{makeRenderer}]=await Promise.all([
   import('../lib/three.module.min.js'),import('../lib/loaders/GLTFLoader.js'),
   import('../lib/controls/OrbitControls.js'),import('../software-view.js')]);
- const [catalog,defaultPath]=await Promise.all(['../models/catalog.json','./ava-camera-path.json'].map(async url=>{
-  const r=await fetch(url); if(!r.ok)throw Error('The model catalog or camera sequence could not load.');return r.json();
- }));
+ const response=await fetch('../models/catalog.json');
+ if(!response.ok)throw Error('The model catalog could not load.');
+ const catalog=await response.json();
  const project=catalog.projects.find(p=>p.key==='ava-barbat');
  if(!project)throw Error('Ava’s proposal could not be found.');
  const modelURL=new URL(project.url,new URL('../',location.href));
  const draftKey='id3-film:v1:'+director+':'+modelURL.search;
- let initial=defaultPath;
- try {const stored=localStorage.getItem(draftKey);if(stored){const data=JSON.parse(stored);validatePath(data);initial=data;}} catch {}
- validatePath(initial);
+ let shots=[];
+ try {
+  const stored=localStorage.getItem(draftKey);
+  if(stored){const data=JSON.parse(stored);validatePath(data);shots=data.shots;}
+ } catch {}
  const scene=new T.Scene();scene.background=new T.Color(0xe5e7df);
  const renderer=makeRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});
  $('stage').prepend(renderer.domElement);renderer.domElement.tabIndex=-1;
@@ -98,7 +100,7 @@ export async function openEditor(director){
   });scene.add(model.scene);
  }
  const ground=new T.Mesh(new T.PlaneGeometry(1600,1600),new T.MeshStandardMaterial({color:0xd1d0bd,roughness:.95}));ground.position.y=-13.65;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
- let shots=structuredClone(initial.shots),sid=0,local=0,playing=false,originTime=0,frame=0,pending=false,internal=false;
+ let sid=0,local=0,playing=false,originTime=0,frame=0,pending=false,internal=false;
  function keep(){
   try{localStorage.setItem(draftKey,JSON.stringify({version:1,project:'ava-barbat',shots}))}
   catch{say('Storage is unavailable on this device. Download the camera path to keep your changes.')}
@@ -129,8 +131,22 @@ export async function openEditor(director){
   for(const [i,b] of Array.from($('shots').children).entries())b.setAttribute('aria-current',String(i===sid));
   $('shotname').textContent=shot().name;$('duration').value=shot().seconds;marks();pose();
  }
- function shotButtons(){$('shots').replaceChildren();for(const [i,s] of shots.entries()){
+ function shotButtons(){
+  const hasShots=shots.length>0;
+  $('timeline').hidden=!hasShots;
+  $('shot-settings').hidden=!hasShots;
+  $('save').disabled=$('export').disabled=!hasShots;
+  $('new-shot').disabled=shots.length>=32;
+  $('shots').replaceChildren();for(const [i,s] of shots.entries()){
   const b=document.createElement('button'),num=document.createElement('b'),txt=document.createElement('span');num.textContent=String(i+1).padStart(2,'0');txt.textContent=s.name;b.append(num,txt);b.onclick=()=>{pause();changeShot(i);say('')};$('shots').append(b)}}
+ $('new-shot').onclick=()=>{
+  if(exporting||shots.length>=32)return;
+  pause();
+  const keys=[0,1].map(at=>({at,eye:cam.position.toArray(),target:controls.target.toArray(),fov:cam.fov}));
+  shots.push({name:'Shot '+(shots.length+1),seconds:4,keys});
+  shotButtons();changeShot(shots.length-1);keep();
+  say('Move the time slider, frame a view and save a keyframe.');
+ };
  function seek(seconds){let rest=seconds,id=0;while(id<shots.length-1&&rest>=shots[id].seconds){rest-=shots[id].seconds;id++}const t=Math.min(1,rest/shots[id].seconds);
   if(sid!==id)changeShot(id,t);else{local=t;pose()}}
  function tick(now){if(!playing)return;const sec=(now-originTime)/1000;renderer.noteMotion?.();if(sec>=total()){seek(total());pause();return}seek(sec);frame=requestAnimationFrame(tick)}
@@ -202,5 +218,13 @@ export async function openEditor(director){
    changeShot(oldShot,oldTime);internal=true;cam.position.copy(oldEye);controls.target.copy(oldTarget);cam.fov=oldFov;cam.updateProjectionMatrix();controls.update();internal=false;labels();render();say(message);
   }
  };
- shotButtons();changeShot(0);$('status').hidden=true;for(const id of ['settings','timeline','files'])$(id).inert=false;
+ shotButtons();
+ if(shots.length)changeShot(0);
+ else {
+  cam.position.set(20,49,84);
+  controls.target.set(-43,6,24);
+  internal=true;controls.update();internal=false;render();
+  say('Frame your first view and choose Add shot.');
+ }
+ $('status').hidden=true;for(const id of ['settings','timeline','files'])$(id).inert=false;
 }

@@ -2,15 +2,14 @@ import {bindSunlight} from './sun-controls.js?v=cf14de4ba5';
 const originalCity='./models/ann-arbor.glb';
 const overview={key:'site',title:'Ann Arbor Farmers Market',type:'Urban context',overview:true,cover:'./models/ann-arbor.webp'};
 const $=id=>document.getElementById(id);
-const samples=[
- {key:'northlight',title:'Northlight Hall',material:'Mass timber',type:'Market hall'},
- {key:'arcade',title:'Vaulted Arcade',material:'Precast concrete',type:'Market hall'},
- {key:'lattice',title:'Open Bay Market',material:'Steel',type:'Market hall'}
-].map(x=>({...x,demo:true,url:'./models/'+x.key+'.glb',cover:'./models/'+x.key+'.webp'}));
+// Project 01 is published. Each remaining slot can acquire its catalog model
+// without breaking the original shared-site preview link.
+const totalStudentSlots=15;
+const placeholders=[];
 const defaults=['Structure','Enclosure','Site','Interior'];
 const colorSet={'Design site':'#c6815c',Structure:'#b67249',Enclosure:'#7d897b',Site:'#9fa581',Interior:'#b1a185','Urban context':'#b7b9af'};
 let cases=[],caseHidden=null;
-let actual=[],cityRecord=null,items=samples,current,viewer,version=0,expanded=false;
+let actual=[],cityRecord=null,items=[],current,viewer,version=0,expanded=false;
 let activeLoad;
 let deskPromise;
 const dollyButton=$('dolly-toggle'),dollyPanel=$('dolly-panel'),lens=$('dolly-lens');
@@ -40,7 +39,7 @@ $('open-drawings').onclick=async()=>{
    getProjects:()=>items,
    selectProject:async key=>{
     if(current?.key===key&&activeLoad)await activeLoad;
-    else {const project=items.find(p=>p.key===key);if(project)await selectModel(project);}
+    else {const project=items.find(p=>p.key===key);if(project){history.pushState(null,'','#model-'+project.key);await route(false);}}
    }
   }));
   (await deskPromise).show();
@@ -71,15 +70,22 @@ $('annotation-sources').onclick=()=>info('sources');
 function drawCards(){
  const container=$('cards');container.replaceChildren();
  for(const x of items){
-  const btn=txt('button','','card');btn.setAttribute('aria-pressed',String(x.key===current?.key));btn.setAttribute('aria-label','View '+x.title);
-  const art=txt('span','','card-art');if(x.cover){const img=new Image();img.loading='lazy';img.decoding='async';img.alt='';img.src=x.cover;art.append(img);}else art.append(txt('span','3D model','fallback-art'));
-  if(x.key===current?.key)art.append(txt('span','IN VIEW','card-active'));
-  btn.append(art,txt('span',x.title,'card-title'),txt('span',x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?'Teaching case · '+x.material:x.demo?x.material+' / '+x.type:x.author+' · '+x.material,'card-meta'));
-  btn.onclick=()=>{selectModel(x);$('gallery').scrollIntoView({block:'start',behavior:'smooth'});};container.append(btn);
+  const link=txt('a','','card');link.href='#model-'+x.key;
+  const art=txt('span','','card-art');
+  if(x.cover){const image=new Image();image.loading='lazy';image.decoding='async';image.alt='';image.src=x.cover;art.append(image);}
+  const label=x.caseStudy?'Teaching case':x.author;
+  link.append(art,txt('span',x.title,'card-title'),txt('span',[label,x.material].filter(Boolean).join(' · '),'card-meta'));
+  container.append(link);
  }
- $('index-title').textContent=actual.length?'Student projects and cases':'Projects and studies';
- const caseCount=cases.length?' · '+cases.length+' teaching '+(cases.length===1?'case':'cases'):'';
- $('count').textContent=(actual.length?actual.length+' / 14 student projects':samples.length+' demonstration models')+caseCount;
+ const slots=$('project-slots');slots.replaceChildren();
+ for(const x of placeholders){
+  const link=txt('a','','ex-slot');link.href='#model-'+x.key;
+  link.append(txt('strong',x.title),txt('span','View shared site'));
+  slots.append(link);
+ }
+ $('pending-projects').hidden=!placeholders.length;
+ const count=(n,label)=>n+' '+label+(n===1?'':'s');
+ $('count').textContent=count(actual.length,'student model')+' online · '+count(cases.length,'teaching case');
 }
 function grouped(paths){
  const groups=new Map();
@@ -128,12 +134,12 @@ function saveViewLink(){
  const preset=camera==='perspective'?'':'?view='+encodeURIComponent(camera);
  history.replaceState(null,'','#model-'+current.key+preset);
 }
-async function selectModel(x,initialView='perspective',updateLink=true){
+async function selectModel(x,initialView='perspective'){
  $('street-start').disabled=true;const seq=++version;current=x;caseHidden=null;closeLens();dollyButton.disabled=true;
  $('case-actions').hidden=!(x.caseStudy||x.frameLabel||x.statement?.length);$('student-statement').hidden=!x.statement?.length;$('case-notes').hidden=!x.caseStudy;
  $('case-frame').hidden=!(x.caseStudy||x.frameLabel);$('case-frame').setAttribute('aria-pressed','false');$('case-frame').textContent=frameLabel(x);
  setProjectViews(x);
- $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;status('Loading 3D model…');drawCards();$('site-view').textContent=x.overview?'Shared site in view':'View shared site';$('site-view').disabled=!!x.overview;
+ $('case-cameras').disabled=$('case-cameras').hidden=!x.caseStudy;expanded=false;status('Loading 3D model…');
  $('model-title').textContent=x.title;$('model-kind').textContent=x.overview?'SHARED URBAN MODEL':x.caseStudy?'ID3 TEACHING CASE':x.demo?'DEMONSTRATION MODEL':['STUDIO PROJECT '+(x.number||x.key),x.status].filter(Boolean).join(' · ');
  $('model-author').textContent=x.overview?'Kerrytown / Ann Arbor, Michigan':x.caseStudy?x.material+' · Market and public institution':x.demo?x.material+' / '+x.type:x.author+' · '+x.material;
  $('camera').disabled=true;$('camera').value='perspective';$('viewport').setAttribute('aria-busy','true');
@@ -143,13 +149,16 @@ async function selectModel(x,initialView='perspective',updateLink=true){
   activeLoad=getViewer().then(view=>seq===version?view.show(x,city):null);
   fillLayers();const result=await activeLoad;if(!result||seq!==version)return;
   const view=viewer;
+  if(x.overview){
+   view.cityVisible=true;view.hiddenCity.clear();view.mode='material';view.contextEdges=true;view.buildingColors=true;view.applyModes();
+  }
   $('material-mode').value=view.mode;$('material-references').hidden=city!==originalCity;fillLayers();
   sunControls.apply(false);updateTones();updateReceivers();
   const option=Array.from($('camera').options).find(o=>o.value===initialView);
   if(option&&initialView!=='perspective'&&!option.parentElement.disabled){
    $('camera').value=initialView;view.view(initialView,false);
   }
-  syncLens();if(updateLink)saveViewLink();
+  syncLens();
   // Show the requested camera's first completed frame, including the worker path.
   view.draw();await new Promise(requestAnimationFrame);await view.renderer.wait?.();
   if(seq===version)$('street-start').disabled=false;
@@ -181,7 +190,7 @@ function updateReceivers(){
  viewer?.setShadowReceivers($('shade-faces').checked,$('shade-ground').checked);
 }
 $('shade-faces').onchange=$('shade-ground').onchange=updateReceivers;
-$('site-view').onclick=()=>{selectModel(overview);$('gallery').scrollIntoView({block:'start',behavior:'smooth'});};
+$('site-view').onclick=()=>{location.hash='model-site';};
 $('shadows').onchange=()=>withModel(v=>{v.setShadows($('shadows').checked);updateReceivers();});
 $('full').onclick=async()=>{const el=$('viewport');if(document.fullscreenElement){await document.exitFullscreen();return;}if(el.classList.contains('expanded')){el.classList.remove('expanded');return;}try{await el.requestFullscreen();}catch{el.classList.add('expanded');}};
 $('viewport').onkeydown=e=>{if(e.target!==$('viewport')||viewer?.walkMode?.active)return;
@@ -237,7 +246,16 @@ $('case-frame').onclick=()=>withModel(v=>{
  if(caseHidden){v.hidden=caseHidden;caseHidden=null;}
  else{
   caseHidden=new Set(v.hidden);
-  v.hidden=new Set([...v.paths.keys()].filter(p=>!/^Structure\s*(?:\/|::)/i.test(p) || current.caseStudy && /CLT.*roof|cross laminated roof panels|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i.test(p)));
+  const keep=new Set();
+  for(const [group,paths] of grouped(v.paths.keys())){
+   if(group==='Structure'||(!current.caseStudy&&group==='Site')){
+    for(const path of paths){
+     if(current.caseStudy&&/CLT.*roof|cross laminated roof panels|lower-ground slab|public ground floor|eastern plinth|studios and bridges|forum and terraces/i.test(path))continue;
+     keep.add(path);
+    }
+   }
+  }
+  v.hidden=new Set([...v.paths.keys()].filter(path=>!keep.has(path)));
  }
  v.applyModes();fillLayers();
  $('case-frame').setAttribute('aria-pressed',String(!!caseHidden));
@@ -256,26 +274,59 @@ async function refresh() {
   cityRecord = catalog.city || null;
   actual = catalog.projects.slice().sort((a, b) => a.key.localeCompare(b.key));
   cases = (catalog.cases || []).map(x=>({...x,caseStudy:true}));
-  items = actual.length ? [...actual,...cases] : [...cases,...samples];
+  items = [...actual,...cases];
+}
+function setLayout(item){
+ const detail=item!==overview;
+ const frame=$('gallery'),mount=$(detail?'project-stage':'site-stage');
+ const inspector=frame.querySelector('.inspector');
+ if(frame.parentElement!==mount){
+  viewer?.walkMode?.exit();mount.append(frame);
+ }
+ frame.classList.toggle('site-only',!!item.overview);
+ inspector.hidden=!!item.overview;
+ frame.querySelector('#annotation-map').style.display=item.overview?'none':'';
+ for(const id of ['home-intro','collection','studio'])$(id).hidden=detail;
+ $('project-view').hidden=!detail;
+ $('project-view-title').textContent=item.placeholder?item.title+' · Shared site':item.title;
+ $('site-view').hidden=!!item.overview;
+}
+function readRoute(){
+ const [key,query]=location.hash.startsWith('#model-')?location.hash.slice(7).split('?'):[];
+ const slot=/^student-(\d+)$/.exec(key||'');
+ const item=items.find(x=>x.key===key)||
+  (slot&&actual.find(x=>Number(x.number)===Number(slot[1])))||
+  placeholders.find(x=>x.key===key)||overview;
+ return {item,view:new URLSearchParams(query).get('view')||'perspective',modelLink:!!key};
+}
+async function route(scroll=true){
+ const {item,view,modelLink}=readRoute();
+ setLayout(item);
+ if(scroll){
+  if(item!==overview){
+   window.scrollTo(0,0);$('project-view-title').focus({preventScroll:true});
+  }else if(location.hash==='#collection'||location.hash==='#studio'||location.hash==='#gallery'){
+   $(location.hash.slice(1)).scrollIntoView({block:'start'});
+  }else if(modelLink||location.hash==='#top')window.scrollTo(0,0);
+ }
+ if(current!==item)await selectModel(item,view);
+ else if(modelLink&&viewer?.project&&$('camera').value!==view){
+  const option=[...$('camera').options].find(o=>o.value===view&&!o.parentElement.disabled);
+  if(option){$('camera').value=view;viewer.view(view,false);syncLens();}
+ }
 }
 async function init(){
- let error=false;try{await refresh();}catch{error=true;}
- const [key,query]=location.hash.startsWith('#model-')?location.hash.slice(7).split('?'):[];
- const initialView=new URLSearchParams(query).get('view')||'perspective';
- const selected=key==='city'||key==='site'?overview:items.find(x=>x.key===key)||(actual.length?items[0]:overview);
- if(!key&&'IntersectionObserver' in window){
-  drawCards();
-  await new Promise(resolve=>{
-   const observer=new IntersectionObserver(entries=>{
-    if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();resolve();}
-   },{rootMargin:'100px'});
-   observer.observe($('viewport'));
-  });
-  if(current)return;
+ let failed=false;
+ try{await refresh();}catch{failed=true;}
+ const occupied=new Set(actual.map(project=>Number(project.number)));
+ for(let n=1;n<=totalStudentSlots;n++){
+  if(occupied.has(n))continue;
+  const number=String(n).padStart(2,'0');
+  placeholders.push({...overview,key:'student-'+number,title:'Student project '+number,placeholder:true});
  }
- const ready=selectModel(selected,initialView,Boolean(key));
- if(key)$('gallery').scrollIntoView({block:'start',behavior:'instant'});
- await ready;
- if(error)status('The student catalog is unavailable. Showing demonstration models.');
+ drawCards();
+ window.addEventListener('hashchange',()=>route());
+ await route(!!location.hash);
+ if(failed)status('The project catalog could not load. Reload to see student work.');
 }
 init();

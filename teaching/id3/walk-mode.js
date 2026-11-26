@@ -1,9 +1,9 @@
 import {Vector3,Raycaster,MathUtils} from './lib/three.module.min.js';
-import {WalkSurfaces} from './walk-surfaces.js?v=21178144ae';
+import {WalkSurfaces} from './walk-surfaces.js?v=24e7a1b192';
 
 const EYE=1.62, BODY=1.78, RADIUS=.22, STEP=.26;
 const GRAVITY=10.5, JUMP_SPEED=4.4, SUPER_LIFT=13, SUPER_TRAVEL=6.6;
-const keys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','ShiftLeft','ShiftRight','KeyF']);
+const keys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','ShiftLeft','ShiftRight','KeyF','KeyG']);
 const UP=new Vector3(0,1,0);
 
 export class Walker {
@@ -127,12 +127,13 @@ export class WalkMode {
   if(streetModule)hit=streetModule.streetSpawn(v,this.surfaces,this.ray);
   else{
    this.ray.setFromCamera(ndc,v.camera);
-   hit=this.surfaces.pick(this.ray.ray);
+   hit=this.surfaces.pick(this.ray.ray,v.sectionPlane);
   }
   if(!hit)return false;
   this.walker=new Walker(this.surfaces,hit.point,hit.direction||v.camera.getWorldDirection(this.forward));
   this.saved={camera:v.camera,settings:v.perspectiveCamera.clone(),target:v.controls.target.clone(),
-   context:v.contextView,navigated:v.userNavigated};
+   context:v.contextView,navigated:v.userNavigated,section:v.sectionSettings};
+  v.setSection('off');
   this.street=streetModule?new streetModule.StreetMode(v,this.walker):null;
   this.active=true;this.area.dataset.walking=this.street?'street':'first';
   this.area.querySelector('#walk-help').hidden=true;this.hud.hidden=false;
@@ -142,6 +143,23 @@ export class WalkMode {
   this.area.focus({preventScroll:true});
   if(!touch)this.capture();
   return true;
+ }
+ async enterStreetHere(){
+  if(!this.active||this.street)return;
+  const walker=this.walker,notice=this.area.querySelector('#walk-mode-status');
+  notice.hidden=true;
+  try{
+   const {StreetMode}=await this.v.loadStreetMode();
+   if(!this.active||this.walker!==walker||this.street)return;
+   this.street=new StreetMode(this.v,walker);
+   this.area.dataset.walking='street';
+   this.v.camera.fov=57;this.v.camera.updateProjectionMatrix();
+   this.area.focus({preventScroll:true});this.pose();this.start();
+  }catch{
+   if(this.active&&this.walker===walker&&!this.street){
+    notice.textContent='GTA mode could not load. Press G to retry.';notice.hidden=false;
+   }
+  }
  }
  capture(){
   try {
@@ -190,8 +208,10 @@ export class WalkMode {
   const release=e=>{const key=e.target.closest('[data-walk-key]')?.dataset.walkKey;if(key)this.held.delete(key);};
   on(this.hud,'pointerup',release);on(this.hud,'pointercancel',release);
   on(this.area.querySelector('#walk-exit'),'click',()=>this.exit());
+  on(this.area.querySelector('#walk-gta'),'click',()=>this.enterStreetHere());
  }
  press(code,shiftKey=false){
+  if(code==='KeyG'){this.enterStreetHere();return;}
   if(code==='KeyF'){this.useDoor();return;}
   if(code==='Space'){
    this.held.add(code);
@@ -285,19 +305,21 @@ export class WalkMode {
   }
  }
  release(){
-  this.exit();this.project=this.surfaces=this.doors=this.walker=this.saved=null;
+  this.exit(false);this.project=this.surfaces=this.doors=this.walker=this.saved=null;
  }
- exit(){
+ exit(restoreSection=true){
   if(!this.active)return;
   this.active=false;this.lookPending=false;this.queuedJump=null;this.listeners.abort();this.wasLocked=false;this.drag=null;
   if(document.pointerLockElement===this.canvas)document.exitPointerLock();
   cancelAnimationFrame(this.frame);this.frame=0;this.held.clear();
   const v=this.v,s=this.saved;const street=this.street;this.street=null;street?.dispose();this.doors.reset();this.door=null;
-  this.area.querySelector('#walk-door-hint').hidden=true;
+  this.area.querySelector('#walk-door-hint').hidden=true;this.area.querySelector('#walk-mode-status').hidden=true;
   delete this.area.dataset.walking;this.hud.hidden=true;this.area.querySelector('#walk-help').hidden=false;
   v.perspectiveCamera.copy(s.settings,false);v.camera=s.camera;v.contextView=s.context;v.userNavigated=s.navigated;
   v.controls.object=v.camera;v.controls.target.copy(s.target);
   v.settingView=true;v.controls.enabled=true;v.controls.update();v.resize();v.settingView=false;
-  v.clearance?.reset(v.camera.position,v.controls.target);v.refreshShadow();
+  v.clearance?.reset(v.camera.position,v.controls.target);
+  if(restoreSection&&s.section)v.setSection(s.section.axis,s.section.position,s.section.side);
+  v.refreshShadow();
  }
 }

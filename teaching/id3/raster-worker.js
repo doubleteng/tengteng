@@ -235,6 +235,9 @@ function drawNearClipped(pass,coords,offsets,d,lightCoords,world,uv){
  const indices=polygon?(out.length===4?[0,1,2,0,2,3]:[0,1,2]):[0,1];
  paint(pass,screen,indices,{...d,canopyLight:null,chunkBounds:null,localVisibility:null,ambient:d.ambient?clippedAmbient:null,figureLight:d.figureLight?out.map(a=>a[13]):null,contactFade:d.contactFade?out.map(a=>a[14]):null,widths:d.widths&&!polygon?[d.widths[offsets[0]/3],d.widths[offsets[1]/3]]:null,start:0,count:indices.length,kind:polygon?'tri':'segments'},lightCoords?light:null,wpos,uv?clippedUV:null);
 }
+function cutPixel(plane,x,y,z){
+ return plane && plane[0]*x+plane[1]*y+plane[2]*z+plane[3]<0;
+}
 function paintLine(pass,coords,a,b,d){
  const {w,h,depth,pixels}=pass,ax=coords[a],ay=coords[a+1],dx=coords[b]-ax,dy=coords[b+1]-ay;
  let lo=0,hi=1;
@@ -259,7 +262,7 @@ function paintLine(pass,coords,a,b,d){
   if(x<0||y<0||x>=w||y>=h)continue;
   const z=coords[a+2]+t*(coords[b+2]-coords[a+2]),p=y*w+x;
   const bias=d.outline?(coords.cameraW?Math.max(2e-7,(1-z)*.003):.00015):0;
-  if(z< -1||z>1||z>depth[p]+bias)continue;
+  if(z< -1||z>1||z>depth[p]+bias||cutPixel(pass.cut,x,y,z))continue;
   if(!d.outline)depth[p]=Math.min(z,depth[p]);
   for(let c=0;c<3;c++)pixels[p*4+c]+=alpha*(d.color[c]*255-pixels[p*4+c]);
  }
@@ -288,7 +291,7 @@ function rasterLeaf(pass,coords,a,b,c,light,leaf,scan,uv,tones){
   }
   for(let x=first;x<=last;x++,u+=A,v+=C){
    const t=1-u-v;if(u<-.00001||v<-.00001||t<-.00001)continue;
-   const p=y*w+x,z=baseZ+u*zU+v*zV;if(z< -1||z>1||z>=depth[p])continue;
+   const p=y*w+x,z=baseZ+u*zU+v*zV;if(z< -1||z>1||z>=depth[p]||cutPixel(pass.cut,x,y,z))continue;
    let i=u,j=v;
    if(perspective){const inv=1/(i*aw+j*bw+t*cw);i*=aw*inv;j*=bw*inv;}
    if(leaf){
@@ -481,7 +484,7 @@ function paintSurfaces(pass,coords,indices,d,lightCoords,world,uv){
    for(let x=first;x<=last;x++,u+=A,v+=C){
     const t=1-u-v;if(u<-.00001||v<-.00001||t<-.00001)continue;
     const z=u*coords[a+2]+v*coords[b+2]+t*coords[c+2];const p=y*w+x;
-    if(z< -1||z>1||z>=depth[p])continue;
+    if(z< -1||z>1||z>=depth[p]||cutPixel(pass.cut,x,y,z))continue;
     if(pixels&&!contact&&!wet&&d.alpha<.98&&((x*13+y*7)%17)>=d.alpha*17)continue;
     if(!pixels){depth[p]=z;continue;}let shade=lum;
     const hasShadow=lightCoords&&d.receive&&(direct>0||smoothLight);
@@ -659,6 +662,7 @@ function behindDepth(pass,b,k,m){
  return true;
 }
 function paintVisible(pass,g,d,transform,light,world){
+ pass.cut=d.sectionTarget?pass.sectionCut:null;
  const frustum=planes(transform);
  if(outside(g.bounds,0,frustum))return;
  const stride=g.treeStride||chunkIndices;
@@ -833,7 +837,9 @@ onmessage=({data:q})=>{
  });
  if(q.shadow&&q.updateShadow){
   shadowDepth.fill(Infinity);
-  for(const {d,g,l} of objs)if(d.cast&&!d.blendPane)paint({w:ss,h:ss,depth:shadowDepth},l,g.index,d,null,null,d.cutoutTrees&&d.finishTile?transformedUV(g,d):null);
+  const c=q.sectionSun;
+  const cut=c?[2*c[0]/ss,-2*c[1]/ss,c[2],c[3]-c[0]+c[1]+(c[0]-c[1])/ss]:null;
+  for(const {d,g,l} of objs)if(d.cast&&!d.blendPane)paint({w:ss,h:ss,depth:shadowDepth,cut:d.sectionTarget?cut:null},l,g.index,d,null,null,d.cutoutTrees&&d.finishTile?transformedUV(g,d):null);
  }
  const pixels=new Uint8ClampedArray(q.w*q.h*4);
  if(q.streetView&&streetSky)paintStreetSky(pixels,q.w,q.h,q.streetView);
@@ -847,14 +853,14 @@ onmessage=({data:q})=>{
   }
   for(let i=4*y*q.w,end=i+4*q.w;i<end;i+=4){pixels[i]=r;pixels[i+1]=g;pixels[i+2]=b;pixels[i+3]=255;}
  }
- const pass={volume:q.useVolume?lightVolume:null,environment:q.useEnvironment?daylight:null,w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,skyGain:Math.sqrt(.33*q.skyPower),keyGain:.21*q.sunPower,near:q.perspectiveNear,inkProjection:q.inkProjection};
+ const pass={sectionCut:q.sectionEye,volume:q.useVolume?lightVolume:null,environment:q.useEnvironment?daylight:null,w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,skyGain:Math.sqrt(.33*q.skyPower),keyGain:.21*q.sunPower,near:q.perspectiveNear,inkProjection:q.inkProjection};
  // Resolve solid depth before compositing visible linework.
  const order=d=>d.kind!=='tri'?3:d.blendPane?2:d.contactFade?1:0;
  objs.sort((a,b)=>order(a.d)-order(b.d));
  // Indoors, rasterize the depths of opaque walls and slabs first. The colour
  // pass keeps its authored order, including surfaces at the same depth.
  if(q.insideProject&&pass.near&&objs.some(({d})=>d.solidShell)){
-  const prepass={w:q.w,h:q.h,depth:pass.depth,near:pass.near,eyeDepth:true};
+  const prepass={sectionCut:q.sectionEye,w:q.w,h:q.h,depth:pass.depth,near:pass.near,eyeDepth:true};
   for(const {d,g,world} of objs){
    if(d.solidShell)paintVisible(prepass,g,{...d,finishTile:null},multiply(q.view,d.m),null,world);
   }

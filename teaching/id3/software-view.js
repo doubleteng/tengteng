@@ -40,11 +40,20 @@ function copyUV(attribute){
  for(let i=0;i<attribute.count;i++){values[2*i]=attribute.getX(i);values[2*i+1]=attribute.getY(i);}
  return values;
 }
+// Express the world-space half-plane at raster pixel centers. Its sign is
+// invariant after perspective division for vertices in front of the near plane.
+function rasterPlane(plane,matrix,width,height){
+ if(!plane||!matrix)return null;
+ const projected=new T.Vector4(plane.normal.x,plane.normal.y,plane.normal.z,plane.constant);
+ projected.applyMatrix4(new T.Matrix4().fromArray(matrix).invert().transpose());
+ const {x,y,z,w}=projected;
+ return [2*x/width,-2*y/height,z,w-x+y+x/width-y/height];
+}
 export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=342907119a', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=695f06a099', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
@@ -190,7 +199,7 @@ export class SoftwareRenderer {
     const openCanopy=proposal&&/^(?:Market \/|Site \/ Market court paving|Structure \/ (?:Arcade |CLT market |Glulam market |Glulam portal crossheads|Glulam posts$|Market plinths))/.test(layer);
     const solidShell=!!o.userData.projectSurface&&o.isMesh&&!m.transparent&&!m.alphaTest&&!m.alphaMap&&
      /wall|floor|slab|partition|roof|soffit/i.test(layer);
-    draws.push({id,solidShell,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!(o.userData.contextOutline||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
+    draws.push({id,sectionTarget:!!o.userData.sectionTarget,solidShell,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!(o.userData.contextOutline||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
    }
   });
   const removed=[...this.known].filter(k=>!used.has(k));removed.forEach(k=>this.known.delete(k));
@@ -224,7 +233,11 @@ export class SoftwareRenderer {
   const streetView=street?{world:cam.matrixWorld.elements,projection:[p[0],p[5],p[8],p[9]]}:null;
   const skyRow=this.proposalSky&&cam.isPerspectiveCamera?
    [-cam.matrixWorld.elements[9],cam.matrixWorld.elements[5],cam.projectionMatrix.elements[9],1/cam.projectionMatrix.elements[5]]:null;
-  this.worker.postMessage({insideProject:cam.isPerspectiveCamera&&this.projectBounds?.containsPoint(cam.position),resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,deformed,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
+  const section=this.sectionPlane;
+  const sectionEye=rasterPlane(section,matrix,w,h);
+  const sectionSun=sm&&section?new T.Vector4(section.normal.x,section.normal.y,section.normal.z,section.constant)
+   .applyMatrix4(new T.Matrix4().fromArray(sm).invert().transpose()).toArray():null;
+  this.worker.postMessage({sectionEye,sectionSun,insideProject:cam.isPerspectiveCamera&&this.projectBounds?.containsPoint(cam.position),resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,deformed,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
   this.shadowMap.needsUpdate=false;
  }
  wait(){return (this.pending||(this.scale<1&&this.settleTimer))?(this.settled??=new Promise(resolve=>{this.finish=resolve;})):Promise.resolve();}

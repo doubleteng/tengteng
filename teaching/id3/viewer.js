@@ -8,7 +8,7 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
-import {makeRenderer} from './software-view.js?v=920125abb9';
+import {makeRenderer} from './software-view.js?v=2c8ed8ee44';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js?v=d93b9a4589';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
@@ -115,9 +115,14 @@ export class AtlasViewer{
   this.ground.rotation.x=-Math.PI/2;this.ground.receiveShadow=true;this.scene.add(this.ground);
   this.clay=new T.MeshStandardMaterial({color:0xeae6d9,roughness:.94,side:T.DoubleSide});
   this.flatClay=this.clay.clone();this.flatClay.flatShading=true;
+  // Project-only clay materials allow local section planes without clipping the city.
+  this.projectClay=this.clay.clone();this.projectFlatClay=this.flatClay.clone();
   this.width=65;this.height=40;this.radius=40;this.center=v(0,1.2,0);this.solar=[315,40];this.mode='material';
   this.hidden=new Set();this.cityVisible=true;this.cityPaths=new Set();this.hiddenCity=new Set();this.key=0;this.pendingCity=null;
   this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.resize();
+ }
+ loadStreetMode(){
+  return this.streetModule??=import('./street-mode.js?v=6d1007ab72').catch(error=>{this.streetModule=null;throw error;});
  }
  enableWalkEntry(){
   const canvas=this.renderer.domElement,area=this.host.parentElement;
@@ -129,9 +134,8 @@ export class AtlasViewer{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=1f02c5d3d5').catch(error=>{this.walkModule=null;throw error;});
-   if(thirdPerson)this.streetModule??=import('./street-mode.js?v=6d1007ab72').catch(error=>{this.streetModule=null;throw error;});
-   Promise.all([this.walkModule,thirdPerson?this.streetModule:null]).then(([{WalkMode},street])=>{
+   this.walkModule??=import('./walk-mode.js?v=5b447be1dd').catch(error=>{this.walkModule=null;throw error;});
+   Promise.all([this.walkModule,thirdPerson?this.loadStreetMode():null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
     this.walkMode??=new WalkMode(this);
     if(!this.walkMode.enter(ndc,touch,street))this.walkHint(street?'Choose a street view and try GTA6 mode again.':'Choose a clear spot on the ground or a floor.');
@@ -282,6 +286,55 @@ export class AtlasViewer{
   this.renderer.proposalSky=daylight;
   this.scene.background=daylight&&this.renderer.isWebGLRenderer?proposalSkyTexture():this.paperBackground;
  }
+ // Positive signed distance is retained by both renderers. One plane object is
+ // reused during a drag, so moving the cut only updates shader uniforms.
+ setSection(axis, position=0, side=-1){
+  const active=axis!=='off';
+  if(active&&this.walkMode?.active)return;
+  if(!active&&!this.sectionPlane)return;
+  this.sectionSettings=active?{axis,position,side}:null;
+  const changed=active!==!!this.sectionPlane;
+  if(active){
+   this.sectionPlane??=new T.Plane();
+   this.sectionPlane.normal.set(0,0,0);
+   this.sectionPlane.normal[axis]=side;
+   this.sectionPlane.constant=-side*position;
+  }else this.sectionPlane=null;
+  if(changed){
+   this.projectClipPlanes=this.sectionPlane?[this.sectionPlane]:null;
+   this.renderer.sectionPlane=this.sectionPlane;
+   this.renderer.localClippingEnabled=active;
+   this.bindProjectSection();
+   this.updateVolumeVisibility();
+  }
+  this.movingFrame=active;
+  this.draw();
+  if(changed){
+   clearTimeout(this.sectionShadowTimer);this.sectionShadowTimer=null;this.refreshShadow();
+  }else if(!this.sectionShadowTimer){
+   // Refresh during continuous drags as well as after the final slider input.
+   this.sectionShadowTimer=setTimeout(()=>{this.sectionShadowTimer=null;this.refreshShadow();},90);
+  }
+ }
+ bindProjectSection(){
+  if(!this.renderer.isWebGLRenderer)return;
+  // Local planes apply to project surfaces and their shadow casters. Context,
+  // the world ground and the walking avatar retain their original materials.
+  const planes=this.projectClipPlanes;
+  this.project?.traverse(o=>{
+   if(!o.material)return;
+   for(const mat of [].concat(o.material)){
+    if(mat.clippingPlanes===planes)continue;
+    mat.clippingPlanes=planes;mat.clipShadows=!!planes;mat.needsUpdate=true;
+   }
+  });
+ }
+ updateVolumeVisibility(){
+  if(!this.proposalVolume)return;
+  const intact=!this.sectionPlane&&this.mode==='material'&&![...this.paths].some(([name,visible])=>visible&&this.hidden.has(name));
+  this.proposalVolume.strength.value=intact?1:0;
+  this.renderer.proposalLightVolume=intact?this.proposalVolume:null;
+ }
  refreshShadow(){this.renderer.shadowMap.needsUpdate=true;this.draw();}
  resize(){
   const w=this.host.clientWidth,h=this.host.clientHeight;
@@ -345,6 +398,7 @@ export class AtlasViewer{
   });
  }
  async show(model,city){
+  this.setSection('off');
   this.walkMode?.release();this.walkRequest=(this.walkRequest||0)+1;
   const key=++this.key;
   this.clearance=null;
@@ -397,9 +451,11 @@ export class AtlasViewer{
    this.center=v(-47.5,5.5,26);this.width=106;this.height=57;
   }
   this.ground.position.copy(this.center);const urbanBox=this.city?new T.Box3().setFromObject(this.city):null;
+  this.sectionBounds=model.demo?new T.Box3().setFromObject(this.project):b;
   this.ground.position.y=Math.min(b.min.y,urbanBox?.min.y??b.min.y,city==='./models/ann-arbor.glb'?-13.6:Infinity)-this.radius*.001;
   this.ground.scale.setScalar(Math.max(this.radius*100,urbanBox?urbanBox.getSize(v()).length()*3:0));
   this.clearance=new CameraClearance([this.project,this.city],{registeredSite,fallback:this.ground.position.y});
+  this.project.traverse(o=>{if(o.geometry)o.userData.sectionTarget=true;});
   this.applyModes();this.view('perspective',false);this.setSun(...this.solar,false);return {paths:this.paths,cityError:ctx.status==='rejected'};
  }
  perspectiveFitDistance(aspect,direction){
@@ -516,18 +572,15 @@ export class AtlasViewer{
   const proposal=!!this.project&&!this.overview&&original;
   this.sky.color.set(proposal?0xdbebff:0xfffdf2);this.sky.groundColor.set(proposal?0xbba68e:0xaeb1a1);
   this.sun.color.set(proposal?0xffe7c6:0xfff3df);
-  if(this.proposalVolume){
-   // A hidden roof or wall must also remove its baked obstruction.
-   const intact=original&&![...this.paths].some(([name,visible])=>visible&&this.hidden.has(name));
-   this.proposalVolume.strength.value=intact?1:0;
-   this.renderer.proposalLightVolume=intact?this.proposalVolume:null;
-  }
+  this.updateVolumeVisibility();
   for(const root of [this.project,this.city])root?.traverse(o=>{if(o.geometry){
    if(o.userData.contextOutline){o.visible=this.contextEdges;return;}
    const path=o.userData.atlasPath;
    o.visible=root===this.project?!this.hidden.has(path):!this.hiddenCity.has(path)&&!o.userData.initialHidden;
    if(o.isMesh){
-    const display=o.userData.leafClay||(o.geometry.hasAttribute('normal')?this.clay:this.flatClay);
+    const project=root===this.project;
+    const display=o.userData.leafClay||(o.geometry.hasAttribute('normal')?
+     (project?this.projectClay:this.clay):(project?this.projectFlatClay:this.flatClay));
     o.material=this.mode==='clay'?display:(!this.buildingColors&&o.userData.neutralMaterial)||o.userData.sourceMaterial;
     if(root===this.project){
      const transparentPane=original&&[].concat(o.material).every(m=>
@@ -535,7 +588,9 @@ export class AtlasViewer{
      o.castShadow=!o.userData.groundSurface&&!o.userData.noShadowCast&&!transparentPane;
     }
    }
-  }});if(this.city)this.city.visible=this.cityVisible;this.refreshShadow();
+  }});if(this.city)this.city.visible=this.cityVisible;
+  if(this.sectionPlane)this.bindProjectSection();
+  this.refreshShadow();
  }
  setBuildingColors(enabled){this.activate();this.buildingColors=enabled;this.applyModes();}
  setContextEdges(enabled){this.activate();this.contextEdges=enabled;this.applyModes();}

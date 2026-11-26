@@ -230,10 +230,11 @@ export class WalkSurfaces {
   if(grid.query(box,(entry,run)=>this.staticCandidates(entry,run,box,visit)))return true;
   return !onlyFloors&&this.eachDoor(b=>box.intersectsBox(b),visit);
  }
- firstHit(ray,maxDistance=Infinity){
+ firstHit(ray,maxDistance=Infinity,section=null){
   let result=null,nearest=maxDistance;
   const scan=(entry,faceIndex,a,b,c)=>{
    if(!ray.intersectTriangle(a,b,c,false,this.rayPoint))return false;
+   if(section&&entry.mesh.userData.sectionTarget&&section.distanceToPoint(this.rayPoint)<-epsilon)return false;
    const distance=ray.origin.distanceTo(this.rayPoint);if(distance>nearest+epsilon)return false;
    const walkable=walkFace(entry,a,b,c);
    if(result&&Math.abs(nearest-distance)<=epsilon&&!walkable)return false;
@@ -257,8 +258,8 @@ export class WalkSurfaces {
   this.eachDoor(b=>ray.intersectsBox(b),scan);
   return result;
  }
- pick(ray) {
-  const hit=this.firstHit(ray);
+ pick(ray,section=null) {
+  const hit=this.firstHit(ray,Infinity,section);
   return hit?.walkable&&this.canStand(hit.point)?hit:null;
  }
  floorAt(x,z,minY,maxY,physicalSupport=false){

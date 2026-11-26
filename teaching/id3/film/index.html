@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Film · Ava Barbat · Integrated Design III</title>
+<link rel="stylesheet" href="./film.css"></head><body><main>
+<nav class="film-top"><a href="../#model-ava-barbat">← Ava’s project</a></nav>
+<header><h1>Film</h1><p>Integrated Design III · Ava Barbat<br>Ann Arbor Farmers Market</p></header>
+<section id="admission"><form id="signin"><label>Studio member’s full name<input id="director" name="director" required maxlength="90" autocomplete="name" placeholder="First and last name"></label><button class="primary">Open Film editor</button></form><p id="gate-message" role="status" class="assist"></p></section>
+<div class="session" id="session" hidden><strong id="director-name"></strong><button id="leave">Close editor</button></div>
+<section id="studio" hidden>
+<article><div id="stage" tabindex="0" aria-label="Interactive model and camera"><div id="status" role="status">Loading Ava’s model…</div></div>
+<aside id="settings" inert><h2>Shots</h2><div id="shots" class="shots"></div><div class="editing"><label>Shot length (s) <input id="duration" type="number" min="0.5" max="120" step="0.25" value="3.75"></label><br><label for="lens">Field of view <output id="angle"></output></label><input id="lens" type="range" min="25" max="95" step="0.1"></div></aside></article>
+<section id="timeline" class="time" inert><div class="row"><button id="play" class="primary">Play sequence</button><strong id="shotname"></strong><time id="stamp"></time></div>
+<input id="scrub" class="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="Shot time"><div id="marks" class="marks" aria-label="Keyframes"></div>
+<div class="row"><button id="store">Update keyframe</button><button id="remove">Remove keyframe</button></div></section>
+<div class="foot"><p>Drag to orbit · Right-drag to pan · Scroll to dolly<br>Focus the model to move with W A S D · Q / E down and up</p><div class="row" id="files" inert><button id="export" class="primary">Export preview video</button><button id="save">Save camera path</button><button id="open">Open path</button><input id="pathfile" type="file" accept=".json,application/json"></div></div>
+<div class="row"><button id="cancel" hidden>Cancel export</button><a id="getvideo" hidden download="Ava-camera-preview.webm">Download preview video</a></div><video id="movie" aria-label="Rendered preview" controls playsinline preload="metadata" hidden style="margin-top:12px;width:min(100%,860px);aspect-ratio:16/9;background:#172726"></video><p id="notice" class="assist" role="status"></p></section>
+<section class="featured" aria-label="Published film">
+<video controls playsinline preload="none" poster="../models/ava-barbat.webp" src="./ava-camera-study-v1.mp4" aria-label="Ava Barbat market camera study"></video>
+<div><h2>Market camera study</h2><p>Ava Barbat’s proposal, from the streets of Kerrytown to the terrace and into the market hall.</p><p>11 seconds · 24 fps</p><a href="./ava-camera-study-v1.mp4" download>Download MP4</a></div></section>
+</main><script type="module" src="./admission.js"></script></body></html>

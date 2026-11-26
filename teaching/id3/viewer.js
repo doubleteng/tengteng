@@ -8,9 +8,10 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
-import {makeRenderer} from './software-view.js?v=2c8ed8ee44';
+import {makeRenderer} from './software-view.js?v=bcb4d6f13a';
+import {ProjectLines} from './project-lines.js?v=0adfd4dd98';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
-import {contextEdges,createInkMaterial} from './context-edges.js?v=d93b9a4589';
+import {contextEdges,createInkMaterial} from './context-edges.js?v=4ff44f5d03';
 const v=(x,y,z)=>new T.Vector3(x,y,z);
 const loader=new GLTFLoader();
 const registeredSite=siteFootprint();
@@ -102,7 +103,7 @@ export class AtlasViewer{
   r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.14;host.append(r.domElement);
   this.scene=new T.Scene();this.paperBackground=new T.Color(0xe0e1da);this.scene.background=this.paperBackground;this.parallelCamera=new T.OrthographicCamera(-1,1,1,-1,.005,100000);
   this.perspectiveCamera=new T.PerspectiveCamera(44,1,.05,10000);
-  this.inkViewHeight={value:1};this.camera=this.perspectiveCamera;this.contextEdges=true;this.buildingColors=true;
+  this.inkViewHeight={value:1};this.camera=this.perspectiveCamera;this.contextEdges=true;this.projectEdges=true;this.buildingColors=true;
   this.controls=new OrbitControls(this.camera,r.domElement);this.controls.maxPolarAngle=maxPerspectivePolarAngle;this.controls.minZoom=.001;this.controls.maxZoom=100;this.controls.addEventListener('start',()=>{this.userNavigated=true;this.activate();});
   this.enableWalkEntry();
   this.controls.addEventListener('change',()=>this.cameraChanged());this.controls.enableDamping=false;
@@ -291,8 +292,13 @@ export class AtlasViewer{
  setSection(axis, position=0, side=-1){
   const active=axis!=='off';
   if(active&&this.walkMode?.active)return;
-  if(!active&&!this.sectionPlane)return;
   this.sectionSettings=active?{axis,position,side}:null;
+  if(active&&this.linework){this.linework.cut(axis,position,side);return;}
+  this.linework?.clear();this.applySection(axis,position,side);
+ }
+ applySection(axis,position,side){
+  const active=axis!=='off';
+  if(!active&&!this.sectionPlane)return;
   const changed=active!==!!this.sectionPlane;
   if(active){
    this.sectionPlane??=new T.Plane();
@@ -321,8 +327,9 @@ export class AtlasViewer{
   // Local planes apply to project surfaces and their shadow casters. Context,
   // the world ground and the walking avatar retain their original materials.
   const planes=this.projectClipPlanes;
+  if(this.linework){this.linework.material.clippingPlanes=planes;this.linework.material.needsUpdate=true;}
   this.project?.traverse(o=>{
-   if(!o.material)return;
+   if(!o.material||o.userData.projectOutline)return;
    for(const mat of [].concat(o.material)){
     if(mat.clippingPlanes===planes)continue;
     mat.clippingPlanes=planes;mat.clipShadows=!!planes;mat.needsUpdate=true;
@@ -400,6 +407,7 @@ export class AtlasViewer{
  async show(model,city){
   this.setSection('off');
   this.walkMode?.release();this.walkRequest=(this.walkRequest||0)+1;
+  this.linework?.dispose();this.linework=null;
   const key=++this.key;
   this.clearance=null;
   this.proposalVolume=null;this.renderer.proposalLightVolume=null;this.renderer.proposalEnvironment=null;
@@ -456,6 +464,7 @@ export class AtlasViewer{
   this.ground.scale.setScalar(Math.max(this.radius*100,urbanBox?urbanBox.getSize(v()).length()*3:0));
   this.clearance=new CameraClearance([this.project,this.city],{registeredSite,fallback:this.ground.position.y});
   this.project.traverse(o=>{if(o.geometry)o.userData.sectionTarget=true;});
+  this.linework=new ProjectLines(this,!model.overview);
   this.applyModes();this.view('perspective',false);this.setSun(...this.solar,false);return {paths:this.paths,cityError:ctx.status==='rejected'};
  }
  perspectiveFitDistance(aspect,direction){
@@ -575,6 +584,7 @@ export class AtlasViewer{
   this.updateVolumeVisibility();
   for(const root of [this.project,this.city])root?.traverse(o=>{if(o.geometry){
    if(o.userData.contextOutline){o.visible=this.contextEdges;return;}
+   if(o.userData.projectOutline||o.userData.panelJoint){o.visible=this.projectEdges&&!this.hidden.has(o.userData.atlasPath);return;}
    const path=o.userData.atlasPath;
    o.visible=root===this.project?!this.hidden.has(path):!this.hiddenCity.has(path)&&!o.userData.initialHidden;
    if(o.isMesh){
@@ -590,7 +600,13 @@ export class AtlasViewer{
    }
   }});if(this.city)this.city.visible=this.cityVisible;
   if(this.sectionPlane)this.bindProjectSection();
+  if(this.sectionSettings&&this.linework){const {axis,position,side}=this.sectionSettings;this.linework.stroke.visible=false;this.linework.cut(axis,position,side);}
   this.refreshShadow();
+ }
+ setProjectEdges(enabled){
+  this.projectEdges=enabled;
+  this.project?.traverse(o=>{if(o.userData.projectOutline||o.userData.panelJoint)o.visible=enabled&&!this.hidden.has(o.userData.atlasPath);});
+  this.draw();
  }
  setBuildingColors(enabled){this.activate();this.buildingColors=enabled;this.applyModes();}
  setContextEdges(enabled){this.activate();this.contextEdges=enabled;this.applyModes();}

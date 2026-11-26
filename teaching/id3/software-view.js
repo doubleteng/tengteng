@@ -53,7 +53,7 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=695f06a099', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=eb8e0c3225', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
@@ -199,7 +199,7 @@ export class SoftwareRenderer {
     const openCanopy=proposal&&/^(?:Market \/|Site \/ Market court paving|Structure \/ (?:Arcade |CLT market |Glulam market |Glulam portal crossheads|Glulam posts$|Market plinths))/.test(layer);
     const solidShell=!!o.userData.projectSurface&&o.isMesh&&!m.transparent&&!m.alphaTest&&!m.alphaMap&&
      /wall|floor|slab|partition|roof|soffit/i.test(layer);
-    draws.push({id,sectionTarget:!!o.userData.sectionTarget,solidShell,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',outline:!!(o.userData.contextOutline||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
+    draws.push({id,sectionTarget:!!o.userData.sectionTarget,solidShell,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',strokeRadius:o.userData.cutStroke?1.75*w/Math.max(1,this.domElement.clientWidth||this.width):0,outline:!!(o.userData.contextOutline||o.userData.projectOutline||o.userData.cutStroke||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
    }
   });
   const removed=[...this.known].filter(k=>!used.has(k));removed.forEach(k=>this.known.delete(k));

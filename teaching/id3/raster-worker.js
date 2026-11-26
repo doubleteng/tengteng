@@ -238,6 +238,28 @@ function drawNearClipped(pass,coords,offsets,d,lightCoords,world,uv){
 function cutPixel(plane,x,y,z){
  return plane && plane[0]*x+plane[1]*y+plane[2]*z+plane[3]<0;
 }
+// A depth-tested screen-space stroke. Short successive steps cover only the
+// local neighborhood of the cut, even for diagonal and nearly vertical lines.
+function paintCut(pass,coords,a,b,d,lo,hi){
+ const {w,h,pixels,depth}=pass,r=Math.max(.65,d.strokeRadius);
+ const ax=coords[a],ay=coords[a+1],dx=coords[b]-ax,dy=coords[b+1]-ay,dz=coords[b+2]-coords[a+2];
+ const dot=dx*dx+dy*dy;if(dot<1e-10)return;
+ const horizontal=Math.abs(dx)>=Math.abs(dy),primary=horizontal?ax:ay,secondary=horizontal?ay:ax;
+ const major=horizontal?dx:dy,minor=horizontal?dy:dx,end=horizontal?w:h,span=horizontal?h:w;
+ const p0=primary+major*lo,p1=primary+major*hi,pad=(r+.6)*Math.SQRT2;
+ for(let i=Math.max(0,Math.floor(Math.min(p0,p1)-r));i<=Math.min(end-1,Math.ceil(Math.max(p0,p1)+r));i++){
+  const t=Math.max(lo,Math.min(hi,(i+.5-primary)/major)),s=secondary+t*minor;
+  for(let j=Math.max(0,Math.floor(s-pad));j<=Math.min(span-1,Math.ceil(s+pad));j++){
+   const x=horizontal?i:j,y=horizontal?j:i,px=x+.5-ax,py=y+.5-ay;
+   const u=Math.max(lo,Math.min(hi,(px*dx+py*dy)/dot));
+   const coverage=Math.min(1,r+.5-Math.hypot(px-u*dx,py-u*dy));if(coverage<=0)continue;
+   const z=coords[a+2]+u*dz,k=y*w+x;
+   const bias=coords.cameraW?Math.max(2e-7,(1-z)*.002):.00012;
+   if(z < -1 || z > 1 || z>depth[k]+bias)continue;
+   for(let c=0;c<3;c++)pixels[4*k+c]+=coverage*(d.color[c]*255-pixels[4*k+c]);
+  }
+ }
+}
 function paintLine(pass,coords,a,b,d){
  const {w,h,depth,pixels}=pass,ax=coords[a],ay=coords[a+1],dx=coords[b]-ax,dy=coords[b+1]-ay;
  let lo=0,hi=1;
@@ -247,6 +269,7 @@ function paintLine(pass,coords,a,b,d){
   const t0=-p/v,t1=(limit-p)/v;
   lo=Math.max(lo,Math.min(t0,t1));hi=Math.min(hi,Math.max(t0,t1));if(lo>hi)return;
  }
+ if(d.strokeRadius){paintCut(pass,coords,a,b,d,lo,hi);return;}
  let alpha=d.alpha;
  if(d.widths){
   const cw=coords.cameraW ? Math.max(pass.near,(coords.cameraW[a/3]+coords.cameraW[b/3])/2) : 1;
@@ -855,7 +878,7 @@ onmessage=({data:q})=>{
  }
  const pass={sectionCut:q.sectionEye,volume:q.useVolume?lightVolume:null,environment:q.useEnvironment?daylight:null,w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,skyGain:Math.sqrt(.33*q.skyPower),keyGain:.21*q.sunPower,near:q.perspectiveNear,inkProjection:q.inkProjection};
  // Resolve solid depth before compositing visible linework.
- const order=d=>d.kind!=='tri'?3:d.blendPane?2:d.contactFade?1:0;
+ const order=d=>d.strokeRadius?4:d.kind!=='tri'?3:d.blendPane?2:d.contactFade?1:0;
  objs.sort((a,b)=>order(a.d)-order(b.d));
  // Indoors, rasterize the depths of opaque walls and slabs first. The colour
  // pass keeps its authored order, including surfaces at the same depth.

@@ -264,7 +264,7 @@ export class WalkSurfaces {
  }
  floorAt(x,z,minY,maxY,physicalSupport=false){
   const box=this.box;box.min.set(x,minY,z);box.max.set(x,maxY,z);
-  let highest=-Infinity;
+  let highest=this.streetContacts?.roofAt(x,z,minY,maxY)??-Infinity;
   this.eachNearby(box,(entry,_i,a,b,c)=>{
    if(!walkFace(entry,a,b,c,physicalSupport))return false;
    const y=planeHeight(a,b,c,x,z);
@@ -305,6 +305,7 @@ export class WalkSurfaces {
  canMove(from,to,radius=bodyRadius,height=bodyHeight,step=stepHeight,contactNormal=null){
   // The controller substeps movement. Ankle clearance admits ordinary risers;
   // floorAt separately limits how far that substep can rise.
+  if(this.streetContacts?.blocks(from,to,radius,height,contactNormal))return false;
   const lo=Math.max(from.y,to.y)+step+epsilon,hi=Math.max(from.y,to.y)+height-epsilon;
   const box=this.box,p=this.clipIn,q=this.clipOut;
   box.min.set(Math.min(from.x,to.x)-radius,lo,Math.min(from.z,to.z)-radius);

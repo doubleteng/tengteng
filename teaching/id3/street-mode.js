@@ -67,6 +67,7 @@ export class ChaseCamera {
 export class StreetMode {
  constructor(viewer,walker){
   this.viewer=viewer;this.avatar=createStreetAvatar();
+  this.surface=walker.surface;this.surface.streetContacts=viewer.activity?.contacts;
   this.traversal=new StreetTraversal(walker.surface);this.camera=new ChaseCamera(walker.surface);
   this.atmosphere=enterStreetAtmosphere(viewer);this.last=walker.feet.clone();this.gripLocal=new Vector3();this.palmsLocal=[new Vector3(),new Vector3()];this.contactRoot=new Vector3();this.gait=0;this.rotation=walker.yaw;
   this.root=new Group();this.root.add(this.avatar.root);
@@ -127,6 +128,7 @@ export class StreetMode {
   this.needsFrame=this.camera.settling||(walker.grounded&&(speed>.03||this.visualSpeed>.018||this.impact>.01));
  }
  dispose(){
+  this.surface.streetContacts=null;
   this.root.removeFromParent();this.avatar.dispose();this.contact.geometry.dispose();this.contact.material.dispose();this.atmosphere.dispose();
  }
 }

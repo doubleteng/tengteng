@@ -8,7 +8,8 @@ import {OrbitControls} from './lib/controls/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
 import {siteFootprint,demoOrigin,siteCenter} from './site-model.js';
 import {applyDistrictLight,loadDistrict} from './district-light.js?v=48b2ff4d37';
-import {makeRenderer} from './software-view.js?v=ed16d9d163';
+import {makeRenderer} from './software-view.js?v=25c40df902';
+import {StreetActivity} from './street-activity.js?v=0d84a11786';
 import {ProjectLines} from './project-lines.js?v=28a79fa6c6';
 import {limitViewRange} from './view-ranges.js?v=ef004320a5';
 import {contextEdges,createInkMaterial} from './context-edges.js?v=4ff44f5d03';
@@ -123,7 +124,7 @@ export class AtlasViewer{
   this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.resize();
  }
  loadStreetMode(){
-  return this.streetModule??=import('./street-mode.js?v=6d1007ab72').catch(error=>{this.streetModule=null;throw error;});
+  return this.streetModule??=import('./street-mode.js?v=46b5ea8e71').catch(error=>{this.streetModule=null;throw error;});
  }
  enableWalkEntry(){
   const canvas=this.renderer.domElement,area=this.host.parentElement;
@@ -135,7 +136,7 @@ export class AtlasViewer{
    if(this.walkMode?.active||!this.project||area.getAttribute('aria-busy')==='true')return;
    const rect=canvas.getBoundingClientRect(),project=this.project,request=++this.walkRequest;
    const ndc=thirdPerson?null:{x:2*(x-rect.left)/rect.width-1,y:1-2*(y-rect.top)/rect.height};
-   this.walkModule??=import('./walk-mode.js?v=5b447be1dd').catch(error=>{this.walkModule=null;throw error;});
+   this.walkModule??=import('./walk-mode.js?v=1dc12a8d32').catch(error=>{this.walkModule=null;throw error;});
    Promise.all([this.walkModule,thirdPerson?this.loadStreetMode():null]).then(([{WalkMode},street])=>{
     if(this.project!==project||this.walkRequest!==request||this.walkMode?.active)return;
     this.walkMode??=new WalkMode(this);
@@ -224,6 +225,7 @@ export class AtlasViewer{
  drawNow(now){
   if(this.frame){cancelAnimationFrame(this.frame);this.frame=0;}
   this.adaptMovingResolution(now);this.updateCameraRange();this.updateLightCoverage();this.updateBackdrop();
+  this.lastFullDraw=now;if(this.activity?.enabled)this.activity.cull();
   const start=performance.now();this.renderer.render(this.scene,this.camera);this.lastRenderDuration=performance.now()-start;
   this.annotations?.draw(this.camera,this.viewportWidth,this.viewportHeight);
  }
@@ -405,6 +407,7 @@ export class AtlasViewer{
   });
  }
  async show(model,city){
+  this.activity?.setEnabled(false);
   this.setSection('off');
   this.walkMode?.release();this.walkRequest=(this.walkRequest||0)+1;
   this.linework?.dispose();this.linework=null;
@@ -413,6 +416,7 @@ export class AtlasViewer{
   this.proposalVolume=null;this.renderer.proposalLightVolume=null;this.renderer.proposalEnvironment=null;
   if(this.project){this.scene.remove(this.project);disposeModel(this.project);this.project=null;}
   if(this.cityURL!==city){
+   this.activity?.dispose();this.activity=null;
    if(this.city){this.scene.remove(this.city);disposeModel(this.city);this.city=null;}
    this.wideLighting=false;this.cityURL=city;this.cityPaths=new Set();this.hiddenCity.clear();
    const request=Symbol();this.contextRequest=request;
@@ -462,6 +466,7 @@ export class AtlasViewer{
   this.sectionBounds=model.demo?new T.Box3().setFromObject(this.project):b;
   this.ground.position.y=Math.min(b.min.y,urbanBox?.min.y??b.min.y,city==='./models/ann-arbor.glb'?-13.6:Infinity)-this.radius*.001;
   this.ground.scale.setScalar(Math.max(this.radius*100,urbanBox?urbanBox.getSize(v()).length()*3:0));
+  if(this.city&&city==='./models/ann-arbor.glb'&&!this.activity)this.activity=new StreetActivity(this);
   this.clearance=new CameraClearance([this.project,this.city],{registeredSite,fallback:this.ground.position.y});
   this.project.traverse(o=>{if(o.geometry)o.userData.sectionTarget=true;});
   this.linework=new ProjectLines(this,!model.overview,model.siteLayers);
@@ -599,6 +604,7 @@ export class AtlasViewer{
     }
    }
   }});if(this.city)this.city.visible=this.cityVisible;
+  this.activity?.setEnabled(!!(this.project&&this.cityVisible&&this.activityChoice!==false));
   if(this.sectionPlane)this.bindProjectSection();
   if(this.sectionSettings&&this.linework){const {axis,position,side}=this.sectionSettings;this.linework.hideCut();this.linework.cut(axis,position,side);}
   this.refreshShadow();

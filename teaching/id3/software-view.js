@@ -53,17 +53,17 @@ export class SoftwareRenderer {
  constructor(){
   this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false});this.shadowMap={needsUpdate:true};this.known=new Set();this.pending=false;
   this.width=this.domElement.width;this.height=this.domElement.height;
-  this.worker=new Worker(new URL('./raster-worker.js?v=34367bb98c', import.meta.url));this.worker.onmessage=({data})=>{
+  this.worker=new Worker(new URL('./raster-worker.js?v=e91f10cea1', import.meta.url));this.worker.onmessage=({data})=>{
    // Resize the backing buffer only when the replacement frame is ready.
    if(this.domElement.width!==data.w)this.domElement.width=data.w;
    if(this.domElement.height!==data.h)this.domElement.height=data.h;
    this.ctx.putImageData(new ImageData(new Uint8ClampedArray(data.buffer),data.w,data.h),0,0);this.pending=false;
    const ms=performance.now()-this.started;
-   this.lastFrameMs=ms;
+   if(!data.activityOnly)this.lastFrameMs=ms;
    const floor=Math.min(1,Math.max(.36,256/Math.max(this.width,this.height)));
    // Quantize the moving buffer and leave it alone inside the frame budget.
    // Reallocating a canvas for small timing variations is itself visible.
-   if(ms>40||ms<24||this.motionScale===undefined){
+   if(!data.activityOnly&&(ms>40||ms<24||this.motionScale===undefined)){
     const target=this.scale*Math.sqrt(34/Math.max(1,ms));
     this.motionScale=Math.max(floor,Math.min(1,Math.round(Math.min(target,(this.motionScale||1)*1.2)*12)/12));
    }
@@ -87,12 +87,21 @@ export class SoftwareRenderer {
   const scale=Math.min(1,900/w,610/h);
   this.width=Math.max(1,Math.round(w*scale));this.height=Math.max(1,Math.round(h*scale));
  }
- render(scene,cam){
-  if(this.pending){this.queued=[scene,cam];return;}
+ renderActivity(scene,cam){
+  if(this.pending||this.settleTimer||!this.activityTemplate||scene!==this.lastScene||cam!==this.lastCamera)return false;
+  this.render(scene,cam,true);
+  return true;
+ }
+ render(scene,cam,activityOnly=false){
+  if(this.pending){if(!activityOnly)this.queued=[scene,cam];return;}
   const scale=this.settleTimer?(this.motionScale||1):1;
-  this.pending=true;this.scale=scale;this.started=performance.now();this.lastScene=scene;this.lastCamera=cam;
   const w=Math.max(1,Math.round(this.width*scale)),h=Math.max(1,Math.round(this.height*scale));
-  scene.updateMatrixWorld(true);cam.updateMatrixWorld();const matrix=new T.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse).elements;
+  cam.updateMatrixWorld();
+  const matrix=new T.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse).elements;
+  const last=this.activityTemplate;
+  if(activityOnly&&(last.w!==w||last.h!==h||this.shadowMap.needsUpdate||matrix.some((n,i)=>n!==last.view[i])))activityOnly=false;
+  this.pending=true;this.scale=scale;this.started=performance.now();this.lastScene=scene;this.lastCamera=cam;
+  if(!activityOnly)scene.updateMatrixWorld(true);
   // When the shadow map is current, off-camera static meshes have no work in
   // this frame. Keep their resources available for turning or walking back.
   this.eyeFrustum??=new T.Frustum();
@@ -105,7 +114,9 @@ export class SoftwareRenderer {
   const draws=[],fresh=[],deformed=[],transfer=[],used=new Set(),tiles=[],usedTiles=new Set();
   this.knownTiles??=new Set();this.sharedTileIds??=new Set();
   let light,sky;
-  scene.traverseVisible(o=>{
+  const roots=activityOnly?this.activityRoots:[];
+  const visit=o=>{
+   if(!activityOnly&&o.userData.streetActivity&&!o.parent?.userData.streetActivity)roots.push(o);
    if(o.isHemisphereLight){sky=o;return;}
    if(o.isDirectionalLight){light=o;return;}if(!o.geometry||!(o.isMesh||o.isLine||o.isPoints))return;
    const g=o.geometry,id=g.uuid,position=g.getAttribute('position');if(!position)return;used.add(id);
@@ -199,10 +210,25 @@ export class SoftwareRenderer {
     const openCanopy=proposal&&/^(?:Market \/|Site \/ Market court paving|Structure \/ (?:Arcade |CLT market |Glulam market |Glulam portal crossheads|Glulam posts$|Market plinths))/.test(layer);
     const solidShell=!!o.userData.projectSurface&&o.isMesh&&!m.transparent&&!m.alphaTest&&!m.alphaMap&&
      /wall|floor|slab|partition|roof|soffit/i.test(layer);
-    draws.push({id,siteSectionFill:!!o.userData.siteSectionFill,sectionTarget:!!o.userData.sectionTarget,solidShell,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',strokeRadius:o.userData.cutStroke?1.75*w/Math.max(1,this.domElement.clientWidth||this.width):0,outline:!!(o.userData.contextOutline||o.userData.projectOutline||o.userData.cutStroke||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
+    draws.push({id,activity:!!o.userData.streetActivity,siteSectionFill:!!o.userData.siteSectionFill,sectionTarget:!!o.userData.sectionTarget,solidShell,openCanopy,cutoutTrees:!!o.userData.leafCutout,side:m.side,uvMatrix,uvChannel:channel,flipY:map?.flipY,alphaTest:m.alphaTest,sourceBlend:m.transparent,proposal,finish,reflection,reflectionGain:m.userData.reflectionGain??1,tileID:map?.uuid,roughness:m.roughness,metalness:m.metalness,baked:!!m.userData.districtAmbient,glass:!!m.userData.districtGlass,vertexColors:m.vertexColors,paving:!!m.userData.runningBond,m:o.matrixWorld.elements.slice(),color:[c.r,c.g,c.b],start:group.start,count:group.count,cast:o.castShadow,receive:o.receiveShadow,kind:o.isMesh?'tri':o.isPoints?'point':o.isLineSegments?'segments':'line',strokeRadius:o.userData.cutStroke?1.75*w/Math.max(1,this.domElement.clientWidth||this.width):0,outline:!!(o.userData.contextOutline||o.userData.projectOutline||o.userData.cutStroke||o.userData.panelJoint),alpha:m.transparent?m.opacity:1});
    }
-  });
-  const removed=[...this.known].filter(k=>!used.has(k));removed.forEach(k=>this.known.delete(k));
+  };
+  if(activityOnly){
+   for(const root of roots){
+    // A hidden ancestor can exclude the entire street layer.
+    let visible=true;
+    for(let node=root;node;node=node.parent)if(!node.visible){visible=false;break;}
+    if(visible&&root.parent){root.updateWorldMatrix(true,true);root.traverseVisible(visit);}
+   }
+   for(const id of used)this.activityAssets.add(id);
+   this.worker.postMessage({activityOnly:true,draws,fresh,deformed},transfer);
+   return;
+  }
+  scene.traverseVisible(visit);
+  if(!this.activityRoots||roots.length!==this.activityRoots.length||roots.some((r,i)=>r!==this.activityRoots[i]))this.activityAssets=new Set();
+  this.activityRoots=roots;
+  for(const draw of draws)if(draw.activity)this.activityAssets.add(draw.id);
+  const removed=[...this.known].filter(k=>!used.has(k)&&!this.activityAssets.has(k));removed.forEach(k=>this.known.delete(k));
   const dir=new T.Vector3(0,1,0);let sm=null;
   if(light){light.target.updateMatrixWorld();dir.copy(light.position).sub(light.target.position).normalize();
    if(light.castShadow){light.shadow.updateMatrices(light);const c=light.shadow.camera;sm=new T.Matrix4().multiplyMatrices(c.projectionMatrix,c.matrixWorldInverse).elements;}}
@@ -237,7 +263,9 @@ export class SoftwareRenderer {
   const sectionEye=rasterPlane(section,matrix,w,h);
   const sectionSun=sm&&section?new T.Vector4(section.normal.x,section.normal.y,section.normal.z,section.constant)
    .applyMatrix4(new T.Matrix4().fromArray(sm).invert().transpose()).toArray():null;
-  this.worker.postMessage({sectionEye,sectionSun,insideProject:cam.isPerspectiveCamera&&this.projectBounds?.containsPoint(cam.position),resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,deformed,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
+  const cacheActivity=!!roots.length&&!this.settleTimer;
+  this.activityTemplate=cacheActivity?{w,h,view:matrix}:null;
+  this.worker.postMessage({cacheActivity,sectionEye,sectionSun,insideProject:cam.isPerspectiveCamera&&this.projectBounds?.containsPoint(cam.position),resources,skyRow,streetView,tiles,removedTiles,useVolume:!!vol,useEnvironment:!!env,w,h,eye:cam.position.toArray(),eyeDirection:cam.getWorldDirection(new T.Vector3()).negate().toArray(),inkProjection:Math.abs(cam.projectionMatrix.elements[5])*h/2,draws,fresh,deformed,removed,view:matrix,perspectiveNear:cam.isPerspectiveCamera?cam.near:0,updateShadow:this.shadowMap.needsUpdate,shadow:sm,dir:dir.toArray(),skyPower:sky?.intensity??1.1225,sunPower:light?.intensity??0,background:[col.r,col.g,col.b]},transfer);
   this.shadowMap.needsUpdate=false;
  }
  wait(){return (this.pending||(this.scale<1&&this.settleTimer))?(this.settled??=new Promise(resolve=>{this.finish=resolve;})):Promise.resolve();}

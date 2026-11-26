@@ -1,6 +1,7 @@
 const geometries=new Map();
 const finishTiles=new Map();
 let lightVolume=null,daylight=null,streetSky=null;
+let activityBackground=null;
 
 // Repeating photographic finishes and equirectangular reflection probes use
 // independent width and height. Build their mip levels once per asset.
@@ -286,7 +287,7 @@ function paintLine(pass,coords,a,b,d){
   const z=coords[a+2]+t*(coords[b+2]-coords[a+2]),p=y*w+x;
   const bias=d.outline?(coords.cameraW?Math.max(2e-7,(1-z)*.003):.00015):0;
   if(z< -1||z>1||z>depth[p]+bias||cutPixel(pass.cut,x,y,z))continue;
-  if(!d.outline)depth[p]=Math.min(z,depth[p]);
+  if(!d.outline){depth[p]=Math.min(z,depth[p]);if(pass.transmission)pass.transmission[p]=0;}
   for(let c=0;c<3;c++)pixels[p*4+c]+=alpha*(d.color[c]*255-pixels[p*4+c]);
  }
 }
@@ -589,6 +590,7 @@ function paintSurfaces(pass,coords,indices,d,lightCoords,world,uv){
       // viewing angle. Use the solid scene once even on closed double skins.
       const base=pass.opaque;
       const R=(frosted ? .085 : .065)+(frosted ? .44 : .9)*grazing,through=1-R;
+      if(pass.transmission)pass.transmission[p]=Math.round(255*through*(1-glazeTint));
       rr=through*(base[off]*(1-glazeTint)*.96+rr*glazeTint)+R*env[0];
       gg=through*(base[off+1]*(1-glazeTint)*.99+gg*glazeTint)+R*env[1];
       bb=through*(base[off+2]*(1-glazeTint)+bb*glazeTint)+R*env[2];
@@ -596,6 +598,14 @@ function paintSurfaces(pass,coords,indices,d,lightCoords,world,uv){
       const strength=Math.min(.90,(.07+.48*(d.metalness??0)+.32*grazing)*(1-.45*(d.roughness??.4))*d.reflectionMix);
       rr+=strength*(env[0]-rr);gg+=strength*(env[1]-gg);bb+=strength*(env[2]-bb);
      }
+    }
+    // For a passing actor behind glazing, apply the same tint and reflection
+    // as the original pane. The opaque depth still occludes it at solid walls.
+    if(pass.glass&&z>=pass.glass.depth[p]&&pass.glass.transmission[p]){
+     const g=pass.glass,trans=g.transmission[p]/255;
+     rr=g.pixels[off]+.96*trans*(rr-g.opaque[off]);
+     gg=g.pixels[off+1]+.99*trans*(gg-g.opaque[off+1]);
+     bb=g.pixels[off+2]+trans*(bb-g.opaque[off+2]);
     }
     depth[p]=z;pixels[off]=rr;pixels[off+1]=gg;pixels[off+2]=bb;
    }
@@ -811,7 +821,7 @@ onmessage=({data:q})=>{
  if(q.resources?.volume)lightVolume=prepareVolume(q.resources.volume);
  if(q.resources?.environment)daylight=imagePyramid(q.resources.environment);
  if(q.resources?.streetSky)streetSky=q.resources.streetSky;
- for(const k of q.removed)geometries.delete(k);for(const g of q.fresh){
+ for(const k of q.removed||[])geometries.delete(k);for(const g of q.fresh){
   if(g.paving)g.paving.levels=pavingMips(g.paving);
   refitBounds(g);
   geometries.set(g.id,g);
@@ -820,6 +830,7 @@ onmessage=({data:q})=>{
   const g=geometries.get(id);if(!g)continue;
   g.xyz=xyz;g.normals=normals;g.worldMatrix=null;refitBounds(g);
  }
+ const settings=q.activityOnly?activityBackground.settings:q;
  const ss=shadowSize,shadowDepth=cachedShadow;
  const objs=q.draws.map(d=>{
   const g=geometries.get(d.id),m=d.m,xyz=g.xyz;
@@ -836,16 +847,16 @@ onmessage=({data:q})=>{
    }
    g.lightMatrix=null;g.light=null;
   }
-  const lit=q.shadow&&(d.cast||d.receive);
-  if(lit&&!sameMatrix(g.lightMatrix,q.shadow)){
-   g.lightMatrix=q.shadow;g.light=project(xyz,multiply(q.shadow,m),ss,ss);
+  const lit=settings.shadow&&(d.cast||d.receive);
+  if(lit&&!sameMatrix(g.lightMatrix,settings.shadow)){
+   g.lightMatrix=settings.shadow;g.light=project(xyz,multiply(settings.shadow,m),ss,ss);
   }
   d.blendPane=(d.finish==='glass'||d.finish==='frosted'||d.reflection==='glass')&&d.alpha<.995;
   d.reflectionMix=Math.min(3,Math.max(.2,d.reflectionGain??1));
-  d.reflective=(d.reflection==='metal'||d.finish==='pv'||d.finish==='zinc')&&!!q.useEnvironment;
+  d.reflective=(d.reflection==='metal'||d.finish==='pv'||d.finish==='zinc')&&!!settings.useEnvironment;
   d.finishTile=finishTiles.get(d.tileID);
   d.flipped=m[0]*(m[5]*m[10]-m[6]*m[9])-m[4]*(m[1]*m[10]-m[2]*m[9])+m[8]*(m[1]*m[6]-m[2]*m[5])<0;
-  if(q.useVolume&&d.proposal&&d.kind==='tri'){
+  if(settings.useVolume&&d.proposal&&d.kind==='tri'){
    if(g.visibilityField!==lightVolume||g.visibilityTransform!==g.worldMatrix){
     g.visibilityField=lightVolume;g.visibilityTransform=g.worldMatrix;
     g.localVisibility=new Float32Array(Math.ceil((g.index?.length||g.xyz.length/3)/3));
@@ -859,6 +870,11 @@ onmessage=({data:q})=>{
   if(g.widths){d.widths=g.widths;d.worldScale=Math.hypot(m[0],m[1],m[2]);}
   return {d,g,world:g.world,l:lit?g.light:null};
  });
+ if(q.activityOnly){
+  sendActivityFrame(activityBackground,objs,true);
+  return;
+ }
+ activityBackground=null;
  if(q.shadow&&q.updateShadow){
   shadowDepth.fill(Infinity);
   const c=q.sectionSun;
@@ -880,12 +896,13 @@ onmessage=({data:q})=>{
  const pass={sectionCut:q.sectionEye,volume:q.useVolume?lightVolume:null,environment:q.useEnvironment?daylight:null,w:q.w,h:q.h,depth:new Float64Array(q.w*q.h).fill(Infinity),pixels,shadowDepth,ss,eye:q.eye,eyeDirection:q.eyeDirection,dir:q.dir,skyGain:Math.sqrt(.33*q.skyPower),keyGain:.21*q.sunPower,near:q.perspectiveNear,inkProjection:q.inkProjection};
  // Resolve solid depth before compositing visible linework.
  const order=d=>d.strokeRadius?4:d.kind!=='tri'?3:d.blendPane?2:d.contactFade?1:0;
- objs.sort((a,b)=>order(a.d)-order(b.d));
+ const sceneObjects=q.cacheActivity?objs.filter(o=>!o.d.activity):objs;
+ sceneObjects.sort((a,b)=>order(a.d)-order(b.d));
  // Indoors, rasterize the depths of opaque walls and slabs first. The colour
  // pass keeps its authored order, including surfaces at the same depth.
- if(q.insideProject&&pass.near&&objs.some(({d})=>d.solidShell)){
+ if(q.insideProject&&pass.near&&sceneObjects.some(({d})=>d.solidShell)){
   const prepass={sectionCut:q.sectionEye,w:q.w,h:q.h,depth:pass.depth,near:pass.near,eyeDepth:true};
-  for(const {d,g,world} of objs){
+  for(const {d,g,world} of sceneObjects){
    if(d.solidShell)paintVisible(prepass,g,{...d,finishTile:null},multiply(q.view,d.m),null,world);
   }
   // Bias only this provisional buffer. The normal colour/depth pass resolves
@@ -894,13 +911,32 @@ onmessage=({data:q})=>{
   rememberDepth(pass);
  }
  let drawn=0;
- const useCoverage=pass.near&&objs.length>48;
- for(const {d,g,l,world} of objs){
-  if(useCoverage&&(drawn===Math.floor(objs.length*.22)||drawn===Math.floor(objs.length*.52)))rememberDepth(pass);
+ const useCoverage=pass.near&&sceneObjects.length>48;
+ for(const {d,g,l,world} of sceneObjects){
+  if(useCoverage&&(drawn===Math.floor(sceneObjects.length*.22)||drawn===Math.floor(sceneObjects.length*.52)))rememberDepth(pass);
   drawn++;
-  if(d.blendPane&&!pass.opaque)pass.opaque=pixels.slice();
+  if(d.blendPane&&!pass.opaque){
+   pass.opaque=pixels.slice();
+   if(q.cacheActivity){pass.opaqueDepth=pass.depth.slice();pass.transmission=new Uint8Array(q.w*q.h);}
+  }
   const transform=multiply(q.view,d.m);
   paintVisible(pass,g,d,transform,l,world);
  }
- postMessage({w:q.w,h:q.h,buffer:pixels.buffer},[pixels.buffer]);
+ if(q.cacheActivity){
+  // Visible glazing keeps its colour, nearest depth and transmitted fraction.
+  // For opaque pixels keep final depth, including foreground line features.
+  const solidDepth=pass.opaqueDepth||pass.depth;
+  if(pass.transmission)for(let i=0;i<solidDepth.length;i++)if(!pass.transmission[i])solidDepth[i]=pass.depth[i];
+  activityBackground={pass,solidDepth,scratch:new Float64Array(solidDepth.length),
+   settings:{view:q.view,shadow:q.shadow,useVolume:q.useVolume,useEnvironment:q.useEnvironment}};
+  sendActivityFrame(activityBackground,objs.filter(o=>o.d.activity),false);
+ }else postMessage({w:q.w,h:q.h,buffer:pixels.buffer},[pixels.buffer]);
 };
+function sendActivityFrame(background,actors,activityOnly){
+ const base=background.pass, pixels=base.pixels.slice(),depth=background.scratch;
+ depth.set(background.solidDepth);
+ const pass={...base,pixels,depth,coverage:null,glass:base.transmission?base:null,transmission:null};
+ for(const {d,g,l,world} of actors)
+  paintVisible(pass,g,d,multiply(background.settings.view,d.m),l,world);
+ postMessage({w:base.w,h:base.h,activityOnly,buffer:pixels.buffer},[pixels.buffer]);
+}

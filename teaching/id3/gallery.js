@@ -37,7 +37,7 @@ const status=(s)=>{const el=$('viewer-message');el.textContent=s;el.hidden=!s;};
 let viewerReady;
 function getViewer(){
  if(!viewerReady){
-  viewerReady=Promise.all([import('./viewer.js?v=9f39bee765'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
+  viewerReady=Promise.all([import('./viewer.js?v=971f7aa026'),import('./annotations.js')]).then(([{AtlasViewer},{SiteAnnotations}])=>{
    viewer=new AtlasViewer($('canvas-box'));
    viewer.annotations=new SiteAnnotations(viewer,layerRow);
    return viewer;
@@ -104,6 +104,9 @@ function fillLayers(){
  }
  if(current){
   box.append(layerRow('Urban context',viewer?.cityVisible!==false,colorSet['Urban context'],async yes=>{await activeLoad;if(viewer?.project){viewer.setCity(yes);fillLayers();}}));
+  if(viewer?.cityVisible&&viewer.activity)box.append(layerRow('Street activity',viewer.activityChoice!==false,'#58777a',yes=>{
+   viewer.activityChoice=yes;viewer.activity.setEnabled(yes);viewer.draw();
+  },true));
   if(viewer?.cityVisible)box.append(layerRow('Context edges',viewer.contextEdges,'#665f56',yes=>viewer.setContextEdges(yes),true));
   if(viewer?.cityVisible&&viewer.cityURL===originalCity)box.append(layerRow('Context building colors',viewer.buildingColors,'#a37861',yes=>viewer.setBuildingColors(yes),true));
   if(expanded&&viewer?.cityVisible)for(const path of viewer.cityPaths)box.append(layerRow(path,!viewer.hiddenCity.has(path),colorSet['Urban context'],yes=>{viewer.activate();if(yes)viewer.hiddenCity.delete(path);else viewer.hiddenCity.add(path);viewer.applyModes();fillLayers();},true));

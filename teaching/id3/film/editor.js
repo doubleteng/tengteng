@@ -99,6 +99,7 @@ export async function openEditor(director){
  const [T,{GLTFLoader},{OrbitControls},{makeRenderer}]=await Promise.all([
   import('../lib/three.module.min.js'),import('../lib/loaders/GLTFLoader.js'),
   import('../lib/controls/OrbitControls.js'),import('../software-view.js')]);
+ const {siteCenter}=await import('../site-model.js');
  const response=await fetch('../models/catalog.json');
  if(!response.ok)throw Error('The model catalog could not load.');
  const catalog=await response.json();
@@ -135,6 +136,7 @@ export async function openEditor(director){
  const foliage=new URL('../models/foliage-86e71ddf75.png',location.href).href;
  const manager=new T.LoadingManager();manager.setURLModifier(url=>url.endsWith('foliage-86e71ddf75.png')?foliage:url);
  const loader=new GLTFLoader(manager);
+ const parcelMeshes=[], pickMeshes=[], proposalBounds=new T.Box3();
  for(const url of [modelURL,...['urban-core-materials.glb','urban-near.glb','urban-outer.glb'].map(n=>new URL('../models/'+n,location.href))]){
   const response=await fetch(url);if(!response.ok)throw Error('A model file could not load.');
   let geometry=await response.arrayBuffer();
@@ -146,8 +148,17 @@ export async function openEditor(director){
     if(o.geometry.attributes.color)o.userData.districtVertexColors=true;
    }
   });scene.add(model.scene);
+  model.scene.updateMatrixWorld(true);
+  model.scene.traverseVisible(mesh=>{
+   if(!mesh.isMesh)return;
+   pickMeshes.push(mesh);
+   if(url===modelURL){
+    proposalBounds.expandByObject(mesh);
+    if(mesh.userData.groundSurface)parcelMeshes.push(mesh);
+   }
+  });
  }
- const ground=new T.Mesh(new T.PlaneGeometry(1600,1600),new T.MeshStandardMaterial({color:0xd1d0bd,roughness:.95}));ground.position.y=-13.65;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+ const ground=new T.Mesh(new T.PlaneGeometry(1600,1600),new T.MeshStandardMaterial({color:0xd1d0bd,roughness:.95}));ground.position.y=-13.65;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);ground.userData.walkable=true;pickMeshes.push(ground);ground.updateMatrixWorld(true);
  let sid=0,local=0,playing=false,originTime=0,frame=0,pending=false,internal=false;
  function keep(){
   try{localStorage.setItem(draftKey,JSON.stringify(sequenceData(shots)))}
@@ -163,7 +174,93 @@ export async function openEditor(director){
  }
  function resize(){if(exporting)return;renderer.setSize(Math.max(10,$('stage').clientWidth),Math.max(10,$('stage').clientHeight));cam.aspect=$('stage').clientWidth/Math.max(1,$('stage').clientHeight);cam.updateProjectionMatrix();render()}
  new ResizeObserver(resize).observe($('stage'));resize();
- function pause(){playing=false;controls.enabled=true;cancelAnimationFrame(frame);$('play').textContent='Play sequence';}
+ function pause(){if(picking)setPicking(false);playing=false;controls.enabled=true;cancelAnimationFrame(frame);$('play').textContent='Play sequence';}
+ // The shared parcel centroid gives both cameras the same bearing. Its elevation
+ // comes from Ava’s graded site, including the part below the street datum.
+ const center=siteCenter.clone(), ray=new T.Raycaster();
+ ray.set(new T.Vector3(center.x,proposalBounds.isEmpty()?100:proposalBounds.max.y+1,center.z),new T.Vector3(0,-1,0));
+ const grade=ray.intersectObjects(parcelMeshes,false)[0];
+ if(grade)center.y=grade.point.y;
+ const eyeHeight=5.5*.3048, birdHeight=150*.3048;
+ const canvas=renderer.domElement;
+ let picking=false;
+ function setPicking(active){
+  picking=active;controls.enabled=!active;
+  $('eye-view').setAttribute('aria-pressed',String(active));
+  $('stage').classList.toggle('picking',active);
+  $('pick-hint').hidden=!active;
+ }
+ function frameView(eye,aim){
+  pause();internal=true;
+  cam.position.copy(eye);controls.target.copy(aim);controls.update();
+  internal=false;updateControls();render();$('stage').focus({preventScroll:true});
+  say(shot()?'Save a keyframe to keep this view.':'Add a shot to save this view as its first keyframe.');
+ }
+ function placeEye(x,y){
+  cam.updateMatrixWorld(true);
+  ray.setFromCamera(new T.Vector2(x,y),cam);
+  // Check the first solid visible at the pointer. A roof or table must not
+  // silently place the camera on a lower floor behind it.
+  const hit=ray.intersectObjects(pickMeshes,false).find(hit=>{
+   const mat=Array.isArray(hit.object.material)?hit.object.material[hit.face.materialIndex]:hit.object.material;
+   return mat.visible && !(mat.transparent && mat.opacity<.5);
+  });
+  if(hit){
+   const data=hit.object.userData;
+   const surface=data.walkable===true || data.groundSurface || data.layer==='Enclosure / Roof' ||
+    data.layer==='Architecture / Sloped surfaces' || hit.object.name==='Original_context_surface';
+   const normal=hit.face.normal.clone().applyNormalMatrix(new T.Matrix3().getNormalMatrix(hit.object.matrixWorld));
+   if(surface && normal.y>=.7){
+    const eye=hit.point.clone();eye.y+=eyeHeight;
+    const heading=center.clone().sub(eye);heading.y=0;
+    if(heading.lengthSq()<.01){
+     cam.getWorldDirection(heading);heading.y=0;
+     if(heading.lengthSq()<.0001)heading.set(0,0,-1);
+     heading.normalize().multiplyScalar(5);
+    }
+    heading.clampLength(.2,controls.maxDistance-1);
+    frameView(eye,eye.clone().add(heading));return;
+   }
+  }
+  $('pick-hint').textContent='Choose an exposed, upward-facing floor, roof, terrace or street.';
+ }
+ $('eye-view').onclick=()=>{
+  if(exporting)return;
+  const active=!picking;pause();setPicking(active);
+  $('pick-hint').textContent='Click a surface to stand on it. Enter picks the center of the view. Esc cancels.';
+  $('stage').focus({preventScroll:true});
+ };
+ canvas.addEventListener('click',event=>{
+  if(!picking||exporting||event.button!==0)return;
+  const rect=canvas.getBoundingClientRect();
+  placeEye(2*(event.clientX-rect.left)/rect.width-1,1-2*(event.clientY-rect.top)/rect.height);
+ });
+ $('bird-view').onclick=()=>{
+  if(exporting)return;
+  const bearing=cam.position.clone().sub(center);bearing.y=0;
+  if(bearing.lengthSq()<.01)bearing.set(1,0,1);
+  bearing.normalize();
+  const eye=center.clone(),testCamera=cam.clone(),corner=new T.Vector3();
+  const {min,max}=proposalBounds;
+  // Preserve the lens and approach direction. Back up until the project fits
+  // both axes, without changing the chosen height above the parcel.
+  let distance=birdHeight;
+  const limit=Math.sqrt(controls.maxDistance**2-birdHeight**2)-1;
+  for(;;){
+   eye.copy(center).addScaledVector(bearing,distance);eye.y+=birdHeight;
+   testCamera.position.copy(eye);testCamera.lookAt(center);testCamera.updateMatrixWorld(true);
+   let fits=true;
+   if(!proposalBounds.isEmpty()){
+    for(const x of [min.x,max.x])for(const y of [min.y,max.y])for(const z of [min.z,max.z]){
+     corner.set(x,y,z).project(testCamera);
+     if(Math.abs(corner.x)>.93||Math.abs(corner.y)>.93||Math.abs(corner.z)>1)fits=false;
+    }
+   }
+   if(fits||distance>=limit)break;
+   distance=Math.min(limit,distance*1.12);
+  }
+  frameView(eye,center);
+ };
  function keyIndex() {
   return shot()?.keys.findIndex(k => Math.abs(k.at-local)<0.000001) ?? -1;
  }
@@ -279,6 +376,7 @@ export async function openEditor(director){
  $('play').onclick=()=>{
   if(playing){pause();return}
   if(!total())return;
+  if(picking)setPicking(false);
   let sec=baseTime()+Math.min(local,duration(shot()));
   if(sec>=total()-.000001)sec=0;
   playing=true;controls.enabled=false;$('play').textContent='Pause';say('');
@@ -302,6 +400,11 @@ export async function openEditor(director){
  controls.addEventListener('start',()=>{pause();$('stage').focus({preventScroll:true})});
  controls.addEventListener('change',()=>{if(!internal){renderer.noteMotion?.();render();say('Use Add or Update keyframe to keep this view.')}});
  $('stage').addEventListener('keydown',e=>{
+  if(picking){
+   if(e.key==='Escape'){e.preventDefault();setPicking(false);say('Camera placement canceled.')}
+   if(e.key==='Enter'){e.preventDefault();placeEye(0,0)}
+   return;
+  }
   const k=e.key.toLowerCase();if(exporting||playing||!['w','a','s','d','q','e'].includes(k))return;e.preventDefault();
   const forward=cam.getWorldDirection(new T.Vector3());forward.y=0;if(forward.lengthSq()<.001)forward.set(0,0,-1);forward.normalize();
   const right=forward.clone().cross(cam.up).normalize(),dy=new T.Vector3(0,1,0);
